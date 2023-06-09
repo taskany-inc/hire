@@ -6,9 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:generate": "prisma migrate dev --name $1",
+    "db:migrate": "prisma migrate deploy"
   },
   "dependencies": {
+    "@prisma/client": "^3.4.0",
     "@taskany/colors": "^1.1.0",
     "next": "13.4.4",
     "react": "18.2.0",
@@ -22,6 +25,8 @@
     "@types/styled-components": "^5.1.26",
     "eslint": "8.42.0",
     "eslint-config-next": "13.4.4",
+    "prisma": "^3.4.0",
+    "ts-node": "^10.9.1",
     "typescript": "5.1.3"
   }
 }

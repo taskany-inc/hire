@@ -1,0 +1,416 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                 String   @id @default(cuid())
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  refresh_expires_in Int?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+  oauth_token_secret String?
+  oauth_token        String?
+  password           String?
+  userId             Int
+  user               User     @relation(fields: [userId], references: [id])
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       Int
+  expires      DateTime
+  sessionToken String   @unique
+  accessToken  String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model VerificationRequest {
+  id         String   @id @default(cuid())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([identifier, token])
+}
+
+model User {
+  id                        Int              @id @default(autoincrement())
+  name                      String?
+  email                     String           @unique
+  emailVerified             DateTime?
+  admin                     Boolean          @default(false)
+  problems                  Problem[]        @relation("CreatedProblems")
+  favoriteProblems          Problem[]        @relation("FavoriteProblems")
+  section                   Section[]
+  createdInterviews         Interview[]
+  createdAt                 DateTime         @default(now())
+  updatedAt                 DateTime         @updatedAt
+  accounts                  Account[]
+  sessions                  Session[]
+  interviewEvents           InterviewEvent[]
+  reactions                 Reaction[]
+  createdCalendarEvents     CalendarEvent[]
+  managerInHireStreams      HireStream[]     @relation("HireStreamToManager")
+  hiringLeadInHireStreams   HireStream[]     @relation("HireStreamToHiringLead")
+  recruiterInHireStreams    HireStream[]     @relation("HireStreamToRecruiter")
+  interviewerInSectionTypes SectionType[]    @relation("SectionTypeToInterviewer")
+
+  @@index([email])
+}
+
+model Problem {
+  id          Int    @id @default(autoincrement())
+  name        String
+  description String
+  solution    String
+
+  author   User @relation(name: "CreatedProblems", fields: [authorId], references: [id])
+  authorId Int
+
+  tags        Tag[]
+  solutions   Solution[]
+  difficulty  ProblemDifficulty
+  favoritedBy User[]            @relation("FavoriteProblems")
+
+  // Problem solutions counter
+  solutionsGood Int @default(0)
+  solutionsOk   Int @default(0)
+  solutionsBad  Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([name])
+}
+
+model Tag {
+  id        Int       @id @default(autoincrement())
+  name      String
+  problems  Problem[]
+  color     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Candidate {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  outstaffVendor   OutstaffVendor? @relation(fields: [outstaffVendorId], references: [id])
+  outstaffVendorId String?
+  email            String?         @unique
+  phone            String?         @unique
+  interviews       Interview[]
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  @@index([name])
+  @@index([email])
+}
+
+model OutstaffVendor {
+  id         String      @id @default(cuid())
+  title      String      @unique
+  candidates Candidate[]
+}
+
+model Interview {
+  id                         Int              @id @default(autoincrement())
+  description                String?
+  creator                    User             @relation(fields: [creatorId], references: [id])
+  creatorId                  Int
+  candidate                  Candidate        @relation(fields: [candidateId], references: [id])
+  candidateId                Int
+  status                     InterviewStatus  @default(NEW)
+  sections                   Section[]
+  feedback                   String?
+  createdAt                  DateTime         @default(now())
+  updatedAt                  DateTime         @updatedAt
+  candidateSelectedSectionId Int?
+  candidateSelectedSection   Section?         @relation(name: "CandidateSelectedSection", fields: [candidateSelectedSectionId], references: [id])
+  interviewEvents            InterviewEvent[]
+  statusComment              String?
+  hireStream                 HireStream       @relation(fields: [hireStreamId], references: [id])
+  hireStreamId               Int
+  Offer                      Offer[]
+  reactions                  Reaction[]
+}
+
+model Section {
+  id                   Int           @id @default(autoincrement())
+  description          String?
+  interview            Interview     @relation(fields: [interviewId], references: [id])
+  interviewId          Int
+  grade                String?
+  interviewer          User          @relation(fields: [interviewerId], references: [id])
+  interviewerId        Int
+  feedback             String?
+  solutions            Solution[]
+  hire                 Boolean?
+  isCanceled           Boolean       @default(false)
+  canceledAt           DateTime?
+  cancelComment        String?
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  sectionType          SectionType   @relation(fields: [sectionTypeId], references: [id])
+  sectionTypeId        Int
+  selectedInInterviews Interview[]   @relation("CandidateSelectedSection")
+  attaches             Attach[]
+
+  /// Related calendar slot
+  calendarSlot   CalendarEventException? @relation(fields: [calendarSlotId], references: [id])
+  calendarSlotId String?                 @unique
+}
+
+model Solution {
+  id        Int            @id @default(autoincrement())
+  problem   Problem        @relation(fields: [problemId], references: [id])
+  problemId Int
+  section   Section        @relation(fields: [sectionId], references: [id])
+  sectionId Int
+  answer    String?
+  result    SolutionResult @default(UNKNOWN)
+  position  Int            @default(autoincrement())
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@unique([problemId, sectionId])
+}
+
+model InterviewEvent {
+  id          Int        @id @default(autoincrement())
+  userId      Int
+  user        User       @relation(fields: [userId], references: [id])
+  interviewId Int?
+  interview   Interview? @relation(fields: [interviewId], references: [id], onDelete: SetNull)
+  type        String
+  before      Json?
+  after       Json?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model HireStream {
+  id                    Int           @id @default(autoincrement())
+  name                  String
+  interviews            Interview[]
+  managers              User[]        @relation("HireStreamToManager")
+  hiringLeads           User[]        @relation("HireStreamToHiringLead")
+  recruiters            User[]        @relation("HireStreamToRecruiter")
+  sectionTypes          SectionType[]
+}
+
+/// Section type parameters
+model SectionType {
+  id           Int        @id @default(autoincrement())
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @default(now()) @updatedAt
+  hireStream   HireStream @relation(fields: [hireStreamId], references: [id])
+  hireStreamId Int
+
+  /// Related entities:
+  /// - Sections of exact type
+  sections Section[]
+
+  /// Value
+  /// @example "CODING"
+  value String
+
+  /// Readable value
+  /// @example "Coding"
+  title String
+
+  gradeOptions String[]
+
+  /// Does this type of sections have problems
+  hasTasks Boolean @default(true)
+
+  /// Includes selector in which team product final is being held
+  userSelect Boolean @default(false)
+
+  /// When this option is enabled, the results of other sections of this interview will be shown in sections of this type
+  showOtherGrades Boolean @default(false)
+
+  /// @summary Organize according to the calendar
+  /// When this option is enabled when creating a section, a calendar slot is selected otherwise only the interviewer
+  schedulable Boolean @default(false)
+  eventColor  String?
+
+  interviewers User[] @relation("SectionTypeToInterviewer")
+}
+
+model Offer {
+  id          Int        @id @default(autoincrement())
+  interviewId Int
+  interview   Interview  @relation(fields: [interviewId], references: [id])
+  percentile  Int
+  grade       String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  reactions   Reaction[]
+}
+
+model Reaction {
+  name        String?
+  userId      Int
+  user        User      @relation(fields: [userId], references: [id])
+  interviewId Int
+  interview   Interview @relation(fields: [interviewId], references: [id])
+  offer       Offer?    @relation(fields: [offerId], references: [id])
+  offerId     Int?
+  text        String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([interviewId, userId])
+}
+
+model AnalyticsEvent {
+  id            Int      @id @default(autoincrement())
+  timestamp     DateTime @default(now())
+  authUserId    Int?
+  event         String
+  candidateId   Int?
+  interviewId   Int?
+  interviewerId Int?
+  recruiterId   Int?
+  sectionId     Int?
+  sectionType   String?
+  hireStream    String?
+  hire          Boolean?
+  grade         String?
+  rejectReason  String?
+}
+
+model RejectReason {
+  id   Int    @id @default(autoincrement())
+  text String
+}
+
+enum ProblemDifficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum InterviewStatus {
+  NEW
+  IN_PROGRESS
+  HIRED
+  REJECTED
+}
+
+enum SolutionResult {
+  UNKNOWN
+  GOOD
+  OK
+  BAD
+}
+
+/// Calendar event details
+/// Can be treated as main event/series (CalendarEvent), so to exception event (CalendarEventException)
+model CalendarEventDetails {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  title       String
+  description String
+
+  /// Event duration in minutes
+  duration Int
+
+  event          CalendarEvent?
+  eventException CalendarEventException?
+}
+
+/// Master record of a series of events, or an independent event without repetitions
+model CalendarEvent {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  /// Format rule
+  /// Always contains the date of the main event, for a series of events it also contains a recurrence rule
+  rule String
+
+  /// Exception events to this series of events
+  /// Contain single events rescheduled to another time and containing independent details
+  exceptions CalendarEventException[]
+
+  /// Canceled events of this series
+  cancellations CalendarEventCancellation[]
+
+  /// Event series details
+  eventDetails   CalendarEventDetails @relation(fields: [eventDetailsId], references: [id])
+  eventDetailsId String               @unique
+
+  /// Creator of the event
+  creator   User? @relation(fields: [creatorId], references: [id])
+  creatorId Int?
+}
+
+/// Exception events from a recurring event series
+model CalendarEventException {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  /// Date excluded from the series of events
+  originalDate DateTime
+
+  /// The date to which this exception event is rescheduled
+  date DateTime
+
+  /// Exception event details
+  /// When created, exceptions are copied from the event series details
+  eventDetails   CalendarEventDetails @relation(fields: [eventDetailsId], references: [id])
+  eventDetailsId String               @unique
+
+  /// Main series of events from which the exception was thrown
+  event   CalendarEvent @relation(fields: [eventId], references: [id])
+  eventId String
+
+  /// Related interview section
+  interviewSection Section?
+}
+
+/// Canceled event series instances
+model CalendarEventCancellation {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  /// Date excluded from the series of events
+  originalDate DateTime
+
+  /// Series of events
+  event   CalendarEvent @relation(fields: [eventId], references: [id])
+  eventId String
+}
+
+model Attach {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  link      String
+  filename  String
+  deletedAt DateTime?
+  section   Section   @relation(fields: [sectionId], references: [id])
+  sectionId Int
+}

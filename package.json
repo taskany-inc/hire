@@ -8,11 +8,14 @@
     "start": "next start",
     "lint": "next lint",
     "db:generate": "prisma migrate dev --name $1",
-    "db:migrate": "prisma migrate deploy"
+    "db:migrate": "prisma migrate deploy",
+    "db:seed":  "ts-node --files --compiler-options '{\"module\":\"commonjs\"}' src/backend/scripts/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^3.4.0",
     "@taskany/colors": "^1.1.0",
+    "color-contrast-checker": "^2.1.0",
+    "date-fns": "^2.30.0",
     "next": "13.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",

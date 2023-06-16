@@ -1,0 +1,23 @@
+{
+    "presets": [
+        [
+            "next/babel",
+            {
+                "preset-typescript": {
+                    "onlyRemoveTypeImports": true
+                }
+            }
+        ]
+    ],
+    "plugins": [
+        [
+            "babel-plugin-styled-components",
+            {
+                "displayName": true,
+                "ssr": true,
+                "preprocess": false
+            }
+        ],
+        "superjson-next"
+    ]
+}

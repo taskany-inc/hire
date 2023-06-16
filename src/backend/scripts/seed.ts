@@ -199,19 +199,13 @@ const tagsData = [
 ];
 
 const outstaffVendorsData = [
-    { title: 'TeamForce' },
-    { title: 'RedMadRobots' },
-    { title: 'Globus LTD' },
-    { title: 'MobileUp' },
-    { title: 'Integrity Solutions' },
-    { title: 'ITFB Solutions' },
-    { title: 'Limavi' },
-    { title: 'Artezio' },
-    { title: 'Selecty' },
-    { title: 'WMT Group' },
-    { title: 'SimbirSoft' },
-    { title: 'Luxoft' },
-    { title: 'Dashbouquet' },
+    { title: 'OutstaffCo' },
+    { title: 'MadCoders' },
+    { title: 'SomeGoodGuys LTD' },
+    { title: 'HeadAndShoulder' },
+    { title: 'Qwerty' },
+    { title: 'Umbrella corp' },
+    { title: 'Team Rocket' },
 ];
 
 const candidatesData = [

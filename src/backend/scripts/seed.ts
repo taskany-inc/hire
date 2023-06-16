@@ -202,7 +202,6 @@ const outstaffVendorsData = [
     { title: 'TeamForce' },
     { title: 'RedMadRobots' },
     { title: 'Globus LTD' },
-    { title: 'Техно Диасофт' },
     { title: 'MobileUp' },
     { title: 'Integrity Solutions' },
     { title: 'ITFB Solutions' },
@@ -408,7 +407,7 @@ const main = async () => {
 
         const interview = await prisma.interview.create({
             data: {
-                description: `Интервью с ${candidate.name}`,
+                description: `Interview with ${candidate.name}`,
                 creatorId: creator.id,
                 candidateId: candidate.id,
                 hireStreamId: hireStream.id,
@@ -426,7 +425,7 @@ const main = async () => {
             const interviewer = randomElement(users);
             const section = await prisma.section.create({
                 data: {
-                    description: `${sectionType.title} с ${candidate.name}`,
+                    description: `${sectionType.title} with ${candidate.name}`,
                     grade: randomEnumElement(SectionGrade),
                     sectionTypeId: sectionTypeFromDb.id,
                     interviewId: interview.id,

@@ -62,3 +62,9 @@ export enum SectionGrade {
     MIDDLE = 'Middle',
     SENIOR = 'Senior',
 }
+
+export enum SectionStatus {
+    HIRE = 'hire',
+    NO_HIRE = 'no hire',
+    NEW = 'new',
+}

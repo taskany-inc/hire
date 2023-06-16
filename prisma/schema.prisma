@@ -152,7 +152,6 @@ model Interview {
   statusComment              String?
   hireStream                 HireStream       @relation(fields: [hireStreamId], references: [id])
   hireStreamId               Int
-  Offer                      Offer[]
   reactions                  Reaction[]
 }
 
@@ -259,25 +258,12 @@ model SectionType {
   interviewers User[] @relation("SectionTypeToInterviewer")
 }
 
-model Offer {
-  id          Int        @id @default(autoincrement())
-  interviewId Int
-  interview   Interview  @relation(fields: [interviewId], references: [id])
-  percentile  Int
-  grade       String
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  reactions   Reaction[]
-}
-
 model Reaction {
   name        String?
   userId      Int
   user        User      @relation(fields: [userId], references: [id])
   interviewId Int
   interview   Interview @relation(fields: [interviewId], references: [id])
-  offer       Offer?    @relation(fields: [offerId], references: [id])
-  offerId     Int?
   text        String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt

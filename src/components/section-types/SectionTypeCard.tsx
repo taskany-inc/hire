@@ -1,7 +1,7 @@
 import { useState, VFC } from 'react';
 import { SectionType } from '@prisma/client';
 import styled from 'styled-components';
-import { Text, CircleIcon, TickCirclecon } from '@taskany/bricks';
+import { Text, CircleIcon, TickCircleIcon } from '@taskany/bricks';
 
 import { Card } from '../card/Card';
 import { CardHeader } from '../card/CardHeader';
@@ -16,7 +16,7 @@ const StyledCircleIcon = styled(CircleIcon)`
     margin-top: 4px;
 `;
 
-const StyledTickCircleIcon = styled(TickCirclecon)`
+const StyledTickCircleIcon = styled(TickCircleIcon)`
     margin-top: 4px;
 `;
 

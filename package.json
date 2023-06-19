@@ -21,7 +21,7 @@
     "@svgr/webpack": "8.0.1",
     "@tanstack/react-query": "4.29.13",
     "@tanstack/react-query-devtools": "4.29.13",
-    "@taskany/bricks": "^1.15.2",
+    "@taskany/bricks": "^1.15.3",
     "@taskany/colors": "1.1.0",
     "@trpc/client": "10.1.0",
     "@trpc/next": "10.1.0",

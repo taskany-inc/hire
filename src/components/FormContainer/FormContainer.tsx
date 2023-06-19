@@ -1,9 +1,8 @@
 import styled from 'styled-components';
-import { FC, useCallback, ReactNode } from 'react';
-import { Button } from '@taskany/bricks';
+import { FC, ReactNode } from 'react';
+import { Button, KeyCode, KeyMod, useKeyboard } from '@taskany/bricks';
 
 import { KeyboardSubmitHint } from '../candidates/KeyboardSubmitHint';
-import { useKeydownListener } from '../../hooks/useKeyboardShortcut';
 
 const OuterContainer = styled.div`
     width: 650px;
@@ -55,24 +54,13 @@ export const FormContainer: FC<FormContainerProps> = (props) => {
         notToShowHint,
     } = props;
 
-    useKeydownListener(
-        useCallback(
-            ({ metaKey, key }: KeyboardEvent) => {
-                if (metaKey && key === 'Enter') {
-                    onSubmitButton();
-
-                    return true;
-                }
-
-                return false;
-            },
-            [onSubmitButton],
-        ),
-        { capture: true },
-    );
+    const [keyboard] = useKeyboard([KeyCode.Enter, KeyMod.CtrlCmd], () => onSubmitButton(), {
+        disableGlobalEvent: false,
+        capture: true,
+    });
 
     return (
-        <OuterContainer>
+        <OuterContainer {...keyboard}>
             <InnerContainer>{children}</InnerContainer>
             {!notToShowHint && <KeyboardSubmitHint actionTitle={submitButtonText} />}
             <BottomContainer>

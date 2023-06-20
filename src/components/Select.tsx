@@ -44,7 +44,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
         );
 
         const onStateClick = useCallback(
-            (option) => {
+            (option: DropdownOption) => {
                 selected === option ? setSelected(undefined) : setSelected(option);
 
                 onChange?.(option.value);

@@ -1,8 +1,9 @@
-import { Candidate, Section, SectionType, Solution, User, SectionGrade, Attach } from '@prisma/client';
+import { Candidate, Section, SectionType, Solution, User, Attach } from '@prisma/client';
 import { z } from 'zod';
 
 import { InterviewEventTypes } from '../interview-event/interview-event-types';
 import { InterviewWithSections } from '../interview/interview-types';
+import { SectionGrade } from '../../../utils/dictionaries';
 
 const sectionCalendarSlotBookingSchema = z.object({
     eventId: z.string(),
@@ -35,7 +36,7 @@ export const updateSectionSchema = z.object({
     interviewId: z.number(),
     interviewerId: z.number(),
     name: z.string().nullish(),
-    grade: z.nativeEnum(SectionGrade).nullish(),
+    grade: z.string().nullish(),
     hire: z.boolean().nullish(),
     feedback: z.string().nullish(),
     solutionIds: z.number().array().optional(),

@@ -22,7 +22,7 @@ type AddOrUpdateCandidateProps = {
 };
 
 type FormValues = Omit<CreateCandidate, 'outstaffVendorId'> & {
-    outstaffVendorId: string;
+    outstaffVendorId: string | null;
 };
 
 export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
@@ -67,7 +67,7 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
             name: values.name,
             email: values.email?.toLowerCase().trim(),
             phone: values.phone,
-            outstaffVendorId: prepareValueForSubmit(values.outstaffVendorId),
+            outstaffVendorId: values.outstaffVendorId && prepareValueForSubmit(values.outstaffVendorId),
         };
 
         await candidateUpdateMutation.mutateAsync(data);
@@ -82,7 +82,7 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
 
         const data: CreateCandidate = {
             ...values,
-            outstaffVendorId: prepareValueForSubmit(values.outstaffVendorId),
+            outstaffVendorId: values.outstaffVendorId && prepareValueForSubmit(values.outstaffVendorId),
         };
 
         const result = await candidateCreateMutation.mutateAsync(data);

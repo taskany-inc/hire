@@ -17,7 +17,7 @@ export const AnaliticsPeriodFilterDropdown = React.forwardRef<HTMLDivElement, An
         const [selected, setSelected] = useState<string | undefined>(value);
 
         const onStateClick = useCallback(
-            (item) => {
+            (item: string) => {
                 setSelected(item);
                 onChange?.(item);
             },

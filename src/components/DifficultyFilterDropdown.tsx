@@ -21,7 +21,7 @@ export const DifficultyFilterDropdown = React.forwardRef<HTMLDivElement, Difficu
         const [selected, setSelected] = useState<ProblemDifficulty | undefined>(value);
 
         const onStateClick = useCallback(
-            (d) => {
+            (d: ProblemDifficulty) => {
                 selected === d ? setSelected(undefined) : setSelected(d);
 
                 onChange?.(value === d ? undefined : d);

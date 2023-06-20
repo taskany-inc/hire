@@ -22,7 +22,7 @@ export const InterviewStatusFilterDropdown = React.forwardRef<HTMLDivElement, In
         useEffect(() => setSelected(new Set(value)), [value]);
 
         const onStateClick = useCallback(
-            (s) => {
+            (s: InterviewStatus) => {
                 selected.has(s) ? selected.delete(s) : selected.add(s);
                 const newSelected = new Set(selected);
                 setSelected(newSelected);

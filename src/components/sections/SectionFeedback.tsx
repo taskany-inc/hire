@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
 import { FileWithPath } from 'react-dropzone';
-import { SectionGrade } from '@prisma/client';
 import styled from 'styled-components';
 import { Text, Button } from '@taskany/bricks';
 
@@ -50,7 +49,7 @@ const schema = z.object({
         invalid_type_error: 'Decide on a candidate',
         required_error: 'Decide on a candidate',
     }),
-    grade: z.nativeEnum(SectionGrade).nullish(),
+    grade: z.string().nullish(),
     feedback: z.string().min(1, { message: 'Mandatory field, fill in the candidate\'s impressions' }),
 });
 
@@ -143,7 +142,7 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
         setValue('hire', value);
     };
 
-    const setGrade = (value: SectionGrade | null) => {
+    const setGrade = (value: string | null) => {
         setValue('grade', value);
     };
 

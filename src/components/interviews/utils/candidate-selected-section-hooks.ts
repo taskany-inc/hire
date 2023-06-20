@@ -13,7 +13,7 @@ export const useProductFinalSectionDropdownOptions = (
 
         const sectionOptions = productFinalSections?.map(
             (section: SectionWithSectionTypeAndInterviewerAndSolutionsRelations): DropdownFieldOption<number> => {
-                const sectionName = section.name ?? '';
+                const sectionName = section.description ?? '';
                 const interviewerName = section.interviewer.name;
                 const text =
                     sectionName.length > 0

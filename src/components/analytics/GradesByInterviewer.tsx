@@ -1,4 +1,3 @@
-import { SectionGrade } from '@prisma/client';
 import { Bar, BarChart, CartesianGrid, LabelList, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { backgroundColor, gray8 } from '@taskany/colors';
 import { Text } from '@taskany/bricks';
@@ -7,12 +6,14 @@ import { useAnalyticsFilterContext } from '../../contexts/analytics-filter-conte
 import { useSectionTypeToGradesByInterviewer } from '../../hooks/analytics-queries-hooks';
 import { getPieChartSliceColor, mapEnum } from '../../utils';
 import { QueryResolver } from '../QueryResolver';
+import { SectionGrade } from '../../utils/dictionaries';
 
 type Props = {
     hireStreamName: string;
 };
 
-const gradeColors: Record<SectionGrade | 'NO_HIRE', string | undefined> = {
+const gradeColors: Record<'HIRE' | 'JUNIOR' | 'MIDDLE' | 'SENIOR' | 'NO_HIRE', string | undefined> = {
+    // TODO: SectionGrade keys
     NO_HIRE: getPieChartSliceColor(2),
     HIRE: getPieChartSliceColor(3),
     JUNIOR: getPieChartSliceColor(3.8),

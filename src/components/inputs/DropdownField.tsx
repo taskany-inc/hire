@@ -51,7 +51,7 @@ export function useNullableDropdownFieldOptions<
     prepareValueForSubmit: (value: TValue | TNullValue) => TValue | null;
 } {
     const dataMapper = useCallback(
-        (item) => encodeDropdownFieldNullValue<TValue | TNullValue>(nullOptionValue)(dataItemToOption(item)),
+        (item: TDataItem) => encodeDropdownFieldNullValue<TValue | TNullValue>(nullOptionValue)(dataItemToOption(item)),
         /*
          * TODO: fix requirement to include in deps TValue
          * Bug (https://github.com/facebook/react/issues/20395) is marked as fixed, but updating doesn't help         */

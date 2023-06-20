@@ -1,4 +1,5 @@
 import { Badge } from '@taskany/bricks';
+import styled from 'styled-components';
 
 import { InterviewWithHireStreamRelation } from '../../backend/modules/interview/interview-types';
 import { Stack } from '../layout/Stack';
@@ -10,13 +11,21 @@ interface Props {
     interview: InterviewWithHireStreamRelation;
 }
 
+const StyledBadge = styled(Badge)`
+    margin-top: 20px'
+`
+
+const StyledTagChip = styled(TagChip)`
+    margin-top: 20px'
+`
+
 export function InterviewTags({ interview }: Props) {
     return (
         <Stack direction="row" gap={7} justifyContent="start">
-            <Badge color={InterviewStatusTagPalette[interview.status]} style={{ marginTop: 20 }}>
+            <StyledBadge color={InterviewStatusTagPalette[interview.status]}>
                 {interviewStatusLabels[interview.status]}
-            </Badge>
-            {interview.hireStream && <TagChip tag={interview.hireStream} style={{ marginTop: 20 }} />}
+            </StyledBadge>
+            {interview.hireStream && <StyledTagChip tag={interview.hireStream} />}
         </Stack>
     );
 }

@@ -3,9 +3,9 @@ import { PrismaClient, ProblemDifficulty, SolutionResult } from '@prisma/client'
 import { addDays, set as modifyDateTime } from 'date-fns';
 import format from 'date-fns/format';
 
-import { generateColor } from '../../utils/color';
-import { SectionType, SectionGrade } from '../../utils/dictionaries';
-import { gradeOptionsPackages } from '../modules/section-type/section-type-types';
+import { generateColor } from '../src/utils/color';
+import { SectionType, SectionGrade } from '../src/utils/dictionaries';
+import { gradeOptionsPackages } from '../src/backend/modules/section-type/section-type-types';
 
 const prisma = new PrismaClient();
 

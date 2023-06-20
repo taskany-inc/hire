@@ -1,8 +1,8 @@
-import { SectionGrade } from '@prisma/client';
 import { Control, FieldPath, FieldValues, useController } from 'react-hook-form';
 
 import { gradeOptionsPackages } from '../../backend/modules/section-type/section-type-types';
 import { objKeys } from '../../utils';
+import { SectionGrade } from '../../utils/dictionaries';
 
 import { Container, Label } from './StyledComponents';
 

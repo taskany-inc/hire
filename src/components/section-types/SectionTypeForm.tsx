@@ -50,7 +50,7 @@ export const SectionTypeForm: VFC<SectionTypeFormProps> = ({ afterSubmit, sectio
             showOtherGrades: sectionType?.showOtherGrades ?? false,
             schedulable: sectionType?.schedulable ?? false,
             eventColor: sectionType?.eventColor ?? defaultColor,
-            gradeOptions: sectionType?.gradeOptions ?? gradeOptionsPackages.numberedGrades,
+            gradeOptions: sectionType?.gradeOptions ?? gradeOptionsPackages.juniorMiddleSenior,
         },
         resolver: zodResolver(props.type === 'create' ? createSectionTypeSchema : updateSectionTypeSchema),
     });

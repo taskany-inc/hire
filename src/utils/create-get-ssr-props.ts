@@ -157,7 +157,7 @@ export const createGetServerSideProps =
                 if (e instanceof TRPCError) {
                     const code = getHTTPStatusCodeFromError(e);
                     context.res.statusCode = code;
-                    error = { statusCode: code, message: e.message };
+                    error = { statusCode: code, title: e.message };
                 } else {
                     throw e;
                 }

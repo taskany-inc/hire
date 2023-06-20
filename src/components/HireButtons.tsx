@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { SectionGrade } from '@prisma/client';
 
 import { SectionWithRelationsAndResults } from '../backend/modules/section/section-types';
 
@@ -9,7 +8,7 @@ import { GradeButton } from './GradeButton';
 export type HireButtonsProps = {
     section: SectionWithRelationsAndResults;
     setHire: (value: boolean | null) => void;
-    setGrade: (value: SectionGrade | null) => void;
+    setGrade: (value: string | null) => void;
 };
 
 export const HireButtons = ({ section, setHire, setGrade }: HireButtonsProps): JSX.Element => {

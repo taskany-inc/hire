@@ -21,6 +21,8 @@ import { Confirmation, useConfirmation } from '../Confirmation';
 
 import { AddUserToRole } from './AddUserToRole';
 
+import { tr } from './roles.i18n';
+
 type HireStreamUsersProps = {
     hireStream: HireStream;
 };
@@ -35,7 +37,7 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
     const addHireStreamManagerMutation = useAddHireStreamManagerToHireStreamMutation(hireStream.name);
     const removeHireStreamManagerMutation = useRemoveHireStreamManagerFromHireStreamMutation(hireStream.name);
     const removeHireStreamManagerConfirmation = useConfirmation({
-        message: `Take the role of hire stream manager from ${userName}?`,
+        message: `${tr('Take the role of hire stream manager from')} ${userName}?`,
         onAgree: async () =>
             hireStreamId &&
             userId &&
@@ -49,7 +51,7 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
     const addHiringLeadMutation = useAddHiringLeadToHireStreamMutation(hireStream.name);
     const removeHiringLeadMutation = useRemoveHiringLeadFromHireStreamMutation(hireStream.name);
     const removeHiringLeadConfirmation = useConfirmation({
-        message: `Take the role of a recruiting lead from ${userName}?`,
+        message: `${tr('Take the role of a recruiting lead from')}${userName}?`,
         onAgree: async () =>
             hireStreamId &&
             userId &&
@@ -63,7 +65,7 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
     const addRecruiterMutation = useAddRecruiterToHireStreamMutation(hireStream.name);
     const removeRecruiterMutation = useRemoveRecruiterFromHireStreamMutation(hireStream.name);
     const removeRecruiterConfirmation = useConfirmation({
-        message: `Take the role of a recruiter from ${userName}?`,
+        message: `${tr('Take the role of a recruiter from')} ${userName}?`,
         onAgree: async () =>
             hireStreamId &&
             userId &&
@@ -77,7 +79,7 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
     const addInterviewerMutation = useAddInterviewerToSectionTypeMutation(hireStream.name);
     const removeInterviewerMutation = useRemoveInterviewerFromSectionTypeMutation(hireStream.name);
     const removeInterviewerConfirmation = useConfirmation({
-        message: `Take over the role of the interviewer ${userName}?`,
+        message: `${tr('Take over the role of the interviewer')}${userName}?`,
         onAgree: async () =>
             hireStreamId &&
             userId &&
@@ -101,10 +103,10 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                 return (
                     <>
                         <UserList
-                            title="Hiring stream managers"
+                            title={tr('Hiring stream managers')}
                             titleFragment={
                                 <AddUserToRole
-                                    title={`Add Recruitment Stream Manager to stream ${hireStream.name}`}
+                                    title={`${tr('Add Recruitment Stream Manager to stream')}${hireStream.name}`}
                                     onSelect={(user) =>
                                         addHireStreamManagerMutation.mutate({
                                             hireStreamId: hireStream.id,
@@ -128,12 +130,15 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                         />
 
                         <UserList
-                            title="Hiring Leads"
+                            title={tr('Hiring Leads')}
                             titleFragment={
                                 <AddUserToRole
-                                    title={`Add a Hiring Lead to a stream${hireStream.name}`}
+                                    title={`${tr('Add a Hiring Lead to a stream')} ${hireStream.name}`}
                                     onSelect={(user) =>
-                                        addHiringLeadMutation.mutate({ hireStreamId: hireStream.id, userId: user.id })
+                                        addHiringLeadMutation.mutate({
+                                            hireStreamId: hireStream.id,
+                                            userId: user.id,
+                                        })
                                     }
                                     filterByIds={idObjsToIds(hiringLeads)}
                                 />
@@ -152,12 +157,15 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                         />
 
                         <UserList
-                            title="Recruiters"
+                            title={tr('Recruiters')}
                             titleFragment={
                                 <AddUserToRole
-                                    title={`Add a recruiter to the stream ${hireStream.name}`}
+                                    title={`${tr('Add a recruiter to the stream')} ${hireStream.name}`}
                                     onSelect={(user) =>
-                                        addRecruiterMutation.mutate({ hireStreamId: hireStream.id, userId: user.id })
+                                        addRecruiterMutation.mutate({
+                                            hireStreamId: hireStream.id,
+                                            userId: user.id,
+                                        })
                                     }
                                     filterByIds={idObjsToIds(recruiters)}
                                 />
@@ -181,7 +189,10 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                                 title={sectionType.title}
                                 titleFragment={
                                     <AddUserToRole
-                                        title={`Add Interviewer to Section Type ${sectionType.title} of hire stream ${hireStream.name}`}
+                                        title={tr(
+                                            'Add Interviewer to Section Type {sectionType.title} of hire stream {hireStream.name}',
+                                            { title: sectionType.title, name: hireStream.name },
+                                        )}
                                         onSelect={(user) =>
                                             addInterviewerMutation.mutate({
                                                 hireStreamId: hireStream.id,

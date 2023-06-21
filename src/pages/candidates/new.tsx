@@ -5,6 +5,8 @@ import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 import { useOutstaffVendors } from '../../hooks/candidate-hooks';
 import { QueryResolver } from '../../components/QueryResolver';
 
+import { tr } from './candidates.i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     action: async ({ ssg, session, handleAccessChecks }) => {
@@ -18,7 +20,7 @@ const NewCandidatePage = () => {
     const outstaffVendorsQuery = useOutstaffVendors();
 
     return (
-        <LayoutMain pageTitle="New candidate">
+        <LayoutMain pageTitle={tr('New candidate')}>
             <QueryResolver queries={[outstaffVendorsQuery]}>
                 {([outstaffVendors]) => <AddOrUpdateCandidate variant="new" outstaffVendors={outstaffVendors} />}
             </QueryResolver>

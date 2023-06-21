@@ -5,6 +5,8 @@ import { useSession } from '../contexts/app-settings-context';
 
 import { FiltersMenuItem } from './FiltersMenuItem';
 
+import { tr } from './components.i18n';
+
 interface ProblemAuthorFilterProps {
     author?: User | null;
 
@@ -20,7 +22,7 @@ export const ProblemAuthorFilter = React.forwardRef<HTMLDivElement, ProblemAutho
         return (
             <>
                 <FiltersMenuItem ref={ref} active={!isCanShowMyProblems} onClick={handleClickMy}>
-                    My
+                    {tr('My')}
                 </FiltersMenuItem>
                 {author?.name && (
                     <FiltersMenuItem onClick={() => onChange(null)} active>

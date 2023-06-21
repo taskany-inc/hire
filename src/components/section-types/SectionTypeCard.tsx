@@ -12,6 +12,8 @@ import { DropdownMenuItem } from '../TagFilterDropdown';
 
 import { UpdateSectionTypeModal } from './SectionTypeForm';
 
+import { tr } from './section-types.i18n';
+
 const StyledCircleIcon = styled(CircleIcon)`
     margin-top: 4px;
 `;
@@ -40,7 +42,7 @@ type SectionTypeCardProps = {
 export const SectionTypeCard: VFC<SectionTypeCardProps> = ({ sectionType }) => {
     const deleteSectionType = useDeleteSectionTypeMutation();
     const deleteConfirmation = useConfirmation({
-        message: `Delete section type ${sectionType.title}?`,
+        message: `${tr('Delete section type')} ${sectionType.title}?`,
         onAgree: () => deleteSectionType.mutateAsync({ sectionTypeId: sectionType.id }),
         destructive: true,
     });
@@ -48,8 +50,8 @@ export const SectionTypeCard: VFC<SectionTypeCardProps> = ({ sectionType }) => {
     const [updateModalOpen, setUpdateModalOpen] = useState(false);
 
     const menu: DropdownMenuItem[] = [
-        { onClick: () => setUpdateModalOpen(true), text: 'Edit' },
-        { onClick: deleteConfirmation.show, text: 'Delete' },
+        { onClick: () => setUpdateModalOpen(true), text: tr('Edit') },
+        { onClick: deleteConfirmation.show, text: tr('Delete') },
     ];
 
     return (
@@ -61,11 +63,14 @@ export const SectionTypeCard: VFC<SectionTypeCardProps> = ({ sectionType }) => {
                     menu={menu}
                 />
                 <CardContent>
-                    <CheckboxLine value={sectionType.hasTasks} text="Contains problems" />
-                    <CheckboxLine value={sectionType.userSelect} text="Team selection" />
-                    <CheckboxLine value={sectionType.showOtherGrades} text="Show results of other sections" />
-                    <CheckboxLine value={sectionType.schedulable} text="Appointment via calendar" />
-                    <span>Section grades: {sectionType.gradeOptions.join(', ')}</span>
+                    <CheckboxLine value={sectionType.hasTasks} text={tr('Contains problems')} />
+                    <CheckboxLine value={sectionType.userSelect} text={tr('Team selection')} />
+                    <CheckboxLine value={sectionType.showOtherGrades} text={tr('Show results of other sections')} />
+                    <CheckboxLine value={sectionType.schedulable} text={tr('Appointment via calendar')} />
+                    <span>
+                        {tr('Section grades: ')}
+                        {sectionType.gradeOptions.join(', ')}
+                    </span>
                 </CardContent>
             </Card>
 

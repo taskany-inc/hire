@@ -3,6 +3,8 @@ import { Button, FormTitle, Modal, ModalContent, ModalHeader, Text } from '@task
 
 import { AsyncAnyFunction } from '../types';
 
+import { tr } from './components.i18n';
+
 type ConfirmationProps = {
     open: boolean;
     message: string;
@@ -30,8 +32,13 @@ export const Confirmation: VFC<ConfirmationProps> = ({
         <ModalContent>
             {description && <Text>{description}</Text>}
             <>
-                <Button onClick={onClose} text="Cancel" />
-                <Button onClick={onAgree} view={destructive ? 'danger' : 'default'} disabled={inProgress} text="Ok" />
+                <Button onClick={onClose} text={tr('Cancel')} />
+                <Button
+                    onClick={onAgree}
+                    view={destructive ? 'danger' : 'default'}
+                    disabled={inProgress}
+                    text={tr('Ok')}
+                />
             </>
         </ModalContent>
     </Modal>

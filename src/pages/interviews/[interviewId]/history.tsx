@@ -5,11 +5,15 @@ import { interviewEventDbService } from '../../../backend/modules/interview-even
 import { accessChecks } from '../../../backend/access/access-checks';
 import { createGetServerSideProps } from '../../../utils/create-get-ssr-props';
 
+import { tr } from './[interviewId].i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     numberIds: { interviewId: true },
     action: async ({ ssg, session, numberIds, handleAccessChecks }) => {
-        const interview = await ssg.interviews.getById.fetch({ interviewId: numberIds.interviewId });
+        const interview = await ssg.interviews.getById.fetch({
+            interviewId: numberIds.interviewId,
+        });
 
         await handleAccessChecks(() => accessChecks.interview.readOne(session, interview));
 
@@ -20,7 +24,7 @@ export const getServerSideProps = createGetServerSideProps({
 });
 
 const InterviewHistoryPage = ({ interviewHistory }: InferServerSideProps<typeof getServerSideProps>) => (
-    <LayoutMain pageTitle="History of changes">
+    <LayoutMain pageTitle={tr('History of changes')}>
         <InterviewHistory interviewHistory={interviewHistory} />
     </LayoutMain>
 );

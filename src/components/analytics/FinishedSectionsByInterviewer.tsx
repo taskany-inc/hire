@@ -8,6 +8,8 @@ import { useAnalyticsFilterContext } from '../../contexts/analytics-filter-conte
 import { useFinishedSectionsByInterviewer } from '../../hooks/analytics-queries-hooks';
 import { QueryResolver } from '../QueryResolver';
 
+import { tr } from './analytics.i18n';
+
 type FinishedSectionsByInterviewerProps = {
     allStreams: HireStream[];
 };
@@ -60,12 +62,12 @@ export const FinishedSectionsByInterviewer = ({ allStreams }: FinishedSectionsBy
     return (
         <>
             <Text size="xl" style={{ marginTop: 10, marginLeft: 30 }}>
-                The number of sections conducted by the interviewers (with tasks)
+                {tr('The number of sections conducted by the interviewers (with tasks)')}
             </Text>
             <QueryResolver queries={[dataWithTasksQuery]}>{([data]) => <Chart data={data} />}</QueryResolver>
 
             <Text size="xl" style={{ marginTop: 10, marginLeft: 30 }}>
-            The number of sections conducted by the interviewers (without tasks)
+                {tr('The number of sections conducted by the interviewers (without tasks)')}
             </Text>
             <QueryResolver queries={[dataNoTasksQuery]}>{([data]) => <Chart data={data} />}</QueryResolver>
         </>

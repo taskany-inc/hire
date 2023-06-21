@@ -6,6 +6,8 @@ import { ProblemList } from '../problems/ProblemList';
 import { ProblemFilterBar } from '../problems/problem-filter/ProblemFilterBar';
 import { ProblemFilterContextProvider } from '../../contexts/problem-filter-context';
 
+import { tr } from './sections.i18n';
+
 type AddProblemToSectionProps = {
     interviewId: number;
 };
@@ -15,7 +17,7 @@ const AddProblemToSectionInner: VFC<AddProblemToSectionProps> = ({ interviewId }
 
     return (
         <>
-            <Button view="primary" type="button" text="Add problem" onClick={() => setOpen(true)} />
+            <Button view="primary" type="button" text={tr('Add problem')} onClick={() => setOpen(true)} />
             <ModalPreview visible={open} onClose={() => setOpen(false)}>
                 <div style={{ paddingRight: 20 }}>
                     <ProblemFilterBar embedded />

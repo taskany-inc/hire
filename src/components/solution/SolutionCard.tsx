@@ -23,6 +23,8 @@ import { trpc } from '../../utils/trpc-front';
 
 import { SwitchSolutionsOrderButton } from './SwitchSolutionOrderButton';
 
+import { tr } from './solution.i18n';
+
 const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
 
 type SolutionCardProps = {
@@ -82,12 +84,15 @@ const resolver: Resolver<UpdateSolution> = (values) => {
 
     if (!values.answer) {
         hasErrors = true;
-        error.errors.answer = { type: 'required', message: 'Required field' };
+        error.errors.answer = { type: 'required', message: tr('Required field') };
     }
 
     if (!values.result || values.result === SolutionResult.UNKNOWN) {
         hasErrors = true;
-        error.errors.result = { type: 'required', message: "Rate the candidate's solution" };
+        error.errors.result = {
+            type: 'required',
+            message: tr("Rate the candidate's solution"),
+        };
     }
 
     if (hasErrors) {
@@ -176,7 +181,7 @@ export const SolutionCard: FC<SolutionCardProps> = ({
             <StyledHeaderWrapper>
                 <CardHeader
                     title={problem.name}
-                    subTitle={`Difficulty: ${problemDifficultyLabels[problem.difficulty]}`}
+                    subTitle={`${tr('Difficulty:')} ${problemDifficultyLabels[problem.difficulty]}`}
                     link={pageHrefs.problem(problem.id)}
                 />
                 <div>
@@ -196,7 +201,7 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                 <MarkdownRenderer value={problem.description} style={{ maxWidth: 900 }} />
 
                 <StyledProblemSolution size="l" as="div" onClick={() => setIsExpanded((v) => !v)}>
-                    Possible Solution
+                    {tr('Possible Solution')}
                     {isExpanded ? <ArrowUpSmallIcon size="s" /> : <ArrowDownSmallIcon size="s" />}
                 </StyledProblemSolution>
 
@@ -204,7 +209,7 @@ export const SolutionCard: FC<SolutionCardProps> = ({
 
                 <LoadingContainer isSpinnerVisible={isSpinnerVisible}>
                     <Text size="l" style={{ marginTop: 20, marginBottom: 12 }} ref={solutionRef}>
-                        Candidate's solution
+                        {tr("Candidate's solution")}
                     </Text>
 
                     {solution.answer && !editOpen ? (
@@ -214,7 +219,7 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                             <CodeEditorField
                                 name="answer"
                                 control={control}
-                                placeholder="Enter solution"
+                                placeholder={tr('Enter solution')}
                                 height={300}
                                 options={validationRules.nonEmptyString}
                             />
@@ -245,7 +250,8 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                     {!editOpen && solution.answer && (
                         <Text size="l" style={{ marginTop: 12 }}>
                             <strong>
-                                Result: {solutionResultEmoji[solution.result]} {solutionResultText[solution.result]}
+                                {tr('Result:')} {solutionResultEmoji[solution.result]}{' '}
+                                {solutionResultText[solution.result]}
                             </strong>
                         </Text>
                     )}
@@ -254,19 +260,23 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                         <Stack
                             direction="row"
                             gap={12}
-                            style={{ marginTop: 12, marginLeft: 'auto', width: 'max-content' }}
+                            style={{
+                                marginTop: 12,
+                                marginLeft: 'auto',
+                                width: 'max-content',
+                            }}
                         >
                             {!(solution.answer && !editOpen) && (
-                                <Button view="primary" type="submit" form={formId} text="Save" />
+                                <Button view="primary" type="submit" form={formId} text={tr('Save')} />
                             )}
                             {solution.answer &&
                                 (editOpen ? (
-                                    <Button onClick={handleCancelClick} text="Cancel" />
+                                    <Button onClick={handleCancelClick} text={tr('Cancel')} />
                                 ) : (
-                                    <Button onClick={handleEditClick} view="primary" text="Edit" />
+                                    <Button onClick={handleEditClick} view="primary" text={tr('Edit')} />
                                 ))}
 
-                            <Button view="danger" onClick={onRemoveSolution} text="Delete problem" />
+                            <Button view="danger" onClick={onRemoveSolution} text={tr('Delete problem')} />
                         </Stack>
                     )}
                 </LoadingContainer>

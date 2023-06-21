@@ -2,6 +2,8 @@ import { trpc } from '../utils/trpc-front';
 
 import { useNotifications } from './useNotifications';
 
+import { tr } from './hooks.i18n';
+
 export const useSectionType = (sectionTypeId: number) => {
     const { enqueueErrorNotification } = useNotifications();
 
@@ -26,7 +28,7 @@ export const useCreateSectionTypeMutation = () => {
 
     return trpc.sectionTypes.create.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`New section type ${data.title} created`);
+            enqueueSuccessNotification(tr('New section type {data.title} created', { title: data.title }));
             utils.sectionTypes.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -39,7 +41,7 @@ export const useUpdateSectionTypeMutation = () => {
 
     return trpc.sectionTypes.update.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`Section type ${data.title} updated`);
+            enqueueSuccessNotification(tr('Section type {data.title} updated', { title: data.title }));
             utils.sectionTypes.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -52,7 +54,7 @@ export const useDeleteSectionTypeMutation = () => {
 
     return trpc.sectionTypes.delete.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`Section type ${data.title} deleted`);
+            enqueueSuccessNotification(tr('Section type {data.title} deleted', { title: data.title }));
             utils.sectionTypes.invalidate();
         },
         onError: enqueueErrorNotification,

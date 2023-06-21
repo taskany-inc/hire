@@ -4,6 +4,8 @@ import { Text } from '@taskany/bricks';
 
 import { Spinner } from './Spinner';
 
+import { tr } from './components.i18n';
+
 type QueryResolverProps<T extends [...unknown[]]> = {
     queries: [...{ [K in keyof T]: UseQueryResult<T[K]> }];
     children: (data: [...T]) => ReactElement;
@@ -38,7 +40,7 @@ export const QueryResolver = <T extends unknown[]>({ queries, children }: QueryR
             return children(data);
         }
 
-        return <Text color="error">Getting data error</Text>;
+        return <Text color="error">{tr('Getting data error')}</Text>;
     }
 
     return children(data);

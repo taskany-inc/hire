@@ -18,14 +18,19 @@ import { FormRandomColor } from '../FormInput/FormRandomColor';
 import { generateColor } from '../../utils/color';
 import { FormGradeOptions } from '../FormInput/FormGradeOptions';
 
+import { tr } from './section-types.i18n';
+
 const checkboxes: {
     label: string;
     name: 'hasTasks' | 'userSelect' | 'showOtherGrades' | 'schedulable';
 }[] = [
-    { label: 'You can add tasks to the section', name: 'hasTasks' },
-    { label: 'The team is selected in the section', name: 'userSelect' },
-    { label: 'The section shows the results of other sections', name: 'showOtherGrades' },
-    { label: 'Section can be assigned via calendar', name: 'schedulable' },
+    { label: tr('You can add tasks to the section'), name: 'hasTasks' },
+    { label: tr('The team is selected in the section'), name: 'userSelect' },
+    {
+        label: tr('The section shows the results of other sections'),
+        name: 'showOtherGrades',
+    },
+    { label: tr('Section can be assigned via calendar'), name: 'schedulable' },
 ];
 
 type SectionTypeFormProps = {
@@ -65,19 +70,19 @@ export const SectionTypeForm: VFC<SectionTypeFormProps> = ({ afterSubmit, sectio
 
     return (
         <FormContainer
-            submitButtonText={`${props.type === 'create' ? 'Add' : 'Edit'} section type`}
+            submitButtonText={`${props.type === 'create' ? tr('Add') : tr('Edit')} section type`}
             onSubmitButton={onSubmit}
             submitButtonDisabled={isSubmitting || isSubmitSuccessful}
         >
             <FormInput
-                label="Section code"
+                label={tr('Section code')}
                 helperText={errors.value?.message}
-                placeholder="For example CODING or PRODUCT_FINAL"
+                placeholder={tr('For example CODING or PRODUCT_FINAL')}
                 forwardRef={refValue}
                 {...restValue}
             />
             <FormInput
-                label="Section name"
+                label={tr('Section name')}
                 helperText={errors.title?.message}
                 forwardRef={refTitle}
                 {...restTitle}
@@ -91,7 +96,7 @@ export const SectionTypeForm: VFC<SectionTypeFormProps> = ({ afterSubmit, sectio
                 </div>
             ))}
             <FormGradeOptions name="gradeOptions" control={control} />
-            <FormRandomColor label="Section color in the calendar" name="eventColor" control={control} />
+            <FormRandomColor label={tr('Section color in the calendar')} name="eventColor" control={control} />
         </FormContainer>
     );
 };
@@ -105,7 +110,7 @@ export const NewSectionTypeModal: VFC<{ hireStreamId: number }> = ({ hireStreamI
 
             <Modal visible={open} onClose={() => setOpen(false)}>
                 <ModalHeader>
-                    <FormTitle>New section type</FormTitle>
+                    <FormTitle>{tr('New section type')}</FormTitle>
                 </ModalHeader>
                 <ModalContent>
                     <SectionTypeForm type="create" hireStreamId={hireStreamId} afterSubmit={() => setOpen(false)} />
@@ -115,15 +120,15 @@ export const NewSectionTypeModal: VFC<{ hireStreamId: number }> = ({ hireStreamI
     );
 };
 
-export const UpdateSectionTypeModal: VFC<{ sectionType: SectionType; open: boolean; onClose: VoidFunction }> = ({
-    sectionType,
-    open,
-    onClose,
-}) => {
+export const UpdateSectionTypeModal: VFC<{
+    sectionType: SectionType;
+    open: boolean;
+    onClose: VoidFunction;
+}> = ({ sectionType, open, onClose }) => {
     return (
         <Modal visible={open} onClose={onClose}>
             <ModalHeader>
-                <FormTitle>Section type edit</FormTitle>
+                <FormTitle>{tr('Section type edit')}</FormTitle>
             </ModalHeader>
             <ModalContent>
                 <SectionTypeForm type="update" sectionType={sectionType} afterSubmit={onClose} />

@@ -28,6 +28,8 @@ import { SectionFeedbackHireBadge } from './SectionFeedbackHireBadge';
 import { DropScreenshot } from './DropScreenshot';
 import { SectionAttach } from './SectionAttach';
 
+import { tr } from './sections.i18n';
+
 type SectionFeedbackProps = {
     section: SectionWithRelationsAndResults;
     isEditable: boolean;
@@ -46,11 +48,13 @@ const StyledButton = styled(Button)`
 
 const schema = z.object({
     hire: z.boolean({
-        invalid_type_error: 'Decide on a candidate',
-        required_error: 'Decide on a candidate',
+        invalid_type_error: tr('Decide on a candidate'),
+        required_error: tr('Decide on a candidate'),
     }),
     grade: z.string().nullish(),
-    feedback: z.string().min(1, { message: 'Mandatory field, fill in the candidate\'s impressions' }),
+    feedback: z.string().min(1, {
+        message: tr("Mandatory field, fill in the candidate's impressions"),
+    }),
 });
 
 export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): JSX.Element => {
@@ -84,7 +88,10 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
             const file = acceptedFiles[0];
             const formData = new FormData();
             formData.append('data', file);
-            const attach = await attachesCreateMutation.mutateAsync({ sectionId: section.id, formData });
+            const attach = await attachesCreateMutation.mutateAsync({
+                sectionId: section.id,
+                formData,
+            });
             const feedback = getValues('feedback');
             const newFeedback = `${feedback} \n ![${attach.filename}](/api/attach/${attach.id})`;
             setValue('feedback', newFeedback);
@@ -125,14 +132,16 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
                 stopPersistingFeedback();
 
                 router.push({
-                    pathname: generatePath(Paths.INTERVIEW, { interviewId: Number(interviewId) }),
+                    pathname: generatePath(Paths.INTERVIEW, {
+                        interviewId: Number(interviewId),
+                    }),
                 });
             });
     });
 
     const sendFeedbackConfirmation = useConfirmation({
-        message: 'Send feedback?',
-        description: !section.feedback ? 'HR will receive a notification about the completed feedback' : undefined,
+        message: tr('Send feedback?'),
+        description: !section.feedback ? tr('HR will receive a notification about the completed feedback') : undefined,
         onAgree: onSubmit,
     });
 
@@ -146,7 +155,7 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
         setValue('grade', value);
     };
 
-    const editButtonTitle = editMode ? 'Cancel' : 'Edit';
+    const editButtonTitle = editMode ? tr('Cancel') : tr('Edit');
 
     return (
         <>
@@ -165,7 +174,7 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
                                 <SectionFeedbackHireBadge hire={section.hire} />
                                 {!Number.isNaN(grade) && (
                                     <>
-                                        Grade:{' '}
+                                        {tr('Grade:')}{' '}
                                         <GradeButton type="button" matching>
                                             {grade}
                                         </GradeButton>
@@ -180,7 +189,7 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
                             name="feedback"
                             control={control}
                             height={200}
-                            placeholder="Describe your impressions of the candidate"
+                            placeholder={tr('Describe your impressions of the candidate')}
                         />
                     ) : (
                         <StyledMarkdownRenderer value={section.feedback || watch('feedback') || ''} />
@@ -192,7 +201,7 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
                             view="primary"
                             disabled={isSubmitting || isSubmitSuccessful}
                             onClick={section.hire === null ? sendFeedbackConfirmation.show : onSubmit}
-                            text={section.feedback ? 'Save' : 'Send feedback'}
+                            text={section.feedback ? tr('Save') : tr('Send feedback')}
                         />
                     )}
 

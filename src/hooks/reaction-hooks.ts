@@ -2,10 +2,12 @@ import { trpc } from '../utils/trpc-front';
 
 import { useNotifications } from './useNotifications';
 
-const getNotification = (reaction: string | null) => {
-    if (!reaction) return 'Reaction deleted';
+import { tr } from './hooks.i18n';
 
-    return 'Reaction added';
+const getNotification = (reaction: string | null) => {
+    if (!reaction) return tr('Reaction deleted');
+
+    return tr('Reaction added');
 };
 
 export const useUpsertReactionMutation = () => {

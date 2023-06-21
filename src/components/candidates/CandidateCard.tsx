@@ -16,6 +16,8 @@ import config from '../../backend/config';
 import { Stack } from '../layout/Stack';
 import { CardContent } from '../card/CardContent';
 
+import { tr } from './candidates.i18n';
+
 interface Props {
     candidate: CandidateWithVendorAndInterviewWithSectionsRelations;
 }
@@ -58,17 +60,18 @@ export const CandidateCard: React.FC<Props> = ({ candidate }) => {
             <CardContent>
                 <Stack direction="column" gap={15}>
                     <Text color={gray10}>
-                        Employment:{' '}
+                        {tr('Employment:')}{' '}
                         <Text as="span">{candidate.outstaffVendor?.title ?? config.defaultCandidateVendor}</Text>
                     </Text>
                     {candidate.email && (
                         <Text color={gray10}>
-                            Email: <Text as="span">{candidate.email}</Text>
+                            {tr('Email: ')}
+                            <Text as="span">{candidate.email}</Text>
                         </Text>
                     )}
                     {candidate.phone && (
                         <Text color={gray10}>
-                            Tel: <Text as="span"> {candidate.phone}</Text>
+                            {tr('Tel:')} <Text as="span"> {candidate.phone}</Text>
                         </Text>
                     )}
                 </Stack>

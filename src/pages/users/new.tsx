@@ -3,6 +3,8 @@ import { LayoutMain } from '../../components/layout/LayoutMain';
 import { NewUserForm } from '../../components/users/NewUserForm';
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 
+import { tr } from './users.i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     action: async ({ session, handleAccessChecks }) => {
@@ -12,7 +14,7 @@ export const getServerSideProps = createGetServerSideProps({
 
 const NewUserPage = () => {
     return (
-        <LayoutMain pageTitle="New user">
+        <LayoutMain pageTitle={tr('New user')}>
             <NewUserForm />
         </LayoutMain>
     );

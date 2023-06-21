@@ -8,6 +8,8 @@ import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 import { useHireStreams } from '../../hooks/hire-streams-hooks';
 import { QueryResolver } from '../../components/QueryResolver';
 
+import { tr } from './debug.i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     action: async ({ context, ssg }) => {
@@ -26,7 +28,7 @@ const DebugRolesPage = ({ sectionTypes }: InferServerSideProps<typeof getServerS
     const hireStreamsQuery = useHireStreams();
 
     return (
-        <LayoutMain pageTitle="Set roles by debug cookie">
+        <LayoutMain pageTitle={tr('Set roles by debug cookie')}>
             <QueryResolver queries={[hireStreamsQuery]}>
                 {([hireStreams]) => <DebugRoles hireStreams={hireStreams} sectionTypes={sectionTypes} />}
             </QueryResolver>

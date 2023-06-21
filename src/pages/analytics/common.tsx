@@ -11,6 +11,8 @@ import { useHireStreams } from '../../hooks/hire-streams-hooks';
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 import { Paths } from '../../utils/paths';
 
+import { tr } from './analytics.i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     action: async ({ ssg, session, handleAccessChecks }) => {
@@ -29,7 +31,7 @@ export default () => {
                 {([hireStreams]) => (
                     <>
                         <LayoutMain
-                            pageTitle="General charts"
+                            pageTitle={tr('General charts')}
                             aboveContainer={<AnalyticsFilterMenuBar hireStreams={hireStreams} />}
                             backlink={Paths.ANALYTICS}
                         />

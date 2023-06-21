@@ -3,6 +3,8 @@ import { LayoutMain } from '../components/layout/LayoutMain';
 import { Roles } from '../components/roles/Roles';
 import { createGetServerSideProps } from '../utils/create-get-ssr-props';
 
+import { tr } from './pages.i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     action: async ({ session, handleAccessChecks }) => {
@@ -12,7 +14,7 @@ export const getServerSideProps = createGetServerSideProps({
 
 export default function UserRolesPage() {
     return (
-        <LayoutMain pageTitle="Users roles">
+        <LayoutMain pageTitle={tr("Users roles")}>
             <Roles />
         </LayoutMain>
     );

@@ -3,6 +3,8 @@ import { ComponentType, useEffect, useRef, useState } from 'react';
 
 import { LayoutMain } from '../components/layout/LayoutMain';
 
+import { tr } from './plugins.i18n';
+
 type Plugin = {
     default: ComponentType;
     pluginName: string;
@@ -39,7 +41,7 @@ export const PluginPage = () => {
     const { Component, pluginName } = usePlugin(`./${query.name}`);
 
     return (
-        <LayoutMain pageTitle={pluginName || 'Плагины'}>
+        <LayoutMain pageTitle={pluginName || tr('Плагины')}>
             <Component />
         </LayoutMain>
     );

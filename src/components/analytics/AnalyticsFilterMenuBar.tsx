@@ -7,6 +7,8 @@ import { FiltersPanel } from '../FiltersPanel';
 
 import { CustomPeriodForm } from './CustomPeriodForm';
 
+import { tr } from './analytics.i18n';
+
 type AnalyticsFilterMenuBarPropsType = {
     hireStreams?: HireStream[];
 };
@@ -25,7 +27,7 @@ export const AnalyticsFilterMenuBar = ({ hireStreams }: AnalyticsFilterMenuBarPr
 
     const [openCustomPeriod, setCustomPeriod] = useState(false);
 
-    const periods = ['Week', 'Month', 'Quarter', 'Year', 'Custom'];
+    const periods = [tr('Week'), tr('Month'), tr('Quarter'), tr('Year'), tr('Custom')];
 
     const onPeriodChange = (periodTitle: string) => {
         if (periodTitle === 'Custom') setCustomPeriod(true);
@@ -50,7 +52,7 @@ export const AnalyticsFilterMenuBar = ({ hireStreams }: AnalyticsFilterMenuBarPr
         >
             <Modal width={700} visible={openCustomPeriod} onClose={() => setCustomPeriod(false)}>
                 <ModalHeader>
-                    <FormTitle>Custom period</FormTitle>
+                    <FormTitle>{tr('Custom period')}</FormTitle>
                 </ModalHeader>
                 <ModalContent>
                     <CustomPeriodForm close={() => setCustomPeriod(false)} />

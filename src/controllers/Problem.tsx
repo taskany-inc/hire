@@ -19,6 +19,8 @@ import { useProblemFilterContext } from '../contexts/problem-filter-context';
 import { ProblemStats } from '../components/problems/ProblemStats';
 import { accessChecks } from '../backend/access/access-checks';
 
+import { tr } from './controllers.i18n';
+
 type ProblemProps = {
     problem: ProblemWithRelationsAndProblemSection;
 };
@@ -65,7 +67,7 @@ export const Problem: VFC<ProblemProps> = ({ problem }) => {
     const problemRemoveMutation = useProblemRemoveMutation();
 
     const problemRemoveConfirmation = useConfirmation({
-        message: 'Delete problem?',
+        message: tr('Delete problem?'),
         onAgree: () =>
             problemRemoveMutation.mutateAsync({ problemId: problem.id }).then(() => {
                 router.push(Paths.PROBLEMS);
@@ -78,8 +80,14 @@ export const Problem: VFC<ProblemProps> = ({ problem }) => {
         const items: DropdownMenuItem[] = [];
 
         if (canUpdateOrDelete) {
-            items.push({ onClick: () => router.push(pageHrefs.problemEdit(problem.id)), text: 'Edit' });
-            items.push({ onClick: problemRemoveConfirmation.show, text: 'Delete' });
+            items.push({
+                onClick: () => router.push(pageHrefs.problemEdit(problem.id)),
+                text: tr('Edit'),
+            });
+            items.push({
+                onClick: problemRemoveConfirmation.show,
+                text: tr('Delete'),
+            });
         }
 
         return items;
@@ -92,7 +100,7 @@ export const Problem: VFC<ProblemProps> = ({ problem }) => {
                 <Text size="s" as="span" color="textSecondary">
                     <InlineDot />
                     <Text as="span" color={gray10}>
-                        Created by:{' '}
+                        {tr('Created by:')}{' '}
                     </Text>
                     <StyledAuthorLink
                         onClick={() => {
@@ -130,8 +138,7 @@ export const Problem: VFC<ProblemProps> = ({ problem }) => {
             </StyledMarkdownRenderer>
 
             <StyledSolutionTitle size="xl" onClick={toggleSolutionExpansion}>
-                Solution{' '}
-                {isSolutionExpanded ? <ArrowUpSmallIcon size="m" /> : <ArrowDownSmallIcon size="m" />}
+                {tr('Solution')} {isSolutionExpanded ? <ArrowUpSmallIcon size="m" /> : <ArrowDownSmallIcon size="m" />}
             </StyledSolutionTitle>
 
             {isSolutionExpanded && (

@@ -12,6 +12,8 @@ import { prisma } from '../../../backend';
 import { attachDbService } from '../../../backend/modules/attach/attach-db-service';
 import { parseError } from '../../../utils/error-parsing';
 
+import { tr } from './attach.i18n';
+
 export const config = {
     api: {
         bodyParser: false,
@@ -40,11 +42,11 @@ const handler = getApiHandler()
                     return reject(new ErrorWithStatus(message, status));
                 }
 
-                if (!files.data) return reject(new ErrorWithStatus('No data', 400));
+                if (!files.data) return reject(new ErrorWithStatus(tr('No data'), 400));
 
                 const { data } = files;
 
-                if (!(data instanceof Array)) return reject(new ErrorWithStatus('Data not in array', 400));
+                if (!(data instanceof Array)) return reject(new ErrorWithStatus(tr('Data not in array'), 400));
 
                 const section = await prisma.section.findFirst({
                     where: { id: Number(sectionId) },
@@ -56,7 +58,7 @@ const handler = getApiHandler()
                     },
                 });
 
-                if (!section) return reject(new ErrorWithStatus(`No section ${sectionId}`, 400));
+                if (!section) return reject(new ErrorWithStatus(`${tr('No section')} ${sectionId}`, 400));
                 const file = data[0];
                 const filename = file.originalFilename || file.newFilename;
 
@@ -86,7 +88,7 @@ const handler = getApiHandler()
 
         const file = await getObject(attach.link);
 
-        if (!file) throw new ErrorWithStatus('No file finded', 404);
+        if (!file) throw new ErrorWithStatus(tr('No file finded'), 404);
 
         const newFileName = encodeURIComponent(attach.filename);
 

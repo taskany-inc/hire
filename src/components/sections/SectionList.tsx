@@ -9,6 +9,8 @@ import { Card } from '../card/Card';
 import { CardHeader } from '../card/CardHeader';
 import { CardContent } from '../card/CardContent';
 
+import { tr } from './sections.i18n';
+
 import { SectionFeedbackHireBadge, SectionTypeBadge } from './SectionFeedbackHireBadge';
 
 type SectionListProps = {
@@ -42,7 +44,7 @@ export const SectionList = ({ sections, header, completed = false }: SectionList
 
             <Stack direction="column" gap={8}>
                 {sections.length === 0 ? (
-                    <Text style={{ marginLeft: 40 }}>No sections yet 😴</Text>
+                    <Text style={{ marginLeft: 40 }}>{tr('No sections yet')} 😴</Text>
                 ) : (
                     sections.map((section: SectionWithInterviewRelation) => {
                         return (

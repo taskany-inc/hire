@@ -5,6 +5,8 @@ import { trpc } from '../utils/trpc-front';
 
 import { useNotifications } from './useNotifications';
 
+import { tr } from './hooks.i18n';
+
 export const useSolutions = (params: GetSolutionsBySectionId, options?: { enabled: boolean }) => {
     const { enqueueErrorNotification } = useNotifications();
 
@@ -20,7 +22,7 @@ export const useSolutionCreateMutation = () => {
 
     return trpc.solutions.create.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`Added problem in section ${data.id}`);
+            enqueueSuccessNotification(`${tr('Added problem in section')} ${data.id}`);
             utils.solutions.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -33,7 +35,7 @@ export const useSolutionUpdateMutation = () => {
 
     return trpc.solutions.update.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`Solution ${data.id} updated`);
+            enqueueSuccessNotification(tr('Solution {data.id} updated', { id: data.id }));
             utils.solutions.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -60,7 +62,9 @@ export const useSwitchSolutionsOrder = () => {
             const { sectionId } = data;
             await utils.solutions.getBySectionId.cancel({ sectionId });
 
-            const previousSolutions = utils.solutions.getBySectionId.getData({ sectionId });
+            const previousSolutions = utils.solutions.getBySectionId.getData({
+                sectionId,
+            });
 
             const firstSolution = previousSolutions?.find(({ id }) => id === data.firstSolutionId);
             const secondSolution = previousSolutions?.find(({ id }) => id === data.secondSolutionId);
@@ -104,7 +108,7 @@ export const useSolutionRemoveMutation = () => {
 
     return trpc.solutions.delete.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`Solution ${data.id} deleted`);
+            enqueueSuccessNotification(tr('Solution {data.id} deleted', { id: data.id }));
             utils.solutions.invalidate();
         },
         onError: enqueueErrorNotification,

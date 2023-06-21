@@ -7,6 +7,8 @@ import { InferServerSideProps } from '../../../types';
 import { useCandidate, useOutstaffVendors } from '../../../hooks/candidate-hooks';
 import { QueryResolver } from '../../../components/QueryResolver';
 
+import { tr } from './[candidateId].i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     numberIds: { candidateId: true },
@@ -24,7 +26,7 @@ const NewCandidatePage = ({ numberIds }: InferServerSideProps<typeof getServerSi
     const outstaffVendorsQuery = useOutstaffVendors();
 
     return (
-        <LayoutMain pageTitle="Candidate edit">
+        <LayoutMain pageTitle={tr('Candidate edit')}>
             <QueryResolver queries={[candidateQuery, outstaffVendorsQuery]}>
                 {([candidate, outstaffVendors]) => (
                     <AddOrUpdateCandidate variant="update" candidate={candidate} outstaffVendors={outstaffVendors} />

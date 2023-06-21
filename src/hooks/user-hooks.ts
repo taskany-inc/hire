@@ -2,16 +2,22 @@ import { trpc } from '../utils/trpc-front';
 
 import { useNotifications } from './useNotifications';
 
+import { tr } from './hooks.i18n';
+
 export const useUserList = () => {
     const { enqueueErrorNotification } = useNotifications();
 
-    return trpc.users.getAll.useQuery(undefined, { onError: enqueueErrorNotification });
+    return trpc.users.getAll.useQuery(undefined, {
+        onError: enqueueErrorNotification,
+    });
 };
 
 export const useFavoriteProblems = () => {
     const { enqueueErrorNotification } = useNotifications();
 
-    return trpc.users.getFavoriteProblems.useQuery(undefined, { onError: enqueueErrorNotification });
+    return trpc.users.getFavoriteProblems.useQuery(undefined, {
+        onError: enqueueErrorNotification,
+    });
 };
 
 export const useAddProblemToFavoritesMutation = () => {
@@ -20,7 +26,7 @@ export const useAddProblemToFavoritesMutation = () => {
 
     return trpc.users.addProblemToFavorites.useMutation({
         onSuccess: () => {
-            enqueueSuccessNotification('Problem added to favorites');
+            enqueueSuccessNotification(tr('Problem added to favorites'));
             utils.users.getFavoriteProblems.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -33,7 +39,7 @@ export const useRemoveProblemFromFavoritesMutation = () => {
 
     return trpc.users.removeProblemFromFavorites.useMutation({
         onSuccess: () => {
-            enqueueSuccessNotification('Problem removed from favorites');
+            enqueueSuccessNotification(tr('Problem removed from favorites'));
             utils.users.getFavoriteProblems.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -46,7 +52,7 @@ export const useCreateUserMutation = () => {
 
     return trpc.users.create.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`New user added ${data.name}`);
+            enqueueSuccessNotification(`${tr('New user added')} ${data.name}`);
             utils.users.getAll.invalidate();
         },
         onError: enqueueErrorNotification,

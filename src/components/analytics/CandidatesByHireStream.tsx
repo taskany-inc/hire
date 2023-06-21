@@ -8,6 +8,8 @@ import { useCandidatesByHireStream } from '../../hooks/analytics-queries-hooks';
 import { getPieChartSliceColor, mapInterval, RADIAN } from '../../utils';
 import { QueryResolver } from '../QueryResolver';
 
+import { tr } from './analytics.i18n';
+
 type CandidatesByHireStreamProps = {
     allStreams: HireStream[];
 };
@@ -45,7 +47,7 @@ export const CandidatesByHireStream = ({ allStreams }: CandidatesByHireStreamPro
     return (
         <>
             <Text size="xl" style={{ marginTop: 10, marginLeft: 40 }}>
-                Number of candidates in recruitment streams
+                {tr('Number of candidates in recruitment streams')}
             </Text>
             <QueryResolver queries={[dataQuery]}>
                 {([data]) => (

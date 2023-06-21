@@ -10,6 +10,8 @@ import { QueryResolver } from '../QueryResolver';
 
 import { ProblemCard } from './ProblemCard';
 
+import { tr } from './problems.i18n';
+
 type ProblemListProps = {
     embedded?: boolean;
     className?: string;
@@ -65,7 +67,7 @@ export const ProblemList = ({
                             {problems.pages.map((page, i) =>
                                 page.total === 0 ? (
                                     <Text style={{ marginLeft: 40 }} key={`${i}-${page.nextCursor}`}>
-                                        Nothing found 😔
+                                        {tr('Nothing found')} 😔
                                     </Text>
                                 ) : (
                                     page.items.map((problem) => (
@@ -78,7 +80,7 @@ export const ProblemList = ({
                                     ))
                                 ),
                             )}
-                            <div ref={ref}>{isFetching && <Text>Loading problems ⏳</Text>}</div>
+                            <div ref={ref}>{isFetching && <Text>{tr('Loading problems')} ⏳</Text>}</div>
                         </>
                     );
                 }}

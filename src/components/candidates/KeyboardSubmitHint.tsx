@@ -5,6 +5,8 @@ import { gapS, warn8 } from '@taskany/colors';
 import { Tip } from '../Tip';
 import { Keyboard } from '../Keyboard';
 
+import { tr } from './candidates.i18n';
+
 const Container = styled.div`
     display: inline-block;
 `;
@@ -33,7 +35,10 @@ export const KeyboardSubmitHint = ({ actionTitle }: KeyboardSubmitHintProps) => 
         <Container>
             <StyledFormBottom>
                 <Tip icon={<BulbOnIcon size="s" color={warn8} />}>
-                    Take advice! {actionTitle} by pressing <Keyboard command enter />
+                    {tr.raw('Take advice! {actionTitle} by pressing', {
+                        actionTitle,
+                        key: <Keyboard command enter />,
+                    })}
                 </Tip>
             </StyledFormBottom>
         </Container>

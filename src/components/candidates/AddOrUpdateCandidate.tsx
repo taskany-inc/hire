@@ -14,6 +14,8 @@ import { FormPhoneInput } from '../FormInput/FormPhoneInput';
 import { Select } from '../Select';
 import config from '../../backend/config';
 
+import { tr } from './candidates.i18n';
+
 type AddOrUpdateCandidateProps = {
     variant: 'new' | 'update';
     onSave?: () => void;
@@ -37,7 +39,10 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
         string,
         OutstaffVendor
     >(outstaffVendors, {
-        dataItemToOption: ({ id, title }: OutstaffVendor) => ({ text: title, value: id }),
+        dataItemToOption: ({ id, title }: OutstaffVendor) => ({
+            text: title,
+            value: id,
+        }),
         additionalNullOptionTitle: config.defaultCandidateVendor,
     });
 
@@ -97,11 +102,13 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
     const onOutstaffVendorIdChange = (outstaffVendorId: string) => setValue('outstaffVendorId', outstaffVendorId);
 
     const { ref: refName, ...restName } = register('name', validationRules.nonEmptyString);
-    const { ref: refEmail, ...restEmail } = register('email', { required: false });
+    const { ref: refEmail, ...restEmail } = register('email', {
+        required: false,
+    });
 
     return (
         <FormContainer
-            submitButtonText={variant === 'new' ? 'Add candidate' : 'Save candidate'}
+            submitButtonText={variant === 'new' ? tr('Add candidate') : tr('Save candidate')}
             onSubmitButton={handleSubmit(onSubmit)}
             submitButtonDisabled={isSubmitting}
         >
@@ -110,13 +117,18 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
                 options={options}
                 value={watch('outstaffVendorId')}
                 onChange={onOutstaffVendorIdChange}
-                text="Employment"
+                text={tr('Employment')}
             />
-            <FormInput label="Email" helperText={String(errors.email?.message)} forwardRef={refEmail} {...restEmail} />
+            <FormInput
+                label={tr('Email')}
+                helperText={String(errors.email?.message)}
+                forwardRef={refEmail}
+                {...restEmail}
+            />
             <FormPhoneInput
                 name="phone"
                 control={control}
-                label="Phone number"
+                label={tr('Phone number')}
                 helperText={String(errors.phone?.message)}
                 defaultValue={candidate?.phone || ''}
                 options={{ required: false }}

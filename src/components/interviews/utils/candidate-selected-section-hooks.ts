@@ -4,6 +4,8 @@ import { SectionType } from '../../../utils/dictionaries';
 import { DropdownFieldOption } from '../../inputs/DropdownField';
 import { SectionWithSectionTypeAndInterviewerAndSolutionsRelations } from '../../../backend/modules/interview/interview-types';
 
+import { tr } from './utils.i18n';
+
 export const useProductFinalSectionDropdownOptions = (
     interviewSections?: SectionWithSectionTypeAndInterviewerAndSolutionsRelations[],
 ): DropdownFieldOption<number>[] =>
@@ -18,7 +20,7 @@ export const useProductFinalSectionDropdownOptions = (
                 const text =
                     sectionName.length > 0
                         ? `${sectionName} (${interviewerName})`
-                        : `Product final from ${interviewerName}`;
+                        : `${tr('Product final from')} ${interviewerName}`;
 
                 return {
                     value: section.id,
@@ -27,5 +29,5 @@ export const useProductFinalSectionDropdownOptions = (
             },
         );
 
-        return [{ value: -1, text: 'Section not selected' }, ...sectionOptions];
+        return [{ value: -1, text: tr('Section not selected') }, ...sectionOptions];
     }, [interviewSections]);

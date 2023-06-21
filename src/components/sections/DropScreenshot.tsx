@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import { useDropzone } from 'react-dropzone';
 
+import { tr } from './sections.i18n';
+
 type DropScreenshotProps = {
     onDrop: (acceptedFiles: any) => void;
 };
@@ -53,7 +55,7 @@ export const DropScreenshot = ({ onDrop }: DropScreenshotProps) => {
         <section className="container">
             <div {...getRootProps({ style })}>
                 <input {...getInputProps()} multiple />
-                <p>Drag and drop files or click and select from the list</p>
+                <p>{tr('Drag and drop files or click and select from the list')}</p>
             </div>
         </section>
     );

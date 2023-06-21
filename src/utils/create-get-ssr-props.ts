@@ -15,6 +15,8 @@ import { standConfig } from './stand';
 import { parseNumber } from './param-parsers';
 import { getServerSession } from './auth';
 
+import { tr } from './utils.i18n';
+
 import { Browser, detectBrowserFromRequest, ErrorWithStatus, objKeys } from '.';
 
 type SsgHelper = DecoratedProcedureSSGRecord<TrpcRouter>;
@@ -59,7 +61,10 @@ type InferredServerSidePropsFromSSROptions<
               error?: ErrorProps;
           } & AdditionalProps;
       }
-    | { redirect: { destination: string }; props: { session: Session | null; browser: Browser } };
+    | {
+          redirect: { destination: string };
+          props: { session: Session | null; browser: Browser };
+      };
 
 export const createGetServerSideProps =
     <Num extends string, Str extends string, ReqSession extends boolean, AdditionalProps extends EmptyObj>(
@@ -78,7 +83,10 @@ export const createGetServerSideProps =
 
             if (!session) {
                 if (standConfig.isDebugCookieAllowed) {
-                    return { redirect: { destination: Paths.DEBUG_AUTH }, props: { session, browser } };
+                    return {
+                        redirect: { destination: Paths.DEBUG_AUTH },
+                        props: { session, browser },
+                    };
                 }
 
                 if (standConfig.isNextAuthEnabled) {
@@ -88,7 +96,7 @@ export const createGetServerSideProps =
                     };
                 }
 
-                throw new ErrorWithStatus('No auth options available', 500);
+                throw new ErrorWithStatus(tr('No auth options available'), 500);
             }
             props.session = session;
         }
@@ -107,7 +115,7 @@ export const createGetServerSideProps =
                 const id = parseNumber(context.query[key]);
 
                 if (!id) {
-                    throw new ErrorWithStatus(`Invalid numeric parameter ${key} in address`, 400);
+                    throw new ErrorWithStatus(tr('Invalid numeric parameter {key} in address', { key }), 400);
                 }
 
                 numberIds[key] = id;
@@ -119,7 +127,7 @@ export const createGetServerSideProps =
                 const id = context.query[key];
 
                 if (!id || typeof id !== 'string') {
-                    throw new ErrorWithStatus(`Invalid ${key} string parameter in address`, 400);
+                    throw new ErrorWithStatus(tr('Invalid {key} string parameter in address', { key }), 400);
                 }
 
                 stringIds[key] = id;

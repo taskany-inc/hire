@@ -3,6 +3,8 @@ import { InterviewSectionSlotCalendar } from '../../components/calendar/Intervie
 import { LayoutMain } from '../../components/layout/LayoutMain';
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 
+import { tr } from './calendar.i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     action: async ({ session, handleAccessChecks }) => {
@@ -12,7 +14,7 @@ export const getServerSideProps = createGetServerSideProps({
 
 export default function MyCalendarPage() {
     return (
-        <LayoutMain pageTitle="Calendar">
+        <LayoutMain pageTitle={tr('Calendar')}>
             <InterviewSectionSlotCalendar />
         </LayoutMain>
     );

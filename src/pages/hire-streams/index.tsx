@@ -5,6 +5,8 @@ import { QueryResolver } from '../../components/QueryResolver';
 import { useHireStreams } from '../../hooks/hire-streams-hooks';
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 
+import { tr } from './hire-streams.i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     action: async ({ session, ssg, handleAccessChecks }) => {
@@ -18,7 +20,7 @@ const HireStreamsPages = () => {
     const hireStreamsQuery = useHireStreams();
 
     return (
-        <LayoutMain pageTitle="Hire streams">
+        <LayoutMain pageTitle={tr('Hire streams')}>
             <QueryResolver queries={[hireStreamsQuery]}>
                 {([hireStreams]) => <HireStreamList hireStreams={hireStreams} />}
             </QueryResolver>

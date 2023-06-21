@@ -2,8 +2,10 @@ import { Prisma } from '@prisma/client';
 
 import { ErrorWithStatus } from '.';
 
+import { tr } from './utils.i18n';
+
 const defaultStatus = 500;
-const defaultError = 'Something unexpected happened';
+const defaultError = tr('Something unexpected happened');
 
 export const parseError = (error: unknown): { status: number; message: string } => {
     if (

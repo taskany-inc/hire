@@ -9,6 +9,8 @@ import { IconButton } from './IconButton';
 
 const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
 
+import { tr } from './components.i18n';
+
 const StyledRootText = styled(Text)`
     word-break: break-word;
     display: flex;
@@ -58,7 +60,7 @@ export const MarkdownRenderer: VFC<MarkdownRendererProps> = ({
                             reference={popupRef}
                             visible={popupVisible}
                         >
-                            Copy
+                            {tr('Copy')}
                         </Popup>
                     </IconButton>
                 )}

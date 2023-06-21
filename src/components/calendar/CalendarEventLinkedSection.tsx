@@ -4,6 +4,8 @@ import { SectionWithInterviewRelation } from '../../backend/modules/interview/in
 import { pageHrefs } from '../../utils/paths';
 import { getFullSectionTitle } from '../sections/helpers';
 
+import { tr } from './calendar.i18n';
+
 export interface CalendarEventLinkedSectionProps {
     interviewSection?: SectionWithInterviewRelation | null;
     sectionTitleOnly?: boolean;
@@ -12,7 +14,7 @@ export interface CalendarEventLinkedSectionProps {
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function CalendarEventLinkedSection({ interviewSection, sectionTitleOnly }: CalendarEventLinkedSectionProps) {
     if (!interviewSection) {
-        return <Text size="l">Free slot</Text>;
+        return <Text size="l">{tr('Free slot')}</Text>;
     }
 
     if (sectionTitleOnly) {
@@ -21,7 +23,7 @@ export function CalendarEventLinkedSection({ interviewSection, sectionTitleOnly 
 
     return (
         <>
-            <Text size="l">Section:</Text>
+            <Text size="l">{tr('Section:')}</Text>
 
             <Link inline href={pageHrefs.interviewSectionView(interviewSection.interviewId, interviewSection.id)}>
                 {getFullSectionTitle(interviewSection)}

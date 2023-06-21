@@ -10,6 +10,8 @@ import { SectionStatusTagPalette } from '../../utils/tag-palette';
 
 import { getSectionChip } from './helpers';
 
+import { tr } from './sections.i18n';
+
 type SectionResultsProps = {
     passedSections: SectionWithSectionType[];
 };
@@ -40,15 +42,15 @@ export const SectionResults = ({ passedSections }: SectionResultsProps): JSX.Ele
     return (
         <>
             <Stack direction="row" gap={12} justifyContent="flex-start" align="center">
-                <Text size="xl">Passed sections</Text>
+                <Text size="xl">{tr('Passed sections')}</Text>
             </Stack>
 
             <StyledTable>
                 <StyledRow>
-                    <StyledTableCell>Section</StyledTableCell>
-                    <StyledTableCell interviewer>Interviewer</StyledTableCell>
-                    <StyledTableCell>Hire</StyledTableCell>
-                    <StyledTableCell grade>Grade</StyledTableCell>
+                    <StyledTableCell>{tr('Section')}</StyledTableCell>
+                    <StyledTableCell interviewer>{tr('Interviewer')}</StyledTableCell>
+                    <StyledTableCell>{tr('Hire')}</StyledTableCell>
+                    <StyledTableCell grade>{tr('Grade')}</StyledTableCell>
                 </StyledRow>
                 {passedSections.map((passedSection) => {
                     const grade = Number(passedSection.grade?.slice(1));

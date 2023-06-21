@@ -3,10 +3,14 @@ import { trpc } from '../utils/trpc-front';
 
 import { useNotifications } from './useNotifications';
 
+import { tr } from './hooks.i18n';
+
 export const useCalendarEvents = (params: GetCalendarEventsForRange) => {
     const { enqueueErrorNotification } = useNotifications();
 
-    return trpc.calendarEvents.getEventsForDateRange.useQuery(params, { onError: enqueueErrorNotification });
+    return trpc.calendarEvents.getEventsForDateRange.useQuery(params, {
+        onError: enqueueErrorNotification,
+    });
 };
 
 export const useCalendarEventCreateMutation = () => {
@@ -15,7 +19,7 @@ export const useCalendarEventCreateMutation = () => {
 
     return trpc.calendarEvents.create.useMutation({
         onSuccess: ({ eventId }) => {
-            enqueueSuccessNotification(`Created calendar event ${eventId}`);
+            enqueueSuccessNotification(`${tr('Created calendar event')} ${eventId}`);
             utils.calendarEvents.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -35,9 +39,17 @@ export const useCalendarEventUpdateMutation = () => {
     return trpc.calendarEvents.update.useMutation({
         onMutate: async (data) => {
             const { creatorIds, startDate, endDate } = data;
-            await utils.calendarEvents.getEventsForDateRange.cancel({ creatorIds, startDate, endDate });
+            await utils.calendarEvents.getEventsForDateRange.cancel({
+                creatorIds,
+                startDate,
+                endDate,
+            });
 
-            const previousData = utils.calendarEvents.getEventsForDateRange.getData({ creatorIds, startDate, endDate });
+            const previousData = utils.calendarEvents.getEventsForDateRange.getData({
+                creatorIds,
+                startDate,
+                endDate,
+            });
             const newData = previousData?.map((event) => {
                 if (event.eventId === data.eventId) {
                     return {
@@ -69,7 +81,7 @@ export const useCalendarEventUpdateMutation = () => {
             return enqueueErrorNotification;
         },
         onSettled: () => {
-            enqueueSuccessNotification('Calendar event updated');
+            enqueueSuccessNotification(tr('Calendar event updated'));
             utils.calendarEvents.invalidate();
         },
     });
@@ -82,9 +94,17 @@ export const useCalendarRemoveEventMutation = () => {
     return trpc.calendarEvents.remove.useMutation({
         onMutate: async (data) => {
             const { creatorIds, startDate, endDate, ...restData } = data;
-            await utils.calendarEvents.getEventsForDateRange.cancel({ creatorIds, startDate, endDate });
+            await utils.calendarEvents.getEventsForDateRange.cancel({
+                creatorIds,
+                startDate,
+                endDate,
+            });
 
-            const previousData = utils.calendarEvents.getEventsForDateRange.getData({ creatorIds, startDate, endDate });
+            const previousData = utils.calendarEvents.getEventsForDateRange.getData({
+                creatorIds,
+                startDate,
+                endDate,
+            });
             const newData = previousData?.filter((event) => {
                 return event.eventId !== data.eventId;
             });
@@ -105,7 +125,7 @@ export const useCalendarRemoveEventMutation = () => {
             return enqueueErrorNotification;
         },
         onSettled: () => {
-            enqueueSuccessNotification('Calendar event deleted');
+            enqueueSuccessNotification(tr('Calendar event deleted'));
             utils.calendarEvents.invalidate();
         },
     });

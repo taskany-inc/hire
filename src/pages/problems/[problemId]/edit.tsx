@@ -8,6 +8,8 @@ import { createGetServerSideProps } from '../../../utils/create-get-ssr-props';
 import { useProblem } from '../../../hooks/problem-hooks';
 import { QueryResolver } from '../../../components/QueryResolver';
 
+import { tr } from './[problemId].i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     numberIds: { problemId: true },
@@ -24,7 +26,7 @@ const ProblemEditPage: VFC<InferServerSideProps<typeof getServerSideProps>> = (p
     return (
         <QueryResolver queries={[problemQuery]}>
             {([problem]) => (
-                <LayoutMain pageTitle={`${problem.name} - edit`}>
+                <LayoutMain pageTitle={`${problem.name} - ${tr('edit')}`}>
                     <AddOrUpdateProblem initialValues={problem} variant="update" />
                 </LayoutMain>
             )}

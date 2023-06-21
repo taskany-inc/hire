@@ -8,6 +8,8 @@ import { Text, FormInput, UserPic } from '@taskany/bricks';
 import { ExternalUserLink } from '../ExternalUserLink';
 import { IconButton } from '../IconButton';
 
+import { tr } from './users.i18n';
+
 const StyledCardsContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
@@ -36,7 +38,11 @@ type UserListProps = {
     title?: string;
     titleFragment?: ReactNode;
     users: User[];
-    action?: { icon: ReactNode; handler: (user: User) => void; disabled?: boolean };
+    action?: {
+        icon: ReactNode;
+        handler: (user: User) => void;
+        disabled?: boolean;
+    };
     showFilter?: boolean;
     className?: string;
     style?: CSSProperties;
@@ -68,7 +74,7 @@ export const UserList: VFC<UserListProps> = ({ title, titleFragment, users, acti
                     <FormInput
                         value={filter}
                         onChange={(e) => setFilter(e.target.value)}
-                        label="Filter by name or email"
+                        label={tr('Filter by name or email')}
                     />
                 </StyledFromInput>
             )}

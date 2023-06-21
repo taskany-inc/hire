@@ -3,6 +3,8 @@ import { trpc } from '../utils/trpc-front';
 
 import { useNotifications } from './useNotifications';
 
+import { tr } from './hooks.i18n';
+
 export const useCandidate = (candidateId: number) => {
     const { enqueueErrorNotification } = useNotifications();
 
@@ -26,7 +28,9 @@ export const useCandidates = (params: GetCandidateList) => {
 export const useOutstaffVendors = () => {
     const { enqueueErrorNotification } = useNotifications();
 
-    return trpc.candidates.getOutstaffVendors.useQuery(undefined, { onError: enqueueErrorNotification });
+    return trpc.candidates.getOutstaffVendors.useQuery(undefined, {
+        onError: enqueueErrorNotification,
+    });
 };
 
 export const useCandidateCreateMutation = () => {
@@ -35,7 +39,7 @@ export const useCandidateCreateMutation = () => {
 
     return trpc.candidates.create.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`New candidate added ${data.name}`);
+            enqueueSuccessNotification(`${tr('New candidate added')} ${data.name}`);
             utils.candidates.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -48,7 +52,7 @@ export const useCandidateUpdateMutation = () => {
 
     return trpc.candidates.update.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`Candidate updated ${data.name}`);
+            enqueueSuccessNotification(`${tr('Candidate updated')} ${data.name}`);
             utils.candidates.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -61,7 +65,7 @@ export const useCandidateDeleteMutation = () => {
 
     return trpc.candidates.delete.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`Candidate removed ${data.id}`);
+            enqueueSuccessNotification(`${tr('Candidate removed')} ${data.id}`);
             utils.candidates.invalidate();
         },
         onError: enqueueErrorNotification,

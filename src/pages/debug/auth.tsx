@@ -6,6 +6,8 @@ import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 import { userDbService } from '../../backend/modules/user/user-db-service';
 import { InferServerSideProps } from '../../types';
 
+import { tr } from './debug.i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: false,
     action: async ({ context }) => {
@@ -21,7 +23,7 @@ export const getServerSideProps = createGetServerSideProps({
 
 const DebugAuthPage = ({ users }: InferServerSideProps<typeof getServerSideProps>) => {
     return (
-        <LayoutMain pageTitle="Auth by debug cookie">
+        <LayoutMain pageTitle={tr('Auth by debug cookie')}>
             <DebugAuth users={users} />
         </LayoutMain>
     );

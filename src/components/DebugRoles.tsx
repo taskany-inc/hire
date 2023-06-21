@@ -9,6 +9,8 @@ import { ROLE_DEBUG_COOKIE_NAME } from '../utils/auth';
 import { SectionTypeWithHireStream } from '../backend/modules/section-type/section-type-types';
 import { yearInSeconds } from '../utils';
 
+import { tr } from './components.i18n';
+
 type DebugRolesProps = {
     hireStreams: HireStream[];
     sectionTypes: SectionTypeWithHireStream[];
@@ -78,11 +80,11 @@ export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) =
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label htmlFor="administrator">
                     <StyledCheckBox id="administrator" type="checkbox" onChange={() => setAdmin((prev) => !prev)} />
-                    <StyledText>Admin</StyledText>
+                    <StyledText>{tr('Admin')}</StyledText>
                 </label>
             </StyledCards>
 
-            <StyledTitle size="xl">Hire streams manager</StyledTitle>
+            <StyledTitle size="xl">{tr('Hire streams manager')}</StyledTitle>
             <StyledCards>
                 {hireStreams.map((hireStream) => {
                     return (
@@ -111,7 +113,7 @@ export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) =
                 })}
             </StyledCards>
 
-            <StyledTitle size="xl">Hire lead</StyledTitle>
+            <StyledTitle size="xl">{tr('Hire lead')}</StyledTitle>
             <StyledCards>
                 {hireStreams.map((hireStream) => {
                     return (
@@ -139,7 +141,7 @@ export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) =
                 })}
             </StyledCards>
 
-            <StyledTitle size="xl">Recruter</StyledTitle>
+            <StyledTitle size="xl">{tr('Recruter')}</StyledTitle>
             <StyledCards>
                 {hireStreams.map((hireStream) => {
                     return (
@@ -167,7 +169,7 @@ export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) =
                 })}
             </StyledCards>
 
-            <StyledTitle size="xl">Interviewer</StyledTitle>
+            <StyledTitle size="xl">{tr('Interviewer')}</StyledTitle>
             <StyledCards>
                 {sectionTypes.map((sectionType) => {
                     return (
@@ -198,9 +200,9 @@ export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) =
                 })}
             </StyledCards>
 
-            <StyledButton view="primary" onClick={onSave} text="Save" />
+            <StyledButton view="primary" onClick={onSave} text={tr('Save')} />
 
-            <StyledButton view="danger" onClick={onReset} text="Reset debug cookie" />
+            <StyledButton view="danger" onClick={onReset} text={tr('Reset debug cookie')} />
         </div>
     );
 };

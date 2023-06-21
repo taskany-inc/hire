@@ -10,6 +10,8 @@ import { Paths } from '../../utils/paths';
 import { FormContainer } from '../FormContainer/FormContainer';
 import { FormAutoComplete } from '../FormInput/FormAutocomplete';
 
+import { tr } from './users.i18n';
+
 export const NewUserForm = () => {
     const {
         handleSubmit,
@@ -30,18 +32,21 @@ export const NewUserForm = () => {
 
     const onSubmit = handleSubmit((values) =>
         createUserMutation
-            .mutateAsync({ name: values.name, email: values.email.toLowerCase().trim() })
+            .mutateAsync({
+                name: values.name,
+                email: values.email.toLowerCase().trim(),
+            })
             .then(() => router.push(Paths.CANDIDATES)),
     );
 
     return (
         <FormContainer
-            submitButtonText="Add user"
+            submitButtonText={tr('Add user')}
             onSubmitButton={onSubmit}
             submitButtonDisabled={isSubmitting || isSubmitSuccessful}
         >
             <FormAutoComplete
-                label="Full name"
+                label={tr('Full name')}
                 options={usersByName}
                 onChange={(name) => {
                     const user = usersByNameQuery.data?.find((u) => u.fullName === name);
@@ -54,7 +59,7 @@ export const NewUserForm = () => {
                 onInputChange={(value) => setValue('name', value)}
             />
             <FormAutoComplete
-                label="Email"
+                label={tr('Email')}
                 options={usersByEmail}
                 onChange={(email) => {
                     const user = usersByEmailQuery.data?.find((u) => u.email === email);

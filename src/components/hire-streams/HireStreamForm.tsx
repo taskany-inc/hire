@@ -8,6 +8,8 @@ import { useCreateHireStreamMutation } from '../../hooks/hire-streams-hooks';
 import { FormContainer } from '../FormContainer/FormContainer';
 import { FormInput } from '../FormInput/FormInput';
 
+import { tr } from './hire-streams.i18n';
+
 type HireStreamFormProps = {
     afterSubmit: (hireStream: HireStream) => void;
 };
@@ -17,7 +19,9 @@ export const HireStreamForm: VFC<HireStreamFormProps> = ({ afterSubmit }) => {
         handleSubmit,
         register,
         formState: { errors, isSubmitting, isSubmitSuccessful },
-    } = useForm<CreateHireStream>({ resolver: zodResolver(createHireStreamSchema) });
+    } = useForm<CreateHireStream>({
+        resolver: zodResolver(createHireStreamSchema),
+    });
     const createHireStream = useCreateHireStreamMutation();
 
     const onSubmit = handleSubmit((values) => createHireStream.mutateAsync(values).then(afterSubmit));
@@ -25,11 +29,11 @@ export const HireStreamForm: VFC<HireStreamFormProps> = ({ afterSubmit }) => {
 
     return (
         <FormContainer
-            submitButtonText="Add hire stream"
+            submitButtonText={tr('Add hire stream')}
             onSubmitButton={onSubmit}
             submitButtonDisabled={isSubmitting || isSubmitSuccessful}
         >
-            <FormInput label="Name" helperText={errors.name?.message} forwardRef={refName} {...restName} />
+            <FormInput label={tr('Name')} helperText={errors.name?.message} forwardRef={refName} {...restName} />
         </FormContainer>
     );
 };

@@ -5,6 +5,8 @@ import { Dropdown, Button, MoreVerticalIcon } from '@taskany/bricks';
 import { pageHrefs } from '../../utils/paths';
 import { ColorizedMenuItem } from '../ColorizedMenuItem';
 
+import { tr } from './sections.i18n';
+
 interface Props {
     interviewId: number;
     sectionTypes: SectionType[];
@@ -26,7 +28,7 @@ export function AssignSectionDropdownButton({ interviewId, sectionTypes }: Props
                     view="primary"
                     iconRight={<MoreVerticalIcon size="s" />}
                     onClick={props.onClick}
-                    text="Assign section"
+                    text={tr('Assign section')}
                 />
             )}
             renderItem={(props) => (

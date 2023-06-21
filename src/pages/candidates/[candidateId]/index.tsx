@@ -14,6 +14,8 @@ import { QueryResolver } from '../../../components/QueryResolver';
 import { useCandidateInterviews } from '../../../hooks/interview-hooks';
 import { DropdownMenuItem } from '../../../components/TagFilterDropdown';
 
+import { tr } from './[candidateId].i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     numberIds: { candidateId: true },
@@ -22,7 +24,9 @@ export const getServerSideProps = createGetServerSideProps({
         const candidateWithRelations = await candidateDbService.getByIdWithRelations(numberIds.candidateId);
 
         const candidateAccessCheck = accessChecks.candidate.readOne(session, candidateWithRelations);
-        const interviews = await ssg.interviews.getListByCandidateId.fetch({ candidateId: numberIds.candidateId });
+        const interviews = await ssg.interviews.getListByCandidateId.fetch({
+            candidateId: numberIds.candidateId,
+        });
 
         await handleAccessChecks(() => candidateAccessCheck);
 
@@ -51,7 +55,7 @@ const CandidatePage = ({
 
     const candidateRemove = useCandidateDeleteMutation();
     const candidateRemoveConfirmation = useConfirmation({
-        message: 'Remove candidate?',
+        message: tr('Remove candidate?'),
         onAgree: () =>
             candidateRemove.mutateAsync({ candidateId: numberIds.candidateId }).then(() => {
                 router.push({
@@ -66,15 +70,20 @@ const CandidatePage = ({
 
         if (canEditCandidate) {
             items.push({
-                onClick: () => router.push(generatePath(Paths.CANDIDATE_EDIT, { candidateId: numberIds.candidateId })),
-                text: 'Edit',
+                onClick: () =>
+                    router.push(
+                        generatePath(Paths.CANDIDATE_EDIT, {
+                            candidateId: numberIds.candidateId,
+                        }),
+                    ),
+                text: tr('Edit'),
             });
         }
 
         if (hasAccessToDelete) {
             items.push({
                 onClick: candidateRemoveConfirmation.show,
-                text: 'Remove',
+                text: tr('Remove'),
             });
         }
 

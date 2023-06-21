@@ -27,6 +27,8 @@ import { trpc } from '../../utils/trpc-front';
 import { TagChip } from './TagChip';
 import { UnavailableContainer } from './UnavailableContainer';
 
+import { tr } from './problems.i18n';
+
 const StyledStarFilledIcon = styled(StarFilledIcon)`
     display: inline-block;
     margin-top: -3px;
@@ -37,7 +39,9 @@ const StyledStarIcon = styled(StarIcon)`
     margin-top: -3px;
 `;
 
-const StyledMarkdownRenderer = styled(MarkdownRenderer)<{ isSmallSize?: boolean }>`
+const StyledMarkdownRenderer = styled(MarkdownRenderer)<{
+    isSmallSize?: boolean;
+}>`
     margin-top: 14px;
     overflow: auto;
     max-width: ${({ isSmallSize }) => (isSmallSize ? '700px' : '900px')};
@@ -94,7 +98,10 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
         if (sectionId) {
             setIsSpinnerVisible(true);
             try {
-                await solutionCreateMutation.mutateAsync({ problemId: problem.id, sectionId });
+                await solutionCreateMutation.mutateAsync({
+                    problemId: problem.id,
+                    sectionId,
+                });
                 utils.problems.getList.invalidate({ excludeInterviewId: interviewId });
                 router.replace(router.asPath);
             } finally {
@@ -123,13 +130,16 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
     const renderLinkToSection = () => {
         const pathToSection =
             interviewId && sectionId
-                ? generatePath(Paths.SECTION, { interviewId, sectionId: problem.problemSection?.sectionId ?? 0 })
+                ? generatePath(Paths.SECTION, {
+                      interviewId,
+                      sectionId: problem.problemSection?.sectionId ?? 0,
+                  })
                 : '';
 
         return (
             pathToSection && (
                 <StyledLink href={pathToSection}>
-                    Asked in the section {problem.problemSection?.sectionType.title}
+                    {tr('Asked in the section')} {problem.problemSection?.sectionType.title}
                 </StyledLink>
             )
         );
@@ -144,7 +154,7 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
                         link={generatePath(Paths.PROBLEM, { problemId: problem.id })}
                         subTitle={
                             <StyledAuthor>
-                                Added by{' '}
+                                {tr('Added by')}{' '}
                                 <StyledAuthorLink onClick={() => setAuthor(problem.author)}>
                                     {problem.author.name}
                                 </StyledAuthorLink>{' '}
@@ -160,9 +170,11 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
                         <StyledMarkdownRenderer isSmallSize={isSmallSize} value={problem.description} />
                     </CardContent>
 
-                    <CardFooter>Difficulty: {problemDifficultyLabels[problem.difficulty]}</CardFooter>
+                    <CardFooter>
+                        {tr('Difficulty:')} {problemDifficultyLabels[problem.difficulty]}
+                    </CardFooter>
 
-                    {isShowAddButton && <StyledAddButton view="primary" onClick={addToSection} text="Add" />}
+                    {isShowAddButton && <StyledAddButton view="primary" onClick={addToSection} text={tr('Add')} />}
                 </Card>
             </LoadingContainer>
         </UnavailableContainer>

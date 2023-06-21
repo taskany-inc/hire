@@ -11,6 +11,8 @@ import { SlotCalendar } from './SlotCalendar';
 import { CalendarEventLinkedSection, CalendarEventLinkedSectionProps } from './CalendarEventLinkedSection';
 import { BigCalendarEvent } from './calendar-types';
 
+import { tr } from './calendar.i18n';
+
 export interface CalendarEventDetails extends CalendarEventLinkedSectionProps {
     eventId: string;
     exceptionId: string | undefined;
@@ -89,10 +91,10 @@ export function SectionScheduleCalendar({ interviewerIds, onSlotSelected, isSect
                         <InlineDot />
                         <Text size="s">{eventDetails?.title}</Text>
                     </>
-                    <Button onClick={closeEventFormModal} text="Cancel" />
+                    <Button onClick={closeEventFormModal} text={tr('Cancel')} />
 
                     {!eventDetails?.interviewSection && eventDetails?.eventId && (
-                        <Button onClick={handleSlotSelectClicked} text="Choose" />
+                        <Button onClick={handleSlotSelectClicked} text={tr('Choose')} />
                     )}
                 </ModalContent>
             </Modal>

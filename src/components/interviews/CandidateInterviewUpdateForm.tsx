@@ -16,6 +16,8 @@ import { Select } from '../Select';
 
 import { useProductFinalSectionDropdownOptions } from './utils/candidate-selected-section-hooks';
 
+import { tr } from './interviews.i18n';
+
 type InterviewUpdateFormData = Omit<UpdateInterview, 'candidateId' | 'candidateSelectedSectionId' | 'hireStreamId'> & {
     candidate: Option;
     candidateSelectedSectionId: number | -1;
@@ -84,29 +86,29 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
             <CandidateNameSubtitle name={candidate.name} id={candidate.id} />
 
             <FormContainer
-                submitButtonText="Save interview"
+                submitButtonText={tr('Save interview')}
                 onSubmitButton={handleSubmit(updateInterview)}
                 submitButtonDisabled={isSubmitting}
             >
                 <Stack direction="column" gap={20}>
                     <CodeEditorField
                         name="description"
-                        label="Comment"
+                        label={tr('Comment')}
                         control={control}
-                        placeholder="Think carefully and write a couple of notes about this interview."
+                        placeholder={tr('Think carefully and write a couple of notes about this interview.')}
                         height={130}
                     />
 
                     <Select
                         value={watch('hireStreamId')}
-                        text="Hire strieam"
+                        text={tr('Hire strieam')}
                         options={hireStreamOptions}
                         onChange={onHireStreamIdChange}
                     />
 
                     <Select
                         value={watch('candidateSelectedSectionId')}
-                        text="Candidate's Chosen Product Final"
+                        text={tr("Candidate's Chosen Product Final")}
                         options={productFinalSectionOptions}
                         onChange={onProductFinalSectionChange}
                     />

@@ -8,11 +8,15 @@ import { InferServerSideProps } from '../../../types';
 import { createGetServerSideProps } from '../../../utils/create-get-ssr-props';
 import { Paths } from '../../../utils/paths';
 
+import { tr } from './hire-stream.i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     stringIds: { hireStream: true },
     action: async ({ ssg, session, stringIds, handleAccessChecks }) => {
-        await ssg.hireStreams.getByName.fetch({ hireStreamName: stringIds.hireStream });
+        await ssg.hireStreams.getByName.fetch({
+            hireStreamName: stringIds.hireStream,
+        });
 
         await handleAccessChecks(() => accessChecks.analytics.read(session));
     },
@@ -22,7 +26,7 @@ export default ({ stringIds }: InferServerSideProps<typeof getServerSideProps>) 
     return (
         <AnalyticsFilterContextProvider>
             <LayoutMain
-                pageTitle={`Hiring by section type ${stringIds.hireStream}`}
+                pageTitle={`${tr('Hiring by section type')} ${stringIds.hireStream}`}
                 aboveContainer={<AnalyticsFilterMenuBar />}
                 backlink={Paths.ANALYTICS}
             />

@@ -4,6 +4,8 @@ import { sectionDbService } from '../../backend/modules/section/section-db-servi
 import { SectionList } from '../../components/sections/SectionList';
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 
+import { tr } from './sections.i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     action: async ({ session }) => {
@@ -16,9 +18,9 @@ export const getServerSideProps = createGetServerSideProps({
 
 const MyInterviewsPage = ({ completedSections, onGoingSections }: InferServerSideProps<typeof getServerSideProps>) => {
     return (
-        <LayoutMain pageTitle="My sections">
+        <LayoutMain pageTitle={tr('My sections')}>
             <SectionList sections={onGoingSections} />
-            <SectionList sections={completedSections} header="Passed sections" completed />
+            <SectionList sections={completedSections} header={tr('Passed sections')} completed />
         </LayoutMain>
     );
 };

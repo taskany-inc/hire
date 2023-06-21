@@ -19,6 +19,8 @@ import { Option } from '../../types';
 import { CalendarEventDetails, SectionScheduleCalendar } from '../calendar/SectionScheduleCalendar';
 import { Select } from '../Select';
 
+import { tr } from './sections.i18n';
+
 type SectionUpdateFormProps = {
     section: SectionWithRelationsAndResults;
     sectionType: SectionType;
@@ -28,14 +30,18 @@ type SectionUpdateFormProps = {
 
 const schema = z.object({
     interviewerId: z.number({
-        invalid_type_error: 'Choose the interviewer',
-        required_error: 'Choose the interviewer',
+        invalid_type_error: tr('Choose the interviewer'),
+        required_error: tr('Choose the interviewer'),
     }),
     name: z.string().nullish(),
     sectionId: z.number(),
     interviewId: z.number(),
     calendarSlot: z
-        .object({ exceptionId: z.string().optional(), eventId: z.string(), originalDate: z.date() })
+        .object({
+            exceptionId: z.string().optional(),
+            eventId: z.string(),
+            originalDate: z.date(),
+        })
         .optional(),
 });
 
@@ -102,7 +108,7 @@ export const SectionUpdateForm: VFC<SectionUpdateFormProps> = ({ section, interv
                 />
             )}
             <FormContainer
-                submitButtonText="Save the section"
+                submitButtonText={tr('Save the section')}
                 onSubmitButton={submit}
                 submitButtonDisabled={isSubmitting}
             >
@@ -113,7 +119,7 @@ export const SectionUpdateForm: VFC<SectionUpdateFormProps> = ({ section, interv
                                 options={interviewers}
                                 value={watch('interviewerId') || section.interviewer.id}
                                 onChange={onInterviewerIdChange}
-                                text="Interviewer"
+                                text={tr('Interviewer')}
                             />
                             {errors.interviewerId && !watch('interviewerId') && (
                                 <Text size="xs" color={danger0}>
@@ -125,9 +131,9 @@ export const SectionUpdateForm: VFC<SectionUpdateFormProps> = ({ section, interv
 
                     {sectionType.userSelect && (
                         <FormInput
-                            label="Description"
+                            label={tr('Description')}
                             helperText={(errors.name as any)?.name}
-                            placeholder="In which team is the product final held?"
+                            placeholder={tr('In which team is the product final held?')}
                             forwardRef={refName}
                             {...restName}
                         />

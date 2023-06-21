@@ -19,6 +19,8 @@ import { QueryResolver } from '../components/QueryResolver';
 import { DropdownMenuItem } from '../components/TagFilterDropdown';
 import { SectionCancelationConfirmation } from '../components/sections/SectionCancelationConfirmation';
 
+import { tr } from './controllers.i18n';
+
 type SectionProps = {
     section: SectionWithRelationsAndResults;
 };
@@ -38,7 +40,9 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
     const solutionsQuery = useSolutions({ sectionId: section.id }, { enabled: canReadSolutions });
 
     const pageTitle = section.isCanceled
-        ? `Section with ${section.interview.candidate.name} canceled`
+        ? tr('Section with {section.interview.candidate.name} canceled', {
+              name: section.interview.candidate.name,
+          })
         : getSectionTitle(section);
 
     const titleMenuItems = useMemo<DropdownMenuItem[]>(() => {
@@ -49,12 +53,15 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
         if (isEditable) {
             items.push({
                 onClick: () => router.push(pageHrefs.interviewSectionEdit(interviewId, sectionId)),
-                text: 'Edit',
+                text: tr('Edit'),
             });
         }
 
         if (isCancelable) {
-            items.push({ onClick: () => setOpenCancelConfirmation(true), text: 'Delete' });
+            items.push({
+                onClick: () => setOpenCancelConfirmation(true),
+                text: tr('Delete'),
+            });
         }
 
         return items;
@@ -78,7 +85,7 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
                     {!section.isCanceled ? (
                         <SectionSubtitle section={section} />
                     ) : (
-                        section.cancelComment && `Section canceled due to ${section.cancelComment}`
+                        section.cancelComment && `${tr('Section canceled due to')} ${section.cancelComment}`
                     )}
                 </Text>
                 {!section.isCanceled && (

@@ -6,6 +6,8 @@ import { useAnalyticsFilterContext } from '../../contexts/analytics-filter-conte
 import { useHiringBySectionType } from '../../hooks/analytics-queries-hooks';
 import { QueryResolver } from '../QueryResolver';
 
+import { tr } from './analytics.i18n';
+
 type HiringBySectionTypeProps = {
     hireStreamName: string;
 };
@@ -13,12 +15,16 @@ type HiringBySectionTypeProps = {
 export const HiringBySectionType = ({ hireStreamName }: HiringBySectionTypeProps) => {
     const { startDate, endDate } = useAnalyticsFilterContext();
 
-    const dataQuery = useHiringBySectionType({ from: startDate, to: endDate, hireStreamName });
+    const dataQuery = useHiringBySectionType({
+        from: startDate,
+        to: endDate,
+        hireStreamName,
+    });
 
     return (
         <>
             <Text size="xl" style={{ marginTop: 10, marginLeft: 40 }}>
-                Hiring by section type
+                {tr('Hiring by section type')}
             </Text>
             <QueryResolver queries={[dataQuery]}>
                 {([data]) => (

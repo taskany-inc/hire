@@ -10,6 +10,8 @@ import { useHireStreams } from '../../hooks/hire-streams-hooks';
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 import { Paths } from '../../utils/paths';
 
+import { tr } from './analytics.i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     action: async ({ ssg, session, handleAccessChecks }) => {
@@ -28,9 +30,9 @@ export default () => {
     const hireStreamsQuery = useHireStreams();
 
     return (
-        <LayoutMain pageTitle="Analytics">
+        <LayoutMain pageTitle={tr('Analytics')}>
             <StyledCard>
-                <CardHeader title="General charts" link={Paths.ANALYTICS_COMMON} />
+                <CardHeader title={tr('General charts')} link={Paths.ANALYTICS_COMMON} />
             </StyledCard>
 
             <QueryResolver queries={[hireStreamsQuery]}>

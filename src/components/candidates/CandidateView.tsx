@@ -15,6 +15,8 @@ import { CardContent } from '../card/CardContent';
 
 import { CandidateBIO } from './CandidateBIO';
 
+import { tr } from './candidates.i18n';
+
 const StyledTitle = styled(Text)`
     margin-top: 60px;
     margin-bottom: 50px;
@@ -32,25 +34,27 @@ export const CandidateView: FC<Props> = ({ candidate, interviews, isShowAddButto
         <>
             <Stack direction="column" style={{ marginLeft: 40 }}>
                 <Text size="s" color="textSecondary" as="p" style={{ marginBottom: 10 }}>
-                    Added {distanceDate(candidate.createdAt)}
+                    {tr('Added')} {distanceDate(candidate.createdAt)}
                 </Text>
                 <CandidateBIO candidate={candidate} />
                 {isShowAddButton && (
                     <Link inline href={pageHrefs.candidateInterviewCreate(candidate.id)}>
-                        <Button view="primary" text="Add interview" />
+                        <Button view="primary" text={tr('Add interview')} />
                     </Link>
                 )}
             </Stack>
 
             {interviews.length > 0 && (
                 <>
-                    <StyledTitle size="xxl">Interview Logs</StyledTitle>
+                    <StyledTitle size="xxl">{tr('Interview Logs')}</StyledTitle>
                     {interviews.map((interview) => (
                         <Card key={interview.id}>
                             <CardHeader
                                 title={`#${interview.id}`}
                                 subTitle={formatDateToLocaleString(interview.createdAt)}
-                                link={generatePath(Paths.INTERVIEW, { interviewId: interview.id })}
+                                link={generatePath(Paths.INTERVIEW, {
+                                    interviewId: interview.id,
+                                })}
                                 chips={<InterviewTags interview={interview} />}
                             />
                             <CardContent>

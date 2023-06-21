@@ -15,7 +15,10 @@ const StyledSpinnerWrapper = styled.div`
     z-index: 1;
 `;
 
-export const LoadingContainer: FC<{ isSpinnerVisible: boolean, children: React.ReactNode }> = ({ isSpinnerVisible, children }) => {
+export const LoadingContainer: FC<{ isSpinnerVisible: boolean; children: React.ReactNode }> = ({
+    isSpinnerVisible,
+    children,
+}) => {
     return (
         <StyledContainer>
             {isSpinnerVisible && (

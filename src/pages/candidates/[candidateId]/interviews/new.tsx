@@ -7,6 +7,8 @@ import { useCandidate } from '../../../../hooks/candidate-hooks';
 import { useAllowedHireStreams } from '../../../../hooks/hire-streams-hooks';
 import { QueryResolver } from '../../../../components/QueryResolver';
 
+import { tr } from './interviews.i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     numberIds: { candidateId: true },
@@ -15,7 +17,7 @@ export const getServerSideProps = createGetServerSideProps({
         await ssg.candidates.getById.fetch({ candidateId: numberIds.candidateId });
 
         if (!(session.userRoles.admin || session.userRoles.hasHiringLeadRoles || session.userRoles.hasRecruiterRoles)) {
-            throw new ErrorWithStatus('No access to interview', 403);
+            throw new ErrorWithStatus(tr('No access to interview'), 403);
         }
     },
 });
@@ -25,7 +27,7 @@ export default function SectionCreationPage(props: InferServerSideProps<typeof g
     const hireStreamsQuery = useAllowedHireStreams();
 
     return (
-        <LayoutMain pageTitle="New interview">
+        <LayoutMain pageTitle={tr('New interview')}>
             <QueryResolver queries={[candidateQuery, hireStreamsQuery]}>
                 {([candidate, hireStreams]) => (
                     <CandidateInterviewCreationForm candidate={candidate} hireStreams={hireStreams} />

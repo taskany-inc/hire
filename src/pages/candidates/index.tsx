@@ -6,6 +6,8 @@ import { QueryResolver } from '../../components/QueryResolver';
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 import { accessChecks } from '../../backend/access/access-checks';
 
+import { tr } from './candidates.i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     action: async ({ ssg, session, handleAccessChecks }) => {
@@ -21,7 +23,10 @@ const CandidatesPage = () => {
     return (
         <QueryResolver queries={[hireStreamsQuery]}>
             {([hireStreams]) => (
-                <LayoutMain pageTitle="Candidates" aboveContainer={<CandidatesFilterBar hireStreams={hireStreams} />}>
+                <LayoutMain
+                    pageTitle={tr('Candidates')}
+                    aboveContainer={<CandidatesFilterBar hireStreams={hireStreams} />}
+                >
                     <CandidateListView />
                 </LayoutMain>
             )}

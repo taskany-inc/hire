@@ -9,6 +9,8 @@ import { useCandidatesRejectReasons } from '../../hooks/analytics-queries-hooks'
 import { getPieChartSliceColor, mapInterval, RADIAN } from '../../utils';
 import { QueryResolver } from '../QueryResolver';
 
+import { tr } from './analytics.i18n';
+
 type Props = {
     allStreams: HireStream[];
 };
@@ -59,7 +61,7 @@ export const CandidatesRejectReasons = ({ allStreams }: Props) => {
     return (
         <>
             <Text size="xl" style={{ marginTop: 10, marginLeft: 30 }}>
-                Reasons for not hiring
+                {tr('Reasons for not hiring')}
             </Text>
             <QueryResolver queries={[dataQuery]}>
                 {([data]) => (

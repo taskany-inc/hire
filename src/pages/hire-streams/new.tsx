@@ -6,6 +6,8 @@ import { LayoutMain } from '../../components/layout/LayoutMain';
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 import { pageHrefs } from '../../utils/paths';
 
+import { tr } from './hire-streams.i18n';
+
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     action: async ({ session, handleAccessChecks }) => {
@@ -17,7 +19,7 @@ const NewHireStreamPage = () => {
     const router = useRouter();
 
     return (
-        <LayoutMain pageTitle="New hire stream">
+        <LayoutMain pageTitle={tr('New hire stream')}>
             <HireStreamForm afterSubmit={(hireStream) => router.push(pageHrefs.hireStream(hireStream.id))} />
         </LayoutMain>
     );

@@ -1,7 +1,7 @@
 import { HireStream, SectionType } from '@prisma/client';
 import { z } from 'zod';
 
-import { SectionGrade } from '../../../utils/dictionaries';
+import { SectionGrade, customGradesArray } from '../../../utils/dictionaries';
 
 export const getAllSectionTypesSchema = z.object({
     hireStreamId: z.number().optional(),
@@ -12,7 +12,8 @@ export type SectionTypeWithHireStream = SectionType & { hireStream: HireStream }
 
 export const gradeOptionsPackages = {
     hire: [SectionGrade.HIRE],
-    juniorMiddleSenior: [SectionGrade.JUNIOR, SectionGrade.MIDDLE, SectionGrade.SENIOR]
+    juniorMiddleSenior: [SectionGrade.JUNIOR, SectionGrade.MIDDLE, SectionGrade.SENIOR],
+    custom: customGradesArray,
 };
 
 export const createSectionTypeSchema = z.object({
@@ -27,7 +28,7 @@ export const createSectionTypeSchema = z.object({
     showOtherGrades: z.boolean(),
     schedulable: z.boolean(),
     eventColor: z.string(),
-    gradeOptions: z.nativeEnum(SectionGrade).array(),
+    gradeOptions: z.string().array(),
 });
 export type CreateSectionType = z.infer<typeof createSectionTypeSchema>;
 

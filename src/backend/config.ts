@@ -33,6 +33,19 @@ const parsePluginMenuItems = (variable: string | undefined): { text: string; pat
     }
 };
 
+const parseCustomGrades = (variable: string | undefined): string[] | undefined => {
+    if (!variable) {
+        return;
+    }
+    try {
+        const parsed = JSON.parse(variable);
+
+        return parsed;
+    } catch (e) {
+        return;
+    }
+};
+
 export default {
     defaultPageURL: getEnvVariableOrThrow('HOME_URL'),
     database: {
@@ -75,4 +88,5 @@ export default {
         bucket: getEnvVariableOrThrow('S3_BUCKET'),
     },
     pluginMenuItems: parsePluginMenuItems(process.env.NEXT_PUBLIC_PLUGIN_MENU_ITEMS),
+    customGrades: parseCustomGrades(process.env.NEXT_PUBLIC_CUSTOM_GRADE_OPTIONS),
 };

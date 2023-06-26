@@ -1,4 +1,5 @@
 import { ProblemDifficulty, SolutionResult, InterviewStatus } from '@prisma/client';
+import config from '../backend/config';
 
 /** Attention! This enum must be maintained in accordance with the established types of sections in the database */
 export enum SectionType {
@@ -56,12 +57,23 @@ export const candidateStatus = {
     [InterviewStatus.REJECTED]: 'No hire',
 };
 
-export enum SectionGrade {
-    HIRE = 'Hire',
-    JUNIOR = 'Junior',
-    MIDDLE = 'Middle',
-    SENIOR = 'Senior',
-}
+export const customGradesArray = config.customGrades;
+
+const customGrades =
+    customGradesArray &&
+    customGradesArray.reduce((acc: Record<string, string>, rec: string) => {
+        return { ...acc, [rec]: rec };
+    }, {} as Record<string, string>);
+
+export const SectionGrade = {
+    HIRE: 'HIRE',
+    JUNIOR: 'JUNIOR',
+    MIDDLE: 'MIDDLE',
+    SENIOR: 'SENIOR',
+    ...customGrades,
+};
+
+export type SectionGrade = (typeof SectionGrade)[keyof typeof SectionGrade];
 
 export enum SectionStatus {
     HIRE = 'hire',

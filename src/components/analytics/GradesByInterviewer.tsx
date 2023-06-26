@@ -6,19 +6,23 @@ import { useAnalyticsFilterContext } from '../../contexts/analytics-filter-conte
 import { useSectionTypeToGradesByInterviewer } from '../../hooks/analytics-queries-hooks';
 import { getPieChartSliceColor, mapEnum } from '../../utils';
 import { QueryResolver } from '../QueryResolver';
-import { SectionGrade } from '../../utils/dictionaries';
+import { SectionGrade, customGradesArray } from '../../utils/dictionaries';
 
 type Props = {
     hireStreamName: string;
 };
 
-const gradeColors: Record<'HIRE' | 'JUNIOR' | 'MIDDLE' | 'SENIOR' | 'NO_HIRE', string | undefined> = {
-    // TODO: SectionGrade keys
+const customGradeColor = customGradesArray && customGradesArray.reduce((acc, rec, index) => {
+    return {...acc, [rec]: getPieChartSliceColor(5 + index * 0.2)}
+}, {})
+
+const gradeColors: Record<keyof typeof SectionGrade | 'NO_HIRE', string | undefined> = {
     NO_HIRE: getPieChartSliceColor(2),
     HIRE: getPieChartSliceColor(3),
     JUNIOR: getPieChartSliceColor(3.8),
     MIDDLE: getPieChartSliceColor(4),
     SENIOR: getPieChartSliceColor(4.2),
+    ...customGradeColor
 };
 
 const lastGrade = Object.keys(SectionGrade)[Object.keys(SectionGrade).length - 1];

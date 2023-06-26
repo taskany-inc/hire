@@ -30,7 +30,7 @@ export const FormGradeOptions = <T extends FieldValues>({ name, control }: FormG
             >
                 {Object.entries(gradeOptionsPackages).map(([key, options]) => (
                     <option key={key} value={key}>
-                        {options.join(', ')}
+                        {options && options.join(', ')}
                     </option>
                 ))}
             </select>

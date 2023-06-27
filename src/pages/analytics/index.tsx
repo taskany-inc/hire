@@ -1,16 +1,7 @@
-import styled from 'styled-components';
-
 import { accessChecks } from '../../backend/access/access-checks';
-import { HireStreamAnalyticsList } from '../../components/analytics/HireStreamAnalyticsList';
-import { Card } from '../../components/card/Card';
-import { CardHeader } from '../../components/card/CardHeader';
-import { LayoutMain } from '../../components/layout/LayoutMain';
-import { QueryResolver } from '../../components/QueryResolver';
-import { useHireStreams } from '../../hooks/hire-streams-hooks';
-import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
-import { Paths } from '../../utils/paths';
 
-import { tr } from './analytics.i18n';
+import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
+import { Analytics } from '../../controllers/Analytics';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
@@ -21,23 +12,4 @@ export const getServerSideProps = createGetServerSideProps({
     },
 });
 
-const StyledCard = styled(Card)`
-    width: max-content;
-    margin-bottom: 6px;
-`;
-
-export default () => {
-    const hireStreamsQuery = useHireStreams();
-
-    return (
-        <LayoutMain pageTitle={tr('Analytics')}>
-            <StyledCard>
-                <CardHeader title={tr('General charts')} link={Paths.ANALYTICS_COMMON} />
-            </StyledCard>
-
-            <QueryResolver queries={[hireStreamsQuery]}>
-                {([hireStreams]) => <HireStreamAnalyticsList hireStreams={hireStreams} />}
-            </QueryResolver>
-        </LayoutMain>
-    );
-};
+export default Analytics;

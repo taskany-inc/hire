@@ -17,7 +17,7 @@ import { CandidateFilterContextProvider } from '../contexts/candidate-filter-con
 import { Browser } from '../utils';
 import { trpc } from '../utils/trpc-front';
 import { ErrorProps } from 'next/error';
-import { TLocale, setSSRLocale } from '../utils/getLang';
+import getLang, { TLocale, setSSRLocale } from '../utils/getLang';
 
 type TaskanyHireAppProps = {
     session: Session;

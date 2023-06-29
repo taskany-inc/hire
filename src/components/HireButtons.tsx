@@ -5,6 +5,8 @@ import { SectionWithRelationsAndResults } from '../backend/modules/section/secti
 import { Stack } from './layout/Stack';
 import { GradeButton } from './GradeButton';
 
+import { tr } from './components.i18n';
+
 export type HireButtonsProps = {
     section: SectionWithRelationsAndResults;
     setHire: (value: boolean | null) => void;
@@ -25,7 +27,7 @@ export const HireButtons = ({ section, setHire, setGrade }: HireButtonsProps): J
     const gradeButtons = useMemo(() => {
         const buttons = [
             {
-                title: 'NO HIRE',
+                title: tr('NO HIRE'),
                 value: false,
                 onClick: () => {
                     setCurrentValue(false);

@@ -22,7 +22,11 @@ import { FormInput } from '../FormInput/FormInput';
 import { Select } from '../Select';
 import { FormAutoComplete } from '../FormInput/FormAutocomplete';
 
-type FormData = Omit<CreateProblem, 'tagIds'> & { tags: { name: string; value: number }[] };
+import { tr } from './problems.i18n';
+
+type FormData = Omit<CreateProblem, 'tagIds'> & {
+    tags: { name: string; value: number }[];
+};
 
 export type AddOrUpdateProblemInitialValues = DefaultValues<FormData> & {
     id: number;
@@ -35,20 +39,22 @@ type AddOrUpdateProblemProps = {
 };
 
 const schema = z.object({
-    description: z.string({ required_error: 'Obligatory field' }),
-    solution: z.string({ required_error: 'Obligatory field' }),
-    name: z.string().min(3, 'Name cannot be less than 3 characters'),
+    description: z.string({ required_error: tr('Obligatory field') }),
+    solution: z.string({ required_error: tr('Obligatory field') }),
+    name: z.string().min(3, tr('Name cannot be less than 3 characters')),
     difficulty: z.nativeEnum(ProblemDifficulty, {
-        invalid_type_error: 'Obligatory field',
-        required_error: 'Select difficulty',
+        invalid_type_error: tr('Obligatory field'),
+        required_error: tr('Select difficulty'),
     }),
     tags: z.array(z.object({ name: z.string(), value: z.number() })).optional(),
 });
 
-const descriptionPlaceholder =
-    'Think carefully and describe the essence of the problem in as much detail as possible. It will not be superfluous to add snippets with code. Interviewers will thank you. Maybe ;)';
-const solutionPlaceholder =
-    'Think a little more and write a solution to the problem. Perhaps not even one, but several for different levels of candidates.';
+const descriptionPlaceholder = tr(
+    'Think carefully and describe the essence of the problem in as much detail as possible. It will not be superfluous to add snippets with code. Interviewers will thank you. Maybe ;)',
+);
+const solutionPlaceholder = tr(
+    'Think a little more and write a solution to the problem. Perhaps not even one, but several for different levels of candidates.',
+);
 
 export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProblemProps): JSX.Element => {
     const router = useRouter();
@@ -84,7 +90,11 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
             description: initialValues?.description,
             solution: initialValues?.solution,
             difficulty: initialValues?.difficulty,
-            tags: initialValues?.tags?.map((tag: Tag) => ({ name: tag.name, value: tag.id })) || [],
+            tags:
+                initialValues?.tags?.map((tag: Tag) => ({
+                    name: tag.name,
+                    value: tag.id,
+                })) || [],
         },
         resolver: zodResolver(schema),
     });
@@ -128,16 +138,16 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                 style={{ marginLeft: 40, width: 'max-content' }}
             >
                 <FormInput
-                    label="Name"
+                    label={tr('Name')}
                     helperText={errors.name?.message}
-                    placeholder={'For example, "Binary tree rotation"'}
+                    placeholder={tr('For example, "Binary tree rotation"')}
                     forwardRef={refName}
                     {...restName}
                 />
                 <QueryResolver queries={[tagQuery]}>
                     {([tags]) => (
                         <FormAutoComplete
-                            label="Tags"
+                            label={tr('Tags')}
                             options={entitiesToOptions(tags)}
                             multiple
                             createNewOption={newTag}
@@ -147,13 +157,13 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                                     data.map((item) => ({ value: item.value, name: item.text })),
                                 )
                             }
-                            placeholder="Tags"
+                            placeholder={tr('Tags')}
                         />
                     )}
                 </QueryResolver>
                 <CodeEditorField
                     name="description"
-                    label="Description"
+                    label={tr('Description')}
                     control={control}
                     options={validationRules.nonEmptyString}
                     placeholder={descriptionPlaceholder}
@@ -165,7 +175,7 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                 )}
                 <CodeEditorField
                     name="solution"
-                    label="Solution"
+                    label={tr('Solution')}
                     control={control}
                     options={validationRules.nonEmptyString}
                     placeholder={solutionPlaceholder}
@@ -179,14 +189,14 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                     options={difficultyOption}
                     value={watch('difficulty')}
                     onChange={onDifficultyChange}
-                    text="Problem difficulty"
+                    text={tr('Problem difficulty')}
                 />
                 {errors.difficulty && !watch('difficulty') && (
                     <Text size="xs" color={danger0}>
                         {errors.difficulty.message}
                     </Text>
                 )}
-                <Button type="submit" view="primary" disabled={isSubmitting} text="Save" />
+                <Button type="submit" view="primary" disabled={isSubmitting} text={tr('Save')} />
             </Stack>
         </form>
     );

@@ -1,11 +1,7 @@
-import { AddOrUpdateCandidate } from '../../../components/candidates/AddOrUpdateCandidate';
-import { LayoutMain } from '../../../components/layout/LayoutMain';
 import { candidateDbService } from '../../../backend/modules/candidate/candidate-db-service';
 import { accessChecks } from '../../../backend/access/access-checks';
 import { createGetServerSideProps } from '../../../utils/create-get-ssr-props';
-import { InferServerSideProps } from '../../../types';
-import { useCandidate, useOutstaffVendors } from '../../../hooks/candidate-hooks';
-import { QueryResolver } from '../../../components/QueryResolver';
+import CandidateEditPage from '../../../controllers/CandidateEditPage';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
@@ -19,19 +15,4 @@ export const getServerSideProps = createGetServerSideProps({
     },
 });
 
-const NewCandidatePage = ({ numberIds }: InferServerSideProps<typeof getServerSideProps>) => {
-    const candidateQuery = useCandidate(numberIds.candidateId);
-    const outstaffVendorsQuery = useOutstaffVendors();
-
-    return (
-        <LayoutMain pageTitle="Candidate edit">
-            <QueryResolver queries={[candidateQuery, outstaffVendorsQuery]}>
-                {([candidate, outstaffVendors]) => (
-                    <AddOrUpdateCandidate variant="update" candidate={candidate} outstaffVendors={outstaffVendors} />
-                )}
-            </QueryResolver>
-        </LayoutMain>
-    );
-};
-
-export default NewCandidatePage;
+export default CandidateEditPage;

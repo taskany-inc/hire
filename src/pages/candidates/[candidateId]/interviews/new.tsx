@@ -1,11 +1,7 @@
-import { InferServerSideProps } from '../../../../types';
-import { LayoutMain } from '../../../../components/layout/LayoutMain';
-import { CandidateInterviewCreationForm } from '../../../../components/interviews/CandidateInterviewCreationForm';
 import { ErrorWithStatus } from '../../../../utils';
 import { createGetServerSideProps } from '../../../../utils/create-get-ssr-props';
-import { useCandidate } from '../../../../hooks/candidate-hooks';
-import { useAllowedHireStreams } from '../../../../hooks/hire-streams-hooks';
-import { QueryResolver } from '../../../../components/QueryResolver';
+
+import SectionCreationPage from '../../../../controllers/SectionCreationPage';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
@@ -20,17 +16,4 @@ export const getServerSideProps = createGetServerSideProps({
     },
 });
 
-export default function SectionCreationPage(props: InferServerSideProps<typeof getServerSideProps>) {
-    const candidateQuery = useCandidate(props.numberIds.candidateId);
-    const hireStreamsQuery = useAllowedHireStreams();
-
-    return (
-        <LayoutMain pageTitle="New interview">
-            <QueryResolver queries={[candidateQuery, hireStreamsQuery]}>
-                {([candidate, hireStreams]) => (
-                    <CandidateInterviewCreationForm candidate={candidate} hireStreams={hireStreams} />
-                )}
-            </QueryResolver>
-        </LayoutMain>
-    );
-}
+export default SectionCreationPage;

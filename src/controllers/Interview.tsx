@@ -28,6 +28,8 @@ import { ReactionType } from '../components/ReactionBar/types';
 import { accessChecks } from '../backend/access/access-checks';
 import { ExternalUserLink } from '../components/ExternalUserLink';
 
+import { tr } from './controllers.i18n';
+
 interface InterviewProps {
     interview: InterviewWithRelations;
     sectionTypes: SectionType[];
@@ -45,7 +47,7 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reacti
     const interviewRemove = useInterviewRemoveMutation();
 
     const interviewRemoveConfirmation = useConfirmation({
-        message: 'Delete interview?',
+        message: tr('Delete interview?'),
         onAgree: () =>
             interviewRemove.mutateAsync({ interviewId }).then(() => {
                 router.push({
@@ -74,11 +76,11 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reacti
         if (isVisibleHireOrRejected) {
             items.push(
                 {
-                    text: 'Hire',
+                    text: tr('Hire'),
                     onClick: () => hireOrRejectConfirmation.show(InterviewStatus.HIRED),
                 },
                 {
-                    text: 'Reject',
+                    text: tr('Reject'),
                     onClick: () => hireOrRejectConfirmation.show(InterviewStatus.REJECTED),
                 },
             );
@@ -87,27 +89,30 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reacti
         if (canReadInterviewHistory) {
             items.push({
                 onClick: () => router.push(pageHrefs.interviewHistory(interview.id)),
-                text: 'History of changes',
+                text: tr('History of changes'),
             });
         }
 
         if (canEditInterviews) {
             items.push({
                 onClick: () => router.push(pageHrefs.candidateInterviewUpdate(interview.candidate.id, interviewId)),
-                text: 'Edit',
+                text: tr('Edit'),
             });
         }
 
         if (canDeleteInterviews) {
             if (hasSections) {
                 items.push({
-                    text: 'Delete',
-                    hint: 'Can\'t delete interviews with sections',
+                    text: tr('Delete'),
+                    hint: "Can't delete interviews with sections",
                     disabled: true,
                     onClick: () => {},
                 });
             } else {
-                items.push({ onClick: interviewRemoveConfirmation.show, text: 'Delete' });
+                items.push({
+                    onClick: interviewRemoveConfirmation.show,
+                    text: tr('Delete'),
+                });
             }
         }
 
@@ -125,11 +130,11 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reacti
                 #{interview.id}
                 <Text size="m" as="span" color={gray10}>
                     <InlineDot />
-                    HR <ExternalUserLink user={interview.creator} />
+                    {tr('HR')} <ExternalUserLink user={interview.creator} />
                 </Text>
                 <Text size="s" as="span" color={gray10}>
                     <InlineDot />
-                    Created at {distanceDate(interview.createdAt)}
+                    {tr('Created at')} {distanceDate(interview.createdAt)}
                 </Text>
                 <InterviewTags interview={interview} />
                 {Array.isArray(reactions) && (
@@ -149,7 +154,7 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reacti
                 {interview.sections.length > 0 && (
                     <>
                         <Text size="xxl" style={{ marginTop: 30, marginLeft: 40 }}>
-                            Interview sections
+                            {tr('Interview sections')}
                         </Text>
                         {interview.sections.map((section) => (
                             <InterviewSectionListItem key={section.id} section={section} interview={interview} />

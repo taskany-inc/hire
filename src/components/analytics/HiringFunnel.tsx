@@ -7,6 +7,8 @@ import { useHiringFunnel } from '../../hooks/analytics-queries-hooks';
 import { useAnalyticsFilterContext } from '../../contexts/analytics-filter-context';
 import { QueryResolver } from '../QueryResolver';
 
+import { tr } from './analytics.i18n';
+
 type HiringFunnelProps = {
     allStreams: HireStream[];
 };
@@ -24,7 +26,7 @@ export const HiringFunnel = ({ allStreams }: HiringFunnelProps) => {
     return (
         <>
             <Text size="xl" style={{ marginTop: 10, marginLeft: 30 }}>
-                Hiring funnel
+                {tr('Hiring funnel')}
             </Text>
             <QueryResolver queries={[hiringFunnelQuery]}>
                 {([hiringFunnel]) => (

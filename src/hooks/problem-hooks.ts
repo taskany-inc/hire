@@ -3,6 +3,8 @@ import { trpc } from '../utils/trpc-front';
 
 import { useNotifications } from './useNotifications';
 
+import { tr } from './hooks.i18n';
+
 export const useProblems = (params: GetProblemList) => {
     const { enqueueErrorNotification } = useNotifications();
 
@@ -27,7 +29,9 @@ export const useProblemCount = (params: GetProblemList) => {
         tagIds: params.tagIds && params.tagIds.length > 0 ? params.tagIds : undefined,
     };
 
-    return trpc.problems.getCount.useQuery(fixedParams, { onError: enqueueErrorNotification });
+    return trpc.problems.getCount.useQuery(fixedParams, {
+        onError: enqueueErrorNotification,
+    });
 };
 
 export const useProblem = (problemId: number) => {
@@ -42,7 +46,7 @@ export const useProblemCreateMutation = () => {
 
     return trpc.problems.create.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`New problem created ${data.name}`);
+            enqueueSuccessNotification(`${tr('New problem created')} ${data.name}`);
             utils.problems.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -55,7 +59,7 @@ export const useProblemUpdateMutation = () => {
 
     return trpc.problems.update.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`Problem ${data.name} updated`);
+            enqueueSuccessNotification(tr('Problem {data.name} updated', { name: data.name }));
             utils.problems.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -68,7 +72,7 @@ export const useProblemRemoveMutation = () => {
 
     return trpc.problems.delete.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`Problem ${data.name} deleted`);
+            enqueueSuccessNotification(tr('Problem {data.name} deleted', { name: data.name }));
             utils.problems.invalidate();
         },
         onError: enqueueErrorNotification,

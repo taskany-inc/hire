@@ -1,6 +1,5 @@
 import { accessChecks } from '../../backend/access/access-checks';
-import { InterviewSectionSlotCalendar } from '../../components/calendar/InterviewSectionSlotCalendar';
-import { LayoutMain } from '../../components/layout/LayoutMain';
+import { MyCalendarPage } from '../../controllers/MyCalendarPage';
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 
 export const getServerSideProps = createGetServerSideProps({
@@ -10,10 +9,4 @@ export const getServerSideProps = createGetServerSideProps({
     },
 });
 
-export default function MyCalendarPage() {
-    return (
-        <LayoutMain pageTitle="Calendar">
-            <InterviewSectionSlotCalendar />
-        </LayoutMain>
-    );
-}
+export default MyCalendarPage;

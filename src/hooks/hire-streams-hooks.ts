@@ -2,6 +2,8 @@ import { trpc } from '../utils/trpc-front';
 
 import { useNotifications } from './useNotifications';
 
+import { tr } from './hooks.i18n';
+
 export const useHireStream = (hireStreamId: number) => {
     const { enqueueErrorNotification } = useNotifications();
 
@@ -11,13 +13,17 @@ export const useHireStream = (hireStreamId: number) => {
 export const useHireStreams = () => {
     const { enqueueErrorNotification } = useNotifications();
 
-    return trpc.hireStreams.getAll.useQuery(undefined, { onError: enqueueErrorNotification });
+    return trpc.hireStreams.getAll.useQuery(undefined, {
+        onError: enqueueErrorNotification,
+    });
 };
 
 export const useAllowedHireStreams = () => {
     const { enqueueErrorNotification } = useNotifications();
 
-    return trpc.hireStreams.getAllowed.useQuery(undefined, { onError: enqueueErrorNotification });
+    return trpc.hireStreams.getAllowed.useQuery(undefined, {
+        onError: enqueueErrorNotification,
+    });
 };
 
 export const useCreateHireStreamMutation = () => {
@@ -26,7 +32,11 @@ export const useCreateHireStreamMutation = () => {
 
     return trpc.hireStreams.create.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`Hire stream ${data.name} updated successfully`);
+            enqueueSuccessNotification(
+                tr('Hire stream {data.name} updated successfully', {
+                    name: data.name,
+                }),
+            );
             utils.hireStreams.invalidate();
         },
         onError: enqueueErrorNotification,

@@ -13,11 +13,11 @@ interface Props {
 
 const StyledBadge = styled(Badge)`
     margin-top: 20px'
-`
+`;
 
 const StyledTagChip = styled(TagChip)`
     margin-top: 20px'
-`
+`;
 
 export function InterviewTags({ interview }: Props) {
     return (

@@ -56,7 +56,7 @@ const handler = getApiHandler()
                     },
                 });
 
-                if (!section) return reject(new ErrorWithStatus(`No section ${sectionId}`, 400));
+                if (!section) return reject(new ErrorWithStatus(`'No section' ${sectionId}`, 400));
                 const file = data[0];
                 const filename = file.originalFilename || file.newFilename;
 

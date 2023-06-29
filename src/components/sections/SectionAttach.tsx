@@ -3,6 +3,8 @@ import { Link, BinIcon } from '@taskany/bricks';
 import { useAttachRemoveMutation } from '../../api/attach/attach-hooks';
 import { Confirmation, useConfirmation } from '../Confirmation';
 
+import { tr } from './sections.i18n';
+
 type SectionAttachProps = {
     filename: string;
     fileId: string;
@@ -14,7 +16,7 @@ export const SectionAttach = ({ filename, fileId, canEditAttach }: SectionAttach
 
     const removeAttach = () => deleteAttach.mutateAsync(fileId);
     const deleteAttachConfirmation = useConfirmation({
-        message: 'Delete file?',
+        message: tr('Delete file?'),
         onAgree: removeAttach,
         destructive: true,
     });

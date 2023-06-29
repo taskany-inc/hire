@@ -13,7 +13,9 @@ import { generatePath, Paths } from '../../../utils/paths';
 import { Select } from '../../Select';
 import { FormTextArea } from '../../FormInput/FormTextArea';
 
-const errorMessage = 'Required field, fill in this field or select a standard option';
+import { tr } from './HireOrReject.i18n';
+
+const errorMessage = tr('Required field, fill in this field or select a standard option');
 
 const schema = z
     .object({
@@ -67,9 +69,15 @@ export const HireOrRejectConfirmation = ({
         reset({ standardOption: undefined, statusComment: undefined });
         onClose();
     };
-    const standartOptions = rejectReasons.map((option, index) => ({ text: option.text, value: index }));
+    const standartOptions = rejectReasons.map((option, index) => ({
+        text: option.text,
+        value: index,
+    }));
 
-    const onSubmit: SubmitHandler<{ standardOption?: number | null; statusComment?: string }> = async (data) => {
+    const onSubmit: SubmitHandler<{
+        standardOption?: number | null;
+        statusComment?: string;
+    }> = async (data) => {
         const { standardOption, statusComment } = data;
         const preparedStandardOption = (isNumber(standardOption) && standartOptions[standardOption].text) || '';
         const preparedStatusComment = preparedStandardOption || statusComment;
@@ -100,14 +108,14 @@ export const HireOrRejectConfirmation = ({
         <Modal visible={isOpen} onClose={onClose}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <ModalHeader>
-                    <FormTitle>Commentary on the interview</FormTitle>
+                    <FormTitle>{tr('Commentary on the interview')}</FormTitle>
                 </ModalHeader>
                 <ModalContent>
                     <Stack direction="column" gap={24} justifyItems="start">
                         {status === InterviewStatus.REJECTED && (
                             <Select
                                 value={watch('standardOption')}
-                                label="Standard Comment"
+                                label={tr('Standard Comment')}
                                 text={standartOptions[0].text}
                                 options={standartOptions}
                                 onChange={onStandartOptionChange}
@@ -115,9 +123,9 @@ export const HireOrRejectConfirmation = ({
                         )}
                         {isVisibleAdditionalComment && (
                             <FormTextArea
-                                label="Comment"
+                                label={tr('Comment')}
                                 helperText={errors.statusComment?.message}
-                                placeholder="Commentary on the interview"
+                                placeholder={tr('Commentary on the interview')}
                                 rows={3}
                                 {...register('statusComment')}
                             />
@@ -125,8 +133,8 @@ export const HireOrRejectConfirmation = ({
                     </Stack>
                 </ModalContent>
                 <Stack direction="row" gap={10} justifyContent="flex-start" style={{ margin: 12 }}>
-                    <Button onClick={handleOnClose} text="Cancel" />
-                    <Button type="submit" view="primary" disabled={isSubmitting} text="Save" />
+                    <Button onClick={handleOnClose} text={tr('Cancel')} />
+                    <Button type="submit" view="primary" disabled={isSubmitting} text={tr('Save')} />
                 </Stack>
             </form>
         </Modal>

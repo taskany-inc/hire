@@ -11,6 +11,8 @@ import { Select } from '../Select';
 import { defaultEventLengthInMinutes } from './calendar-event-helpers';
 import { DateTimePickers } from './DateTimePickers/DateTimePickers';
 
+import { tr } from './calendar.i18n';
+
 export type CalendarEventFormValues = Pick<CalendarEventInstance, 'title' | 'date' | 'description' | 'duration'> & {
     recurrence: {
         repeat: EventRepeatMode;
@@ -31,10 +33,10 @@ interface CalendarEventFormProps {
 }
 
 const repeatOptions: DropdownFieldOption<EventRepeatMode>[] = [
-    { text: 'Never', value: 'never' },
-    { text: 'Daily', value: 'daily' },
-    { text: 'Weekly', value: 'weekly' },
-    { text: 'Monthly', value: 'monthly' },
+    { text: tr('Never'), value: 'never' },
+    { text: tr('Daily'), value: 'daily' },
+    { text: tr('Weekly'), value: 'weekly' },
+    { text: tr('Monthly'), value: 'monthly' },
 ];
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -82,18 +84,18 @@ export function CalendarEventForm({
     return (
         <FormContainer
             onSubmitButton={handleSubmit(onSave)}
-            submitButtonText="Save the event"
+            submitButtonText={tr('Save the event')}
             submitButtonDisabled={submitButtonDisabled}
             deleteButtonText={deleteButtonText}
             onDeleteButton={onDeleteButton}
         >
-            <FormInput label="Name" helperText={errors.title?.message} {...restTitle} forwardRef={refTitle} />
+            <FormInput label={tr('Name')} helperText={errors.title?.message} {...restTitle} forwardRef={refTitle} />
 
             <DateTimePickers startDate={startDate} duration={duration} onChange={handleDateTimeAndDurationChange} />
 
             {isNew && (
                 <Select
-                    text="Repetition"
+                    text={tr('Repetition')}
                     options={repeatOptions}
                     onChange={onRepeatChange}
                     value={watch('recurrence.repeat')}

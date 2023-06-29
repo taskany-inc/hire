@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import dynamic from 'next/dynamic';
 import { Text } from '@taskany/bricks';
 
+import { tr } from './problems.i18n';
+
 const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
 
 type Stats = {
@@ -47,7 +49,7 @@ export const ProblemStats = memo(({ good, ok, bad, className, style }: ProblemSt
     if (total === 0) {
         return (
             <Text size="s" className={className} style={style}>
-                🤷‍♀️ Nobody has solved this problem yet
+                🤷‍♀️ {tr('Nobody has solved this problem yet')}
             </Text>
         );
     }
@@ -62,9 +64,7 @@ export const ProblemStats = memo(({ good, ok, bad, className, style }: ProblemSt
                 rate="good"
             />
             <Popup tooltip placement="bottom-start" reference={popupRefGood} visible={popupVisibleGood}>
-                <Text size="s">
-                    👍 Good solutions: {good} from {total}
-                </Text>
+                <Text size="s">👍 {tr('Good solutions: {good} from {total}', { good, total })}</Text>
             </Popup>
 
             <RateBar
@@ -75,9 +75,7 @@ export const ProblemStats = memo(({ good, ok, bad, className, style }: ProblemSt
                 rate="ok"
             />
             <Popup tooltip placement="bottom-start" reference={popupRefOk} visible={popupVisibleOk}>
-                <Text size="s">
-                    👌 Ok solutions: {ok} from {total}
-                </Text>
+                <Text size="s">👌 {tr('Ok solutions: {ok} from {total}', { ok, total })}</Text>
             </Popup>
 
             <RateBar
@@ -89,7 +87,11 @@ export const ProblemStats = memo(({ good, ok, bad, className, style }: ProblemSt
             />
             <Popup tooltip placement="bottom-start" reference={popupRefBad} visible={popupVisibleBad}>
                 <Text size="s">
-                    👎 Bad solutions or not soluted at all: {bad} from {total}
+                    👎{' '}
+                    {tr('Bad solutions or not soluted at all: {bad} from {total}', {
+                        bad,
+                        total,
+                    })}
                 </Text>
             </Popup>
         </StyledContainer>

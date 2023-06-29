@@ -14,7 +14,9 @@ export const getServerSideProps = createGetServerSideProps({
     numberIds: { candidateId: true, interviewId: true },
     action: async ({ session, ssg, numberIds, handleAccessChecks }) => {
         await ssg.hireStreams.getAll.fetch();
-        const interview = await ssg.interviews.getById.fetch({ interviewId: numberIds.interviewId });
+        const interview = await ssg.interviews.getById.fetch({
+            interviewId: numberIds.interviewId,
+        });
 
         if (interview.candidate.id !== numberIds.candidateId) {
             throw new ErrorWithStatus('Candidate id mismatch', 400);
@@ -31,7 +33,7 @@ export default function SectionCreationPage(props: InferServerSideProps<typeof g
     return (
         <QueryResolver queries={[interviewQuery, hireStreamsQuery]}>
             {([interview, hireStreams]) => (
-                <LayoutMain pageTitle={`Interview #${interview.id}`} backlink={pageHrefs.interview(interview.id)}>
+                <LayoutMain pageTitle={`"Interview" ${interview.id}`} backlink={pageHrefs.interview(interview.id)}>
                     <CandidateInterviewUpdateForm interview={interview} hireStreams={hireStreams} />
                 </LayoutMain>
             )}

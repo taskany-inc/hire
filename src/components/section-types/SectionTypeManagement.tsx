@@ -8,6 +8,8 @@ import { QueryResolver } from '../QueryResolver';
 import { NewSectionTypeModal } from './SectionTypeForm';
 import { SectionTypeCard } from './SectionTypeCard';
 
+import { tr } from './section-types.i18n';
+
 type SectionTypeManagementProps = {
     hireStream: HireStream;
 };
@@ -18,7 +20,7 @@ export const SectionTypeManagement: VFC<SectionTypeManagementProps> = ({ hireStr
     return (
         <>
             <Text size="xl">
-                Section types <NewSectionTypeModal hireStreamId={hireStream.id} />
+                {tr('Section types')} <NewSectionTypeModal hireStreamId={hireStream.id} />
             </Text>
 
             <QueryResolver queries={[sectionTypesQuery]}>

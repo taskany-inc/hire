@@ -24,6 +24,8 @@ import { roleToLabel, UserRoles } from '../../backend/user-roles';
 import { useHeaderMenu } from './useHeaderMenu';
 import { PageHeaderLogo } from './PageHeaderLogo';
 
+import { tr } from './header.i18n';
+
 const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
 
 const StyledNav = styled(HeaderNav)`
@@ -132,7 +134,7 @@ export const PageHeader: React.FC = () => {
         >
             <HeaderContent>
                 <Button
-                    text="Create"
+                    text={tr('Create')}
                     view="primary"
                     outline
                     brick="right"

@@ -10,6 +10,8 @@ import { AUTH_DEBUG_COOKIE_NAME } from '../utils/auth';
 import { readBooleanFromMetaTag } from '../utils/frontend';
 import { yearInSeconds } from '../utils';
 
+import { tr } from './components.i18n';
+
 type DebugAuthProps = {
     users: User[];
 };
@@ -54,12 +56,12 @@ export const DebugAuth: FC<DebugAuthProps> = ({ users }) => {
                     view="primary"
                     style={{ marginBottom: 32 }}
                     onClick={onNextAuthClick}
-                    text="Log in with Next Auth"
+                    text={tr('Log in with Next Auth')}
                 />
             )}
 
             <Text size="xl" style={{ marginBottom: 12 }}>
-                Select the user under which you want to log in
+                {tr('Select the user under which you want to log in')}
             </Text>
 
             <StyledUserCards>

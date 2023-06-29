@@ -8,6 +8,8 @@ import { getPieChartSliceColor, mapEnum } from '../../utils';
 import { QueryResolver } from '../QueryResolver';
 import { SectionGrade, customGradesArray } from '../../utils/dictionaries';
 
+import { tr } from './analytics.i18n';
+
 type Props = {
     hireStreamName: string;
 };
@@ -43,7 +45,8 @@ export const GradesByInterviewer = ({ hireStreamName }: Props) => {
                     {Object.entries(data).map(([sectionType, sectionTypeData]) => (
                         <>
                             <Text size="xl" style={{ marginTop: 10, marginLeft: 40 }}>
-                                Estimates in section type {sectionType}
+                                {tr('Estimates in section type')}
+                                {sectionType}
                             </Text>
                             <ResponsiveContainer width="100%" height={500}>
                                 <BarChart data={sectionTypeData}>

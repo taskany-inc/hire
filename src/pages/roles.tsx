@@ -1,6 +1,5 @@
 import { accessChecks } from '../backend/access/access-checks';
-import { LayoutMain } from '../components/layout/LayoutMain';
-import { Roles } from '../components/roles/Roles';
+import UserRolesPage from '../controllers/UserRolesPage';
 import { createGetServerSideProps } from '../utils/create-get-ssr-props';
 
 export const getServerSideProps = createGetServerSideProps({
@@ -10,10 +9,4 @@ export const getServerSideProps = createGetServerSideProps({
     },
 });
 
-export default function UserRolesPage() {
-    return (
-        <LayoutMain pageTitle="Users roles">
-            <Roles />
-        </LayoutMain>
-    );
-}
+export default UserRolesPage;

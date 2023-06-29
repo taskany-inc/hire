@@ -4,6 +4,8 @@ import qs from 'qs';
 import { readBooleanFromMetaTag } from './frontend';
 import { Paths } from './paths';
 
+import { tr } from './utils.i18n';
+
 export const axiosInstance = axios.create({
     paramsSerializer: (params) => qs.stringify(params, { arrayFormat: 'repeat' }),
 });
@@ -23,7 +25,7 @@ axiosInstance.interceptors.response.use(
                 document.location.href = Paths.AUTH_SIGNIN;
             } else {
                 // eslint-disable-next-line no-console
-                console.error('No auth options available!');
+                console.error(tr('No auth options available!'));
             }
         }
 

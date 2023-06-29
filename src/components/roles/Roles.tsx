@@ -12,6 +12,8 @@ import { QueryResolver } from '../QueryResolver';
 import { HireStreamUsers } from './HireStreamUsers';
 import { AdminsList } from './AdminList';
 
+import { tr } from './roles.i18n';
+
 const StyledButton = styled(Button)`
     margin: 0 8px 8px 0;
 `;
@@ -33,7 +35,7 @@ export const Roles = () => {
         <Stack direction="column" justifyItems="flex-start" gap={24}>
             {canReadAdmins && <AdminsList />}
 
-            <Text size="xl">Hire streams</Text>
+            <Text size="xl">{tr('Hire streams')}</Text>
 
             <QueryResolver queries={[hireStreamsQuery]}>
                 {([hireStreams]) => {

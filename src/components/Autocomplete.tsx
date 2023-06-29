@@ -7,6 +7,8 @@ import { Option } from '../types';
 
 const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
 
+import { tr } from './components.i18n';
+
 export interface AutocompleteProps<T> {
     options: T[];
     multiple?: boolean;
@@ -162,7 +164,7 @@ export function Autocomplete({
                         <StyledButton
                             type="button"
                             disabled={!createNewOption}
-                            text={createNewOption ? `Add ${value}` : 'no options'}
+                            text={createNewOption ? tr('Add {value}', { value }) : tr('no options')}
                             onClick={() => onCreateNewOptionClick(value)}
                         />
                     ) : (

@@ -8,6 +8,8 @@ import { Paths } from '../../../utils/paths';
 import { FilterBarAddButton } from '../../FilterBarAddButton';
 import { FiltersPanel } from '../../FiltersPanel';
 
+import { tr } from './problem-filter.i18n';
+
 type ProblemFilterBarProps = {
     embedded?: boolean;
 };
@@ -47,7 +49,7 @@ export const ProblemFilterBar: VFC<ProblemFilterBarProps> = ({ embedded }) => {
             author={author}
             difficulties={difficulties}
         >
-            {!embedded && <FilterBarAddButton text="Add promlem" link={Paths.PROBLEMS_NEW} />}
+            {!embedded && <FilterBarAddButton text={tr('Add problem')} link={Paths.PROBLEMS_NEW} />}
         </FiltersPanel>
     );
 };

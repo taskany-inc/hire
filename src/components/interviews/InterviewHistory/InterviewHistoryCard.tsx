@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { gray5, gray9 } from '@taskany/colors';
 import { Text } from '@taskany/bricks';
 
+import { tr } from './InterviewHistory.i18n';
+
 import {
     InterviewEventLabels,
     InterviewEventTypes,
@@ -79,7 +81,7 @@ export const InterviewHistoryCard: VFC<InterviewHistoryCardProps> = ({ interview
                             onChange={toggle}
                             color="primary"
                         />
-                        <StyledText>Show</StyledText>
+                        <StyledText>{tr('Show')}</StyledText>
                     </label>
 
                     <label htmlFor={`${interviewChangeEvent.id}sideBySide`}>
@@ -91,7 +93,7 @@ export const InterviewHistoryCard: VFC<InterviewHistoryCardProps> = ({ interview
                             color="primary"
                             disabled={!isVisible}
                         />
-                        <StyledText>Side to side</StyledText>
+                        <StyledText>{tr('Side to side')}</StyledText>
                     </label>
                 </VisibleContainer>
             </CardTitleContainer>

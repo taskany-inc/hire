@@ -1,6 +1,4 @@
 import { Problems } from '../../controllers/Problems';
-import { LayoutMain } from '../../components/layout/LayoutMain';
-import { ProblemFilterBar } from '../../components/problems/problem-filter/ProblemFilterBar';
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 
 export const getServerSideProps = createGetServerSideProps({
@@ -10,12 +8,4 @@ export const getServerSideProps = createGetServerSideProps({
     },
 });
 
-const ProblemsPage = () => {
-    return (
-        <LayoutMain pageTitle="Problems" aboveContainer={<ProblemFilterBar />}>
-            <Problems />
-        </LayoutMain>
-    );
-};
-
-export default ProblemsPage;
+export default Problems;

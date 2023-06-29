@@ -2,6 +2,8 @@ import { trpc } from '../utils/trpc-front';
 
 import { useNotifications } from './useNotifications';
 
+import { tr } from './hooks.i18n';
+
 export const useInterview = (interviewId: number) => {
     const { enqueueErrorNotification } = useNotifications();
 
@@ -20,7 +22,7 @@ export const useInterviewCreateMutation = () => {
 
     return trpc.interviews.create.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`New interview created ${data.id}`);
+            enqueueSuccessNotification(`${tr('New interview created')} ${data.id}`);
             utils.interviews.invalidate();
             utils.candidates.invalidate();
         },
@@ -34,7 +36,7 @@ export const useInterviewUpdateMutation = () => {
 
     return trpc.interviews.update.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`Interview updated ${data.id}`);
+            enqueueSuccessNotification(`${tr('Interview updated')} ${data.id}`);
             utils.interviews.invalidate();
             utils.candidates.invalidate();
         },
@@ -48,7 +50,7 @@ export const useInterviewRemoveMutation = () => {
 
     return trpc.interviews.delete.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`Interview deleted ${data.id}`);
+            enqueueSuccessNotification(`${tr('Interview deleted')} ${data.id}`);
             utils.interviews.invalidate();
             utils.candidates.invalidate();
         },

@@ -24,6 +24,8 @@ import { SlotCalendar, EventDropHandler, SlotInfo, stringOrDate } from './SlotCa
 import { CalendarEventLinkedSection, CalendarEventLinkedSectionProps } from './CalendarEventLinkedSection';
 import { BigCalendarEvent } from './calendar-types';
 
+import { tr } from './calendar.i18n';
+
 interface SerialEventUpdateParams extends Partial<CalendarEventFormValues> {
     operation: 'update';
     eventId: string;
@@ -283,7 +285,7 @@ export function InterviewSectionSlotCalendar(props: Props) {
         const originalDate = initialValues.date;
 
         if (eventId && !initialValues.date) {
-            throw new Error('The updated event must have the original date');
+            throw new Error(tr('The updated event must have the original date'));
         }
 
         try {
@@ -409,14 +411,14 @@ export function InterviewSectionSlotCalendar(props: Props) {
 
             <Modal width={500} visible={!!seriesUpdatePartDialog} onClose={closeUpdatePartDialog}>
                 <ModalHeader>
-                    <FormTitle size="m">Edit a recurring event</FormTitle>
+                    <FormTitle size="m">{tr('Edit a recurring event')}</FormTitle>
                 </ModalHeader>
                 <ModalContent>
-                    <Text>What part of the event series do you want to change?</Text>
+                    <Text>{tr('What part of the event series do you want to change?')}</Text>
                     <Stack direction="row" gap={10} justifyContent="flex-start" style={{ marginTop: 15 }}>
-                        <Button onClick={handleSeriesPartSelected('exception')} text="Just this" />
-                        <Button onClick={handleSeriesPartSelected('future')} text="This and subsequent" />
-                        <Button onClick={handleSeriesPartSelected('series')} text="Whole series" />
+                        <Button onClick={handleSeriesPartSelected('exception')} text={tr('Just this')} />
+                        <Button onClick={handleSeriesPartSelected('future')} text={tr('This and subsequent')} />
+                        <Button onClick={handleSeriesPartSelected('series')} text={tr('Whole series')} />
                     </Stack>
                 </ModalContent>
             </Modal>
@@ -431,7 +433,7 @@ export function InterviewSectionSlotCalendar(props: Props) {
                             initialValues={eventForm.initialValues}
                             onSave={saveEventDetails}
                             isNew={!eventForm.eventId}
-                            deleteButtonText={eventForm?.eventId && 'Delete'}
+                            deleteButtonText={eventForm?.eventId && tr('Delete')}
                             onDeleteButton={handleRemove}
                         />
                     )}

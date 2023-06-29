@@ -11,6 +11,8 @@ import { candidateStatus } from '../../utils/dictionaries';
 import { FilterBarAddButton } from '../FilterBarAddButton';
 import { Paths } from '../../utils/paths';
 
+import { tr } from './candidates.i18n';
+
 type CandidatesFilterBarProps = {
     hireStreams: HireStream[];
 };
@@ -27,7 +29,11 @@ export const CandidatesFilterBar = ({ hireStreams }: CandidatesFilterBarProps): 
         setStatuses,
     } = useCandidateFilterContext();
     const selectedHireStreamIds = selectedHireStreams.map((hireStream) => hireStream.id);
-    const candidatesQuery = useCandidates({ search: debouncedSearch, statuses, hireStreamIds: selectedHireStreamIds });
+    const candidatesQuery = useCandidates({
+        search: debouncedSearch,
+        statuses,
+        hireStreamIds: selectedHireStreamIds,
+    });
 
     const canCreateCandidate = session && accessChecks.candidate.create(session).allowed;
 
@@ -47,7 +53,7 @@ export const CandidatesFilterBar = ({ hireStreams }: CandidatesFilterBarProps): 
             statusFilter={statuses}
             onStatusChange={setStatuses}
         >
-            {canCreateCandidate && <FilterBarAddButton link={Paths.CANDIDATES_NEW} text="Add candidate" />}
+            {canCreateCandidate && <FilterBarAddButton link={Paths.CANDIDATES_NEW} text={tr('Add candidate')} />}
         </FiltersPanel>
     );
 };

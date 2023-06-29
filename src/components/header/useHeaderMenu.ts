@@ -5,6 +5,8 @@ import { useSession } from '../../contexts/app-settings-context';
 import { accessChecks } from '../../backend/access/access-checks';
 import config from '../../backend/config';
 
+import { tr } from './header.i18n';
+
 type HeaderLink = { path: string; text: string };
 
 type UseHeaderMenuResult = {
@@ -19,12 +21,12 @@ export const useHeaderMenu = (): UseHeaderMenuResult => {
         if (!session) {
             return [];
         }
-        const items: HeaderLink[] = [{ path: Paths.PROBLEMS, text: 'Problems' }];
+        const items: HeaderLink[] = [{ path: Paths.PROBLEMS, text: tr('Problems') }];
 
         const canReadCandidates = accessChecks.candidate.readMany(session).allowed;
 
         if (canReadCandidates) {
-            items.push({ path: Paths.CANDIDATES, text: 'Candidates' });
+            items.push({ path: Paths.CANDIDATES, text: tr('Candidates') });
         }
 
         const canReadSections =
@@ -34,19 +36,19 @@ export const useHeaderMenu = (): UseHeaderMenuResult => {
             session.userRoles.hasInterviewerRoles;
 
         if (canReadSections) {
-            items.push({ path: Paths.MY_SECTIONS, text: 'Sections' });
+            items.push({ path: Paths.MY_SECTIONS, text: tr('Sections') });
         }
 
         const canWorkWithCalendar = accessChecks.calendar.create(session).allowed;
 
         if (canWorkWithCalendar) {
-            items.push({ path: Paths.CALENDAR_MY, text: 'Calendar' });
+            items.push({ path: Paths.CALENDAR_MY, text: tr('Calendar') });
         }
 
         const canReadAnalytics = accessChecks.analytics.read(session).allowed;
 
         if (canReadAnalytics) {
-            items.push({ path: Paths.ANALYTICS, text: 'Analytics' });
+            items.push({ path: Paths.ANALYTICS, text: tr('Analytics') });
         }
 
         config.pluginMenuItems.forEach((p) => items.push({ text: p.text, path: pageHrefs.plugins(p.path) }));
@@ -55,24 +57,24 @@ export const useHeaderMenu = (): UseHeaderMenuResult => {
     }, [session]);
 
     const entityCreationMenuItems = useMemo(() => {
-        const items: HeaderLink[] = [{ path: Paths.PROBLEMS_NEW, text: 'New problem' }];
+        const items: HeaderLink[] = [{ path: Paths.PROBLEMS_NEW, text: tr('New problem') }];
 
         const canCreateCandidates = session && accessChecks.candidate.create(session).allowed;
 
         if (canCreateCandidates) {
-            items.push({ path: Paths.CANDIDATES_NEW, text: 'New candidate' });
+            items.push({ path: Paths.CANDIDATES_NEW, text: tr('New candidate') });
         }
 
         const canCreateHireStreams = session && accessChecks.hireStream.create(session).allowed;
 
         if (canCreateHireStreams) {
-            items.push({ path: Paths.HIRE_STREAM_NEW, text: 'New hire stream' });
+            items.push({ path: Paths.HIRE_STREAM_NEW, text: tr('New hire stream') });
         }
 
         const canCreateUsers = session && accessChecks.user.create(session);
 
         if (canCreateUsers) {
-            items.push({ path: Paths.USERS_NEW, text: 'New user' });
+            items.push({ path: Paths.USERS_NEW, text: tr('New user') });
         }
 
         return items;

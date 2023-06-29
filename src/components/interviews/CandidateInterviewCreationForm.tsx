@@ -17,6 +17,8 @@ import { Stack } from '../layout/Stack';
 import { DropdownFieldOption } from '../inputs/DropdownField';
 import { Select } from '../Select';
 
+import { tr } from './interviews.i18n';
+
 type InterviewCreationFormData = Omit<CreateInterview, 'candidateId'>;
 
 interface Props {
@@ -26,8 +28,8 @@ interface Props {
 
 const schema = z.object({
     hireStreamId: z.number({
-        invalid_type_error: 'Select hire stream',
-        required_error: 'Select hire stream',
+        invalid_type_error: tr('Select hire stream'),
+        required_error: tr('Select hire stream'),
     }),
     description: z.string().nullish(),
 });
@@ -78,16 +80,16 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
             <CandidateNameSubtitle name={candidate.name} />
 
             <FormContainer
-                submitButtonText="Add interview"
+                submitButtonText={tr('Add interview')}
                 onSubmitButton={handleSubmit(createInterview)}
                 submitButtonDisabled={isSubmitting || isSubmitSuccessful}
             >
                 <Stack direction="column" gap={20}>
                     <CodeEditorField
                         name="description"
-                        label="Comment"
+                        label={tr('Comment')}
                         control={control}
-                        placeholder="Think carefully and write a couple of notes about this interview."
+                        placeholder={tr('Think carefully and write a couple of notes about this interview.')}
                         height={130}
                     />
 
@@ -95,7 +97,7 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
                         options={hireStreamOptions}
                         value={watch('hireStreamId')}
                         onChange={onHireStreamIdChange}
-                        text="Hire stream"
+                        text={tr('Hire stream')}
                     />
                     {errors.hireStreamId && !watch('hireStreamId') && (
                         <Text size="xs" color={danger0}>

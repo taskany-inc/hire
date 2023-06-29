@@ -9,6 +9,8 @@ import type { TrpcRouter } from '../backend/trpc/routers/_trpc-router';
 import { readBooleanFromMetaTag } from './frontend';
 import { Paths } from './paths';
 
+import { tr } from './utils.i18n';
+
 const QUERY_RETRIES = 3;
 const QUERY_STALE_TIME = 60 * 1000;
 
@@ -29,7 +31,7 @@ const handleUnauthorizedErrorOnClient = (error: unknown): boolean => {
     } else if (isNextAuthEnabled) {
         document.location.href = Paths.AUTH_SIGNIN;
     } else {
-        throw new Error('No auth options available!');
+        throw new Error(tr('No auth options available!'));
     }
 
     return true;
@@ -37,7 +39,10 @@ const handleUnauthorizedErrorOnClient = (error: unknown): boolean => {
 
 export const trpc = createTRPCNext<TrpcRouter>({
     config: ({ ctx }) => {
-        const commonOptions: { transformer: typeof superjson; queryClientConfig: QueryClientConfig } = {
+        const commonOptions: {
+            transformer: typeof superjson;
+            queryClientConfig: QueryClientConfig;
+        } = {
             transformer: superjson,
             queryClientConfig: {
                 defaultOptions: {

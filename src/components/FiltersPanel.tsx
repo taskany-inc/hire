@@ -15,6 +15,8 @@ import { InterviewStatusFilterDropdown } from './InterviewStatusFilterDropdown';
 import { FiltersMenuItem } from './FiltersMenuItem';
 import { AnaliticsPeriodFilterDropdown } from './AnaliticsPeriodFilterDropdown';
 
+import { tr } from './components.i18n';
+
 interface FiltersPanelProps {
     count?: number;
     streams?: React.ComponentProps<typeof HireStreamFilterDropdown>['streams'];
@@ -97,7 +99,12 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
     return (
         <StyledFiltersPanel>
             <StyledFiltersContent>
-                <Input disabled={!onSearchChange} placeholder="Search" value={searchFilter} onChange={onSearchChange} />
+                <Input
+                    disabled={!onSearchChange}
+                    placeholder={tr('Search')}
+                    value={searchFilter}
+                    onChange={onSearchChange}
+                />
 
                 <StyledFiltersMenuWrapper>
                     {nullable(count, () => (
@@ -111,7 +118,7 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
 
                         {nullable(statuses, (statuses) => (
                             <InterviewStatusFilterDropdown
-                                text="Status"
+                                text={tr('Status')}
                                 statuses={statuses}
                                 value={statusFilter}
                                 onChange={onStatusChange}
@@ -120,7 +127,7 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
 
                         {nullable(difficulties, (d) => (
                             <DifficultyFilterDropdown
-                                text="Difficulty"
+                                text={tr('Difficulty')}
                                 difficulties={d}
                                 value={difficultyFilter}
                                 onChange={onDifficultyChange}
@@ -128,7 +135,7 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
                         ))}
                         {nullable(streams, (s) => (
                             <HireStreamFilterDropdown
-                                text="Hire streams"
+                                text={tr('Hire streams')}
                                 streams={s}
                                 value={streamFilter}
                                 onChange={onStreamChange}
@@ -136,7 +143,7 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
                         ))}
                         {tagsFilter && onTagChange && tagsQuery.data && (
                             <TagFilterDropdown
-                                text="Tags"
+                                text={tr('Tags')}
                                 value={tagsFilter}
                                 tags={tagsQuery.data ?? []}
                                 onChange={onTagChange}

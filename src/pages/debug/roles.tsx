@@ -1,12 +1,9 @@
 import { sectionTypeDbService } from '../../backend/modules/section-type/section-type-db-service';
-import { LayoutMain } from '../../components/layout/LayoutMain';
-import { DebugRoles } from '../../components/DebugRoles';
-import { InferServerSideProps } from '../../types';
 import { standConfig } from '../../utils/stand';
 import { Paths } from '../../utils/paths';
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
-import { useHireStreams } from '../../hooks/hire-streams-hooks';
-import { QueryResolver } from '../../components/QueryResolver';
+
+import DebugRolesPage from '../../controllers/DebugRolesPage';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
@@ -21,17 +18,5 @@ export const getServerSideProps = createGetServerSideProps({
         return { sectionTypes };
     },
 });
-
-const DebugRolesPage = ({ sectionTypes }: InferServerSideProps<typeof getServerSideProps>) => {
-    const hireStreamsQuery = useHireStreams();
-
-    return (
-        <LayoutMain pageTitle="Set roles by debug cookie">
-            <QueryResolver queries={[hireStreamsQuery]}>
-                {([hireStreams]) => <DebugRoles hireStreams={hireStreams} sectionTypes={sectionTypes} />}
-            </QueryResolver>
-        </LayoutMain>
-    );
-};
 
 export default DebugRolesPage;

@@ -8,6 +8,8 @@ import { FormHelperText, Label } from '../FormInput/StyledComponents';
 import { MarkdownRenderer } from '../MarkdownRenderer';
 import { Tip } from '../Tip';
 
+import { tr } from './inputs.i18n';
+
 const HintContainer = styled.div`
     display: flex;
     align-items: center;
@@ -31,7 +33,7 @@ const StyledMarkdownIcon = styled(MarkdownIcon)`
     margin-left: 8px;
 `;
 
-type FormEditorProps = JSX.LibraryManagedAttributes<typeof FormEditor, React.ComponentProps<typeof FormEditor>>
+type FormEditorProps = JSX.LibraryManagedAttributes<typeof FormEditor, React.ComponentProps<typeof FormEditor>>;
 
 type CodeEditorFieldProps<T extends FieldValues> = {
     name: FieldPath<T>;
@@ -43,10 +45,14 @@ type CodeEditorFieldProps<T extends FieldValues> = {
 export const CodeEditorField = <T extends FieldValues>(props: CodeEditorFieldProps<T>): JSX.Element => {
     const { name, control, options, label, ...restProps } = props;
     const markdownRendererMinHeight = props.height;
-    const { field, fieldState } = useController({ name, control, rules: options });
+    const { field, fieldState } = useController({
+        name,
+        control,
+        rules: options,
+    });
     const [preview, setPreview] = useState(false);
 
-    const previewButtonTitle = preview ? 'Editing' : 'Preview';
+    const previewButtonTitle = preview ? tr('Editing') : tr('Preview');
 
     return (
         <div style={{ width: '100%' }}>
@@ -60,7 +66,7 @@ export const CodeEditorField = <T extends FieldValues>(props: CodeEditorFieldPro
             {fieldState.error && <FormHelperText>{fieldState.error.message}</FormHelperText>}
             <HintContainer>
                 <StyledMarkdownIcon size="s" />
-                <Tip>Styling with markdown is supported</Tip>
+                <Tip>{tr('Styling with markdown is supported')}</Tip>
                 <StyledPreviewButton type="button" onClick={() => setPreview(!preview)} text={previewButtonTitle} />
             </HintContainer>
         </div>

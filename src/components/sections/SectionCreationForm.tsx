@@ -19,6 +19,8 @@ import { SectionScheduleCalendar, CalendarEventDetails } from '../calendar/Secti
 import { Option } from '../../types';
 import { Select } from '../Select';
 
+import { tr } from './sections.i18n';
+
 interface Props {
     interviewId: number;
     sectionType: SectionType;
@@ -29,12 +31,16 @@ interface Props {
 
 const schema = z.object({
     interviewerId: z.number({
-        invalid_type_error: 'Choose an interviewer',
-        required_error: 'Choose an interviewer',
+        invalid_type_error: tr('Choose an interviewer'),
+        required_error: tr('Choose an interviewer'),
     }),
     name: z.string().nullish(),
     calendarSlot: z
-        .object({ exceptionId: z.string().optional(), eventId: z.string(), originalDate: z.date() })
+        .object({
+            exceptionId: z.string().optional(),
+            eventId: z.string(),
+            originalDate: z.date(),
+        })
         .optional(),
 });
 
@@ -64,7 +70,7 @@ export function SectionCreationForm({ interviewers, candidate, interviewId, sect
         [interviewId, router, schedulable, sectionCreateMutation, sectionType.id],
     );
 
-    const newOrScheduleDescription = schedulable ? 'To the choice of interviewees' : 'To calendar';
+    const newOrScheduleDescription = schedulable ? tr('To the choice of interviewees') : tr('To calendar');
 
     const {
         handleSubmit,
@@ -111,7 +117,7 @@ export function SectionCreationForm({ interviewers, candidate, interviewId, sect
                 />
             )}
             <FormContainer
-                submitButtonText="Assign section"
+                submitButtonText={tr('Assign section')}
                 onSubmitButton={submit}
                 submitButtonDisabled={isSubmitting || isSubmitSuccessful}
             >
@@ -122,7 +128,7 @@ export function SectionCreationForm({ interviewers, candidate, interviewId, sect
                                 options={interviewers}
                                 value={watch('interviewerId')}
                                 onChange={onInterviewerIdChange}
-                                text="Interviewer"
+                                text={tr('Interviewer')}
                             />
                             {errors.interviewerId && !watch('interviewerId') && (
                                 <Text size="xs" color={danger0}>
@@ -134,9 +140,9 @@ export function SectionCreationForm({ interviewers, candidate, interviewId, sect
 
                     {sectionType.userSelect && (
                         <FormInput
-                            label="Description"
+                            label={tr('Description')}
                             helperText={errors.name?.message}
-                            placeholder="Which team is held the product final?"
+                            placeholder={tr('Which team is held the product final?')}
                             forwardRef={refName}
                             {...restName}
                         />

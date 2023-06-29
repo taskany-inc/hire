@@ -5,6 +5,8 @@ import { Option } from '../types';
 
 import { problemDifficultyLabels } from './dictionaries';
 
+import { tr } from './utils.i18n';
+
 export const noop = (): void => {};
 
 export const objKeys = <T extends Record<string, unknown>>(obj: T): (keyof T)[] => Object.keys(obj);
@@ -16,7 +18,7 @@ export const entitiesToOptions = <T extends { id: number; name?: string; descrip
 
     return entities.map((entity) => ({
         value: entity.id,
-        text: entity.name ?? entity.description ?? 'No name or description!',
+        text: entity.name ?? entity.description ?? tr('No name or description!'),
     }));
 };
 

@@ -6,6 +6,8 @@ import { useAnalyticsFilterContext } from '../../contexts/analytics-filter-conte
 import { DatePicker } from '../calendar/DateTimePickers/DatePicker';
 import { FormContainer } from '../FormContainer/FormContainer';
 
+import { tr } from './analytics.i18n';
+
 type CustomPeriodFormProps = {
     close: () => void;
 };
@@ -29,7 +31,7 @@ export const CustomPeriodForm = ({ close }: CustomPeriodFormProps) => {
 
     const submitButtonDisabled = newStartDate > newEndDate;
 
-    const submitButtonText = submitButtonDisabled ? 'Start date later than end date' : 'Set period';
+    const submitButtonText = submitButtonDisabled ? tr('Start date later than end date') : tr('Set period');
 
     return (
         <FormContainer
@@ -39,8 +41,8 @@ export const CustomPeriodForm = ({ close }: CustomPeriodFormProps) => {
             notToShowHint
         >
             <StyledDateContainer>
-                <DatePicker value={newStartDate} onChange={setNewStartDate} label="Start of period" />
-                <DatePicker value={newEndDate} onChange={setNewEndDate} label="End of period" />
+                <DatePicker value={newStartDate} onChange={setNewStartDate} label={tr('Start of period')} />
+                <DatePicker value={newEndDate} onChange={setNewEndDate} label={tr('End of period')} />
             </StyledDateContainer>
         </FormContainer>
     );

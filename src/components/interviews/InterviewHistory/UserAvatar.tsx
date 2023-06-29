@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { User } from '@prisma/client';
-import {UserPic} from '@taskany/bricks';
+import { UserPic } from '@taskany/bricks';
 
 import { ExternalUserLink } from '../../ExternalUserLink';
 

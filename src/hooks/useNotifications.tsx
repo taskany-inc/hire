@@ -7,6 +7,8 @@ import { CrossIcon } from '@taskany/bricks';
 import { isAxiosError, isObject } from '../utils/type-guards';
 import { IconButton } from '../components/IconButton';
 
+import { tr } from './hooks.i18n';
+
 export const useNotifications = () => {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -33,7 +35,7 @@ export const useNotifications = () => {
 
     const enqueueErrorNotification = useCallback(
         (error: unknown) => {
-            let message = 'Unexpected error';
+            let message = tr('Unexpected error');
 
             if (isAxiosError(error) && isObject(error.response) && typeof error.response.data === 'string') {
                 message = error.response.data;

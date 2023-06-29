@@ -2,10 +2,14 @@ import { trpc } from '../utils/trpc-front';
 
 import { useNotifications } from './useNotifications';
 
+import { tr } from './hooks.i18n';
+
 export const useTags = () => {
     const { enqueueErrorNotification } = useNotifications();
 
-    return trpc.tags.getAll.useQuery(undefined, { onError: enqueueErrorNotification });
+    return trpc.tags.getAll.useQuery(undefined, {
+        onError: enqueueErrorNotification,
+    });
 };
 
 export const useTagCreateMutation = () => {
@@ -14,7 +18,7 @@ export const useTagCreateMutation = () => {
 
     return trpc.tags.create.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`New tag created ${data.name}`);
+            enqueueSuccessNotification(`${tr('New tag created')} ${data.name}`);
             utils.tags.invalidate();
         },
         onError: enqueueErrorNotification,

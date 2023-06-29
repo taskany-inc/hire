@@ -1,10 +1,7 @@
-import { LayoutMain } from '../../components/layout/LayoutMain';
-import { CandidateListView } from '../../components/candidates/CandidateListView';
-import { CandidatesFilterBar } from '../../components/candidates/CandidatesFilterBar';
-import { useHireStreams } from '../../hooks/hire-streams-hooks';
-import { QueryResolver } from '../../components/QueryResolver';
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 import { accessChecks } from '../../backend/access/access-checks';
+
+import CandidatesPage from '../../controllers/CandidatesPage';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
@@ -14,19 +11,5 @@ export const getServerSideProps = createGetServerSideProps({
         await handleAccessChecks(() => accessChecks.candidate.readMany(session));
     },
 });
-
-const CandidatesPage = () => {
-    const hireStreamsQuery = useHireStreams();
-
-    return (
-        <QueryResolver queries={[hireStreamsQuery]}>
-            {([hireStreams]) => (
-                <LayoutMain pageTitle="Candidates" aboveContainer={<CandidatesFilterBar hireStreams={hireStreams} />}>
-                    <CandidateListView />
-                </LayoutMain>
-            )}
-        </QueryResolver>
-    );
-};
 
 export default CandidatesPage;

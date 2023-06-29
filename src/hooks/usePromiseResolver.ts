@@ -1,8 +1,10 @@
 import { useRef } from 'react';
 
+import { tr } from './hooks.i18n';
+
 class PendingPromiseInterrupted extends Error {
     constructor() {
-        super('Pending Promise was interrupted by another Promise start');
+        super(tr('Pending Promise was interrupted by another Promise start'));
     }
 }
 

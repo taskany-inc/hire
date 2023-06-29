@@ -14,6 +14,8 @@ import { UserRolesInfo } from '../backend/user-roles';
 
 import { ErrorWithStatus } from '.';
 
+import { tr } from './utils.i18n';
+
 export const AUTH_DEBUG_COOKIE_NAME = 'interview-auth-debug';
 export const ROLE_DEBUG_COOKIE_NAME = 'interview-role-debug';
 
@@ -46,7 +48,7 @@ const getUser = async (id: number, req: GetServerSidePropsContext['req']): Promi
         return userDbService.find(id);
     }
 
-    throw new ErrorWithStatus('No auth option is available', 400);
+    throw new ErrorWithStatus(tr('No auth option is available'), 400);
 };
 
 const getUserRoles = async (id: number, req: GetServerSidePropsContext['req']): Promise<UserRolesInfo> => {

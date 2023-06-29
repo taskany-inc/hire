@@ -6,16 +6,18 @@ import { Badge } from '@taskany/bricks';
 import { TagPaletteColor } from '../../utils/tag-palette';
 import { SectionType as SectionTypeEnum } from '../../utils/dictionaries';
 
+import { tr } from './sections.i18n';
+
 const StyledChip = styled(Badge)`
     margin-left: 1em;
 `;
 
 export const SectionFeedbackHireBadge: VFC<{ hire: boolean | null }> = ({ hire }) => {
-    if (hire === null) return <StyledChip color={TagPaletteColor.BLUE}>New</StyledChip>;
+    if (hire === null) return <StyledChip color={TagPaletteColor.BLUE}>{tr('New')}</StyledChip>;
 
-    if (hire) return <StyledChip color={TagPaletteColor.GREEN}>Hire</StyledChip>;
+    if (hire) return <StyledChip color={TagPaletteColor.GREEN}>{tr('Hire')}</StyledChip>;
 
-    return <StyledChip color={TagPaletteColor.RED}>No hire</StyledChip>;
+    return <StyledChip color={TagPaletteColor.RED}>{tr('No hire')}</StyledChip>;
 };
 
 export const SectionTypeBadge: VFC<{ sectionType: SectionType }> = ({ sectionType }) => {

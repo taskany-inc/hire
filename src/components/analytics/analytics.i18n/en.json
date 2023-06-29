@@ -1,0 +1,19 @@
+{
+    "Week": "Week",
+    "Month": "Month",
+    "Quarter": "Quarter",
+    "Year": "Year",
+    "Custom": "Custom",
+    "Custom period": "",
+    "Number of candidates in recruitment streams": "Number of candidates in recruitment streams",
+    "Reasons for not hiring": "Reasons for not hiring",
+    "Start date later than end date": "Start date later than end date",
+    "Set period": "Set period",
+    "Start of period": "Start of period",
+    "End of period": "Start of period",
+    "The number of sections conducted by the interviewers (with tasks)": "The number of sections conducted by the interviewers (with tasks)",
+    "The number of sections conducted by the interviewers (without tasks)": "The number of sections conducted by the interviewers (without tasks)",
+    "Estimates in section type": "Estimates in section type",
+    "Hiring by section type": "Hiring by section type",
+    "Hiring funnel": "Hiring funnel"
+}

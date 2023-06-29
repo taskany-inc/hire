@@ -1,9 +1,7 @@
-import { AddOrUpdateCandidate } from '../../components/candidates/AddOrUpdateCandidate';
-import { LayoutMain } from '../../components/layout/LayoutMain';
 import { accessChecks } from '../../backend/access/access-checks';
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
-import { useOutstaffVendors } from '../../hooks/candidate-hooks';
-import { QueryResolver } from '../../components/QueryResolver';
+
+import NewCandidatePage from '../../controllers/NewCandidatePage';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
@@ -13,17 +11,5 @@ export const getServerSideProps = createGetServerSideProps({
         await handleAccessChecks(() => accessChecks.candidate.create(session));
     },
 });
-
-const NewCandidatePage = () => {
-    const outstaffVendorsQuery = useOutstaffVendors();
-
-    return (
-        <LayoutMain pageTitle="New candidate">
-            <QueryResolver queries={[outstaffVendorsQuery]}>
-                {([outstaffVendors]) => <AddOrUpdateCandidate variant="new" outstaffVendors={outstaffVendors} />}
-            </QueryResolver>
-        </LayoutMain>
-    );
-};
 
 export default NewCandidatePage;

@@ -6,6 +6,8 @@ import { InlineDot } from '../InlineDot';
 import { SectionWithInterviewerRelation } from '../../backend/modules/section/section-types';
 import { ExternalUserLink } from '../ExternalUserLink';
 
+import { tr } from './sections.i18n';
+
 // TODO: find out return type
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function SectionSubtitle({ section }: { section: SectionWithInterviewerRelation }) {
@@ -18,7 +20,8 @@ export function SectionSubtitle({ section }: { section: SectionWithInterviewerRe
             <InlineDot />
 
             <Text as="span" color={gray10}>
-                Interviewer{'  '}
+                {tr('Interviewer')}
+                {'  '}
                 <Text size="s" as="span">
                     <ExternalUserLink user={section.interviewer} />
                 </Text>

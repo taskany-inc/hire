@@ -6,6 +6,8 @@ import { SolutionCard } from '../solution/SolutionCard';
 import { Stack } from '../layout/Stack';
 import { useSwitchSolutionsOrder } from '../../hooks/solution-hooks';
 
+import { tr } from './sections.i18n';
+
 interface SectionProblemSolutionsProps {
     sectionId: number;
     solutions: SolutionWithRelations[];
@@ -28,7 +30,7 @@ export const SectionProblemSolutions: VFC<SectionProblemSolutionsProps> = ({
     return (
         <Stack direction="column" gap={16}>
             <Text size="l" style={{ marginLeft: 40 }}>
-                Problems and solutions of the candidate
+                {tr('Problems and solutions of the candidate')}
             </Text>
 
             {solutions.map((solution, index) => {

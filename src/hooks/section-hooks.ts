@@ -3,10 +3,14 @@ import { trpc } from '../utils/trpc-front';
 
 import { useNotifications } from './useNotifications';
 
+import { tr } from './hooks.i18n';
+
 export const useInterviewSections = (params: GetInterviewSections) => {
     const { enqueueErrorNotification } = useNotifications();
 
-    return trpc.sections.getInterviewSections.useQuery(params, { onError: enqueueErrorNotification });
+    return trpc.sections.getInterviewSections.useQuery(params, {
+        onError: enqueueErrorNotification,
+    });
 };
 
 export const useSection = (sectionId: number) => {
@@ -21,7 +25,7 @@ export const useSectionCreateMutation = () => {
 
     return trpc.sections.create.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`New section added ${data.id}`);
+            enqueueSuccessNotification(`${tr('New section added')} ${data.id}`);
             utils.sections.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -34,7 +38,7 @@ export const useSectionUpdateMutation = () => {
 
     return trpc.sections.update.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`Section ${data.id} updated`);
+            enqueueSuccessNotification(tr('Section {data.id} updated', { id: data.id }));
             utils.sections.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -47,7 +51,7 @@ export const useSectionCancelMutation = () => {
 
     return trpc.sections.cancel.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(`Section ${data.id} deleted`);
+            enqueueSuccessNotification(tr('Section {data.id} deleted', { id: data.id }));
             utils.sections.invalidate();
         },
         onError: enqueueErrorNotification,

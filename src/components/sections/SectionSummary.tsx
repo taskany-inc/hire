@@ -8,6 +8,8 @@ import { Stack } from '../layout/Stack';
 import { AddProblemToSection } from './AddProblemToSection';
 import { SectionFeedback } from './SectionFeedback';
 
+import { tr } from './sections.i18n';
+
 interface SectionSummaryProps {
     interview: InterviewWithCandidateRelation;
     section: SectionWithRelationsAndResults;
@@ -24,7 +26,7 @@ export const SectionSummary: VFC<SectionSummaryProps> = ({ interview, section, i
             {isProblemCreationAvailable && <AddProblemToSection interviewId={interviewId} />}
             <>
                 <Text size="s" color="textSecondary">
-                    Section feedback
+                    {tr('Section feedback')}
                 </Text>
                 <SectionFeedback section={section} isEditable={isEditable} candidateId={interview.candidateId} />
             </>

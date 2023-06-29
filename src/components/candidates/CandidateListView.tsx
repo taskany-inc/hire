@@ -8,10 +8,17 @@ import { QueryResolver } from '../QueryResolver';
 
 import { CandidateCard } from './CandidateCard';
 
+import { tr } from './candidates.i18n';
+
 export const CandidateListView: FC = () => {
     const { debouncedSearch, statuses, hireStreams } = useCandidateFilterContext();
     const hireStreamIds = hireStreams.map((hireStream) => hireStream.id);
-    const candidatesQuery = useCandidates({ search: debouncedSearch, statuses, hireStreamIds, limit: 20 });
+    const candidatesQuery = useCandidates({
+        search: debouncedSearch,
+        statuses,
+        hireStreamIds,
+        limit: 20,
+    });
 
     const { isFetching, hasNextPage, fetchNextPage } = candidatesQuery;
 
@@ -41,7 +48,7 @@ export const CandidateListView: FC = () => {
                             {candidates.pages.map((page) => (
                                 <>
                                     {page.total === 0 ? (
-                                        <Text>Nothing found 😔</Text>
+                                        <Text>{tr('Nothing found')} 😔</Text>
                                     ) : (
                                         page.items.map((candidate) => (
                                             <CandidateCard candidate={candidate} key={candidate.id} />
@@ -49,7 +56,7 @@ export const CandidateListView: FC = () => {
                                     )}
                                 </>
                             ))}
-                            <div ref={ref}>{isFetching && <Text>Loading candidates ⏳</Text>}</div>
+                            <div ref={ref}>{isFetching && <Text>{tr('Loading candidates')} ⏳</Text>}</div>
                         </>
                     );
                 }}

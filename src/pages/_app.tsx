@@ -17,6 +17,7 @@ import { CandidateFilterContextProvider } from '../contexts/candidate-filter-con
 import { Browser } from '../utils';
 import { trpc } from '../utils/trpc-front';
 import { ErrorProps } from 'next/error';
+import getLang, { TLocale, setSSRLocale } from '../utils/getLang';
 
 type TaskanyHireAppProps = {
     session: Session;
@@ -24,7 +25,8 @@ type TaskanyHireAppProps = {
     error?: ErrorProps;
 };
 
-const TaskanyHireApp: FC<AppProps<TaskanyHireAppProps>> = ({ Component, pageProps }) => {
+const TaskanyHireApp: FC<AppProps<TaskanyHireAppProps>> = ({ Component, pageProps, router }) => {
+    setSSRLocale(router.locale as TLocale);
     const { session, browser, error, ...restPageProps } = pageProps;
 
     useEffect(() => {

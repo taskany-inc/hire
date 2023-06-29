@@ -6,6 +6,8 @@ import { DatePicker } from './DatePicker';
 import { TimePicker } from './TimePicker';
 import { DurationPicker } from './DurationPicker';
 
+import { tr } from './DateTimePickers.i18n';
+
 export interface DateTimeSelectorProps {
     startDate: Date;
     duration: number;
@@ -50,9 +52,14 @@ export function DateTimePickers({
 
     return (
         <Container>
-            <DatePicker value={date} label="Start date" onChange={handleStartDateChange} />
-            <TimePicker value={date} label="Start time" onChange={handleStartTimeChange} />
-            <DurationPicker startDate={date} duration={duration} label="End time" onChange={handleDurationChange} />
+            <DatePicker value={date} label={tr('Start date')} onChange={handleStartDateChange} />
+            <TimePicker value={date} label={tr('Start time')} onChange={handleStartTimeChange} />
+            <DurationPicker
+                startDate={date}
+                duration={duration}
+                label={tr('End time')}
+                onChange={handleDurationChange}
+            />
         </Container>
     );
 }

@@ -4,6 +4,8 @@ import { Control, FieldPath, FieldValues, RegisterOptions, useController } from 
 
 import { FormInput, FormInputProps } from '../FormInput/FormInput';
 
+import { tr } from './inputs.i18n';
+
 const stripPhone = (str: string) => str.slice(3).replace(/[^\d]/g, '');
 
 const phoneRifmArgs = {
@@ -57,7 +59,10 @@ export const PhoneField = <T extends FieldValues>({
         control,
         rules: {
             ...options,
-            pattern: { value: /\+7 \d{3} \d{3} \d{2} \d{2}/, message: 'Invalid phone format' },
+            pattern: {
+                value: /\+7 \d{3} \d{3} \d{2} \d{2}/,
+                message: tr('Invalid phone format'),
+            },
         },
     });
 

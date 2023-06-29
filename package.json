@@ -10,7 +10,8 @@
     "db:generate": "prisma migrate dev --name $1",
     "db:migrate": "prisma migrate deploy",
     "db:seed": "prisma db seed",
-    "dev:db:init": "npx prisma migrate dev --preview-feature && npx prisma db seed"
+    "dev:db:init": "npx prisma migrate dev --preview-feature && npx prisma db seed",
+    "generate:i18n": "generate-i18n --func=tr --langs=en --path='./src/{components,controllers,pages,hooks,utils,plugins,i18n,schema}/**/*' --getLang='./src/utils/getLang'"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.354.0",
@@ -32,6 +33,7 @@
     "body-parser": "1.20.2",
     "color-contrast-checker": "2.1.0",
     "date-fns": "2.30.0",
+    "easy-typed-intl": "1.0.3",
     "formidable": "2.1.1",
     "lodash.groupby": "4.6.0",
     "lodash.mapkeys": "4.6.0",

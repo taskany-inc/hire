@@ -7,6 +7,8 @@ import { useSectionCancelMutation } from '../../hooks/section-hooks';
 import { pageHrefs } from '../../utils/paths';
 import { FormTextArea } from '../FormInput/FormTextArea';
 
+import { tr } from './sections.i18n';
+
 type SectionCancelationConfirmationProps = {
     isOpen: boolean;
     onClose: () => void;
@@ -46,21 +48,21 @@ export const SectionCancelationConfirmation = ({
         <Modal visible={isOpen} onClose={onClose}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <ModalHeader>
-                    <FormTitle>Commentary on section cancellation</FormTitle>
+                    <FormTitle>{tr('Commentary on section cancellation')}</FormTitle>
                 </ModalHeader>
                 <ModalContent>
                     <Stack direction="column" gap={24} justifyItems="start">
                         <FormTextArea
-                            label="Comment"
-                            placeholder="Commentary on section cancellation"
+                            label={tr('Comment')}
+                            placeholder={tr('Commentary on section cancellation')}
                             rows={3}
                             {...register('cancelComment')}
                         />
                     </Stack>
                 </ModalContent>
                 <Stack direction="row" gap={10} justifyContent="flex-start" style={{ margin: 12 }}>
-                    <Button onClick={onClose} text="Cancel" />
-                    <Button type="submit" view="primary" disabled={isSubmitting} text="Save" />
+                    <Button onClick={onClose} text={tr('Cancel')} />
+                    <Button type="submit" view="primary" disabled={isSubmitting} text={tr('Save')} />
                 </Stack>
             </form>
         </Modal>

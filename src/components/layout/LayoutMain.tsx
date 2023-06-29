@@ -1,6 +1,7 @@
 import { FC, ReactNode } from 'react';
 import Head from 'next/head';
 import { nullable } from '@taskany/bricks/utils/nullable';
+import styled from 'styled-components';
 
 import { TitleMenu } from '../TitleMenu/TitleMenu';
 import { OfflineBanner } from '../OfflineBanner';
@@ -20,6 +21,10 @@ type LayoutMainProps = {
     hidePageHeader?: boolean;
     children?: ReactNode;
 };
+
+const StyledContainer = styled.div`
+    padding-left: 40px;
+`;
 
 export const LayoutMain: FC<LayoutMainProps> = ({
     pageTitle,
@@ -55,7 +60,7 @@ export const LayoutMain: FC<LayoutMainProps> = ({
 
             {aboveContainer}
 
-            {children}
+            <StyledContainer>{children}</StyledContainer>
         </>
     );
 };

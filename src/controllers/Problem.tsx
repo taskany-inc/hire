@@ -30,13 +30,11 @@ const StyledTagsContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-left: 40px;
 `;
 
 const StyledSolutionTitle = styled(Text)`
     margin-top: 50px;
     margin-bottom: 40px;
-    margin-left: 40px;
     cursor: pointer;
     align-items: center;
     gap: 5px;
@@ -48,10 +46,6 @@ const StyledAuthorLink = styled.span`
     &:hover {
         color: ${textColorPrimary};
     }
-`;
-
-const StyledMarkdownRenderer = styled.div`
-    margin-left: 40px;
 `;
 
 export const Problem: VFC<ProblemProps> = ({ problem }) => {
@@ -95,7 +89,7 @@ export const Problem: VFC<ProblemProps> = ({ problem }) => {
 
     return (
         <LayoutMain pageTitle={problem.name} headerGutter="0px" titleMenuItems={titleMenuItems}>
-            <Text size="s" as="div" style={{ marginBottom: 20, marginLeft: 40 }}>
+            <Text size="s" as="div" style={{ marginBottom: 20 }}>
                 #{problem.id}
                 <Text size="s" as="span" color="textSecondary">
                     <InlineDot />
@@ -131,22 +125,14 @@ export const Problem: VFC<ProblemProps> = ({ problem }) => {
                 good={problem.solutionsGood}
                 ok={problem.solutionsOk}
                 bad={problem.solutionsBad}
-                style={{ marginBottom: 50, marginLeft: 40 }}
             />
-            <StyledMarkdownRenderer>
-                <MarkdownRenderer value={problem.description} />
-            </StyledMarkdownRenderer>
+            <MarkdownRenderer value={problem.description} />
 
             <StyledSolutionTitle size="xl" onClick={toggleSolutionExpansion}>
                 {tr('Solution')} {isSolutionExpanded ? <ArrowUpSmallIcon size="m" /> : <ArrowDownSmallIcon size="m" />}
             </StyledSolutionTitle>
 
-            {isSolutionExpanded && (
-                <StyledMarkdownRenderer>
-                    {' '}
-                    <MarkdownRenderer value={problem.solution} />
-                </StyledMarkdownRenderer>
-            )}
+            {isSolutionExpanded && <MarkdownRenderer value={problem.solution} />}
 
             <Confirmation {...problemRemoveConfirmation.props} />
         </LayoutMain>

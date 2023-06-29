@@ -7,7 +7,6 @@ import { KeyboardSubmitHint } from '../candidates/KeyboardSubmitHint';
 const OuterContainer = styled.div`
     width: 650px;
     max-width: 80vw;
-    margin-left: 40px;
 `;
 
 const InnerContainer = styled.div`

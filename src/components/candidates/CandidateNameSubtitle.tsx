@@ -17,7 +17,6 @@ export function CandidateNameSubtitle({ id, name }: Props) {
                 fontWeight: 'bold',
                 fontSize: '22px',
                 lineHeight: '28px',
-                marginLeft: '40px',
             }}
         >
             Candidate:{' '}

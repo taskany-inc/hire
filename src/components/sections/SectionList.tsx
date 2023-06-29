@@ -37,14 +37,14 @@ export const SectionList = ({ sections, header, completed = false }: SectionList
     return (
         <div>
             {header && (
-                <StyledTitle style={{ marginLeft: 40 }} size="l" completed={completed}>
+                <StyledTitle size="l" completed={completed}>
                     {header}
                 </StyledTitle>
             )}
 
             <Stack direction="column" gap={8}>
                 {sections.length === 0 ? (
-                    <Text style={{ marginLeft: 40 }}>{tr('No sections yet')} 😴</Text>
+                    <Text>{tr('No sections yet')} 😴</Text>
                 ) : (
                     sections.map((section: SectionWithInterviewRelation) => {
                         return (

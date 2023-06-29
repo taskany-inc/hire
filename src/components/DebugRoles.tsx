@@ -18,14 +18,13 @@ type DebugRolesProps = {
 
 const StyledTitle = styled(Text)`
     margin-top: 50px;
-    margin-left: 40px;
 `;
 
 const StyledCards = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 2px;
-    margin: 0 20px 30px;
+    margin: 0 -20px 30px;
     max-width: 70%;
 `;
 
@@ -200,7 +199,7 @@ export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) =
                 })}
             </StyledCards>
 
-            <StyledButton view="primary" onClick={onSave} text={tr('Save')} />
+            <Button view="primary" onClick={onSave} text={tr('Save')} />
 
             <StyledButton view="danger" onClick={onReset} text={tr('Reset debug cookie')} />
         </div>

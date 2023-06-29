@@ -66,7 +66,7 @@ export const ProblemList = ({
                         <>
                             {problems.pages.map((page, i) =>
                                 page.total === 0 ? (
-                                    <Text style={{ marginLeft: 40 }} key={`${i}-${page.nextCursor}`}>
+                                    <Text key={`${i}-${page.nextCursor}`}>
                                         {tr('Nothing found')} 😔
                                     </Text>
                                 ) : (

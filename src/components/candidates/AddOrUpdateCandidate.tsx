@@ -2,6 +2,8 @@ import { VFC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Candidate, OutstaffVendor } from '@prisma/client';
 import { useRouter } from 'next/router';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { UpdateCandidate, CreateCandidate } from '../../backend/modules/candidate/candidate-types';
 import { generatePath, Paths } from '../../utils/paths';
@@ -26,6 +28,13 @@ type AddOrUpdateCandidateProps = {
 type FormValues = Omit<CreateCandidate, 'outstaffVendorId'> & {
     outstaffVendorId: string | null;
 };
+
+const schema = z.object({
+    email: z.string().email().nullish(),
+    name: z.string({ required_error: tr('Obligatory field') }),
+    outstaffVendorId: z.string().nullish(),
+    phone: z.string().nullish(),
+});
 
 export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
     const { variant, onSave, candidate, outstaffVendors } = props;
@@ -60,6 +69,7 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
             outstaffVendorId:
                 typeof outstaffVendorId !== 'undefined' ? encodeInitialValue(outstaffVendorId) : undefined,
         },
+        resolver: zodResolver(schema),
     });
 
     const update: SubmitHandler<FormValues> = async (values) => {
@@ -112,24 +122,18 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
             onSubmitButton={handleSubmit(onSubmit)}
             submitButtonDisabled={isSubmitting}
         >
-            <FormInput label="Full name" helperText={String(errors.name?.message)} forwardRef={refName} {...restName} />
+            <FormInput label={tr('Full name')} helperText={errors.name?.message} forwardRef={refName} {...restName} />
             <Select
                 options={options}
                 value={watch('outstaffVendorId')}
                 onChange={onOutstaffVendorIdChange}
                 text={tr('Employment')}
             />
-            <FormInput
-                label={tr('Email')}
-                helperText={String(errors.email?.message)}
-                forwardRef={refEmail}
-                {...restEmail}
-            />
+            <FormInput label={tr('Email')} helperText={errors.email?.message} forwardRef={refEmail} {...restEmail} />
             <FormPhoneInput
                 name="phone"
                 control={control}
                 label={tr('Phone number')}
-                helperText={String(errors.phone?.message)}
                 defaultValue={candidate?.phone || ''}
                 options={{ required: false }}
             />

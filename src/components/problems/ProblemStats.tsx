@@ -28,6 +28,7 @@ const StyledContainer = styled.div`
     width: 200px;
     height: 8px;
     display: flex;
+    margin-bottom: 50px;
 `;
 
 const RateBar = styled.div<{ ratio: number; rate: keyof Stats }>`

@@ -24,12 +24,12 @@ export const SectionProblemSolutions: VFC<SectionProblemSolutionsProps> = ({
     const switchSolutionsOrderMutation = useSwitchSolutionsOrder();
 
     if (solutions.length < 1) {
-        return <Text style={{ paddingLeft: 40 }}>There are no problems in the section</Text>;
+        return <Text>There are no problems in the section</Text>;
     }
 
     return (
         <Stack direction="column" gap={16}>
-            <Text size="l" style={{ marginLeft: 40 }}>
+            <Text size="l">
                 {tr('Problems and solutions of the candidate')}
             </Text>
 

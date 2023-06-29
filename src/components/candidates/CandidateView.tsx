@@ -20,7 +20,6 @@ import { tr } from './candidates.i18n';
 const StyledTitle = styled(Text)`
     margin-top: 60px;
     margin-bottom: 50px;
-    margin-left: 40px;
 `;
 
 interface Props {
@@ -32,7 +31,7 @@ interface Props {
 export const CandidateView: FC<Props> = ({ candidate, interviews, isShowAddButton }) => {
     return (
         <>
-            <Stack direction="column" style={{ marginLeft: 40 }}>
+            <Stack direction="column">
                 <Text size="s" color="textSecondary" as="p" style={{ marginBottom: 10 }}>
                     {tr('Added')} {distanceDate(candidate.createdAt)}
                 </Text>

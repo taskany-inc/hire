@@ -81,7 +81,7 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
             headerGutter="0px"
         >
             <Stack direction="column" gap={20}>
-                <Text size="s" style={{ marginLeft: 40 }}>
+                <Text size="s">
                     {!section.isCanceled ? (
                         <SectionSubtitle section={section} />
                     ) : (

@@ -10,6 +10,10 @@ import { Tip } from '../Tip';
 
 import { tr } from './inputs.i18n';
 
+const StyledRoot = styled.div`
+    width: 80%;
+`;
+
 const HintContainer = styled.div`
     display: flex;
     align-items: center;
@@ -55,7 +59,7 @@ export const CodeEditorField = <T extends FieldValues>(props: CodeEditorFieldPro
     const previewButtonTitle = preview ? tr('Editing') : tr('Preview');
 
     return (
-        <div style={{ width: '100%' }}>
+        <StyledRoot>
             <Label>{label}</Label>
 
             {preview ? (
@@ -69,6 +73,6 @@ export const CodeEditorField = <T extends FieldValues>(props: CodeEditorFieldPro
                 <Tip>{tr('Styling with markdown is supported')}</Tip>
                 <StyledPreviewButton type="button" onClick={() => setPreview(!preview)} text={previewButtonTitle} />
             </HintContainer>
-        </div>
+        </StyledRoot>
     );
 };

@@ -8,7 +8,7 @@ import { HireStreamAnalyticsList } from '../components/analytics/HireStreamAnaly
 import { useHireStreams } from '../hooks/hire-streams-hooks';
 import styled from 'styled-components';
 import { Paths } from '../utils/paths';
-import { Card } from '@taskany/bricks';
+import { Card } from '../components/card/Card';
 
 import { tr } from './controllers.i18n';
 

@@ -22,7 +22,7 @@ export const SectionSummary: VFC<SectionSummaryProps> = ({ interview, section, i
     const isProblemCreationAvailable = isEditable && hasTasks;
 
     return (
-        <Stack direction="column" gap="15px" justifyItems="flex-start" style={{ paddingLeft: 40 }}>
+        <Stack direction="column" gap="15px" justifyItems="flex-start">
             {isProblemCreationAvailable && <AddProblemToSection interviewId={interviewId} />}
             <>
                 <Text size="s" color="textSecondary">

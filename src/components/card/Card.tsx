@@ -5,8 +5,7 @@ import { gray1 } from '@taskany/colors';
 import { PropsWithClassName } from '../../types';
 
 const StyledCardRoot = styled.div`
-    margin: 0 -22px;
-    padding: 20px 60px;
+    padding: 20px 40px 20px 5px;
     display: grid;
     grid-template-columns: auto 1fr;
     border-radius: 6px;

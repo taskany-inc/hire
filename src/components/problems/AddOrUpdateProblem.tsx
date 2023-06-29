@@ -135,7 +135,6 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                 direction="column"
                 gap="12px"
                 justifyItems="flex-start"
-                style={{ marginLeft: 40, width: 'max-content' }}
             >
                 <FormInput
                     label={tr('Name')}

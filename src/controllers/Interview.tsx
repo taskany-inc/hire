@@ -126,7 +126,7 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reacti
             headerGutter="0px"
             backlink={pageHrefs.candidate(interview.candidate.id)}
         >
-            <Text size="s" as="div" style={{ padding: '10px 40px' }}>
+            <Text size="s" as="div" style={{paddingTop: 10}}>
                 #{interview.id}
                 <Text size="m" as="span" color={gray10}>
                     <InlineDot />
@@ -145,15 +145,13 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reacti
                 </Text>
                 {interview.description && <MarkdownRenderer value={interview.description} />}
             </Text>
-            <Stack direction="column" gap={25} style={{ marginTop: 20 }}>
+            <Stack direction="column">
                 {canCreateSections && (
-                    <StyledBAssignSectionDropdownButton>
-                        <AssignSectionDropdownButton interviewId={interviewId} sectionTypes={sectionTypes} />
-                    </StyledBAssignSectionDropdownButton>
+                    <AssignSectionDropdownButton interviewId={interviewId} sectionTypes={sectionTypes} />
                 )}
                 {interview.sections.length > 0 && (
                     <>
-                        <Text size="xxl" style={{ marginTop: 30, marginLeft: 40 }}>
+                        <Text size="xxl" style={{ marginTop: 30 }}>
                             {tr('Interview sections')}
                         </Text>
                         {interview.sections.map((section) => (

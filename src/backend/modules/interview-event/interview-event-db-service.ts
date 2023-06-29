@@ -5,6 +5,8 @@ import { prisma } from '../../index';
 
 import { CreateInterviewEvents, InterviewEventWithRelations } from './interview-event-types';
 
+import { tr } from './interview-event.i18n';
+
 const create = async (data: CreateInterviewEvents): Promise<InterviewEvent> => {
     const { userId, interviewId, ...restData } = data;
     const createData: Prisma.InterviewEventCreateInput = {
@@ -22,7 +24,7 @@ const find = async (id: number): Promise<InterviewEvent[]> => {
     });
 
     if (interviewHistory === null) {
-        throw new ErrorWithStatus('Interview history not found', 404);
+        throw new ErrorWithStatus(tr('Interview history not found'), 404);
     }
 
     return interviewHistory;
@@ -37,7 +39,7 @@ const findWithRelations = async (id: number): Promise<InterviewEventWithRelation
     });
 
     if (interviewHistory === null) {
-        throw new ErrorWithStatus('Interview history not found', 404);
+        throw new ErrorWithStatus(tr('Interview history not found'), 404);
     }
 
     return interviewHistory;

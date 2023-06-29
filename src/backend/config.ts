@@ -1,4 +1,5 @@
 import { PHASE_PRODUCTION_BUILD } from 'next/constants';
+import { tr } from './backend.i18n';
 
 const getEnvVariableOrThrow = (varName: string, options?: { allowEmptyString?: boolean }): string => {
     if (typeof window !== 'undefined' && !varName.startsWith('NEXT_PUBLIC')) {
@@ -12,11 +13,11 @@ const getEnvVariableOrThrow = (varName: string, options?: { allowEmptyString?: b
     const envVar = process.env[varName];
 
     if (envVar === undefined) {
-        throw new Error(`Cannot find environment variable "${varName}"`);
+        throw new Error(tr('Cannot find environment variable {varName}', { varName }));
     }
 
     if (!options?.allowEmptyString && envVar.length === 0) {
-        throw new Error(`Environment variable "${varName}" should not be an empty string`);
+        throw new Error(tr('Environment variable {varName} should not be an empty string', { varName }));
     }
 
     return envVar;

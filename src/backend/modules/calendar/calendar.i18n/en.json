@@ -1,0 +1,6 @@
+{
+    "Calendar event with id {eventId} not found": "Calendar event with id {eventId} not found",
+    "Calendar event exception with id {exceptionId} not found": "Calendar event exception with id {exceptionId} not found",
+    "addMinutes must be a number": "addMinutes must be a number",
+    "Calendar exception of event on this date already exist": "Calendar exception of event on this date already exist"
+}

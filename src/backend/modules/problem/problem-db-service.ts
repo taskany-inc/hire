@@ -20,6 +20,8 @@ import {
     UsedProblemMap,
 } from './problem-types';
 
+import { tr } from './problem.i18n';
+
 const create = async (authorId: number, data: CreateProblem): Promise<Problem> => {
     const { tagIds, ...restData } = data;
     const createData: Prisma.ProblemCreateInput = {
@@ -38,7 +40,7 @@ const getById = async (id: number) => {
     });
 
     if (problem === null) {
-        throw new ErrorWithStatus('Problem not found', 404);
+        throw new ErrorWithStatus(tr('Problem not found'), 404);
     }
 
     return problem;

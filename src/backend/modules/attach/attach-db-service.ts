@@ -5,6 +5,8 @@ import { ErrorWithStatus } from '../../../utils';
 
 import { CreateAttach } from './attach-types';
 
+import { tr } from './attach.i18n';
+
 const create = async (data: CreateAttach): Promise<Attach> => {
     const { sectionId, ...restData } = data;
     const createData: Prisma.AttachCreateInput = {
@@ -22,7 +24,7 @@ const getById = async (id: string) => {
     });
 
     if (attach === null) {
-        throw new ErrorWithStatus('Attach not found', 404);
+        throw new ErrorWithStatus(tr('Attach not found'), 404);
     }
 
     return attach;

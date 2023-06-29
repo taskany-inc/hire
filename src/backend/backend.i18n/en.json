@@ -1,0 +1,9 @@
+{
+    "No data": "No data",
+    "Data not in array": "Data not in array",
+    "No section": "No section",
+    "file uploaded": "file uploaded",
+    "No file finded": "No file finded",
+    "Cannot find environment variable {varName}": "Cannot find environment variable {varName}",
+    "Environment variable {varName} should not be an empty string": "Environment variable {varName} should not be an empty string"
+}

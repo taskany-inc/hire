@@ -18,6 +18,8 @@ import {
     UpdateInterview,
 } from './interview-types';
 
+import { tr } from './interview.i18n';
+
 const create = async (creatorId: number, data: CreateInterview): Promise<Interview> => {
     const { candidateId, hireStreamId, ...restData } = data;
 
@@ -70,7 +72,7 @@ const getById = async (id: number, options?: GetInterviewByIdOptions): Promise<I
     });
 
     if (interview === null) {
-        throw new ErrorWithStatus('Interview not found', 404);
+        throw new ErrorWithStatus(tr('Interview not found'), 404);
     }
 
     if (showGradeForOwnSectionOnly) {
@@ -93,7 +95,7 @@ const findWithSections = async (id: number): Promise<InterviewWithSections> => {
     });
 
     if (interview === null) {
-        throw new ErrorWithStatus('Interview not found', 404);
+        throw new ErrorWithStatus(tr('Interview not found'), 404);
     }
 
     return interview;
@@ -101,7 +103,7 @@ const findWithSections = async (id: number): Promise<InterviewWithSections> => {
 
 const getByIdWithFilteredSections = async (session: Session | null, id: number): Promise<InterviewWithRelations> => {
     if (!session) {
-        throw new ErrorWithStatus('No session', 401);
+        throw new ErrorWithStatus(tr('No session'), 401);
     }
     const shouldHideSectionGrade = !session.userRoles.admin && session.userRoles.interviewer;
     const showReactions = session.userRoles.admin || session.userRoles.hasHiringLeadRoles;

@@ -12,6 +12,8 @@ import { prisma } from '../../index';
 
 import { CalendarEventWithCreatorAndDetails, CalendarEventWithRelations } from './calendar-types';
 
+import { tr } from './calendar.i18n';
+
 const getAllEvents = (creatorIds?: number[]): Promise<CalendarEventWithRelations[]> => {
     const where: Prisma.CalendarEventWhereInput = {};
 
@@ -56,7 +58,7 @@ const getEventById = async (eventId: string): Promise<CalendarEventWithCreatorAn
     });
 
     if (!event) {
-        throw new ErrorWithStatus(`Calendar event with id ${eventId} not found`, 404);
+        throw new ErrorWithStatus(tr('Calendar event with id {eventId} not found', { eventId }), 404);
     }
 
     return event;
@@ -68,7 +70,7 @@ const getEventExceptionById = async (exceptionId: string): Promise<CalendarEvent
     });
 
     if (!event) {
-        throw new ErrorWithStatus(`Calendar event exception with id ${exceptionId} not found`, 404);
+        throw new ErrorWithStatus(tr('Calendar event exception with id {exceptionId} not found', { exceptionId }), 404);
     }
 
     return event;
@@ -169,7 +171,7 @@ const updateEventCancellations = (
 const shiftEventExceptionOriginalDates = (eventId: string, addMinutes: number): PrismaPromise<number> => {
     if (typeof addMinutes !== 'number') {
         // Preventing the very unexpected SQL-injection
-        throw new TRPCError({ code: 'BAD_REQUEST', message: 'addMinutes must be a number' });
+        throw new TRPCError({ code: 'BAD_REQUEST', message: tr('addMinutes must be a number') });
     }
 
     return prisma.$executeRawUnsafe(
@@ -189,7 +191,7 @@ const shiftEventExceptionOriginalDates = (eventId: string, addMinutes: number): 
 const shiftEventCancellationOriginalDates = (eventId: string, addMinutes: number): PrismaPromise<number> => {
     if (typeof addMinutes !== 'number') {
         // Preventing the very unexpected SQL-injection
-        throw new TRPCError({ code: 'BAD_REQUEST', message: 'addMinutes must be a number' });
+        throw new TRPCError({ code: 'BAD_REQUEST', message: tr('addMinutes must be a number') });
     }
 
     return prisma.$executeRawUnsafe(
@@ -229,7 +231,7 @@ const isEventExceptionUnique = async (originalDate: Date, eventId: string): Prom
         where: { originalDate, eventId },
     });
 
-    if (exeption) throw new ErrorWithStatus('Calendar exception of event on this date already exist', 400);
+    if (exeption) throw new ErrorWithStatus(tr('Calendar exception of event on this date already exist'), 400);
 };
 
 export const calendarDbService = {

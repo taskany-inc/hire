@@ -10,6 +10,8 @@ import {
     SectionTypeWithHireStream,
 } from './section-type-types';
 
+import { tr } from './section-type.i18n';
+
 const getAll = async (where: GetAllSectionTypes): Promise<SectionTypeWithHireStream[]> => {
     const sectionTypes = await prisma.sectionType.findMany({
         where,
@@ -18,7 +20,7 @@ const getAll = async (where: GetAllSectionTypes): Promise<SectionTypeWithHireStr
     });
 
     if (sectionTypes === null) {
-        throw new ErrorWithStatus('Hire stream section types type not found', 404);
+        throw new ErrorWithStatus(tr('Hire stream section types type not found'), 404);
     }
 
     return sectionTypes;
@@ -31,7 +33,7 @@ const getById = async (where: GetSectionType): Promise<SectionTypeWithHireStream
     });
 
     if (sectionType === null) {
-        throw new ErrorWithStatus('Section type not found', 404);
+        throw new ErrorWithStatus(tr('Section type not found'), 404);
     }
 
     return sectionType;
@@ -59,7 +61,7 @@ const deleteSectionType = async (id: number) => {
     const sectionTypeRelation = await prisma.sectionType.findFirst({ where: { id } });
 
     if (sectionTypeRelation === null) {
-        throw new ErrorWithStatus('SectionType not found', 404);
+        throw new ErrorWithStatus(tr('SectionType not found'), 404);
     }
 
     const sectionType = await prisma.sectionType.delete({ where: { id } });

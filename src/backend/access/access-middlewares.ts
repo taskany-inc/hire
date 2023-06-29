@@ -20,6 +20,8 @@ import { middleware } from '../trpc/trpc-back';
 
 import { AccessCheckResult, accessChecks } from './access-checks';
 
+import { tr } from './access.i18n';
+
 type AccessChecker = (session: Session) => AccessCheckResult;
 
 const createMiddleware = (checker: AccessChecker) =>
@@ -27,7 +29,7 @@ const createMiddleware = (checker: AccessChecker) =>
         const { session } = ctx;
 
         if (!session) {
-            throw new TRPCError({ code: 'FORBIDDEN', message: 'Not authorized' });
+            throw new TRPCError({ code: 'FORBIDDEN', message: tr('Not authorized') });
         }
 
         const check = checker(session);
@@ -52,7 +54,7 @@ const createEntityCheckMiddleware = <TInput, TId, TEntity>(
         const { session } = ctx;
 
         if (!session) {
-            throw new TRPCError({ code: 'FORBIDDEN', message: 'Not authorized' });
+            throw new TRPCError({ code: 'FORBIDDEN', message: tr('Not authorized') });
         }
 
         const id = getId(input as TInput);

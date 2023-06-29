@@ -20,6 +20,8 @@ import {
     CancelSection,
 } from './section-types';
 
+import { tr } from './section.i18n';
+
 async function getCalendarSlotData(
     params: SectionCalendarSlotBooking | undefined,
 ): Promise<Prisma.CalendarEventExceptionCreateNestedOneWithoutInterviewSectionInput | undefined> {
@@ -68,7 +70,8 @@ const create = async (data: CreateSection): Promise<Section> => {
     if (calendarSlot) {
         slot = await getCalendarSlotData(calendarSlot);
 
-        if (calendarSlot && slot === undefined) throw new ErrorWithStatus('Calendar slot did not link to section', 500);
+        if (calendarSlot && slot === undefined)
+            throw new ErrorWithStatus(tr('Calendar slot did not link to section'), 500);
     }
 
     const createData: Prisma.SectionCreateInput = {
@@ -100,7 +103,7 @@ const getById = async (id: number, accessOptions: AccessOptions = {}): Promise<S
     let passedSections: SectionWithSectionType[] = [];
 
     if (section === null) {
-        throw new ErrorWithStatus('Section not found', 404);
+        throw new ErrorWithStatus(tr('Section not found'), 404);
     }
 
     if (section.sectionType.showOtherGrades) {
@@ -177,7 +180,8 @@ const update = async (data: UpdateSection): Promise<Section> => {
     if (calendarSlot) {
         slot = await getCalendarSlotData(calendarSlot);
 
-        if (calendarSlot && slot === undefined) throw new ErrorWithStatus('Calendar slot did not link to section', 500);
+        if (calendarSlot && slot === undefined)
+            throw new ErrorWithStatus(tr('Calendar slot did not link to section'), 500);
         const currentSection = await getById(sectionId);
         currentSection.calendarSlotId &&
             (await prisma.calendarEventException.delete({ where: { id: currentSection.calendarSlotId } }));

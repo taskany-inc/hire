@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:styles": "npx sass --no-source-map ./src/styles/react-big-calendar/styles.scss ./react-big-calendar.css",
     "start": "next start",
     "lint": "next lint",
     "db:generate": "prisma migrate dev --name $1",

@@ -10,14 +10,15 @@ import { FC, useEffect } from 'react';
 import * as SentryNextJs from '@sentry/nextjs';
 import * as SentryBrowser from '@sentry/browser';
 import { link0 } from '@taskany/colors';
+import { ErrorProps } from 'next/error';
 
 import { AppSettingsContextProvider } from '../contexts/app-settings-context';
 import { ProblemFilterContextProvider } from '../contexts/problem-filter-context';
 import { CandidateFilterContextProvider } from '../contexts/candidate-filter-context';
 import { Browser } from '../utils';
 import { trpc } from '../utils/trpc-front';
-import { ErrorProps } from 'next/error';
-import getLang, { TLocale, setSSRLocale } from '../utils/getLang';
+import { TLocale, setSSRLocale } from '../utils/getLang';
+import '../../react-big-calendar.css';
 
 type TaskanyHireAppProps = {
     session: Session;

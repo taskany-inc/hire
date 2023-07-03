@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.3.0](https://github.com/taskany-inc/hire/compare/v0.2.0...v0.3.0) (2023-07-03)
+
+
+### Features
+
+* styled calendar ([7300d4d](https://github.com/taskany-inc/hire/commit/7300d4d432fdba9bd54e45950ab0a41985931afc))
+
+
+### Bug Fixes
+
+* env variable name fix ([bbd0434](https://github.com/taskany-inc/hire/commit/bbd0434872aedc141ef6c892f18b7811fc310f85))
+
 ## 0.2.0 (2023-06-26)
 
 

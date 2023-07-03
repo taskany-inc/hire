@@ -3,7 +3,7 @@ const getEnvVariableOrThrow = (varName: string, options?: { allowEmptyString?: b
         return '';
     }
 
-    if (process.env.CI_JOB_ID) {
+    if (process.env.CI) {
         return '';
     }
 

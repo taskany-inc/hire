@@ -3,6 +3,9 @@ FROM node:18.12.0-alpine as build
 WORKDIR /app
 COPY . .
 RUN npm ci
+
+ARG CI
+
 RUN npm run build
 
 FROM node:18.12.0-alpine AS runner

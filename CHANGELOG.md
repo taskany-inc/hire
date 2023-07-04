@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.3.4](https://github.com/taskany-inc/hire/compare/v0.3.3...v0.3.4) (2023-07-04)
+
+
+### Bug Fixes
+
+* added swc packages ([caf8ee4](https://github.com/taskany-inc/hire/commit/caf8ee457f21d1d3b4c7a7ed33b9e27f7c75e7f3))
+
 ## [0.3.3](https://github.com/taskany-inc/hire/compare/v0.3.2...v0.3.3) (2023-07-04)
 
 

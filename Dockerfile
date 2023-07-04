@@ -19,7 +19,7 @@ COPY --from=build /app/.next ./.next
 COPY --from=build /app/next.config.js ./
 COPY --from=build /app/.next/standalone ./
 
-RUN npm ci --only=production --ignore-scripts && npm cache clean --force
+RUN npm ci --only=production --ignore-scripts && npm cache clean --force --legacy-peer-deps
 RUN npx prisma generate
 
 EXPOSE 3000

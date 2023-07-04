@@ -1,5 +1,5 @@
 import { VFC } from 'react';
-import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer';
+import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer-continued';
 import styled from 'styled-components';
 import { gray5, gray9 } from '@taskany/colors';
 import { Text } from '@taskany/bricks';

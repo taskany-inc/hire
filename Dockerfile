@@ -4,6 +4,8 @@ WORKDIR /app
 COPY . .
 RUN npm ci
 
+ENV DATABASE_URL='postgresql://url'
+
 RUN npm run build
 
 FROM node:18.12.0-alpine AS runner

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.3.5](https://github.com/taskany-inc/hire/compare/v0.3.4...v0.3.5) (2023-07-04)
+
+
+### Bug Fixes
+
+* added database url for docker build ([#57](https://github.com/taskany-inc/hire/issues/57)) ([6c88967](https://github.com/taskany-inc/hire/commit/6c88967256be62e9da935e764f81e14bcf6c31c9))
+
 ## [0.3.4](https://github.com/taskany-inc/hire/compare/v0.3.3...v0.3.4) (2023-07-04)
 
 

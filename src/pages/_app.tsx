@@ -28,7 +28,7 @@ type TaskanyHireAppProps = {
 
 const TaskanyHireApp: FC<AppProps<TaskanyHireAppProps>> = ({ Component, pageProps, router }) => {
     setSSRLocale(router.locale as TLocale);
-    const { session, browser, error, ...restPageProps } = pageProps;
+    const { session, browser } = pageProps;
 
     useEffect(() => {
         SentryBrowser.setUser({

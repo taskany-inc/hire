@@ -1,9 +1,11 @@
+import { PHASE_PRODUCTION_BUILD } from 'next/constants';
+
 const getEnvVariableOrThrow = (varName: string, options?: { allowEmptyString?: boolean }): string => {
     if (typeof window !== 'undefined' && !varName.startsWith('NEXT_PUBLIC')) {
         return '';
     }
 
-    if (process.env.CI) {
+    if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) {
         return '';
     }
 

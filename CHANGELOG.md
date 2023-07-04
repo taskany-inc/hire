@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.3.6](https://github.com/taskany-inc/hire/compare/v0.3.5...v0.3.6) (2023-07-04)
+
+
+### Bug Fixes
+
+* added legacy-peer-deps for react-diff-viewer ([#59](https://github.com/taskany-inc/hire/issues/59)) ([605a696](https://github.com/taskany-inc/hire/commit/605a69608fa19da15643f7f83eca4c71ac40b936))
+
 ## [0.3.5](https://github.com/taskany-inc/hire/compare/v0.3.4...v0.3.5) (2023-07-04)
 
 

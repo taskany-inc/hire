@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.3.7](https://github.com/taskany-inc/hire/compare/v0.3.6...v0.3.7) (2023-07-04)
+
+
+### Bug Fixes
+
+* update react-diff-viewer ([#61](https://github.com/taskany-inc/hire/issues/61)) ([fdb7d08](https://github.com/taskany-inc/hire/commit/fdb7d081ee9e6dea97ef02c8a482f1ba891f3bd3))
+
 ## [0.3.6](https://github.com/taskany-inc/hire/compare/v0.3.5...v0.3.6) (2023-07-04)
 
 

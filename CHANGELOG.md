@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.3.8](https://github.com/taskany-inc/hire/compare/v0.3.7...v0.3.8) (2023-07-07)
+
+
+### Bug Fixes
+
+* move seed script to backend scripts ([#63](https://github.com/taskany-inc/hire/issues/63)) ([f70f470](https://github.com/taskany-inc/hire/commit/f70f4703427718246f869105ea041a23a244e034))
+
 ## [0.3.7](https://github.com/taskany-inc/hire/compare/v0.3.6...v0.3.7) (2023-07-04)
 
 

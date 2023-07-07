@@ -10,9 +10,12 @@
     "lint": "next lint",
     "db:generate": "prisma migrate dev --name $1",
     "db:migrate": "prisma migrate deploy",
-    "db:seed": "prisma db seed",
+    "db:seed":  "npx prisma db seed",
     "dev:db:init": "npx prisma migrate dev --preview-feature && npx prisma db seed",
     "generate:i18n": "generate-i18n --func=tr --langs=en --path='./src/{components,controllers,pages,hooks,utils,plugins,i18n,schema}/**/*' --getLang='./src/utils/getLang'"
+  },
+  "prisma": {
+    "seed": "ts-node --files --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "3.354.0",

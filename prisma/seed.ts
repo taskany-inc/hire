@@ -3,7 +3,6 @@ import { PrismaClient, ProblemDifficulty, SolutionResult } from '@prisma/client'
 import { addDays, set as modifyDateTime } from 'date-fns';
 import format from 'date-fns/format';
 
-import { generateColor } from '../src/utils/color';
 import { SectionType, SectionGrade } from '../src/utils/dictionaries';
 import { gradeOptionsPackages } from '../src/backend/modules/section-type/section-type-types';
 
@@ -309,7 +308,7 @@ const main = async () => {
         hasTasks: true,
         userSelect: false,
         gradeOptions: gradeOptionsPackages.hire,
-        eventColor: generateColor(),
+        eventColor: '#333',
     };
 
     const sectionTypeCodingTemplate = {
@@ -318,7 +317,7 @@ const main = async () => {
         hasTasks: true,
         userSelect: false,
         gradeOptions: gradeOptionsPackages.juniorMiddleSenior,
-        eventColor: generateColor(),
+        eventColor: '#444',
     };
 
     const sectionTypeFinalTemplate = {
@@ -327,7 +326,7 @@ const main = async () => {
         hasTasks: false,
         userSelect: false,
         gradeOptions: gradeOptionsPackages.juniorMiddleSenior,
-        eventColor: generateColor(),
+        eventColor: '#555',
     };
 
     const sectionTypeProductFinalTemplate = {
@@ -337,7 +336,7 @@ const main = async () => {
         userSelect: true,
         showOtherGrades: true,
         gradeOptions: gradeOptionsPackages.hire,
-        eventColor: generateColor(),
+        eventColor: '#666',
     };
 
     const hireStreamFrontendJs = await prisma.hireStream.create({

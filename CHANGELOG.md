@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.3.9](https://github.com/taskany-inc/hire/compare/v0.3.8...v0.3.9) (2023-07-10)
+
+
+### Bug Fixes
+
+* remove generate color from seed scritp ([#65](https://github.com/taskany-inc/hire/issues/65)) ([cffa91f](https://github.com/taskany-inc/hire/commit/cffa91f3ead815d188dc3f54e70271bf85c41e4a))
+
 ## [0.3.8](https://github.com/taskany-inc/hire/compare/v0.3.7...v0.3.8) (2023-07-07)
 
 

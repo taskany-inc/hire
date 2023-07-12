@@ -11,6 +11,7 @@ import { tr } from './components.i18n';
 
 export interface AutocompleteProps<T> {
     options: T[];
+    value?: T[];
     multiple?: boolean;
     createNewOption?: any;
     text?: string;
@@ -53,6 +54,7 @@ export function Autocomplete({
     createNewOption,
     multiple,
     options,
+    value = [],
     onInputChange,
     placeholder,
 }: AutocompleteProps<any>) {
@@ -60,14 +62,14 @@ export function Autocomplete({
     const popupRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const [popupVisible, setPopupVisibility] = useState(visible);
-    const [value, setValue] = useState('');
-    const [added, setAdded] = useState<Array<Option>>([]);
+    const [inputValue, setInputValue] = useState('');
+    const [added, setAdded] = useState<Array<Option>>(value);
 
     const filteredItems = options
         .filter((item) =>
             typeof item === 'string'
-                ? item.toLowerCase().includes(value.toLowerCase())
-                : item.text.toLowerCase().includes(value.toLowerCase()),
+                ? item.toLowerCase().includes(inputValue.toLowerCase())
+                : item.text.toLowerCase().includes(inputValue.toLowerCase()),
         )
         .filter((item) => {
             if (multiple) return !added.map(({ value }) => value).includes(item.value);
@@ -90,7 +92,7 @@ export function Autocomplete({
     const onItemClick = useCallback(
         (value: any) => () => {
             if (multiple) {
-                setValue('');
+                setInputValue('');
                 const newAdded = [value, ...added];
                 setAdded(newAdded);
                 inputRef.current && inputRef.current.focus();
@@ -99,10 +101,10 @@ export function Autocomplete({
                 return;
             }
             onChange && onChange(value);
-            setValue(typeof value === 'string' ? value : value.text);
+            setInputValue(typeof value === 'string' ? value : value.text);
             setPopupVisibility(false);
         },
-        [onChange, added, setAdded, multiple, inputRef, setValue, setPopupVisibility],
+        [onChange, added, setAdded, multiple, inputRef, setInputValue, setPopupVisibility],
     );
 
     const [onESC] = useKeyboard([KeyCode.Escape], () => {
@@ -113,13 +115,13 @@ export function Autocomplete({
         const newOption = await createNewOption(text);
         const newAdded = [...added, { text: newOption.name, value: newOption.id }];
         setAdded(newAdded);
-        setValue('');
+        setInputValue('');
         inputRef.current && inputRef.current.focus();
         onChange && onChange(newAdded);
     };
 
     const onValueInput = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value);
+        setInputValue(e.target.value);
         onInputChange && onInputChange(e.target.value);
     };
 
@@ -136,7 +138,7 @@ export function Autocomplete({
                     ref={inputRef}
                     onFocus={onTriggerClick}
                     onChange={onValueInput}
-                    value={value}
+                    value={inputValue}
                     placeholder={placeholder}
                 />
                 <StyledBadgeContainer>
@@ -164,8 +166,8 @@ export function Autocomplete({
                         <StyledButton
                             type="button"
                             disabled={!createNewOption}
-                            text={createNewOption ? tr('Add {value}', { value }) : tr('no options')}
-                            onClick={() => onCreateNewOptionClick(value)}
+                            text={createNewOption ? tr('Add {value}', { inputValue }) : tr('no options')}
+                            onClick={() => onCreateNewOptionClick(inputValue)}
                         />
                     ) : (
                         filteredItems.map((item, index) => (

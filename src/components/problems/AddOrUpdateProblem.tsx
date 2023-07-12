@@ -131,11 +131,7 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
 
     return (
         <form onSubmit={onSubmit}>
-            <Stack
-                direction="column"
-                gap="12px"
-                justifyItems="flex-start"
-            >
+            <Stack direction="column" gap="12px" justifyItems="flex-start">
                 <FormInput
                     label={tr('Name')}
                     helperText={errors.name?.message}
@@ -149,6 +145,7 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                             label={tr('Tags')}
                             options={entitiesToOptions(tags)}
                             multiple
+                            value={entitiesToOptions(initialValues?.tags)}
                             createNewOption={newTag}
                             onChange={(data: Option[]) =>
                                 setValue(

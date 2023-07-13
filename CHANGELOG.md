@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.3.10](https://github.com/taskany-inc/hire/compare/v0.3.9...v0.3.10) (2023-07-13)
+
+
+### Bug Fixes
+
+* default values for autocomplete ([#67](https://github.com/taskany-inc/hire/issues/67)) ([62a9f8e](https://github.com/taskany-inc/hire/commit/62a9f8e2b1ef7ee9318637d9cb772d9b7ca80ea1))
+
 ## [0.3.9](https://github.com/taskany-inc/hire/compare/v0.3.8...v0.3.9) (2023-07-10)
 
 

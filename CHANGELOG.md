@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.3.11](https://github.com/taskany-inc/hire/compare/v0.3.10...v0.3.11) (2023-07-14)
+
+
+### Bug Fixes
+
+* add src to copy from build ([#70](https://github.com/taskany-inc/hire/issues/70)) ([6043a7d](https://github.com/taskany-inc/hire/commit/6043a7d04f88722c414c57c82b1a33eaddabf441))
+
 ## [0.3.10](https://github.com/taskany-inc/hire/compare/v0.3.9...v0.3.10) (2023-07-13)
 
 

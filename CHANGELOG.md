@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.3.13](https://github.com/taskany-inc/hire/compare/v0.3.12...v0.3.13) (2023-07-17)
+
+
+### Bug Fixes
+
+* remove concurrently from deps ([#74](https://github.com/taskany-inc/hire/issues/74)) ([0068322](https://github.com/taskany-inc/hire/commit/00683220b20c23ce4a903050479778dfe62a8026))
+
 ## [0.3.12](https://github.com/taskany-inc/hire/compare/v0.3.11...v0.3.12) (2023-07-14)
 
 

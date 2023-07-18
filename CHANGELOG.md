@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.3.14](https://github.com/taskany-inc/hire/compare/v0.3.13...v0.3.14) (2023-07-18)
+
+
+### Bug Fixes
+
+* refresh lock file ([#77](https://github.com/taskany-inc/hire/issues/77)) ([d5fe8be](https://github.com/taskany-inc/hire/commit/d5fe8beae237d7326020ed25829efcc4b6187133))
+
 ## [0.3.13](https://github.com/taskany-inc/hire/compare/v0.3.12...v0.3.13) (2023-07-17)
 
 

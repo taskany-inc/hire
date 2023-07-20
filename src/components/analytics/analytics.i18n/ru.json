@@ -1,0 +1,19 @@
+{
+    "Week": "Неделя",
+    "Month": "Месяц",
+    "Quarter": "Квартал",
+    "Year": "Год",
+    "Custom": "Произвольный",
+    "Custom period": "Произвольный период",
+    "Number of candidates in recruitment streams": "Количество кандидатов в потоках найма",
+    "Reasons for not hiring": "Причины отказа найма",
+    "Start date later than end date": "Дата начала позже даты конца",
+    "Set period": "Установить период",
+    "Start of period": "Начало периода",
+    "End of period": "Конец периода",
+    "The number of sections conducted by the interviewers (with tasks)": "Количество проведенных собеседующими секций (с заданиями)",
+    "The number of sections conducted by the interviewers (without tasks)": "Количество проведенных собеседующими секций (без заданий)",
+    "Estimates in section type": "Оценки в типе секций",
+    "Hiring by section type": "Найм по типам секций",
+    "Hiring funnel": "Воронка найма"
+}

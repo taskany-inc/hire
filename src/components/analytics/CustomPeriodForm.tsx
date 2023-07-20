@@ -7,6 +7,7 @@ import { DatePicker } from '../calendar/DateTimePickers/DatePicker';
 import { FormContainer } from '../FormContainer/FormContainer';
 
 import { tr } from './analytics.i18n';
+import { gapS } from '@taskany/colors';
 
 type CustomPeriodFormProps = {
     close: () => void;
@@ -14,6 +15,7 @@ type CustomPeriodFormProps = {
 
 const StyledDateContainer = styled.div`
     display: flex;
+    gap: ${gapS};
 `;
 
 export const CustomPeriodForm = ({ close }: CustomPeriodFormProps) => {

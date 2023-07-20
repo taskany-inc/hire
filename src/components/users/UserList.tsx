@@ -1,9 +1,9 @@
 import { User } from '@prisma/client';
-import { CSSProperties, ReactFragment, useMemo, useState, VFC, ReactNode } from 'react';
+import { CSSProperties, useMemo, useState, VFC, ReactNode } from 'react';
 import styled from 'styled-components';
 import { useDebounce } from 'use-debounce';
 import { gray4, textColor } from '@taskany/colors';
-import { Text, FormInput, UserPic } from '@taskany/bricks';
+import { Text, UserPic, Input } from '@taskany/bricks';
 
 import { ExternalUserLink } from '../ExternalUserLink';
 import { IconButton } from '../IconButton';
@@ -71,10 +71,10 @@ export const UserList: VFC<UserListProps> = ({ title, titleFragment, users, acti
             )}
             {showFilter && (
                 <StyledFromInput>
-                    <FormInput
+                    <Input
                         value={filter}
                         onChange={(e) => setFilter(e.target.value)}
-                        label={tr('Filter by name or email')}
+                        placeholder={tr('Filter by name or email')}
                     />
                 </StyledFromInput>
             )}

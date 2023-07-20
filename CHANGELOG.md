@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.3.15](https://github.com/taskany-inc/hire/compare/v0.3.14...v0.3.15) (2023-07-20)
+
+
+### Bug Fixes
+
+* api helth always returns 200 ([#80](https://github.com/taskany-inc/hire/issues/80)) ([2a1ffb8](https://github.com/taskany-inc/hire/commit/2a1ffb84d1d4fa87e5b6fd8551df0febb08622da))
+
 ## [0.3.14](https://github.com/taskany-inc/hire/compare/v0.3.13...v0.3.14) (2023-07-18)
 
 

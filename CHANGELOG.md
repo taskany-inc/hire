@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.3.16](https://github.com/taskany-inc/hire/compare/v0.3.15...v0.3.16) (2023-07-20)
+
+
+### Bug Fixes
+
+* i18n support ([#42](https://github.com/taskany-inc/hire/issues/42)) ([da8a12b](https://github.com/taskany-inc/hire/commit/da8a12bca11ea82368659eea7c52f9dff61b43c8))
+
 ## [0.3.15](https://github.com/taskany-inc/hire/compare/v0.3.14...v0.3.15) (2023-07-20)
 
 

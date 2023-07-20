@@ -16,6 +16,8 @@ import {
     UpdateCandidate,
 } from './candidate-types';
 
+import { tr } from './candidate.i18n';
+
 const defaultOrderBy: Prisma.CandidateOrderByWithRelationInput = {
     id: 'desc',
 };
@@ -170,7 +172,7 @@ const getById = async (id: number): Promise<CandidateWithVendorRelation> => {
     const candidate = await prisma.candidate.findFirst({ where: { id }, include: { outstaffVendor: true } });
 
     if (candidate === null) {
-        throw new ErrorWithStatus('Candidate not found!', 404);
+        throw new ErrorWithStatus(tr('Candidate not found!'), 404);
     }
 
     return candidate;
@@ -203,7 +205,7 @@ const getByIdWithRelations = async (
     });
 
     if (candidate === null) {
-        throw new ErrorWithStatus('Candidate not found!', 404);
+        throw new ErrorWithStatus(tr('Candidate not found!'), 404);
     }
 
     return candidate;

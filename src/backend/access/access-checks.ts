@@ -6,6 +6,8 @@ import { InterviewWithSections } from '../modules/interview/interview-types';
 import { SectionWithInterviewRelation } from '../modules/section/section-types';
 import { onlyUnique } from '../utils';
 
+import { tr } from './access.i18n';
+
 export type AccessOptions = Partial<{
     filterInterviewsByHireStreamIds: number[];
     filterInterviewsBySectionTypeIds: number[];
@@ -54,7 +56,7 @@ export const accessChecks = {
 
             return session.user.id === problem.authorId
                 ? allowed()
-                : notAllowed('The problem can be edited and deleted only by its author');
+                : notAllowed(tr('The problem can be edited and deleted only by its author'));
         },
     },
 
@@ -64,17 +66,17 @@ export const accessChecks = {
         read: (): AccessCheckResult => allowed(),
 
         update: (session: Session): AccessCheckResult =>
-            session.userRoles.admin ? allowed() : notAllowed('Only administrators can edit tags'),
+            session.userRoles.admin ? allowed() : notAllowed(tr('Only administrators can edit tags')),
 
         delete: (session: Session): AccessCheckResult =>
-            session.userRoles.admin ? allowed() : notAllowed('Only administrators can delete tags'),
+            session.userRoles.admin ? allowed() : notAllowed(tr('Only administrators can delete tags')),
     },
 
     candidate: {
         create: (session: Session): AccessCheckResult =>
             session.userRoles.admin || session.userRoles.hasHiringLeadRoles || session.userRoles.hasRecruiterRoles
                 ? allowed()
-                : notAllowed('Only Hiring Leads and Recruiters can add candidates'),
+                : notAllowed(tr('Only Hiring Leads and Recruiters can add candidates')),
 
         readOne: (session: Session, candidate: CandidateWithInterviewWithSectionsRelations): AccessCheckResult => {
             if (session.userRoles.admin) {
@@ -99,7 +101,7 @@ export const accessChecks = {
                 return allowed({ filterInterviewsBySectionTypeIds: interviewerInSectionTypes });
             }
 
-            return notAllowed('No access to this candidates section types');
+            return notAllowed(tr('No access to this candidates section types'));
         },
 
         readMany: (session: Session): AccessCheckResult => {
@@ -117,7 +119,7 @@ export const accessChecks = {
                 return allowed({ filterCandidatesBySectionTypeIds: interviewerInSectionTypes });
             }
 
-            return notAllowed('No access to hire streams or section types');
+            return notAllowed(tr('No access to hire streams or section types'));
         },
 
         update: (session: Session, candidate: CandidateWithInterviewWithSectionsRelations): AccessCheckResult => {
@@ -140,7 +142,7 @@ export const accessChecks = {
                 return allowed();
             }
 
-            return notAllowed('No access to recruitment streams for this candidate');
+            return notAllowed(tr('No access to recruitment streams for this candidate'));
         },
 
         delete: (session: Session, candidate: CandidateWithInterviewWithSectionsRelations): AccessCheckResult => {
@@ -160,7 +162,7 @@ export const accessChecks = {
                 return allowed();
             }
 
-            return notAllowed('No access to recruitment streams for this candidate');
+            return notAllowed(tr('No access to recruitment streams for this candidate'));
         },
     },
 
@@ -176,7 +178,7 @@ export const accessChecks = {
                 return allowed();
             }
 
-            return notAllowed('No access to this recruitment stream');
+            return notAllowed(tr('No access to this recruitment stream'));
         },
 
         readOne: (session: Session, interview: InterviewWithSections): AccessCheckResult => {
@@ -204,7 +206,7 @@ export const accessChecks = {
                 return allowed({ filterSectionsBySectionTypeIds: interviewerInSectionTypes });
             }
 
-            return notAllowed('No access to recruitment streams or section types for this interview');
+            return notAllowed(tr('No access to recruitment streams or section types for this interview'));
         },
 
         readMany: (session: Session): AccessCheckResult => {
@@ -227,7 +229,7 @@ export const accessChecks = {
                 return allowed({ filterInterviewsBySectionTypeIds: interviewerInSectionTypes });
             }
 
-            return notAllowed('No access to hire streams or section types');
+            return notAllowed(tr('No access to hire streams or section types'));
         },
 
         update: (session: Session, hireStreamId: number): AccessCheckResult => {
@@ -241,11 +243,11 @@ export const accessChecks = {
                 return allowed();
             }
 
-            return notAllowed('Only recruiters in this hiring stream can edit interviews');
+            return notAllowed(tr('Only recruiters in this hiring stream can edit interviews'));
         },
 
         delete: (session: Session): AccessCheckResult =>
-            session.userRoles.admin ? allowed() : notAllowed('Only administrators can delete interviews'),
+            session.userRoles.admin ? allowed() : notAllowed(tr('Only administrators can delete interviews')),
     },
 
     section: {
@@ -260,7 +262,7 @@ export const accessChecks = {
                 return allowed();
             }
 
-            return notAllowed('No access to recruitment stream');
+            return notAllowed(tr('No access to recruitment stream'));
         },
 
         readOne: (session: Session, section: SectionWithInterviewRelation): AccessCheckResult => {
@@ -287,7 +289,7 @@ export const accessChecks = {
                 return allowed({ hideSectionGradesBySectionIds: [section.id] });
             }
 
-            return notAllowed('No access to hire stream or section type');
+            return notAllowed(tr('No access to hire stream or section type'));
         },
 
         readMany: (session: Session, interview: InterviewWithSections): AccessCheckResult => {
@@ -322,7 +324,7 @@ export const accessChecks = {
                 });
             }
 
-            return notAllowed('No access to hire stream or section types');
+            return notAllowed(tr('No access to hire stream or section types'));
         },
 
         update: (session: Session, section: SectionWithInterviewRelation): AccessCheckResult => {
@@ -341,10 +343,10 @@ export const accessChecks = {
                     return allowed();
                 }
 
-                return notAllowed('This section is assigned to another interviewer');
+                return notAllowed(tr('This section is assigned to another interviewer'));
             }
 
-            return notAllowed('No access to hire stream or section type');
+            return notAllowed(tr('No access to hire stream or section type'));
         },
 
         delete: (session: Session, section: SectionWithInterviewRelation): AccessCheckResult => {
@@ -358,7 +360,7 @@ export const accessChecks = {
                 return allowed();
             }
 
-            return notAllowed('No access to recruitment stream');
+            return notAllowed(tr('No access to recruitment stream'));
         },
 
         attachFile: (session: Session, section: SectionWithInterviewRelation): AccessCheckResult => {
@@ -368,7 +370,7 @@ export const accessChecks = {
 
             return section.interviewerId === session.user.id
                 ? allowed()
-                : notAllowed('This section is assigned to another interviewer');
+                : notAllowed(tr('This section is assigned to another interviewer'));
         },
     },
 
@@ -385,10 +387,10 @@ export const accessChecks = {
             }
 
             if (interviewerInSectionTypes.includes(section.sectionTypeId)) {
-                return session.user.id === section.interviewerId ? allowed() : notAllowed('No access to section');
+                return session.user.id === section.interviewerId ? allowed() : notAllowed(tr('No access to section'));
             }
 
-            return notAllowed('No access to hire stream or section type');
+            return notAllowed(tr('No access to hire stream or section type'));
         },
 
         read: (session: Session, section: SectionWithInterviewRelation): AccessCheckResult => {
@@ -409,10 +411,10 @@ export const accessChecks = {
             if (interviewerInSectionTypes.includes(section.sectionTypeId)) {
                 return section.interview.sections.some((section) => section.interviewerId === session.user.id)
                     ? allowed()
-                    : notAllowed('No access to section');
+                    : notAllowed(tr('No access to section'));
             }
 
-            return notAllowed('No access to hire stream or section type');
+            return notAllowed(tr('No access to hire stream or section type'));
         },
 
         updateOrDelete: (session: Session, section: SectionWithInterviewRelation): AccessCheckResult => {
@@ -427,10 +429,10 @@ export const accessChecks = {
             }
 
             if (interviewerInSectionTypes.includes(section.sectionTypeId)) {
-                return session.user.id === section.interviewerId ? allowed() : notAllowed('No access to section');
+                return session.user.id === section.interviewerId ? allowed() : notAllowed(tr('No access to section'));
             }
 
-            return notAllowed('No access to hire stream or section type');
+            return notAllowed(tr('No access to hire stream or section type'));
         },
     },
 
@@ -454,7 +456,7 @@ export const accessChecks = {
                 return allowed();
             }
 
-            return notAllowed('Only hiring stream managers can update it');
+            return notAllowed(tr('Only hiring stream managers can update it'));
         },
     },
 
@@ -468,7 +470,7 @@ export const accessChecks = {
                 return allowed();
             }
 
-            return notAllowed('Only chat partners can create slots');
+            return notAllowed(tr('Only chat partners can create slots'));
         },
 
         readOne: (session: Session, event: CalendarEvent): AccessCheckResult => {
@@ -481,10 +483,12 @@ export const accessChecks = {
             }
 
             if (session.userRoles.hasInterviewerRoles) {
-                return session.user.id === event.creatorId ? allowed() : notAllowed('No access to someone else\'s slot');
+                return session.user.id === event.creatorId
+                    ? allowed()
+                    : notAllowed(tr("No access to someone else's slot"));
             }
 
-            return notAllowed('Only recruiters and interviewers have access to slots');
+            return notAllowed(tr('Only recruiters and interviewers have access to slots'));
         },
 
         readMany: (session: Session): AccessCheckResult => {
@@ -496,7 +500,7 @@ export const accessChecks = {
                 return allowed();
             }
 
-            return notAllowed('Only recruiters and interviewers have access to slots');
+            return notAllowed(tr('Only recruiters and interviewers have access to slots'));
         },
 
         updateOrDelete: (session: Session, event: CalendarEvent): AccessCheckResult => {
@@ -505,10 +509,12 @@ export const accessChecks = {
             }
 
             if (session.userRoles.hasInterviewerRoles) {
-                return session.user.id === event.creatorId ? allowed() : notAllowed('No access to someone else\'s slot');
+                return session.user.id === event.creatorId
+                    ? allowed()
+                    : notAllowed(tr("No access to someone else's slot"));
             }
 
-            return notAllowed('Only interviewers can edit slots');
+            return notAllowed(tr('Only interviewers can edit slots'));
         },
     },
 
@@ -522,7 +528,7 @@ export const accessChecks = {
 
             return hiringLeadInHireStreams.includes(hireStreamId)
                 ? allowed()
-                : notAllowed('Only hiring leads can add reactions');
+                : notAllowed(tr('Only hiring leads can add reactions'));
         },
     },
 
@@ -536,7 +542,7 @@ export const accessChecks = {
                 return allowed();
             }
 
-            return notAllowed('Only Hiring Leads and Recruiters can add users');
+            return notAllowed(tr('Only Hiring Leads and Recruiters can add users'));
         },
     },
 
@@ -568,7 +574,7 @@ export const accessChecks = {
                 return allowed();
             }
 
-            return notAllowed('Only hiring stream managers can view roles');
+            return notAllowed(tr('Only hiring stream managers can view roles'));
         },
 
         readAdmins: (session: Session): AccessCheckResult => {
@@ -576,7 +582,7 @@ export const accessChecks = {
                 return allowed();
             }
 
-            return notAllowed('Only administrators can view the list of administrators');
+            return notAllowed(tr('Only administrators can view the list of administrators'));
         },
 
         readOrUpdateHireStreamUsers: (session: Session, hireStreamId: number): AccessCheckResult => {
@@ -588,7 +594,7 @@ export const accessChecks = {
 
             return managerInHireStreams.includes(hireStreamId)
                 ? allowed()
-                : notAllowed('Only hiring stream managers can manage lists of hiring stream users');
+                : notAllowed(tr('Only hiring stream managers can manage lists of hiring stream users'));
         },
     },
 };

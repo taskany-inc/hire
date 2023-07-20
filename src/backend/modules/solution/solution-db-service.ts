@@ -6,6 +6,8 @@ import { ErrorWithStatus } from '../../../utils';
 
 import { CreateSolution, GetSolutionsBySectionId, SwitchSolutionsOrder, UpdateSolution } from './solution-types';
 
+import { tr } from './solution.i18n';
+
 const create = async (data: CreateSolution): Promise<Solution> => {
     const { problemId, sectionId, ...restData } = data;
     const createData: Prisma.SolutionCreateInput = {
@@ -24,7 +26,7 @@ const getById = async (id: number, interviewerId?: number) => {
     });
 
     if (solution === null) {
-        throw new ErrorWithStatus('Solution not found', 404);
+        throw new ErrorWithStatus(tr('Solution not found'), 404);
     }
 
     return solution;

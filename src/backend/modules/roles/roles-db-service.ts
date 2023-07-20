@@ -10,6 +10,8 @@ import {
     HireStreamUsersWithRoles,
 } from './roles-types';
 
+import { tr } from './roles.i18n';
+
 const getAllAdmins = () => {
     return prisma.user.findMany({ where: { admin: { equals: true } } });
 };
@@ -98,7 +100,10 @@ const addInterviewerToSectionType = async ({
     const sectionType = await prisma.sectionType.findFirst({ where: { id: sectionTypeId, hireStreamId } });
 
     if (!sectionType) {
-        throw new ErrorWithStatus(`Section type ${sectionTypeId} is not in hire stream ${hireStreamId}`, 500);
+        throw new ErrorWithStatus(
+            tr('Section type {sectionTypeId} is not in hire stream {hireStreamId}', { sectionTypeId, hireStreamId }),
+            500,
+        );
     }
 
     return prisma.user.update({
@@ -115,7 +120,10 @@ const removeInterviewerFromSectionType = async ({
     const sectionType = await prisma.sectionType.findFirst({ where: { id: sectionTypeId, hireStreamId } });
 
     if (!sectionType) {
-        throw new ErrorWithStatus(`Section type ${sectionTypeId} is not in hire stream ${hireStreamId}`, 500);
+        throw new ErrorWithStatus(
+            tr('Section type {sectionTypeId} is not in hire stream {hireStreamId}', { sectionTypeId, hireStreamId }),
+            500,
+        );
     }
 
     return prisma.user.update({

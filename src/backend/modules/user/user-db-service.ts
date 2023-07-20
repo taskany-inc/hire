@@ -8,6 +8,8 @@ import { sectionTypeDbService } from '../section-type/section-type-db-service';
 
 import { AddProblemToFavorites, CreateUser } from './user-types';
 
+import { tr } from './user.i18n';
+
 const create = async (data: CreateUser) => {
     return prisma.user.create({ data: { ...data } });
 };
@@ -16,7 +18,7 @@ const find = async (id: number): Promise<User> => {
     const user = await prisma.user.findFirst({ where: { id } });
 
     if (user === null) {
-        throw new ErrorWithStatus('User not found', 404);
+        throw new ErrorWithStatus(tr('User not found'), 404);
     }
 
     return user;
@@ -36,7 +38,7 @@ const getByEmail = async (email: string): Promise<User> => {
     const user = await prisma.user.findFirst({ where: { email } });
 
     if (user === null) {
-        throw new ErrorWithStatus('User not found', 404);
+        throw new ErrorWithStatus(tr('User not found'), 404);
     }
 
     return user;
@@ -73,7 +75,7 @@ const getUserRoles = async (id: number) => {
     });
 
     if (!user) {
-        throw new Error('User not found');
+        throw new Error(tr('User not found'));
     }
 
     const allSectionTypes = await sectionTypeDbService.getAll({});

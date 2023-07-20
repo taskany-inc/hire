@@ -1,13 +1,15 @@
 /* eslint-disable camelcase */
 import { z } from 'zod';
 
+import { tr } from './analytics-queries.i18n';
+
 export const hireStreamsAndTimeRangeSchema = z
     .object({
         from: z.date(),
         to: z.date(),
         hireStreams: z.array(z.string()),
     })
-    .refine(({ from, to }) => from < to, { message: 'The start date cannot be later than the end date of the recruitment stream' });
+    .refine(({ from, to }) => from < to, { message: tr('The start date cannot be later than the end date of the recruitment stream') });
 export type HireStreamsAndTimeRange = z.infer<typeof hireStreamsAndTimeRangeSchema>;
 
 export const hireStreamsAndTimeRangeAndHasTasksSchema = hireStreamsAndTimeRangeSchema.and(
@@ -21,7 +23,7 @@ export const hireStreamAndTimeRangeSchema = z
         to: z.date(),
         hireStreamName: z.string(),
     })
-    .refine(({ from, to }) => from < to, { message: 'The start date cannot be later than the end date of the recruitment stream' });
+    .refine(({ from, to }) => from < to, { message: tr('The start date cannot be later than the end date of the recruitment stream') });
 export type HireStreamAndTimeRange = z.infer<typeof hireStreamAndTimeRangeSchema>;
 
 export type HiringFunnelRawData = [

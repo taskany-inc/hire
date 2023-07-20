@@ -3,6 +3,8 @@ import axios from 'axios';
 import config from '../../config';
 import { ErrorWithStatus } from '../../../utils';
 
+import { tr } from './ext-users.i18n';
+
 export type MessageBody = {
     html?: string;
     text: string;
@@ -35,7 +37,8 @@ const getExternalUser = async (email: string): Promise<User> => {
         method: 'GET',
     });
 
-    if (res.status !== 200) throw new ErrorWithStatus(`External user error: ${res.statusText}`, res.status);
+    if (res.status !== 200)
+        throw new ErrorWithStatus(tr('External user error: {res.statusText}', { res: res.statusText }), res.status);
 
     return res.data;
 };

@@ -8,11 +8,13 @@ import { rolesDbService } from '../roles/roles-db-service';
 
 import { CreateHireStream } from './hire-stream-types';
 
+import { tr } from './hire-streams.i18n';
+
 const getById = async (id: number): Promise<HireStream> => {
     const hireStream = await prisma.hireStream.findFirst({ where: { id } });
 
     if (!hireStream) {
-        throw new ErrorWithStatus('Hire stream not found!', 404);
+        throw new ErrorWithStatus(tr('Hire stream not found!'), 404);
     }
 
     return hireStream;
@@ -22,7 +24,7 @@ const getByName = async (name: string): Promise<HireStream> => {
     const hireStream = await prisma.hireStream.findFirst({ where: { name } });
 
     if (!hireStream) {
-        throw new ErrorWithStatus('Hire stream not found!', 404);
+        throw new ErrorWithStatus(tr('Hire stream not found!'), 404);
     }
 
     return hireStream;
@@ -32,7 +34,7 @@ const getAll = (): Promise<HireStream[]> => prisma.hireStream.findMany();
 
 const getAllowed = (session: Session | null): Promise<HireStream[]> => {
     if (!session) {
-        throw new ErrorWithStatus('No session', 401);
+        throw new ErrorWithStatus(tr('No session'), 401);
     }
 
     if (session.userRoles.admin) return prisma.hireStream.findMany();

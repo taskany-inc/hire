@@ -61,7 +61,7 @@ const deleteSectionType = async (id: number) => {
     const sectionTypeRelation = await prisma.sectionType.findFirst({ where: { id } });
 
     if (sectionTypeRelation === null) {
-        throw new ErrorWithStatus(tr('SectionType not found'), 404);
+        throw new ErrorWithStatus(tr('Section type not found'), 404);
     }
 
     const sectionType = await prisma.sectionType.delete({ where: { id } });

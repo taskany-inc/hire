@@ -470,7 +470,7 @@ export const accessChecks = {
                 return allowed();
             }
 
-            return notAllowed(tr('Only chat partners can create slots'));
+            return notAllowed(tr('Only chat interviewers can create slots'));
         },
 
         readOne: (session: Session, event: CalendarEvent): AccessCheckResult => {
@@ -560,7 +560,7 @@ export const accessChecks = {
                 return allowed();
             }
 
-            return notAllowed('No access to analytics');
+            return notAllowed(tr('No access to analytics'));
         },
     },
 

@@ -66,6 +66,7 @@ export const FormContainer: FC<FormContainerProps> = (props) => {
                 <StyledButton
                     type="submit"
                     view="primary"
+                    outline
                     onClick={onSubmitButton}
                     disabled={submitButtonDisabled}
                     text={submitButtonText}

@@ -1,0 +1,19 @@
+{
+    "Obligatory field": "Обязательное поле",
+    "Add candidate": "Добавить кандидата",
+    "Save candidate": "Сохранить кандидат",
+    "Full name": "ФИО",
+    "Employment": "Трудоустройство",
+    "Email": "Email",
+    "Phone number": "Номер телефон",
+    "Employment:": "Трудоустройство",
+    "E-mail:": "E-mail",
+    "Tel:": "Tel:",
+    "Email: ": "Email:",
+    "Nothing found": "Ничего не найдено",
+    "Loading candidates": "Загружаем кандидатов",
+    "Added": "Добавлен",
+    "Add interview": "Добавить интервью",
+    "Interview Logs": "Логи Интервью",
+    "Take advice! {actionTitle} by pressing": "Держи совет! {actionTitle} можно нажатием"
+}

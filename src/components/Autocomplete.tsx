@@ -166,7 +166,7 @@ export function Autocomplete({
                         <StyledButton
                             type="button"
                             disabled={!createNewOption}
-                            text={createNewOption ? tr('Add {value}', { inputValue }) : tr('no options')}
+                            text={createNewOption ? tr('Add {inputValue}', { inputValue }) : tr('no options')}
                             onClick={() => onCreateNewOptionClick(inputValue)}
                         />
                     ) : (

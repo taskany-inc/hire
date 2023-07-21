@@ -10,7 +10,7 @@ const nextConfig = {
     swcMinify: true,
     output: 'standalone',
     i18n: {
-        locales: ['en'],
+        locales: ['en', 'ru'],
         defaultLocale: 'en',
     },
     eslint: {

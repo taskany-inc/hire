@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.4.0](https://github.com/taskany-inc/hire/compare/v0.3.15...v0.4.0) (2023-07-24)
+
+
+### Features
+
+* Support i18n/ru ([#79](https://github.com/taskany-inc/hire/issues/79)) ([ca73c58](https://github.com/taskany-inc/hire/commit/ca73c585f99ca262bb0f13169095251d99b3348f))
+
+
+### Bug Fixes
+
+* analytics custom period modal layuot ([#84](https://github.com/taskany-inc/hire/issues/84)) ([7f9ee27](https://github.com/taskany-inc/hire/commit/7f9ee27c9c437f24e93ef72bb555ed56c75a110a))
+* i18n support ([#42](https://github.com/taskany-inc/hire/issues/42)) ([da8a12b](https://github.com/taskany-inc/hire/commit/da8a12bca11ea82368659eea7c52f9dff61b43c8))
+* input in user search ([#83](https://github.com/taskany-inc/hire/issues/83)) ([ce9d160](https://github.com/taskany-inc/hire/commit/ce9d16070489e0427e899cf075ef05cd4e3e6292))
+
 ## [0.3.15](https://github.com/taskany-inc/hire/compare/v0.3.14...v0.3.15) (2023-07-20)
 
 

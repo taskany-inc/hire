@@ -16,7 +16,7 @@
     "This section is assigned to another interviewer": "This section is assigned to another interviewer",
     "No access to section": "No access to section",
     "Only hiring stream managers can update it": "Only hiring stream managers can update it",
-    "Only chat partners can create slots": "Only chat partners can create slots",
+    "Only chat interviewers can create slots": "Only chat interviewers can create slots",
     "No access to someone else's slot": "No access to someone else's slot",
     "Only recruiters and interviewers have access to slots": "Only recruiters and interviewers have access to slots",
     "Only interviewers can edit slots": "Only interviewers can edit slots",
@@ -25,5 +25,6 @@
     "Only hiring stream managers can view roles": "Only hiring stream managers can view roles",
     "Only administrators can view the list of administrators": "Only administrators can view the list of administrators",
     "Only hiring stream managers can manage lists of hiring stream users": "Only hiring stream managers can manage lists of hiring stream users",
-    "Not authorized": "Not authorized"
+    "Not authorized": "Not authorized",
+    "No access to analytics": "No access to analytics"
 }

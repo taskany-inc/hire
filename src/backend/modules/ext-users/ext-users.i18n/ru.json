@@ -1,0 +1,3 @@
+{
+    "External user error: {res.statusText}": "Ошибка внешнего пользователя: {res.statusText}"
+}

@@ -1,0 +1,18 @@
+{
+    "No data": "Нет даннных",
+    "Data not in array": "Даннных нет в массиве",
+    "No section": "Нет секции",
+    "file uploaded": "Файл загружен",
+    "No file finded": "Файл не найден",
+    "Cannot find environment variable {varName}": "Не удается найти переменную окружения {varName}",
+    "Environment variable {varName} should not be an empty string": "Переменная окружения {varName} не должна быть пустой строкой",
+    "Interviewer": "Интервьюер",
+    "recommends": "рекомендует",
+    "hire per": "нанимать на",
+    "level/grade": "уровень/грейд",
+    "do not hire": "не нанимать",
+    "candidate": "кандидат",
+    "Interviewer {section.interviewer.name} left feedback for the section with {section.interview.candidate.name}": "Интервьюер {interviewer} оставил фидбэк в секции c {candidate}",
+    "Cancel section": "Отмена секции",
+    "Canceled section with": "Отменена секция с"
+}

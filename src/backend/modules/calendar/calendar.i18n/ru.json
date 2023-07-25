@@ -1,0 +1,6 @@
+{
+    "Calendar event with id {eventId} not found": "Событие календаря с id {eventId} не найдено",
+    "Calendar event exception with id {exceptionId} not found": "Одиночное событие календаря с id {exceptionId} не найдено",
+    "addMinutes must be a number": "addMinutes должно быть числом",
+    "Calendar exception of event on this date already exist": "Одиночное событие календаря на эту дату уже существует"
+}

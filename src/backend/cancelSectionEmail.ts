@@ -5,6 +5,8 @@ import config from './config';
 
 import { prisma } from '.';
 
+import { tr } from './backend.i18n';
+
 export const cancelSectionEmail = async (id: number) => {
     const section = await prisma.section.findFirst({
         where: { id },
@@ -22,8 +24,8 @@ export const cancelSectionEmail = async (id: number) => {
         return externalUsersService.sendEmail({
             from: 'Taskany Hire',
             to: section?.interviewer?.email,
-            subject: 'Cancel section',
-            text: `Canceled section with ${section.interview.candidate.name} ${date}
+            subject: tr('Cancel section'),
+            text: `${tr('Canceled section with')} ${section.interview.candidate.name} ${date}
             ${config.defaultPageURL}/interviews/${section.interviewId}/sections/${section.id}`,
         });
     }

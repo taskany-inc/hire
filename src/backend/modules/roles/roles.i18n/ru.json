@@ -1,0 +1,3 @@
+{
+    "Section type {sectionTypeId} is not in hire stream {hireStreamId}": "Тип секции {sectionTypeId} не найден в потоке найма {hireStreamId}"
+}

@@ -10,6 +10,6 @@
     "Add a Hiring Lead to a stream": "Добавить лида найма в поток",
     "Recruiters": "Рекрутеры",
     "Add a recruiter to the stream": "Добавить рекрутера в поток",
-    "Add Interviewer to Section Type {sectionType.title} of hire stream {hireStream.name}": "Добавить собеседующего в тип секции {sectionType.title} потока {hireStream.name}",
-    "Hire streams": "Потоки найма"
+    "Hire streams": "Потоки найма",
+    "Add Interviewer to Section Type {title} of hire stream {name}": "Добавить собеседующего в тип секции {title} потока {name}"
 }

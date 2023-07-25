@@ -38,7 +38,7 @@ export const useSectionUpdateMutation = () => {
 
     return trpc.sections.update.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(tr('Section {data.id} updated', { id: data.id }));
+            enqueueSuccessNotification(tr('Section {id} updated', { id: data.id }));
             utils.sections.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -51,7 +51,7 @@ export const useSectionCancelMutation = () => {
 
     return trpc.sections.cancel.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(tr('Section {data.id} deleted', { id: data.id }));
+            enqueueSuccessNotification(tr('Section {id} deleted', { id: data.id }));
             utils.sections.invalidate();
         },
         onError: enqueueErrorNotification,

@@ -25,7 +25,7 @@ export const notifyHR = async (id: number, data: UpdateSection) => {
             from: 'Taskany Hire',
             to: section?.interview?.creator?.email,
             subject: tr(
-                'Interviewer {section.interviewer.name} left feedback for the section with {section.interview.candidate.name}',
+                'Interviewer {interviewer} left feedback for the section with {candidate}',
                 { interviewer: section.interviewer.name || '', candidate: section.interview.candidate.name },
             ),
             text: `${tr('Interviewer')} ${section.interviewer.name} ${tr('recommends')} ${

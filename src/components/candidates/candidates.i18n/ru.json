@@ -5,7 +5,7 @@
     "Full name": "ФИО",
     "Employment": "Трудоустройство",
     "Email": "Email",
-    "Phone number": "Номер телефон",
+    "Phone number": "Номер телефона",
     "Employment:": "Трудоустройство",
     "E-mail:": "E-mail",
     "Tel:": "Tel:",
@@ -15,5 +15,5 @@
     "Added": "Добавлен",
     "Add interview": "Добавить интервью",
     "Interview Logs": "Логи Интервью",
-    "Take advice! {actionTitle} by pressing": "Держи совет! {actionTitle} можно нажатием"
+    "Take advice! {actionTitle} by pressing {key}": "Держи совет! {actionTitle} можно нажатием {key}"
 }

@@ -2,6 +2,8 @@ import { HireStream } from '@prisma/client';
 
 import { SectionTypeWithHireStream } from './modules/section-type/section-type-types';
 
+import { tr } from './backend.i18n';
+
 export enum UserRoles {
     ADMIN = 'admin',
     HIRE_STREAM_MANAGER = 'hireStreamManager',
@@ -12,11 +14,11 @@ export enum UserRoles {
 
 export const roleToLabel = (role: UserRoles): string => {
     return {
-        [UserRoles.ADMIN]: 'administrator',
-        [UserRoles.HIRE_STREAM_MANAGER]: 'hiring flow manager',
-        [UserRoles.HIRING_LEAD]: 'recruitment lead',
-        [UserRoles.RECRUITER]: 'recruiter',
-        [UserRoles.INTERVIEWER]: 'interviewer',
+        [UserRoles.ADMIN]: tr('administrator'),
+        [UserRoles.HIRE_STREAM_MANAGER]: tr('hiring flow manager'),
+        [UserRoles.HIRING_LEAD]: tr('recruitment lead'),
+        [UserRoles.RECRUITER]: tr('recruiter'),
+        [UserRoles.INTERVIEWER]: tr('interviewer'),
     }[role];
 };
 

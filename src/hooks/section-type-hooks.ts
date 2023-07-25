@@ -28,7 +28,7 @@ export const useCreateSectionTypeMutation = () => {
 
     return trpc.sectionTypes.create.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(tr('New section type {data.title} created', { title: data.title }));
+            enqueueSuccessNotification(tr('New section type {title} created', { title: data.title }));
             utils.sectionTypes.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -41,7 +41,7 @@ export const useUpdateSectionTypeMutation = () => {
 
     return trpc.sectionTypes.update.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(tr('Section type {data.title} updated', { title: data.title }));
+            enqueueSuccessNotification(tr('Section type {title} updated', { title: data.title }));
             utils.sectionTypes.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -54,7 +54,7 @@ export const useDeleteSectionTypeMutation = () => {
 
     return trpc.sectionTypes.delete.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(tr('Section type {data.title} deleted', { title: data.title }));
+            enqueueSuccessNotification(tr('Section type {title} deleted', { title: data.title }));
             utils.sectionTypes.invalidate();
         },
         onError: enqueueErrorNotification,

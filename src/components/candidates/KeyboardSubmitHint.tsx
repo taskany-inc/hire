@@ -35,7 +35,7 @@ export const KeyboardSubmitHint = ({ actionTitle }: KeyboardSubmitHintProps) => 
         <Container>
             <StyledFormBottom>
                 <Tip icon={<BulbOnIcon size="s" color={warn8} />}>
-                    {tr.raw('Take advice! {actionTitle} by pressing', {
+                    {tr.raw('Take advice! {actionTitle} by pressing {key}', {
                         actionTitle,
                         key: <Keyboard command enter />,
                     })}

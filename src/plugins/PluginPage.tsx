@@ -41,7 +41,7 @@ export const PluginPage = () => {
     const { Component, pluginName } = usePlugin(`./${query.name}`);
 
     return (
-        <LayoutMain pageTitle={pluginName || tr('Плагины')}>
+        <LayoutMain pageTitle={pluginName || tr('Plugins')}>
             <Component />
         </LayoutMain>
     );

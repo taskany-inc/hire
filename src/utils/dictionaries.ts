@@ -1,6 +1,8 @@
 import { ProblemDifficulty, SolutionResult, InterviewStatus } from '@prisma/client';
 import config from '../backend/config';
 
+import { tr } from './utils.i18n';
+
 /** Attention! This enum must be maintained in accordance with the established types of sections in the database */
 export enum SectionType {
     SCREENING = 'SCREENING',
@@ -17,10 +19,10 @@ export enum ReactionEnum {
 }
 
 export const solutionResultText = {
-    [SolutionResult.GOOD]: 'Good',
-    [SolutionResult.OK]: 'Ok',
-    [SolutionResult.BAD]: 'Bad',
-    [SolutionResult.UNKNOWN]: 'Unknown',
+    [SolutionResult.GOOD]: tr('Good'),
+    [SolutionResult.OK]: tr('Ok'),
+    [SolutionResult.BAD]: tr('Bad'),
+    [SolutionResult.UNKNOWN]: tr('Unknown'),
 };
 
 export const solutionResultEmoji = {
@@ -38,9 +40,9 @@ export const reactionEmoji = {
 };
 
 export const problemDifficultyLabels = {
-    [ProblemDifficulty.EASY]: 'Easy',
-    [ProblemDifficulty.MEDIUM]: 'Medium',
-    [ProblemDifficulty.HARD]: 'Hard',
+    [ProblemDifficulty.EASY]: tr('Easy'),
+    [ProblemDifficulty.MEDIUM]: tr('Medium'),
+    [ProblemDifficulty.HARD]: tr('Hard'),
 };
 
 export const interviewStatusLabels = {

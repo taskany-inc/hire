@@ -33,7 +33,7 @@ export const useCreateHireStreamMutation = () => {
     return trpc.hireStreams.create.useMutation({
         onSuccess: (data) => {
             enqueueSuccessNotification(
-                tr('Hire stream {data.name} updated successfully', {
+                tr('Hire stream {name} updated successfully', {
                     name: data.name,
                 }),
             );

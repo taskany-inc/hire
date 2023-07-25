@@ -14,7 +14,6 @@
     "Created by:": "Created by:",
     "Solution": "Solution",
     "Problems": "Problems",
-    "Section with {section.interview.candidate.name} canceled": "Section with {section.interview.candidate.name} canceled",
     "My sections": "My sections",
     "Section canceled due to": "Section canceled due to",
     "Passed sections": "Passed sections",
@@ -33,5 +32,6 @@
     "New hire stream": "New hire stream",
     "New interview": "New interview",
     "Remove candidate?": "Remove candidate?",
-    "Remove": "Remove"
+    "Remove": "Remove",
+    "Section with {name} canceled": "Section with {name} canceled"
 }

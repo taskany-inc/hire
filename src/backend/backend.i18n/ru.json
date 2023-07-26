@@ -12,7 +12,12 @@
     "level/grade": "уровень/грейд",
     "do not hire": "не нанимать",
     "candidate": "кандидат",
-    "Interviewer {section.interviewer.name} left feedback for the section with {section.interview.candidate.name}": "Интервьюер {interviewer} оставил фидбэк в секции c {candidate}",
     "Cancel section": "Отмена секции",
-    "Canceled section with": "Отменена секция с"
+    "Canceled section with": "Отменена секция с",
+    "administrator": "администратор",
+    "hiring flow manager": "менеджер потока найма",
+    "recruitment lead": "лид найма",
+    "recruiter": "рекрутер",
+    "interviewer": "собеседующий",
+    "Interviewer {interviewer} left feedback for the section with {candidate}": "Интервьюер {interviewer} оставил фидбэк в секции c {candidate}"
 }

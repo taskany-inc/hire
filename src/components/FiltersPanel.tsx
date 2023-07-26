@@ -113,7 +113,7 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
 
                     <StyledFiltersMenu>
                         {nullable(onClearFilters, (onClearFilters) => (
-                            <FiltersMenuItem onClick={onClearFilters}>All</FiltersMenuItem>
+                            <FiltersMenuItem onClick={onClearFilters}>{tr('All')}</FiltersMenuItem>
                         ))}
 
                         {nullable(statuses, (statuses) => (

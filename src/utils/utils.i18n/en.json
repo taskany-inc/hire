@@ -5,5 +5,13 @@
     "Invalid {key} string parameter in address": "Invalid {key} string parameter in address",
     "Something unexpected happened": "Something unexpected happened",
     "No auth options available!": "No auth options available!",
-    "No name or description!": "No name or description!"
+    "No name or description!": "No name or description!",
+    "Good": "Good",
+    "Ok": "Ok",
+    "Bad": "Bad",
+    "Unknown": "Unknown",
+    "Easy": "Easy",
+    "Medium": "Medium",
+    "Hard": "Hard",
+    "Required field": "Required field"
 }

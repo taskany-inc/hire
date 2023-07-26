@@ -20,9 +20,9 @@
     "Interview sections": "Секции в интервью",
     "Calendar": "Календарь",
     "My sections": "Мои интервью",
-    "Passed sections": "Проведённые секции",
+    "Passed sections": "Пройденные секции",
     "New candidate": "Новая кандидат",
-    "New hire stream": "",
+    "New hire stream": "Новый поток найма",
     "New problem": "Новая задача",
     "New user": "Новый пользователь",
     "Delete problem?": "Удалить задачу?",
@@ -30,8 +30,8 @@
     "Solution": "Решение",
     "edit": "Редактировать",
     "Problems": "Задачи",
-    "Section with {section.interview.candidate.name} canceled": "Отменена секция с {section.interview.candidate.name}",
     "Section canceled due to": "Секция отменена по причине",
     "New interview": "Новая интервью",
-    "Users roles": "Роли пользователей"
+    "Users roles": "Роли пользователей",
+    "Section with {name} canceled": "Отменена секция с {name}"
 }

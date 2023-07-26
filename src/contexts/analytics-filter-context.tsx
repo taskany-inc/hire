@@ -13,6 +13,8 @@ import {
 
 import { noop } from '../utils';
 
+import { tr } from './contexts.i18n';
+
 const YEAR = 1000 * 60 * 60 * 24 * 365;
 const QUARTER = 1000 * 60 * 60 * 24 * 30 * 3;
 const MONTH = 1000 * 60 * 60 * 24 * 30;
@@ -57,7 +59,7 @@ const analyticsFilterContext = createContext<AnalyticsFilterContext>({
 export const AnalyticsFilterContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [hireStreams, setHireStreams] = useState<HireStream[]>([]);
 
-    const [periodTitle, setPeriodTitle] = useState('Year');
+    const [periodTitle, setPeriodTitle] = useState(tr('Year'));
 
     const [endDate, setEndDate] = useState<Date>(new Date(Date.now()));
     const [startDate, setStartDate] = useState<Date>(new Date(Date.now() - YEAR));

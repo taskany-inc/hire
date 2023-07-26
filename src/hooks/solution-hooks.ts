@@ -35,7 +35,7 @@ export const useSolutionUpdateMutation = () => {
 
     return trpc.solutions.update.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(tr('Solution {data.id} updated', { id: data.id }));
+            enqueueSuccessNotification(tr('Solution {id} updated', { id: data.id }));
             utils.solutions.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -108,7 +108,7 @@ export const useSolutionRemoveMutation = () => {
 
     return trpc.solutions.delete.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(tr('Solution {data.id} deleted', { id: data.id }));
+            enqueueSuccessNotification(tr('Solution {id} deleted', { id: data.id }));
             utils.solutions.invalidate();
         },
         onError: enqueueErrorNotification,

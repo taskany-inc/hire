@@ -5,5 +5,13 @@
     "Invalid {key} string parameter in address": "Неверный строковый параметр {key} в адресе",
     "Something unexpected happened": "Случилось что-то непредвиденное",
     "No auth options available!": "Параметры аутентификации недоступны!",
-    "No name or description!": "Нет названия или описания"
+    "No name or description!": "Нет названия или описания",
+    "Good": "Отлично",
+    "Ok": "Хорошо",
+    "Bad": "Плохо",
+    "Unknown": "Неизвестно",
+    "Easy": "Низкая",
+    "Medium": "Средняя",
+    "Hard": "Высокая",
+    "Required field": "Обязательное поле"
 }

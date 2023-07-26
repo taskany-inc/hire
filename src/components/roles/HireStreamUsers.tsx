@@ -190,7 +190,7 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                                 titleFragment={
                                     <AddUserToRole
                                         title={tr(
-                                            'Add Interviewer to Section Type {sectionType.title} of hire stream {hireStream.name}',
+                                            'Add Interviewer to Section Type {title} of hire stream {name}',
                                             { title: sectionType.title, name: hireStream.name },
                                         )}
                                         onSelect={(user) =>

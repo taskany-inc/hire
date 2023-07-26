@@ -59,7 +59,7 @@ export const useProblemUpdateMutation = () => {
 
     return trpc.problems.update.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(tr('Problem {data.name} updated', { name: data.name }));
+            enqueueSuccessNotification(tr('Problem {name} updated', { name: data.name }));
             utils.problems.invalidate();
         },
         onError: enqueueErrorNotification,
@@ -72,7 +72,7 @@ export const useProblemRemoveMutation = () => {
 
     return trpc.problems.delete.useMutation({
         onSuccess: (data) => {
-            enqueueSuccessNotification(tr('Problem {data.name} deleted', { name: data.name }));
+            enqueueSuccessNotification(tr('Problem {name} deleted', { name: data.name }));
             utils.problems.invalidate();
         },
         onError: enqueueErrorNotification,

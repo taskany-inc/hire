@@ -12,7 +12,12 @@
     "level/grade": "level/grade",
     "do not hire": "do not hire",
     "candidate": "candidate",
-    "Interviewer {section.interviewer.name} left feedback for the section with {section.interview.candidate.name}": "Interviewer {interviewer} left feedback for the section with {candidate}",
-    "Cancel section": "",
-    "Canceled section with": ""
+    "Cancel section": "Cancel section",
+    "Canceled section with": "Canceled section with",
+    "administrator": "administrator",
+    "hiring flow manager": "hiring flow manager",
+    "recruitment lead": "recruitment lead",
+    "recruiter": "recruiter",
+    "interviewer": "interviewer",
+    "Interviewer {interviewer} left feedback for the section with {candidate}": "Interviewer {interviewer} left feedback for the section with {candidate}"
 }

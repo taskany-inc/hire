@@ -2,6 +2,8 @@ import { trpc } from '../utils/trpc-front';
 
 import { useNotifications } from './useNotifications';
 
+import { tr } from './hooks.i18n';
+
 export const useAdminsList = () => {
     const { enqueueErrorNotification } = useNotifications();
 
@@ -20,7 +22,12 @@ export const useAddHireStreamManagerToHireStreamMutation = (hireStreamName: stri
 
     return trpc.roles.addHireStreamManagerToHireStream.useMutation({
         onSuccess: (data, vars) => {
-            enqueueSuccessNotification(`User ${data.name} added in hire stream ${hireStreamName} as manager`);
+            enqueueSuccessNotification(
+                tr('User {name} added in hire stream {hireStreamName} as manager', {
+                    name: data.name || '',
+                    hireStreamName,
+                }),
+            );
             utils.roles.getUsersByHireStream.invalidate({ hireStreamId: vars.hireStreamId });
         },
         onError: enqueueErrorNotification,
@@ -33,7 +40,12 @@ export const useRemoveHireStreamManagerFromHireStreamMutation = (hireStreamName:
 
     return trpc.roles.removeHireStreamManagerFromHireStream.useMutation({
         onSuccess: (data, vars) => {
-            enqueueSuccessNotification(`User ${data.name} is not manager in hire srteam ${hireStreamName} anymore`);
+            enqueueSuccessNotification(
+                tr('User {name} is not manager in hire srteam {hireStreamName} anymore', {
+                    name: data.name || '',
+                    hireStreamName,
+                }),
+            );
             utils.roles.getUsersByHireStream.invalidate({ hireStreamId: vars.hireStreamId });
         },
         onError: enqueueErrorNotification,
@@ -46,7 +58,12 @@ export const useAddHiringLeadToHireStreamMutation = (hireStreamName: string) => 
 
     return trpc.roles.addHiringLeadToHireStream.useMutation({
         onSuccess: (data, vars) => {
-            enqueueSuccessNotification(`User ${data.name} added in hire stream ${hireStreamName} as hire lead`);
+            enqueueSuccessNotification(
+                tr('User {name} added in hire stream {hireStreamName} as hire lead', {
+                    name: data.name || '',
+                    hireStreamName,
+                }),
+            );
             utils.roles.getUsersByHireStream.invalidate({ hireStreamId: vars.hireStreamId });
         },
         onError: enqueueErrorNotification,
@@ -59,7 +76,12 @@ export const useRemoveHiringLeadFromHireStreamMutation = (hireStreamName: string
 
     return trpc.roles.removeHiringLeadFromHireStream.useMutation({
         onSuccess: (data, vars) => {
-            enqueueSuccessNotification(`User ${data.name} is not hiring lead in hire srteam ${hireStreamName} anymore`);
+            enqueueSuccessNotification(
+                tr('User {name} is not hiring lead in hire srteam {hireStreamName} anymore', {
+                    name: data.name || '',
+                    hireStreamName,
+                }),
+            );
             utils.roles.getUsersByHireStream.invalidate({ hireStreamId: vars.hireStreamId });
         },
         onError: enqueueErrorNotification,
@@ -72,7 +94,12 @@ export const useAddRecruiterToHireStreamMutation = (hireStreamName: string) => {
 
     return trpc.roles.addRecruiterToHireStream.useMutation({
         onSuccess: (data, vars) => {
-            enqueueSuccessNotification(`User ${data.name} added in hire stream ${hireStreamName} as recruiter`);
+            enqueueSuccessNotification(
+                tr('User {name} added in hire stream {hireStreamName} as recruiter', {
+                    name: data.name || '',
+                    hireStreamName,
+                }),
+            );
             utils.roles.getUsersByHireStream.invalidate({ hireStreamId: vars.hireStreamId });
         },
         onError: enqueueErrorNotification,
@@ -85,7 +112,12 @@ export const useRemoveRecruiterFromHireStreamMutation = (hireStreamName: string)
 
     return trpc.roles.removeRecruiterFromHireStream.useMutation({
         onSuccess: (data, vars) => {
-            enqueueSuccessNotification(`User ${data.name} is not recruiter in hire srteam ${hireStreamName} anymore`);
+            enqueueSuccessNotification(
+                tr('User {name} is not recruiter in hire srteam {hireStreamName} anymore', {
+                    name: data.name || '',
+                    hireStreamName,
+                }),
+            );
             utils.roles.getUsersByHireStream.invalidate({ hireStreamId: vars.hireStreamId });
         },
         onError: enqueueErrorNotification,
@@ -98,7 +130,12 @@ export const useAddInterviewerToSectionTypeMutation = (hireStreamName: string) =
 
     return trpc.roles.addInterviewerToSectionType.useMutation({
         onSuccess: (data, vars) => {
-            enqueueSuccessNotification(`User ${data.name} added in hire stream ${hireStreamName} as interviewer`);
+            enqueueSuccessNotification(
+                tr('User {name} added in hire stream {hireStreamName} as interviewer', {
+                    name: data.name || '',
+                    hireStreamName,
+                }),
+            );
             utils.roles.getUsersByHireStream.invalidate({ hireStreamId: vars.hireStreamId });
         },
         onError: enqueueErrorNotification,
@@ -111,7 +148,12 @@ export const useRemoveInterviewerFromSectionTypeMutation = (hireStreamName: stri
 
     return trpc.roles.removeInterviewerFromSectionType.useMutation({
         onSuccess: (data, vars) => {
-            enqueueSuccessNotification(`User ${data.name} is not interviewer in hire srteam ${hireStreamName} anymore`);
+            enqueueSuccessNotification(
+                tr('User {name} is not interviewer in hire srteam {hireStreamName} anymore', {
+                    name: data.name || '',
+                    hireStreamName,
+                }),
+            );
             utils.roles.getUsersByHireStream.invalidate({ hireStreamId: vars.hireStreamId });
         },
         onError: enqueueErrorNotification,

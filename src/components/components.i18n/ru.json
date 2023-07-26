@@ -16,10 +16,11 @@
     "Status": "Статус",
     "Difficulty": "Сложность",
     "Hire streams": "Потоки найма",
-    "Tags": "Тэги",
+    "Tags": "Теги",
     "NO HIRE": "NO HIRE",
     "Copy": "Копировать",
     "You are currently offline. Check connection.": "Вы сейчас не в сети. Проверьте подключение.",
-    "My": "",
-    "Getting data error": "Ошибка получения данных"
+    "My": "Мои",
+    "Getting data error": "Ошибка получения данных",
+    "All": "Все"
 }

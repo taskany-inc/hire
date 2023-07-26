@@ -40,7 +40,7 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
     const solutionsQuery = useSolutions({ sectionId: section.id }, { enabled: canReadSolutions });
 
     const pageTitle = section.isCanceled
-        ? tr('Section with {section.interview.candidate.name} canceled', {
+        ? tr('Section with {name} canceled', {
               name: section.interview.candidate.name,
           })
         : getSectionTitle(section);

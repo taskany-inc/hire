@@ -10,6 +10,6 @@
     "Add a Hiring Lead to a stream": "Add a Hiring Lead to a stream",
     "Recruiters": "Recruiters",
     "Add a recruiter to the stream": "Add a recruiter to the stream",
-    "Add Interviewer to Section Type {sectionType.title} of hire stream {hireStream.name}": "Add Interviewer to Section Type {sectionType.title} of hire stream {hireStream.name}",
-    "Hire streams": "Hire streams"
+    "Hire streams": "Hire streams",
+    "Add Interviewer to Section Type {title} of hire stream {name}": "Add Interviewer to Section Type {title} of hire stream {name}"
 }

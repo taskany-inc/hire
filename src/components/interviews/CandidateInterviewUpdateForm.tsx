@@ -92,6 +92,7 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
             >
                 <Stack direction="column" gap={20}>
                     <CodeEditorField
+                        disableAttaches
                         name="description"
                         label={tr('Comment')}
                         control={control}

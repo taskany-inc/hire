@@ -221,6 +221,7 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                     ) : (
                         <form id={formId} onSubmit={handleSubmit(onSubmit)}>
                             <CodeEditorField
+                                disableAttaches
                                 name="answer"
                                 control={control}
                                 placeholder={tr('Enter solution')}

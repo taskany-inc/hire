@@ -44,10 +44,11 @@ type CodeEditorFieldProps<T extends FieldValues> = {
     control: Control<T>;
     label?: string;
     options?: RegisterOptions<T>;
+    disableAttaches?: boolean;
 } & FormEditorProps;
 
 export const CodeEditorField = <T extends FieldValues>(props: CodeEditorFieldProps<T>): JSX.Element => {
-    const { name, control, options, label, ...restProps } = props;
+    const { name, control, options, label, disableAttaches, ...restProps } = props;
     const markdownRendererMinHeight = props.height;
     const { field, fieldState } = useController({
         name,
@@ -65,7 +66,7 @@ export const CodeEditorField = <T extends FieldValues>(props: CodeEditorFieldPro
             {preview ? (
                 <MarkdownRenderer minHeight={String(markdownRendererMinHeight)} value={control._getWatch(name)} />
             ) : (
-                <StyledFormEditor {...field} {...restProps} />
+                <StyledFormEditor disableAttaches={disableAttaches} {...field} {...restProps} />
             )}
             {fieldState.error && <FormHelperText>{fieldState.error.message}</FormHelperText>}
             <HintContainer>

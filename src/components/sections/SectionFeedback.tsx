@@ -61,7 +61,7 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
     const [editMode, setEditMode] = useState<boolean>(section.hire === null);
 
     const router = useRouter();
-    const { interviewId } = router.query;
+    const { interviewId } = section;
 
     const session = useSession();
     const sectionUpdateMutation = useSectionUpdateMutation();

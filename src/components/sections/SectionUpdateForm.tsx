@@ -49,8 +49,8 @@ export const SectionUpdateForm: VFC<SectionUpdateFormProps> = ({ section, interv
     const router = useRouter();
     const sectionUpdateMutation = useSectionUpdateMutation();
 
-    const interviewId = Number(router.query.interviewId);
-
+    const { interviewId } = section;
+    
     const { schedulable } = section.sectionType;
 
     const {

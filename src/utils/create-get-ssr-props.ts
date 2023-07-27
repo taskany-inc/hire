@@ -23,7 +23,7 @@ type SsgHelper = DecoratedProcedureSSGRecord<TrpcRouter>;
 
 type AccessChecksHandler = (...checks: (() => Promise<AccessCheckResult> | AccessCheckResult)[]) => Promise<void>;
 
-type EmptyObj = Record<never, unknown>;
+type EmptyObj = Record<never, unknown> & { redirect?: { destination: string } };
 
 type SsrOptions<
     Num extends string,
@@ -161,6 +161,10 @@ export const createGetServerSideProps =
                 });
 
                 additionalProps = actionResult ?? ({} as AdditionalProps);
+
+                if (additionalProps.redirect) {
+                    return { redirect: additionalProps.redirect, props: { session, browser } };
+                }
             } catch (e) {
                 if (e instanceof TRPCError) {
                     const code = getHTTPStatusCodeFromError(e);

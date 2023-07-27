@@ -91,6 +91,7 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
                         control={control}
                         placeholder={tr('Think carefully and write a couple of notes about this interview.')}
                         height={130}
+                        disableAttaches
                     />
 
                     <Select

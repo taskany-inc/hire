@@ -158,6 +158,7 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                     )}
                 </QueryResolver>
                 <CodeEditorField
+                    disableAttaches
                     name="description"
                     label={tr('Description')}
                     control={control}
@@ -170,6 +171,7 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                     </Text>
                 )}
                 <CodeEditorField
+                    disableAttaches
                     name="solution"
                     label={tr('Solution')}
                     control={control}

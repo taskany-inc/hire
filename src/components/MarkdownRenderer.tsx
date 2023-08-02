@@ -10,6 +10,7 @@ import { IconButton } from './IconButton';
 const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
 
 import { tr } from './components.i18n';
+import { useMarkdown } from '../hooks/useMarkdown';
 
 const StyledRootText = styled(Text)`
     word-break: break-word;
@@ -40,7 +41,7 @@ export const MarkdownRenderer: VFC<MarkdownRendererProps> = ({
     return (
         <div style={{ minHeight, ...style }}>
             <StyledRootText as="div" className={className}>
-                <Md>{value}</Md>
+                <Md>{useMarkdown(value)}</Md>
                 {hasCopyButton && (
                     <IconButton
                         ref={popupRef}

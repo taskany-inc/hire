@@ -4,12 +4,13 @@ import dynamic from 'next/dynamic';
 import { Text, Md, FileIcon } from '@taskany/bricks';
 
 import { PropsWithClassName } from '../types';
+import { useMarkdown } from '../hooks/useMarkdown';
 
 import { IconButton } from './IconButton';
+import { tr } from './components.i18n';
 
 const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
 
-import { tr } from './components.i18n';
 
 const StyledRootText = styled(Text)`
     word-break: break-word;
@@ -40,7 +41,7 @@ export const MarkdownRenderer: VFC<MarkdownRendererProps> = ({
     return (
         <div style={{ minHeight, ...style }}>
             <StyledRootText as="div" className={className}>
-                <Md>{value}</Md>
+                <Md>{useMarkdown(value)}</Md>
                 {hasCopyButton && (
                     <IconButton
                         ref={popupRef}

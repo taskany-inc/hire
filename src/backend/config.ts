@@ -1,4 +1,5 @@
 import { PHASE_PRODUCTION_BUILD } from 'next/constants';
+
 import { tr } from './backend.i18n';
 
 const getEnvVariableOrThrow = (varName: string, options?: { allowEmptyString?: boolean }): string => {
@@ -33,19 +34,6 @@ const parsePluginMenuItems = (variable: string | undefined): { text: string; pat
         return parsed;
     } catch (e) {
         return [];
-    }
-};
-
-const parseCustomGrades = (variable: string | undefined): string[] | undefined => {
-    if (!variable) {
-        return;
-    }
-    try {
-        const parsed = JSON.parse(variable);
-
-        return parsed;
-    } catch (e) {
-        return;
     }
 };
 
@@ -91,5 +79,4 @@ export default {
         bucket: getEnvVariableOrThrow('S3_BUCKET'),
     },
     pluginMenuItems: parsePluginMenuItems(process.env.NEXT_PUBLIC_PLUGIN_MENU_ITEMS),
-    customGrades: parseCustomGrades(process.env.NEXT_PUBLIC_CUSTOM_GRADE_OPTIONS),
 };

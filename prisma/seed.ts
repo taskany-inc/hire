@@ -4,8 +4,7 @@ import { addDays, set as modifyDateTime } from 'date-fns';
 import format from 'date-fns/format';
 
 import { generateColor } from '../src/utils/color';
-import { SectionType, SectionGrade } from '../src/utils/dictionaries';
-import { gradeOptionsPackages } from '../src/backend/modules/section-type/section-type-types';
+import { SectionType } from '../src/utils/dictionaries';
 
 const prisma = new PrismaClient();
 
@@ -240,6 +239,11 @@ const rejectReasons = [
     'Self-rejection - did not come to the interview',
 ];
 
+export const gradeOptionsPackages = {
+    hire: ['HIRE'],
+    juniorMiddleSenior: ['JUNIOR', 'MIDDLE', 'SENIOR'],
+};
+
 const randomElement = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
 const randomBoolean = (): boolean => Math.random() < 0.5;
@@ -340,6 +344,8 @@ const main = async () => {
         eventColor: generateColor(),
     };
 
+    await prisma.grades.createMany({ data: Object.values(gradeOptionsPackages).map((options) => ({ options })) });
+
     const hireStreamFrontendJs = await prisma.hireStream.create({
         data: {
             name: 'frontend-js',
@@ -420,7 +426,7 @@ const main = async () => {
             const section = await prisma.section.create({
                 data: {
                     description: `${sectionType.title} with ${candidate.name}`,
-                    grade: randomEnumElement(SectionGrade),
+                    grade: randomElement(Object.values(gradeOptionsPackages).flat()),
                     sectionTypeId: sectionTypeFromDb.id,
                     interviewId: interview.id,
                     interviewerId: interviewer.id,

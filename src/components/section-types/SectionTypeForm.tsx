@@ -7,7 +7,6 @@ import { FormTitle, Modal, ModalContent, ModalHeader, AddIcon } from '@taskany/b
 import {
     CreateSectionType,
     createSectionTypeSchema,
-    gradeOptionsPackages,
     UpdateSectionType,
     updateSectionTypeSchema,
 } from '../../backend/modules/section-type/section-type-types';
@@ -55,7 +54,7 @@ export const SectionTypeForm: VFC<SectionTypeFormProps> = ({ afterSubmit, sectio
             showOtherGrades: sectionType?.showOtherGrades ?? false,
             schedulable: sectionType?.schedulable ?? false,
             eventColor: sectionType?.eventColor ?? defaultColor,
-            gradeOptions: sectionType?.gradeOptions ?? gradeOptionsPackages.juniorMiddleSenior,
+            gradeOptions: sectionType?.gradeOptions ?? [],
         },
         resolver: zodResolver(props.type === 'create' ? createSectionTypeSchema : updateSectionTypeSchema),
     });

@@ -4,9 +4,9 @@ import { Text } from '@taskany/bricks';
 
 import { useAnalyticsFilterContext } from '../../contexts/analytics-filter-context';
 import { useSectionTypeToGradesByInterviewer } from '../../hooks/analytics-queries-hooks';
-import { getPieChartSliceColor, mapEnum } from '../../utils';
+import { getPieChartSliceColor, mapInterval } from '../../utils';
 import { QueryResolver } from '../QueryResolver';
-import { SectionGrade, customGradesArray } from '../../utils/dictionaries';
+import { useGradeOptions } from '../../hooks/grades-hooks';
 
 import { tr } from './analytics.i18n';
 
@@ -14,23 +14,10 @@ type Props = {
     hireStreamName: string;
 };
 
-const customGradeColor = customGradesArray && customGradesArray.reduce((acc, rec, index) => {
-    return {...acc, [rec]: getPieChartSliceColor(5 + index * 0.2)}
-}, {})
-
-const gradeColors: Record<keyof typeof SectionGrade | 'NO_HIRE', string | undefined> = {
-    NO_HIRE: getPieChartSliceColor(2),
-    HIRE: getPieChartSliceColor(3),
-    JUNIOR: getPieChartSliceColor(3.8),
-    MIDDLE: getPieChartSliceColor(4),
-    SENIOR: getPieChartSliceColor(4.2),
-    ...customGradeColor
-};
-
-const lastGrade = Object.keys(SectionGrade)[Object.keys(SectionGrade).length - 1];
-
 export const GradesByInterviewer = ({ hireStreamName }: Props) => {
     const { startDate, endDate } = useAnalyticsFilterContext();
+    const grades = (useGradeOptions().data ?? []).flat();
+    const lastGrade = grades.at(-1);
 
     const dataQuery = useSectionTypeToGradesByInterviewer({
         from: startDate,
@@ -58,11 +45,16 @@ export const GradesByInterviewer = ({ hireStreamName }: Props) => {
                                         wrapperStyle={{ border: 'none', outline: 'none' }}
                                         contentStyle={{ backgroundColor }}
                                     />
-                                    <Bar dataKey="grades.NO_HIRE" stackId={1} fill={gradeColors.NO_HIRE}>
+                                    <Bar dataKey="grades.NO_HIRE" stackId={1} fill={getPieChartSliceColor(2)}>
                                         <LabelList dataKey="grades.NO_HIRE" />
                                     </Bar>
-                                    {mapEnum(SectionGrade, (grade) => (
-                                        <Bar dataKey={`grades.${grade}`} stackId={1} fill={gradeColors[grade]}>
+                                    {grades.map((grade, i) => (
+                                        <Bar
+                                            key={`${grade}-${i}`}
+                                            dataKey={`grades.${grade}`}
+                                            stackId={1}
+                                            fill={getPieChartSliceColor(mapInterval(0, grades.length, 3, 5, i))}
+                                        >
                                             <LabelList dataKey={`grades.${grade}`} />
                                             {grade === lastGrade && <LabelList position="top" fill="white" />}
                                         </Bar>

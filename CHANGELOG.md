@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.4.0](https://github.com/taskany-inc/hire/compare/v0.3.15...v0.4.0) (2023-08-07)
+
+
+### Features
+
+* i18n/ru on the backend ([#86](https://github.com/taskany-inc/hire/issues/86)) ([0bf4f9b](https://github.com/taskany-inc/hire/commit/0bf4f9b611590ff2134b3d4e3f693dab889ce8a6))
+* **SectionType grades:** store grade options in db ([a96d269](https://github.com/taskany-inc/hire/commit/a96d2695618738f2dbe120776e2d3736f0d6ffff))
+* Support i18n/ru ([#79](https://github.com/taskany-inc/hire/issues/79)) ([ca73c58](https://github.com/taskany-inc/hire/commit/ca73c585f99ca262bb0f13169095251d99b3348f))
+
+
+### Bug Fixes
+
+* analytics custom period modal layuot ([#84](https://github.com/taskany-inc/hire/issues/84)) ([7f9ee27](https://github.com/taskany-inc/hire/commit/7f9ee27c9c437f24e93ef72bb555ed56c75a110a))
+* i18n support ([#42](https://github.com/taskany-inc/hire/issues/42)) ([da8a12b](https://github.com/taskany-inc/hire/commit/da8a12bca11ea82368659eea7c52f9dff61b43c8))
+* i18n/ru ([#91](https://github.com/taskany-inc/hire/issues/91)) ([81502d8](https://github.com/taskany-inc/hire/commit/81502d8249319a47cbefdc4d4414f16cdd328483))
+* input in user search ([#83](https://github.com/taskany-inc/hire/issues/83)) ([ce9d160](https://github.com/taskany-inc/hire/commit/ce9d16070489e0427e899cf075ef05cd4e3e6292))
+* **MarkdownRenderer:** added useMarkdown hook ([#100](https://github.com/taskany-inc/hire/issues/100)) ([3f43bd7](https://github.com/taskany-inc/hire/commit/3f43bd7380d6edbc9da2ecb97cd52949b574909e))
+* **Section:** redirect to correct interviewId ([#94](https://github.com/taskany-inc/hire/issues/94)) ([a753d66](https://github.com/taskany-inc/hire/commit/a753d66976ec25bb19cbfba0edc5d71a741e78e7))
+* user list previews do not lay one on another ([#88](https://github.com/taskany-inc/hire/issues/88)) ([bd9d672](https://github.com/taskany-inc/hire/commit/bd9d6720e85d315bc6a3c58929bca6761ba1cef1))
+
 ## [0.3.15](https://github.com/taskany-inc/hire/compare/v0.3.14...v0.3.15) (2023-07-20)
 
 

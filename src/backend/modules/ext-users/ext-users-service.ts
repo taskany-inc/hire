@@ -37,8 +37,9 @@ const getExternalUser = async (email: string): Promise<User> => {
         method: 'GET',
     });
 
-    if (res.status !== 200)
+    if (res.status !== 200) {
         throw new ErrorWithStatus(tr('External user error: {res}', { res: res.statusText }), res.status);
+    }
 
     return res.data;
 };

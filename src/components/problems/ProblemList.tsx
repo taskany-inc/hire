@@ -9,7 +9,6 @@ import { Stack } from '../layout/Stack';
 import { QueryResolver } from '../QueryResolver';
 
 import { ProblemCard } from './ProblemCard';
-
 import { tr } from './problems.i18n';
 
 type ProblemListProps = {
@@ -66,9 +65,7 @@ export const ProblemList = ({
                         <>
                             {problems.pages.map((page, i) =>
                                 page.total === 0 ? (
-                                    <Text key={`${i}-${page.nextCursor}`}>
-                                        {tr('Nothing found')} 😔
-                                    </Text>
+                                    <Text key={`${i}-${page.nextCursor}`}>{tr('Nothing found')} 😔</Text>
                                 ) : (
                                     page.items.map((problem) => (
                                         <ProblemCard

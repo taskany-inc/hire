@@ -10,7 +10,6 @@ import { Select } from '../Select';
 
 import { defaultEventLengthInMinutes } from './calendar-event-helpers';
 import { DateTimePickers } from './DateTimePickers/DateTimePickers';
-
 import { tr } from './calendar.i18n';
 
 export type CalendarEventFormValues = Pick<CalendarEventInstance, 'title' | 'date' | 'description' | 'duration'> & {

@@ -47,6 +47,7 @@ export enum Paths {
     ANALYTICS_HIRE_STREAM = '/analytics/hire-stream/{hireStreamName}',
 }
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 type ExtractPathVars<T extends string> = T extends `/{${infer Id}}/${infer Rest}`
     ? Id | ExtractPathVars<`/${Rest}`>
     : T extends `/{${infer Id}}`
@@ -56,6 +57,7 @@ type ExtractPathVars<T extends string> = T extends `/{${infer Id}}/${infer Rest}
     : never;
 
 type DetectVarType<T extends string> = T extends `${infer _Start}Id` ? number : string;
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 type PathVars<Path extends string, Vars extends string = ExtractPathVars<Path>> = {
     [V in Vars]: DetectVarType<V>;

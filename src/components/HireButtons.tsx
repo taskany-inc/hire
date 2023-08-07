@@ -4,7 +4,6 @@ import { SectionWithRelationsAndResults } from '../backend/modules/section/secti
 
 import { Stack } from './layout/Stack';
 import { GradeButton } from './GradeButton';
-
 import { tr } from './components.i18n';
 
 export type HireButtonsProps = {

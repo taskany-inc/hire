@@ -27,7 +27,6 @@ import { FormHelperText } from '../FormInput/StyledComponents';
 import { SectionFeedbackHireBadge } from './SectionFeedbackHireBadge';
 import { DropScreenshot } from './DropScreenshot';
 import { SectionAttach } from './SectionAttach';
-
 import { tr } from './sections.i18n';
 
 type SectionFeedbackProps = {

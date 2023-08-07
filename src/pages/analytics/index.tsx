@@ -1,5 +1,4 @@
 import { accessChecks } from '../../backend/access/access-checks';
-
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 import { Analytics } from '../../controllers/Analytics';
 

@@ -6,7 +6,10 @@ import { symbols } from '../../utils/symbols';
 
 const prisma = new PrismaClient();
 
-const delay = (seconds: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+const delay = (seconds: number): Promise<void> =>
+    new Promise((resolve) => {
+        setTimeout(resolve, seconds * 1000);
+    });
 
 const waitForConfirmation = async (message: string): Promise<boolean> => {
     process.stdin.setRawMode(true);
@@ -14,13 +17,13 @@ const waitForConfirmation = async (message: string): Promise<boolean> => {
 
     process.stdin.write(`${message} y/N `);
 
-    return new Promise((resolve) =>
+    return new Promise((resolve) => {
         process.stdin.once('data', (data) => {
             process.stdin.setRawMode(false);
             const str = String(data);
             resolve(str === 'y' || str === 'Y');
-        }),
-    );
+        });
+    });
 };
 
 const checkProblemSolutionCounters = async () => {

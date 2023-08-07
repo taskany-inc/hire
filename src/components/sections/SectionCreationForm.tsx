@@ -5,7 +5,7 @@ import { Candidate, Interview, SectionType } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { danger0 } from '@taskany/colors';
-import { Text, Link } from '@taskany/bricks';
+import { Text } from '@taskany/bricks';
 
 import { FormContainer } from '../FormContainer/FormContainer';
 import { CreateSection } from '../../backend/modules/section/section-types';

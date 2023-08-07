@@ -1,8 +1,8 @@
 import { Prisma } from '@prisma/client';
 
-import { ErrorWithStatus } from '.';
-
 import { tr } from './utils.i18n';
+
+import { ErrorWithStatus } from '.';
 
 const defaultStatus = 500;
 const defaultError = tr('Something unexpected happened');

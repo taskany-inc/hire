@@ -2,7 +2,6 @@ import { CalendarData, GetCalendarEventsForRange } from '../backend/modules/cale
 import { trpc } from '../utils/trpc-front';
 
 import { useNotifications } from './useNotifications';
-
 import { tr } from './hooks.i18n';
 
 export const useCalendarEvents = (params: GetCalendarEventsForRange) => {

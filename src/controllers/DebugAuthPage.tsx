@@ -1,4 +1,5 @@
 import { User } from '@prisma/client';
+
 import { DebugAuth } from '../components/DebugAuth';
 import { LayoutMain } from '../components/layout/LayoutMain';
 

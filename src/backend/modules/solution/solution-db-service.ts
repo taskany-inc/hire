@@ -5,7 +5,6 @@ import { prisma } from '../..';
 import { ErrorWithStatus } from '../../../utils';
 
 import { CreateSolution, GetSolutionsBySectionId, SwitchSolutionsOrder, UpdateSolution } from './solution-types';
-
 import { tr } from './solution.i18n';
 
 const create = async (data: CreateSolution): Promise<Solution> => {

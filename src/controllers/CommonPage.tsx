@@ -1,7 +1,6 @@
 import { useHireStreams } from '../hooks/hire-streams-hooks';
 import { QueryResolver } from '../components/QueryResolver';
 import { AnalyticsFilterContextProvider } from '../contexts/analytics-filter-context';
-
 import { LayoutMain } from '../components/layout/LayoutMain';
 import { AnalyticsFilterMenuBar } from '../components/analytics/AnalyticsFilterMenuBar';
 import { HiringFunnel } from '../components/analytics/HiringFunnel';

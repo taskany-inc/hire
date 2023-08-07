@@ -7,7 +7,6 @@ import { QueryResolver } from '../QueryResolver';
 
 import { NewSectionTypeModal } from './SectionTypeForm';
 import { SectionTypeCard } from './SectionTypeCard';
-
 import { tr } from './section-types.i18n';
 
 type SectionTypeManagementProps = {

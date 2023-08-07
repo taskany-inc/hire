@@ -19,7 +19,6 @@ import {
     UpdateProblem,
     UsedProblemMap,
 } from './problem-types';
-
 import { tr } from './problem.i18n';
 
 const create = async (authorId: number, data: CreateProblem): Promise<Problem> => {

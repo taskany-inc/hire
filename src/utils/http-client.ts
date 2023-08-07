@@ -3,7 +3,6 @@ import qs from 'qs';
 
 import { readBooleanFromMetaTag } from './frontend';
 import { Paths } from './paths';
-
 import { tr } from './utils.i18n';
 
 export const axiosInstance = axios.create({

@@ -7,7 +7,6 @@ import { Stack } from '../layout/Stack';
 import { QueryResolver } from '../QueryResolver';
 
 import { CandidateCard } from './CandidateCard';
-
 import { tr } from './candidates.i18n';
 
 export const CandidateListView: FC = () => {

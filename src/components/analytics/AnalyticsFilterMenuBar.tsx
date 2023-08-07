@@ -6,7 +6,6 @@ import { useAnalyticsFilterContext } from '../../contexts/analytics-filter-conte
 import { FiltersPanel } from '../FiltersPanel';
 
 import { CustomPeriodForm } from './CustomPeriodForm';
-
 import { tr } from './analytics.i18n';
 
 type AnalyticsFilterMenuBarPropsType = {

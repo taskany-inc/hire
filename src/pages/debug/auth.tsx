@@ -2,7 +2,6 @@ import { Paths } from '../../utils/paths';
 import { standConfig } from '../../utils/stand';
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 import { userDbService } from '../../backend/modules/user/user-db-service';
-
 import DebugAuthPage from '../../controllers/DebugAuthPage';
 
 export const getServerSideProps = createGetServerSideProps({

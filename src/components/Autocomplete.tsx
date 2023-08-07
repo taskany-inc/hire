@@ -5,9 +5,9 @@ import { Button, Input, useKeyboard, KeyCode, Badge } from '@taskany/bricks';
 
 import { Option } from '../types';
 
-const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
-
 import { tr } from './components.i18n';
+
+const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
 
 export interface AutocompleteProps<T> {
     options: T[];

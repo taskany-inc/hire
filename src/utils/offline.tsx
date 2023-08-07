@@ -89,7 +89,7 @@ class OfflineDetector {
 }
 
 export const useOfflineDetector = () => {
-    const [_, trigger] = useReducer((i) => i + 1, 0);
+    const [, trigger] = useReducer((i) => i + 1, 0);
 
     const [offlineDetector, setOfflineDetector] = useState<OfflineDetector>();
 

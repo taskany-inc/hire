@@ -11,7 +11,6 @@ import { QueryResolver } from '../QueryResolver';
 
 import { HireStreamUsers } from './HireStreamUsers';
 import { AdminsList } from './AdminList';
-
 import { tr } from './roles.i18n';
 
 const StyledButton = styled(Button)`

@@ -20,7 +20,6 @@ import { idObjsToIds } from '../../backend/utils';
 import { Confirmation, useConfirmation } from '../Confirmation';
 
 import { AddUserToRole } from './AddUserToRole';
-
 import { tr } from './roles.i18n';
 
 type HireStreamUsersProps = {
@@ -189,10 +188,10 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                                 title={sectionType.title}
                                 titleFragment={
                                     <AddUserToRole
-                                        title={tr(
-                                            'Add Interviewer to Section Type {title} of hire stream {name}',
-                                            { title: sectionType.title, name: hireStream.name },
-                                        )}
+                                        title={tr('Add Interviewer to Section Type {title} of hire stream {name}', {
+                                            title: sectionType.title,
+                                            name: hireStream.name,
+                                        })}
                                         onSelect={(user) =>
                                             addInterviewerMutation.mutate({
                                                 hireStreamId: hireStream.id,

@@ -3,7 +3,6 @@ import { UseQueryResult } from '@tanstack/react-query';
 import { Text } from '@taskany/bricks';
 
 import { Spinner } from './Spinner';
-
 import { tr } from './components.i18n';
 
 type QueryResolverProps<T extends [...unknown[]]> = {

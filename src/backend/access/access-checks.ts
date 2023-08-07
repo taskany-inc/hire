@@ -1,4 +1,4 @@
-import { CalendarEvent, Interview, Problem } from '@prisma/client';
+import { CalendarEvent, Problem } from '@prisma/client';
 import { Session } from 'next-auth';
 
 import { CandidateWithInterviewWithSectionsRelations } from '../modules/candidate/candidate-types';

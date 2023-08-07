@@ -1,14 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import formidable from 'formidable';
-import { parseError } from '../utils/error-parsing';
-import { ErrorWithStatus } from '../utils';
-import { attachDbService } from './modules/attach/attach-db-service';
-import { getObject, loadPic } from './modules/s3/s3-module';
-import { prisma } from '.';
 import fs from 'fs';
 import stream from 'stream';
 
+import { parseError } from '../utils/error-parsing';
+import { ErrorWithStatus } from '../utils';
+
+import { attachDbService } from './modules/attach/attach-db-service';
+import { getObject, loadPic } from './modules/s3/s3-module';
 import { tr } from './backend.i18n';
+
+import { prisma } from '.';
 
 export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     const form = formidable({ multiples: true });
@@ -62,7 +64,7 @@ export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => 
     res.json(tr('file uploaded'));
 };
 
-export const getHandler= async (req: NextApiRequest, res: NextApiResponse) => {
+export const getHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     const fileId = req.query.id;
 
     const attach = await attachDbService.getById(String(fileId));

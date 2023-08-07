@@ -121,11 +121,7 @@ export const Problem: VFC<ProblemProps> = ({ problem }) => {
                 ))}
             </StyledTagsContainer>
 
-            <ProblemStats
-                good={problem.solutionsGood}
-                ok={problem.solutionsOk}
-                bad={problem.solutionsBad}
-            />
+            <ProblemStats good={problem.solutionsGood} ok={problem.solutionsOk} bad={problem.solutionsBad} />
             <MarkdownRenderer value={problem.description} />
 
             <StyledSolutionTitle size="xl" onClick={toggleSolutionExpansion}>

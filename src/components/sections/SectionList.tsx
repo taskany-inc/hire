@@ -10,7 +10,6 @@ import { CardHeader } from '../card/CardHeader';
 import { CardContent } from '../card/CardContent';
 
 import { tr } from './sections.i18n';
-
 import { SectionFeedbackHireBadge, SectionTypeBadge } from './SectionFeedbackHireBadge';
 
 type SectionListProps = {

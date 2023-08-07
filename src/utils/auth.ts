@@ -9,12 +9,12 @@ import { prisma } from '../backend';
 import { userDbService } from '../backend/modules/user/user-db-service';
 import { externalUsersDebugService } from '../backend/modules/ext-users/ext-users-debug-service';
 import config from '../backend/config';
-import { standConfig } from '../utils/stand';
 import { UserRolesInfo } from '../backend/user-roles';
 
-import { ErrorWithStatus } from '.';
-
+import { standConfig } from './stand';
 import { tr } from './utils.i18n';
+
+import { ErrorWithStatus } from '.';
 
 export const AUTH_DEBUG_COOKIE_NAME = 'interview-auth-debug';
 export const ROLE_DEBUG_COOKIE_NAME = 'interview-role-debug';

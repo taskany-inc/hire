@@ -1,17 +1,18 @@
+import { Problem } from '@prisma/client';
+
 import { LayoutMain } from '../components/layout/LayoutMain';
 import { useProblem } from '../hooks/problem-hooks';
-
-import { tr } from './controllers.i18n';
 import { AddOrUpdateProblem } from '../components/problems/AddOrUpdateProblem';
-import { Problem } from '@prisma/client';
 import { QueryResolver } from '../components/QueryResolver';
 
+import { tr } from './controllers.i18n';
+
 export type ProblemEditPageProps = {
-    problem: Problem,
-    numberIds: Record<"problemId", number>,
+    problem: Problem;
+    numberIds: Record<'problemId', number>;
 };
 
-const ProblemEditPage = ({numberIds}: ProblemEditPageProps) => {
+const ProblemEditPage = ({ numberIds }: ProblemEditPageProps) => {
     const problemQuery = useProblem(numberIds.problemId);
 
     return (

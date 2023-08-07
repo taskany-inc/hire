@@ -2,7 +2,6 @@ import { GetInterviewSections } from '../backend/modules/section/section-types';
 import { trpc } from '../utils/trpc-front';
 
 import { useNotifications } from './useNotifications';
-
 import { tr } from './hooks.i18n';
 
 export const useInterviewSections = (params: GetInterviewSections) => {

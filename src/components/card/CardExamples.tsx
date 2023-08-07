@@ -5,8 +5,8 @@ import { TagChip } from '../problems/TagChip';
 import { tagPalette, TagPaletteColor } from '../../utils/tag-palette';
 import { Stack } from '../layout/Stack';
 import { InlineDot } from '../InlineDot';
-import { Card } from '../../components/card/Card';
 
+import { Card } from './Card';
 import { CardHeader } from './CardHeader';
 import { CardFooter } from './CardFooter';
 import { CardContent } from './CardContent';

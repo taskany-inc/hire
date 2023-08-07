@@ -14,7 +14,6 @@ import { HireStreamFilterDropdown } from './HireStreamFilterDropdown';
 import { InterviewStatusFilterDropdown } from './InterviewStatusFilterDropdown';
 import { FiltersMenuItem } from './FiltersMenuItem';
 import { AnaliticsPeriodFilterDropdown } from './AnaliticsPeriodFilterDropdown';
-
 import { tr } from './components.i18n';
 
 interface FiltersPanelProps {

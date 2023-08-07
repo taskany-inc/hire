@@ -11,7 +11,6 @@ import { tr } from './components.i18n';
 
 const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
 
-
 const StyledRootText = styled(Text)`
     word-break: break-word;
     display: flex;

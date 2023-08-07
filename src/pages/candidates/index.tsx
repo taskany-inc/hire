@@ -1,6 +1,5 @@
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
 import { accessChecks } from '../../backend/access/access-checks';
-
 import CandidatesPage from '../../controllers/CandidatesPage';
 
 export const getServerSideProps = createGetServerSideProps({

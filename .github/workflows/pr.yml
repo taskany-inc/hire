@@ -27,8 +27,8 @@ jobs:
             npm-deps-${{ hashFiles('package-lock.json') }}
       - name: Setup packages
         run: npm ci
-      # - name: Lint
-      #   run: npm run lint
+      - name: Lint
+        run: npm run lint
       - name: Unit
         run: npm run test
       # - name: Build

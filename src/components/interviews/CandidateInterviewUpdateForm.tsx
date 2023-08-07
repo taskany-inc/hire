@@ -15,7 +15,6 @@ import { Option } from '../../types';
 import { Select } from '../Select';
 
 import { useProductFinalSectionDropdownOptions } from './utils/candidate-selected-section-hooks';
-
 import { tr } from './interviews.i18n';
 
 type InterviewUpdateFormData = Omit<UpdateInterview, 'candidateId' | 'candidateSelectedSectionId' | 'hireStreamId'> & {

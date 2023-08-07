@@ -5,7 +5,6 @@ import { toDate } from 'date-fns';
 import { DatePicker } from './DatePicker';
 import { TimePicker } from './TimePicker';
 import { DurationPicker } from './DurationPicker';
-
 import { tr } from './DateTimePickers.i18n';
 
 export interface DateTimeSelectorProps {

@@ -1,6 +1,7 @@
 module.exports = {
     ignorePatterns: ['**/@generated/**', '**/dist/**', '**/build/**', '**/.next/**'],
     extends: [
+        'plugin:@next/next/recommended',
         'next/core-web-vitals',
         'airbnb-base',
         'plugin:@typescript-eslint/eslint-recommended',
@@ -9,6 +10,7 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     plugins: ['import', 'prettier'],
     rules: {
+        'react/react-in-jsx-scope': 'off',
         '@typescript-eslint/no-empty-function': 'off',
         '@typescript-eslint/no-empty-interface': 'off',
         'no-restricted-syntax': 'off',
@@ -44,7 +46,10 @@ module.exports = {
         'no-confusing-arrow': 'off',
         'function-paren-newline': 'off',
         'no-param-reassign': 'off',
+
+        // https://github.com/typescript-eslint/typescript-eslint/issues/2483
         'no-shadow': 'off',
+
         'space-before-function-paren': 'off',
         'consistent-return': 'off',
         'prettier/prettier': 'error',
@@ -59,11 +64,13 @@ module.exports = {
             },
         ],
         'import/no-unresolved': 'off',
+        'import/no-cycle': 'off',
         'import/extensions': 'off',
         'import/no-extraneous-dependencies': ['off'],
         'arrow-body-style': 'off',
         'padding-line-between-statements': 'off',
         'no-unused-expressions': 'off',
+        '@typescript-eslint/no-unused-vars': ['warn', { vars: 'all', args: 'after-used', ignoreRestSiblings: true }],
         camelcase: 'off',
         'no-underscore-dangle': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',

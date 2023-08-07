@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/nextjs';
 import { TRPCError } from '@trpc/server';
+
 import { ErrorWithStatus } from './src/utils';
 
 const SENTRY_DSN = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;

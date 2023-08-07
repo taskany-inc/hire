@@ -19,7 +19,6 @@ import { solutionDbService } from '../modules/solution/solution-db-service';
 import { middleware } from '../trpc/trpc-back';
 
 import { AccessCheckResult, accessChecks } from './access-checks';
-
 import { tr } from './access.i18n';
 
 type AccessChecker = (session: Session) => AccessCheckResult;

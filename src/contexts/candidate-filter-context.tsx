@@ -1,5 +1,14 @@
 import { HireStream, InterviewStatus } from '@prisma/client';
-import React, { createContext, Dispatch, FC, ReactNode, SetStateAction, useCallback, useContext, useState } from 'react';
+import React, {
+    createContext,
+    Dispatch,
+    FC,
+    ReactNode,
+    SetStateAction,
+    useCallback,
+    useContext,
+    useState,
+} from 'react';
 import { useDebounce } from 'use-debounce';
 
 import { noop } from '../utils';
@@ -24,7 +33,7 @@ const candidateFilterContext = createContext<CandidateFilterContext>({
     setHireStreams: noop,
 });
 
-export const CandidateFilterContextProvider: FC<{children: ReactNode}> = ({ children }) => {
+export const CandidateFilterContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [search, setSearch] = useState<string>();
     const [debouncedSearch] = useDebounce(search, 300);
     const [statuses, setStatuses] = useState<InterviewStatus[]>([]);

@@ -1,7 +1,6 @@
 import { HireStream } from '@prisma/client';
 
 import { SectionTypeWithHireStream } from './modules/section-type/section-type-types';
-
 import { tr } from './backend.i18n';
 
 export enum UserRoles {

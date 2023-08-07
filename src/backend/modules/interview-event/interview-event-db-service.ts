@@ -4,7 +4,6 @@ import { ErrorWithStatus } from '../../../utils';
 import { prisma } from '../../index';
 
 import { CreateInterviewEvents, InterviewEventWithRelations } from './interview-event-types';
-
 import { tr } from './interview-event.i18n';
 
 const create = async (data: CreateInterviewEvents): Promise<InterviewEvent> => {

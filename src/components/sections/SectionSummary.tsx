@@ -7,7 +7,6 @@ import { Stack } from '../layout/Stack';
 
 import { AddProblemToSection } from './AddProblemToSection';
 import { SectionFeedback } from './SectionFeedback';
-
 import { tr } from './sections.i18n';
 
 interface SectionSummaryProps {

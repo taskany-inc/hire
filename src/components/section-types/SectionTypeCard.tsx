@@ -11,7 +11,6 @@ import { Confirmation, useConfirmation } from '../Confirmation';
 import { DropdownMenuItem } from '../TagFilterDropdown';
 
 import { UpdateSectionTypeModal } from './SectionTypeForm';
-
 import { tr } from './section-types.i18n';
 
 const StyledCircleIcon = styled(CircleIcon)`

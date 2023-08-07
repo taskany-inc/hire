@@ -1,13 +1,13 @@
 import { format } from 'date-fns';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { gapS } from '@taskany/colors';
 
 import { useAnalyticsFilterContext } from '../../contexts/analytics-filter-context';
 import { DatePicker } from '../calendar/DateTimePickers/DatePicker';
 import { FormContainer } from '../FormContainer/FormContainer';
 
 import { tr } from './analytics.i18n';
-import { gapS } from '@taskany/colors';
 
 type CustomPeriodFormProps = {
     close: () => void;

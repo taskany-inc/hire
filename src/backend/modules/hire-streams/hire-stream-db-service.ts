@@ -7,7 +7,6 @@ import { prisma } from '../../index';
 import { rolesDbService } from '../roles/roles-db-service';
 
 import { CreateHireStream } from './hire-stream-types';
-
 import { tr } from './hire-streams.i18n';
 
 const getById = async (id: number): Promise<HireStream> => {

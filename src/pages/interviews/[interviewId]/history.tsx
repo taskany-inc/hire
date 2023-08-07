@@ -1,7 +1,6 @@
 import { interviewEventDbService } from '../../../backend/modules/interview-event/interview-event-db-service';
 import { accessChecks } from '../../../backend/access/access-checks';
 import { createGetServerSideProps } from '../../../utils/create-get-ssr-props';
-
 import InterviewHistoryPage from '../../../controllers/InterviewHistoryPage';
 
 export const getServerSideProps = createGetServerSideProps({

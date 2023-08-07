@@ -26,7 +26,6 @@ import { trpc } from '../../utils/trpc-front';
 
 import { TagChip } from './TagChip';
 import { UnavailableContainer } from './UnavailableContainer';
-
 import { tr } from './problems.i18n';
 
 const StyledStarFilledIcon = styled(StarFilledIcon)`

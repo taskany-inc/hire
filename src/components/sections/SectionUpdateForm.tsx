@@ -50,7 +50,7 @@ export const SectionUpdateForm: VFC<SectionUpdateFormProps> = ({ section, interv
     const sectionUpdateMutation = useSectionUpdateMutation();
 
     const { interviewId } = section;
-    
+
     const { schedulable } = section.sectionType;
 
     const {

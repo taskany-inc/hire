@@ -4,7 +4,6 @@ import { GetServerSidePropsContext } from 'next';
 import { Option } from '../types';
 
 import { problemDifficultyLabels } from './dictionaries';
-
 import { tr } from './utils.i18n';
 
 export const noop = (): void => {};
@@ -78,6 +77,7 @@ export const yearInSeconds = 31536000;
 
 export const deepClone = <T>(value: T): T => JSON.parse(JSON.stringify(value));
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const assertNever = (_value: never) => {};
 
 export const getPieChartSliceColor = (value: number) => {

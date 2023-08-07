@@ -29,9 +29,7 @@ export const SectionProblemSolutions: VFC<SectionProblemSolutionsProps> = ({
 
     return (
         <Stack direction="column" gap={16}>
-            <Text size="l">
-                {tr('Problems and solutions of the candidate')}
-            </Text>
+            <Text size="l">{tr('Problems and solutions of the candidate')}</Text>
 
             {solutions.map((solution, index) => {
                 const goUp =

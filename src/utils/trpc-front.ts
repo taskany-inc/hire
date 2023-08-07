@@ -8,7 +8,6 @@ import type { TrpcRouter } from '../backend/trpc/routers/_trpc-router';
 
 import { readBooleanFromMetaTag } from './frontend';
 import { Paths } from './paths';
-
 import { tr } from './utils.i18n';
 
 const QUERY_RETRIES = 3;

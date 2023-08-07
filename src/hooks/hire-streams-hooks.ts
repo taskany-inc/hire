@@ -1,7 +1,6 @@
 import { trpc } from '../utils/trpc-front';
 
 import { useNotifications } from './useNotifications';
-
 import { tr } from './hooks.i18n';
 
 export const useHireStream = (hireStreamId: number) => {

@@ -1,6 +1,5 @@
 import { onlineManager } from '@tanstack/react-query';
 import styled from 'styled-components';
-
 import { useOfflineDetector } from '@taskany/bricks';
 
 import { tr } from './components.i18n';

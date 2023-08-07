@@ -9,7 +9,6 @@ import {
     HireStreamIdAndUserId,
     HireStreamUsersWithRoles,
 } from './roles-types';
-
 import { tr } from './roles.i18n';
 
 const getAllAdmins = () => {

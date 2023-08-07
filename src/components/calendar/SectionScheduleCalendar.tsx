@@ -10,7 +10,6 @@ import { SectionCalendarSlotBooking } from '../../backend/modules/section/sectio
 import { SlotCalendar } from './SlotCalendar';
 import { CalendarEventLinkedSection, CalendarEventLinkedSectionProps } from './CalendarEventLinkedSection';
 import { BigCalendarEvent } from './calendar-types';
-
 import { tr } from './calendar.i18n';
 
 export interface CalendarEventDetails extends CalendarEventLinkedSectionProps {

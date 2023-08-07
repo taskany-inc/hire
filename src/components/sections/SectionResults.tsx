@@ -9,7 +9,6 @@ import { Stack } from '../layout/Stack';
 import { SectionStatusTagPalette } from '../../utils/tag-palette';
 
 import { getSectionChip } from './helpers';
-
 import { tr } from './sections.i18n';
 
 type SectionResultsProps = {

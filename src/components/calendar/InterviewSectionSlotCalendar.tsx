@@ -23,7 +23,6 @@ import { CalendarEventFormInitialValues, CalendarEventForm, CalendarEventFormVal
 import { SlotCalendar, EventDropHandler, SlotInfo, stringOrDate } from './SlotCalendar';
 import { CalendarEventLinkedSection, CalendarEventLinkedSectionProps } from './CalendarEventLinkedSection';
 import { BigCalendarEvent } from './calendar-types';
-
 import { tr } from './calendar.i18n';
 
 interface SerialEventUpdateParams extends Partial<CalendarEventFormValues> {

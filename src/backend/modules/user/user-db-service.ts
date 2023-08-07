@@ -7,7 +7,6 @@ import { idObjsToIds } from '../../utils';
 import { sectionTypeDbService } from '../section-type/section-type-db-service';
 
 import { AddProblemToFavorites, CreateUser } from './user-types';
-
 import { tr } from './user.i18n';
 
 const create = async (data: CreateUser) => {

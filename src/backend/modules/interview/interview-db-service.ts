@@ -17,7 +17,6 @@ import {
     InterviewWithSections,
     UpdateInterview,
 } from './interview-types';
-
 import { tr } from './interview.i18n';
 
 const create = async (creatorId: number, data: CreateInterview): Promise<Interview> => {

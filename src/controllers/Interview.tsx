@@ -36,9 +36,6 @@ interface InterviewProps {
     reactions?: ReactionType[];
     rejectReasons: RejectReason[];
 }
-const StyledBAssignSectionDropdownButton = styled.div`
-    padding-left: 40px;
-`;
 
 export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reactions, rejectReasons }) => {
     const router = useRouter();
@@ -126,7 +123,7 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reacti
             headerGutter="0px"
             backlink={pageHrefs.candidate(interview.candidate.id)}
         >
-            <Text size="s" as="div" style={{paddingTop: 10}}>
+            <Text size="s" as="div" style={{ paddingTop: 10 }}>
                 #{interview.id}
                 <Text size="m" as="span" color={gray10}>
                     <InlineDot />

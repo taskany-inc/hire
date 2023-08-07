@@ -1,9 +1,10 @@
-import router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
+import { useMemo } from 'react';
+
 import { useCandidate, useCandidateDeleteMutation } from '../hooks/candidate-hooks';
 import { useCandidateInterviews } from '../hooks/interview-hooks';
 import { Confirmation, useConfirmation } from '../components/Confirmation';
 import { Paths, generatePath } from '../utils/paths';
-import { useMemo } from 'react';
 import { DropdownMenuItem } from '../components/TagFilterDropdown';
 import { QueryResolver } from '../components/QueryResolver';
 import { LayoutMain } from '../components/layout/LayoutMain';

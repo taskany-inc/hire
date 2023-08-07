@@ -9,7 +9,6 @@ import {
     UpdateSectionType,
     SectionTypeWithHireStream,
 } from './section-type-types';
-
 import { tr } from './section-type.i18n';
 
 const getAll = async (where: GetAllSectionTypes): Promise<SectionTypeWithHireStream[]> => {

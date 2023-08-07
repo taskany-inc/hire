@@ -98,8 +98,8 @@ const transformRecurrenceToRruleOptions = (recurrence?: EventRecurrence): Partia
             return {
                 freq: Frequency.MONTHLY,
             };
-        default:
         case 'never':
+        default:
             return {};
     }
 };

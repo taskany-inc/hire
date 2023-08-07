@@ -15,7 +15,6 @@ import {
     GetCandidateList,
     UpdateCandidate,
 } from './candidate-types';
-
 import { tr } from './candidate.i18n';
 
 const defaultOrderBy: Prisma.CandidateOrderByWithRelationInput = {

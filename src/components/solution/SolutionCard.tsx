@@ -22,7 +22,6 @@ import { LocalStorageManager, useSectionSolutionAnswerPersisted } from '../../ut
 import { trpc } from '../../utils/trpc-front';
 
 import { SwitchSolutionsOrderButton } from './SwitchSolutionOrderButton';
-
 import { tr } from './solution.i18n';
 
 const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));

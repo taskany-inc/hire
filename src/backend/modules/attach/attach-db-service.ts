@@ -4,7 +4,6 @@ import { prisma } from '../..';
 import { ErrorWithStatus } from '../../../utils';
 
 import { CreateAttach } from './attach-types';
-
 import { tr } from './attach.i18n';
 
 const create = async (data: CreateAttach): Promise<Attach> => {

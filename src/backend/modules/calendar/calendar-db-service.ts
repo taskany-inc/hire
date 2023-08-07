@@ -11,7 +11,6 @@ import { ErrorWithStatus } from '../../../utils';
 import { prisma } from '../../index';
 
 import { CalendarEventWithCreatorAndDetails, CalendarEventWithRelations } from './calendar-types';
-
 import { tr } from './calendar.i18n';
 
 const getAllEvents = (creatorIds?: number[]): Promise<CalendarEventWithRelations[]> => {

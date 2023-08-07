@@ -2,10 +2,9 @@ import { formatDateToLocaleString } from '../utils/date';
 
 import { externalUsersService } from './modules/ext-users/ext-users-service';
 import config from './config';
+import { tr } from './backend.i18n';
 
 import { prisma } from '.';
-
-import { tr } from './backend.i18n';
 
 export const cancelSectionEmail = async (id: number) => {
     const section = await prisma.section.findFirst({

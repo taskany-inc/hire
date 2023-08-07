@@ -1,8 +1,6 @@
 import { candidateDbService } from '../../../backend/modules/candidate/candidate-db-service';
 import { accessChecks } from '../../../backend/access/access-checks';
-
 import { createGetServerSideProps } from '../../../utils/create-get-ssr-props';
-
 import CandidatePage from '../../../controllers/CandidatePage';
 
 export const getServerSideProps = createGetServerSideProps({

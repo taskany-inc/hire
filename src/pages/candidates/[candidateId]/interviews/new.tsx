@@ -1,6 +1,5 @@
 import { ErrorWithStatus } from '../../../../utils';
 import { createGetServerSideProps } from '../../../../utils/create-get-ssr-props';
-
 import SectionCreationPage from '../../../../controllers/SectionCreationPage';
 
 export const getServerSideProps = createGetServerSideProps({

@@ -4,8 +4,6 @@ import styled from 'styled-components';
 import { gray5, gray9 } from '@taskany/colors';
 import { Text } from '@taskany/bricks';
 
-import { tr } from './InterviewHistory.i18n';
-
 import {
     InterviewEventLabels,
     InterviewEventTypes,
@@ -14,6 +12,7 @@ import {
 import { distanceDate } from '../../../utils/date';
 import { isSomeEnum } from '../../../utils/type-guards';
 
+import { tr } from './InterviewHistory.i18n';
 import { useToggle } from './hooks';
 import { UserAvatar } from './UserAvatar';
 

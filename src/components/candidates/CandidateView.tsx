@@ -14,7 +14,6 @@ import { Stack } from '../layout/Stack';
 import { CardContent } from '../card/CardContent';
 
 import { CandidateBIO } from './CandidateBIO';
-
 import { tr } from './candidates.i18n';
 
 const StyledTitle = styled(Text)`

@@ -2,7 +2,6 @@ import { sectionTypeDbService } from '../../backend/modules/section-type/section
 import { standConfig } from '../../utils/stand';
 import { Paths } from '../../utils/paths';
 import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
-
 import DebugRolesPage from '../../controllers/DebugRolesPage';
 
 export const getServerSideProps = createGetServerSideProps({

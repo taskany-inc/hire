@@ -1,5 +1,5 @@
-import { LayoutMain } from "../components/layout/LayoutMain";
-import { NewUserForm } from "../components/users/NewUserForm";
+import { LayoutMain } from '../components/layout/LayoutMain';
+import { NewUserForm } from '../components/users/NewUserForm';
 
 import { tr } from './controllers.i18n';
 

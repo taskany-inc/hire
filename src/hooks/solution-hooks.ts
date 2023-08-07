@@ -4,7 +4,6 @@ import { GetSolutionsBySectionId } from '../backend/modules/solution/solution-ty
 import { trpc } from '../utils/trpc-front';
 
 import { useNotifications } from './useNotifications';
-
 import { tr } from './hooks.i18n';
 
 export const useSolutions = (params: GetSolutionsBySectionId, options?: { enabled: boolean }) => {

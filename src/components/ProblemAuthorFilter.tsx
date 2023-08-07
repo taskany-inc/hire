@@ -4,7 +4,6 @@ import { User } from '@prisma/client';
 import { useSession } from '../contexts/app-settings-context';
 
 import { FiltersMenuItem } from './FiltersMenuItem';
-
 import { tr } from './components.i18n';
 
 interface ProblemAuthorFilterProps {

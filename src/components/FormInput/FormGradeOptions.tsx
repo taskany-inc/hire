@@ -1,8 +1,6 @@
 import { Control, FieldPath, FieldValues, useController } from 'react-hook-form';
 
-import { gradeOptionsPackages } from '../../backend/modules/section-type/section-type-types';
-import { objKeys } from '../../utils';
-import { SectionGrade } from '../../utils/dictionaries';
+import { useGradeOptions } from '../../hooks/grades-hooks';
 
 import { Container, Label } from './StyledComponents';
 
@@ -11,28 +9,31 @@ type FormGradeOptionsProps<T extends FieldValues> = {
     control: Control<T>;
 };
 
-const getSelectValueFromOptions = (options: SectionGrade[]): string | undefined => {
-    return objKeys(gradeOptionsPackages).find((k) => (gradeOptionsPackages[k] as SectionGrade[]).includes(options[0]));
-};
+const separator = ', ';
 
 // TODO: use taskany Select
 export const FormGradeOptions = <T extends FieldValues>({ name, control }: FormGradeOptionsProps<T>) => {
+    const gradeOptions = useGradeOptions().data ?? [];
+
     const { field, fieldState } = useController({ name, control });
 
     return (
         <Container>
             <Label>Section grades</Label>
             <select
-                defaultValue={getSelectValueFromOptions(field.value)}
+                defaultValue={gradeOptions[0]?.join(separator)}
                 onChange={(e) => {
-                    field.onChange(gradeOptionsPackages[e.target.value as keyof typeof gradeOptionsPackages]);
+                    field.onChange(e.target.value.split(separator));
                 }}
             >
-                {Object.entries(gradeOptionsPackages).map(([key, options]) => (
-                    <option key={key} value={key}>
-                        {options && options.join(', ')}
-                    </option>
-                ))}
+                {gradeOptions.map((options) => {
+                    const joined = options.join(separator);
+                    return (
+                        <option key={joined} value={joined}>
+                            {joined}
+                        </option>
+                    );
+                })}
             </select>
             {fieldState.error && <div>{fieldState.error.message}</div>}
         </Container>

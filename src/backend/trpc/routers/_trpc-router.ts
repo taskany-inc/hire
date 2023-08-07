@@ -4,6 +4,7 @@ import { analyticsQueriesRouter } from './analytics-queries-router';
 import { calendarEventsRouter } from './calendar-events-router';
 import { candidatesRouter } from './candidates-router';
 import { externalUserRouter } from './external-users-router';
+import { gradesRouter } from './grades-router';
 import { hireStreamsRouter } from './hire-streams-router';
 import { interviewsRouter } from './interviews-router';
 import { problemsRouter } from './problems-router';
@@ -20,6 +21,7 @@ export const trpcRouter = router({
     calendarEvents: calendarEventsRouter,
     candidates: candidatesRouter,
     externalUsers: externalUserRouter,
+    grades: gradesRouter,
     hireStreams: hireStreamsRouter,
     interviews: interviewsRouter,
     problems: problemsRouter,

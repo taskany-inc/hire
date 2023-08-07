@@ -2,8 +2,7 @@ import { Candidate, Section, SectionType, Solution, User, Attach } from '@prisma
 import { z } from 'zod';
 
 import { InterviewEventTypes } from '../interview-event/interview-event-types';
-import { InterviewWithSections } from '../interview/interview-types';
-import { SectionGrade } from '../../../utils/dictionaries';
+import { type InterviewWithSections } from '../interview/interview-types';
 
 const sectionCalendarSlotBookingSchema = z.object({
     eventId: z.string(),

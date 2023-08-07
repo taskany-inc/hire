@@ -1,5 +1,4 @@
 import { ProblemDifficulty, SolutionResult, InterviewStatus } from '@prisma/client';
-import config from '../backend/config';
 
 import { tr } from './utils.i18n';
 
@@ -58,24 +57,6 @@ export const candidateStatus = {
     [InterviewStatus.HIRED]: 'Hire',
     [InterviewStatus.REJECTED]: 'No hire',
 };
-
-export const customGradesArray = config.customGrades;
-
-const customGrades =
-    customGradesArray &&
-    customGradesArray.reduce((acc: Record<string, string>, rec: string) => {
-        return { ...acc, [rec]: rec };
-    }, {} as Record<string, string>);
-
-export const SectionGrade = {
-    HIRE: 'HIRE',
-    JUNIOR: 'JUNIOR',
-    MIDDLE: 'MIDDLE',
-    SENIOR: 'SENIOR',
-    ...customGrades,
-};
-
-export type SectionGrade = (typeof SectionGrade)[keyof typeof SectionGrade];
 
 export enum SectionStatus {
     HIRE = 'hire',

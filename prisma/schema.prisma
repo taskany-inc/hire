@@ -156,24 +156,24 @@ model Interview {
 }
 
 model Section {
-  id                   Int           @id @default(autoincrement())
+  id                   Int         @id @default(autoincrement())
   description          String?
-  interview            Interview     @relation(fields: [interviewId], references: [id])
+  interview            Interview   @relation(fields: [interviewId], references: [id])
   interviewId          Int
   grade                String?
-  interviewer          User          @relation(fields: [interviewerId], references: [id])
+  interviewer          User        @relation(fields: [interviewerId], references: [id])
   interviewerId        Int
   feedback             String?
   solutions            Solution[]
   hire                 Boolean?
-  isCanceled           Boolean       @default(false)
+  isCanceled           Boolean     @default(false)
   canceledAt           DateTime?
   cancelComment        String?
-  createdAt            DateTime      @default(now())
-  updatedAt            DateTime      @updatedAt
-  sectionType          SectionType   @relation(fields: [sectionTypeId], references: [id])
+  createdAt            DateTime    @default(now())
+  updatedAt            DateTime    @updatedAt
+  sectionType          SectionType @relation(fields: [sectionTypeId], references: [id])
   sectionTypeId        Int
-  selectedInInterviews Interview[]   @relation("CandidateSelectedSection")
+  selectedInInterviews Interview[] @relation("CandidateSelectedSection")
   attaches             Attach[]
 
   /// Related calendar slot
@@ -210,13 +210,13 @@ model InterviewEvent {
 }
 
 model HireStream {
-  id                    Int           @id @default(autoincrement())
-  name                  String
-  interviews            Interview[]
-  managers              User[]        @relation("HireStreamToManager")
-  hiringLeads           User[]        @relation("HireStreamToHiringLead")
-  recruiters            User[]        @relation("HireStreamToRecruiter")
-  sectionTypes          SectionType[]
+  id           Int           @id @default(autoincrement())
+  name         String
+  interviews   Interview[]
+  managers     User[]        @relation("HireStreamToManager")
+  hiringLeads  User[]        @relation("HireStreamToHiringLead")
+  recruiters   User[]        @relation("HireStreamToRecruiter")
+  sectionTypes SectionType[]
 }
 
 /// Section type parameters
@@ -256,6 +256,11 @@ model SectionType {
   eventColor  String?
 
   interviewers User[] @relation("SectionTypeToInterviewer")
+}
+
+model Grades {
+  id      Int      @id @default(autoincrement())
+  options String[]
 }
 
 model Reaction {

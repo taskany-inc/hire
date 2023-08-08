@@ -45,7 +45,7 @@
         "lodash.groupby": "4.6.0",
         "lodash.mapkeys": "4.6.0",
         "lodash.mapvalues": "4.6.0",
-        "next": "13.4.4",
+        "next": "13.4.13",
         "next-auth": "4.22.1",
         "next-connect": "0.13.0",
         "next-themes": "0.2.1",

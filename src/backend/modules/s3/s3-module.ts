@@ -19,19 +19,21 @@ export const client = new S3Client({
 });
 
 export const loadPic = async (key: string, data: PutObjectRequest['Body'] | string, contentType: string) => {
-    await client.send(
-        new PutObjectCommand({
-            Bucket: config.s3.bucket,
-            BucketKeyEnabled: false,
-            Key: `section/${key}`,
-            Body: data,
-            ACL: 'authenticated-read',
-            ContentType: contentType,
-            CacheControl: 'no-cache',
-        }),
-    );
-
-    return `${config.s3.endpoint}/${config.s3.bucket}/${key}`;
+    try {
+        await client.send(
+            new PutObjectCommand({
+                Bucket: config.s3.bucket,
+                BucketKeyEnabled: false,
+                Key: `section/${key}`,
+                Body: data,
+                ACL: 'authenticated-read',
+                ContentType: contentType,
+                CacheControl: 'no-cache',
+            }),
+        );
+    } catch (error) {
+        return error instanceof Error ? error.message : 'Upload error';
+    }
 };
 
 export const removePic = async (key: string) => {

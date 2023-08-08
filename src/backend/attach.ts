@@ -1,7 +1,9 @@
+/* eslint-disable no-await-in-loop */
 import { NextApiRequest, NextApiResponse } from 'next';
 import formidable from 'formidable';
 import fs from 'fs';
 import stream from 'stream';
+import { formFieldName } from '@taskany/bricks';
 
 import { parseError } from '../utils/error-parsing';
 import { ErrorWithStatus } from '../utils';
@@ -12,23 +14,27 @@ import { tr } from './backend.i18n';
 
 import { prisma } from '.';
 
+type ResponseObj = {
+    failed: string[];
+    succeeded: string[];
+    errorMessage?: string;
+};
+
 export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     const form = formidable({ multiples: true });
     const sectionId = req.query.id;
 
-    await new Promise((resolve, reject) => {
-        form.parse(req, async (err, fields, files) => {
+    await new Promise((_resolve, reject) => {
+        form.parse(req, async (err, _fields, files) => {
             if (err) {
                 const { status, message } = parseError(err);
 
                 return reject(new ErrorWithStatus(message, status));
             }
 
-            if (!files.data) return reject(new ErrorWithStatus(tr('No data'), 400));
+            if (!files[formFieldName]) return reject(new ErrorWithStatus(tr('No data'), 400));
 
-            const { data } = files;
-
-            if (!(data instanceof Array)) return reject(new ErrorWithStatus(tr('Data not in array'), 400));
+            const data = [files[formFieldName]].flat();
 
             const section = await prisma.section.findFirst({
                 where: { id: Number(sectionId) },
@@ -40,28 +46,39 @@ export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => 
                 },
             });
 
-            if (!section) return reject(new ErrorWithStatus(`${tr('No section')} ${sectionId}`, 400));
-            const file = data[0];
-            const filename = file.originalFilename || file.newFilename;
+            const resultObject: ResponseObj = {
+                failed: [],
+                succeeded: [],
+            };
 
-            await loadPic(
-                `${sectionId}/${file.originalFilename}`,
-                fs.createReadStream(file.filepath),
-                file.mimetype || 'image/png',
-            ).catch(reject);
-            const newFile = await attachDbService
-                .create({
-                    link: `section/${sectionId}/${file.originalFilename}`,
-                    filename,
-                    sectionId: Number(sectionId),
-                })
-                .catch(reject);
-            resolve(true);
-            res.send(newFile);
+            if (!section) return reject(new ErrorWithStatus(`${tr('No section')} ${sectionId}`, 400));
+
+            for (const file of data) {
+                const filename = file.originalFilename || file.newFilename;
+                const link = `section/${sectionId}/${file.originalFilename}`;
+                const response = await loadPic(
+                    `${sectionId}/${file.originalFilename}`,
+                    fs.createReadStream(file.filepath),
+                    file.mimetype || 'image/png',
+                );
+
+                if (response) {
+                    resultObject.errorMessage = response;
+                    resultObject.failed.push(filename);
+                } else {
+                    const newFile = await attachDbService.create({
+                        link,
+                        filename,
+                        sectionId: Number(sectionId),
+                    });
+
+                    resultObject.succeeded.push(`/api/attach/${newFile.id}`);
+                }
+            }
+
+            res.send(resultObject);
         });
     });
-
-    res.json(tr('file uploaded'));
 };
 
 export const getHandler = async (req: NextApiRequest, res: NextApiResponse) => {

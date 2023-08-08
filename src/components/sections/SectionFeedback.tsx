@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
-import { FileWithPath } from 'react-dropzone';
 import styled from 'styled-components';
 import { Text, Button } from '@taskany/bricks';
 
@@ -19,13 +18,11 @@ import { useSession } from '../../contexts/app-settings-context';
 import { Confirmation, useConfirmation } from '../Confirmation';
 import { Stack } from '../layout/Stack';
 import { GradeButton } from '../GradeButton';
-import { useAttachesCreateMutation } from '../../api/attach/attach-hooks';
+import { useOnUploadFail, useOnUploadSuccess } from '../../api/attach/attach-hooks';
 import { HireButtons } from '../HireButtons';
-import { Spinner } from '../Spinner';
 import { FormHelperText } from '../FormInput/StyledComponents';
 
 import { SectionFeedbackHireBadge } from './SectionFeedbackHireBadge';
-import { DropScreenshot } from './DropScreenshot';
 import { SectionAttach } from './SectionAttach';
 import { tr } from './sections.i18n';
 
@@ -59,12 +56,14 @@ const schema = z.object({
 export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): JSX.Element => {
     const [editMode, setEditMode] = useState<boolean>(section.hire === null);
 
+    const { onSuccess } = useOnUploadSuccess(section.id);
+    const { onFail } = useOnUploadFail();
+
     const router = useRouter();
     const { interviewId } = section;
 
     const session = useSession();
     const sectionUpdateMutation = useSectionUpdateMutation();
-    const attachesCreateMutation = useAttachesCreateMutation();
 
     const {
         control,
@@ -81,22 +80,6 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
         },
         resolver: zodResolver(schema),
     });
-
-    const onDrop = useCallback(
-        async (acceptedFiles: FileWithPath[]) => {
-            const file = acceptedFiles[0];
-            const formData = new FormData();
-            formData.append('data', file);
-            const attach = await attachesCreateMutation.mutateAsync({
-                sectionId: section.id,
-                formData,
-            });
-            const feedback = getValues('feedback');
-            const newFeedback = `${feedback} \n ![${attach.filename}](/api/attach/${attach.id})`;
-            setValue('feedback', newFeedback);
-        },
-        [attachesCreateMutation, getValues, section.id, setValue],
-    );
 
     const { stopPersistingFeedback } = useSectionFeedbackPersisting(
         section,
@@ -185,8 +168,11 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
 
                     {isEditable && editMode ? (
                         <CodeEditorField
+                            onUploadSuccess={onSuccess}
+                            onUploadFail={onFail}
                             name="feedback"
                             control={control}
+                            uploadLink={`/api/attach/${section.id}`}
                             height={200}
                             placeholder={tr('Describe your impressions of the candidate')}
                         />
@@ -220,8 +206,6 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
                 </Stack>
             </form>
 
-            {isEditable && canEditAttach && editMode && <DropScreenshot onDrop={onDrop} />}
-
             {section.attaches.length > 0 && (
                 <>
                     <Text size="l">Attaches:</Text>
@@ -233,11 +217,6 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
                             key={attach.id}
                         />
                     ))}
-                    {attachesCreateMutation.isLoading && (
-                        <div style={{ width: '50%', height: '50%' }}>
-                            <Spinner />
-                        </div>
-                    )}
                 </>
             )}
             <Confirmation {...sendFeedbackConfirmation.props} />

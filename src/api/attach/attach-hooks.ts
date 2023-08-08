@@ -6,22 +6,23 @@ import { trpc } from '../../utils/trpc-front';
 
 import { attachApiService } from './attach-api-service';
 
-type UploadFiles = {
-    sectionId: number;
-    formData: FormData;
+export const useOnUploadSuccess = (sectionId: number) => {
+    const utils = trpc.useContext();
+    const { enqueueSuccessNotification } = useNotifications();
+    const onSuccess = () => {
+        enqueueSuccessNotification(`Added documents to the section ${sectionId}`);
+        utils.sections.invalidate();
+    };
+    return { onSuccess };
 };
 
-export const useAttachesCreateMutation = (): UseMutationResult<Attach, unknown, UploadFiles> => {
-    const utils = trpc.useContext();
-    const { enqueueSuccessNotification, enqueueErrorNotification } = useNotifications();
+export const useOnUploadFail = () => {
+    const { enqueueValidErrorNotification } = useNotifications();
 
-    return useMutation((vars: UploadFiles) => attachApiService.uploadFile(vars.sectionId, vars.formData), {
-        onSuccess: (data, variables) => {
-            enqueueSuccessNotification(`Added documents to the section ${variables.sectionId}`);
-            utils.sections.invalidate();
-        },
-        onError: enqueueErrorNotification,
-    });
+    const onFail = (message = 'Failed to load') => {
+        enqueueValidErrorNotification(message);
+    };
+    return { onFail };
 };
 
 export const useAttachRemoveMutation = (): UseMutationResult<Attach, unknown, string> => {

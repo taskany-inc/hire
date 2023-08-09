@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -55,6 +55,11 @@ const schema = z.object({
 
 export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): JSX.Element => {
     const [editMode, setEditMode] = useState<boolean>(section.hire === null);
+    const [localStorageSectionFeedback, setLocalStorageSectionFeedback] = useState('');
+
+    useEffect(() => {
+        setLocalStorageSectionFeedback(LocalStorageManager.getPersistedSectionFeedback(section.id) || '');
+    }, [setLocalStorageSectionFeedback]);
 
     const { onSuccess } = useOnUploadSuccess(section.id);
     const { onFail } = useOnUploadFail();
@@ -75,7 +80,7 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
     } = useForm<UpdateSection>({
         defaultValues: {
             hire: section.hire,
-            feedback: section.feedback ?? LocalStorageManager.getPersistedSectionFeedback(section.id) ?? '',
+            feedback: section.feedback ?? localStorageSectionFeedback,
             grade: section.hire ? section.grade : null,
         },
         resolver: zodResolver(schema),

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
-import { Dropdown } from '@taskany/bricks';
+import { Button, Dropdown } from '@taskany/bricks';
 
 import { ColorizedMenuItem } from './ColorizedMenuItem';
 import { FiltersMenuItem } from './FiltersMenuItem';
@@ -63,14 +63,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
                     items={options}
                     disabled={disabled}
                     renderTrigger={(props) => (
-                        <FiltersMenuItem
-                            ref={props.ref}
-                            active={!!value}
-                            disabled={props.disabled}
-                            onClick={props.onClick}
-                        >
-                            {props.text}
-                        </FiltersMenuItem>
+                        <Button ref={props.ref} disabled={props.disabled} onClick={props.onClick} text={props.text} />
                     )}
                     renderItem={(props) => (
                         <ColorizedMenuItem

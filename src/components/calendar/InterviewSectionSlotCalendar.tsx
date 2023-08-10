@@ -422,7 +422,7 @@ export function InterviewSectionSlotCalendar(props: Props) {
                 </ModalContent>
             </Modal>
 
-            <Modal visible={!!eventForm} onClose={closeEventFormModal}>
+            <Modal width={600} visible={!!eventForm} onClose={closeEventFormModal}>
                 <ModalHeader>
                     <CalendarEventLinkedSection interviewSection={eventForm?.interviewSection} />
                 </ModalHeader>

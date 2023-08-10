@@ -8,22 +8,18 @@ import { Keyboard } from '../Keyboard';
 import { tr } from './candidates.i18n';
 
 const Container = styled.div`
-    display: inline-block;
+    display: flex;
 `;
 
 const StyledFormBottom = styled.div`
     display: flex;
     align-items: flex-end;
-    justify-content: space-between;
-
-    padding: ${gapS} ${gapS} 0 ${gapS};
 `;
 
 export const KeyLabel = styled.span`
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 2px;
     background: rgba(255, 255, 255, 0.05);
-    padding: 0 2px;
 `;
 
 export interface KeyboardSubmitHintProps {

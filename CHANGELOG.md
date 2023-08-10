@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.5.0](https://github.com/taskany-inc/hire/compare/v0.4.0...v0.5.0) (2023-08-10)
+
+
+### Features
+
+* **SectionFeedback:** add attaches by FormEditor ([719e9c6](https://github.com/taskany-inc/hire/commit/719e9c62a5faa3d0caee5b5257623371b92c5f3b))
+
+
+### Bug Fixes
+
+* **db schema:** use utc timestamps ([1667dec](https://github.com/taskany-inc/hire/commit/1667decb0534afe716335e92d57b2e5bb415019c))
+* **SectionFeedback:** fix hidration error ([8f31eca](https://github.com/taskany-inc/hire/commit/8f31ecab6ac04a3fb8f1c42f9cdabae230e9030c))
+* **Select:** Button as renderTrigger in Dropdown ([2926d65](https://github.com/taskany-inc/hire/commit/2926d659ee0eda37cc4eab638cbec6b089d45a06))
+
 ## [0.4.0](https://github.com/taskany-inc/hire/compare/v0.3.15...v0.4.0) (2023-08-07)
 
 

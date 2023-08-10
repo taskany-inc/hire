@@ -37,7 +37,7 @@ export const CandidateView: FC<Props> = ({ candidate, interviews, isShowAddButto
                 <CandidateBIO candidate={candidate} />
                 {isShowAddButton && (
                     <Link inline href={pageHrefs.candidateInterviewCreate(candidate.id)}>
-                        <Button view="primary" text={tr('Add interview')} />
+                        <Button outline view="primary" text={tr('Add interview')} />
                     </Link>
                 )}
             </Stack>

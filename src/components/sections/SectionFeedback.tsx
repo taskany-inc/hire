@@ -188,6 +188,7 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
                     {isEditable && editMode && (
                         <StyledButton
                             type="button"
+                            outline
                             view="primary"
                             disabled={isSubmitting || isSubmitSuccessful}
                             onClick={section.hire === null ? sendFeedbackConfirmation.show : onSubmit}

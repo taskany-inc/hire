@@ -277,7 +277,7 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                                 (editOpen ? (
                                     <Button onClick={handleCancelClick} text={tr('Cancel')} />
                                 ) : (
-                                    <Button onClick={handleEditClick} view="primary" text={tr('Edit')} />
+                                    <Button outline onClick={handleEditClick} view="primary" text={tr('Edit')} />
                                 ))}
 
                             <Button view="danger" onClick={onRemoveSolution} text={tr('Delete problem')} />

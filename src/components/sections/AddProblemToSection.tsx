@@ -17,7 +17,7 @@ const AddProblemToSectionInner: VFC<AddProblemToSectionProps> = ({ interviewId }
 
     return (
         <>
-            <Button view="primary" type="button" text={tr('Add problem')} onClick={() => setOpen(true)} />
+            <Button view="primary" outline type="button" text={tr('Add problem')} onClick={() => setOpen(true)} />
             <ModalPreview visible={open} onClose={() => setOpen(false)}>
                 <div style={{ paddingRight: 20 }}>
                     <ProblemFilterBar embedded />

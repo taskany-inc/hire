@@ -25,6 +25,7 @@ export function AssignSectionDropdownButton({ interviewId, sectionTypes }: Props
             items={sectionTypes}
             renderTrigger={(props) => (
                 <Button
+                    outline
                     view="primary"
                     iconRight={<MoreVerticalIcon size="s" />}
                     onClick={props.onClick}

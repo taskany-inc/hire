@@ -9,7 +9,7 @@ type FilterBarAddButtonProps = {
 export const FilterBarAddButton: VFC<FilterBarAddButtonProps> = ({ link, text }) => {
     return (
         <Link inline href={link}>
-            <Button view="primary" text={text} type="button" />
+            <Button outline view="primary" text={text} type="button" />
         </Link>
     );
 };

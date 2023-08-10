@@ -194,7 +194,7 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                         {errors.difficulty.message}
                     </Text>
                 )}
-                <Button type="submit" view="primary" disabled={isSubmitting} text={tr('Save')} />
+                <Button type="submit" outline view="primary" disabled={isSubmitting} text={tr('Save')} />
             </Stack>
         </form>
     );

@@ -48,6 +48,7 @@ export const Roles = () => {
 
                                 return (
                                     <StyledButton
+                                        outline
                                         view={currentHireStream?.id === hireStream.id ? 'primary' : 'default'}
                                         onClick={() => setCurrentHireStream(hireStream)}
                                         disabled={!canReadHireStream}

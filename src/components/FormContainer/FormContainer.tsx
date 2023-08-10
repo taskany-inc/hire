@@ -5,7 +5,6 @@ import { Button, KeyCode, KeyMod, useKeyboard } from '@taskany/bricks';
 import { KeyboardSubmitHint } from '../candidates/KeyboardSubmitHint';
 
 const OuterContainer = styled.div`
-    width: 650px;
     max-width: 80vw;
 `;
 
@@ -15,14 +14,13 @@ const InnerContainer = styled.div`
     box-sizing: border-box;
     border-radius: 6px;
     padding: 6px 12px;
-    margin-bottom: 28px;
+    margin-bottom: 30px;
+    width: 570px;
 `;
 
 const BottomContainer = styled.div`
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-top: 8px;
+    justify-content: space-between;
 `;
 
 const StyledButton = styled(Button)`
@@ -61,8 +59,9 @@ export const FormContainer: FC<FormContainerProps> = (props) => {
     return (
         <OuterContainer {...keyboard}>
             <InnerContainer>{children}</InnerContainer>
-            {!notToShowHint && <KeyboardSubmitHint actionTitle={submitButtonText} />}
             <BottomContainer>
+                {!notToShowHint && <KeyboardSubmitHint actionTitle={submitButtonText} />}
+
                 <StyledButton
                     type="submit"
                     view="primary"

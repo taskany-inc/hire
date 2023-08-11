@@ -173,7 +173,9 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
                         {tr('Difficulty:')} {problemDifficultyLabels[problem.difficulty]}
                     </CardFooter>
 
-                    {isShowAddButton && <StyledAddButton view="primary" onClick={addToSection} text={tr('Add')} />}
+                    {isShowAddButton && (
+                        <StyledAddButton outline view="primary" onClick={addToSection} text={tr('Add')} />
+                    )}
                 </Card>
             </LoadingContainer>
         </UnavailableContainer>

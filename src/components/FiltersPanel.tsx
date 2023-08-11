@@ -48,6 +48,7 @@ const StyledFiltersPanel = styled.div`
     padding: ${gapS} 0;
 
     background-color: ${gray5};
+    width: 100%;
 `;
 
 const StyledFiltersContent = styled.div`

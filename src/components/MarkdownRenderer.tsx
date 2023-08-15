@@ -1,10 +1,15 @@
 import { CSSProperties, useRef, useState, VFC } from 'react';
 import styled from 'styled-components';
 import dynamic from 'next/dynamic';
-import { Text, Md, FileIcon } from '@taskany/bricks';
+import { Text, FileIcon } from '@taskany/bricks';
+import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import remarkGFM from 'remark-gfm';
+import remarkEmoji from 'remark-emoji';
 
 import { PropsWithClassName } from '../types';
-import { useMarkdown } from '../hooks/useMarkdown';
+import { useAppSettingsContext } from '../contexts/app-settings-context';
 
 import { IconButton } from './IconButton';
 import { tr } from './components.i18n';
@@ -17,6 +22,11 @@ const StyledRootText = styled(Text)`
     width: 70%;
     justify-content: space-between;
     align-items: end;
+`;
+
+const StyledReactMarkdown = styled(ReactMarkdown)`
+    display: flex;
+    flex-direction: column;
 `;
 
 type MarkdownRendererProps = PropsWithClassName<{
@@ -36,11 +46,35 @@ export const MarkdownRenderer: VFC<MarkdownRendererProps> = ({
 }) => {
     const [popupVisible, setPopupVisibility] = useState(false);
     const popupRef = useRef<HTMLButtonElement>(null);
+    const isSafari = useAppSettingsContext().browser === 'safari';
 
     return (
         <div style={{ minHeight, ...style }}>
             <StyledRootText as="div" className={className}>
-                <Md>{useMarkdown(value)}</Md>
+                <StyledReactMarkdown
+                    remarkPlugins={[remarkGFM, remarkEmoji]}
+                    components={{
+                        code({ node, inline, className, children, ...props }) {
+                            const match = /language-(\w+)/.exec(className || '');
+                            return match ? (
+                                <SyntaxHighlighter
+                                    {...props}
+                                    style={vscDarkPlus}
+                                    showLineNumbers={!isSafari}
+                                    language={match[1]}
+                                >
+                                    {String(children).replace(/\n$/, '')}
+                                </SyntaxHighlighter>
+                            ) : (
+                                <code {...props} className={className}>
+                                    {children}
+                                </code>
+                            );
+                        },
+                    }}
+                >
+                    {value}
+                </StyledReactMarkdown>
                 {hasCopyButton && (
                     <IconButton
                         ref={popupRef}

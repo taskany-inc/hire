@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.5.1](https://github.com/taskany-inc/hire/compare/v0.5.0...v0.5.1) (2023-08-16)
+
+
+### Bug Fixes
+
+* **Build:** add concurrently for future worker support ([f609bba](https://github.com/taskany-inc/hire/commit/f609bba3a481dc03e1755adfb2e1667fe92339d1))
+
 ## [0.5.0](https://github.com/taskany-inc/hire/compare/v0.4.0...v0.5.0) (2023-08-16)
 
 

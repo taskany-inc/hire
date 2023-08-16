@@ -15,6 +15,9 @@ import {
     ArrowUpSmallIcon,
     ArrowDownSmallIcon,
     UserPic,
+    HeaderMenu,
+    UserMenu,
+    Popup,
 } from '@taskany/bricks';
 
 import { Paths } from '../../utils/paths';
@@ -25,19 +28,14 @@ import { useHeaderMenu } from './useHeaderMenu';
 import { PageHeaderLogo } from './PageHeaderLogo';
 import { tr } from './header.i18n';
 
-const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
-
-const StyledNav = styled(HeaderNav)`
-    margin-left: ${gapXl};
-`;
-
-const StyledAvatar = styled.div`
-    padding-left: ${gapXs};
-`;
-
 const StyledDescription = styled.div`
     color: ${textColor};
     white-space: pre-wrap;
+`;
+
+const StyledHeaderNav = styled(HeaderNav)`
+    display: flex;
+    align-items: center;
 `;
 
 export const PageHeader: React.FC = () => {
@@ -98,13 +96,16 @@ export const PageHeader: React.FC = () => {
             }
             menu={
                 <>
-                    <StyledAvatar
-                        ref={popupRef}
-                        onMouseEnter={() => setPopupVisibility(true)}
-                        onMouseLeave={() => setPopupVisibility(false)}
-                    >
-                        <UserPic size={32} email={avatarSrc} />
-                    </StyledAvatar>
+                    <HeaderMenu>
+                        <div
+                            ref={popupRef}
+                            onMouseEnter={() => setPopupVisibility(true)}
+                            onMouseLeave={() => setPopupVisibility(false)}
+                        >
+                            <UserMenu avatar={avatarSrc} />
+                        </div>
+                    </HeaderMenu>
+
                     <Popup
                         tooltip
                         placement="bottom-end"
@@ -118,17 +119,15 @@ export const PageHeader: React.FC = () => {
                 </>
             }
             nav={
-                <StyledNav>
-                    <HeaderNav>
-                        {entityListMenuItems.map((item, index) => (
-                            // <NextLink>
-                            <HeaderNavLink key={index + item.text} href={item.path}>
-                                {item.text}
-                            </HeaderNavLink>
-                            // </NextLink>
-                        ))}
-                    </HeaderNav>
-                </StyledNav>
+                <StyledHeaderNav>
+                    {entityListMenuItems.map((item, index) => (
+                        // <NextLink>
+                        <HeaderNavLink key={index + item.text} href={item.path}>
+                            {item.text}
+                        </HeaderNavLink>
+                        // </NextLink>
+                    ))}
+                </StyledHeaderNav>
             }
         >
             <HeaderContent>

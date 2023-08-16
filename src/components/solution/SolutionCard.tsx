@@ -4,7 +4,7 @@ import { Resolver, ResolverError, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import dynamic from 'next/dynamic';
 import { colorPrimary, gray6 } from '@taskany/colors';
-import { Text, Button, ArrowUpSmallIcon, ArrowDownSmallIcon } from '@taskany/bricks';
+import { Text, Button, ArrowUpSmallIcon, ArrowDownSmallIcon, Popup } from '@taskany/bricks';
 
 import { useSolutionRemoveMutation, useSolutionUpdateMutation } from '../../hooks/solution-hooks';
 import { MarkdownRenderer } from '../MarkdownRenderer';
@@ -23,8 +23,6 @@ import { trpc } from '../../utils/trpc-front';
 
 import { SwitchSolutionsOrderButton } from './SwitchSolutionOrderButton';
 import { tr } from './solution.i18n';
-
-const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
 
 type SolutionCardProps = {
     solution: SolutionWithRelations;

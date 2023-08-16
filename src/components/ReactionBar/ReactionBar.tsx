@@ -1,7 +1,7 @@
 import { CSSProperties, useRef, useState } from 'react';
 import { User } from '@prisma/client';
 import dynamic from 'next/dynamic';
-import { Text } from '@taskany/bricks';
+import { Popup, Text } from '@taskany/bricks';
 
 import { useSession } from '../../contexts/app-settings-context';
 import { Stack } from '../layout/Stack';
@@ -11,8 +11,6 @@ import { UpsertReaction } from '../../backend/modules/reaction/reaction-types';
 import { Reaction } from './Reaction';
 import { ReactionType } from './types';
 import { updateAuthors, updateCount } from './helpers';
-
-const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
 
 type ReactionBarProps = {
     reactions: ReactionType[];

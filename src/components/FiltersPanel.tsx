@@ -108,7 +108,7 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
 
                 <StyledFiltersMenuWrapper>
                     {nullable(count, () => (
-                        <Badge size="m">{count}</Badge>
+                        <Badge size="l">{count}</Badge>
                     ))}
 
                     <StyledFiltersMenu>

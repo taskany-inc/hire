@@ -1,4 +1,4 @@
-import { VFC, useState, useMemo } from 'react';
+import { useState, useMemo, FC } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { gray10, textColorPrimary } from '@taskany/colors';
@@ -48,7 +48,7 @@ const StyledAuthorLink = styled.span`
     }
 `;
 
-export const Problem: VFC<ProblemProps> = ({ problem }) => {
+export const Problem: FC<ProblemProps> = ({ problem }) => {
     const session = useSession();
     const router = useRouter();
 

@@ -2,15 +2,13 @@ import { ComponentType, useRef, useState } from 'react';
 import { EventProps } from 'react-big-calendar';
 import dynamic from 'next/dynamic';
 import styled from 'styled-components';
-import { Text } from '@taskany/bricks';
+import { Popup, Text } from '@taskany/bricks';
 
 import { formatTime } from '../../utils/date';
 import { symbols } from '../../utils/symbols';
 
 import { BigCalendarEvent } from './calendar-types';
 import { CalendarEventLinkedSection } from './CalendarEventLinkedSection';
-
-const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
 
 export type SlotCalendarEventProps = EventProps<BigCalendarEvent>;
 

@@ -27,7 +27,7 @@ export function AssignSectionDropdownButton({ interviewId, sectionTypes }: Props
                 <Button
                     outline
                     view="primary"
-                    iconRight={<MoreVerticalIcon size="s" />}
+                    iconRight={<MoreVerticalIcon size="s" noWrap />}
                     onClick={props.onClick}
                     text={tr('Assign section')}
                 />

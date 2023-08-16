@@ -1,5 +1,6 @@
 import { useState, VFC } from 'react';
-import { Button, FormTitle, Modal, ModalContent, ModalHeader, Text } from '@taskany/bricks';
+import { Button, FormTitle, Modal, ModalContent, ModalCross, ModalHeader, Text } from '@taskany/bricks';
+import { gapS } from '@taskany/colors';
 
 import { AsyncAnyFunction } from '../types';
 
@@ -27,6 +28,7 @@ export const Confirmation: VFC<ConfirmationProps> = ({
 }) => (
     <Modal onClose={onClose} visible={open} {...modalProps}>
         <ModalHeader>
+            <ModalCross onClick={onClose} />
             <FormTitle>{message}</FormTitle>
         </ModalHeader>
         <ModalContent>
@@ -38,6 +40,7 @@ export const Confirmation: VFC<ConfirmationProps> = ({
                     view={destructive ? 'danger' : 'default'}
                     disabled={inProgress}
                     text={tr('Ok')}
+                    style={{ marginLeft: gapS }}
                 />
             </>
         </ModalContent>

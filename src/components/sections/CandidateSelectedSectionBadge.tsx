@@ -15,8 +15,16 @@ export const CandidateSelectedSectionBadge: VFC<Props> = ({ section, interview }
     }
 
     if (section.id === interview.candidateSelectedSectionId) {
-        return <Badge color={TagPaletteColor.GREEN}>Candidate Selection</Badge>;
+        return (
+            <Badge size={'l'} color={TagPaletteColor.GREEN}>
+                Candidate Selection
+            </Badge>
+        );
     }
 
-    return <Badge color={TagPaletteColor.RED}>Not selected by candidate</Badge>;
+    return (
+        <Badge size={'l'} color={TagPaletteColor.RED}>
+            Not selected by candidate
+        </Badge>
+    );
 };

@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import styled from 'styled-components';
 import { Text, Link, Button } from '@taskany/bricks';
+import { gapS } from '@taskany/colors';
 
 import { generatePath, pageHrefs, Paths } from '../../utils/paths';
 import { distanceDate, formatDateToLocaleString } from '../../utils/date';

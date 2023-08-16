@@ -1,7 +1,7 @@
 import { isSameMinute, differenceInMinutes } from 'date-fns';
 import { useMemo, useState } from 'react';
 import { View } from 'react-big-calendar';
-import { Modal, ModalContent, ModalHeader, FormTitle, Text, Button } from '@taskany/bricks';
+import { Modal, ModalContent, ModalHeader, FormTitle, Text, Button, ModalCross } from '@taskany/bricks';
 
 import {
     useCalendarEventCreateMutation,
@@ -424,6 +424,7 @@ export function InterviewSectionSlotCalendar(props: Props) {
 
             <Modal width={600} visible={!!eventForm} onClose={closeEventFormModal}>
                 <ModalHeader>
+                    <ModalCross onClick={closeEventFormModal} />
                     <CalendarEventLinkedSection interviewSection={eventForm?.interviewSection} />
                 </ModalHeader>
                 <ModalContent>

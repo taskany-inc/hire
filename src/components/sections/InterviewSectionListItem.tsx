@@ -43,7 +43,9 @@ export function InterviewSectionListItem({ section, interview }: Props) {
             })}
             chips={
                 <>
-                    <Badge color={SectionStatusTagPalette[sectionChip]}>{sectionChip}</Badge>
+                    <Badge size={'xl'} color={SectionStatusTagPalette[sectionChip]}>
+                        {sectionChip}
+                    </Badge>
 
                     {isSelected && <CandidateSelectedSectionBadge section={section} interview={interview} />}
                 </>

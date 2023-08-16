@@ -1,4 +1,4 @@
-import { useState, VFC } from 'react';
+import { FC, useState, VFC } from 'react';
 import { SectionType } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -119,7 +119,7 @@ export const NewSectionTypeModal: VFC<{ hireStreamId: number }> = ({ hireStreamI
     );
 };
 
-export const UpdateSectionTypeModal: VFC<{
+export const UpdateSectionTypeModal: FC<{
     sectionType: SectionType;
     open: boolean;
     onClose: VoidFunction;

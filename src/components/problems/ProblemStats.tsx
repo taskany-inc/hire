@@ -1,11 +1,9 @@
 import { CSSProperties, memo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import dynamic from 'next/dynamic';
-import { Text } from '@taskany/bricks';
+import { Popup, Text } from '@taskany/bricks';
 
 import { tr } from './problems.i18n';
-
-const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
 
 type Stats = {
     good: number;

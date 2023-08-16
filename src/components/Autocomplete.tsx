@@ -1,13 +1,10 @@
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import dynamic from 'next/dynamic';
-import { Button, Input, useKeyboard, KeyCode, Badge } from '@taskany/bricks';
+import { Button, Input, useKeyboard, KeyCode, Badge, Popup } from '@taskany/bricks';
 
 import { Option } from '../types';
 
 import { tr } from './components.i18n';
-
-const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
 
 export interface AutocompleteProps<T> {
     options: T[];
@@ -143,7 +140,7 @@ export function Autocomplete({
                 />
                 <StyledBadgeContainer>
                     {added.map((item, index) => (
-                        <StyledBadge onClick={() => onItemRemove(item)} key={index}>
+                        <StyledBadge size={'xl'} onClick={() => onItemRemove(item)} key={index}>
                             {item.text}
                         </StyledBadge>
                     ))}

@@ -2,7 +2,7 @@ import { useMemo, VFC } from 'react';
 import { useRouter } from 'next/router';
 import { InterviewStatus, RejectReason, SectionType } from '@prisma/client';
 import { Text } from '@taskany/bricks';
-import { gray10 } from '@taskany/colors';
+import { gapL, gapS, gray10 } from '@taskany/colors';
 import styled from 'styled-components';
 
 import { pageHrefs } from '../utils/paths';
@@ -123,7 +123,7 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reacti
             headerGutter="0px"
             backlink={pageHrefs.candidate(interview.candidate.id)}
         >
-            <Text size="s" as="div" style={{ paddingTop: 10 }}>
+            <Text size="s" as="div" style={{ paddingTop: gapS }}>
                 #{interview.id}
                 <Text size="m" as="span" color={gray10}>
                     <InlineDot />
@@ -137,7 +137,7 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reacti
                 {Array.isArray(reactions) && (
                     <ReactionBar reactions={reactions} interviewId={interviewId} style={{ marginTop: 30 }} />
                 )}
-                <Text size="s" as="p" style={{ marginTop: '30px' }}>
+                <Text size="s" as="p" style={{ marginTop: gapS }}>
                     {interview.statusComment}
                 </Text>
                 {interview.description && <MarkdownRenderer value={interview.description} />}

@@ -1,7 +1,7 @@
 import { CSSProperties, useRef, useState, VFC } from 'react';
 import styled from 'styled-components';
 import dynamic from 'next/dynamic';
-import { Text, FileIcon } from '@taskany/bricks';
+import { Text, FileIcon, Popup } from '@taskany/bricks';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
@@ -13,8 +13,6 @@ import { useAppSettingsContext } from '../contexts/app-settings-context';
 
 import { IconButton } from './IconButton';
 import { tr } from './components.i18n';
-
-const Popup = dynamic(() => import('@taskany/bricks/components/Popup'));
 
 const StyledRootText = styled(Text)`
     word-break: break-word;

@@ -134,7 +134,7 @@ export const HireOrRejectConfirmation = ({
                 </ModalContent>
                 <Stack direction="row" gap={10} justifyContent="flex-start" style={{ margin: 12 }}>
                     <Button onClick={handleOnClose} text={tr('Cancel')} />
-                    <Button type="submit" view="primary" disabled={isSubmitting} text={tr('Save')} />
+                    <Button outline type="submit" view="primary" disabled={isSubmitting} text={tr('Save')} />
                 </Stack>
             </form>
         </Modal>

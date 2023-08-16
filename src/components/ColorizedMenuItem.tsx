@@ -54,6 +54,10 @@ const StyledItemCard = styled.div<{ focused?: boolean; checked?: boolean; hoverC
         `}
 `;
 
+const NoWrap = styled.div`
+    white-space: nowrap;
+`;
+
 const StyledItemInfo = styled(Text)`
     padding-left: ${gapS};
 `;
@@ -67,7 +71,9 @@ export const ColorizedMenuItem: React.FC<{
 }> = ({ hoverColor, title, focused, checked, onClick }) => {
     return (
         <StyledItemCard hoverColor={hoverColor} focused={focused} checked={checked} onClick={onClick}>
-            <StateDot />
+            <NoWrap>
+                <StateDot size={'s'} />
+            </NoWrap>
             <StyledItemInfo size="s" weight="bold">
                 {title}
             </StyledItemInfo>

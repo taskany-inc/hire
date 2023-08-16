@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.5.0](https://github.com/taskany-inc/hire/compare/v0.4.0...v0.5.0) (2023-08-16)
+
+
+### Features
+
+* **MarkdownRenderer:** syntax highlight ([b2817bf](https://github.com/taskany-inc/hire/commit/b2817bf2be0e8eae9271c8c9f75a3bc5e32577cc))
+* **SectionFeedback:** add attaches by FormEditor ([719e9c6](https://github.com/taskany-inc/hire/commit/719e9c62a5faa3d0caee5b5257623371b92c5f3b))
+
+
+### Bug Fixes
+
+* add problem popup doesn't have a header ([99130e6](https://github.com/taskany-inc/hire/commit/99130e6eeb8dfe85e5aa1cbb1ae8c8f977df3163))
+* all action buttons should be outline ([a9cbc3c](https://github.com/taskany-inc/hire/commit/a9cbc3c6aece61f271f08416faa1547758106084))
+* calendar popup issues ([886e6eb](https://github.com/taskany-inc/hire/commit/886e6eb6b20ce7bb791971b6c51f3cb088212f20))
+* **db schema:** use utc timestamps ([1667dec](https://github.com/taskany-inc/hire/commit/1667decb0534afe716335e92d57b2e5bb415019c))
+* header bugs ([8f445cb](https://github.com/taskany-inc/hire/commit/8f445cb443affb1ac476f200e9b65d44a7bcd02b))
+* header bugs ([7b188b8](https://github.com/taskany-inc/hire/commit/7b188b87ef402d84e5dbc6b711e04c5ede6aa9a6))
+* **SectionFeedback:** fix hidration error ([8f31eca](https://github.com/taskany-inc/hire/commit/8f31ecab6ac04a3fb8f1c42f9cdabae230e9030c))
+* **Select:** Button as renderTrigger in Dropdown ([2926d65](https://github.com/taskany-inc/hire/commit/2926d659ee0eda37cc4eab638cbec6b089d45a06))
+
 ## [0.4.0](https://github.com/taskany-inc/hire/compare/v0.3.15...v0.4.0) (2023-08-07)
 
 

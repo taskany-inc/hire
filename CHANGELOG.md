@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.5.2](https://github.com/taskany-inc/hire/compare/v0.5.1...v0.5.2) (2023-08-16)
+
+
+### Bug Fixes
+
+* **Build:** add concurrently for future worker support ([615cbd1](https://github.com/taskany-inc/hire/commit/615cbd1b958c6e8f0ab973e1f5f4746b57df8473))
+* **Build:** bump next.js minor ([75bc89c](https://github.com/taskany-inc/hire/commit/75bc89c1204bf2766cfc83317963b47b320ed8a1))
+
 ## [0.5.1](https://github.com/taskany-inc/hire/compare/v0.5.0...v0.5.1) (2023-08-16)
 
 

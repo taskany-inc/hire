@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.5.3](https://github.com/taskany-inc/hire/compare/v0.5.2...v0.5.3) (2023-08-17)
+
+
+### Bug Fixes
+
+* **Build:** init trpc relative url ([e0b5cf9](https://github.com/taskany-inc/hire/commit/e0b5cf9855fbc132f530ff4e10c40ccb51a9e89b))
+
 ## [0.5.2](https://github.com/taskany-inc/hire/compare/v0.5.1...v0.5.2) (2023-08-16)
 
 

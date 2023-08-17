@@ -84,7 +84,7 @@ export const trpc = createTRPCNext<TrpcRouter>({
             ...commonOptions,
             links: [
                 httpBatchLink({
-                    url: `${config.defaultPageURL}/api/trpc`,
+                    url: '/api/trpc',
                     headers: () => {
                         if (ctx?.req) {
                             // To use SSR properly, you need to forward the client's headers to the server

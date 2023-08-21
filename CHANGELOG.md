@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.6.0](https://github.com/taskany-inc/hire/compare/v0.5.3...v0.6.0) (2023-08-21)
+
+
+### Features
+
+* **Section:** choose interviewer to section by combobox ([5a80319](https://github.com/taskany-inc/hire/commit/5a8031979d5d38f2362fade9a072e8e207622a61))
+
 ## [0.5.3](https://github.com/taskany-inc/hire/compare/v0.5.2...v0.5.3) (2023-08-17)
 
 

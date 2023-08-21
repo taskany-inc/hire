@@ -22,7 +22,7 @@ export const AddUserToRole: VFC<AddUserToRoleProps> = ({ title, onSelect, filter
         }
     }, [setOpen, open]);
 
-    const usersQuery = useUserList();
+    const usersQuery = useUserList({});
     useClickOutside(wrapperRef, onClickOutside);
 
     const [onESC] = useKeyboard(

@@ -2,8 +2,7 @@ import { useMemo, VFC } from 'react';
 import { useRouter } from 'next/router';
 import { InterviewStatus, RejectReason, SectionType } from '@prisma/client';
 import { Text } from '@taskany/bricks';
-import { gapL, gapS, gray10 } from '@taskany/colors';
-import styled from 'styled-components';
+import { gapS, gray10 } from '@taskany/colors';
 
 import { pageHrefs } from '../utils/paths';
 import { distanceDate } from '../utils/date';

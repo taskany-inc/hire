@@ -1,6 +1,7 @@
 {
     "Add problem": "Add problem",
     "Assign section": "Assign section",
+    "Assign section to": "Assign section to",
     "Drag and drop files or click and select from the list": "Drag and drop files or click and select from the list",
     "Delete file?": "Delete file?",
     "Commentary on section cancellation": "Commentary on section cancellation",
@@ -30,7 +31,6 @@
     "Section": "Section",
     "Grade": "Grade",
     "Section feedback": "Section feedback",
-    "Choose the interviewer": "Choose the interviewer",
     "Save the section": "Save the section",
     "In which team is the product final held?": "In which team is the product final held?"
 }

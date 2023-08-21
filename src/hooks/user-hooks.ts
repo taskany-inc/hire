@@ -1,12 +1,13 @@
 import { trpc } from '../utils/trpc-front';
+import { GetUserList } from '../backend/modules/user/user-types';
 
 import { useNotifications } from './useNotifications';
 import { tr } from './hooks.i18n';
 
-export const useUserList = () => {
+export const useUserList = (params: GetUserList) => {
     const { enqueueErrorNotification } = useNotifications();
 
-    return trpc.users.getAll.useQuery(undefined, {
+    return trpc.users.getUserList.useQuery(params, {
         onError: enqueueErrorNotification,
     });
 };

@@ -37,10 +37,12 @@ export const LayoutMain: FC<LayoutMainProps> = ({
 }) => {
     const theme: 'dark' | 'light' = 'dark';
 
+    const title = `${pageTitle} - Taskany Hire`;
+
     return (
         <>
             <Head>
-                <title>{pageTitle} - Taskany Hire</title>
+                <title>{title}</title>
             </Head>
 
             <OfflineBanner />

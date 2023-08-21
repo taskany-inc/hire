@@ -1,4 +1,4 @@
-import { User } from '@prisma/client';
+import { User, Prisma } from '@prisma/client';
 
 import { prisma } from '../..';
 import { ErrorWithStatus } from '../../../utils';
@@ -6,7 +6,7 @@ import { UserRoles, UserRolesInfo } from '../../user-roles';
 import { idObjsToIds } from '../../utils';
 import { sectionTypeDbService } from '../section-type/section-type-db-service';
 
-import { AddProblemToFavorites, CreateUser } from './user-types';
+import { AddProblemToFavorites, CreateUser, GetUserList } from './user-types';
 import { tr } from './user.i18n';
 
 const create = async (data: CreateUser) => {
@@ -41,6 +41,28 @@ const getByEmail = async (email: string): Promise<User> => {
     }
 
     return user;
+};
+
+export const constructFindUserListWhereFilter = async (data: GetUserList): Promise<Prisma.UserWhereInput> => {
+    const where = {} as Prisma.UserWhereInput;
+
+    if (data.search) {
+        where.OR = [
+            { name: { contains: data.search, mode: 'insensitive' } },
+            { email: { contains: data.search, mode: 'insensitive' } },
+        ];
+    }
+
+    if (data.sectionTypeId) {
+        where.interviewerInSectionTypes = { some: { id: data.sectionTypeId } };
+    }
+    return where;
+};
+
+const getUserList = async (data: GetUserList): Promise<User[]> => {
+    const where = await constructFindUserListWhereFilter(data);
+
+    return prisma.user.findMany({ where, take: data.limit });
 };
 
 const getAll = (): Promise<User[]> => {
@@ -107,4 +129,5 @@ export const userDbService = {
     addProblemToFavorites,
     removeProblemFromFavorites,
     getUserRoles,
+    getUserList,
 };

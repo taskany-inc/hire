@@ -15,12 +15,6 @@ export const useSectionTypes = (hireStreamId: number) => {
     return trpc.sectionTypes.getByHireStreamId.useQuery({ hireStreamId }, { onError: enqueueErrorNotification });
 };
 
-export const useSectionTypeInterviewers = (sectionTypeId: number) => {
-    const { enqueueErrorNotification } = useNotifications();
-
-    return trpc.sectionTypes.getInterviewers.useQuery({ sectionTypeId }, { onError: enqueueErrorNotification });
-};
-
 export const useCreateSectionTypeMutation = () => {
     const { enqueueSuccessNotification, enqueueErrorNotification } = useNotifications();
     const utils = trpc.useContext();

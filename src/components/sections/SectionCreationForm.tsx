@@ -1,13 +1,14 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
-import { Candidate, Interview, SectionType } from '@prisma/client';
+import { Candidate, Interview, SectionType, User } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { danger0 } from '@taskany/colors';
-import { Text } from '@taskany/bricks';
+import { Button, Text } from '@taskany/bricks';
+import styled from 'styled-components';
+import { useDebounce } from 'use-debounce';
 
-import { FormContainer } from '../FormContainer/FormContainer';
 import { CreateSection } from '../../backend/modules/section/section-types';
 import { useSectionCreateMutation } from '../../hooks/section-hooks';
 import { pageHrefs } from '../../utils/paths';
@@ -16,15 +17,15 @@ import { Stack } from '../layout/Stack';
 import { FormInput } from '../FormInput/FormInput';
 import { validationRules } from '../../utils/validation-rules';
 import { SectionScheduleCalendar, CalendarEventDetails } from '../calendar/SectionScheduleCalendar';
-import { Option } from '../../types';
-import { Select } from '../Select';
+import { UserComboBox } from '../UserComboBox';
+import { trpc } from '../../utils/trpc-front';
+import { FormContainer } from '../FormContainer/FormContainer';
 
 import { tr } from './sections.i18n';
 
 interface Props {
     interviewId: number;
     sectionType: SectionType;
-    interviewers: Option[];
     candidate: Candidate;
     interview: Interview;
 }
@@ -34,7 +35,7 @@ const schema = z.object({
         invalid_type_error: tr('Choose an interviewer'),
         required_error: tr('Choose an interviewer'),
     }),
-    name: z.string().nullish(),
+    description: z.string().nullish(),
     calendarSlot: z
         .object({
             exceptionId: z.string().optional(),
@@ -44,18 +45,35 @@ const schema = z.object({
         .optional(),
 });
 
+const StyledButton = styled(Button)`
+    width: fit-content;
+`;
+
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function SectionCreationForm({ interviewers, candidate, interviewId, sectionType }: Props) {
+export function SectionCreationForm({ candidate, interviewId, sectionType }: Props) {
     const [schedulable, setSchedulable] = useState<boolean>(sectionType.schedulable);
+    const [search, setSearch] = useState('');
+    const [debouncedSearch] = useDebounce(search, 300);
+    const [interviewer, setInterviewer] = useState<User | undefined>(undefined);
+
+    const interviewersQuery = trpc.users.getUserList.useQuery(
+        { sectionTypeId: sectionType.id, search: debouncedSearch, limit: schedulable ? undefined : 20 },
+        {
+            cacheTime: 0,
+            staleTime: 0,
+        },
+    );
+
+    const interviewerIds = (interviewersQuery.data || []).map(({ id }) => id);
 
     const router = useRouter();
     const sectionCreateMutation = useSectionCreateMutation();
 
     const createSection: SubmitHandler<CreateSection> = useCallback(
-        async ({ interviewerId, name, calendarSlot }) => {
+        async ({ interviewerId, description, calendarSlot }) => {
             const result = await sectionCreateMutation.mutateAsync({
                 sectionTypeId: sectionType.id,
-                name,
+                description,
                 interviewId,
                 interviewerId,
                 calendarSlot: schedulable ? calendarSlot : undefined,
@@ -74,7 +92,7 @@ export function SectionCreationForm({ interviewers, candidate, interviewId, sect
 
     const {
         handleSubmit,
-        formState: { isSubmitting, isSubmitSuccessful, errors },
+        formState: { isSubmitting, errors },
         register,
         setValue,
         watch,
@@ -97,57 +115,65 @@ export function SectionCreationForm({ interviewers, candidate, interviewId, sect
         },
         [setValue, submit],
     );
-    const onInterviewerIdChange = (interviewerId: number) => setValue('interviewerId', interviewerId);
-    const { ref: refName, ...restName } = register('name', validationRules.nonEmptyString);
+
+    const { ref: refDescription, ...restDescription } = register('description', validationRules.nonEmptyString);
+
+    const onInterviewerSelect = (interviewer: User) => {
+        setValue('interviewerId', interviewer.id);
+        setInterviewer(interviewer);
+        setSearch('');
+    };
+    const onSchedulableToggle = () => {
+        setSchedulable(!schedulable);
+        setSearch('');
+    };
 
     return (
         <Stack direction="column" gap={14}>
             <CandidateNameSubtitle name={candidate.name} id={candidate.id} />
 
-            <Text onClick={() => setSchedulable(!schedulable)}>{newOrScheduleDescription}</Text>
+            <StyledButton outline onClick={onSchedulableToggle} text={newOrScheduleDescription} />
 
             {schedulable && (
                 <SectionScheduleCalendar
                     isSectionSubmitting={isSubmitting}
-                    interviewerIds={interviewers
-                        .map((i) => i.value)
-                        .filter<number>((id): id is number => typeof id === 'number')}
+                    interviewerIds={interviewerIds}
                     selectedSlot={watch('calendarSlot')}
                     onSlotSelected={setCalendarSlotAndSubmit}
                 />
             )}
             <FormContainer
-                submitButtonText={tr('Assign section')}
+                submitButtonText={tr('Save the section')}
                 onSubmitButton={submit}
-                submitButtonDisabled={isSubmitting || isSubmitSuccessful}
+                submitButtonDisabled={isSubmitting}
             >
-                <Stack direction="column" gap={20}>
-                    {!schedulable && (
-                        <>
-                            <Select
-                                options={interviewers}
-                                value={watch('interviewerId')}
-                                onChange={onInterviewerIdChange}
-                                text={tr('Interviewer')}
-                            />
-                            {errors.interviewerId && !watch('interviewerId') && (
-                                <Text size="xs" color={danger0}>
-                                    {errors.interviewerId.message}
-                                </Text>
-                            )}
-                        </>
-                    )}
-
-                    {sectionType.userSelect && (
-                        <FormInput
-                            label={tr('Description')}
-                            helperText={errors.name?.message}
-                            placeholder={tr('Which team is held the product final?')}
-                            forwardRef={refName}
-                            {...restName}
+                {!schedulable && (
+                    <>
+                        <UserComboBox
+                            items={interviewersQuery.data}
+                            onChange={onInterviewerSelect}
+                            setInputValue={setSearch}
+                            value={interviewer}
+                            placeholder={tr('Choose an interviewer')}
                         />
-                    )}
-                </Stack>
+
+                        {errors.interviewerId && !watch('interviewerId') && (
+                            <Text size="xs" color={danger0}>
+                                {errors.interviewerId.message}
+                            </Text>
+                        )}
+                    </>
+                )}
+
+                {sectionType.userSelect && (
+                    <FormInput
+                        label={tr('Description')}
+                        helperText={errors.description?.message}
+                        placeholder={tr('Which team is held the product final?')}
+                        forwardRef={refDescription}
+                        {...restDescription}
+                    />
+                )}
             </FormContainer>
         </Stack>
     );

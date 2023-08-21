@@ -1,6 +1,6 @@
 import { accessMiddlewares } from '../../access/access-middlewares';
 import { userDbService } from '../../modules/user/user-db-service';
-import { addProblemToFavoritesSchema, createUserSchema } from '../../modules/user/user-types';
+import { addProblemToFavoritesSchema, createUserSchema, getUserListSchema } from '../../modules/user/user-types';
 import { protectedProcedure, router } from '../trpc-back';
 
 export const usersRouter = router({
@@ -13,6 +13,10 @@ export const usersRouter = router({
 
     getAll: protectedProcedure.query(() => {
         return userDbService.getAll();
+    }),
+
+    getUserList: protectedProcedure.input(getUserListSchema).query(({ input }) => {
+        return userDbService.getUserList(input);
     }),
 
     getFavoriteProblems: protectedProcedure.query(({ ctx }) => {

@@ -23,6 +23,10 @@ const BottomContainer = styled.div`
     justify-content: space-between;
 `;
 
+const ButtonContainer = styled.div`
+    display: flex;
+`;
+
 const StyledButton = styled(Button)`
     display: inline-block;
     float: right;
@@ -38,6 +42,8 @@ export interface FormContainerProps {
     deleteButtonText?: string;
     notToShowHint?: boolean;
     children?: ReactNode;
+    onCancelButton?: () => void;
+    cancelButtonText?: string;
 }
 
 export const FormContainer: FC<FormContainerProps> = (props) => {
@@ -49,6 +55,8 @@ export const FormContainer: FC<FormContainerProps> = (props) => {
         onDeleteButton,
         deleteButtonText,
         notToShowHint,
+        cancelButtonText,
+        onCancelButton,
     } = props;
 
     const [keyboard] = useKeyboard([KeyCode.Enter, KeyMod.CtrlCmd], () => onSubmitButton(), {
@@ -61,16 +69,22 @@ export const FormContainer: FC<FormContainerProps> = (props) => {
             <InnerContainer>{children}</InnerContainer>
             <BottomContainer>
                 {!notToShowHint && <KeyboardSubmitHint actionTitle={submitButtonText} />}
-
-                <StyledButton
-                    type="submit"
-                    view="primary"
-                    outline
-                    onClick={onSubmitButton}
-                    disabled={submitButtonDisabled}
-                    text={submitButtonText}
-                />
-                {deleteButtonText && <StyledButton view="danger" onClick={onDeleteButton} text={deleteButtonText} />}
+                <ButtonContainer>
+                    <StyledButton
+                        type="submit"
+                        view="primary"
+                        outline
+                        onClick={onSubmitButton}
+                        disabled={submitButtonDisabled}
+                        text={submitButtonText}
+                    />
+                    {cancelButtonText && (
+                        <StyledButton type="button" onClick={onCancelButton} text={cancelButtonText} />
+                    )}
+                    {deleteButtonText && (
+                        <StyledButton view="danger" onClick={onDeleteButton} text={deleteButtonText} />
+                    )}
+                </ButtonContainer>
             </BottomContainer>
         </OuterContainer>
     );

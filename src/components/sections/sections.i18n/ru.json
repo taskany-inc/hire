@@ -1,6 +1,7 @@
 {
     "Add problem": "Добавить задачу",
     "Assign section": "Назначить секцию",
+    "Assign section to": "Назначить секцию на",
     "Drag and drop files or click and select from the list": "Перетащите файлы или кликните и выберите из списка",
     "Delete file?": "Удалить файл?",
     "Commentary on section cancellation": "Комментарий к отмене секции",
@@ -30,7 +31,6 @@
     "Section": "Секция",
     "Grade": "Грейд",
     "Section feedback": "Отправить фидбек",
-    "Choose the interviewer": "Выберите интервьюера",
     "Save the section": "Сохранить секцию",
     "In which team is the product final held?": "В какую команду проводится продуктовый финал?"
 }

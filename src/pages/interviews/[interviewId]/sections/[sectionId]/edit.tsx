@@ -7,7 +7,6 @@ import { accessChecks } from '../../../../../backend/access/access-checks';
 import { createGetServerSideProps } from '../../../../../utils/create-get-ssr-props';
 import { useInterview } from '../../../../../hooks/interview-hooks';
 import { useSection } from '../../../../../hooks/section-hooks';
-import { useSectionTypeInterviewers } from '../../../../../hooks/section-type-hooks';
 import { QueryResolver } from '../../../../../components/QueryResolver';
 
 export const getServerSideProps = createGetServerSideProps({
@@ -16,7 +15,6 @@ export const getServerSideProps = createGetServerSideProps({
     action: async ({ ssg, session, numberIds, handleAccessChecks }) => {
         await ssg.interviews.getById.fetch({ interviewId: numberIds.interviewId });
         const section = await ssg.sections.getById.fetch({ sectionId: numberIds.sectionId });
-        await ssg.sectionTypes.getInterviewers.fetch({ sectionTypeId: section.sectionTypeId });
 
         await handleAccessChecks(() => accessChecks.section.update(session, section));
 
@@ -27,11 +25,10 @@ export const getServerSideProps = createGetServerSideProps({
 const SectionPage = ({ numberIds, sectionTypeId }: InferServerSideProps<typeof getServerSideProps>) => {
     const interviewQuery = useInterview(numberIds.interviewId);
     const sectionQuery = useSection(numberIds.sectionId);
-    const interviewersQuery = useSectionTypeInterviewers(sectionTypeId);
 
     return (
-        <QueryResolver queries={[interviewQuery, sectionQuery, interviewersQuery]}>
-            {([interview, section, interviewers]) => {
+        <QueryResolver queries={[interviewQuery, sectionQuery]}>
+            {([interview, section]) => {
                 const pageTitle = `#${interview.id} ${symbols.emDash} ${section.sectionType.title}`;
 
                 return (
@@ -43,7 +40,6 @@ const SectionPage = ({ numberIds, sectionTypeId }: InferServerSideProps<typeof g
                             section={section}
                             sectionType={section.sectionType}
                             candidate={interview.candidate}
-                            interviewers={interviewers}
                         />
                     </LayoutMain>
                 );

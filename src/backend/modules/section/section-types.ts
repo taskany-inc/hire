@@ -12,7 +12,7 @@ const sectionCalendarSlotBookingSchema = z.object({
 export type SectionCalendarSlotBooking = z.infer<typeof sectionCalendarSlotBookingSchema>;
 
 export const createSectionSchema = z.object({
-    name: z.string().nullish(),
+    description: z.string().nullish(),
     interviewId: z.number(),
     sectionTypeId: z.number(),
     interviewerId: z.number(),
@@ -34,7 +34,7 @@ export const updateSectionSchema = z.object({
     sectionId: z.number(),
     interviewId: z.number(),
     interviewerId: z.number(),
-    name: z.string().nullish(),
+    description: z.string().nullish(),
     grade: z.string().nullish(),
     hire: z.boolean().nullish(),
     feedback: z.string().nullish(),

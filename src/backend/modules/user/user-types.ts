@@ -10,3 +10,11 @@ export const addProblemToFavoritesSchema = z.object({
     problemId: z.number(),
 });
 export type AddProblemToFavorites = z.infer<typeof addProblemToFavoritesSchema>;
+
+export const getUserListSchema = z.object({
+    search: z.string().optional(),
+    sectionTypeId: z.number().optional(),
+    limit: z.number().optional(),
+});
+
+export type GetUserList = z.infer<typeof getUserListSchema>;

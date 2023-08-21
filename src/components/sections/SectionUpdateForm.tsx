@@ -1,11 +1,13 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { VFC, useCallback } from 'react';
-import { Candidate, SectionType } from '@prisma/client';
+import { useCallback, useState } from 'react';
+import { Candidate, SectionType, User } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { danger0 } from '@taskany/colors';
-import { Text } from '@taskany/bricks';
+import { Button, Text } from '@taskany/bricks';
+import styled from 'styled-components';
+import { useDebounce } from 'use-debounce';
 
 import { SectionWithRelationsAndResults, UpdateSection } from '../../backend/modules/section/section-types';
 import { useSectionUpdateMutation } from '../../hooks/section-hooks';
@@ -15,25 +17,28 @@ import { FormInput } from '../FormInput/FormInput';
 import { validationRules } from '../../utils/validation-rules';
 import { Stack } from '../layout/Stack';
 import { CandidateNameSubtitle } from '../candidates/CandidateNameSubtitle';
-import { Option } from '../../types';
 import { CalendarEventDetails, SectionScheduleCalendar } from '../calendar/SectionScheduleCalendar';
-import { Select } from '../Select';
+import { trpc } from '../../utils/trpc-front';
+import { UserComboBox } from '../UserComboBox';
 
 import { tr } from './sections.i18n';
+
+const StyledButton = styled(Button)`
+    width: fit-content;
+`;
 
 type SectionUpdateFormProps = {
     section: SectionWithRelationsAndResults;
     sectionType: SectionType;
-    interviewers: Option[];
     candidate: Candidate;
 };
 
 const schema = z.object({
     interviewerId: z.number({
-        invalid_type_error: tr('Choose the interviewer'),
-        required_error: tr('Choose the interviewer'),
+        invalid_type_error: tr('Choose an interviewer'),
+        required_error: tr('Choose an interviewer'),
     }),
-    name: z.string().nullish(),
+    description: z.string().nullish(),
     sectionId: z.number(),
     interviewId: z.number(),
     calendarSlot: z
@@ -45,13 +50,25 @@ const schema = z.object({
         .optional(),
 });
 
-export const SectionUpdateForm: VFC<SectionUpdateFormProps> = ({ section, interviewers, sectionType, candidate }) => {
+export const SectionUpdateForm = ({ section, sectionType, candidate }: SectionUpdateFormProps) => {
     const router = useRouter();
     const sectionUpdateMutation = useSectionUpdateMutation();
 
     const { interviewId } = section;
 
-    const { schedulable } = section.sectionType;
+    const [schedulable, setSchedulable] = useState<boolean>(sectionType.schedulable);
+    const [search, setSearch] = useState('');
+    const [debouncedSearch] = useDebounce(search, 300);
+    const [interviewer, setInterviewer] = useState<User | undefined>(section.interviewer);
+
+    const interviewersQuery = trpc.users.getUserList.useQuery(
+        { sectionTypeId: sectionType.id, search: debouncedSearch, limit: schedulable ? undefined : 20 },
+        {
+            cacheTime: 0,
+            staleTime: 0,
+        },
+    );
+    const interviewerIds = (interviewersQuery.data || []).map(({ id }) => id);
 
     const {
         handleSubmit,
@@ -62,7 +79,7 @@ export const SectionUpdateForm: VFC<SectionUpdateFormProps> = ({ section, interv
     } = useForm<UpdateSection>({
         defaultValues: {
             interviewerId: section.interviewer.id,
-            name: section.description ?? '',
+            description: section.description ?? '',
             sectionId: section.id,
             interviewId,
         },
@@ -91,18 +108,29 @@ export const SectionUpdateForm: VFC<SectionUpdateFormProps> = ({ section, interv
         },
         [setValue, submit],
     );
-    const onInterviewerIdChange = (interviewerId: number) => setValue('interviewerId', interviewerId);
-    const { ref: refName, ...restName } = register('name', validationRules.nonEmptyString);
+
+    const { ref: refDescription, ...restDescription } = register('description', validationRules.nonEmptyString);
+
+    const onInterviewerSelect = (interviewer: User) => {
+        setValue('interviewerId', interviewer.id);
+        setInterviewer(interviewer);
+        setSearch('');
+    };
+    const onSchedulableToggle = () => {
+        setSchedulable(!schedulable);
+        setSearch('');
+    };
+    const newOrScheduleDescription = schedulable ? tr('To the choice of interviewees') : tr('To calendar');
 
     return (
         <Stack direction="column" gap={14}>
             <CandidateNameSubtitle name={candidate.name} id={candidate.id} />
+
+            <StyledButton outline onClick={onSchedulableToggle} text={newOrScheduleDescription} />
             {schedulable && (
                 <SectionScheduleCalendar
                     isSectionSubmitting={isSubmitting}
-                    interviewerIds={interviewers
-                        .map((i) => i.value)
-                        .filter<number>((id): id is number => typeof id === 'number')}
+                    interviewerIds={interviewerIds}
                     selectedSlot={watch('calendarSlot')}
                     onSlotSelected={setCalendarSlotAndSubmit}
                 />
@@ -110,16 +138,19 @@ export const SectionUpdateForm: VFC<SectionUpdateFormProps> = ({ section, interv
             <FormContainer
                 submitButtonText={tr('Save the section')}
                 onSubmitButton={submit}
+                cancelButtonText={tr('Cancel')}
+                onCancelButton={() => router.push(pageHrefs.interviewSectionView(interviewId, section.id))}
                 submitButtonDisabled={isSubmitting}
             >
                 <Stack direction="column" gap={20}>
                     {!schedulable && (
                         <>
-                            <Select
-                                options={interviewers}
-                                value={watch('interviewerId') || section.interviewer.id}
-                                onChange={onInterviewerIdChange}
-                                text={tr('Interviewer')}
+                            <UserComboBox
+                                value={interviewer}
+                                items={interviewersQuery.data}
+                                onChange={onInterviewerSelect}
+                                setInputValue={setSearch}
+                                placeholder={tr('Choose an interviewer')}
                             />
                             {errors.interviewerId && !watch('interviewerId') && (
                                 <Text size="xs" color={danger0}>
@@ -132,10 +163,10 @@ export const SectionUpdateForm: VFC<SectionUpdateFormProps> = ({ section, interv
                     {sectionType.userSelect && (
                         <FormInput
                             label={tr('Description')}
-                            helperText={(errors.name as any)?.name}
+                            helperText={(errors.description as any)?.description}
                             placeholder={tr('In which team is the product final held?')}
-                            forwardRef={refName}
-                            {...restName}
+                            forwardRef={refDescription}
+                            {...restDescription}
                         />
                     )}
                 </Stack>

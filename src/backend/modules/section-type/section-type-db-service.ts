@@ -1,6 +1,5 @@
 import { prisma } from '../..';
 import { ErrorWithStatus } from '../../../utils';
-import { Option } from '../../../types';
 
 import {
     CreateSectionType,
@@ -38,12 +37,6 @@ const getById = async (where: GetSectionType): Promise<SectionTypeWithHireStream
     return sectionType;
 };
 
-const getInterviewers = async (sectionTypeId: number): Promise<Option[]> => {
-    const users = await prisma.user.findMany({ where: { interviewerInSectionTypes: { some: { id: sectionTypeId } } } });
-
-    return users.map((u) => ({ text: u.name ?? '', value: u.id }));
-};
-
 const create = async (data: CreateSectionType) => {
     const { hireStreamId, ...restData } = data;
 
@@ -71,7 +64,6 @@ const deleteSectionType = async (id: number) => {
 export const sectionTypeDbService = {
     getAll,
     getById,
-    getInterviewers,
     create,
     update,
     delete: deleteSectionType,

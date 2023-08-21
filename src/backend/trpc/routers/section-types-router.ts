@@ -21,10 +21,6 @@ export const sectionTypesRouter = router({
             return sectionTypeDbService.getAll(input);
         }),
 
-    getInterviewers: protectedProcedure.input(sectionTypeQuerySchema).query(({ input }) => {
-        return sectionTypeDbService.getInterviewers(input.sectionTypeId);
-    }),
-
     create: protectedProcedure
         .input(createSectionTypeSchema)
         .use(accessMiddlewares.hireStream.updateBySectionTypeId)

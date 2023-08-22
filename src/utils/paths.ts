@@ -35,6 +35,7 @@ export enum Paths {
     HIRE_STREAMS = '/hire-streams',
     HIRE_STREAM_NEW = '/hire-streams/new',
     HIRE_STREAM = '/hire-streams/{hireStreamId}',
+    HIRE_STREAM_ROLES = '/hire-streams/roles/{hireStreamId}',
 
     PLUGINS = '/plugins',
 

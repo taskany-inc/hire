@@ -28,6 +28,10 @@ export const hireStreamsRouter = router({
         return hireStreamDbService.getAllowed(ctx.session);
     }),
 
+    getManaged: protectedProcedure.use(accessMiddlewares.hireStream.read).query(({ ctx }) => {
+        return hireStreamDbService.getManaged(ctx.session);
+    }),
+
     create: protectedProcedure
         .input(createHireStreamSchema)
         .use(accessMiddlewares.hireStream.create)

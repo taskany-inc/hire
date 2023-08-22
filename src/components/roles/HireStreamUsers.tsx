@@ -27,8 +27,9 @@ type HireStreamUsersProps = {
 };
 
 export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
+    const hireStreamId = hireStream.id;
+
     const usersQuery = useHireStreamUsers(hireStream.id);
-    const [hireStreamId, setHireStreamId] = useState<null | number>();
     const [userId, setUserId] = useState<null | number>();
     const [userName, setUserName] = useState<null | string>();
     const [sectionTypeId, setSectionTypeId] = useState<null | number>();
@@ -38,7 +39,6 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
     const removeHireStreamManagerConfirmation = useConfirmation({
         message: `${tr('Take the role of hire stream manager from')} ${userName}?`,
         onAgree: async () =>
-            hireStreamId &&
             userId &&
             removeHireStreamManagerMutation.mutate({
                 hireStreamId,
@@ -52,7 +52,6 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
     const removeHiringLeadConfirmation = useConfirmation({
         message: `${tr('Take the role of a recruiting lead from')}${userName}?`,
         onAgree: async () =>
-            hireStreamId &&
             userId &&
             removeHiringLeadMutation.mutate({
                 hireStreamId,
@@ -66,7 +65,6 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
     const removeRecruiterConfirmation = useConfirmation({
         message: `${tr('Take the role of a recruiter from')} ${userName}?`,
         onAgree: async () =>
-            hireStreamId &&
             userId &&
             removeRecruiterMutation.mutate({
                 hireStreamId,
@@ -80,7 +78,6 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
     const removeInterviewerConfirmation = useConfirmation({
         message: `${tr('Take over the role of the interviewer')}${userName}?`,
         onAgree: async () =>
-            hireStreamId &&
             userId &&
             sectionTypeId &&
             removeInterviewerMutation.mutate({
@@ -120,7 +117,6 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                                 icon: <CrossIcon size="s" />,
                                 disabled: removeHireStreamManagerMutation.isLoading || usersQuery.isLoading,
                                 handler: (user) => {
-                                    setHireStreamId(hireStream.id);
                                     setUserId(user.id);
                                     setUserName(user.name);
                                     removeHireStreamManagerConfirmation.show();
@@ -147,7 +143,6 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                                 icon: <CrossIcon size="s" />,
                                 disabled: removeHiringLeadMutation.isLoading || usersQuery.isLoading,
                                 handler: (user) => {
-                                    setHireStreamId(hireStream.id);
                                     setUserId(user.id);
                                     setUserName(user.name);
                                     removeHiringLeadConfirmation.show();
@@ -174,7 +169,6 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                                 icon: <CrossIcon size="s" />,
                                 disabled: removeRecruiterMutation.isLoading || usersQuery.isLoading,
                                 handler: (user) => {
-                                    setHireStreamId(hireStream.id);
                                     setUserId(user.id);
                                     setUserName(user.name);
                                     removeRecruiterConfirmation.show();
@@ -207,7 +201,6 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                                     icon: <CrossIcon size="s" />,
                                     disabled: removeInterviewerMutation.isLoading || usersQuery.isLoading,
                                     handler: (user) => {
-                                        setHireStreamId(hireStream.id);
                                         setUserId(user.id);
                                         setUserName(user.name);
                                         setSectionTypeId(sectionType.id);

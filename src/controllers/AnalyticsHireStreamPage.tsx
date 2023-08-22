@@ -8,7 +8,7 @@ export type HireStreamPageProps = {
     stringIds?: { hireStream: true };
 };
 
-export const HireStreamPage = ({ stringIds }: HireStreamPageProps) => {
+export const AnalyticsHireStreamPage = ({ stringIds }: HireStreamPageProps) => {
     return (
         <LayoutMain
             pageTitle={`${tr('Hiring by section type')} ${stringIds?.hireStream}`}

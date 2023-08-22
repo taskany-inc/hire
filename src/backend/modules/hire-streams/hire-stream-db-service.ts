@@ -43,6 +43,18 @@ const getAllowed = (session: Session | null): Promise<HireStream[]> => {
     return prisma.hireStream.findMany({ where: { id: { in: combinedHireStreams } } });
 };
 
+const getManaged = (session: Session | null): Promise<HireStream[]> => {
+    if (!session) {
+        throw new ErrorWithStatus(tr('No session'), 401);
+    }
+
+    if (session.userRoles.admin) return prisma.hireStream.findMany();
+
+    const { managerInHireStreams } = getUserRoleIds(session);
+
+    return prisma.hireStream.findMany({ where: { id: { in: managerInHireStreams } } });
+};
+
 const create = async (data: CreateHireStream, creatorId: number) => {
     const hireStream = await prisma.hireStream.create({ data });
 
@@ -57,4 +69,5 @@ export const hireStreamDbService = {
     getAll,
     getAllowed,
     create,
+    getManaged,
 };

@@ -1,8 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import { textColor, gapXl, gapXs } from '@taskany/colors';
+import { textColor } from '@taskany/colors';
 import {
     Button,
     Dropdown,
@@ -14,7 +13,6 @@ import {
     MenuItem,
     ArrowUpSmallIcon,
     ArrowDownSmallIcon,
-    UserPic,
     HeaderMenu,
     UserMenu,
     Popup,
@@ -121,11 +119,9 @@ export const PageHeader: React.FC = () => {
             nav={
                 <StyledHeaderNav>
                     {entityListMenuItems.map((item, index) => (
-                        // <NextLink>
                         <HeaderNavLink key={index + item.text} href={item.path}>
                             {item.text}
                         </HeaderNavLink>
-                        // </NextLink>
                     ))}
                 </StyledHeaderNav>
             }

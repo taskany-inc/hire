@@ -38,7 +38,7 @@ const parsePluginMenuItems = (variable: string | undefined): { text: string; pat
 };
 
 export default {
-    defaultPageURL: getEnvVariableOrThrow('HOME_URL'),
+    defaultPageURL: process.env.HOME_URL,
     database: {
         url: getEnvVariableOrThrow('DATABASE_URL'),
     },

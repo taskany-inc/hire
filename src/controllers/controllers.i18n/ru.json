@@ -33,5 +33,7 @@
     "Section canceled due to": "Секция отменена по причине",
     "New interview": "Новая интервью",
     "Users roles": "Роли пользователей",
-    "Section with {name} canceled": "Отменена секция с {name}"
+    "Section with {name} canceled": "Отменена секция с {name}",
+    "Section types": "Типы секций",
+    "Roles": "Роли"
 }

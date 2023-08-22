@@ -53,6 +53,10 @@ export const useHeaderMenu = (): UseHeaderMenuResult => {
 
         config.pluginMenuItems.forEach((p) => items.push({ text: p.text, path: pageHrefs.plugins(p.path) }));
 
+        if (session.userRoles.admin || session.userRoles.hasHireStreamManagerRoles) {
+            items.push({ path: Paths.HIRE_STREAMS, text: tr('Hire streams') });
+        }
+
         return items;
     }, [session]);
 

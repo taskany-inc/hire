@@ -1,59 +1,69 @@
-import { useCallback, useRef, useState, VFC } from 'react';
+import { useState, VFC } from 'react';
 import { User } from '@prisma/client';
-import { ModalPreview, AddIcon, useClickOutside, useKeyboard, KeyCode } from '@taskany/bricks';
+import { Button } from '@taskany/bricks';
+import styled from 'styled-components';
+import { useDebounce } from 'use-debounce';
 
-import { UserList } from '../users/UserList';
-import { useUserList } from '../../hooks/user-hooks';
-import { QueryResolver } from '../QueryResolver';
+import { trpc } from '../../utils/trpc-front';
+import { UserComboBox } from '../UserComboBox';
+import { Role } from '../../backend/modules/user/user-types';
+
+import { tr } from './roles.i18n';
+
+const StyledWrapper = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+const StyledButton = styled(Button)`
+    margin-left: 6px;
+`;
 
 type AddUserToRoleProps = {
-    title: string;
     onSelect: (user: User) => void;
-    filterByIds: number[];
+    placeholder: string;
+    role: Role;
+    sectionTypeOrHireStreamId: number;
 };
 
-export const AddUserToRole: VFC<AddUserToRoleProps> = ({ title, onSelect, filterByIds }) => {
-    const [open, setOpen] = useState(false);
+export const AddUserToRole: VFC<AddUserToRoleProps> = ({ placeholder, onSelect, sectionTypeOrHireStreamId, role }) => {
+    const [search, setSearch] = useState('');
+    const [debouncedSearch] = useDebounce(search, 300);
+    const [user, setUser] = useState<User | undefined>(undefined);
 
-    const wrapperRef = useRef<HTMLDivElement>(null);
-    const onClickOutside = useCallback(() => {
-        if (open) {
-            setOpen(false);
-        }
-    }, [setOpen, open]);
-
-    const usersQuery = useUserList({});
-    useClickOutside(wrapperRef, onClickOutside);
-
-    const [onESC] = useKeyboard(
-        [KeyCode.Escape],
-        (event) => {
-            if (event.target && wrapperRef.current?.contains(event.target as Node) && open) {
-                setOpen(false);
-            }
-        },
+    const usersQuery = trpc.users.getUserList.useQuery(
+        { search: debouncedSearch, limit: 20, role, sectionTypeOrHireStreamId },
         {
-            capture: true,
-            event: 'keydown',
+            cacheTime: 0,
+            staleTime: 0,
         },
     );
+    const onUserSelect = (user: User) => {
+        setUser(user);
+        setSearch('');
+    };
+
+    const onAddClick = () => {
+        user && onSelect(user);
+        setUser(undefined);
+    };
+
+    const onCancelClick = () => {
+        setUser(undefined);
+        setSearch('');
+    };
+
     return (
-        <div ref={wrapperRef}>
-            <AddIcon size="s" onClick={() => setOpen(true)} />
-            <ModalPreview visible={open} onClose={() => setOpen(false)}>
-                <QueryResolver queries={[usersQuery]}>
-                    {([users]) => (
-                        <UserList
-                            {...onESC}
-                            users={users.filter((user) => !filterByIds.includes(user.id))}
-                            title={title}
-                            action={{ icon: <AddIcon size="s" />, handler: onSelect }}
-                            showFilter
-                            style={{ width: 600, margin: '24px 32px' }}
-                        />
-                    )}
-                </QueryResolver>
-            </ModalPreview>
-        </div>
+        <StyledWrapper>
+            <UserComboBox
+                items={usersQuery.data}
+                onChange={onUserSelect}
+                setInputValue={setSearch}
+                value={user}
+                placeholder={placeholder}
+            />
+            {user && <StyledButton text={tr('Add')} view="primary" onClick={onAddClick} />}
+            {user && <StyledButton text={tr('Cancel')} onClick={onCancelClick} />}
+        </StyledWrapper>
     );
 };

@@ -11,10 +11,20 @@ export const addProblemToFavoritesSchema = z.object({
 });
 export type AddProblemToFavorites = z.infer<typeof addProblemToFavoritesSchema>;
 
+export const roleSchema = z.enum([
+    'managerInHireStreams',
+    'hiringLeadInHireStreams',
+    'recruiterInHireStreams',
+    'interviewerInSectionTypes',
+]);
+export type Role = z.infer<typeof roleSchema>;
+
 export const getUserListSchema = z.object({
     search: z.string().optional(),
     sectionTypeId: z.number().optional(),
     limit: z.number().optional(),
+    role: roleSchema.optional(),
+    sectionTypeOrHireStreamId: z.number().optional(),
 });
 
 export type GetUserList = z.infer<typeof getUserListSchema>;

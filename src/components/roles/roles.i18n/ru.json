@@ -5,11 +5,13 @@
     "Take the role of a recruiter from": "Забрать роль рекрутера у",
     "Take over the role of the interviewer": "Забрать роль собеседующего у",
     "Hiring stream managers": "Менеджеры потока найма",
-    "Add Recruitment Stream Manager to stream": "Добавить менеджера потока найма в поток",
+    "Add Recruitment Stream Manager": "Добавить менеджера потока найма",
     "Hiring Leads": "Лиды найма",
-    "Add a Hiring Lead to a stream": "Добавить лида найма в поток",
+    "Add a Hiring Lead": "Добавить лида найма",
     "Recruiters": "Рекрутеры",
-    "Add a recruiter to the stream": "Добавить рекрутера в поток",
+    "Add a recruiter": "Добавить рекрутера",
     "Hire streams": "Потоки найма",
-    "Add Interviewer to Section Type {title} of hire stream {name}": "Добавить собеседующего в тип секции {title} потока {name}"
+    "Add Interviewer": "Добавить собеседующего",
+    "Add": "Добавить",
+    "Cancel": "Отмена"
 }

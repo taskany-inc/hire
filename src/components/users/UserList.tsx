@@ -34,6 +34,16 @@ const StyledFromInput = styled.div`
     margin-bottom: 12px;
 `;
 
+const StyledTitleWrapper = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+const StyledTitle = styled(Text)`
+    margin-bottom: 6px;
+    margin-right: 12px;
+`;
+
 type UserListProps = {
     title?: string;
     titleFragment?: ReactNode;
@@ -65,9 +75,10 @@ export const UserList: VFC<UserListProps> = ({ title, titleFragment, users, acti
     return (
         <div className={className} style={style}>
             {(title || titleFragment) && (
-                <Text size="xl" style={{ marginBottom: 12 }}>
-                    {title} {titleFragment}
-                </Text>
+                <StyledTitleWrapper>
+                    <StyledTitle size="xl">{title}</StyledTitle>
+                    {titleFragment}
+                </StyledTitleWrapper>
             )}
             {showFilter && (
                 <StyledFromInput>

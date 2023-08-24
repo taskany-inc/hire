@@ -5,11 +5,13 @@
     "Take the role of a recruiter from": "Take the role of a recruiter from",
     "Take over the role of the interviewer": "Take over the role of the interviewer",
     "Hiring stream managers": "Hiring stream managers",
-    "Add Recruitment Stream Manager to stream": "Add Recruitment Stream Manager to stream",
+    "Add Recruitment Stream Manager": "Add Recruitment Stream Manager",
     "Hiring Leads": "Hiring Leads",
-    "Add a Hiring Lead to a stream": "Add a Hiring Lead to a stream",
+    "Add a Hiring Lead": "Add a Hiring Lead",
     "Recruiters": "Recruiters",
-    "Add a recruiter to the stream": "Add a recruiter to the stream",
+    "Add a recruiter": "Add a recruiter",
     "Hire streams": "Hire streams",
-    "Add Interviewer to Section Type {title} of hire stream {name}": "Add Interviewer to Section Type {title} of hire stream {name}"
+    "Add Interviewer": "Add Interviewer",
+    "Add": "Add",
+    "Cancel": "Cancel"
 }

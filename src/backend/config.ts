@@ -1,29 +1,3 @@
-import { PHASE_PRODUCTION_BUILD } from 'next/constants';
-
-import { tr } from './backend.i18n';
-
-const getEnvVariableOrThrow = (varName: string, options?: { allowEmptyString?: boolean }): string => {
-    if (typeof window !== 'undefined' && !varName.startsWith('NEXT_PUBLIC')) {
-        return '';
-    }
-
-    if (process.env.NEXT_PHASE === PHASE_PRODUCTION_BUILD) {
-        return '';
-    }
-
-    const envVar = process.env[varName];
-
-    if (envVar === undefined) {
-        throw new Error(tr('Cannot find environment variable {varName}', { varName }));
-    }
-
-    if (!options?.allowEmptyString && envVar.length === 0) {
-        throw new Error(tr('Environment variable {varName} should not be an empty string', { varName }));
-    }
-
-    return envVar;
-};
-
 const parsePluginMenuItems = (variable: string | undefined): { text: string; path: string }[] => {
     if (!variable) {
         return [];
@@ -40,27 +14,27 @@ const parsePluginMenuItems = (variable: string | undefined): { text: string; pat
 export default {
     defaultPageURL: process.env.HOME_URL,
     database: {
-        url: getEnvVariableOrThrow('DATABASE_URL'),
+        url: process.env.DATABASE_URL,
     },
-    jwtPublicKey: getEnvVariableOrThrow('JWT_PUBLIC_KEY'),
+    jwtPublicKey: process.env.JWT_PUBLIC_KEY,
     defaultCandidateVendor: process.env.NEXT_PUBLIC_DEFAULT_CANDIDATE_VENDOR,
     gravatar: {
-        url: getEnvVariableOrThrow('GRAVATAR_URL'),
+        url: process.env.GRAVATAR_URL,
     },
     sourceUsers: {
         sourceOfUsersUrl: process.env.SOURCE_OF_USERS_URL,
         sourceOfUsersByEmail: process.env.SOURCE_OF_USERS_BY_EMAIL,
         sendEmail: process.env.SEND_EMAIL,
         searchUsersList: process.env.SEARCHE_USERS_LIST,
-        sourceOffUsersAccessToken: getEnvVariableOrThrow('SOURCE_OF_USERS_ACCESS_TOKEN'),
+        sourceOffUsersAccessToken: process.env.SOURCE_OF_USERS_ACCESS_TOKEN,
     },
     nextAuth: {
-        secret: getEnvVariableOrThrow('NEXTAUTH_SECRET'),
+        secret: process.env.NEXTAUTH_SECRET,
         keycloak: {
-            id: getEnvVariableOrThrow('KEYCLOAK_ID'),
-            secret: getEnvVariableOrThrow('KEYCLOAK_SECRET'),
-            issuer: getEnvVariableOrThrow('KEYCLOAK_ISSUER'),
-            jwsAlgorithm: getEnvVariableOrThrow('KEYCLOAK_JWS_ALGORITHM'),
+            id: process.env.KEYCLOAK_ID,
+            secret: process.env.KEYCLOAK_SECRET,
+            issuer: process.env.KEYCLOAK_ISSUER,
+            jwsAlgorithm: process.env.KEYCLOAK_JWS_ALGORITHM,
         },
     },
     mattermost: {
@@ -72,11 +46,11 @@ export default {
         },
     },
     s3: {
-        region: getEnvVariableOrThrow('S3_REGION'),
-        endpoint: getEnvVariableOrThrow('S3_ENDPOINT'),
-        accessKeyId: getEnvVariableOrThrow('S3_ACCESS_KEY_ID'),
-        secretAccessKey: getEnvVariableOrThrow('S3_SECRET_ACCESS_KEY'),
-        bucket: getEnvVariableOrThrow('S3_BUCKET'),
+        region: process.env.S3_REGION,
+        endpoint: process.env.S3_ENDPOINT,
+        accessKeyId: process.env.S3_ACCESS_KEY_ID,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+        bucket: process.env.S3_BUCKET,
     },
     pluginMenuItems: parsePluginMenuItems(process.env.NEXT_PUBLIC_PLUGIN_MENU_ITEMS),
 };

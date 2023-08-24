@@ -10,14 +10,14 @@ import { protectedProcedure, router } from '../trpc-back';
 export const hireStreamsRouter = router({
     getById: protectedProcedure
         .input(hireStreamQuerySchema)
-        .use(accessMiddlewares.hireStream.read)
+        .use(accessMiddlewares.hireStream.readOne)
         .query(({ input }) => {
             return hireStreamDbService.getById(input.hireStreamId);
         }),
 
     getByName: protectedProcedure
         .input(hireStreamNameSchema)
-        .use(accessMiddlewares.hireStream.read)
+        .use(accessMiddlewares.hireStream.readOneByName)
         .query(({ input }) => {
             return hireStreamDbService.getByName(input.hireStreamName);
         }),

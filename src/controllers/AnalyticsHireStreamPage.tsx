@@ -5,13 +5,13 @@ import { Paths } from '../utils/paths';
 import { tr } from './controllers.i18n';
 
 export type HireStreamPageProps = {
-    stringIds?: { hireStream: true };
+    hireStreamName?: string;
 };
 
-export const AnalyticsHireStreamPage = ({ stringIds }: HireStreamPageProps) => {
+export const AnalyticsHireStreamPage = ({ hireStreamName }: HireStreamPageProps) => {
     return (
         <LayoutMain
-            pageTitle={`${tr('Hiring by section type')} ${stringIds?.hireStream}`}
+            pageTitle={`${tr('Hiring by section type')} ${hireStreamName}`}
             aboveContainer={<AnalyticsFilterMenuBar />}
             backlink={Paths.ANALYTICS}
         />

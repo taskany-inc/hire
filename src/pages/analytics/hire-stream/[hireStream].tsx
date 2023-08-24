@@ -21,7 +21,7 @@ export const getServerSideProps = createGetServerSideProps({
 export default ({ stringIds }: InferServerSideProps<typeof getServerSideProps>) => {
     return (
         <AnalyticsFilterContextProvider>
-            <AnalyticsHireStreamPage />
+            <AnalyticsHireStreamPage hireStreamName={stringIds.hireStream} />
             <HiringBySectionType hireStreamName={stringIds.hireStream} />
             <GradesByInterviewer hireStreamName={stringIds.hireStream} />
         </AnalyticsFilterContextProvider>

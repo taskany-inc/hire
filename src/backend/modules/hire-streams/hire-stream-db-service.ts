@@ -63,6 +63,19 @@ const create = async (data: CreateHireStream, creatorId: number) => {
     return hireStream;
 };
 
+const allowedHiringStreamsByName = async (session: Session, hireStreamNames: string[]): Promise<string[]> => {
+    if (!session) {
+        throw new ErrorWithStatus(tr('No session'), 401);
+    }
+
+    if (session.userRoles.admin) return hireStreamNames;
+
+    const { combinedHireStreams } = getUserRoleIds(session);
+    const hireStreams = await prisma.hireStream.findMany({ where: { name: { in: hireStreamNames } } });
+
+    return hireStreams.filter((hireStream) => combinedHireStreams.includes(hireStream.id)).map(({ name }) => name);
+};
+
 export const hireStreamDbService = {
     getById,
     getByName,
@@ -70,4 +83,5 @@ export const hireStreamDbService = {
     getAllowed,
     create,
     getManaged,
+    allowedHiringStreamsByName,
 };

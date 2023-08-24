@@ -11,7 +11,7 @@
     "Only recruiters in this hiring stream can edit interviews": "Только рекрутеры данного потока найма могут редактировать интервью",
     "Only administrators can delete interviews": "Только администраторы могут удалять интервью",
     "No access to recruitment stream": "'Нет доступа к потоку найма",
-    "No access to hire stream or section types": "Нет доступа к потоку найма или типу секции",
+    "No access to hire stream or section types": "Нет доступа к потоку найма или типам секций",
     "This section is assigned to another interviewer": "Эта секция назначена на другого собеседующего",
     "No access to section": "Нет доступа к секции",
     "Only hiring stream managers can update it": "Только менеджеры потока найма могут обновлять его",
@@ -26,5 +26,7 @@
     "Only hiring stream managers can manage lists of hiring stream users": "Только менеджеры потока найма могут управлять списками пользователей потока найма",
     "Not authorized": "Не авторизован",
     "No access to analytics": "Нет доступа к аналитике",
-    "No access to hire stream or section type": "Нет доступа к потоку найма или типу секции"
+    "No access to hire stream or section type": "Нет доступа к потоку найма или типу секции",
+    "Only admins can create hire stream": "Только администраторы могут создавать потоки найма",
+    "No access to hire stream": "Нет доступа к потоку найма"
 }

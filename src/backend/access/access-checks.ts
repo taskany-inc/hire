@@ -1,4 +1,4 @@
-import { CalendarEvent, Problem } from '@prisma/client';
+import { CalendarEvent, HireStream, Problem } from '@prisma/client';
 import { Session } from 'next-auth';
 
 import { CandidateWithInterviewWithSectionsRelations } from '../modules/candidate/candidate-types';
@@ -214,15 +214,10 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const { hiringLeadInHireStreams, recruiterInHireStreams, interviewerInSectionTypes } =
-                getUserRoleIds(session);
+            const { combinedHireStreams, interviewerInSectionTypes } = getUserRoleIds(session);
 
-            if (session.userRoles.hasHiringLeadRoles) {
-                return allowed({ filterInterviewsByHireStreamIds: hiringLeadInHireStreams });
-            }
-
-            if (session.userRoles.hasRecruiterRoles) {
-                return allowed({ filterInterviewsByHireStreamIds: recruiterInHireStreams });
+            if (session.userRoles.hasRecruiterRoles || session.userRoles.hasHiringLeadRoles) {
+                return allowed({ filterInterviewsByHireStreamIds: combinedHireStreams });
             }
 
             if (session.userRoles.hasInterviewerRoles) {
@@ -437,12 +432,33 @@ export const accessChecks = {
     },
 
     hireStream: {
-        create: (_session: Session): AccessCheckResult => {
-            return allowed();
+        create: (session: Session): AccessCheckResult => {
+            if (session.userRoles.admin) {
+                return allowed();
+            }
+
+            return notAllowed(tr('Only admins can create hire stream'));
         },
 
         read: (_session: Session): AccessCheckResult => {
             return allowed();
+        },
+
+        readOne: (session: Session, hireStream: HireStream): AccessCheckResult => {
+            if (session.userRoles.admin) {
+                return allowed();
+            }
+            const { hiringLeadInHireStreams, recruiterInHireStreams, managerInHireStreams } = getUserRoleIds(session);
+
+            if (
+                hiringLeadInHireStreams.includes(hireStream.id) ||
+                recruiterInHireStreams.includes(hireStream.id) ||
+                managerInHireStreams.includes(hireStream.id)
+            ) {
+                return allowed();
+            }
+
+            return notAllowed(tr('No access to hire stream'));
         },
 
         update: (session: Session, hireStreamId: number): AccessCheckResult => {

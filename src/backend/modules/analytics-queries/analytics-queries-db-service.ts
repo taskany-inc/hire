@@ -3,8 +3,10 @@ import { Prisma } from '@prisma/client';
 import groupBy from 'lodash.groupby';
 import mapValues from 'lodash.mapvalues';
 import mapKeys from 'lodash.mapkeys';
+import { Session } from 'next-auth';
 
 import { prisma } from '../..';
+import { hireStreamDbService } from '../hire-streams/hire-stream-db-service';
 import { objKeys } from '../../../utils';
 
 import {
@@ -29,7 +31,8 @@ import {
 const prepareLabel = (s: string): string =>
     s.replace('analytics_event__', '').replace('user__', '').replace('_count', '').replace(/_/g, ' ');
 
-const hiringFunnel = async (params: HireStreamsAndTimeRange): Promise<HiringFunnelOutput> => {
+const hiringFunnel = async (params: HireStreamsAndTimeRange, session: Session): Promise<HiringFunnelOutput> => {
+    const hireStreamNames = await hireStreamDbService.allowedHiringStreamsByName(session, params.hireStreams);
     const rawData: HiringFunnelRawData = await prisma.$queryRaw`
 SELECT
   count(
@@ -59,7 +62,7 @@ WHERE
   (
     "analytics_event".timestamp >= ${params.from}
     AND "analytics_event".timestamp <= ${params.to}
-    AND "analytics_event"."hireStream" IN (${Prisma.join(params.hireStreams)})
+    AND "analytics_event"."hireStream" IN (${Prisma.join(hireStreamNames)})
   )
 ORDER BY
   1 ASC
@@ -126,7 +129,9 @@ ORDER BY
 
 const finishedSectionsByInterviewer = async (
     params: hireStreamsAndTimeRangeAndHasTasks,
+    session: Session,
 ): Promise<FinihedSectionsByInterviewerOutput> => {
+    const hireStreamNames = await hireStreamDbService.allowedHiringStreamsByName(session, params.hireStreams);
     const rawData: FinishedSectionsByInterviewerRawData = await prisma.$queryRaw`
 SELECT
   "user".name "user__name",
@@ -143,7 +148,7 @@ WHERE
     AND "analytics_event".timestamp <= ${params.to} :: timestamptz
   )
   AND ("analytics_event".event = 'candidate_finished_section')
-  AND ("analytics_event"."hireStream" IN (${Prisma.join(params.hireStreams)}))
+  AND ("analytics_event"."hireStream" IN (${Prisma.join(hireStreamNames)}))
   AND ("section_type"."hasTasks" = ${params.hasTasks})
 GROUP BY
   1,
@@ -161,7 +166,8 @@ LIMIT
     return data;
 };
 
-const candidatesByHireStream = async (params: HireStreamsAndTimeRange) => {
+const candidatesByHireStream = async (params: HireStreamsAndTimeRange, session: Session) => {
+    const hireStreamNames = await hireStreamDbService.allowedHiringStreamsByName(session, params.hireStreams);
     const rawData: CandidatesByHireStreamRawData = await prisma.$queryRaw`
 SELECT
   "analytics_event"."hireStream" "analytics_event__hirestream",
@@ -175,7 +181,7 @@ WHERE
   )
   AND ("analytics_event".event = 'candidate_finished_interview')
   AND ("analytics_event".hire = 'true')
-  AND ("analytics_event"."hireStream" IN (${Prisma.join(params.hireStreams)}))
+  AND ("analytics_event"."hireStream" IN (${Prisma.join(hireStreamNames)}))
 GROUP BY
   1
 ORDER BY
@@ -193,7 +199,12 @@ LIMIT
 
 const REJECT_REASON_GROUP_THRESHOLD = 5;
 
-const candidatesRejectReasons = async (params: HireStreamsAndTimeRange): Promise<CandidatesRejectReasonsOutput> => {
+const candidatesRejectReasons = async (
+    params: HireStreamsAndTimeRange,
+    session: Session,
+): Promise<CandidatesRejectReasonsOutput> => {
+    const hireStreamNames = await hireStreamDbService.allowedHiringStreamsByName(session, params.hireStreams);
+
     const rawData: CandidatesRejectReasonsRawData = await prisma.$queryRaw`
 SELECT
   "analytics_event"."rejectReason" "analytics_event__rejectreason",
@@ -207,7 +218,7 @@ WHERE
   )
   AND ("analytics_event".event = 'candidate_finished_interview')
   AND ("analytics_event".hire = 'false')
-  AND ("analytics_event"."hireStream" IN (${Prisma.join(params.hireStreams)}))
+  AND ("analytics_event"."hireStream" IN (${Prisma.join(hireStreamNames)}))
 GROUP BY
   1
 ORDER BY

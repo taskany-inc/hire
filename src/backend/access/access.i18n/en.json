@@ -26,5 +26,7 @@
     "Only administrators can view the list of administrators": "Only administrators can view the list of administrators",
     "Only hiring stream managers can manage lists of hiring stream users": "Only hiring stream managers can manage lists of hiring stream users",
     "Not authorized": "Not authorized",
-    "No access to analytics": "No access to analytics"
+    "No access to analytics": "No access to analytics",
+    "Only admins can create hire stream": "Only admins can create hire stream",
+    "No access to hire stream": "No access to hire stream"
 }

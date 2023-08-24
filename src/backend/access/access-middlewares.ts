@@ -17,6 +17,7 @@ import {
 } from '../modules/section/section-types';
 import { solutionDbService } from '../modules/solution/solution-db-service';
 import { middleware } from '../trpc/trpc-back';
+import { hireStreamDbService } from '../modules/hire-streams/hire-stream-db-service';
 
 import { AccessCheckResult, accessChecks } from './access-checks';
 import { tr } from './access.i18n';
@@ -139,6 +140,16 @@ export const accessMiddlewares = {
 
     hireStream: {
         create: createMiddleware(accessChecks.hireStream.create),
+        readOne: createEntityCheckMiddleware(
+            (input: { hireStreamId: number }) => input.hireStreamId,
+            hireStreamDbService.getById,
+            accessChecks.hireStream.readOne,
+        ),
+        readOneByName: createEntityCheckMiddleware(
+            (input: { hireStreamName: string }) => input.hireStreamName,
+            hireStreamDbService.getByName,
+            accessChecks.hireStream.readOne,
+        ),
         read: createMiddleware(accessChecks.hireStream.read),
         updateBySectionTypeId: createEntityCheckMiddleware(
             (input: { sectionTypeId: number }) => input.sectionTypeId,
@@ -149,6 +160,15 @@ export const accessMiddlewares = {
             },
             accessChecks.hireStream.update,
         ),
+    },
+
+    analytics: {
+        readOne: createEntityCheckMiddleware(
+            (input: { hireStreamName: string }) => input.hireStreamName,
+            hireStreamDbService.getByName,
+            accessChecks.hireStream.readOne,
+        ),
+        read: createMiddleware(accessChecks.analytics.read),
     },
 
     tag: {

@@ -5,7 +5,7 @@ import { LayoutMain } from '../components/layout/LayoutMain';
 import { CardHeader } from '../components/card/CardHeader';
 import { QueryResolver } from '../components/QueryResolver';
 import { HireStreamAnalyticsList } from '../components/analytics/HireStreamAnalyticsList';
-import { useHireStreams } from '../hooks/hire-streams-hooks';
+import { useAllowedHireStreams } from '../hooks/hire-streams-hooks';
 import { Paths } from '../utils/paths';
 import { Card } from '../components/card/Card';
 
@@ -17,7 +17,7 @@ const StyledCard = styled(Card)`
 `;
 
 export const Analytics = () => {
-    const hireStreamsQuery = useHireStreams();
+    const hireStreamsQuery = useAllowedHireStreams();
 
     return (
         <LayoutMain pageTitle={tr('Analytics')}>

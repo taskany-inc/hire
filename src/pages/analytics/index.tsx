@@ -5,7 +5,7 @@ import { Analytics } from '../../controllers/Analytics';
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     action: async ({ ssg, session, handleAccessChecks }) => {
-        await ssg.hireStreams.getAll.fetch();
+        await ssg.hireStreams.getAllowed.fetch();
 
         await handleAccessChecks(() => accessChecks.analytics.read(session));
     },

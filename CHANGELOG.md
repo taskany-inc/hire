@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.6.1](https://github.com/taskany-inc/hire/compare/v0.6.0...v0.6.1) (2023-08-24)
+
+
+### Bug Fixes
+
+* **build:** removed getEnvOrThrow ([cdad637](https://github.com/taskany-inc/hire/commit/cdad637a5e4bb7463ddd0592ecdf3707bd5c99b1))
+
 ## [0.6.0](https://github.com/taskany-inc/hire/compare/v0.5.3...v0.6.0) (2023-08-24)
 
 

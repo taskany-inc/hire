@@ -60,8 +60,8 @@ const getUserRoles = async (id: number, req: GetServerSidePropsContext['req']): 
 const providers: NextAuthOptions['providers'] = [
     // https://next-auth.js.org/providers/keycloak
     KeycloakProvider({
-        clientId: config.nextAuth.keycloak.id,
-        clientSecret: config.nextAuth.keycloak.secret,
+        clientId: config.nextAuth.keycloak.id || '',
+        clientSecret: config.nextAuth.keycloak.secret || '',
         issuer: config.nextAuth.keycloak.issuer,
         client: {
             authorization_signed_response_alg: config.nextAuth.keycloak.jwsAlgorithm,

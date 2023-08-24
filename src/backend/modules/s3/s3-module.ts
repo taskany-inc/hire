@@ -13,8 +13,8 @@ export const client = new S3Client({
     region: config.s3.region,
     endpoint: config.s3.endpoint,
     credentials: {
-        accessKeyId: config.s3.accessKeyId,
-        secretAccessKey: config.s3.secretAccessKey,
+        accessKeyId: config.s3.accessKeyId || '',
+        secretAccessKey: config.s3.secretAccessKey || '',
     },
 });
 

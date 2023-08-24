@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.6.0](https://github.com/taskany-inc/hire/compare/v0.5.3...v0.6.0) (2023-08-24)
+
+
+### Features
+
+* **HireStreams:** access to managing hire streams in header ([94e4173](https://github.com/taskany-inc/hire/commit/94e4173b1b25e726e6844d7f28effbc13444b8c0))
+* **HireStreams:** add role to user by combobox ([9c971e0](https://github.com/taskany-inc/hire/commit/9c971e0a79555da48ff1f451307350951192c89b))
+* **Section:** choose interviewer to section by combobox ([5a80319](https://github.com/taskany-inc/hire/commit/5a8031979d5d38f2362fade9a072e8e207622a61))
+
+
+### Bug Fixes
+
+* **Analytics:** filter allowed hire streams ([ed88089](https://github.com/taskany-inc/hire/commit/ed8808908d4e7b38b70c26784b4dcb3bd528187e))
+
 ## [0.5.3](https://github.com/taskany-inc/hire/compare/v0.5.2...v0.5.3) (2023-08-17)
 
 

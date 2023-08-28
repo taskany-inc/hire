@@ -24,7 +24,7 @@ export const constructFindAllProblemsWhereFilter = async (
     }
 
     if (data.tagIds) {
-        where.AND = data.tagIds.map((id) => ({ tags: { some: { id: { in: id } } } }));
+        where.AND = { tags: { some: { id: { in: data.tagIds } } } };
     }
 
     if (data.difficulty) {

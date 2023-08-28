@@ -82,7 +82,7 @@ const getById = async (id: number, options?: GetInterviewByIdOptions): Promise<I
         });
     }
 
-    return interview;
+    return interview as InterviewWithRelations;
 };
 
 const findWithSections = async (id: number): Promise<InterviewWithSections> => {

@@ -6,9 +6,14 @@ const path = require('path');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    reactStrictMode: process.env.STRICT_MODE,
+    reactStrictMode: true,
     swcMinify: true,
     output: 'standalone',
+    compiler: {
+        styledComponents: {
+            ssr: true,
+        },
+    },
     i18n: {
         locales: ['en', 'ru'],
         defaultLocale: 'en',

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.6.2](https://github.com/taskany-inc/hire/compare/v0.6.1...v0.6.2) (2023-08-28)
+
+
+### Bug Fixes
+
+* **Docker:** upgrade prisma, fix docker build ([e1522ab](https://github.com/taskany-inc/hire/commit/e1522abcc5b5d0abb2ad6f215752e3026eb527e1))
+
 ## [0.6.1](https://github.com/taskany-inc/hire/compare/v0.6.0...v0.6.1) (2023-08-24)
 
 

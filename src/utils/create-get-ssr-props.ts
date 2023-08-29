@@ -102,7 +102,7 @@ export const createGetServerSideProps =
 
         const ssgHelper = createProxySSGHelpers({
             router: trpcRouter,
-            ctx: { session },
+            ctx: { session, headers: context.req.headers },
             transformer: superjson,
         });
 

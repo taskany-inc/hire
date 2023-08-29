@@ -15,6 +15,7 @@ import { solutionsRouter } from './solutions-router';
 import { tagsRouter } from './tags-router';
 import { usersRouter } from './users-router';
 import { rolesRouter } from './roles-router';
+import { feedbackRouter } from './feedback-router';
 
 export const trpcRouter = router({
     analyticsQueries: analyticsQueriesRouter,
@@ -32,6 +33,7 @@ export const trpcRouter = router({
     tags: tagsRouter,
     users: usersRouter,
     roles: rolesRouter,
+    feedback: feedbackRouter,
 });
 
 export type TrpcRouter = typeof trpcRouter;

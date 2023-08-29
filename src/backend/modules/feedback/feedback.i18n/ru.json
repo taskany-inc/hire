@@ -1,0 +1,5 @@
+{
+    "Title is required": "Заголовок обязателен",
+    "Title must be a string": "Заголовок должен быть строкой",
+    "Title must be longer than {upTo} symbol": "Заголовок должен быть длиннее {upTo} символов"
+}

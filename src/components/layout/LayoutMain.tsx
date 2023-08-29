@@ -8,6 +8,7 @@ import { OfflineBanner } from '../OfflineBanner';
 import { Theme } from '../Theme';
 import { DropdownMenuItem } from '../TagFilterDropdown';
 import { PageHeader } from '../header/PageHeader';
+import { PageFooter } from '../footer/PageFooter';
 
 import { PageTitle } from './PageTitle';
 import { GlobalStyle } from './GlobalStyle';
@@ -63,6 +64,8 @@ export const LayoutMain: FC<LayoutMainProps> = ({
             {aboveContainer}
 
             <StyledContainer>{children}</StyledContainer>
+
+            <PageFooter />
         </>
     );
 };

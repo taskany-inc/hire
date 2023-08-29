@@ -1,0 +1,5 @@
+{
+    "Title is required": "Title is required",
+    "Title must be a string": "Title must be a string",
+    "Title must be longer than {upTo} symbol": "Title must be longer than {upTo} symbol"
+}

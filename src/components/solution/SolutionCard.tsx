@@ -2,9 +2,9 @@ import { CSSProperties, FC, useCallback, useRef, useState } from 'react';
 import { SolutionResult } from '@prisma/client';
 import { Resolver, ResolverError, useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import dynamic from 'next/dynamic';
 import { colorPrimary, gray6 } from '@taskany/colors';
-import { Text, Button, ArrowUpSmallIcon, ArrowDownSmallIcon, Popup } from '@taskany/bricks';
+import { Text, Button, Popup } from '@taskany/bricks';
+import { IconArrowUpSmallOutline, IconArrowDownSmallOutline } from '@taskany/icons';
 
 import { useSolutionRemoveMutation, useSolutionUpdateMutation } from '../../hooks/solution-hooks';
 import { MarkdownRenderer } from '../MarkdownRenderer';
@@ -38,10 +38,6 @@ type ResultButtonProps = {
     onClick: () => void;
     style?: CSSProperties;
 };
-
-const StyledCard = styled(Card)`
-    width: 80%;
-`;
 
 const StyledHeaderWrapper = styled.div`
     display: flex;
@@ -203,7 +199,7 @@ export const SolutionCard: FC<SolutionCardProps> = ({
 
                 <StyledProblemSolution size="l" as="div" onClick={() => setIsExpanded((v) => !v)}>
                     {tr('Possible Solution')}
-                    {isExpanded ? <ArrowUpSmallIcon size="s" /> : <ArrowDownSmallIcon size="s" />}
+                    {isExpanded ? <IconArrowUpSmallOutline size="s" /> : <IconArrowDownSmallOutline size="s" />}
                 </StyledProblemSolution>
 
                 {isExpanded && <MarkdownRenderer value={problem.solution} />}

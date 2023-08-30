@@ -1,7 +1,7 @@
 import { CSSProperties, useRef, useState, VFC } from 'react';
 import styled from 'styled-components';
-import dynamic from 'next/dynamic';
-import { Text, FileIcon, Popup } from '@taskany/bricks';
+import { Text, Popup } from '@taskany/bricks';
+import { IconFileOutline } from '@taskany/icons';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
@@ -84,7 +84,7 @@ export const MarkdownRenderer: VFC<MarkdownRendererProps> = ({
                             navigator.clipboard.writeText(value);
                         }}
                     >
-                        <FileIcon size="s" />
+                        <IconFileOutline size="s" />
                         <Popup
                             tooltip
                             placement="bottom-start"

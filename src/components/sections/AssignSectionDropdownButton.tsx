@@ -1,6 +1,7 @@
 import { SectionType } from '@prisma/client';
 import { useRouter } from 'next/router';
-import { Dropdown, Button, MoreVerticalIcon } from '@taskany/bricks';
+import { Dropdown, Button } from '@taskany/bricks';
+import { IconMoreVerticalSolid } from '@taskany/icons';
 
 import { pageHrefs } from '../../utils/paths';
 import { ColorizedMenuItem } from '../ColorizedMenuItem';
@@ -27,7 +28,7 @@ export function AssignSectionDropdownButton({ interviewId, sectionTypes }: Props
                 <Button
                     outline
                     view="primary"
-                    iconRight={<MoreVerticalIcon size="s" noWrap />}
+                    iconRight={<IconMoreVerticalSolid size="s" noWrap />}
                     onClick={props.onClick}
                     text={tr('Assign section')}
                 />

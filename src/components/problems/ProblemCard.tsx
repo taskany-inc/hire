@@ -2,7 +2,8 @@ import { useCallback, useMemo, useState, VFC } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { textColor, link0 } from '@taskany/colors';
-import { Button, Link, StarFilledIcon, StarIcon } from '@taskany/bricks';
+import { Button, Link } from '@taskany/bricks';
+import { IconStarOutline, IconStarSolid } from '@taskany/icons';
 
 import { ProblemWithRelationsAndProblemSection } from '../../backend/modules/problem/problem-types';
 import { distanceDate } from '../../utils/date';
@@ -27,16 +28,6 @@ import { trpc } from '../../utils/trpc-front';
 import { TagChip } from './TagChip';
 import { UnavailableContainer } from './UnavailableContainer';
 import { tr } from './problems.i18n';
-
-const StyledStarFilledIcon = styled(StarFilledIcon)`
-    display: inline-block;
-    margin-top: -3px;
-`;
-
-const StyledStarIcon = styled(StarIcon)`
-    display: inline-block;
-    margin-top: -3px;
-`;
 
 const StyledMarkdownRenderer = styled(MarkdownRenderer)<{
     isSmallSize?: boolean;
@@ -69,6 +60,10 @@ const StyledLink = styled(Link)`
     &:hover {
         color: ${link0};
     }
+`;
+
+const IconStarWrapper = styled.div`
+    margin-top: -6px;
 `;
 
 export type ProblemCardProps = {
@@ -110,18 +105,22 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
     }, [sectionId, solutionCreateMutation, problem.id, utils, interviewId, router]);
 
     const favoriteAction = isFavorite ? (
-        <StyledStarFilledIcon
-            size="m"
-            color="#FF00E5"
-            onClick={() => removeFromFavoritesMutation.mutate({ problemId: problem.id })}
-        />
+        <IconStarWrapper>
+            <IconStarSolid
+                size="m"
+                color="#FF00E5"
+                onClick={() => removeFromFavoritesMutation.mutate({ problemId: problem.id })}
+            />
+        </IconStarWrapper>
     ) : (
-        <StyledStarIcon
-            stroke={0.8}
-            size="m"
-            color="#FF00E5"
-            onClick={() => addToFavoritesMutation.mutate({ problemId: problem.id })}
-        />
+        <IconStarWrapper>
+            <IconStarOutline
+                stroke={0.8}
+                size="m"
+                color="#FF00E5"
+                onClick={() => addToFavoritesMutation.mutate({ problemId: problem.id })}
+            />
+        </IconStarWrapper>
     );
 
     const isShowAddButton = !problem.isUsed && embedded;

@@ -1,7 +1,8 @@
 import { useState, VFC } from 'react';
 import { SectionType } from '@prisma/client';
 import styled from 'styled-components';
-import { Text, CircleIcon, TickCircleIcon } from '@taskany/bricks';
+import { Text } from '@taskany/bricks';
+import { IconCircleOutline, IconTickCircleOutline } from '@taskany/icons';
 
 import { Card } from '../card/Card';
 import { CardHeader } from '../card/CardHeader';
@@ -13,12 +14,8 @@ import { DropdownMenuItem } from '../TagFilterDropdown';
 import { UpdateSectionTypeModal } from './SectionTypeForm';
 import { tr } from './section-types.i18n';
 
-const StyledCircleIcon = styled(CircleIcon)`
-    margin-top: 4px;
-`;
-
-const StyledTickCircleIcon = styled(TickCircleIcon)`
-    margin-top: 4px;
+const IconCircleWrapper = styled.div`
+    margin-top: 2px;
 `;
 
 const CenteredText = styled(Text)`
@@ -30,7 +27,16 @@ const CenteredText = styled(Text)`
 
 const CheckboxLine = ({ value, text }: { value: boolean; text: string }) => (
     <CenteredText>
-        {value ? <StyledTickCircleIcon size="s" /> : <StyledCircleIcon size="s" />} {text}
+        {value ? (
+            <IconCircleWrapper>
+                <IconTickCircleOutline size="s" />
+            </IconCircleWrapper>
+        ) : (
+            <IconCircleWrapper>
+                <IconCircleOutline size="s" />
+            </IconCircleWrapper>
+        )}{' '}
+        {text}
     </CenteredText>
 );
 

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { BulbOnIcon } from '@taskany/bricks';
-import { gapS, warn8 } from '@taskany/colors';
+import { IconBulbOnOutline } from '@taskany/icons';
+import { warn8 } from '@taskany/colors';
 
 import { Tip } from '../Tip';
 import { Keyboard } from '../Keyboard';
@@ -30,7 +30,7 @@ export const KeyboardSubmitHint = ({ actionTitle }: KeyboardSubmitHintProps) => 
     return (
         <Container>
             <StyledFormBottom>
-                <Tip icon={<BulbOnIcon size="s" color={warn8} />}>
+                <Tip icon={<IconBulbOnOutline size="s" color={warn8} />}>
                     {tr.raw('Take advice! {actionTitle} by pressing {key}', {
                         actionTitle,
                         key: <Keyboard command enter />,

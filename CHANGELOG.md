@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.7.0](https://github.com/taskany-inc/hire/compare/v0.6.2...v0.7.0) (2023-08-30)
+
+
+### Features
+
+* icons from taskany icons ([98eab22](https://github.com/taskany-inc/hire/commit/98eab2202579d39f77493538ffe4465720145d9d))
+
+
+### Bug Fixes
+
+* **Docker:** bump next because of env fix ([057d617](https://github.com/taskany-inc/hire/commit/057d617264e9a54507bd304a2d7f854c2798645f))
+* **ssr:** serialize props with superjson ([604a973](https://github.com/taskany-inc/hire/commit/604a9739f7cab65dbbfb528ab0dab1d9da5be3f6))
+
 ## [0.6.2](https://github.com/taskany-inc/hire/compare/v0.6.1...v0.6.2) (2023-08-28)
 
 

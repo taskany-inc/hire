@@ -2,7 +2,8 @@ import { useState, useMemo, FC } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { gray10, textColorPrimary } from '@taskany/colors';
-import { Link, Text, ArrowUpSmallIcon, ArrowDownSmallIcon } from '@taskany/bricks';
+import { Link, Text } from '@taskany/bricks';
+import { IconArrowUpSmallOutline, IconArrowDownSmallOutline } from '@taskany/icons';
 
 import { useProblemRemoveMutation } from '../hooks/problem-hooks';
 import { MarkdownRenderer } from '../components/MarkdownRenderer';
@@ -125,7 +126,8 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
             <MarkdownRenderer value={problem.description} />
 
             <StyledSolutionTitle size="xl" onClick={toggleSolutionExpansion}>
-                {tr('Solution')} {isSolutionExpanded ? <ArrowUpSmallIcon size="m" /> : <ArrowDownSmallIcon size="m" />}
+                {tr('Solution')}{' '}
+                {isSolutionExpanded ? <IconArrowUpSmallOutline size="m" /> : <IconArrowDownSmallOutline size="m" />}
             </StyledSolutionTitle>
 
             {isSolutionExpanded && <MarkdownRenderer value={problem.solution} />}

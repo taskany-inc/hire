@@ -1,4 +1,5 @@
-import { Dropdown, MenuItem, MoreVerticalIcon } from '@taskany/bricks';
+import { Dropdown, MenuItem } from '@taskany/bricks';
+import { IconMoreVerticalSolid } from '@taskany/icons';
 
 import { DropdownMenuItem } from '../TagFilterDropdown';
 import { IconButton } from '../IconButton';
@@ -14,7 +15,7 @@ export const TitleMenu = ({ items }: TitleMenuProps) => {
                 items={items}
                 renderTrigger={(props) => (
                     <IconButton ref={props.ref} onClick={props.onClick}>
-                        <MoreVerticalIcon size="s" />
+                        <IconMoreVerticalSolid size="s" />
                     </IconButton>
                 )}
                 renderItem={({ cursor, item, index }) => (

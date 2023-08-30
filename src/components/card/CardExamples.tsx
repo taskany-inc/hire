@@ -1,5 +1,6 @@
 import { VFC } from 'react';
-import { Text, Badge, StarFilledIcon } from '@taskany/bricks';
+import { Text, Badge } from '@taskany/bricks';
+import { IconStarSolid } from '@taskany/icons';
 
 import { TagChip } from '../problems/TagChip';
 import { tagPalette, TagPaletteColor } from '../../utils/tag-palette';
@@ -74,7 +75,7 @@ export const CardExamples: VFC = () => {
                 </CardFooter>
             </Card>
 
-            <Card action={<StarFilledIcon size="m" />}>
+            <Card action={<IconStarSolid size="m" />}>
                 <CardHeader title="Action card" />
                 <CardContent>Content</CardContent>
                 <CardFooter>Footer</CardFooter>

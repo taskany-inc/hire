@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { useSnackbar } from 'notistack';
 import { TRPCClientError } from '@trpc/client';
 import { typeToFlattenedError } from 'zod';
-import { CrossIcon } from '@taskany/bricks';
+import { IconXOutline } from '@taskany/icons';
 
 import { isAxiosError, isObject } from '../utils/type-guards';
 import { IconButton } from '../components/IconButton';
@@ -25,7 +25,7 @@ export const useNotifications = () => {
                 variant: 'error',
                 action: (key) => (
                     <IconButton onClick={() => closeSnackbar(key)}>
-                        <CrossIcon size="s" />
+                        <IconXOutline size="s" />
                     </IconButton>
                 ),
             });
@@ -60,7 +60,7 @@ export const useNotifications = () => {
                 persist: true,
                 action: (key) => (
                     <IconButton onClick={() => closeSnackbar(key)}>
-                        <CrossIcon size="s" />
+                        <IconXOutline size="s" />
                     </IconButton>
                 ),
             });

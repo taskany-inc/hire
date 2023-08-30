@@ -2,7 +2,8 @@ import { FC, useState, VFC } from 'react';
 import { SectionType } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormTitle, Modal, ModalContent, ModalHeader, AddIcon } from '@taskany/bricks';
+import { FormTitle, Modal, ModalContent, ModalHeader } from '@taskany/bricks';
+import { IconAddOutline } from '@taskany/icons';
 
 import {
     CreateSectionType,
@@ -105,7 +106,7 @@ export const NewSectionTypeModal: VFC<{ hireStreamId: number }> = ({ hireStreamI
 
     return (
         <>
-            <AddIcon size="s" onClick={() => setOpen(true)} />
+            <IconAddOutline size="s" onClick={() => setOpen(true)} />
 
             <Modal visible={open} onClose={() => setOpen(false)}>
                 <ModalHeader>

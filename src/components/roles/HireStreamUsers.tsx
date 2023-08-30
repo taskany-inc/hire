@@ -1,6 +1,6 @@
 import { useState, VFC } from 'react';
 import { HireStream } from '@prisma/client';
-import { CrossIcon } from '@taskany/bricks';
+import { IconXOutline } from '@taskany/icons';
 
 import {
     useAddHireStreamManagerToHireStreamMutation,
@@ -114,7 +114,7 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                             }
                             users={hireStreamManagers}
                             action={{
-                                icon: <CrossIcon size="s" />,
+                                icon: <IconXOutline size="s" />,
                                 disabled: removeHireStreamManagerMutation.isLoading || usersQuery.isLoading,
                                 handler: (user) => {
                                     setUserId(user.id);
@@ -141,7 +141,7 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                             }
                             users={hiringLeads}
                             action={{
-                                icon: <CrossIcon size="s" />,
+                                icon: <IconXOutline size="s" />,
                                 disabled: removeHiringLeadMutation.isLoading || usersQuery.isLoading,
                                 handler: (user) => {
                                     setUserId(user.id);
@@ -168,7 +168,7 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                             }
                             users={recruiters}
                             action={{
-                                icon: <CrossIcon size="s" />,
+                                icon: <IconXOutline size="s" />,
                                 disabled: removeRecruiterMutation.isLoading || usersQuery.isLoading,
                                 handler: (user) => {
                                     setUserId(user.id);
@@ -198,7 +198,7 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                                 }
                                 users={users}
                                 action={{
-                                    icon: <CrossIcon size="s" />,
+                                    icon: <IconXOutline size="s" />,
                                     disabled: removeInterviewerMutation.isLoading || usersQuery.isLoading,
                                     handler: (user) => {
                                         setUserId(user.id);

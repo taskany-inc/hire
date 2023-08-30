@@ -2,7 +2,8 @@
 import { Control, FieldPath, FieldValues, RegisterOptions, useController } from 'react-hook-form';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { Button, MarkdownIcon, FormEditor } from '@taskany/bricks';
+import { Button, FormEditor } from '@taskany/bricks';
+import { IconMarkdownOutline } from '@taskany/icons';
 
 import { FormHelperText, Label } from '../FormInput/StyledComponents';
 import { MarkdownRenderer } from '../MarkdownRenderer';
@@ -30,7 +31,7 @@ const StyledFormEditor = styled(FormEditor)`
     max-width: 100%;
 `;
 
-const StyledMarkdownIcon = styled(MarkdownIcon)`
+const StyledMarkdownIcon = styled.div`
     color: rgba(255, 255, 255, 0.54);
     margin-bottom: -20px;
     margin-right: 5px;
@@ -71,7 +72,9 @@ export const CodeEditorField = <T extends FieldValues>(props: CodeEditorFieldPro
             )}
             {fieldState.error && <FormHelperText>{fieldState.error.message}</FormHelperText>}
             <HintContainer>
-                <StyledMarkdownIcon size="s" />
+                <StyledMarkdownIcon>
+                    <IconMarkdownOutline size="s" />
+                </StyledMarkdownIcon>
                 <Tip>{tr('Styling with markdown is supported')}</Tip>
                 <StyledPreviewButton type="button" onClick={() => setPreview(!preview)} text={previewButtonTitle} />
             </HintContainer>

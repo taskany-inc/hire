@@ -99,7 +99,7 @@ export const PageHeader: React.FC = () => {
                             onMouseEnter={() => setPopupVisibility(true)}
                             onMouseLeave={() => setPopupVisibility(false)}
                         >
-                            <UserMenu avatar={avatarSrc} />
+                            <UserMenu email={avatarSrc} />
                         </div>
                     </HeaderMenu>
 

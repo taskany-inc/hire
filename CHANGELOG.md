@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.8.0](https://github.com/taskany-inc/hire/compare/v0.7.0...v0.8.0) (2023-08-31)
+
+
+### Features
+
+* feedback button as in issues ([95a8939](https://github.com/taskany-inc/hire/commit/95a89394efcdd88e0980e01426ebb3cbfb0eb629))
+* **FormGradeDropdown:** select grade by dropdown ([9d3338a](https://github.com/taskany-inc/hire/commit/9d3338adadb5a2a7b6496220779b836c29a30031))
+
+
+### Bug Fixes
+
+* **PageHeader:** change change prop avatar to email un UserMenu ([da08e5d](https://github.com/taskany-inc/hire/commit/da08e5d7623c986a1aae71a33245af57de7498f1))
+
 ## [0.7.0](https://github.com/taskany-inc/hire/compare/v0.6.2...v0.7.0) (2023-08-30)
 
 

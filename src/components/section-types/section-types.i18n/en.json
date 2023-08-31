@@ -11,12 +11,14 @@
     "The team is selected in the section": "The team is selected in the section",
     "The section shows the results of other sections": "The section shows the results of other sections",
     "Section can be assigned via calendar": "Section can be assigned via calendar",
-    "Add": "Add",
+    "Save": "Save",
     "Section code": "Section code",
     "For example CODING or PRODUCT_FINAL": "For example CODING or PRODUCT_FINAL",
     "Section name": "Section name",
     "Section color in the calendar": "Section color in the calendar",
     "New section type": "New section type",
     "Section type edit": "Section type edit",
-    "Section types": "Section types"
+    "Section types": "Section types",
+    "Grade options": "Grade options",
+    "Cancel": "Cancel"
 }

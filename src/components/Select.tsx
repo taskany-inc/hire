@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Button, Dropdown } from '@taskany/bricks';
 
 import { ColorizedMenuItem } from './ColorizedMenuItem';
-import { FiltersMenuItem } from './FiltersMenuItem';
 
 type DropdownOption = {
     value: string | number;

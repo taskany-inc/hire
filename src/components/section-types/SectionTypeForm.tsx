@@ -1,9 +1,10 @@
 import { FC, useState, VFC } from 'react';
 import { SectionType } from '@prisma/client';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormTitle, Modal, ModalContent, ModalHeader } from '@taskany/bricks';
 import { IconAddOutline } from '@taskany/icons';
+import styled from 'styled-components';
 
 import {
     CreateSectionType,
@@ -16,9 +17,14 @@ import { FormContainer } from '../FormContainer/FormContainer';
 import { FormInput } from '../FormInput/FormInput';
 import { FormRandomColor } from '../FormInput/FormRandomColor';
 import { generateColor } from '../../utils/color';
-import { FormGradeOptions } from '../FormInput/FormGradeOptions';
+import { FormGradeDropdown } from '../FormInput/FormGradeDropdown';
+import { errorsProvider } from '../../utils/forms';
 
 import { tr } from './section-types.i18n';
+
+const StyledCheckbox = styled.div`
+    margin-bottom: 6px;
+`;
 
 const checkboxes: {
     label: string;
@@ -35,15 +41,16 @@ const checkboxes: {
 
 type SectionTypeFormProps = {
     afterSubmit: VoidFunction;
+    onCancel: VoidFunction;
 } & ({ type: 'create'; hireStreamId: number; sectionType?: undefined } | { type: 'update'; sectionType: SectionType });
 
-export const SectionTypeForm: VFC<SectionTypeFormProps> = ({ afterSubmit, sectionType, ...props }) => {
+export const SectionTypeForm: VFC<SectionTypeFormProps> = ({ afterSubmit, onCancel, sectionType, ...props }) => {
     const [defaultColor] = useState(() => generateColor());
     const {
         handleSubmit,
         register,
         control,
-        formState: { errors, isSubmitting, isSubmitSuccessful },
+        formState: { isSubmitted, errors, isSubmitting, isSubmitSuccessful },
     } = useForm<CreateSectionType & UpdateSectionType>({
         defaultValues: {
             hireStreamId: props.type === 'create' ? props.hireStreamId : undefined,
@@ -55,7 +62,7 @@ export const SectionTypeForm: VFC<SectionTypeFormProps> = ({ afterSubmit, sectio
             showOtherGrades: sectionType?.showOtherGrades ?? false,
             schedulable: sectionType?.schedulable ?? false,
             eventColor: sectionType?.eventColor ?? defaultColor,
-            gradeOptions: sectionType?.gradeOptions ?? [],
+            gradeOptions: sectionType?.gradeOptions,
         },
         resolver: zodResolver(props.type === 'create' ? createSectionTypeSchema : updateSectionTypeSchema),
     });
@@ -68,10 +75,14 @@ export const SectionTypeForm: VFC<SectionTypeFormProps> = ({ afterSubmit, sectio
     const { ref: refValue, ...restValue } = register('value');
     const { ref: refTitle, ...restTitle } = register('title');
 
+    const errorsResolver = errorsProvider(errors, isSubmitted);
+
     return (
         <FormContainer
-            submitButtonText={`${props.type === 'create' ? tr('Add') : tr('Edit')} section type`}
+            submitButtonText={tr('Save')}
             onSubmitButton={onSubmit}
+            onCancelButton={onCancel}
+            cancelButtonText={tr('Cancel')}
             submitButtonDisabled={isSubmitting || isSubmitSuccessful}
         >
             <FormInput
@@ -88,14 +99,25 @@ export const SectionTypeForm: VFC<SectionTypeFormProps> = ({ afterSubmit, sectio
                 {...restTitle}
             />
             {checkboxes.map((checkbox) => (
-                <div key={checkbox.name}>
+                <StyledCheckbox key={checkbox.name}>
                     <label htmlFor={checkbox.name}>
                         <input type="checkbox" {...register(checkbox.name)} id={checkbox.name} />
                         {checkbox.label}
                     </label>
-                </div>
+                </StyledCheckbox>
             ))}
-            <FormGradeOptions name="gradeOptions" control={control} />
+            <Controller
+                name="gradeOptions"
+                control={control}
+                render={({ field }) => (
+                    <FormGradeDropdown
+                        text={tr('Grade options')}
+                        disabled={isSubmitting}
+                        error={errorsResolver(field.name)}
+                        {...field}
+                    />
+                )}
+            />
             <FormRandomColor label={tr('Section color in the calendar')} name="eventColor" control={control} />
         </FormContainer>
     );
@@ -108,12 +130,17 @@ export const NewSectionTypeModal: VFC<{ hireStreamId: number }> = ({ hireStreamI
         <>
             <IconAddOutline size="s" onClick={() => setOpen(true)} />
 
-            <Modal visible={open} onClose={() => setOpen(false)}>
+            <Modal visible={open} onClose={() => setOpen(false)} width={600}>
                 <ModalHeader>
                     <FormTitle>{tr('New section type')}</FormTitle>
                 </ModalHeader>
                 <ModalContent>
-                    <SectionTypeForm type="create" hireStreamId={hireStreamId} afterSubmit={() => setOpen(false)} />
+                    <SectionTypeForm
+                        type="create"
+                        hireStreamId={hireStreamId}
+                        afterSubmit={() => setOpen(false)}
+                        onCancel={() => setOpen(false)}
+                    />
                 </ModalContent>
             </Modal>
         </>
@@ -126,12 +153,12 @@ export const UpdateSectionTypeModal: FC<{
     onClose: VoidFunction;
 }> = ({ sectionType, open, onClose }) => {
     return (
-        <Modal visible={open} onClose={onClose}>
+        <Modal visible={open} onClose={onClose} width={600}>
             <ModalHeader>
                 <FormTitle>{tr('Section type edit')}</FormTitle>
             </ModalHeader>
             <ModalContent>
-                <SectionTypeForm type="update" sectionType={sectionType} afterSubmit={onClose} />
+                <SectionTypeForm type="update" sectionType={sectionType} afterSubmit={onClose} onCancel={onClose} />
             </ModalContent>
         </Modal>
     );

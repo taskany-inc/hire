@@ -28,7 +28,7 @@
         "@sentry/nextjs": "7.55.0",
         "@tanstack/react-query": "4.29.13",
         "@tanstack/react-query-devtools": "4.29.13",
-        "@taskany/bricks": "3.1.0",
+        "@taskany/bricks": "3.1.1",
         "@taskany/colors": "1.1.0",
         "@taskany/icons": "1.1.2",
         "@trpc/client": "10.1.0",

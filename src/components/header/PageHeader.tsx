@@ -43,8 +43,6 @@ export const PageHeader: React.FC = () => {
     const [popupVisible, setPopupVisibility] = useState(false);
     const popupRef = useRef<HTMLDivElement>(null);
 
-    const avatarSrc = session?.user?.email;
-
     const description = useMemo(() => {
         const user = session?.user;
         const userRoles = session?.userRoles;
@@ -99,7 +97,7 @@ export const PageHeader: React.FC = () => {
                             onMouseEnter={() => setPopupVisibility(true)}
                             onMouseLeave={() => setPopupVisibility(false)}
                         >
-                            <UserMenu email={avatarSrc} />
+                            <UserMenu email={session?.user.email} name={session?.user.name} />
                         </div>
                     </HeaderMenu>
 

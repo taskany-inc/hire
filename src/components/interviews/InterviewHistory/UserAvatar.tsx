@@ -7,7 +7,7 @@ import { ExternalUserLink } from '../../ExternalUserLink';
 export const UserAvatar: FC<{ user: User }> = ({ user }) => {
     return (
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <UserPic email={user.email} />
+            <UserPic name={user.name} email={user.email} />
 
             <ExternalUserLink style={{ marginLeft: '8px' }} user={user} />
         </div>

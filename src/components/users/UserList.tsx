@@ -92,7 +92,7 @@ export const UserList: VFC<UserListProps> = ({ title, titleFragment, users, acti
             <StyledCardsContainer>
                 {filteredUsers.map((user) => (
                     <StyledCard key={user.id}>
-                        <UserPic email={user.email} />
+                        <UserPic name={user.name} email={user.email} />
                         <ExternalUserLink user={user} />
                         {action && (
                             <IconButton

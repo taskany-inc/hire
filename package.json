@@ -38,7 +38,7 @@
         "axios": "1.4.0",
         "body-parser": "1.20.2",
         "color-contrast-checker": "2.1.0",
-        "concurrently": "8.2.0",
+        "concurrently": "8.2.1",
         "date-fns": "2.30.0",
         "easy-typed-intl": "1.0.3",
         "formidable": "2.1.1",

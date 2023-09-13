@@ -1,11 +1,11 @@
 import React from 'react';
-import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { TabsMenu, TabsMenuItem } from '@taskany/bricks';
 import { HireStream } from '@prisma/client';
 
 import { Paths, generatePath } from '../utils/paths';
 import { LayoutMain } from '../components/layout/LayoutMain';
+import { Link } from '../components/Link';
 
 import { tr } from './controllers.i18n';
 
@@ -28,9 +28,9 @@ export const HireStreamLayout: React.FC<HireStreamLayoutProps> = ({ children, hi
         <LayoutMain pageTitle={hireStream.name} backlink={Paths.HIRE_STREAMS}>
             <TabsMenu>
                 {tabsMenuOptions.map(([title, href]) => (
-                    <NextLink key={href} href={href} passHref>
+                    <Link key={href} href={href}>
                         <TabsMenuItem active={router.asPath === href}>{title}</TabsMenuItem>
-                    </NextLink>
+                    </Link>
                 ))}
             </TabsMenu>
             {children}

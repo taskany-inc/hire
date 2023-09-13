@@ -2,7 +2,7 @@ import { useState, useMemo, FC } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { gray10, textColorPrimary } from '@taskany/colors';
-import { Link, Text } from '@taskany/bricks';
+import { Text } from '@taskany/bricks';
 import { IconArrowUpSmallOutline, IconArrowDownSmallOutline } from '@taskany/icons';
 
 import { useProblemRemoveMutation } from '../hooks/problem-hooks';
@@ -19,6 +19,7 @@ import { useSession } from '../contexts/app-settings-context';
 import { useProblemFilterContext } from '../contexts/problem-filter-context';
 import { ProblemStats } from '../components/problems/ProblemStats';
 import { accessChecks } from '../backend/access/access-checks';
+import { Link } from '../components/Link';
 
 import { tr } from './controllers.i18n';
 
@@ -39,14 +40,6 @@ const StyledSolutionTitle = styled(Text)`
     cursor: pointer;
     align-items: center;
     gap: 5px;
-`;
-
-const StyledAuthorLink = styled.span`
-    cursor: pointer;
-
-    &:hover {
-        color: ${textColorPrimary};
-    }
 `;
 
 export const Problem: FC<ProblemProps> = ({ problem }) => {
@@ -97,14 +90,14 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
                     <Text as="span" color={gray10}>
                         {tr('Created by:')}{' '}
                     </Text>
-                    <StyledAuthorLink
+                    <span
                         onClick={() => {
                             setAuthor(problem.author);
                             router.push(Paths.PROBLEMS);
                         }}
                     >
-                        <Link inline>{problem.author.name}</Link>
-                    </StyledAuthorLink>{' '}
+                        <Link>{problem.author.name}</Link>
+                    </span>{' '}
                     {distanceDate(problem.createdAt)}
                 </Text>
             </Text>

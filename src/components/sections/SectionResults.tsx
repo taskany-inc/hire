@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 import { textColor } from '@taskany/colors';
-import { Text, Link, Badge } from '@taskany/bricks';
+import { Text, Badge } from '@taskany/bricks';
 
 import { GradeButton } from '../GradeButton';
 import { SectionWithSectionType } from '../../backend/modules/section/section-types';
 import { generatePath, Paths } from '../../utils/paths';
 import { Stack } from '../layout/Stack';
 import { SectionStatusTagPalette } from '../../utils/tag-palette';
+import { Link } from '../Link';
 
 import { getSectionChip } from './helpers';
 import { tr } from './sections.i18n';
@@ -59,7 +60,6 @@ export const SectionResults = ({ passedSections }: SectionResultsProps): JSX.Ele
                         <StyledRow key={passedSection.id}>
                             <StyledTableCell>
                                 <Link
-                                    inline
                                     href={generatePath(Paths.SECTION, {
                                         interviewId: passedSection.interviewId,
                                         sectionId: passedSection.id,

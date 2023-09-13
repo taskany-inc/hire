@@ -1,9 +1,10 @@
 import { FC, useState } from 'react';
-import { Footer, Link, Modal } from '@taskany/bricks';
+import { Footer, Modal } from '@taskany/bricks';
 import { FooterItem } from '@taskany/bricks/components/Footer';
 import { gray9 } from '@taskany/colors';
 
 import FeedbackCreateForm from '../feedback/FeedbackCreateForm';
+import { Link } from '../Link';
 
 import { tr } from './footer.i18n';
 
@@ -23,14 +24,14 @@ export const PageFooter: FC = () => {
             <Modal visible={openFeedbackForm} onClose={() => setOpenFeedbackForm(false)}>
                 <FeedbackCreateForm onClose={() => setOpenFeedbackForm(false)} />
             </Modal>
-            <Link inline>
+            <Link>
                 <FooterItem color={gray9} onClick={() => setOpenFeedbackForm(true)}>
                     {tr('Feedback')}
                 </FooterItem>
             </Link>
 
             {menuItems.map(({ title, url }) => (
-                <Link key={url} href={url} inline>
+                <Link key={url} href={url}>
                     <FooterItem color={gray9}>{title}</FooterItem>
                 </Link>
             ))}

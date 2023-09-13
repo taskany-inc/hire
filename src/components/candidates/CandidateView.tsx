@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import styled from 'styled-components';
-import { Text, Link, Button } from '@taskany/bricks';
-import { gapS } from '@taskany/colors';
+import { Text, Button } from '@taskany/bricks';
 
 import { generatePath, pageHrefs, Paths } from '../../utils/paths';
 import { distanceDate, formatDateToLocaleString } from '../../utils/date';
@@ -13,6 +12,7 @@ import { InterviewTags } from '../interviews/InterviewTags';
 import { InterviewWithHireStreamRelation } from '../../backend/modules/interview/interview-types';
 import { Stack } from '../layout/Stack';
 import { CardContent } from '../card/CardContent';
+import { Link } from '../Link';
 
 import { CandidateBIO } from './CandidateBIO';
 import { tr } from './candidates.i18n';
@@ -37,7 +37,7 @@ export const CandidateView: FC<Props> = ({ candidate, interviews, isShowAddButto
                 </Text>
                 <CandidateBIO candidate={candidate} />
                 {isShowAddButton && (
-                    <Link inline href={pageHrefs.candidateInterviewCreate(candidate.id)}>
+                    <Link href={pageHrefs.candidateInterviewCreate(candidate.id)}>
                         <Button outline view="primary" text={tr('Add interview')} />
                     </Link>
                 )}

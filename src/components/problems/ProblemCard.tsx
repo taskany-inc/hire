@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState, VFC } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { textColor, link0 } from '@taskany/colors';
-import { Button, Link } from '@taskany/bricks';
+import { Button } from '@taskany/bricks';
 import { IconStarOutline, IconStarSolid } from '@taskany/icons';
 
 import { ProblemWithRelationsAndProblemSection } from '../../backend/modules/problem/problem-types';
@@ -24,6 +24,7 @@ import { CardFooter } from '../card/CardFooter';
 import { CardHeader } from '../card/CardHeader';
 import { parseNumber } from '../../utils/param-parsers';
 import { trpc } from '../../utils/trpc-front';
+import { Link } from '../Link';
 
 import { TagChip } from './TagChip';
 import { UnavailableContainer } from './UnavailableContainer';

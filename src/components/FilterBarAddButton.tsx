@@ -1,5 +1,7 @@
 import React, { VFC } from 'react';
-import { Button, Link } from '@taskany/bricks';
+import { Button } from '@taskany/bricks';
+
+import { Link } from './Link';
 
 type FilterBarAddButtonProps = {
     link: string;
@@ -8,7 +10,7 @@ type FilterBarAddButtonProps = {
 
 export const FilterBarAddButton: VFC<FilterBarAddButtonProps> = ({ link, text }) => {
     return (
-        <Link inline href={link}>
+        <Link href={link}>
             <Button outline view="primary" text={text} type="button" />
         </Link>
     );

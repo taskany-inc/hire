@@ -1,8 +1,10 @@
 import { User } from '@prisma/client';
 import { CSSProperties } from 'react';
-import { Text, Link } from '@taskany/bricks';
+import { Text } from '@taskany/bricks';
 
 import config from '../backend/config';
+
+import { Link } from './Link';
 
 type ExternalUserLinkProps = {
     user: User;
@@ -14,7 +16,7 @@ export const ExternalUserLink = ({ user, style }: ExternalUserLinkProps) => {
 
     return (
         <Text style={style} as="span">
-            <Link inline href={userByEmailLink} target="_blank">
+            <Link href={userByEmailLink} target="_blank">
                 {user.name}
             </Link>
         </Text>

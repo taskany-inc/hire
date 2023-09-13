@@ -1,10 +1,11 @@
 import { ReactNode, VFC } from 'react';
 import styled from 'styled-components';
-import { Text, Link } from '@taskany/bricks';
+import { Text } from '@taskany/bricks';
 
 import { PropsWithClassName } from '../../types';
 import { DropdownMenuItem } from '../TagFilterDropdown';
 import { TitleMenu } from '../TitleMenu/TitleMenu';
+import { Link } from '../Link';
 
 const StyledTitleRow = styled.div`
     display: flex;
@@ -36,13 +37,7 @@ export const CardHeader: VFC<CardHeaderProps> = ({ title, link, subTitle, chips,
         <div className={className}>
             <StyledTitleRow>
                 <StyledTitle size="xl" weight="bold">
-                    {link ? (
-                        <Link inline href={link}>
-                            {title}
-                        </Link>
-                    ) : (
-                        title
-                    )}
+                    {link ? <Link href={link}>{title}</Link> : title}
                     {menu && <TitleMenu items={menu} />}
                 </StyledTitle>
                 {chips && <StyledChips>{chips}</StyledChips>}

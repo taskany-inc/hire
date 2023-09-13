@@ -1,7 +1,9 @@
 import { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 import { backgroundColor } from '@taskany/colors';
-import { Text, Link } from '@taskany/bricks';
+import { Text } from '@taskany/bricks';
+
+import { Link } from '../Link';
 
 type PageTitleProps = {
     title: string;
@@ -25,13 +27,7 @@ export const PageTitle: FC<PageTitleProps> = ({ title, gutter = '30px', backlink
     return (
         <StyledContainer gutter={gutter}>
             <StyledTitle size="xxl" weight="bolder">
-                {backlink ? (
-                    <Link inline href={backlink}>
-                        {title}
-                    </Link>
-                ) : (
-                    title
-                )}
+                {backlink ? <Link href={backlink}>{title}</Link> : title}
             </StyledTitle>
             {children}
         </StyledContainer>

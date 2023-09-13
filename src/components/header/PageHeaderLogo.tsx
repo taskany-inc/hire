@@ -1,14 +1,14 @@
-import NextLink from 'next/link';
 import { TaskanyLogo } from '@taskany/bricks';
 
 import { Paths } from '../../utils/paths';
+import { Link } from '../Link';
 
 export const PageHeaderLogo: React.FC = () => {
     // TODO: resolve custom logo from settings in db
 
     return (
-        <NextLink href={Paths.HOME} passHref>
+        <Link href={Paths.HOME}>
             <TaskanyLogo />
-        </NextLink>
+        </Link>
     );
 };

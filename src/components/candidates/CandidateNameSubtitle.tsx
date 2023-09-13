@@ -1,6 +1,7 @@
-import { Text, Link } from '@taskany/bricks';
+import { Text } from '@taskany/bricks';
 
 import { pageHrefs } from '../../utils/paths';
+import { Link } from '../Link';
 
 interface Props {
     id?: number;
@@ -19,14 +20,7 @@ export function CandidateNameSubtitle({ id, name }: Props) {
                 lineHeight: '28px',
             }}
         >
-            Candidate:{' '}
-            {typeof id !== 'number' ? (
-                name
-            ) : (
-                <Link inline href={pageHrefs.candidate(id)}>
-                    {name}
-                </Link>
-            )}
+            Candidate: {typeof id !== 'number' ? name : <Link href={pageHrefs.candidate(id)}>{name}</Link>}
         </Text>
     );
 }

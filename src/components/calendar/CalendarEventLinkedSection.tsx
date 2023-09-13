@@ -1,8 +1,9 @@
-import { Link, Text } from '@taskany/bricks';
+import { Text } from '@taskany/bricks';
 
 import { SectionWithInterviewRelation } from '../../backend/modules/interview/interview-types';
 import { pageHrefs } from '../../utils/paths';
 import { getFullSectionTitle } from '../sections/helpers';
+import { Link } from '../Link';
 
 import { tr } from './calendar.i18n';
 
@@ -25,7 +26,7 @@ export function CalendarEventLinkedSection({ interviewSection, sectionTitleOnly 
         <>
             <Text size="l">{tr('Section:')}</Text>
 
-            <Link inline href={pageHrefs.interviewSectionView(interviewSection.interviewId, interviewSection.id)}>
+            <Link href={pageHrefs.interviewSectionView(interviewSection.interviewId, interviewSection.id)}>
                 {getFullSectionTitle(interviewSection)}
             </Link>
         </>

@@ -3,7 +3,7 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 import { backgroundColor, gray8 } from '@taskany/colors';
 import { Text } from '@taskany/bricks';
 
-import { FinihedSectionsByInterviewerOutput } from '../../backend/modules/analytics-queries/analytics-queries-types';
+import { FinishedSectionsByInterviewerOutput } from '../../backend/modules/analytics-queries/analytics-queries-types';
 import { useAnalyticsFilterContext } from '../../contexts/analytics-filter-context';
 import { useFinishedSectionsByInterviewer } from '../../hooks/analytics-queries-hooks';
 import { QueryResolver } from '../QueryResolver';
@@ -14,7 +14,7 @@ type FinishedSectionsByInterviewerProps = {
     allStreams: HireStream[];
 };
 
-const Chart = ({ data }: { data: FinihedSectionsByInterviewerOutput }) => {
+const Chart = ({ data }: { data: FinishedSectionsByInterviewerOutput }) => {
     return (
         <ResponsiveContainer width="100%" height={500}>
             <BarChart

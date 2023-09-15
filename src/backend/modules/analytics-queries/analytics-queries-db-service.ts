@@ -16,7 +16,7 @@ import {
     HireStreamsAndTimeRange,
     HiringFunnelOutput,
     HiringFunnelRawData,
-    FinihedSectionsByInterviewerOutput,
+    FinishedSectionsByInterviewerOutput,
     FinishedSectionsByInterviewerRawData,
     CandidatesByHireStreamRawData,
     CandidatesByHireStreamOutput,
@@ -71,7 +71,7 @@ LIMIT
 `;
 
     const data: HiringFunnelOutput = objKeys(rawData[0]).map((k) => ({
-        value: rawData[0][k],
+        value: Number(rawData[0][k]),
         label: prepareLabel(k),
     }));
 
@@ -112,9 +112,9 @@ ORDER BY
         }
 
         if (item.section__hire) {
-            dataRecord[item.section_type__title].hire = item.section__count;
+            dataRecord[item.section_type__title].hire = Number(item.section__count);
         } else {
-            dataRecord[item.section_type__title].noHire = item.section__count;
+            dataRecord[item.section_type__title].noHire = Number(item.section__count);
         }
     });
 
@@ -130,7 +130,7 @@ ORDER BY
 const finishedSectionsByInterviewer = async (
     params: hireStreamsAndTimeRangeAndHasTasks,
     session: Session,
-): Promise<FinihedSectionsByInterviewerOutput> => {
+): Promise<FinishedSectionsByInterviewerOutput> => {
     const hireStreamNames = await hireStreamDbService.allowedHiringStreamsByName(session, params.hireStreams);
     const rawData: FinishedSectionsByInterviewerRawData = await prisma.$queryRaw`
 SELECT
@@ -159,9 +159,11 @@ LIMIT
   10000
 `;
 
-    const data = rawData.map((item: any) =>
-        Object.fromEntries(Object.entries(item).map(([k, v]) => [prepareLabel(k), v])),
-    ) as FinihedSectionsByInterviewerOutput;
+    const data: FinishedSectionsByInterviewerOutput = rawData.map((item) => ({
+        name: item.user__name,
+        hirestream: item.analytics_event__hirestream,
+        section: Number(item.analytics_event__section_count),
+    }));
 
     return data;
 };
@@ -190,9 +192,10 @@ LIMIT
   10000
 `;
 
-    const data = rawData.map((item) =>
-        Object.fromEntries(Object.entries(item).map(([k, v]) => [prepareLabel(k), v])),
-    ) as CandidatesByHireStreamOutput;
+    const data: CandidatesByHireStreamOutput = rawData.map((item) => ({
+        hirestream: item.analytics_event__hirestream,
+        candidate: Number(item.analytics_event__candidate_count),
+    }));
 
     return data;
 };
@@ -227,9 +230,10 @@ LIMIT
   10000
 `;
 
-    const data = rawData.map((item) =>
-        Object.fromEntries(Object.entries(item).map(([k, v]) => [prepareLabel(k), v])),
-    ) as CandidatesRejectReasonsOutput;
+    const data: CandidatesRejectReasonsOutput = rawData.map((item) => ({
+        rejectreason: item.analytics_event__rejectreason,
+        candidate: Number(item.analytics_event__candidate_count),
+    }));
 
     let other = 0;
 
@@ -283,7 +287,7 @@ LIMIT
     );
     const mapped = mapValues(groupped, (item) =>
         mapKeys(
-            mapValues(item, (item) => item[0].analytics_event__section_count),
+            mapValues(item, (item) => Number(item[0].analytics_event__section_count)),
             (v, k) => (k === 'null' ? 'NO_HIRE' : k),
         ),
     );

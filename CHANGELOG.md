@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.8.2](https://github.com/taskany-inc/hire/compare/v0.8.1...v0.8.2) (2023-09-18)
+
+
+### Bug Fixes
+
+* **analytics:** convert bigint counts to number ([92e812d](https://github.com/taskany-inc/hire/commit/92e812d78fbf42b42a01a05576efcbe851851463))
+
 ## [0.8.1](https://github.com/taskany-inc/hire/compare/v0.8.0...v0.8.1) (2023-09-14)
 
 

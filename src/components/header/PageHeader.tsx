@@ -1,4 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
+import NextLink from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { textColor } from '@taskany/colors';
@@ -116,9 +117,9 @@ export const PageHeader: React.FC = () => {
             nav={
                 <StyledHeaderNav>
                     {entityListMenuItems.map((item, index) => (
-                        <HeaderNavLink key={index + item.text} href={item.path}>
-                            {item.text}
-                        </HeaderNavLink>
+                        <NextLink key={index + item.text} href={item.path} passHref legacyBehavior>
+                            <HeaderNavLink>{item.text}</HeaderNavLink>
+                        </NextLink>
                     ))}
                 </StyledHeaderNav>
             }

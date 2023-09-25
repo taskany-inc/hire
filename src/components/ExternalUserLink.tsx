@@ -10,7 +10,7 @@ type ExternalUserLinkProps = {
 };
 
 export const ExternalUserLink = ({ user, style }: ExternalUserLinkProps) => {
-    const userByEmailLink = config.sourceUsers.sourceOfUsersUrl + user.email;
+    const userByEmailLink = `${config.sourceUsers.sourceOfUsersUrl}/${user.email}`;
 
     return (
         <Text style={style} as="span">

@@ -22,7 +22,7 @@ export default {
         url: process.env.GRAVATAR_URL,
     },
     sourceUsers: {
-        sourceOfUsersUrl: process.env.SOURCE_OF_USERS_URL,
+        sourceOfUsersUrl: process.env.NEXT_PUBLIC_SOURCE_OF_USERS_URL,
         sourceOfUsersByEmail: process.env.SOURCE_OF_USERS_BY_EMAIL,
         sendEmail: process.env.SEND_EMAIL,
         searchUsersList: process.env.SEARCHE_USERS_LIST,

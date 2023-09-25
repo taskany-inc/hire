@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.8.3](https://github.com/taskany-inc/hire/compare/v0.8.2...v0.8.3) (2023-09-25)
+
+
+### Bug Fixes
+
+* **Header:** preserve locale in links ([1e31056](https://github.com/taskany-inc/hire/commit/1e31056d23c078bda1b38178bcede975fc7489e9))
+
 ## [0.8.2](https://github.com/taskany-inc/hire/compare/v0.8.1...v0.8.2) (2023-09-18)
 
 

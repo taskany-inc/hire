@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.9.0](https://github.com/taskany-inc/hire/compare/v0.8.3...v0.9.0) (2023-10-04)
+
+
+### Features
+
+* middleware to redirect on locale from Accept-Language header ([06b0995](https://github.com/taskany-inc/hire/commit/06b0995f93a790b633b581c300452c91db34438b))
+
+
+### Bug Fixes
+
+* **ExternalUserLink:** add NEXT_PUBLIC_ to SOURCE_OF_USERS_URL ([4947f4e](https://github.com/taskany-inc/hire/commit/4947f4e7c24101a4bb546e6d3ad1e276cde335a9))
+* **TitleMenu:** add color textColor for IconMoreVerticalSolid in trigger button ([fdffe2e](https://github.com/taskany-inc/hire/commit/fdffe2ea7676244777ed37fc9a29cce336358288))
+
 ## [0.8.3](https://github.com/taskany-inc/hire/compare/v0.8.2...v0.8.3) (2023-09-25)
 
 

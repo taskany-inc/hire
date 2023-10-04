@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.9.1](https://github.com/taskany-inc/hire/compare/v0.9.0...v0.9.1) (2023-10-04)
+
+
+### Reverts
+
+* Revert "chore(deps): bump rrule from 2.6.8 to 2.7.2" ([6fe17d3](https://github.com/taskany-inc/hire/commit/6fe17d3954c84b166fb7b76bb4b0c1923a210038))
+
 ## [0.9.0](https://github.com/taskany-inc/hire/compare/v0.8.3...v0.9.0) (2023-10-04)
 
 

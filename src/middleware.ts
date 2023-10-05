@@ -20,6 +20,10 @@ export function middleware(request: NextRequest) {
     if (locale === localeFromHeader) return NextResponse.next();
 
     if (languages.some((language) => localeFromHeader === language)) {
+        if (request.nextUrl.pathname === '/') {
+            return NextResponse.redirect(`${request.nextUrl.origin}/${localeFromHeader}`);
+        }
+
         return NextResponse.redirect(`${request.nextUrl.origin}/${localeFromHeader}${request.nextUrl.pathname}`);
     }
     return NextResponse.next();

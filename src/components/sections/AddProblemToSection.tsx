@@ -17,7 +17,7 @@ const StyledModalHeader = styled(ModalHeader)`
 
 const StyledModalContent = styled(ModalContent)`
     overflow: auto;
-    height: 100%;
+    height: 80%;
 
     padding-top: ${gapM};
 `;

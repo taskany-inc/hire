@@ -16,7 +16,7 @@ import {
     UserMenu,
     Popup,
 } from '@taskany/bricks';
-import { IconArrowUpSmallOutline, IconArrowDownSmallOutline } from '@taskany/icons';
+import { IconUpSmallSolid, IconDownSmallSolid } from '@taskany/icons';
 
 import { Paths } from '../../utils/paths';
 import { useSession } from '../../contexts/app-settings-context';
@@ -142,9 +142,9 @@ export const PageHeader: React.FC = () => {
                             brick="left"
                             iconRight={
                                 props.visible ? (
-                                    <IconArrowUpSmallOutline size="s" noWrap />
+                                    <IconUpSmallSolid size="s" noWrap />
                                 ) : (
-                                    <IconArrowDownSmallOutline size="s" noWrap />
+                                    <IconDownSmallSolid size="s" noWrap />
                                 )
                             }
                             ref={props.ref}

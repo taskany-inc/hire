@@ -16,6 +16,7 @@ const StyledBanner = styled.div`
 export const OfflineBanner = () => {
     const online = useOfflineDetector({
         setStatus: (online) => onlineManager.setOnline(online),
+        remoteServerUrl: '/api/health',
     });
     return online ? null : <StyledBanner>{tr('You are currently offline. Check connection.')}</StyledBanner>;
 };

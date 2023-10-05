@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.9.2](https://github.com/taskany-inc/hire/compare/v0.9.1...v0.9.2) (2023-10-05)
+
+
+### Bug Fixes
+
+* infinite redirect to locale fix ([2d3830d](https://github.com/taskany-inc/hire/commit/2d3830d70aa3d4ca4ac6b3f607de45c6f0b40c4f))
+
 ## [0.9.1](https://github.com/taskany-inc/hire/compare/v0.9.0...v0.9.1) (2023-10-04)
 
 

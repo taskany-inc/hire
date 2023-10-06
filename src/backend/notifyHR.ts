@@ -1,7 +1,6 @@
 import { UpdateSection } from './modules/section/section-types';
 import { externalUsersService } from './modules/ext-users/ext-users-service';
 import config from './config';
-import { tr } from './backend.i18n';
 
 import { prisma } from '.';
 
@@ -18,18 +17,17 @@ export const notifyHR = async (id: number, data: UpdateSection) => {
             sectionType: true,
         },
     });
-
     if (section?.interview?.creator?.email) {
+        // TODO: add localization after https://github.com/taskany-inc/hire/issues/191
         return externalUsersService.sendEmail({
             from: 'Taskany Hire',
             to: section?.interview?.creator?.email,
-            subject: tr('Interviewer {interviewer} left feedback for the section with {candidate}', {
-                interviewer: section.interviewer.name || '',
-                candidate: section.interview.candidate.name,
-            }),
-            text: `${tr('Interviewer')} ${section.interviewer.name} ${tr('recommends')} ${
-                data.hire ? `${tr('hire per')} ${section.grade} ${tr('level/grade')}` : tr('do not hire')
-            } ${tr('candidate')} ${section.interview.candidate.name}\n
+            subject: `Interviewer ${section.interviewer.name || ''} left feedback for the section with ${
+                section.interview.candidate.name
+            }`,
+            text: `Interviewer ${section.interviewer.name} recommends' ${
+                data.hire ? `hire per ${data.grade} level/grade` : 'do not hire'
+            } candidate ${section.interview.candidate.name}\n
             ${data.feedback}\n
             ${config.defaultPageURL}/interviews/${section.interviewId}/sections/${section.id}`,
         });

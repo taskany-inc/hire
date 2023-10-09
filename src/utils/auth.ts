@@ -28,13 +28,20 @@ const getDebugUser = async (cookies: NextApiRequest['cookies']): Promise<User | 
     return cookie ? userDbService.getByEmail(cookie) : undefined;
 };
 
-const getDebugRoles = (cookies: NextApiRequest['cookies']): Promise<UserRolesInfo> | undefined => {
+const getDebugRoles = async (cookies: NextApiRequest['cookies']): Promise<UserRolesInfo | undefined> => {
     const cookie =
         standConfig.isDebugCookieAllowed && ROLE_DEBUG_COOKIE_NAME in cookies
             ? cookies[ROLE_DEBUG_COOKIE_NAME]
             : undefined;
 
-    return cookie ? externalUsersDebugService.getUserRolesFromDebugCookie(cookie) : undefined;
+    const debugUser = await getDebugUser(cookies);
+    const debugRoles = cookie ? externalUsersDebugService.getUserRolesFromDebugCookie(cookie) : undefined;
+
+    if (!debugRoles && debugUser) {
+        return userDbService.getUserRoles(debugUser.id);
+    }
+
+    return debugRoles;
 };
 
 const getUser = async (id: number, req: GetServerSidePropsContext['req']): Promise<User> => {

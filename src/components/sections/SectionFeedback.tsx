@@ -132,8 +132,6 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
         onAgree: onSubmit,
     });
 
-    const grade = Number(section.grade?.slice(1));
-
     const setHire = (value: boolean | null) => {
         setValue('hire', value);
     };
@@ -146,7 +144,7 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
 
     return (
         <>
-            <form style={{ width: '90%' }}>
+            <form>
                 <Stack direction="column" style={{ marginTop: 12 }} justifyItems="flex-start" gap="8px">
                     {isEditable ? (
                         <div>
@@ -159,11 +157,11 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
                         <div style={{ marginLeft: '-1em' }}>
                             <Stack direction="row" gap="8px" justifyContent="flex-start" align="center">
                                 <SectionFeedbackHireBadge hire={section.hire} />
-                                {!Number.isNaN(grade) && (
+                                {section.grade && (
                                     <>
                                         {tr('Grade:')}{' '}
                                         <GradeButton type="button" matching>
-                                            {grade}
+                                            {section.grade}
                                         </GradeButton>
                                     </>
                                 )}
@@ -173,16 +171,19 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
 
                     {isEditable && editMode ? (
                         <CodeEditorField
+                            style={{ width: '900px' }}
                             onUploadSuccess={onSuccess}
                             onUploadFail={onFail}
                             name="feedback"
                             control={control}
                             uploadLink={`/api/attach/${section.id}`}
-                            height={200}
                             placeholder={tr('Describe your impressions of the candidate')}
                         />
                     ) : (
-                        <StyledMarkdownRenderer value={section.feedback || watch('feedback') || ''} />
+                        <StyledMarkdownRenderer
+                            style={{ width: '900px' }}
+                            value={section.feedback || watch('feedback') || ''}
+                        />
                     )}
 
                     {isEditable && editMode && (

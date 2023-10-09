@@ -24,7 +24,7 @@ const StyledModalContent = styled(ModalContent)`
 
 const StyledFiltersPanel = styled.div`
     width: 100vw;
-    margin-left: calc((100vw - 400px) / -20);
+    margin-left: -20px;
     background-color: ${gray5};
 `;
 

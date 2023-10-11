@@ -1,11 +1,8 @@
-import styled from 'styled-components';
-import { textColor } from '@taskany/colors';
-import { Text, Badge } from '@taskany/bricks';
+import { Text, Badge, Table, TableCell, TableRow } from '@taskany/bricks';
 
 import { GradeButton } from '../GradeButton';
 import { SectionWithSectionType } from '../../backend/modules/section/section-types';
 import { generatePath, Paths } from '../../utils/paths';
-import { Stack } from '../layout/Stack';
 import { SectionStatusTagPalette } from '../../utils/tag-palette';
 import { Link } from '../Link';
 
@@ -16,23 +13,8 @@ type SectionResultsProps = {
     passedSections: SectionWithSectionType[];
 };
 
-const StyledTable = styled.div`
-    max-width: 460px;
-    color: ${textColor};
-`;
-
-const StyledRow = styled.div`
-    display: flex;
-    border-bottom: 1px solid ${textColor};
-    width: 100%;
-    align-items: center;
-`;
-
-const StyledTableCell = styled.div<{ interviewer?: boolean; grade?: boolean }>`
-    width: ${({ interviewer }) => (interviewer ? '40%' : '20%')};
-    padding: 6px;
-    text-align: ${({ grade }) => (grade ? 'center' : 'start')};
-`;
+const sectionColumnWidth = '250px';
+const interviewerColumnWidth = '150px';
 
 export const SectionResults = ({ passedSections }: SectionResultsProps): JSX.Element | null => {
     if (passedSections.length === 0) {
@@ -41,48 +23,43 @@ export const SectionResults = ({ passedSections }: SectionResultsProps): JSX.Ele
 
     return (
         <>
-            <Stack direction="row" gap={12} justifyContent="flex-start" align="center">
-                <Text size="xl">{tr('Passed sections')}</Text>
-            </Stack>
+            <Text size="xl">{tr('Passed sections')}</Text>
 
-            <StyledTable>
-                <StyledRow>
-                    <StyledTableCell>{tr('Section')}</StyledTableCell>
-                    <StyledTableCell interviewer>{tr('Interviewer')}</StyledTableCell>
-                    <StyledTableCell>{tr('Hire')}</StyledTableCell>
-                    <StyledTableCell grade>{tr('Grade')}</StyledTableCell>
-                </StyledRow>
-                {passedSections.map((passedSection) => {
-                    const grade = Number(passedSection.grade?.slice(1));
-                    const sectionChip = getSectionChip(passedSection);
-
-                    return (
-                        <StyledRow key={passedSection.id}>
-                            <StyledTableCell>
-                                <Link
-                                    href={generatePath(Paths.SECTION, {
-                                        interviewId: passedSection.interviewId,
-                                        sectionId: passedSection.id,
-                                    })}
-                                >
-                                    {passedSection.sectionType.title}
-                                </Link>
-                            </StyledTableCell>
-                            <StyledTableCell interviewer>{passedSection.interviewer.name}</StyledTableCell>
-                            <StyledTableCell>
-                                <Badge color={SectionStatusTagPalette[sectionChip]}>{sectionChip}</Badge>
-                            </StyledTableCell>
-                            <StyledTableCell grade>
-                                {!Number.isNaN(grade) && (
-                                    <GradeButton type="button" matching>
-                                        {grade}
-                                    </GradeButton>
-                                )}
-                            </StyledTableCell>
-                        </StyledRow>
-                    );
-                })}
-            </StyledTable>
+            <Table gap={10} width={600}>
+                <TableRow align="center" gap={10}>
+                    <TableCell width={sectionColumnWidth}>{tr('Section')}</TableCell>
+                    <TableCell width={interviewerColumnWidth}>{tr('Interviewer')}</TableCell>
+                    <TableCell justify="center">{tr('Hire')}</TableCell>
+                    <TableCell justify="center">{tr('Grade')}</TableCell>
+                </TableRow>
+                {passedSections.map((passedSection) => (
+                    <TableRow key={passedSection.id} align="center" gap={10}>
+                        <TableCell width={sectionColumnWidth}>
+                            <Link
+                                href={generatePath(Paths.SECTION, {
+                                    interviewId: passedSection.interviewId,
+                                    sectionId: passedSection.id,
+                                })}
+                            >
+                                {passedSection.sectionType.title}
+                            </Link>
+                        </TableCell>
+                        <TableCell width={interviewerColumnWidth}>{passedSection.interviewer.name}</TableCell>
+                        <TableCell justify="center">
+                            <Badge size="m" color={SectionStatusTagPalette[getSectionChip(passedSection)]}>
+                                {getSectionChip(passedSection)}
+                            </Badge>
+                        </TableCell>
+                        <TableCell justify="center">
+                            {passedSection.grade && (
+                                <GradeButton type="button" matching>
+                                    {passedSection.grade}
+                                </GradeButton>
+                            )}
+                        </TableCell>
+                    </TableRow>
+                ))}
+            </Table>
         </>
     );
 };

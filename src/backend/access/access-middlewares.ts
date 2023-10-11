@@ -18,6 +18,7 @@ import {
 import { solutionDbService } from '../modules/solution/solution-db-service';
 import { middleware } from '../trpc/trpc-back';
 import { hireStreamDbService } from '../modules/hire-streams/hire-stream-db-service';
+import { UpdateInterview } from '../modules/interview/interview-types';
 
 import { AccessCheckResult, accessChecks } from './access-checks';
 import { tr } from './access.i18n';
@@ -209,7 +210,7 @@ export const accessMiddlewares = {
         ),
         readMany: createMiddleware(accessChecks.interview.readMany),
         update: createEntityCheckMiddleware(
-            (input: { interviewId: number }) => input.interviewId,
+            (input: { data: UpdateInterview }) => input.data.interviewId,
             async (interviewId) => {
                 const interview = await interviewDbService.getById(interviewId);
 

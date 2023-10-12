@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.10.0](https://github.com/taskany-inc/hire/compare/v0.9.3...v0.10.0) (2023-10-12)
+
+
+### Features
+
+* **auth:** if no debugRoles cookies roles will be as debugUser has in db ([3c3654b](https://github.com/taskany-inc/hire/commit/3c3654b7cfa9a45b2291c12c7b7dc29c510acfa8))
+* **PageFooter:** added locale change ([249890d](https://github.com/taskany-inc/hire/commit/249890d876645bc5eed646c209413a2527f583a5))
+
+
+### Bug Fixes
+
+* **access-milldewares:** correct input type for interview update ([b324ad2](https://github.com/taskany-inc/hire/commit/b324ad2b3e18b2f76fdc66d20be61ee26585cac6))
+* **AddProblemToSection:** fixed margin-left for FiltersPanel ([b7f95cb](https://github.com/taskany-inc/hire/commit/b7f95cbc03e164169c165f05a1d4d8edd0e2b4db))
+* **SectionFeedback:** correct grade in completed section ([fa4568d](https://github.com/taskany-inc/hire/commit/fa4568d541b87e99c0190bf5240cc989a730b013))
+* **SectionResults:** table from Bricks ([ce5f486](https://github.com/taskany-inc/hire/commit/ce5f48662b5f02cadd11663258caf3c11021df4a))
+
 ## [0.9.3](https://github.com/taskany-inc/hire/compare/v0.9.2...v0.9.3) (2023-10-09)
 
 

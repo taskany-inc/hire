@@ -2,14 +2,28 @@ import { FC, useState } from 'react';
 import { Footer, Modal } from '@taskany/bricks';
 import { FooterItem } from '@taskany/bricks/components/Footer';
 import { gray9 } from '@taskany/colors';
+import { useRouter } from 'next/router';
 
 import FeedbackCreateForm from '../feedback/FeedbackCreateForm';
 import { Link } from '../Link';
+import { defaultLocale, languages } from '../../utils/getLang';
+import { yearInSeconds } from '../../utils';
 
 import { tr } from './footer.i18n';
 
 export const PageFooter: FC = () => {
     const [openFeedbackForm, setOpenFeedbackForm] = useState(false);
+    const router = useRouter();
+
+    const { asPath, locale } = router;
+
+    const newLocale = locale === defaultLocale ? languages[1] : defaultLocale;
+    const changeLocaleTitle = locale === defaultLocale ? 'Ru' : 'En';
+
+    const push = () => {
+        document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=${yearInSeconds};SameSite=Strict`;
+        router.push(asPath, asPath, { locale: newLocale });
+    };
 
     const menuItems = [
         { title: tr('Terms'), url: '/terms' },
@@ -35,6 +49,12 @@ export const PageFooter: FC = () => {
                     <FooterItem color={gray9}>{title}</FooterItem>
                 </Link>
             ))}
+
+            <Link>
+                <FooterItem color={gray9} onClick={push}>
+                    {changeLocaleTitle}
+                </FooterItem>
+            </Link>
         </Footer>
     );
 };

@@ -20,6 +20,7 @@ export const TagFilterDropdown: FC<{
 
     return (
         <FiltersDropdown
+            maxHeight={300}
             text={text}
             value={value.map((s) => s.toString())}
             items={items}

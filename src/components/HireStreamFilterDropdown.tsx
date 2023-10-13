@@ -32,6 +32,7 @@ export const HireStreamFilterDropdown = React.forwardRef<HTMLDivElement, HireStr
 
         return (
             <Dropdown
+                maxHeight={300}
                 ref={ref}
                 text={text}
                 value={value}

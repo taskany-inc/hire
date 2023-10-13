@@ -61,6 +61,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
                     onChange={onStateClick}
                     items={options}
                     disabled={disabled}
+                    maxHeight={300}
                     renderTrigger={(props) => (
                         <Button ref={props.ref} disabled={props.disabled} onClick={props.onClick} text={props.text} />
                     )}

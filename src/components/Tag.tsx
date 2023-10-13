@@ -3,7 +3,7 @@
 import React, { useCallback } from 'react';
 import styled from 'styled-components';
 import { colorPrimary, gapXs, gray10, gray5, gray6, gray9, radiusL, textColorPrimary } from '@taskany/colors';
-import { CleanButton } from '@taskany/bricks';
+import { TagCleanButton } from '@taskany/bricks';
 
 interface TagProps {
     title: string;
@@ -16,7 +16,7 @@ interface TagProps {
     onHide?: () => void;
 }
 
-const StyledCleanButton = styled(CleanButton)``;
+const StyledCleanButton = styled(TagCleanButton)``;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const StyledTag = styled(({ onHide, ...props }: Partial<TagProps> & { children?: React.ReactNode }) => (

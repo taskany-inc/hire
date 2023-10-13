@@ -140,13 +140,7 @@ export const PageHeader: React.FC = () => {
                             view="primary"
                             outline
                             brick="left"
-                            iconRight={
-                                props.visible ? (
-                                    <IconUpSmallSolid size="s" noWrap />
-                                ) : (
-                                    <IconDownSmallSolid size="s" noWrap />
-                                )
-                            }
+                            iconRight={props.visible ? <IconUpSmallSolid size="s" /> : <IconDownSmallSolid size="s" />}
                             ref={props.ref}
                             onClick={props.onClick}
                         />

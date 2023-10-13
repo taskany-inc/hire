@@ -19,10 +19,8 @@ export const Link = ({ href, target, className, children }: LinkProps) => {
     }
 
     return (
-        <NextLink href={href} passHref legacyBehavior>
-            <LinkBricks inline target={target} className={className}>
-                {children}
-            </LinkBricks>
-        </NextLink>
+        <LinkBricks as={NextLink} href={href} inline target={target} className={className}>
+            {children}
+        </LinkBricks>
     );
 };

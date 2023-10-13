@@ -205,7 +205,7 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                 {isExpanded && <MarkdownRenderer value={problem.solution} />}
 
                 <LoadingContainer isSpinnerVisible={isSpinnerVisible}>
-                    <Text size="l" style={{ marginTop: 20, marginBottom: 12 }} ref={solutionRef}>
+                    <Text size="l" style={{ marginTop: 20, marginBottom: 12 }} forwardRef={solutionRef}>
                         {tr("Candidate's solution")}
                     </Text>
 

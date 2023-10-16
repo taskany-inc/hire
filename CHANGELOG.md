@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.11.0](https://github.com/taskany-inc/hire/compare/v0.10.0...v0.11.0) (2023-10-16)
+
+
+### Features
+
+* **Link:** new wrapper for bricks Link ([b8bf136](https://github.com/taskany-inc/hire/commit/b8bf136d1b4d9a2dca08401a10e422e5f9acef29))
+* maxHeight for dropdowns ([a14b548](https://github.com/taskany-inc/hire/commit/a14b54850f7f7ae3e9a796e800608b1f8a2db5fb))
+
+
+### Bug Fixes
+
+* **Confirmation:** add gap between description and buttons ([df79c47](https://github.com/taskany-inc/hire/commit/df79c4753b5c0a035edd17017ab37ebe7e67dd40))
+
 ## [0.10.0](https://github.com/taskany-inc/hire/compare/v0.9.3...v0.10.0) (2023-10-12)
 
 

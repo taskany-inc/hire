@@ -1,6 +1,7 @@
 import { useState, VFC } from 'react';
 import { Button, FormTitle, Modal, ModalContent, ModalCross, ModalHeader, Text } from '@taskany/bricks';
-import { gapS } from '@taskany/colors';
+import { gapM, gapS } from '@taskany/colors';
+import styled from 'styled-components';
 
 import { AsyncAnyFunction } from '../types';
 
@@ -15,6 +16,10 @@ type ConfirmationProps = {
     inProgress?: boolean;
     destructive?: boolean;
 };
+
+const StyledDescription = styled(Text)`
+    padding-bottom: ${gapM};
+`;
 
 export const Confirmation: VFC<ConfirmationProps> = ({
     message,
@@ -32,12 +37,12 @@ export const Confirmation: VFC<ConfirmationProps> = ({
             <FormTitle>{message}</FormTitle>
         </ModalHeader>
         <ModalContent>
-            {description && <Text>{description}</Text>}
+            {description && <StyledDescription>{description}</StyledDescription>}
             <>
                 <Button onClick={onClose} text={tr('Cancel')} />
                 <Button
                     onClick={onAgree}
-                    view={destructive ? 'danger' : 'default'}
+                    view={destructive ? 'danger' : 'primary'}
                     disabled={inProgress}
                     text={tr('Ok')}
                     style={{ marginLeft: gapS }}

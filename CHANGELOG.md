@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.11.1](https://github.com/taskany-inc/hire/compare/v0.11.0...v0.11.1) (2023-10-17)
+
+
+### Bug Fixes
+
+* **FormInput:** pass ref directly to input instead of spread ([dfd9ca9](https://github.com/taskany-inc/hire/commit/dfd9ca9bf65bf1861c33a03ae5e9b23022e5332c))
+* **GlobalStyle:** color-scheme dark ([a2abb1b](https://github.com/taskany-inc/hire/commit/a2abb1be747a7c3c88cc3276838bc6f5fb15e1f0))
+
 ## [0.11.0](https://github.com/taskany-inc/hire/compare/v0.10.0...v0.11.0) (2023-10-16)
 
 

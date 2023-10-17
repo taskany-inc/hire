@@ -13,11 +13,11 @@ export interface FormInputProps extends InputProps {
     onKeyUp?: React.KeyboardEventHandler<HTMLInputElement>;
 }
 
-export const FormInput = ({ label, helperText, style, ...restProps }: FormInputProps): JSX.Element => {
+export const FormInput = ({ label, helperText, style, forwardRef, ...restProps }: FormInputProps): JSX.Element => {
     return (
         <Container style={style}>
             <Label>{label}</Label>
-            <Input {...restProps} />
+            <Input ref={forwardRef} {...restProps} />
             {helperText && <FormHelperText>{helperText}</FormHelperText>}
         </Container>
     );

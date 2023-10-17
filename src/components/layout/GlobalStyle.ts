@@ -2,8 +2,11 @@
 import { createGlobalStyle } from 'styled-components';
 import { backgroundColor, fontDisplay, textColor } from '@taskany/colors';
 
+// TODO color-scheme as in users settings after https://github.com/taskany-inc/hire/issues/191
+
 export const GlobalStyle = createGlobalStyle`
     html, body {
+        color-scheme: dark;
         box-sizing: border-box;
 
         font-family: ${fontDisplay};

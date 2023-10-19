@@ -55,11 +55,6 @@ const schema = z.object({
 
 export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): JSX.Element => {
     const [editMode, setEditMode] = useState<boolean>(section.hire === null);
-    const [localStorageSectionFeedback, setLocalStorageSectionFeedback] = useState('');
-
-    useEffect(() => {
-        setLocalStorageSectionFeedback(LocalStorageManager.getPersistedSectionFeedback(section.id) || '');
-    }, [setLocalStorageSectionFeedback]);
 
     const { onSuccess } = useOnUploadSuccess(section.id);
     const { onFail } = useOnUploadFail();
@@ -80,7 +75,7 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
     } = useForm<UpdateSection>({
         defaultValues: {
             hire: section.hire,
-            feedback: section.feedback ?? localStorageSectionFeedback,
+            feedback: section.feedback,
             grade: section.hire ? section.grade : null,
         },
         resolver: zodResolver(schema),
@@ -91,6 +86,12 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
         useCallback(() => getValues('feedback'), [getValues]),
     );
     const canEditAttach = session && accessChecks.section.attachFile(session, section).allowed;
+
+    useEffect(() => {
+        // TODO: use useLocalStorage from bricks after https://github.com/taskany-inc/bricks/issues/553
+        const localStorageFeedback = LocalStorageManager.getPersistedSectionFeedback(section.id);
+        if (localStorageFeedback) setValue('feedback', localStorageFeedback);
+    }, []);
 
     const onSubmit = handleSubmit(async (values) => {
         const interviewerId = section.interviewer.id;

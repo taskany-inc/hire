@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.11.3](https://github.com/taskany-inc/hire/compare/v0.11.2...v0.11.3) (2023-10-24)
+
+
+### Bug Fixes
+
+* **AddProblemToSection:** overflow-x hidden ([d48c72b](https://github.com/taskany-inc/hire/commit/d48c72bf2b379a309b62e307dbae2cb1291f018f))
+* candidates email as nullable string ([37492a7](https://github.com/taskany-inc/hire/commit/37492a7090e331ca29599f9f66981e312b727197))
+
 ## [0.11.2](https://github.com/taskany-inc/hire/compare/v0.11.1...v0.11.2) (2023-10-19)
 
 

@@ -30,7 +30,7 @@ type FormValues = Omit<CreateCandidate, 'outstaffVendorId'> & {
 };
 
 const schema = z.object({
-    email: z.string().email().nullish(),
+    email: z.string().nullish(),
     name: z.string({ required_error: tr('Obligatory field') }),
     outstaffVendorId: z.string().nullish(),
     phone: z.string().nullish(),

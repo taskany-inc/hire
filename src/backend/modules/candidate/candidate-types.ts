@@ -25,9 +25,10 @@ export const getCandidateListSchema = z
     .partial();
 export type GetCandidateList = z.infer<typeof getCandidateListSchema>;
 
+// TODO check out if zod fix email validation https://github.com/colinhacks/zod/issues/2396#issuecomment-1650340178
 export const createCandidateSchema = z.object({
     name: z.string(),
-    email: z.string().email().nullish(),
+    email: z.string().nullish(),
     phone: z.string().nullish(),
     outstaffVendorId: z.string().nullish(),
 });

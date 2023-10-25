@@ -35,13 +35,17 @@ const StyledMarkdownRenderer = styled(MarkdownRenderer)<{
 }>`
     margin-top: 14px;
     overflow: auto;
-    max-width: ${({ isSmallSize }) => (isSmallSize ? '700px' : '900px')};
 `;
 
 const StyledAddButton = styled(Button)`
     margin-top: 10px;
 `;
 
+const StyledCardHeader = styled(CardHeader)<{
+    isSmallSize?: boolean;
+}>`
+    max-width: ${({ isSmallSize }) => isSmallSize && '630px'};
+`;
 const StyledAuthor = styled.span`
     color: ${textColor};
 `;
@@ -148,8 +152,9 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
         <UnavailableContainer isUnavailable={problem.isUsed} link={renderLinkToSection()}>
             <LoadingContainer isSpinnerVisible={isSpinnerVisible}>
                 <Card action={favoriteAction}>
-                    <CardHeader
+                    <StyledCardHeader
                         title={problem.name}
+                        isSmallSize={isSmallSize}
                         link={generatePath(Paths.PROBLEM, { problemId: problem.id })}
                         subTitle={
                             <StyledAuthor>

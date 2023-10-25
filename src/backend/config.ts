@@ -27,6 +27,7 @@ export default {
         sendEmail: process.env.SEND_EMAIL,
         searchUsersList: process.env.SEARCHE_USERS_LIST,
         sourceOffUsersAccessToken: process.env.SOURCE_OF_USERS_ACCESS_TOKEN,
+        userByEmailLink: process.env.NEXT_PUBLIC_LINK_TO_USER_BY_EMAIL,
     },
     nextAuth: {
         secret: process.env.NEXTAUTH_SECRET,

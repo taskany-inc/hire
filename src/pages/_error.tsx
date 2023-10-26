@@ -1,14 +1,29 @@
 import * as Sentry from '@sentry/nextjs';
-import type { NextPage } from 'next';
-import type { ErrorProps } from 'next/error';
-import NextErrorComponent from 'next/error';
+import type { NextPage, NextPageContext } from 'next';
 
-const CustomErrorComponent: NextPage<ErrorProps> = (props) => <NextErrorComponent statusCode={props.statusCode} />;
+import { LayoutMain } from '../components/layout/LayoutMain';
 
-CustomErrorComponent.getInitialProps = async (contextData) => {
-    await Sentry.captureUnderscoreErrorException(contextData);
+export type ErrorProps = {
+    statusCode: number;
+    message: string;
+};
 
-    return NextErrorComponent.getInitialProps(contextData);
+const CustomErrorComponent: NextPage<ErrorProps> = ({ message }: ErrorProps) => {
+    return (
+        <Sentry.ErrorBoundary fallback={<p>{message}</p>}>
+            <LayoutMain pageTitle={message} />
+        </Sentry.ErrorBoundary>
+    );
+};
+
+CustomErrorComponent.getInitialProps = ({ err, res }: NextPageContext) => {
+    const message = err?.message || 'Unexpected error';
+
+    let statusCode = err?.statusCode || 404;
+
+    if (!err && res) statusCode = res.statusCode;
+
+    return { statusCode, message };
 };
 
 export default CustomErrorComponent;

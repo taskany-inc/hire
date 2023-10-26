@@ -5,10 +5,10 @@ import { TRPCError } from '@trpc/server';
 import { getHTTPStatusCodeFromError } from '@trpc/server/http';
 import { createProxySSGHelpers, DecoratedProcedureSSGRecord } from '@trpc/react-query/ssg';
 import superjson from 'superjson';
-import type { ErrorProps } from 'next/error';
 
 import { TrpcRouter, trpcRouter } from '../backend/trpc/routers/_trpc-router';
 import { AccessCheckResult } from '../backend/access/access-checks';
+import { ErrorProps } from '../pages/_error';
 
 import { Paths } from './paths';
 import { standConfig } from './stand';
@@ -144,7 +144,7 @@ export const createGetServerSideProps =
                     const accessCheckResult = await check();
 
                     if (accessCheckResult.allowed === false) {
-                        throw new ErrorWithStatus(accessCheckResult.errorMessage, 403);
+                        error = { statusCode: 403, message: accessCheckResult.errorMessage };
                     }
                 }
             };
@@ -168,7 +168,7 @@ export const createGetServerSideProps =
                 if (e instanceof TRPCError) {
                     const code = getHTTPStatusCodeFromError(e);
                     context.res.statusCode = code;
-                    error = { statusCode: code, title: e.message };
+                    error = { statusCode: code, message: e.message };
                 } else {
                     throw e;
                 }

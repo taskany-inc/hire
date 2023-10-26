@@ -10,7 +10,6 @@ import { FC, useEffect } from 'react';
 import * as SentryNextJs from '@sentry/nextjs';
 import * as SentryBrowser from '@sentry/browser';
 import { link0 } from '@taskany/colors';
-import { ErrorProps } from 'next/error';
 
 import { AppSettingsContextProvider } from '../contexts/app-settings-context';
 import { ProblemFilterContextProvider } from '../contexts/problem-filter-context';
@@ -20,6 +19,8 @@ import { trpc } from '../utils/trpc-front';
 import { TLocale, setSSRLocale } from '../utils/getLang';
 import '../../react-big-calendar.css';
 
+import Error, { ErrorProps } from './_error';
+
 type TaskanyHireAppProps = {
     session: Session;
     browser: Browser;
@@ -28,7 +29,7 @@ type TaskanyHireAppProps = {
 
 const TaskanyHireApp: FC<AppProps<TaskanyHireAppProps>> = ({ Component, pageProps, router }) => {
     setSSRLocale(router.locale as TLocale);
-    const { session, browser } = pageProps;
+    const { session, browser, error, ...restPageProps } = pageProps;
 
     useEffect(() => {
         SentryBrowser.setUser({
@@ -57,8 +58,8 @@ const TaskanyHireApp: FC<AppProps<TaskanyHireAppProps>> = ({ Component, pageProp
                             <ThemeProvider themes={['light', 'dark']}>
                                 <ProblemFilterContextProvider>
                                     <CandidateFilterContextProvider>
-                                        <Component {...pageProps} />
                                         <ReactQueryDevtools />
+                                        {error ? <Error {...error} /> : <Component {...restPageProps} />}
                                     </CandidateFilterContextProvider>
                                 </ProblemFilterContextProvider>
                             </ThemeProvider>

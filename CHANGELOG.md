@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.11.3](https://github.com/taskany-inc/hire/compare/v0.11.2...v0.11.3) (2023-10-26)
+
+
+### Bug Fixes
+
+* **AddProblemToSection:** overflow-x hidden ([d48c72b](https://github.com/taskany-inc/hire/commit/d48c72bf2b379a309b62e307dbae2cb1291f018f))
+* candidates email as nullable string ([37492a7](https://github.com/taskany-inc/hire/commit/37492a7090e331ca29599f9f66981e312b727197))
+* **ExternalUserLink:** correct link to user ([48bf937](https://github.com/taskany-inc/hire/commit/48bf937a838adca291e15e77425b2648e6aea069))
+* if tprc error error page will show not 500 ([ef3c102](https://github.com/taskany-inc/hire/commit/ef3c10290ad630e1460b7be4bdf688df34db4062))
+* **ProblemCard:** max-width for CardHeader ([0df1fd8](https://github.com/taskany-inc/hire/commit/0df1fd89a7a0cc73da73bd378a190138470dbf7e))
+
 ## [0.11.2](https://github.com/taskany-inc/hire/compare/v0.11.1...v0.11.2) (2023-10-19)
 
 

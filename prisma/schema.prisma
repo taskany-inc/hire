@@ -25,8 +25,8 @@ model Account {
   password           String?
   userId             Int
   user               User     @relation(fields: [userId], references: [id])
-  createdAt          DateTime @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
-  updatedAt          DateTime @default(dbgenerated("timezone('utc', current_timestamp)")) @updatedAt
+  createdAt          DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt          DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
 
   @@unique([provider, providerAccountId])
 }
@@ -37,8 +37,8 @@ model Session {
   expires      DateTime
   sessionToken String   @unique
   accessToken  String   @unique
-  createdAt    DateTime @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
-  updatedAt    DateTime @default(dbgenerated("timezone('utc', current_timestamp)")) @updatedAt
+  createdAt    DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt    DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
   user         User     @relation(fields: [userId], references: [id])
 }
 
@@ -47,8 +47,8 @@ model VerificationRequest {
   identifier String
   token      String   @unique
   expires    DateTime
-  createdAt  DateTime @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
-  updatedAt  DateTime @default(dbgenerated("timezone('utc', current_timestamp)")) @updatedAt
+  createdAt  DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt  DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
 
   @@unique([identifier, token])
 }
@@ -63,8 +63,8 @@ model User {
   favoriteProblems          Problem[]        @relation("FavoriteProblems")
   section                   Section[]
   createdInterviews         Interview[]
-  createdAt                 DateTime         @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
-  updatedAt                 DateTime         @default(dbgenerated("timezone('utc', current_timestamp)")) @updatedAt
+  createdAt                 DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt                 DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
   accounts                  Account[]
   sessions                  Session[]
   interviewEvents           InterviewEvent[]
@@ -97,8 +97,8 @@ model Problem {
   solutionsOk   Int @default(0)
   solutionsBad  Int @default(0)
 
-  createdAt DateTime @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
-  updatedAt DateTime @default(dbgenerated("timezone('utc', current_timestamp)")) @updatedAt
+  createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
 
   @@index([name])
 }
@@ -108,8 +108,8 @@ model Tag {
   name      String
   problems  Problem[]
   color     String?
-  createdAt DateTime  @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
-  updatedAt DateTime  @default(dbgenerated("timezone('utc', current_timestamp)")) @updatedAt
+  createdAt DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
 }
 
 model Candidate {
@@ -121,8 +121,8 @@ model Candidate {
   email            String?         @unique
   phone            String?         @unique
   interviews       Interview[]
-  createdAt        DateTime        @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
-  updatedAt        DateTime        @default(dbgenerated("timezone('utc', current_timestamp)")) @updatedAt
+  createdAt        DateTime        @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt        DateTime        @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
 
   @@index([name])
   @@index([email])
@@ -144,8 +144,8 @@ model Interview {
   status                     InterviewStatus  @default(NEW)
   sections                   Section[]
   feedback                   String?
-  createdAt                  DateTime         @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
-  updatedAt                  DateTime         @default(dbgenerated("timezone('utc', current_timestamp)")) @updatedAt
+  createdAt                  DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt                  DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
   candidateSelectedSectionId Int?
   candidateSelectedSection   Section?         @relation(name: "CandidateSelectedSection", fields: [candidateSelectedSectionId], references: [id])
   interviewEvents            InterviewEvent[]
@@ -169,8 +169,8 @@ model Section {
   isCanceled           Boolean     @default(false)
   canceledAt           DateTime?
   cancelComment        String?
-  createdAt            DateTime    @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
-  updatedAt            DateTime    @default(dbgenerated("timezone('utc', current_timestamp)")) @updatedAt
+  createdAt            DateTime    @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt            DateTime    @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
   sectionType          SectionType @relation(fields: [sectionTypeId], references: [id])
   sectionTypeId        Int
   selectedInInterviews Interview[] @relation("CandidateSelectedSection")
@@ -190,8 +190,8 @@ model Solution {
   answer    String?
   result    SolutionResult @default(UNKNOWN)
   position  Int            @default(autoincrement())
-  createdAt DateTime       @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
-  updatedAt DateTime       @default(dbgenerated("timezone('utc', current_timestamp)")) @updatedAt
+  createdAt DateTime       @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt DateTime       @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
 
   @@unique([problemId, sectionId])
 }
@@ -205,8 +205,8 @@ model InterviewEvent {
   type        String
   before      Json?
   after       Json?
-  createdAt   DateTime   @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
-  updatedAt   DateTime   @default(dbgenerated("timezone('utc', current_timestamp)")) @updatedAt
+  createdAt   DateTime   @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt   DateTime   @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
 }
 
 model HireStream {
@@ -222,8 +222,8 @@ model HireStream {
 /// Section type parameters
 model SectionType {
   id           Int        @id @default(autoincrement())
-  createdAt    DateTime   @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
-  updatedAt    DateTime   @default(dbgenerated("timezone('utc', current_timestamp)")) @updatedAt
+  createdAt    DateTime   @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt    DateTime   @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
   hireStream   HireStream @relation(fields: [hireStreamId], references: [id])
   hireStreamId Int
 
@@ -270,15 +270,15 @@ model Reaction {
   interviewId Int
   interview   Interview @relation(fields: [interviewId], references: [id])
   text        String?
-  createdAt   DateTime  @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
-  updatedAt   DateTime  @default(dbgenerated("timezone('utc', current_timestamp)")) @updatedAt
+  createdAt   DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt   DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
 
   @@unique([interviewId, userId])
 }
 
 model AnalyticsEvent {
   id            Int      @id @default(autoincrement())
-  timestamp     DateTime @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
+  timestamp     DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
   authUserId    Int?
   event         String
   candidateId   Int?
@@ -322,7 +322,7 @@ enum SolutionResult {
 /// Can be treated as main event/series (CalendarEvent), so to exception event (CalendarEventException)
 model CalendarEventDetails {
   id        String   @id @default(uuid())
-  createdAt DateTime @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
+  createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
 
   title       String
   description String
@@ -337,7 +337,7 @@ model CalendarEventDetails {
 /// Master record of a series of events, or an independent event without repetitions
 model CalendarEvent {
   id        String   @id @default(uuid())
-  createdAt DateTime @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
+  createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
 
   /// Format rule
   /// Always contains the date of the main event, for a series of events it also contains a recurrence rule
@@ -362,7 +362,7 @@ model CalendarEvent {
 /// Exception events from a recurring event series
 model CalendarEventException {
   id        String   @id @default(uuid())
-  createdAt DateTime @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
+  createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
 
   /// Date excluded from the series of events
   originalDate DateTime
@@ -386,7 +386,7 @@ model CalendarEventException {
 /// Canceled event series instances
 model CalendarEventCancellation {
   id        String   @id @default(uuid())
-  createdAt DateTime @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
+  createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
 
   /// Date excluded from the series of events
   originalDate DateTime
@@ -398,7 +398,7 @@ model CalendarEventCancellation {
 
 model Attach {
   id        String    @id @default(uuid())
-  createdAt DateTime  @default(dbgenerated("timezone('utc', current_timestamp)")) @db.Timestamp()
+  createdAt DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
   link      String
   filename  String
   deletedAt DateTime?

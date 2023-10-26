@@ -27,6 +27,11 @@ const StyledContainer = styled.div`
     padding-left: 40px;
 `;
 
+const StyledContent = styled.main`
+    /* presses the footer to the bottom*/
+    min-height: calc(100vh - 160px);
+`;
+
 export const LayoutMain: FC<LayoutMainProps> = ({
     pageTitle,
     aboveContainer,
@@ -54,16 +59,17 @@ export const LayoutMain: FC<LayoutMainProps> = ({
             {nullable(theme, (t) => (
                 <Theme theme={t} />
             ))}
+            <StyledContent>
+                {!hidePageHeader && (
+                    <PageTitle title={pageTitle} gutter={headerGutter} backlink={backlink}>
+                        {titleMenuItems && titleMenuItems.length > 0 && <TitleMenu items={titleMenuItems} />}
+                    </PageTitle>
+                )}
 
-            {!hidePageHeader && (
-                <PageTitle title={pageTitle} gutter={headerGutter} backlink={backlink}>
-                    {titleMenuItems && titleMenuItems.length > 0 && <TitleMenu items={titleMenuItems} />}
-                </PageTitle>
-            )}
+                {aboveContainer}
 
-            {aboveContainer}
-
-            <StyledContainer>{children}</StyledContainer>
+                <StyledContainer>{children}</StyledContainer>
+            </StyledContent>
 
             <PageFooter />
         </>

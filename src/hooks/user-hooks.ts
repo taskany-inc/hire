@@ -58,3 +58,15 @@ export const useCreateUserMutation = () => {
         onError: enqueueErrorNotification,
     });
 };
+
+export const useEditUserSettings = () => {
+    const { enqueueErrorNotification } = useNotifications();
+    const utils = trpc.useContext();
+
+    return trpc.users.editSettings.useMutation({
+        onSuccess: () => {
+            utils.users.getSettings.invalidate();
+        },
+        onError: enqueueErrorNotification,
+    });
+};

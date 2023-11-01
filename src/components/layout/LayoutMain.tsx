@@ -2,7 +2,9 @@ import { FC, ReactNode } from 'react';
 import Head from 'next/head';
 import { nullable } from '@taskany/bricks/utils/nullable';
 import styled from 'styled-components';
+import { useTheme } from 'next-themes';
 
+import { trpc } from '../../utils/trpc-front';
 import { TitleMenu } from '../TitleMenu/TitleMenu';
 import { OfflineBanner } from '../OfflineBanner';
 import { Theme } from '../Theme';
@@ -14,7 +16,7 @@ import { PageTitle } from './PageTitle';
 import { GlobalStyle } from './GlobalStyle';
 
 type LayoutMainProps = {
-    pageTitle: string;
+    pageTitle: string | null;
     aboveContainer?: JSX.Element;
     headerGutter?: string;
     titleMenuItems?: DropdownMenuItem[];
@@ -24,7 +26,8 @@ type LayoutMainProps = {
 };
 
 const StyledContainer = styled.div`
-    padding-left: 40px;
+    /* presses the footer to the bottom*/
+    min-height: calc(100vh - 160px);
 `;
 
 export const LayoutMain: FC<LayoutMainProps> = ({
@@ -36,9 +39,14 @@ export const LayoutMain: FC<LayoutMainProps> = ({
     hidePageHeader,
     children,
 }) => {
-    const theme: 'dark' | 'light' = 'dark';
+    const userSettings = trpc.users.getSettings.useQuery();
 
-    const title = `${pageTitle} - Taskany Hire`;
+    const { resolvedTheme } = useTheme();
+    const theme = (
+        userSettings.data?.theme === 'system' ? resolvedTheme || 'dark' : userSettings.data?.theme || 'light'
+    ) as 'dark' | 'light';
+
+    const title = pageTitle ? `${pageTitle} - Taskany Hire` : 'Taskany Hire';
 
     return (
         <>

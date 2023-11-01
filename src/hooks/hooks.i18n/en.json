@@ -37,5 +37,6 @@
     "User {name} added in hire stream {hireStreamName} as recruiter": "User {name} added in hire stream {hireStreamName} as recruiter",
     "User {name} is not recruiter in hire srteam {hireStreamName} anymore": "User {name} is not recruiter in hire srteam {hireStreamName} anymore",
     "User {name} added in hire stream {hireStreamName} as interviewer": "User {name} added in hire stream {hireStreamName} as interviewer",
-    "User {name} is not interviewer in hire srteam {hireStreamName} anymore": "User {name} is not interviewer in hire srteam {hireStreamName} anymore"
+    "User {name} is not interviewer in hire srteam {hireStreamName} anymore": "User {name} is not interviewer in hire srteam {hireStreamName} anymore",
+    "Theme changed": ""
 }

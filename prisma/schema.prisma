@@ -74,6 +74,7 @@ model User {
   hiringLeadInHireStreams   HireStream[]     @relation("HireStreamToHiringLead")
   recruiterInHireStreams    HireStream[]     @relation("HireStreamToRecruiter")
   interviewerInSectionTypes SectionType[]    @relation("SectionTypeToInterviewer")
+  settings                  UserSettings?
 
   @@index([email])
 }
@@ -404,4 +405,13 @@ model Attach {
   deletedAt DateTime?
   section   Section   @relation(fields: [sectionId], references: [id])
   sectionId Int
+}
+
+model UserSettings {
+  id String @id @default(nanoid())
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int  @unique
+
+  theme String @default("system")
 }

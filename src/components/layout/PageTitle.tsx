@@ -6,7 +6,7 @@ import { Text } from '@taskany/bricks';
 import { Link } from '../Link';
 
 type PageTitleProps = {
-    title: string;
+    title: string | null;
     gutter?: string;
     backlink?: string;
     children?: ReactNode;

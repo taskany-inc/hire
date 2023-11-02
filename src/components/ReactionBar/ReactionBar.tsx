@@ -1,6 +1,5 @@
 import { CSSProperties, useRef, useState } from 'react';
 import { User } from '@prisma/client';
-import dynamic from 'next/dynamic';
 import { Popup, Text } from '@taskany/bricks';
 
 import { useSession } from '../../contexts/app-settings-context';

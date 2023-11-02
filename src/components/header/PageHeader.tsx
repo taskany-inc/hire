@@ -98,7 +98,9 @@ export const PageHeader: React.FC = () => {
                             onMouseEnter={() => setPopupVisibility(true)}
                             onMouseLeave={() => setPopupVisibility(false)}
                         >
-                            <UserMenu email={session?.user.email} name={session?.user.name} />
+                            <NextLink href={Paths.USERS_SETTINGS}>
+                                <UserMenu email={session?.user.email} name={session?.user.name} />
+                            </NextLink>
                         </div>
                     </HeaderMenu>
 

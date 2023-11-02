@@ -1,8 +1,9 @@
 import { FC, ReactNode } from 'react';
 import Head from 'next/head';
-import { nullable } from '@taskany/bricks/utils/nullable';
 import styled from 'styled-components';
+import { useTheme } from 'next-themes';
 
+import { trpc } from '../../utils/trpc-front';
 import { TitleMenu } from '../TitleMenu/TitleMenu';
 import { OfflineBanner } from '../OfflineBanner';
 import { Theme } from '../Theme';
@@ -41,9 +42,13 @@ export const LayoutMain: FC<LayoutMainProps> = ({
     hidePageHeader,
     children,
 }) => {
-    const theme: 'dark' | 'light' = 'dark';
+    const userSettings = trpc.users.getSettings.useQuery();
+    const title = pageTitle ? `${pageTitle} - Taskany Hire` : 'Taskany Hire';
 
-    const title = `${pageTitle} - Taskany Hire`;
+    const { resolvedTheme } = useTheme();
+    const theme = (
+        userSettings.data?.theme === 'system' ? resolvedTheme || 'dark' : userSettings.data?.theme || 'light'
+    ) as 'dark' | 'light';
 
     return (
         <>
@@ -56,9 +61,7 @@ export const LayoutMain: FC<LayoutMainProps> = ({
             <GlobalStyle />
 
             <PageHeader />
-            {nullable(theme, (t) => (
-                <Theme theme={t} />
-            ))}
+            <Theme theme={theme} />
             <StyledContent>
                 {!hidePageHeader && (
                     <PageTitle title={pageTitle} gutter={headerGutter} backlink={backlink}>

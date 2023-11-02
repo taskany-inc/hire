@@ -31,6 +31,7 @@ export enum Paths {
     CANDIDATE_EDIT = '/candidates/{candidateId}/edit',
 
     USERS_NEW = '/users/new',
+    USERS_SETTINGS = '/users/settings',
 
     HIRE_STREAMS = '/hire-streams',
     HIRE_STREAM_NEW = '/hire-streams/new',

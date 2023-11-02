@@ -3,7 +3,8 @@ import { Button, Dropdown, MenuItem } from '@taskany/bricks';
 import { Grades } from '@prisma/client';
 
 import { useGradeOptions } from '../../hooks/grades-hooks';
-import { tr } from '../components.i18n';
+
+import { tr } from './FormInput.i18n';
 
 type FormGradeDropdownProps = {
     text: React.ComponentProps<typeof Dropdown>['text'];

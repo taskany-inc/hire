@@ -1,4 +1,4 @@
-import { User, Prisma } from '@prisma/client';
+import { User, Prisma, UserSettings } from '@prisma/client';
 
 import { prisma } from '../..';
 import { ErrorWithStatus } from '../../../utils';
@@ -6,7 +6,7 @@ import { UserRoles, UserRolesInfo } from '../../user-roles';
 import { idObjsToIds } from '../../utils';
 import { sectionTypeDbService } from '../section-type/section-type-db-service';
 
-import { AddProblemToFavorites, CreateUser, GetUserList } from './user-types';
+import { AddProblemToFavorites, CreateUser, EditUserSettings, GetUserList } from './user-types';
 import { tr } from './user.i18n';
 
 const create = async (data: CreateUser) => {
@@ -124,6 +124,22 @@ const getUserRoles = async (id: number) => {
     return userRoles;
 };
 
+const getSettings = async (id: number): Promise<UserSettings> => {
+    const settings = await prisma.userSettings.upsert({
+        where: { userId: id },
+        update: {},
+        create: { userId: id },
+    });
+    return settings;
+};
+
+const editSettings = (userId: number, data: EditUserSettings) => {
+    return prisma.userSettings.update({
+        where: { userId },
+        data: { theme: data.theme },
+    });
+};
+
 export const userDbService = {
     create,
     find,
@@ -135,4 +151,6 @@ export const userDbService = {
     removeProblemFromFavorites,
     getUserRoles,
     getUserList,
+    getSettings,
+    editSettings,
 };

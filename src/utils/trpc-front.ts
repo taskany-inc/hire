@@ -3,7 +3,6 @@ import { httpBatchLink, TRPCClientError } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import superjson from 'superjson';
 
-import config from '../backend/config';
 import type { TrpcRouter } from '../backend/trpc/routers/_trpc-router';
 
 import { readBooleanFromMetaTag } from './frontend';

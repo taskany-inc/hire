@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { themes } from '../../../utils/theme';
+
 export const createUserSchema = z.object({
     name: z.string().min(4),
     email: z.string().email(),
@@ -28,3 +30,9 @@ export const getUserListSchema = z.object({
 });
 
 export type GetUserList = z.infer<typeof getUserListSchema>;
+
+export const editUserSettingsSchema = z.object({
+    theme: z.enum(themes).optional(),
+});
+
+export type EditUserSettings = z.infer<typeof editUserSettingsSchema>;

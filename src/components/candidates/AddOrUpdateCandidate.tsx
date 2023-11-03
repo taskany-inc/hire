@@ -85,7 +85,9 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
             outstaffVendorId: values.outstaffVendorId && prepareValueForSubmit(values.outstaffVendorId),
         };
 
-        await candidateUpdateMutation.mutateAsync(data);
+        const result = await candidateUpdateMutation.mutateAsync(data);
+        const candidateId = result.id;
+        router.push(generatePath(Paths.CANDIDATE, { candidateId }));
 
         if (onSave) onSave();
     };

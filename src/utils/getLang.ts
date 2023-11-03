@@ -2,7 +2,7 @@ export const languages = ['en', 'ru'] as const;
 
 export type TLocale = (typeof languages)[number];
 
-export const defaultLocale: TLocale = languages[0];
+export const defaultLocale: TLocale = (process.env.DEFAULT_LOCALE as TLocale) || languages[0];
 
 let SSRLocale: TLocale | null = null;
 

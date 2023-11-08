@@ -21,6 +21,12 @@ const StyledDescription = styled(Text)`
     padding-bottom: ${gapM};
 `;
 
+const StyledWrapper = styled.div`
+    display: flex;
+    gap: ${gapS};
+    float: right;
+`;
+
 export const Confirmation: VFC<ConfirmationProps> = ({
     message,
     description,
@@ -31,23 +37,24 @@ export const Confirmation: VFC<ConfirmationProps> = ({
     open,
     ...modalProps
 }) => (
-    <Modal onClose={onClose} visible={open} {...modalProps}>
+    <Modal width={500} onClose={onClose} visible={open} {...modalProps}>
         <ModalHeader>
             <ModalCross onClick={onClose} />
             <FormTitle>{message}</FormTitle>
         </ModalHeader>
         <ModalContent>
             {description && <StyledDescription>{description}</StyledDescription>}
-            <>
-                <Button onClick={onClose} text={tr('Cancel')} />
+            <StyledWrapper>
                 <Button
                     onClick={onAgree}
                     view={destructive ? 'danger' : 'primary'}
                     disabled={inProgress}
+                    outline
+                    type="submit"
                     text={tr('Ok')}
-                    style={{ marginLeft: gapS }}
                 />
-            </>
+                <Button onClick={onClose} text={tr('Cancel')} />
+            </StyledWrapper>
         </ModalContent>
     </Modal>
 );

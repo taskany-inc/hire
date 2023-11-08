@@ -1,5 +1,15 @@
 import { useState, VFC } from 'react';
-import { Button, FormTitle, Modal, ModalContent, ModalCross, ModalHeader, Text } from '@taskany/bricks';
+import {
+    Button,
+    FormTitle,
+    KeyCode,
+    Modal,
+    ModalContent,
+    ModalCross,
+    ModalHeader,
+    Text,
+    useKeyboard,
+} from '@taskany/bricks';
 import { gapM, gapS } from '@taskany/colors';
 import styled from 'styled-components';
 
@@ -21,6 +31,12 @@ const StyledDescription = styled(Text)`
     padding-bottom: ${gapM};
 `;
 
+const StyledWrapper = styled.div`
+    display: flex;
+    gap: ${gapS};
+    float: right;
+`;
+
 export const Confirmation: VFC<ConfirmationProps> = ({
     message,
     description,
@@ -30,27 +46,35 @@ export const Confirmation: VFC<ConfirmationProps> = ({
     inProgress,
     open,
     ...modalProps
-}) => (
-    <Modal onClose={onClose} visible={open} {...modalProps}>
-        <ModalHeader>
-            <ModalCross onClick={onClose} />
-            <FormTitle>{message}</FormTitle>
-        </ModalHeader>
-        <ModalContent>
-            {description && <StyledDescription>{description}</StyledDescription>}
-            <>
-                <Button onClick={onClose} text={tr('Cancel')} />
-                <Button
-                    onClick={onAgree}
-                    view={destructive ? 'danger' : 'primary'}
-                    disabled={inProgress}
-                    text={tr('Ok')}
-                    style={{ marginLeft: gapS }}
-                />
-            </>
-        </ModalContent>
-    </Modal>
-);
+}) => {
+    const [onENTER] = useKeyboard([KeyCode.Enter], () => onAgree?.(), {
+        disableGlobalEvent: false,
+    });
+
+    return (
+        <Modal width={500} onClose={onClose} visible={open} {...modalProps}>
+            <ModalHeader>
+                <ModalCross onClick={onClose} />
+                <FormTitle>{message}</FormTitle>
+            </ModalHeader>
+            <ModalContent>
+                {description && <StyledDescription>{description}</StyledDescription>}
+                <StyledWrapper>
+                    <Button
+                        onClick={onAgree}
+                        view={destructive ? 'danger' : 'primary'}
+                        disabled={inProgress}
+                        outline
+                        type="submit"
+                        text={tr('Ok')}
+                        {...onENTER}
+                    />
+                    <Button onClick={onClose} text={tr('Cancel')} />
+                </StyledWrapper>
+            </ModalContent>
+        </Modal>
+    );
+};
 
 type UseConfirmation = (config: {
     message: string;

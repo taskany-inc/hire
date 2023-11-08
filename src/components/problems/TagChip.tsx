@@ -17,7 +17,7 @@ export const TagChip: FC<TagChipProps> = ({ tag, className, ...restProps }) => {
     const color = tag.color ?? getTagColor(tag.id);
 
     return (
-        <Badge size="l" color={color} {...restProps}>
+        <Badge size="xl" color={color} {...restProps}>
             {tag.name}
         </Badge>
     );

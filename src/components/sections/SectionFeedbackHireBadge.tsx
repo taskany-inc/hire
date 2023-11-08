@@ -13,22 +13,54 @@ const StyledChip = styled(Badge)`
 `;
 
 export const SectionFeedbackHireBadge: VFC<{ hire: boolean | null }> = ({ hire }) => {
-    if (hire === null) return <StyledChip color={TagPaletteColor.BLUE}>{tr('New')}</StyledChip>;
+    if (hire === null) {
+        return (
+            <StyledChip size="l" color={TagPaletteColor.BLUE}>
+                {tr('New')}
+            </StyledChip>
+        );
+    }
 
-    if (hire) return <StyledChip color={TagPaletteColor.GREEN}>{tr('Hire')}</StyledChip>;
+    if (hire) {
+        return (
+            <StyledChip size="l" color={TagPaletteColor.GREEN}>
+                {tr('Hire')}
+            </StyledChip>
+        );
+    }
 
-    return <StyledChip color={TagPaletteColor.RED}>{tr('No hire')}</StyledChip>;
+    return (
+        <StyledChip size="l" color={TagPaletteColor.RED}>
+            {tr('No hire')}
+        </StyledChip>
+    );
 };
 
 export const SectionTypeBadge: VFC<{ sectionType: SectionType }> = ({ sectionType }) => {
     switch (sectionType.value) {
         case SectionTypeEnum.CODING:
-            return <StyledChip color={TagPaletteColor.CYAN}>{sectionType.value}</StyledChip>;
+            return (
+                <StyledChip size="l" color={TagPaletteColor.CYAN}>
+                    {sectionType.value}
+                </StyledChip>
+            );
         case SectionTypeEnum.FINAL:
-            return <StyledChip color={TagPaletteColor.PURPLE_GREY}>{sectionType.value}</StyledChip>;
+            return (
+                <StyledChip size="l" color={TagPaletteColor.PURPLE_GREY}>
+                    {sectionType.value}
+                </StyledChip>
+            );
         case SectionTypeEnum.PRODUCT_FINAL:
-            return <StyledChip color={TagPaletteColor.YELLOW}>{sectionType.value}</StyledChip>;
+            return (
+                <StyledChip size="l" color={TagPaletteColor.YELLOW}>
+                    {sectionType.value}
+                </StyledChip>
+            );
         default:
-            return <StyledChip color={TagPaletteColor.MAGENTA}>{sectionType.value}</StyledChip>;
+            return (
+                <StyledChip size="l" color={TagPaletteColor.MAGENTA}>
+                    {sectionType.value}
+                </StyledChip>
+            );
     }
 };

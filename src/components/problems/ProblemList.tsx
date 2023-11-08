@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { CSSProperties, useCallback, useRef } from 'react';
+import { CSSProperties } from 'react';
 import { Text } from '@taskany/bricks';
 
 import { useProblemFilterContext } from '../../contexts/problem-filter-context';
@@ -7,6 +7,7 @@ import { useProblems } from '../../hooks/problem-hooks';
 import { parseNumber } from '../../utils/param-parsers';
 import { Stack } from '../layout/Stack';
 import { QueryResolver } from '../QueryResolver';
+import { LoadMoreProblemsButton } from '../LoadMoreProblemsButton';
 
 import { ProblemCard } from './ProblemCard';
 import { tr } from './problems.i18n';
@@ -39,23 +40,8 @@ export const ProblemList = ({
         sectionId,
         limit: 20,
     });
-    const { isFetching, hasNextPage, fetchNextPage } = problemsQuery;
-    const observer = useRef<IntersectionObserver | null>(null);
-    const ref = useCallback(
-        (node: HTMLDivElement) => {
-            if (isFetching) return;
 
-            if (observer.current) observer.current.disconnect();
-            observer.current = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting && hasNextPage) {
-                    fetchNextPage();
-                }
-            });
-
-            if (node) observer.current.observe(node);
-        },
-        [hasNextPage, fetchNextPage, isFetching],
-    );
+    const { isLoading, hasNextPage, fetchNextPage } = problemsQuery;
 
     return (
         <Stack direction="column" gap={32} className={className} style={style}>
@@ -77,7 +63,12 @@ export const ProblemList = ({
                                     ))
                                 ),
                             )}
-                            <div ref={ref}>{isFetching && <Text>{tr('Loading problems')} ⏳</Text>}</div>
+                            {hasNextPage && <LoadMoreProblemsButton onClick={() => fetchNextPage()} />}
+                            {isLoading && (
+                                <div>
+                                    <Text>{tr('Loading problems')} ⏳</Text>
+                                </div>
+                            )}
                         </>
                     );
                 }}

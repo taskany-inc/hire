@@ -32,6 +32,7 @@ const StyledButton = styled(Button)`
 
 const StyledBadgeContainer = styled.div`
     display: flex;
+    flex-wrap: wrap;
     padding-top: 4px;
 `;
 

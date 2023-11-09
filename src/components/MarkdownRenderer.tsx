@@ -17,7 +17,7 @@ import { tr } from './components.i18n';
 const StyledRootText = styled(Text)`
     word-break: break-word;
     display: flex;
-    width: 70%;
+    width: 100%;
     justify-content: space-between;
     align-items: end;
 `;
@@ -58,13 +58,14 @@ export const MarkdownRenderer: VFC<MarkdownRendererProps> = ({
                                 <SyntaxHighlighter
                                     {...props}
                                     style={vscDarkPlus}
+                                    wrapLongLines
                                     showLineNumbers={!isSafari}
                                     language={match[1]}
                                 >
                                     {String(children).replace(/\n$/, '')}
                                 </SyntaxHighlighter>
                             ) : (
-                                <code {...props} className={className}>
+                                <code style={{ whiteSpace: 'pre-wrap' }} {...props} className={className}>
                                     {children}
                                 </code>
                             );

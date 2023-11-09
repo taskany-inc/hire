@@ -11,8 +11,8 @@ import { Tip } from '../Tip';
 
 import { tr } from './inputs.i18n';
 
-const StyledRoot = styled.div`
-    width: 80%;
+const StyledRoot = styled.div<{ width?: string }>`
+    width: ${(props) => (props.width ? props.width : '80%')};
 `;
 
 const HintContainer = styled.div`
@@ -47,10 +47,11 @@ type CodeEditorFieldProps<T extends FieldValues> = {
     options?: RegisterOptions<T>;
     disableAttaches?: boolean;
     uploadLink?: string;
+    width?: string;
 } & FormEditorProps;
 
 export const CodeEditorField = <T extends FieldValues>(props: CodeEditorFieldProps<T>): JSX.Element => {
-    const { name, control, options, label, disableAttaches, uploadLink, ...restProps } = props;
+    const { name, control, options, label, disableAttaches, uploadLink, width, ...restProps } = props;
     const markdownRendererMinHeight = props.height;
     const { field, fieldState } = useController({
         name,
@@ -62,7 +63,7 @@ export const CodeEditorField = <T extends FieldValues>(props: CodeEditorFieldPro
     const previewButtonTitle = preview ? tr('Editing') : tr('Preview');
 
     return (
-        <StyledRoot>
+        <StyledRoot width={width}>
             <Label>{label}</Label>
 
             {preview ? (

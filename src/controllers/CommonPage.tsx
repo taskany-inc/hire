@@ -18,17 +18,16 @@ export const CommonPage = () => {
         <AnalyticsFilterContextProvider>
             <QueryResolver queries={[hireStreamsQuery]}>
                 {([hireStreams]) => (
-                    <>
-                        <LayoutMain
-                            pageTitle={tr('General charts')}
-                            aboveContainer={<AnalyticsFilterMenuBar hireStreams={hireStreams} />}
-                            backlink={Paths.ANALYTICS}
-                        />
+                    <LayoutMain
+                        pageTitle={tr('General charts')}
+                        aboveContainer={<AnalyticsFilterMenuBar hireStreams={hireStreams} />}
+                        backlink={Paths.ANALYTICS}
+                    >
                         <HiringFunnel allStreams={hireStreams} />
                         <FinishedSectionsByInterviewer allStreams={hireStreams} />
                         <CandidatesByHireStream allStreams={hireStreams} />
                         <CandidatesRejectReasons allStreams={hireStreams} />
-                    </>
+                    </LayoutMain>
                 )}
             </QueryResolver>
         </AnalyticsFilterContextProvider>

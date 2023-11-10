@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.12.0](https://github.com/taskany-inc/hire/compare/v0.11.3...v0.12.0) (2023-11-10)
+
+
+### Features
+
+* default locale from env ([d9a94a0](https://github.com/taskany-inc/hire/commit/d9a94a0a3d0f7543c763dc0eda60b6f51f916138))
+* **UserSettingPage:** settings page ([a380683](https://github.com/taskany-inc/hire/commit/a3806832da8057d9a17c78bcf88c25e295ed92c5))
+
+
+### Bug Fixes
+
+* **Autocomplete:** add flex-wrap to StyledBadgeContainer ([6d3dc0d](https://github.com/taskany-inc/hire/commit/6d3dc0d578bd2b00714036ff5450dc17601a4467))
+* **CandidateEditPage:** redirect to the candidate's page ([1687b77](https://github.com/taskany-inc/hire/commit/1687b7775293ba61b3650cf40664b0502b0cfb4c))
+* **CommonPage:** analytics page has a giant empty content ([efbfc80](https://github.com/taskany-inc/hire/commit/efbfc80c9501cdf67394db6fa2ab219db4a56b49))
+* **db schema:** change timestamp db values to match db values ([c31e3fb](https://github.com/taskany-inc/hire/commit/c31e3fb3a3551ae9a879b4f325a6d195e392978c))
+* **GlobalStyle:** delete color-scheme ([d53f99b](https://github.com/taskany-inc/hire/commit/d53f99bb226ed5597c3e486585e9239c187dbedb))
+* **MarkdownRenderer:** fix not breaking long lines in code ([c6777b6](https://github.com/taskany-inc/hire/commit/c6777b622b40e0f2eb74aec745f8df29ca936bb5))
+* **ProblemList:** disable infinite scroll on /problems ([0139b1d](https://github.com/taskany-inc/hire/commit/0139b1d777b33fa1b333c22019b405f3d093fec3))
+* **Problems:** no ssr on home/problems index ([3387fb0](https://github.com/taskany-inc/hire/commit/3387fb09aacf46f439bd527a045eeee3065787ce))
+* **SectionFeedbackHireBadge:** tag size on SectionPage ([795e531](https://github.com/taskany-inc/hire/commit/795e53174e34e6bea22a713de009906d37b09e49))
+* **SolutionCard:** codeEditors button on same level with SolutionCard buttons ([e892143](https://github.com/taskany-inc/hire/commit/e89214311b77d385fe12c3f0bd06729f2da3f3a1))
+
 ## [0.11.3](https://github.com/taskany-inc/hire/compare/v0.11.2...v0.11.3) (2023-10-26)
 
 

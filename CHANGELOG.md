@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.12.1](https://github.com/taskany-inc/hire/compare/v0.12.0...v0.12.1) (2023-11-10)
+
+
+### Bug Fixes
+
+* return 8.0.7 version of react-markdown ([d484d8a](https://github.com/taskany-inc/hire/commit/d484d8aa336e233dd65385b501760a03fee77ece))
+
 ## [0.12.0](https://github.com/taskany-inc/hire/compare/v0.11.3...v0.12.0) (2023-11-10)
 
 

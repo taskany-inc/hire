@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.12.2](https://github.com/taskany-inc/hire/compare/v0.12.1...v0.12.2) (2023-11-13)
+
+
+### Bug Fixes
+
+* **Confirmation:** confirmation fixes ([e8a6093](https://github.com/taskany-inc/hire/commit/e8a609323b42fd77e56018bb13f12a7ee77ab1b1))
+
 ## [0.12.1](https://github.com/taskany-inc/hire/compare/v0.12.0...v0.12.1) (2023-11-10)
 
 

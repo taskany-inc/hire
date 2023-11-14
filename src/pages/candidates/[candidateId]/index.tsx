@@ -1,14 +1,14 @@
-import { candidateDbService } from '../../../backend/modules/candidate/candidate-db-service';
-import { accessChecks } from '../../../backend/access/access-checks';
-import { createGetServerSideProps } from '../../../utils/create-get-ssr-props';
-import CandidatePage from '../../../controllers/CandidatePage';
+import { candidateMethods } from '../../../modules/candidateMethods';
+import { accessChecks } from '../../../modules/accessChecks';
+import { createGetServerSideProps } from '../../../utils/createGetSSRProps';
+import CandidatePage from '../../../components/CandidatePage/CandidatePage';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     numberIds: { candidateId: true },
     action: async ({ session, ssg, numberIds, handleAccessChecks }) => {
         await ssg.candidates.getById.fetch({ candidateId: numberIds.candidateId });
-        const candidateWithRelations = await candidateDbService.getByIdWithRelations(numberIds.candidateId);
+        const candidateWithRelations = await candidateMethods.getByIdWithRelations(numberIds.candidateId);
 
         const candidateAccessCheck = accessChecks.candidate.readOne(session, candidateWithRelations);
         const interviews = await ssg.interviews.getListByCandidateId.fetch({

@@ -1,5 +1,5 @@
-import { UserSettingsPage } from '../../components/settings/UserSettingsPage';
-import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
+import { UserSettingsPage } from '../../components/UserSettingsPage/UserSettingsPage';
+import { createGetServerSideProps } from '../../utils/createGetSSRProps';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,

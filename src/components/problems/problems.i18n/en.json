@@ -1,24 +1,3 @@
 {
-    "Obligatory field": "Obligatory field",
-    "Name cannot be less than 3 characters": "Name cannot be less than 3 characters",
-    "Select difficulty": "Select difficulty",
-    "Think carefully and describe the essence of the problem in as much detail as possible. It will not be superfluous to add snippets with code. Interviewers will thank you. Maybe ;)": "Think carefully and describe the essence of the problem in as much detail as possible. It will not be superfluous to add snippets with code. Interviewers will thank you. Maybe ;)",
-    "Think a little more and write a solution to the problem. Perhaps not even one, but several for different levels of candidates.": "Think a little more and write a solution to the problem. Perhaps not even one, but several for different levels of candidates.",
-    "Name": "Name",
-    "For example, \"Binary tree rotation\"": "For example, 'Binary tree rotation'",
-    "Tags": "Tags",
-    "Description": "Description",
-    "Solution": "Solution",
-    "Problem difficulty": "Problem difficulty",
-    "Save": "Save",
-    "Asked in the section": "Asked in the section",
-    "Added by": "Added by",
-    "Difficulty:": "Difficulty",
-    "Add": "Add",
-    "Nothing found": "Nothing found",
-    "Loading problems": "Loading problems",
-    "Nobody has solved this problem yet": "Nobody has solved this problem yet",
-    "Good solutions: {good} from {total}": "",
-    "Ok solutions: {ok} from {total}": "",
-    "Bad solutions or not soluted at all: {bad} from {total}": ""
+    "Problems": ""
 }

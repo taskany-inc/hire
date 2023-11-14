@@ -1,6 +1,6 @@
-import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
-import { accessChecks } from '../../backend/access/access-checks';
-import CandidatesPage from '../../controllers/CandidatesPage';
+import { createGetServerSideProps } from '../../utils/createGetSSRProps';
+import { accessChecks } from '../../modules/accessChecks';
+import CandidatesPage from '../../components/CandidatesPage/CandidatesPage';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,

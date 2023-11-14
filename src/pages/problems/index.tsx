@@ -1,5 +1,5 @@
-import { Problems } from '../../controllers/Problems';
-import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
+import { Problems } from '../../components/Problems/Problems';
+import { createGetServerSideProps } from '../../utils/createGetSSRProps';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,

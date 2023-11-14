@@ -1,6 +1,6 @@
-import { accessChecks } from '../../backend/access/access-checks';
-import { MyCalendarPage } from '../../controllers/MyCalendarPage';
-import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
+import { accessChecks } from '../../modules/accessChecks';
+import { MyCalendarPage } from '../../components/MyCalendarPage/MyCalendarPage';
+import { createGetServerSideProps } from '../../utils/createGetSSRProps';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,

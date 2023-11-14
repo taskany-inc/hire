@@ -1,6 +1,6 @@
 import { ErrorWithStatus } from '../../../../utils';
-import { createGetServerSideProps } from '../../../../utils/create-get-ssr-props';
-import SectionCreationPage from '../../../../controllers/SectionCreationPage';
+import { createGetServerSideProps } from '../../../../utils/createGetSSRProps';
+import SectionCreationPage from '../../../../components/SectionCreationPage/SectionCreationPage';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,

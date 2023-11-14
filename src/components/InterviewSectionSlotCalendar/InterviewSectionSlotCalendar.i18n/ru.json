@@ -1,0 +1,9 @@
+{
+    "The updated event must have the original date": "У обновляемого события должна быть оригинальная дата",
+    "Edit a recurring event": "Изменить повторяющееся событие",
+    "What part of the event series do you want to change?": "Какую часть серии событий вы хотите изменить?",
+    "Just this": "Только это",
+    "This and subsequent": "Это и последующие",
+    "Whole series": "Всю серию",
+    "Delete": "Удалить"
+}

@@ -1,13 +1,13 @@
-import { LayoutMain } from '../../../../../components/layout/LayoutMain';
+import { LayoutMain } from '../../../../../components/LayoutMain';
 import { pageHrefs } from '../../../../../utils/paths';
-import { InferServerSideProps } from '../../../../../types';
+import { InferServerSideProps } from '../../../../../utils/types';
 import { symbols } from '../../../../../utils/symbols';
-import { SectionUpdateForm } from '../../../../../components/sections/SectionUpdateForm';
-import { accessChecks } from '../../../../../backend/access/access-checks';
-import { createGetServerSideProps } from '../../../../../utils/create-get-ssr-props';
-import { useInterview } from '../../../../../hooks/interview-hooks';
-import { useSection } from '../../../../../hooks/section-hooks';
-import { QueryResolver } from '../../../../../components/QueryResolver';
+import { SectionUpdateForm } from '../../../../../components/SectionUpdateForm/SectionUpdateForm';
+import { accessChecks } from '../../../../../modules/accessChecks';
+import { createGetServerSideProps } from '../../../../../utils/createGetSSRProps';
+import { useInterview } from '../../../../../modules/interviewHooks';
+import { useSection } from '../../../../../modules/sectionHooks';
+import { QueryResolver } from '../../../../../components/QueryResolver/QueryResolver';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,

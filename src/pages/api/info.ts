@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import { getApiHandler } from '../../backend/api-handler.util';
-import config from '../../backend/config';
+import { getApiHandler } from '../../utils/apiHandler';
+import config from '../../config';
 import { getServerSession } from '../../utils/auth';
 import { stand, standConfig } from '../../utils/stand';
 

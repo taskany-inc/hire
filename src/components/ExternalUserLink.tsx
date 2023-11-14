@@ -2,7 +2,7 @@ import { User } from '@prisma/client';
 import { CSSProperties } from 'react';
 import { Text } from '@taskany/bricks';
 
-import config from '../backend/config';
+import config from '../config';
 
 import { Link } from './Link';
 

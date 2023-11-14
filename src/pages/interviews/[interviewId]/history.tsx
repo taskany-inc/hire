@@ -1,7 +1,7 @@
-import { interviewEventDbService } from '../../../backend/modules/interview-event/interview-event-db-service';
-import { accessChecks } from '../../../backend/access/access-checks';
-import { createGetServerSideProps } from '../../../utils/create-get-ssr-props';
-import InterviewHistoryPage from '../../../controllers/InterviewHistoryPage';
+import { interviewEvenMethods } from '../../../modules/interviewEventMethods';
+import { accessChecks } from '../../../modules/accessChecks';
+import { createGetServerSideProps } from '../../../utils/createGetSSRProps';
+import InterviewHistoryPage from '../../../components/InterviewHistoryPage/InterviewHistoryPage';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
@@ -13,7 +13,7 @@ export const getServerSideProps = createGetServerSideProps({
 
         await handleAccessChecks(() => accessChecks.interview.readOne(session, interview));
 
-        const interviewHistory = await interviewEventDbService.findWithRelations(numberIds.interviewId);
+        const interviewHistory = await interviewEvenMethods.findWithRelations(numberIds.interviewId);
 
         return { interviewHistory };
     },

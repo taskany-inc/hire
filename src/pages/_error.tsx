@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/nextjs';
 import type { NextPage, NextPageContext } from 'next';
 
-import { LayoutMain } from '../components/layout/LayoutMain';
+import { LayoutMain } from '../components/LayoutMain';
 
 export type ErrorProps = {
     statusCode: number;

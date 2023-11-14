@@ -1,0 +1,188 @@
+import { useCallback, useMemo, useState, VFC } from 'react';
+import { useRouter } from 'next/router';
+import styled from 'styled-components';
+import { textColor, link0 } from '@taskany/colors';
+import { Button } from '@taskany/bricks';
+import { IconStarOutline, IconStarSolid } from '@taskany/icons';
+
+import { ProblemWithRelationsAndProblemSection } from '../../modules/problemTypes';
+import { distanceDate } from '../../utils/date';
+import { problemDifficultyLabels } from '../../utils/dictionaries';
+import { generatePath, Paths } from '../../utils/paths';
+import { useSolutionCreateMutation } from '../../modules/solutionHooks';
+import { useProblemFilterContext } from '../../contexts/problemFilterContext';
+import { parseNumber } from '../../utils/paramParsers';
+import { trpc } from '../../trpc/trpcClient';
+import {
+    useAddProblemToFavoritesMutation,
+    useFavoriteProblems,
+    useRemoveProblemFromFavoritesMutation,
+} from '../../modules/userHooks';
+import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
+import { LoadingContainer } from '../LoadingContainer';
+import { Card } from '../Card';
+import { CardContent } from '../CardContent';
+import { CardFooter } from '../CardFooter';
+import { CardHeader } from '../CardHeader';
+import { Link } from '../Link';
+import { TagChip } from '../TagChip';
+import { UnavailableContainer } from '../UnavailableContainer';
+
+import { tr } from './ProblemCard.i18n';
+
+const StyledMarkdownRenderer = styled(MarkdownRenderer)<{
+    isSmallSize?: boolean;
+}>`
+    margin-top: 14px;
+    overflow: auto;
+`;
+
+const StyledAddButton = styled(Button)`
+    margin-top: 10px;
+`;
+
+const StyledCardHeader = styled(CardHeader)<{
+    isSmallSize?: boolean;
+}>`
+    max-width: ${({ isSmallSize }) => isSmallSize && '630px'};
+`;
+const StyledAuthor = styled.span`
+    color: ${textColor};
+`;
+
+const StyledAuthorLink = styled.span`
+    cursor: pointer;
+
+    &:hover {
+        color: ${link0};
+    }
+`;
+
+const StyledLink = styled(Link)`
+    font-size: 24px;
+    color: ${textColor};
+
+    &:hover {
+        color: ${link0};
+    }
+`;
+
+const IconStarWrapper = styled.div`
+    margin-top: -6px;
+`;
+
+export type ProblemCardProps = {
+    problem: ProblemWithRelationsAndProblemSection;
+    embedded?: boolean;
+    isSmallSize?: boolean;
+};
+
+export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallSize }) => {
+    const router = useRouter();
+    const utils = trpc.useContext();
+    const { setAuthor, setTagIds } = useProblemFilterContext();
+    const addToFavoritesMutation = useAddProblemToFavoritesMutation();
+    const removeFromFavoritesMutation = useRemoveProblemFromFavoritesMutation();
+    const solutionCreateMutation = useSolutionCreateMutation();
+    const { data: favoriteProblems } = useFavoriteProblems();
+    const [isSpinnerVisible, setIsSpinnerVisible] = useState(false);
+    const isFavorite = useMemo(
+        () => favoriteProblems && !!favoriteProblems.find((item) => item.id === problem.id),
+        [favoriteProblems, problem.id],
+    );
+    const interviewId = parseNumber(router.query.interviewId);
+    const sectionId = parseNumber(router.query.sectionId);
+
+    const addToSection = useCallback(async () => {
+        if (sectionId) {
+            setIsSpinnerVisible(true);
+            try {
+                await solutionCreateMutation.mutateAsync({
+                    problemId: problem.id,
+                    sectionId,
+                });
+                utils.problems.getList.invalidate({ excludeInterviewId: interviewId });
+                router.replace(router.asPath);
+            } finally {
+                setIsSpinnerVisible(false);
+            }
+        }
+    }, [sectionId, solutionCreateMutation, problem.id, utils, interviewId, router]);
+
+    const favoriteAction = isFavorite ? (
+        <IconStarWrapper>
+            <IconStarSolid
+                size="m"
+                color="#FF00E5"
+                onClick={() => removeFromFavoritesMutation.mutate({ problemId: problem.id })}
+            />
+        </IconStarWrapper>
+    ) : (
+        <IconStarWrapper>
+            <IconStarOutline
+                stroke={0.8}
+                size="m"
+                color="#FF00E5"
+                onClick={() => addToFavoritesMutation.mutate({ problemId: problem.id })}
+            />
+        </IconStarWrapper>
+    );
+
+    const isShowAddButton = !problem.isUsed && embedded;
+
+    const renderLinkToSection = () => {
+        const pathToSection =
+            interviewId && sectionId
+                ? generatePath(Paths.SECTION, {
+                      interviewId,
+                      sectionId: problem.problemSection?.sectionId ?? 0,
+                  })
+                : '';
+
+        return (
+            pathToSection && (
+                <StyledLink href={pathToSection}>
+                    {tr('Asked in the section')} {problem.problemSection?.sectionType.title}
+                </StyledLink>
+            )
+        );
+    };
+
+    return (
+        <UnavailableContainer isUnavailable={problem.isUsed} link={renderLinkToSection()}>
+            <LoadingContainer isSpinnerVisible={isSpinnerVisible}>
+                <Card action={favoriteAction}>
+                    <StyledCardHeader
+                        title={problem.name}
+                        isSmallSize={isSmallSize}
+                        link={generatePath(Paths.PROBLEM, { problemId: problem.id })}
+                        subTitle={
+                            <StyledAuthor>
+                                {tr('Added by')}{' '}
+                                <StyledAuthorLink onClick={() => setAuthor(problem.author)}>
+                                    {problem.author.name}
+                                </StyledAuthorLink>{' '}
+                                {distanceDate(problem.createdAt)}
+                            </StyledAuthor>
+                        }
+                        chips={problem.tags.map((tag) => (
+                            <TagChip tag={tag} onClick={() => setTagIds([tag.id])} key={tag.id} />
+                        ))}
+                    />
+
+                    <CardContent>
+                        <StyledMarkdownRenderer isSmallSize={isSmallSize} value={problem.description} />
+                    </CardContent>
+
+                    <CardFooter>
+                        {tr('Difficulty:')} {problemDifficultyLabels[problem.difficulty]}
+                    </CardFooter>
+
+                    {isShowAddButton && (
+                        <StyledAddButton outline view="primary" onClick={addToSection} text={tr('Add')} />
+                    )}
+                </Card>
+            </LoadingContainer>
+        </UnavailableContainer>
+    );
+};

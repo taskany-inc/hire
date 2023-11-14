@@ -1,17 +1,17 @@
-import { Section } from '../../../../../controllers/Section';
-import { sectionDbService } from '../../../../../backend/modules/section/section-db-service';
-import { InferServerSideProps } from '../../../../../types';
-import { accessChecks } from '../../../../../backend/access/access-checks';
-import { useSection } from '../../../../../hooks/section-hooks';
-import { QueryResolver } from '../../../../../components/QueryResolver';
-import { createGetServerSideProps } from '../../../../../utils/create-get-ssr-props';
+import { Section } from '../../../../../components/Section/Section';
+import { sectionMethods } from '../../../../../modules/sectionMethods';
+import { InferServerSideProps } from '../../../../../utils/types';
+import { accessChecks } from '../../../../../modules/accessChecks';
+import { useSection } from '../../../../../modules/sectionHooks';
+import { QueryResolver } from '../../../../../components/QueryResolver/QueryResolver';
+import { createGetServerSideProps } from '../../../../../utils/createGetSSRProps';
 import { Paths, generatePath } from '../../../../../utils/paths';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     numberIds: { interviewId: true, sectionId: true },
     action: async ({ ssg, session, numberIds, handleAccessChecks }) => {
-        const section1 = await sectionDbService.getById(numberIds.sectionId);
+        const section1 = await sectionMethods.getById(numberIds.sectionId);
 
         if (section1.interviewId !== numberIds.interviewId) {
             return {

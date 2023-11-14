@@ -1,6 +1,6 @@
-import { accessChecks } from '../../backend/access/access-checks';
-import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
-import { Analytics } from '../../controllers/Analytics';
+import { accessChecks } from '../../modules/accessChecks';
+import { createGetServerSideProps } from '../../utils/createGetSSRProps';
+import { Analytics } from '../../components/Analytics/Analytics';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,

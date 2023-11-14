@@ -1,4 +1,4 @@
-import { isObject } from './type-guards';
+import { isObject } from './typeGuards';
 
 /**
  * @summary Wraps the value in nested objects at the given path as a string

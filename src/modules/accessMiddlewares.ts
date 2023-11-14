@@ -1,0 +1,258 @@
+import { TRPCError } from '@trpc/server';
+import { Session } from 'next-auth';
+
+import { middleware } from '../trpc/trpcBackend';
+
+import { calendarMethods } from './calendarMethods';
+import { candidateMethods } from './candidateMethods';
+import { interviewMethods } from './interviewMethods';
+import { problemMethods } from './problemMethods';
+import { HireStreamIdAndUserId } from './rolesTypes';
+import { sectionTypeMethods } from './sectionTypeMethods';
+import { sectionMethods } from './sectionMethods';
+import {
+    CreateSection,
+    DeleteSection,
+    GetInterviewSections,
+    GetSection,
+    UpdateSectionWithMetadata,
+} from './sectionTypes';
+import { solutionMethods } from './solutionMethods';
+import { hireStreamMethods } from './hireStreamMethods';
+import { UpdateInterview } from './interviewTypes';
+import { AccessCheckResult, accessChecks } from './accessChecks';
+import { tr } from './modules.i18n';
+
+type AccessChecker = (session: Session) => AccessCheckResult;
+
+const createMiddleware = (checker: AccessChecker) =>
+    middleware(async ({ next, ctx }) => {
+        const { session } = ctx;
+
+        if (!session) {
+            throw new TRPCError({ code: 'FORBIDDEN', message: tr('Not authorized') });
+        }
+
+        const check = checker(session);
+
+        if (!check.allowed) {
+            throw new TRPCError({ code: 'FORBIDDEN', message: check.errorMessage });
+        }
+
+        return next({ ctx: { session, accessOptions: check.accessOptions } });
+    });
+
+type EntityIdGetter<TInput, TId> = (input: TInput) => TId;
+type EntityGetter<TId, TEntity> = (id: TId) => TEntity | Promise<TEntity>;
+type EntityAccessChecker<TEntity> = (session: Session, entity: TEntity) => AccessCheckResult;
+
+const createEntityCheckMiddleware = <TInput, TId, TEntity>(
+    getId: EntityIdGetter<TInput, TId>,
+    getEntity: EntityGetter<TId, TEntity>,
+    checker: EntityAccessChecker<TEntity>,
+) =>
+    middleware(async ({ next, ctx, input }) => {
+        const { session } = ctx;
+
+        if (!session) {
+            throw new TRPCError({ code: 'FORBIDDEN', message: tr('Not authorized') });
+        }
+
+        const id = getId(input as TInput);
+        const entity = await getEntity(id);
+        const check = checker(session, entity);
+
+        if (!check.allowed) {
+            throw new TRPCError({ code: 'FORBIDDEN', message: check.errorMessage });
+        }
+
+        return next({ ctx: { session, accessOptions: check.accessOptions } });
+    });
+
+export const accessMiddlewares = {
+    problem: {
+        create: createMiddleware(accessChecks.problem.read),
+        read: createMiddleware(accessChecks.problem.read),
+        updateOrDelete: createEntityCheckMiddleware(
+            (input: { problemId: number }) => input.problemId,
+            problemMethods.getById,
+            accessChecks.problem.updateOrDelete,
+        ),
+    },
+
+    solution: {
+        create: createEntityCheckMiddleware(
+            (input: { sectionId: number }) => input.sectionId,
+            sectionMethods.getById,
+            accessChecks.solution.create,
+        ),
+        readBySectionId: createEntityCheckMiddleware(
+            (input: { sectionId: number }) => input.sectionId,
+            sectionMethods.getById,
+            accessChecks.solution.read,
+        ),
+        updateOrDeleteBySectionId: createEntityCheckMiddleware(
+            (input: { sectionId: number }) => input.sectionId,
+            sectionMethods.getById,
+            accessChecks.solution.updateOrDelete,
+        ),
+        updateOrDelete: createEntityCheckMiddleware(
+            (input: { solutionId: number }) => input.solutionId,
+            async (id) => {
+                const solution = await solutionMethods.getById(id);
+
+                return solution.section;
+            },
+            accessChecks.solution.updateOrDelete,
+        ),
+    },
+
+    section: {
+        create: createEntityCheckMiddleware(
+            (input: CreateSection) => input.interviewId,
+            async (interviewId) => {
+                const interview = await interviewMethods.getById(interviewId);
+
+                return interview.hireStreamId;
+            },
+            accessChecks.section.create,
+        ),
+        readOne: createEntityCheckMiddleware(
+            (input: GetSection) => input.sectionId,
+            sectionMethods.getById,
+            accessChecks.section.readOne,
+        ),
+        readMany: createEntityCheckMiddleware(
+            (input: GetInterviewSections) => input.interviewId,
+            interviewMethods.getById,
+            accessChecks.section.readMany,
+        ),
+        update: createEntityCheckMiddleware(
+            (input: UpdateSectionWithMetadata) => input.data.sectionId,
+            sectionMethods.getById,
+            accessChecks.section.update,
+        ),
+        delete: createEntityCheckMiddleware(
+            (input: DeleteSection) => input.sectionId,
+            sectionMethods.getById,
+            accessChecks.section.delete,
+        ),
+    },
+
+    hireStream: {
+        create: createMiddleware(accessChecks.hireStream.create),
+        readOne: createEntityCheckMiddleware(
+            (input: { hireStreamId: number }) => input.hireStreamId,
+            hireStreamMethods.getById,
+            accessChecks.hireStream.readOne,
+        ),
+        readOneByName: createEntityCheckMiddleware(
+            (input: { hireStreamName: string }) => input.hireStreamName,
+            hireStreamMethods.getByName,
+            accessChecks.hireStream.readOne,
+        ),
+        read: createMiddleware(accessChecks.hireStream.read),
+        updateBySectionTypeId: createEntityCheckMiddleware(
+            (input: { sectionTypeId: number }) => input.sectionTypeId,
+            async (sectionTypeId) => {
+                const sectionType = await sectionTypeMethods.getById({ id: sectionTypeId });
+
+                return sectionType.hireStreamId;
+            },
+            accessChecks.hireStream.update,
+        ),
+    },
+
+    analytics: {
+        readOne: createEntityCheckMiddleware(
+            (input: { hireStreamName: string }) => input.hireStreamName,
+            hireStreamMethods.getByName,
+            accessChecks.hireStream.readOne,
+        ),
+        read: createMiddleware(accessChecks.analytics.read),
+    },
+
+    tag: {
+        create: createMiddleware(accessChecks.tag.create),
+        read: createMiddleware(accessChecks.tag.read),
+    },
+
+    candidate: {
+        create: createMiddleware(accessChecks.candidate.create),
+        readOne: createEntityCheckMiddleware(
+            (input: { candidateId: number }) => input.candidateId,
+            candidateMethods.getByIdWithRelations,
+            accessChecks.candidate.readOne,
+        ),
+        readMany: createMiddleware(accessChecks.candidate.readMany),
+        update: createEntityCheckMiddleware(
+            (input: { candidateId: number }) => input.candidateId,
+            candidateMethods.getByIdWithRelations,
+            accessChecks.candidate.update,
+        ),
+        delete: createEntityCheckMiddleware(
+            (input: { candidateId: number }) => input.candidateId,
+            candidateMethods.getByIdWithRelations,
+            accessChecks.candidate.delete,
+        ),
+    },
+
+    interview: {
+        create: createEntityCheckMiddleware(
+            (input: { hireStreamId: number }) => input.hireStreamId,
+            (id) => id,
+            accessChecks.interview.create,
+        ),
+        readOne: createEntityCheckMiddleware(
+            (input: { interviewId: number }) => input.interviewId,
+            interviewMethods.getById,
+            accessChecks.interview.readOne,
+        ),
+        readMany: createMiddleware(accessChecks.interview.readMany),
+        update: createEntityCheckMiddleware(
+            (input: { data: UpdateInterview }) => input.data.interviewId,
+            async (interviewId) => {
+                const interview = await interviewMethods.getById(interviewId);
+
+                return interview.hireStreamId;
+            },
+            accessChecks.interview.update,
+        ),
+        delete: createMiddleware(accessChecks.interview.delete),
+    },
+
+    roles: {
+        readAdmins: createMiddleware(accessChecks.roles.readAdmins),
+        readOrUpdateHireStreams: createEntityCheckMiddleware(
+            (input: HireStreamIdAndUserId) => input.hireStreamId,
+            (id) => id,
+            accessChecks.roles.readOrUpdateHireStreamUsers,
+        ),
+    },
+
+    calendar: {
+        create: createMiddleware(accessChecks.calendar.create),
+        readMany: createMiddleware(accessChecks.calendar.readMany),
+        updateOrDelete: createEntityCheckMiddleware(
+            (input: { eventId: string }) => input.eventId,
+            calendarMethods.getEventById,
+            accessChecks.calendar.updateOrDelete,
+        ),
+    },
+
+    reaction: {
+        createOrReadOrUpdateOrDelete: createEntityCheckMiddleware(
+            (input: { interviewId: number }) => input.interviewId,
+            async (id) => {
+                const interview = await interviewMethods.getById(id);
+
+                return interview.hireStreamId;
+            },
+            accessChecks.reaction.createOrReadOrUpdateOrDelete,
+        ),
+    },
+
+    user: {
+        create: createMiddleware(accessChecks.user.create),
+    },
+};

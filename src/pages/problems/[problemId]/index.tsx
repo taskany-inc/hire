@@ -1,10 +1,10 @@
 import { VFC } from 'react';
 
-import { Problem } from '../../../controllers/Problem';
-import { useProblem } from '../../../hooks/problem-hooks';
-import { QueryResolver } from '../../../components/QueryResolver';
-import { createGetServerSideProps } from '../../../utils/create-get-ssr-props';
-import { InferServerSideProps } from '../../../types';
+import { Problem } from '../../../components/Problem/Problem';
+import { useProblem } from '../../../modules/problemHooks';
+import { QueryResolver } from '../../../components/QueryResolver/QueryResolver';
+import { createGetServerSideProps } from '../../../utils/createGetSSRProps';
+import { InferServerSideProps } from '../../../utils/types';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,

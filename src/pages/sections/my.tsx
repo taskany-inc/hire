@@ -1,12 +1,12 @@
-import { sectionDbService } from '../../backend/modules/section/section-db-service';
-import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
-import MyInterviewsPage from '../../controllers/MyInterviewsPage';
+import { sectionMethods } from '../../modules/sectionMethods';
+import { createGetServerSideProps } from '../../utils/createGetSSRProps';
+import MyInterviewsPage from '../../components/MyInterviewsPage/MyInterviewsPage';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     action: async ({ session }) => {
-        const completedSections = await sectionDbService.findAllInterviewerSections(session.user.id, true);
-        const onGoingSections = await sectionDbService.findAllInterviewerSections(session.user.id, false);
+        const completedSections = await sectionMethods.findAllInterviewerSections(session.user.id, true);
+        const onGoingSections = await sectionMethods.findAllInterviewerSections(session.user.id, false);
 
         return { completedSections, onGoingSections };
     },

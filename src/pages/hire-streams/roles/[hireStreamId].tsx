@@ -1,10 +1,10 @@
-import { accessChecks } from '../../../backend/access/access-checks';
-import { QueryResolver } from '../../../components/QueryResolver';
-import { HireStreamUsers } from '../../../components/roles/HireStreamUsers';
-import { HireStreamLayout } from '../../../controllers/HireStreamLayout';
-import { useHireStream } from '../../../hooks/hire-streams-hooks';
-import { InferServerSideProps } from '../../../types';
-import { createGetServerSideProps } from '../../../utils/create-get-ssr-props';
+import { accessChecks } from '../../../modules/accessChecks';
+import { QueryResolver } from '../../../components/QueryResolver/QueryResolver';
+import { HireStreamUsers } from '../../../components/HireStreamUsers/HireStreamUsers';
+import { HireStreamLayout } from '../../../components/HireStreamLayout/HireStreamLayout';
+import { useHireStream } from '../../../modules/hireStreamsHooks';
+import { InferServerSideProps } from '../../../utils/types';
+import { createGetServerSideProps } from '../../../utils/createGetSSRProps';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,

@@ -1,12 +1,12 @@
-import { Interview } from '../../../controllers/Interview';
-import { InferServerSideProps } from '../../../types';
-import { mergeSavedValue } from '../../../components/ReactionBar/helpers';
-import { rejectReasonDbService } from '../../../backend/modules/reject-reason/reject-reason-db-service';
-import { accessChecks } from '../../../backend/access/access-checks';
-import { createGetServerSideProps } from '../../../utils/create-get-ssr-props';
-import { useInterview } from '../../../hooks/interview-hooks';
-import { useSectionTypes } from '../../../hooks/section-type-hooks';
-import { QueryResolver } from '../../../components/QueryResolver';
+import { Interview } from '../../../components/Interview/Interview';
+import { InferServerSideProps } from '../../../utils/types';
+import { mergeSavedValue } from '../../../utils/reactions';
+import { rejectReasonMethods } from '../../../modules/rejectReasonMethods';
+import { accessChecks } from '../../../modules/accessChecks';
+import { createGetServerSideProps } from '../../../utils/createGetSSRProps';
+import { useInterview } from '../../../modules/interviewHooks';
+import { useSectionTypes } from '../../../modules/sectionTypeHooks';
+import { QueryResolver } from '../../../components/QueryResolver/QueryResolver';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
@@ -15,7 +15,7 @@ export const getServerSideProps = createGetServerSideProps({
         const interview = await ssg.interviews.getById.fetch({ interviewId: numberIds.interviewId });
         await ssg.sectionTypes.getByHireStreamId.fetch({ hireStreamId: interview.hireStreamId });
 
-        const rejectReasons = await rejectReasonDbService.findAll();
+        const rejectReasons = await rejectReasonMethods.findAll();
         const reactions = mergeSavedValue({
             currentUser: session.user,
             reactions: interview.reactions,

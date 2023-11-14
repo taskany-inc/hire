@@ -11,11 +11,11 @@ import * as SentryNextJs from '@sentry/nextjs';
 import * as SentryBrowser from '@sentry/browser';
 import { link0 } from '@taskany/colors';
 
-import { AppSettingsContextProvider } from '../contexts/app-settings-context';
-import { ProblemFilterContextProvider } from '../contexts/problem-filter-context';
-import { CandidateFilterContextProvider } from '../contexts/candidate-filter-context';
+import { AppSettingsContextProvider } from '../contexts/appSettingsContext';
+import { ProblemFilterContextProvider } from '../contexts/problemFilterContext';
+import { CandidateFilterContextProvider } from '../contexts/candidateFilterContext';
 import { Browser } from '../utils';
-import { trpc } from '../utils/trpc-front';
+import { trpc } from '../trpc/trpcClient';
 import { TLocale, setSSRLocale } from '../utils/getLang';
 import '../../react-big-calendar.css';
 

@@ -1,13 +1,13 @@
-import { InferServerSideProps } from '../../../../../types';
-import { LayoutMain } from '../../../../../components/layout/LayoutMain';
+import { InferServerSideProps } from '../../../../../utils/types';
+import { LayoutMain } from '../../../../../components/LayoutMain';
 import { pageHrefs } from '../../../../../utils/paths';
-import { CandidateInterviewUpdateForm } from '../../../../../components/interviews/CandidateInterviewUpdateForm';
+import { CandidateInterviewUpdateForm } from '../../../../../components/CandidateInterviewUpdateForm/CandidateInterviewUpdateForm';
 import { ErrorWithStatus } from '../../../../../utils';
-import { accessChecks } from '../../../../../backend/access/access-checks';
-import { createGetServerSideProps } from '../../../../../utils/create-get-ssr-props';
-import { useInterview } from '../../../../../hooks/interview-hooks';
-import { useHireStreams } from '../../../../../hooks/hire-streams-hooks';
-import { QueryResolver } from '../../../../../components/QueryResolver';
+import { accessChecks } from '../../../../../modules/accessChecks';
+import { createGetServerSideProps } from '../../../../../utils/createGetSSRProps';
+import { useInterview } from '../../../../../modules/interviewHooks';
+import { useHireStreams } from '../../../../../modules/hireStreamsHooks';
+import { QueryResolver } from '../../../../../components/QueryResolver/QueryResolver';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,

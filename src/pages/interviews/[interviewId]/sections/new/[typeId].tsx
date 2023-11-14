@@ -1,13 +1,13 @@
-import { LayoutMain } from '../../../../../components/layout/LayoutMain';
+import { LayoutMain } from '../../../../../components/LayoutMain';
 import { pageHrefs } from '../../../../../utils/paths';
-import { SectionCreationForm } from '../../../../../components/sections/SectionCreationForm';
-import { InferServerSideProps } from '../../../../../types';
-import { accessChecks } from '../../../../../backend/access/access-checks';
-import { createGetServerSideProps } from '../../../../../utils/create-get-ssr-props';
-import { useSectionType } from '../../../../../hooks/section-type-hooks';
-import { QueryResolver } from '../../../../../components/QueryResolver';
-import { useInterview } from '../../../../../hooks/interview-hooks';
-import { useCandidate } from '../../../../../hooks/candidate-hooks';
+import { SectionCreationForm } from '../../../../../components/SectionCreationForm/SectionCreationForm';
+import { InferServerSideProps } from '../../../../../utils/types';
+import { accessChecks } from '../../../../../modules/accessChecks';
+import { createGetServerSideProps } from '../../../../../utils/createGetSSRProps';
+import { useSectionType } from '../../../../../modules/sectionTypeHooks';
+import { QueryResolver } from '../../../../../components/QueryResolver/QueryResolver';
+import { useInterview } from '../../../../../modules/interviewHooks';
+import { useCandidate } from '../../../../../modules/candidateHooks';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,

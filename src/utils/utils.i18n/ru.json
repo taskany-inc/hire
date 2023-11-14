@@ -13,5 +13,10 @@
     "Easy": "Низкая",
     "Medium": "Средняя",
     "Hard": "Высокая",
-    "Required field": "Обязательное поле"
+    "Required field": "Обязательное поле",
+    "administrator": "администратор",
+    "hiring flow manager": "менеджер потока найма",
+    "recruitment lead": "лид найма",
+    "recruiter": "рекрутер",
+    "interviewer": "собеседующий"
 }

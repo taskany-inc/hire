@@ -1,6 +1,6 @@
-import { accessChecks } from '../../../backend/access/access-checks';
-import { AnalyticsHireStreamPage } from '../../../controllers/AnalyticsHireStreamPage';
-import { createGetServerSideProps } from '../../../utils/create-get-ssr-props';
+import { accessChecks } from '../../../modules/accessChecks';
+import { AnalyticsHireStreamPage } from '../../../components/AnalyticsHireStreamPage/AnalyticsHireStreamPage';
+import { createGetServerSideProps } from '../../../utils/createGetSSRProps';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,

@@ -1,6 +1,6 @@
-import { accessChecks } from '../../../backend/access/access-checks';
-import ProblemEditPage from '../../../controllers/ProblemEditPage';
-import { createGetServerSideProps } from '../../../utils/create-get-ssr-props';
+import { accessChecks } from '../../../modules/accessChecks';
+import ProblemEditPage from '../../../components/ProblemEditPage/ProblemEditPage';
+import { createGetServerSideProps } from '../../../utils/createGetSSRProps';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,

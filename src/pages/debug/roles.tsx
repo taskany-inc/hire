@@ -1,8 +1,8 @@
-import { sectionTypeDbService } from '../../backend/modules/section-type/section-type-db-service';
+import { sectionTypeMethods } from '../../modules/sectionTypeMethods';
 import { standConfig } from '../../utils/stand';
 import { Paths } from '../../utils/paths';
-import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
-import DebugRolesPage from '../../controllers/DebugRolesPage';
+import { createGetServerSideProps } from '../../utils/createGetSSRProps';
+import DebugRolesPage from '../../components/DebugRolesPage/DebugRolesPage';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
@@ -12,7 +12,7 @@ export const getServerSideProps = createGetServerSideProps({
         }
 
         await ssg.hireStreams.getAll.fetch();
-        const sectionTypes = await sectionTypeDbService.getAll({});
+        const sectionTypes = await sectionTypeMethods.getAll({});
 
         return { sectionTypes };
     },

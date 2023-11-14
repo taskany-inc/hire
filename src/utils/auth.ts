@@ -5,13 +5,13 @@ import KeycloakProvider from 'next-auth/providers/keycloak';
 // eslint-disable-next-line camelcase
 import { type NextAuthOptions, unstable_getServerSession, Session } from 'next-auth';
 
-import { prisma } from '../backend';
-import { userDbService } from '../backend/modules/user/user-db-service';
-import { externalUsersDebugService } from '../backend/modules/ext-users/ext-users-debug-service';
-import config from '../backend/config';
-import { UserRolesInfo } from '../backend/user-roles';
+import { userMethods } from '../modules/userMethods';
+import { extUsersDebugMethods } from '../modules/extUsersDebugMethods';
+import config from '../config';
 
 import { standConfig } from './stand';
+import { UserRolesInfo } from './userRoles';
+import { prisma } from './prisma';
 import { tr } from './utils.i18n';
 
 import { ErrorWithStatus } from '.';
@@ -25,7 +25,7 @@ const getDebugUser = async (cookies: NextApiRequest['cookies']): Promise<User | 
             ? cookies[AUTH_DEBUG_COOKIE_NAME]
             : undefined;
 
-    return cookie ? userDbService.getByEmail(cookie) : undefined;
+    return cookie ? userMethods.getByEmail(cookie) : undefined;
 };
 
 const getDebugRoles = async (cookies: NextApiRequest['cookies']): Promise<UserRolesInfo | undefined> => {
@@ -35,10 +35,10 @@ const getDebugRoles = async (cookies: NextApiRequest['cookies']): Promise<UserRo
             : undefined;
 
     const debugUser = await getDebugUser(cookies);
-    const debugRoles = cookie ? externalUsersDebugService.getUserRolesFromDebugCookie(cookie) : undefined;
+    const debugRoles = cookie ? extUsersDebugMethods.getUserRolesFromDebugCookie(cookie) : undefined;
 
     if (!debugRoles && debugUser) {
-        return userDbService.getUserRoles(debugUser.id);
+        return userMethods.getUserRoles(debugUser.id);
     }
 
     return debugRoles;
@@ -52,7 +52,7 @@ const getUser = async (id: number, req: GetServerSidePropsContext['req']): Promi
     }
 
     if (standConfig.isNextAuthEnabled) {
-        return userDbService.find(id);
+        return userMethods.find(id);
     }
 
     throw new ErrorWithStatus(tr('No auth option is available'), 400);
@@ -61,7 +61,7 @@ const getUser = async (id: number, req: GetServerSidePropsContext['req']): Promi
 const getUserRoles = async (id: number, req: GetServerSidePropsContext['req']): Promise<UserRolesInfo> => {
     const debugRoles = await getDebugRoles(req.cookies);
 
-    return debugRoles || userDbService.getUserRoles(id);
+    return debugRoles || userMethods.getUserRoles(id);
 };
 
 const providers: NextAuthOptions['providers'] = [
@@ -118,8 +118,7 @@ export const getServerSession = async (
     const debugRoles = await getDebugRoles(req.cookies);
 
     const user = debugUser ?? session?.user;
-    const userRoles =
-        debugRoles ?? session?.userRoles ?? (await externalUsersDebugService.getUserRolesFromDebugCookie(''));
+    const userRoles = debugRoles ?? session?.userRoles ?? (await extUsersDebugMethods.getUserRolesFromDebugCookie(''));
     const date = new Date();
     date.setFullYear(date.getFullYear() + 1);
     const expires = session?.expires ?? date.toISOString();

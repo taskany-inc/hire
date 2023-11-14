@@ -1,5 +1,5 @@
 import { PluginPage } from '../plugins/PluginPage';
-import { createGetServerSideProps } from '../utils/create-get-ssr-props';
+import { createGetServerSideProps } from '../utils/createGetSSRProps';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,

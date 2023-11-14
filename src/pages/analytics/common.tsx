@@ -1,6 +1,6 @@
-import { accessChecks } from '../../backend/access/access-checks';
-import { CommonPage } from '../../controllers/CommonPage';
-import { createGetServerSideProps } from '../../utils/create-get-ssr-props';
+import { accessChecks } from '../../modules/accessChecks';
+import { AnalyticsCommonPage } from '../../components/AnalyticsCommonPage/AnalyticsCommonPage';
+import { createGetServerSideProps } from '../../utils/createGetSSRProps';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
@@ -11,4 +11,4 @@ export const getServerSideProps = createGetServerSideProps({
     },
 });
 
-export default CommonPage;
+export default AnalyticsCommonPage;

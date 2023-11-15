@@ -52,7 +52,7 @@ export const SectionTypeBadge: VFC<{ sectionType: SectionType }> = ({ sectionTyp
             );
         case SectionTypeEnum.PRODUCT_FINAL:
             return (
-                <StyledChip size="l" color={TagPaletteColor.YELLOW}>
+                <StyledChip size="l" color={TagPaletteColor.SOFT_BLUE}>
                     {sectionType.value}
                 </StyledChip>
             );

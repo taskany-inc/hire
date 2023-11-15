@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { useState } from 'react';
 import { Button, FormEditor } from '@taskany/bricks';
 import { IconMarkdownOutline } from '@taskany/icons';
+import { gray10, gray8 } from '@taskany/colors';
 
 import { FormHelperText, Label } from '../StyledComponents';
 import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
@@ -23,7 +24,6 @@ const HintContainer = styled.div`
 const StyledPreviewButton = styled(Button)`
     margin-left: auto;
     margin-top: 4px;
-    color: rgba(255, 255, 255, 0.54);
 `;
 
 const StyledFormEditor = styled(FormEditor)`
@@ -74,10 +74,15 @@ export const CodeEditorField = <T extends FieldValues>(props: CodeEditorFieldPro
             {fieldState.error && <FormHelperText>{fieldState.error.message}</FormHelperText>}
             <HintContainer>
                 <StyledMarkdownIcon>
-                    <IconMarkdownOutline size="s" />
+                    <IconMarkdownOutline size="s" color={gray8} />
                 </StyledMarkdownIcon>
                 <Tip>{tr('Styling with markdown is supported')}</Tip>
-                <StyledPreviewButton type="button" onClick={() => setPreview(!preview)} text={previewButtonTitle} />
+                <StyledPreviewButton
+                    color={gray10}
+                    type="button"
+                    onClick={() => setPreview(!preview)}
+                    text={previewButtonTitle}
+                />
             </HintContainer>
         </StyledRoot>
     );

@@ -4,11 +4,12 @@ import { SectionStatus } from './dictionaries';
 
 // TODO: fix false positive no-shadow
 // eslint-disable-next-line no-shadow
+// TODO: fix tag palette https://github.com/taskany-inc/hire/issues/349
 export enum TagPaletteColor {
     CYAN = '#0DBBBB',
-    YELLOW = '#FFFF00',
+    SOFT_BLUE = '#A8AFFC',
     RED = '#D74F4F',
-    GREEN = '#3DFFC5',
+    GREEN = '#09db96',
     MAGENTA = '#FF2990',
     PURPLE_GREY = '#5a7fb9',
     DARK_ORANGE = '#FF9800',
@@ -19,8 +20,8 @@ export enum TagPaletteColor {
 
 export const InterviewStatusTagPalette: Record<InterviewStatus, TagPaletteColor> = {
     [InterviewStatus.HIRED]: TagPaletteColor.GREEN,
-    [InterviewStatus.NEW]: TagPaletteColor.YELLOW,
-    [InterviewStatus.IN_PROGRESS]: TagPaletteColor.YELLOW,
+    [InterviewStatus.NEW]: TagPaletteColor.SOFT_BLUE,
+    [InterviewStatus.IN_PROGRESS]: TagPaletteColor.MAGENTA,
     [InterviewStatus.REJECTED]: TagPaletteColor.RED,
 };
 
@@ -32,7 +33,7 @@ export const SectionStatusTagPalette: Record<SectionStatus, TagPaletteColor> = {
 
 export const tagPalette = [
     TagPaletteColor.CYAN,
-    TagPaletteColor.YELLOW,
+    TagPaletteColor.SOFT_BLUE,
     TagPaletteColor.DARK_ORANGE,
     TagPaletteColor.LIGHT_GREEN,
     TagPaletteColor.PINK_RASPBERRY,

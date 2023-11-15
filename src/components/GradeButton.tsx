@@ -1,3 +1,4 @@
+import { gray10, gray9 } from '@taskany/colors';
 import styled from 'styled-components';
 
 type GradeButtonProps = {
@@ -13,12 +14,12 @@ export const GradeButton = styled.button<GradeButtonProps>`
     min-width: 30px;
     border: 1px solid;
     padding: 5px 3px 3px;
-    border-color: ${(props) => (props.matching ? '#F162D5' : 'rgba(255, 255, 255, 0.4)')};
+    border-color: ${(props) => (props.matching ? '#F162D5' : `${gray10}`)};
     box-sizing: border-box;
     border-radius: 6px;
     font-weight: bold;
     font-size: 16;
-    color: ${(props) => (props.matching ? '#F162D5' : 'rgba(255, 255, 255, 0.54)')};
+    color: ${(props) => (props.matching ? '#F162D5' : `${gray10}`)};
     text-align: center;
     cursor: ${(props) => (props.onClick ? 'pointer' : 'unset')};
     transform: ${(props) => (props.selected ? 'scale(1.1)' : 'scale(1)')};

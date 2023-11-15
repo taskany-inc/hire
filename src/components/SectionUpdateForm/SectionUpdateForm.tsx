@@ -5,7 +5,7 @@ import { Candidate, SectionType, User } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { danger0 } from '@taskany/colors';
-import { Button, Text } from '@taskany/bricks';
+import { TabsMenu, TabsMenuItem, Text } from '@taskany/bricks';
 import styled from 'styled-components';
 import { useDebounce } from 'use-debounce';
 
@@ -22,10 +22,6 @@ import { CalendarEventDetails, SectionScheduleCalendar } from '../SectionSchedul
 import { UserComboBox } from '../UserComboBox';
 
 import { tr } from './SectionUpdateForm.i18n';
-
-const StyledButton = styled(Button)`
-    width: fit-content;
-`;
 
 type SectionUpdateFormProps = {
     section: SectionWithRelationsAndResults;
@@ -49,6 +45,10 @@ const schema = z.object({
         })
         .optional(),
 });
+
+const StyledFormInput = styled(FormInput)`
+    max-width: 430px;
+`;
 
 export const SectionUpdateForm = ({ section, sectionType, candidate }: SectionUpdateFormProps) => {
     const router = useRouter();
@@ -116,17 +116,23 @@ export const SectionUpdateForm = ({ section, sectionType, candidate }: SectionUp
         setInterviewer(interviewer);
         setSearch('');
     };
-    const onSchedulableToggle = () => {
-        setSchedulable(!schedulable);
+    const onSchedulableToggle = (arg: boolean) => {
+        setSchedulable(arg);
         setSearch('');
     };
-    const newOrScheduleDescription = schedulable ? tr('To the choice of interviewers') : tr('To calendar');
 
     return (
         <Stack direction="column" gap={14}>
             <CandidateNameSubtitle name={candidate.name} id={candidate.id} />
+            <TabsMenu>
+                <TabsMenuItem active={!schedulable} onClick={() => onSchedulableToggle(false)}>
+                    {tr('Choice of interviewers')}
+                </TabsMenuItem>
+                <TabsMenuItem active={schedulable} onClick={() => onSchedulableToggle(true)}>
+                    {tr('Calendar')}
+                </TabsMenuItem>
+            </TabsMenu>
 
-            <StyledButton outline onClick={onSchedulableToggle} text={newOrScheduleDescription} />
             {schedulable && (
                 <SectionScheduleCalendar
                     isSectionSubmitting={isSubmitting}
@@ -135,42 +141,41 @@ export const SectionUpdateForm = ({ section, sectionType, candidate }: SectionUp
                     onSlotSelected={setCalendarSlotAndSubmit}
                 />
             )}
-            <FormContainer
-                submitButtonText={tr('Save the section')}
-                onSubmitButton={submit}
-                cancelButtonText={tr('Cancel')}
-                onCancelButton={() => router.push(pageHrefs.interviewSectionView(interviewId, section.id))}
-                submitButtonDisabled={isSubmitting}
-            >
-                <Stack direction="column" gap={20}>
-                    {!schedulable && (
-                        <>
-                            <UserComboBox
-                                value={interviewer}
-                                items={interviewersQuery.data}
-                                onChange={onInterviewerSelect}
-                                setInputValue={setSearch}
-                                placeholder={tr('Choose an interviewer')}
-                            />
-                            {errors.interviewerId && !watch('interviewerId') && (
-                                <Text size="xs" color={danger0}>
-                                    {errors.interviewerId.message}
-                                </Text>
-                            )}
-                        </>
-                    )}
 
-                    {sectionType.userSelect && (
-                        <FormInput
-                            label={tr('Description')}
-                            helperText={(errors.description as any)?.description}
-                            placeholder={tr('In which team is the product final held?')}
-                            forwardRef={refDescription}
-                            {...restDescription}
+            <Stack direction="column" gap={20}>
+                {!schedulable && (
+                    <FormContainer
+                        maxWidth="570px"
+                        borderNone
+                        submitButtonText={tr('Save the section')}
+                        onSubmitButton={submit}
+                        onCancelButton={() => router.push(pageHrefs.interviewSectionView(interviewId, section.id))}
+                        submitButtonDisabled={isSubmitting}
+                    >
+                        <UserComboBox
+                            value={interviewer}
+                            items={interviewersQuery.data}
+                            onChange={onInterviewerSelect}
+                            setInputValue={setSearch}
+                            placeholder={tr('Choose an interviewer')}
                         />
-                    )}
-                </Stack>
-            </FormContainer>
+                        {errors.interviewerId && !watch('interviewerId') && (
+                            <Text size="xs" color={danger0}>
+                                {errors.interviewerId.message}
+                            </Text>
+                        )}
+                        {sectionType.userSelect && (
+                            <StyledFormInput
+                                label={tr('Description')}
+                                helperText={(errors.description as any)?.description}
+                                placeholder={tr('In which team is the product final held?')}
+                                forwardRef={refDescription}
+                                {...restDescription}
+                            />
+                        )}
+                    </FormContainer>
+                )}
+            </Stack>
         </Stack>
     );
 };

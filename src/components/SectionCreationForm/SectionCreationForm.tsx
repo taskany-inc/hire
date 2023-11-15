@@ -5,9 +5,9 @@ import { Candidate, Interview, SectionType, User } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { danger0 } from '@taskany/colors';
-import { Button, Text } from '@taskany/bricks';
-import styled from 'styled-components';
+import { TabsMenu, TabsMenuItem, Text } from '@taskany/bricks';
 import { useDebounce } from 'use-debounce';
+import styled from 'styled-components';
 
 import { CreateSection } from '../../modules/sectionTypes';
 import { useSectionCreateMutation } from '../../modules/sectionHooks';
@@ -45,8 +45,8 @@ const schema = z.object({
         .optional(),
 });
 
-const StyledButton = styled(Button)`
-    width: fit-content;
+const StyledFormInput = styled(FormInput)`
+    max-width: 430px;
 `;
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -88,8 +88,6 @@ export function SectionCreationForm({ candidate, interviewId, sectionType }: Pro
         [interviewId, router, schedulable, sectionCreateMutation, sectionType.id],
     );
 
-    const newOrScheduleDescription = schedulable ? tr('To the choice of interviewers') : tr('To calendar');
-
     const {
         handleSubmit,
         formState: { isSubmitting, errors },
@@ -123,16 +121,22 @@ export function SectionCreationForm({ candidate, interviewId, sectionType }: Pro
         setInterviewer(interviewer);
         setSearch('');
     };
-    const onSchedulableToggle = () => {
-        setSchedulable(!schedulable);
+    const onSchedulableToggle = (arg: boolean) => {
+        setSchedulable(arg);
         setSearch('');
     };
 
     return (
         <Stack direction="column" gap={14}>
             <CandidateNameSubtitle name={candidate.name} id={candidate.id} />
-
-            <StyledButton outline onClick={onSchedulableToggle} text={newOrScheduleDescription} />
+            <TabsMenu>
+                <TabsMenuItem active={!schedulable} onClick={() => onSchedulableToggle(false)}>
+                    {tr('Choice of interviewers')}
+                </TabsMenuItem>
+                <TabsMenuItem active={schedulable} onClick={() => onSchedulableToggle(true)}>
+                    {tr('Calendar')}
+                </TabsMenuItem>
+            </TabsMenu>
 
             {schedulable && (
                 <SectionScheduleCalendar
@@ -142,39 +146,39 @@ export function SectionCreationForm({ candidate, interviewId, sectionType }: Pro
                     onSlotSelected={setCalendarSlotAndSubmit}
                 />
             )}
-            <FormContainer
-                submitButtonText={tr('Save the section')}
-                onSubmitButton={submit}
-                submitButtonDisabled={isSubmitting}
-            >
-                {!schedulable && (
-                    <>
-                        <UserComboBox
-                            items={interviewersQuery.data}
-                            onChange={onInterviewerSelect}
-                            setInputValue={setSearch}
-                            value={interviewer}
-                            placeholder={tr('Choose an interviewer')}
-                        />
 
-                        {errors.interviewerId && !watch('interviewerId') && (
-                            <Text size="xs" color={danger0}>
-                                {errors.interviewerId.message}
-                            </Text>
-                        )}
-                    </>
-                )}
-
-                {sectionType.userSelect && (
-                    <FormInput
-                        label={tr('Description')}
-                        helperText={errors.description?.message}
-                        placeholder={tr('Which team is held the product final?')}
-                        forwardRef={refDescription}
-                        {...restDescription}
+            {!schedulable && (
+                <FormContainer
+                    maxWidth="570px"
+                    submitButtonText={tr('Save the section')}
+                    onSubmitButton={submit}
+                    submitButtonDisabled={isSubmitting}
+                    borderNone
+                >
+                    <UserComboBox
+                        items={interviewersQuery.data}
+                        onChange={onInterviewerSelect}
+                        setInputValue={setSearch}
+                        value={interviewer}
+                        placeholder={tr('Choose an interviewer')}
                     />
-                )}
-            </FormContainer>
+
+                    {errors.interviewerId && !watch('interviewerId') && (
+                        <Text size="xs" color={danger0}>
+                            {errors.interviewerId.message}
+                        </Text>
+                    )}
+                    {sectionType.userSelect && (
+                        <StyledFormInput
+                            label={tr('Description')}
+                            helperText={errors.description?.message}
+                            placeholder={tr('Which team is held the product final?')}
+                            forwardRef={refDescription}
+                            {...restDescription}
+                        />
+                    )}
+                </FormContainer>
+            )}
         </Stack>
     );
 }

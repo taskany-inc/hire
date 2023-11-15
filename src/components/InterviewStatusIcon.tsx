@@ -5,7 +5,7 @@ import { Badge } from '@taskany/bricks';
 import { TagPaletteColor } from '../utils/tagPalette';
 
 const interviewStatusToColor: Partial<Record<InterviewStatus, TagPaletteColor>> = {
-    [InterviewStatus.NEW]: TagPaletteColor.YELLOW,
+    [InterviewStatus.NEW]: TagPaletteColor.SOFT_BLUE,
 };
 
 const defaultColor = TagPaletteColor.PURPLE_GREY;

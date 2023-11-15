@@ -4,16 +4,16 @@ import { Button, KeyCode, KeyMod, useKeyboard } from '@taskany/bricks';
 
 import { KeyboardSubmitHint } from './KeyboardSubmitHint/KeyboardSubmitHint';
 
-const OuterContainer = styled.div`
-    max-width: 80vw;
+const OuterContainer = styled.div<{ maxWidth?: string }>`
+    max-width: ${({ maxWidth }) => maxWidth || '80vw'};
 `;
 
-const InnerContainer = styled.div`
+const InnerContainer = styled.div<{ borderNone?: boolean }>`
     opacity: 0.8;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: ${({ borderNone }) => (borderNone ? 'none' : '1px solid rgba(255, 255, 255, 0.08)')};
     box-sizing: border-box;
     border-radius: 6px;
-    padding: 6px 12px;
+    padding: ${({ borderNone }) => (borderNone ? '6px 0' : '6px 12px')};
     margin-bottom: 30px;
     width: 570px;
 `;
@@ -44,6 +44,8 @@ export interface FormContainerProps {
     children?: ReactNode;
     onCancelButton?: () => void;
     cancelButtonText?: string;
+    maxWidth?: string;
+    borderNone?: boolean;
 }
 
 export const FormContainer: FC<FormContainerProps> = (props) => {
@@ -57,6 +59,8 @@ export const FormContainer: FC<FormContainerProps> = (props) => {
         notToShowHint,
         cancelButtonText,
         onCancelButton,
+        maxWidth,
+        borderNone,
     } = props;
 
     const [keyboard] = useKeyboard([KeyCode.Enter, KeyMod.CtrlCmd], () => onSubmitButton(), {
@@ -65,8 +69,8 @@ export const FormContainer: FC<FormContainerProps> = (props) => {
     });
 
     return (
-        <OuterContainer {...keyboard}>
-            <InnerContainer>{children}</InnerContainer>
+        <OuterContainer maxWidth={maxWidth} {...keyboard}>
+            <InnerContainer borderNone={borderNone}>{children}</InnerContainer>
             <BottomContainer>
                 {!notToShowHint && <KeyboardSubmitHint actionTitle={submitButtonText} />}
                 <ButtonContainer>

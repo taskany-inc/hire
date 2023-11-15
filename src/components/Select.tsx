@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Dropdown } from '@taskany/bricks';
+import { gray9 } from '@taskany/colors';
 
 import { ColorizedMenuItem } from './ColorizedMenuItem';
 
@@ -23,7 +24,7 @@ export const Label = styled.div`
     line-height: 20px;
     margin-bottom: 5px;
 
-    color: rgba(255, 255, 255);
+    color: ${gray9};
 `;
 
 interface SelectProps {

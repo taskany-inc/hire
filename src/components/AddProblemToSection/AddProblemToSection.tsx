@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { gapM, gapXs, gray10, gray5 } from '@taskany/colors';
+import { gapM, gray10, gray5 } from '@taskany/colors';
 import { Button, ModalContent, ModalHeader, ModalPreview, Text } from '@taskany/bricks';
 import styled from 'styled-components';
 
@@ -10,7 +10,6 @@ import { ProblemFilterBar } from '../ProblemFilterBar/ProblemFilterBar';
 import { tr } from './AddProblemToSection.i18n';
 
 const StyledModalHeader = styled(ModalHeader)`
-    margin-top: ${gapXs};
     position: sticky;
     box-shadow: 0 2px 5px 2px rgb(0 0 0 / 10%);
 `;

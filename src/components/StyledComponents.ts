@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { danger0 } from '@taskany/colors';
+import { danger0, gray9 } from '@taskany/colors';
 import { Text } from '@taskany/bricks';
 
 export const Container = styled.div`
@@ -16,7 +16,7 @@ export const Label = styled.div`
     line-height: 20px;
     margin-bottom: 5px;
 
-    color: rgba(255, 255, 255);
+    color: ${gray9};
 `;
 
 export const formHelperTextStyles = css`

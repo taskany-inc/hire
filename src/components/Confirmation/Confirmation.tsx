@@ -10,7 +10,7 @@ import {
     Text,
     useKeyboard,
 } from '@taskany/bricks';
-import { gapM, gapS } from '@taskany/colors';
+import { gapM, gapS, gapXl } from '@taskany/colors';
 import styled from 'styled-components';
 
 import { AsyncAnyFunction } from '../../utils/types';
@@ -27,14 +27,11 @@ type ConfirmationProps = {
     destructive?: boolean;
 };
 
-const StyledDescription = styled(Text)`
-    padding-bottom: ${gapM};
-`;
-
 const StyledWrapper = styled.div`
     display: flex;
     gap: ${gapS};
     float: right;
+    margin: ${gapXl} 0 ${gapM} 0;
 `;
 
 export const Confirmation: VFC<ConfirmationProps> = ({
@@ -58,7 +55,7 @@ export const Confirmation: VFC<ConfirmationProps> = ({
                 <FormTitle>{message}</FormTitle>
             </ModalHeader>
             <ModalContent>
-                {description && <StyledDescription>{description}</StyledDescription>}
+                {description && <Text>{description}</Text>}
                 <StyledWrapper>
                     <Button
                         onClick={onAgree}

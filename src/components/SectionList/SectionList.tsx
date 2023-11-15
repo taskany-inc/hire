@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Text } from '@taskany/bricks';
+import { gapS } from '@taskany/colors';
 
 import { SectionWithInterviewRelation } from '../../modules/interviewTypes';
 import { generatePath, Paths } from '../../utils/paths';
@@ -19,7 +20,7 @@ type SectionListProps = {
 };
 
 const StyledTitle = styled(Text)<{ completed: boolean }>`
-    margin-bottom: 24px;
+    margin-left: ${gapS};
     margin-top: ${({ completed }) => (completed ? 60 : 0)};
     opacity: ${({ completed }) => (completed ? 0.6 : 1)};
 `;
@@ -32,6 +33,10 @@ const StyledOpacityCard = styled(Card)<{ completed: boolean }>`
     }
 `;
 
+const StyledWrapper = styled.div`
+    margin: ${gapS} 0 0 ${gapS};
+`;
+
 export const SectionList = ({ sections, header, completed = false }: SectionListProps) => {
     return (
         <div>
@@ -41,9 +46,11 @@ export const SectionList = ({ sections, header, completed = false }: SectionList
                 </StyledTitle>
             )}
 
-            <Stack direction="column" gap={8}>
+            <Stack direction="column" gap={7}>
                 {sections.length === 0 ? (
-                    <Text>{tr('No sections yet')} 😴</Text>
+                    <StyledWrapper>
+                        <Text>{tr('No sections yet')} 😴</Text>
+                    </StyledWrapper>
                 ) : (
                     sections.map((section: SectionWithInterviewRelation) => {
                         return (

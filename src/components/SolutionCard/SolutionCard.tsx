@@ -39,10 +39,6 @@ type ResultButtonProps = {
     style?: CSSProperties;
 };
 
-const StyledCard = styled(Card)`
-    width: 80%;
-`;
-
 const StyledHeaderWrapper = styled.div`
     display: flex;
     align-items: center;

@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState, VFC } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { textColor, link0 } from '@taskany/colors';
+import { textColor, link0, gray9, gray10, gray7, gray8 } from '@taskany/colors';
 import { Button } from '@taskany/bricks';
 import { IconStarOutline, IconStarSolid } from '@taskany/icons';
 
@@ -60,7 +60,7 @@ const StyledAuthorLink = styled.span`
 
 const StyledLink = styled(Link)`
     font-size: 24px;
-    color: ${textColor};
+    color: ${gray8};
 
     &:hover {
         color: ${link0};

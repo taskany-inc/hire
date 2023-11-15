@@ -1,6 +1,16 @@
 @import './variables';
 @import './reset';
 
+:root[data-theme="dark"] {
+  --btn-color: #fafafa;
+  --today-highlight-bg: #222;
+}
+
+:root[data-theme="light"] {
+  --btn-color: #2b3e51;
+  --today-highlight-bg: #f0f0f0;
+}
+
 .rbc-calendar {
   box-sizing: border-box;
   height: 100%;

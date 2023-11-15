@@ -7,7 +7,7 @@ import { enGB } from 'date-fns/locale';
 import { Calendar, CalendarProps, Components, dateFnsLocalizer, NavigateAction, View } from 'react-big-calendar';
 import withDragAndDrop, { withDragAndDropProps } from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
-import { textColor } from '@taskany/colors';
+import styled from 'styled-components';
 
 import { useCalendarEvents } from '../modules/calendarEventsHooks';
 import { DateRange, formatLocalized, weekOptions } from '../utils/date';
@@ -44,6 +44,11 @@ export const components: Components<BigCalendarEvent, never> = {
 const ReactBigDragAndDropCalendar = withDragAndDrop(
     Calendar as React.ComponentType<CalendarProps<BigCalendarEvent, never>>,
 );
+
+const StyledWrapper = styled.div`
+    min-height: 80vh;
+    margin-right: 40px;
+`;
 
 const transformApiToBigCalendarEvents = ({
     date,
@@ -118,20 +123,21 @@ export function SlotCalendar({
 
                 return (
                     <LoadingContainer isSpinnerVisible={isLoading}>
-                        <ReactBigDragAndDropCalendar
-                            localizer={localizer}
-                            events={events.map(transformApiToBigCalendarEvents)}
-                            onView={setCalendarView}
-                            style={{ color: textColor, height: '100%', minHeight: '80vh' }}
-                            date={calendarDate}
-                            view={calendarView}
-                            onNavigate={navigateToDateAndView}
-                            views={['month', 'week', 'work_week', 'day', 'agenda']}
-                            defaultView="work_week"
-                            components={components}
-                            culture="en-GB"
-                            {...bigCalendarProps}
-                        />
+                        <StyledWrapper>
+                            <ReactBigDragAndDropCalendar
+                                localizer={localizer}
+                                events={events.map(transformApiToBigCalendarEvents)}
+                                onView={setCalendarView}
+                                date={calendarDate}
+                                view={calendarView}
+                                onNavigate={navigateToDateAndView}
+                                views={['month', 'week', 'work_week', 'day', 'agenda']}
+                                defaultView="work_week"
+                                components={components}
+                                culture="en-GB"
+                                {...bigCalendarProps}
+                            />
+                        </StyledWrapper>
                     </LoadingContainer>
                 );
             }}

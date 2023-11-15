@@ -33,6 +33,7 @@ $active-border: darken($btn-border, 12%);
 
     &:active,
     &.rbc-active {
+      color: $white;
       background-image: none;
       box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
       background-color: $active-background;
@@ -40,20 +41,20 @@ $active-border: darken($btn-border, 12%);
 
       &:hover,
       &:focus {
-        color: $btn-color;
+        color: $white;
         background-color: darken($btn-bg, 17%);
         border-color: darken($btn-border, 25%);
       }
     }
 
     &:focus {
-      color: $btn-color;
+      color: $white;
       background-color: $active-background;
       border-color: $active-border;
     }
 
     &:hover {
-      color: $btn-color;
+      color: $white;
       background-color: $active-background;
           border-color: $active-border;
     }

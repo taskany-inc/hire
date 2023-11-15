@@ -8,8 +8,7 @@ $white: white;
 $out-of-range-color: $white !default; // lighten(#333, 40%) !default;
 $out-of-range-bg-color: darken($black, 5%) !default; // lighten(#333, 70%) !default;
 
-$calendar-border: rgba($white, 0.5) !default; // #ddd !default;
-$calendar-border: #ddd !default;
+$calendar-border: #555 !default;
 $cell-border: $gray !default; // #ddd !default;
 
 $border-color: #ccc !default;
@@ -28,12 +27,12 @@ $event-border-radius: 5px !default;
 $event-padding: 2px 5px !default;
 $event-zindex: 4 !default;
 
-$btn-color: $white !default; // #373a3c !default;
+$btn-color: var(--btn-color) !default; // #373a3c !default;
 $btn-bg: $accent !default; // #fff !default;
-$btn-border: rgba($white, 0.5) !default; // #ccc !default;
+$btn-border: #333 !default; // #ccc !default;
 
 $current-time-color: #74ad31 !default;
 
 $rbc-css-prefix: rbc-i !default;
 
-$today-highlight-bg: lighten($gray, 10%) !default; // #eaf6ff !default;
+$today-highlight-bg: var(--today-highlight-bg) !default; // #eaf6ff !default;

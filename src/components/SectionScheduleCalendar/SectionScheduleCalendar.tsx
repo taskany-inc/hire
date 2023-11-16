@@ -2,6 +2,8 @@ import { useState, useCallback, useMemo } from 'react';
 import { View } from 'react-big-calendar';
 import { User } from '@prisma/client';
 import { Text, Button, Modal, ModalHeader, ModalContent } from '@taskany/bricks';
+import styled from 'styled-components';
+import { gapL, gapM, gapS } from '@taskany/colors';
 
 import { InlineDot } from '../InlineDot';
 import { DateRange, firstVisibleDay, lastVisibleDay } from '../../utils/date';
@@ -22,13 +24,23 @@ export interface CalendarEventDetails extends CalendarEventLinkedSectionProps {
     title: string;
     originalDate: Date;
 }
-
 interface Props {
     interviewerIds: number[];
     onSlotSelected: (eventDetails: CalendarEventDetails) => void;
     selectedSlot: SectionCalendarSlotBooking | undefined;
     isSectionSubmitting: boolean;
 }
+
+const StyledButtonWrapper = styled.div`
+    display: flex;
+    gap: ${gapS};
+    float: right;
+    margin: ${gapL} 0 ${gapM} 0;
+`;
+
+const StyledTextWrapper = styled.div`
+    margin-top: ${gapS};
+`;
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function SectionScheduleCalendar({ interviewerIds, onSlotSelected, isSectionSubmitting }: Props) {
@@ -83,21 +95,27 @@ export function SectionScheduleCalendar({ interviewerIds, onSlotSelected, isSect
                 range={range}
             />
 
-            <Modal width={200} visible={!!eventDetails} onClose={closeEventFormModal}>
+            <Modal width={500} visible={!!eventDetails} onClose={closeEventFormModal}>
                 <ModalHeader>
                     <CalendarEventLinkedSection interviewSection={eventDetails?.interviewSection} />
                 </ModalHeader>
                 <ModalContent>
-                    <>
-                        <Text size="s">{eventDetails?.interviewer?.name}</Text>
-                        <InlineDot />
-                        <Text size="s">{eventDetails?.title}</Text>
-                    </>
-                    <Button onClick={closeEventFormModal} text={tr('Cancel')} />
+                    <Text size="m">{eventDetails?.interviewer?.name}</Text>
 
-                    {!eventDetails?.interviewSection && eventDetails?.eventId && (
-                        <Button onClick={handleSlotSelectClicked} text={tr('Choose')} />
-                    )}
+                    <StyledTextWrapper>
+                        {' '}
+                        <InlineDot />
+                        <Text as="span" size="s">
+                            {eventDetails?.title}
+                        </Text>
+                    </StyledTextWrapper>
+                    <StyledButtonWrapper>
+                        <Button onClick={closeEventFormModal} text={tr('Cancel')} />
+
+                        {!eventDetails?.interviewSection && eventDetails?.eventId && (
+                            <Button onClick={handleSlotSelectClicked} view="primary" outline text={tr('Choose')} />
+                        )}
+                    </StyledButtonWrapper>
                 </ModalContent>
             </Modal>
         </>

@@ -1,5 +1,5 @@
 import { Bar, BarChart, CartesianGrid, LabelList, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { backgroundColor, gray8 } from '@taskany/colors';
+import { backgroundColor, gray6 } from '@taskany/colors';
 import { Text } from '@taskany/bricks';
 
 import { useAnalyticsFilterContext } from '../../contexts/analyticsFilterContext';
@@ -32,16 +32,15 @@ export const GradesByInterviewer = ({ hireStreamName }: Props) => {
                     {Object.entries(data).map(([sectionType, sectionTypeData]) => (
                         <>
                             <Text size="xl" style={{ marginTop: 10, marginLeft: 40 }}>
-                                {tr('Estimates in section type')}
-                                {sectionType}
+                                {tr('Estimates in section type')} {sectionType}
                             </Text>
                             <ResponsiveContainer width="100%" height={500}>
                                 <BarChart data={sectionTypeData}>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#FFFFFF66" />
+                                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
                                     <XAxis dataKey="name" />
                                     <YAxis />
                                     <Tooltip
-                                        cursor={{ fill: `${gray8}77` }}
+                                        cursor={{ fill: gray6 }}
                                         wrapperStyle={{ border: 'none', outline: 'none' }}
                                         contentStyle={{ backgroundColor }}
                                     />
@@ -55,7 +54,7 @@ export const GradesByInterviewer = ({ hireStreamName }: Props) => {
                                             stackId={1}
                                             fill={getPieChartSliceColor(mapInterval(0, grades.length, 3, 5, i))}
                                         >
-                                            <LabelList dataKey={`grades.${grade}`} />
+                                            <LabelList dataKey={`grades.${grade}`} fill="#333333" />
                                             {grade === lastGrade && <LabelList position="top" fill="white" />}
                                         </Bar>
                                     ))}

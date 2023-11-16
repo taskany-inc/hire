@@ -27,7 +27,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
             <text x={x} y={y} textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
                 {`${value} (${(percent * 100).toFixed(0)}%)`}
             </text>
-            <text x={xx} y={yy} textAnchor={xx > cx ? 'start' : 'end'} dominantBaseline="central" fill="white">
+            <text x={xx} y={yy} textAnchor={xx > cx ? 'start' : 'end'} dominantBaseline="central" fill="gray">
                 {hirestream}
             </text>
         </>
@@ -62,7 +62,7 @@ export const CandidatesByHireStream = ({ allStreams }: CandidatesByHireStreamPro
                         </Pie>
                         <Tooltip
                             formatter={(value, _name, props) => [value, props.payload.payload.hirestream]}
-                            itemStyle={{ color: 'white' }}
+                            itemStyle={{ color: 'gray' }}
                             wrapperStyle={{ border: 'none', outline: 'none' }}
                             contentStyle={{ backgroundColor }}
                         />

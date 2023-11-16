@@ -1,6 +1,6 @@
 import { HireStream } from '@prisma/client';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { backgroundColor, gray8 } from '@taskany/colors';
+import { backgroundColor, gray6 } from '@taskany/colors';
 import { Text } from '@taskany/bricks';
 
 import { FinishedSectionsByInterviewerOutput } from '../../modules/analyticsQueriesTypes';
@@ -29,12 +29,12 @@ const Chart = ({ data }: { data: FinishedSectionsByInterviewerOutput }) => {
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="name" />
                 <YAxis />
-                <Bar dataKey="section" fill="#31b5c4" label={{ fill: gray8 }} />
                 <Tooltip
-                    cursor={{ fill: `${gray8}77` }}
+                    cursor={{ fill: gray6 }}
                     wrapperStyle={{ border: 'none', outline: 'none' }}
                     contentStyle={{ backgroundColor }}
                 />
+                <Bar dataKey="section" fill="#31b5c4" label={{ fill: '#5a5a5a' }} />
             </BarChart>
         </ResponsiveContainer>
     );

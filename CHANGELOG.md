@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.13.1](https://github.com/taskany-inc/hire/compare/v0.13.0...v0.13.1) (2023-11-16)
+
+
+### Bug Fixes
+
+* correct register for component folders ([625d300](https://github.com/taskany-inc/hire/commit/625d300b6938bc27e81c2ae20b313b325d377250))
+
 ## [0.13.0](https://github.com/taskany-inc/hire/compare/v0.12.1...v0.13.0) (2023-11-16)
 
 

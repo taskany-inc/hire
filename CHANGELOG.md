@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.13.0](https://github.com/taskany-inc/hire/compare/v0.12.1...v0.13.0) (2023-11-16)
+
+
+### Features
+
+* better look for section create and update ([c657b52](https://github.com/taskany-inc/hire/commit/c657b52ccec32f35e7379bdada6740e64576129a))
+
+
+### Bug Fixes
+
+* **Confirmation:** confirmation fixes ([e8a6093](https://github.com/taskany-inc/hire/commit/e8a609323b42fd77e56018bb13f12a7ee77ab1b1))
+* different colors for themes in calendar ([63b8aa0](https://github.com/taskany-inc/hire/commit/63b8aa076b1ffef03393703e566dde12323f3a01))
+* light Theme text color ([c15a589](https://github.com/taskany-inc/hire/commit/c15a589b4358f9619079cf86fe038f4c052f77bc))
+* **SectionFeedback:** grade buttons are not visible in light theme ([ce7d56a](https://github.com/taskany-inc/hire/commit/ce7d56ac56aa6d44d501aa6eb423e86eb8167b56))
+
 ## [0.12.1](https://github.com/taskany-inc/hire/compare/v0.12.0...v0.12.1) (2023-11-10)
 
 

@@ -1,6 +1,6 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { HireStream } from '@prisma/client';
-import { backgroundColor, gray8 } from '@taskany/colors';
+import { backgroundColor, gray6 } from '@taskany/colors';
 import { Text } from '@taskany/bricks';
 
 import { useHiringFunnel } from '../../modules/analyticsQueriesHooks';
@@ -44,11 +44,11 @@ export const HiringFunnel = ({ allStreams }: HiringFunnelProps) => {
                             <XAxis dataKey="label" />
                             <YAxis />
                             <Tooltip
-                                cursor={{ fill: `${gray8}77` }}
+                                cursor={{ fill: gray6 }}
                                 wrapperStyle={{ border: 'none', outline: 'none' }}
                                 contentStyle={{ backgroundColor }}
                             />
-                            <Bar dataKey="value" fill="#31b5c4" label={{ fill: gray8 }} />
+                            <Bar dataKey="value" fill="#31b5c4" label={{ fill: '#5a5a5a' }} />
                         </BarChart>
                     </ResponsiveContainer>
                 )}

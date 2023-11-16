@@ -1,5 +1,5 @@
 import { Bar, BarChart, CartesianGrid, LabelList, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { backgroundColor, gray8 } from '@taskany/colors';
+import { backgroundColor, gray6 } from '@taskany/colors';
 import { Text } from '@taskany/bricks';
 
 import { useAnalyticsFilterContext } from '../../contexts/analyticsFilterContext';
@@ -42,16 +42,16 @@ export const HiringBySectionType = ({ hireStreamName }: HiringBySectionTypeProps
                             <XAxis dataKey="sectionType" />
                             <YAxis />
                             <Tooltip
-                                cursor={{ fill: `${gray8}77` }}
+                                cursor={{ fill: gray6 }}
                                 wrapperStyle={{ border: 'none', outline: 'none' }}
                                 contentStyle={{ backgroundColor }}
                             />
                             <Bar dataKey="hire" stackId="a" fill="#18d891">
-                                <LabelList dataKey="hire" />
+                                <LabelList dataKey="hire" fill="#5a5a5a" />
                             </Bar>
                             <Bar dataKey="noHire" stackId="a" fill="#d84518">
-                                <LabelList dataKey="noHire" />
-                                <LabelList position="top" fill="white" />
+                                <LabelList dataKey="noHire" fill="#5a5a5a" />
+                                <LabelList position="top" fill="#5a5a5a" />
                             </Bar>
                             <Legend />
                         </BarChart>

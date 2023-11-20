@@ -1,15 +1,5 @@
 import { useState, VFC } from 'react';
-import {
-    Button,
-    FormTitle,
-    KeyCode,
-    Modal,
-    ModalContent,
-    ModalCross,
-    ModalHeader,
-    Text,
-    useKeyboard,
-} from '@taskany/bricks';
+import { Button, FormTitle, Modal, ModalContent, ModalCross, ModalHeader, Text } from '@taskany/bricks';
 import { gapM, gapS, gapXl } from '@taskany/colors';
 import styled from 'styled-components';
 
@@ -44,10 +34,6 @@ export const Confirmation: VFC<ConfirmationProps> = ({
     open,
     ...modalProps
 }) => {
-    const [onENTER] = useKeyboard([KeyCode.Enter], () => onAgree?.(), {
-        disableGlobalEvent: false,
-    });
-
     return (
         <Modal width={500} onClose={onClose} visible={open} {...modalProps}>
             <ModalHeader>
@@ -64,7 +50,6 @@ export const Confirmation: VFC<ConfirmationProps> = ({
                         outline
                         type="submit"
                         text={tr('Ok')}
-                        {...onENTER}
                     />
                     <Button onClick={onClose} text={tr('Cancel')} />
                 </StyledWrapper>

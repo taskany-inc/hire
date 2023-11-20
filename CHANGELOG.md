@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.13.2](https://github.com/taskany-inc/hire/compare/v0.13.1...v0.13.2) (2023-11-20)
+
+
+### Bug Fixes
+
+* **Analytics:** adapting analytics page depending on theme ([34adbca](https://github.com/taskany-inc/hire/commit/34adbca608d4bed8c301208ee8ed4e7b9b5b841a))
+* **SectionScheduleCalendar:** fixed free slot ([7957d51](https://github.com/taskany-inc/hire/commit/7957d51086ca6c43599f2070d37fdf447895cf26))
+
 ## [0.13.1](https://github.com/taskany-inc/hire/compare/v0.13.0...v0.13.1) (2023-11-16)
 
 

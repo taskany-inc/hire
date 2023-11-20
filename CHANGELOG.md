@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.13.3](https://github.com/taskany-inc/hire/compare/v0.13.2...v0.13.3) (2023-11-20)
+
+
+### Bug Fixes
+
+* **Confirmation:** remove useKeyboard ([6193b7e](https://github.com/taskany-inc/hire/commit/6193b7e798074b36e2347b8769285717f4656e1f))
+
 ## [0.13.2](https://github.com/taskany-inc/hire/compare/v0.13.1...v0.13.2) (2023-11-20)
 
 

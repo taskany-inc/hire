@@ -1,6 +1,5 @@
 import { LayoutMain } from '../../../../../components/LayoutMain';
 import { pageHrefs } from '../../../../../utils/paths';
-import { SectionCreationForm } from '../../../../../components/SectionCreationForm/SectionCreationForm';
 import { InferServerSideProps } from '../../../../../utils/types';
 import { accessChecks } from '../../../../../modules/accessChecks';
 import { createGetServerSideProps } from '../../../../../utils/createGetSSRProps';
@@ -8,6 +7,7 @@ import { useSectionType } from '../../../../../modules/sectionTypeHooks';
 import { QueryResolver } from '../../../../../components/QueryResolver/QueryResolver';
 import { useInterview } from '../../../../../modules/interviewHooks';
 import { useCandidate } from '../../../../../modules/candidateHooks';
+import { CreateOrUpdateSectionForm } from '../../../../../components/CreateOrUpdateSectionForm.tsx/CreateOrUpdateSectionForm';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
@@ -37,11 +37,12 @@ export default function SectionCreationPage({
                     pageTitle={`#${interview.id} — ${sectionType.title}`}
                     backlink={pageHrefs.interview(interview.id)}
                 >
-                    <SectionCreationForm
+                    <CreateOrUpdateSectionForm
                         interviewId={interview.id}
                         sectionType={sectionType}
                         candidate={candidate}
                         interview={interview}
+                        variant="new"
                     />
                 </LayoutMain>
             )}

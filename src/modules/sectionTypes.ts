@@ -44,6 +44,16 @@ export const updateSectionSchema = z.object({
 });
 export type UpdateSection = z.infer<typeof updateSectionSchema>;
 
+export const createOrUpdateSectionSchema = z.object({
+    sectionTypeId: z.number(),
+    sectionId: z.number(),
+    interviewId: z.number(),
+    interviewerId: z.number(),
+    description: z.string().nullish(),
+    calendarSlot: sectionCalendarSlotBookingSchema.optional(),
+});
+export type CreateOrUpdateSection = z.infer<typeof createOrUpdateSectionSchema>;
+
 export const updateSectionWithMetadataSchema = z.object({
     data: updateSectionSchema,
     metadata: z

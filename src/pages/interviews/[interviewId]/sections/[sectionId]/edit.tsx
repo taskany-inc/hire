@@ -2,12 +2,12 @@ import { LayoutMain } from '../../../../../components/LayoutMain';
 import { pageHrefs } from '../../../../../utils/paths';
 import { InferServerSideProps } from '../../../../../utils/types';
 import { symbols } from '../../../../../utils/symbols';
-import { SectionUpdateForm } from '../../../../../components/SectionUpdateForm/SectionUpdateForm';
 import { accessChecks } from '../../../../../modules/accessChecks';
 import { createGetServerSideProps } from '../../../../../utils/createGetSSRProps';
 import { useInterview } from '../../../../../modules/interviewHooks';
 import { useSection } from '../../../../../modules/sectionHooks';
 import { QueryResolver } from '../../../../../components/QueryResolver/QueryResolver';
+import { CreateOrUpdateSectionForm } from '../../../../../components/CreateOrUpdateSectionForm.tsx/CreateOrUpdateSectionForm';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
@@ -22,7 +22,7 @@ export const getServerSideProps = createGetServerSideProps({
     },
 });
 
-const SectionPage = ({ numberIds, sectionTypeId }: InferServerSideProps<typeof getServerSideProps>) => {
+const SectionPage = ({ numberIds }: InferServerSideProps<typeof getServerSideProps>) => {
     const interviewQuery = useInterview(numberIds.interviewId);
     const sectionQuery = useSection(numberIds.sectionId);
 
@@ -36,10 +36,12 @@ const SectionPage = ({ numberIds, sectionTypeId }: InferServerSideProps<typeof g
                         pageTitle={pageTitle}
                         backlink={pageHrefs.interviewSectionView(interview.id, section.id)}
                     >
-                        <SectionUpdateForm
+                        <CreateOrUpdateSectionForm
                             section={section}
                             sectionType={section.sectionType}
                             candidate={interview.candidate}
+                            variant="update"
+                            interviewId={section.interviewId}
                         />
                     </LayoutMain>
                 );

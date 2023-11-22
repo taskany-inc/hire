@@ -1,4 +1,4 @@
-import { useState, VFC } from 'react';
+import { useRef, useState, VFC } from 'react';
 import { Button, FormTitle, Modal, ModalContent, ModalCross, ModalHeader, Text } from '@taskany/bricks';
 import { gapM, gapS, gapXl } from '@taskany/colors';
 import styled from 'styled-components';
@@ -34,8 +34,12 @@ export const Confirmation: VFC<ConfirmationProps> = ({
     open,
     ...modalProps
 }) => {
+    const ref = useRef<HTMLButtonElement>(null);
+
+    const onShow = () => setTimeout(() => ref.current?.focus(), 0);
+
     return (
-        <Modal width={500} onClose={onClose} visible={open} {...modalProps}>
+        <Modal onShow={onShow} width={500} onClose={onClose} visible={open} {...modalProps}>
             <ModalHeader>
                 <ModalCross onClick={onClose} />
                 <FormTitle>{message}</FormTitle>
@@ -44,6 +48,7 @@ export const Confirmation: VFC<ConfirmationProps> = ({
                 {description && <Text>{description}</Text>}
                 <StyledWrapper>
                     <Button
+                        ref={ref}
                         onClick={onAgree}
                         view={destructive ? 'danger' : 'primary'}
                         disabled={inProgress}

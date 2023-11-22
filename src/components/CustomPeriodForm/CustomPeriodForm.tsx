@@ -2,12 +2,16 @@ import { format } from 'date-fns';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { gapS } from '@taskany/colors';
+import { Button, Fieldset, Form, FormAction, FormActions, FormCard } from '@taskany/bricks';
 
 import { useAnalyticsFilterContext } from '../../contexts/analyticsFilterContext';
 import { DatePicker } from '../DatePicker';
-import { FormContainer } from '../FormContainer';
 
 import { tr } from './CustomPeriodForm.i18n';
+
+const StyledFormCard = styled(FormCard)`
+    width: 300px;
+`;
 
 type CustomPeriodFormProps = {
     close: () => void;
@@ -36,16 +40,28 @@ export const CustomPeriodForm = ({ close }: CustomPeriodFormProps) => {
     const submitButtonText = submitButtonDisabled ? tr('Start date later than end date') : tr('Set period');
 
     return (
-        <FormContainer
-            submitButtonDisabled={submitButtonDisabled}
-            onSubmitButton={onSubmitButton}
-            submitButtonText={submitButtonText}
-            notToShowHint
-        >
-            <StyledDateContainer>
-                <DatePicker value={newStartDate} onChange={setNewStartDate} label={tr('Start of period')} />
-                <DatePicker value={newEndDate} onChange={setNewEndDate} label={tr('End of period')} />
-            </StyledDateContainer>
-        </FormContainer>
+        <StyledFormCard>
+            <Form onSubmit={onSubmitButton}>
+                <Fieldset>
+                    <StyledDateContainer>
+                        <DatePicker value={newStartDate} onChange={setNewStartDate} label={tr('Start of period')} />
+                        <DatePicker value={newEndDate} onChange={setNewEndDate} label={tr('End of period')} />
+                    </StyledDateContainer>
+                </Fieldset>
+                <FormActions flat="top">
+                    <FormAction left inline></FormAction>
+                    <FormAction right inline>
+                        <Button
+                            size="m"
+                            view="primary"
+                            type="submit"
+                            text={submitButtonText}
+                            disabled={submitButtonDisabled}
+                            outline
+                        />
+                    </FormAction>
+                </FormActions>
+            </Form>
+        </StyledFormCard>
     );
 };

@@ -4,8 +4,9 @@ import { useRouter } from 'next/router';
 import { Tag, ProblemDifficulty } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { danger0 } from '@taskany/colors';
-import { Button, Text } from '@taskany/bricks';
+import { danger0, gapS } from '@taskany/colors';
+import styled from 'styled-components';
+import { Button, FormInput, Text, Form, FormCard, FormActions, FormAction } from '@taskany/bricks';
 
 import { useProblemCreateMutation, useProblemUpdateMutation } from '../../modules/problemHooks';
 import { pageHrefs } from '../../utils/paths';
@@ -18,9 +19,8 @@ import { validationRules } from '../../utils/validationRules';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { Stack } from '../Stack';
-import { FormInput } from '../FormInput';
 import { Select } from '../Select';
-import { FormAutoComplete } from '../FormAutocomplete';
+import { Autocomplete } from '../Autocomplete/Autocomplete';
 
 import { tr } from './AddOrUpdateProblem.i18n';
 
@@ -32,6 +32,14 @@ export type AddOrUpdateProblemInitialValues = DefaultValues<FormData> & {
     id: number;
     tags: Tag[];
 };
+
+const StyledFormCard = styled(FormCard)`
+    max-width: 1200px;
+`;
+
+const StyledErrorText = styled(Text)`
+    margin-left: ${gapS};
+`;
 
 type AddOrUpdateProblemProps = {
     variant: 'new' | 'update';
@@ -52,6 +60,7 @@ const schema = z.object({
 const descriptionPlaceholder = tr(
     'Think carefully and describe the essence of the problem in as much detail as possible. It will not be superfluous to add snippets with code. Interviewers will thank you. Maybe ;)',
 );
+
 const solutionPlaceholder = tr(
     'Think a little more and write a solution to the problem. Perhaps not even one, but several for different levels of candidates.',
 );
@@ -127,75 +136,72 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
     useWarnIfUnsavedChanges(isDirty && !isSubmitting);
 
     const onDifficultyChange = (difficulty: ProblemDifficulty) => setValue('difficulty', difficulty);
-    const { ref: refName, ...restName } = register('name');
 
     return (
-        <form onSubmit={onSubmit}>
-            <Stack direction="column" gap="12px" justifyItems="flex-start">
-                <FormInput
-                    label={tr('Name')}
-                    helperText={errors.name?.message}
-                    placeholder={tr('For example, "Binary tree rotation"')}
-                    forwardRef={refName}
-                    {...restName}
-                />
-                <QueryResolver queries={[tagQuery]}>
-                    {([tags]) => (
-                        <FormAutoComplete
-                            label={tr('Tags')}
-                            options={entitiesToOptions(tags)}
-                            multiple
-                            value={entitiesToOptions(initialValues?.tags)}
-                            createNewOption={newTag}
-                            onChange={(data: Option[]) =>
-                                setValue(
-                                    'tags',
-                                    data.map((item) => ({ value: item.value, name: item.text })),
-                                )
-                            }
-                            placeholder={tr('Tags')}
-                        />
+        <StyledFormCard>
+            <Form onSubmit={onSubmit}>
+                <Stack direction="column" gap="12px" justifyItems="flex-start">
+                    <FormInput
+                        {...register('name')}
+                        label={tr('Name')}
+                        autoComplete="off"
+                        flat="bottom"
+                        error={errors.name}
+                    />
+
+                    <QueryResolver queries={[tagQuery]}>
+                        {([tags]) => (
+                            <Autocomplete
+                                label={tr('Tags')}
+                                options={entitiesToOptions(tags)}
+                                multiple
+                                value={entitiesToOptions(initialValues?.tags)}
+                                createNewOption={newTag}
+                                onChange={(data: Option[]) =>
+                                    setValue(
+                                        'tags',
+                                        data.map((item) => ({ value: item.value, name: item.text })),
+                                    )
+                                }
+                                placeholder={tr('Tags')}
+                            />
+                        )}
+                    </QueryResolver>
+                    <CodeEditorField
+                        disableAttaches
+                        name="description"
+                        label={tr('Description')}
+                        control={control}
+                        options={validationRules.nonEmptyString}
+                        placeholder={descriptionPlaceholder}
+                    />
+                    <CodeEditorField
+                        disableAttaches
+                        name="solution"
+                        label={tr('Solution')}
+                        control={control}
+                        options={validationRules.nonEmptyString}
+                        placeholder={solutionPlaceholder}
+                    />
+                    <Select
+                        options={difficultyOption}
+                        value={watch('difficulty')}
+                        onChange={onDifficultyChange}
+                        text={tr('Problem difficulty')}
+                    />
+                    {errors.difficulty && !watch('difficulty') && (
+                        <StyledErrorText size="xs" color={danger0}>
+                            {errors.difficulty.message}
+                        </StyledErrorText>
                     )}
-                </QueryResolver>
-                <CodeEditorField
-                    disableAttaches
-                    name="description"
-                    label={tr('Description')}
-                    control={control}
-                    options={validationRules.nonEmptyString}
-                    placeholder={descriptionPlaceholder}
-                />
-                {errors.description && !watch('description') && (
-                    <Text size="xs" color={danger0}>
-                        {errors.description.message}
-                    </Text>
-                )}
-                <CodeEditorField
-                    disableAttaches
-                    name="solution"
-                    label={tr('Solution')}
-                    control={control}
-                    options={validationRules.nonEmptyString}
-                    placeholder={solutionPlaceholder}
-                />
-                {errors.solution && !watch('solution') && (
-                    <Text size="xs" color={danger0}>
-                        {errors.solution.message}
-                    </Text>
-                )}
-                <Select
-                    options={difficultyOption}
-                    value={watch('difficulty')}
-                    onChange={onDifficultyChange}
-                    text={tr('Problem difficulty')}
-                />
-                {errors.difficulty && !watch('difficulty') && (
-                    <Text size="xs" color={danger0}>
-                        {errors.difficulty.message}
-                    </Text>
-                )}
-                <Button type="submit" outline view="primary" disabled={isSubmitting} text={tr('Save')} />
-            </Stack>
-        </form>
+                </Stack>
+                <FormActions flat="top">
+                    <FormAction left inline></FormAction>
+                    <FormAction right inline>
+                        <Button type="submit" outline view="primary" disabled={isSubmitting} text={tr('Save')} />
+                    </FormAction>
+                </FormActions>
+            </Form>
+        </StyledFormCard>
     );
 };

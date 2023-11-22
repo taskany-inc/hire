@@ -1,10 +1,11 @@
 import { SyntheticEvent } from 'react';
 import { useRifm } from 'rifm';
 import { Control, FieldPath, FieldValues, RegisterOptions, useController } from 'react-hook-form';
-
-import { FormInput, FormInputProps } from '../FormInput';
+import { FormInput, Input } from '@taskany/bricks';
 
 import { tr } from './PhoneField.i18n';
+
+type InputProps = JSX.LibraryManagedAttributes<typeof Input, React.ComponentProps<typeof Input>>;
 
 const stripPhone = (str: string) => str.slice(3).replace(/[^\d]/g, '');
 
@@ -36,13 +37,13 @@ const phoneRifmArgs = {
     mask: true,
 };
 
-const tweakSelection = (e: SyntheticEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+const tweakSelection = (e: SyntheticEvent<HTMLInputElement>) => {
     const start = Math.max(3, e.currentTarget.selectionStart ?? 0);
     const end = Math.max(3, e.currentTarget.selectionEnd ?? start);
     e.currentTarget.setSelectionRange(start, end, e.currentTarget.selectionDirection ?? undefined);
 };
 
-export type PhoneFieldProps<T extends FieldValues> = FormInputProps & {
+export type PhoneFieldProps<T extends FieldValues> = InputProps & {
     name: FieldPath<T>;
     control: Control<T>;
     options?: RegisterOptions<T>;
@@ -52,6 +53,7 @@ export const PhoneField = <T extends FieldValues>({
     name,
     control,
     options,
+    defaultValue,
     ...restProps
 }: PhoneFieldProps<T>): JSX.Element => {
     const { field } = useController({
@@ -66,7 +68,7 @@ export const PhoneField = <T extends FieldValues>({
         },
     });
 
-    const rifm = useRifm({
+    const rifm = useRifm<HTMLInputElement>({
         value: String(field.value),
         onChange: field.onChange,
         ...phoneRifmArgs,
@@ -74,8 +76,10 @@ export const PhoneField = <T extends FieldValues>({
 
     return (
         <FormInput
+            label={tr('Phone number')}
             {...restProps}
             {...rifm}
+            defaultValue={String(defaultValue)}
             onFocus={tweakSelection}
             onClick={tweakSelection}
             onKeyUp={tweakSelection}

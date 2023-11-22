@@ -1,9 +1,7 @@
 import { useForm, useWatch } from 'react-hook-form';
 import { toDate } from 'date-fns';
+import { Button, Fieldset, Form, FormAction, FormActions, FormCard, FormInput } from '@taskany/bricks';
 
-import { validationRules } from '../../utils/validationRules';
-import { FormContainer } from '../FormContainer';
-import { FormInput } from '../FormInput';
 import { DropdownFieldOption } from '../DropdownField';
 import { CalendarEventInstance, EventRecurrence, EventRepeatMode } from '../../modules/calendarTypes';
 import { Select } from '../Select';
@@ -78,28 +76,58 @@ export function CalendarEventForm({
     const submitButtonDisabled = ![startDateIsChanged, durationsIsChanged, isDirty, isSubmitting].includes(true);
 
     const onRepeatChange = (repeatOption: EventRepeatMode) => setValue('recurrence.repeat', repeatOption);
-    const { ref: refTitle, ...restTitle } = register('title', validationRules.nonEmptyString);
 
     return (
-        <FormContainer
-            onSubmitButton={handleSubmit(onSave)}
-            submitButtonText={tr('Save the event')}
-            submitButtonDisabled={submitButtonDisabled}
-            deleteButtonText={deleteButtonText}
-            onDeleteButton={onDeleteButton}
-        >
-            <FormInput label={tr('Name')} helperText={errors.title?.message} {...restTitle} forwardRef={refTitle} />
+        <FormCard>
+            <Form onSubmit={handleSubmit(onSave)}>
+                <Fieldset>
+                    <FormInput
+                        {...register('title')}
+                        label={tr('Name')}
+                        autoComplete="off"
+                        flat="bottom"
+                        error={errors.title}
+                    />
 
-            <DateTimePickers startDate={startDate} duration={duration} onChange={handleDateTimeAndDurationChange} />
+                    <DateTimePickers
+                        startDate={startDate}
+                        duration={duration}
+                        onChange={handleDateTimeAndDurationChange}
+                    />
 
-            {isNew && (
-                <Select
-                    text={tr('Repetition')}
-                    options={repeatOptions}
-                    onChange={onRepeatChange}
-                    value={watch('recurrence.repeat')}
-                />
-            )}
-        </FormContainer>
+                    {isNew && (
+                        <Select
+                            text={tr('Repetition')}
+                            options={repeatOptions}
+                            onChange={onRepeatChange}
+                            value={watch('recurrence.repeat')}
+                        />
+                    )}
+                </Fieldset>
+                <FormActions flat="top">
+                    <FormAction left inline></FormAction>
+                    <FormAction right inline>
+                        {deleteButtonText && (
+                            <Button
+                                type="button"
+                                onClick={onDeleteButton}
+                                text={deleteButtonText}
+                                view="danger"
+                                size="m"
+                                outline
+                            />
+                        )}
+                        <Button
+                            disabled={submitButtonDisabled}
+                            size="m"
+                            view="primary"
+                            type="submit"
+                            text={tr('Save the event')}
+                            outline
+                        />
+                    </FormAction>
+                </FormActions>
+            </Form>
+        </FormCard>
     );
 }

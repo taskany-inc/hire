@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { gapM } from '@taskany/colors';
 import { toDate } from 'date-fns';
 
 import { DatePicker } from '../DatePicker';
@@ -16,11 +17,10 @@ export interface DateTimeSelectorProps {
 
 export const Container = styled.div`
     display: flex;
-    gap: 12px;
+    gap: 46px;
     width: 100%;
-    max-width: 500px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    max-width: 600px;
+    padding: ${gapM} 0px;
 `;
 
 export function DateTimePickers({

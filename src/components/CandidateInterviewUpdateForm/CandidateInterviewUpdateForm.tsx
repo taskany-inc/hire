@@ -2,13 +2,14 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { useCallback, useMemo } from 'react';
 import { HireStream } from '@prisma/client';
+import styled from 'styled-components';
+import { Button, Fieldset, Form, FormAction, FormActions, FormCard } from '@taskany/bricks';
 
 import { pageHrefs } from '../../utils/paths';
 import { InterviewWithRelations, UpdateInterview } from '../../modules/interviewTypes';
 import { useInterviewUpdateMutation } from '../../modules/interviewHooks';
 import { Option } from '../../utils/types';
 import { useProductFinalSectionDropdownOptions } from '../../modules/candidateSelectedSectionHooks';
-import { FormContainer } from '../FormContainer';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { CandidateNameSubtitle } from '../CandidateNameSubtitle';
 import { Stack } from '../Stack';
@@ -16,6 +17,10 @@ import { DropdownFieldOption } from '../DropdownField';
 import { Select } from '../Select';
 
 import { tr } from './CandidateInterviewUpdateForm.i18n';
+
+const StyledFormCard = styled(FormCard)`
+    width: 500px;
+`;
 
 type InterviewUpdateFormData = Omit<UpdateInterview, 'candidateId' | 'candidateSelectedSectionId' | 'hireStreamId'> & {
     candidate: Option;
@@ -84,36 +89,47 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
         <Stack direction="column" gap={14}>
             <CandidateNameSubtitle name={candidate.name} id={candidate.id} />
 
-            <FormContainer
-                submitButtonText={tr('Save interview')}
-                onSubmitButton={handleSubmit(updateInterview)}
-                submitButtonDisabled={isSubmitting}
-            >
-                <Stack direction="column" gap={20}>
-                    <CodeEditorField
-                        disableAttaches
-                        name="description"
-                        label={tr('Comment')}
-                        control={control}
-                        placeholder={tr('Think carefully and write a couple of notes about this interview.')}
-                        height={130}
-                    />
+            <StyledFormCard>
+                <Form onSubmit={handleSubmit(updateInterview)}>
+                    <Fieldset>
+                        <CodeEditorField
+                            disableAttaches
+                            name="description"
+                            label={tr('Comment')}
+                            control={control}
+                            placeholder={tr('Think carefully and write a couple of notes about this interview.')}
+                            height={130}
+                        />
 
-                    <Select
-                        value={watch('hireStreamId')}
-                        text={tr('Hire stream')}
-                        options={hireStreamOptions}
-                        onChange={onHireStreamIdChange}
-                    />
+                        <Select
+                            value={watch('hireStreamId')}
+                            text={tr('Hire stream')}
+                            options={hireStreamOptions}
+                            onChange={onHireStreamIdChange}
+                        />
 
-                    <Select
-                        value={watch('candidateSelectedSectionId')}
-                        text={tr("Candidate's Chosen Product Final")}
-                        options={productFinalSectionOptions}
-                        onChange={onProductFinalSectionChange}
-                    />
-                </Stack>
-            </FormContainer>
+                        <Select
+                            value={watch('candidateSelectedSectionId')}
+                            text={tr("Candidate's Chosen Product Final")}
+                            options={productFinalSectionOptions}
+                            onChange={onProductFinalSectionChange}
+                        />
+                    </Fieldset>
+                    <FormActions flat="top">
+                        <FormAction left inline></FormAction>
+                        <FormAction right inline>
+                            <Button
+                                disabled={isSubmitting}
+                                size="m"
+                                view="primary"
+                                type="submit"
+                                text={tr('Save interview')}
+                                outline
+                            />
+                        </FormAction>
+                    </FormActions>
+                </Form>
+            </StyledFormCard>
         </Stack>
     );
 }

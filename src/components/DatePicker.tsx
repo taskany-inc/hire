@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { format, parse } from 'date-fns';
-import { Input } from '@taskany/bricks';
+import { Input, Text } from '@taskany/bricks';
+import { gray8 } from '@taskany/colors';
 
-import { Container, Label } from './StyledComponents';
+import { Stack } from './Stack';
 
 type DatePickerProps = {
     value: Date;
@@ -22,9 +23,11 @@ export const DatePicker = ({ label, value, onChange = () => {} }: DatePickerProp
     };
 
     return (
-        <Container>
-            <Label>{label}</Label>
+        <Stack direction="column">
+            <Text as="label" size="m" color={gray8} weight="bold">
+                {label}
+            </Text>
             <Input type="date" defaultValue={date} onChange={handleChange} />
-        </Container>
+        </Stack>
     );
 };

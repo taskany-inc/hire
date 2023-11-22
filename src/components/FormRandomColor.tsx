@@ -1,11 +1,14 @@
 import { Control, FieldPath, FieldValues, useController } from 'react-hook-form';
 import styled from 'styled-components';
+import { ErrorPopup, Text } from '@taskany/bricks';
+import { gapM, gapS, gray8 } from '@taskany/colors';
 
 import { generateColor } from '../utils/color';
 
-import { Container, FormHelperText } from './StyledComponents';
-
-const StyledContainer = styled(Container)`
+const StyledContainer = styled.div`
+    width: 100%;
+    max-width: 500px;
+    padding: ${gapS} ${gapM};
     display: flex;
     align-items: center;
 `;
@@ -14,7 +17,7 @@ const ColorExample = styled.div<{ color: string }>`
     width: 42px;
     height: 42px;
     background-color: ${({ color }) => color};
-    padding: 8px;
+    padding: ${gapS};
     background-clip: content-box;
     border-radius: 12px;
 `;
@@ -31,9 +34,11 @@ export const FormRandomColor = <T extends FieldValues>(props: FormRandomColorPro
 
     return (
         <StyledContainer onClick={() => field.onChange(generateColor())}>
+            <Text as="label" size="m" color={gray8} weight="bold">
+                {label}
+            </Text>
             <ColorExample color={field.value} />
-            {label}
-            {fieldState.error && <FormHelperText>{fieldState.error.message}</FormHelperText>}
+            {fieldState.error && <ErrorPopup>{fieldState.error.message}</ErrorPopup>}
         </StyledContainer>
     );
 };

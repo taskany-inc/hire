@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Dropdown, MenuItem } from '@taskany/bricks';
+import { Dropdown, FiltersMenuItem, MenuItem } from '@taskany/bricks';
 import { Grades } from '@prisma/client';
 
 import { useGradeOptions } from '../../modules/gradesHooks';
@@ -11,6 +11,7 @@ type FormGradeDropdownProps = {
     value?: string[] | null;
     disabled?: React.ComponentProps<typeof Dropdown>['disabled'];
     error?: React.ComponentProps<typeof Dropdown>['error'];
+    className?: string;
 
     onChange?: (priority: Grades) => void;
 };
@@ -32,7 +33,9 @@ export const FormGradeDropdown = React.forwardRef<HTMLDivElement, FormGradeDropd
                 items={gradeOptions}
                 disabled={disabled || gradeOptions.length === 0}
                 renderTrigger={(props) => (
-                    <Button ref={props.ref} onClick={props.onClick} disabled={props.disabled} text={props.value} />
+                    <FiltersMenuItem ref={props.ref} onClick={props.onClick} disabled={props.disabled}>
+                        {props.value}
+                    </FiltersMenuItem>
                 )}
                 renderItem={(props) => (
                     <MenuItem ghost key={props.item} focused={props.cursor === props.index} onClick={props.onClick}>

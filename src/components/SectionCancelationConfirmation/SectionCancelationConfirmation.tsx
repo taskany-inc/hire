@@ -1,11 +1,10 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { Modal, ModalContent, ModalHeader, FormTitle, Button } from '@taskany/bricks';
+import { Modal, ModalContent, ModalHeader, FormTitle, Button, FormTextarea } from '@taskany/bricks';
 
 import { useSectionCancelMutation } from '../../modules/sectionHooks';
 import { pageHrefs } from '../../utils/paths';
 import { Stack } from '../Stack';
-import { FormTextArea } from '../FormTextArea';
 
 import { tr } from './SectionCancelationConfirmation.i18n';
 
@@ -51,10 +50,8 @@ export const SectionCancelationConfirmation = ({
                 </ModalHeader>
                 <ModalContent>
                     <Stack direction="column" gap={24} justifyItems="start">
-                        <FormTextArea
-                            label={tr('Comment')}
+                        <FormTextarea
                             placeholder={tr('Commentary on section cancellation')}
-                            rows={3}
                             {...register('cancelComment')}
                         />
                     </Stack>

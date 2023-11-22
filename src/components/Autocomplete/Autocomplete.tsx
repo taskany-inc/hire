@@ -1,8 +1,10 @@
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Button, Input, useKeyboard, KeyCode, Badge, Popup } from '@taskany/bricks';
+import { useKeyboard, KeyCode, Badge, Popup, FormInput } from '@taskany/bricks';
+import { gapXs } from '@taskany/colors';
 
 import { Option } from '../../utils/types';
+import { ColorizedMenuItem } from '../ColorizedMenuItem';
 
 import { tr } from './Autocomplete.i18n';
 
@@ -17,6 +19,7 @@ export interface AutocompleteProps<T> {
     onInputChange?: (value: string) => void;
     onChange?: (value: T) => void;
     placeholder?: string;
+    label?: string;
 }
 
 const StyledDropdown = styled.span`
@@ -25,15 +28,10 @@ const StyledDropdown = styled.span`
     width: 100%;
 `;
 
-const StyledButton = styled(Button)`
-    width: 100%;
-    border: none;
-`;
-
 const StyledBadgeContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
-    padding-top: 4px;
+    padding-top: ${gapXs};
 `;
 
 const StyledBadge = styled(Badge)`
@@ -54,7 +52,7 @@ export function Autocomplete({
     options,
     value = [],
     onInputChange,
-    placeholder,
+    label,
 }: AutocompleteProps<any>) {
     // TODO gotta figure out the types
     const popupRef = useRef<HTMLDivElement>(null);
@@ -132,13 +130,6 @@ export function Autocomplete({
     return (
         <StyledDropdown ref={ref}>
             <span ref={popupRef} {...onESC}>
-                <Input
-                    ref={inputRef}
-                    onFocus={onTriggerClick}
-                    onChange={onValueInput}
-                    value={inputValue}
-                    placeholder={placeholder}
-                />
                 <StyledBadgeContainer>
                     {added.map((item, index) => (
                         <StyledBadge size={'xl'} onClick={() => onItemRemove(item)} key={index}>
@@ -146,6 +137,13 @@ export function Autocomplete({
                         </StyledBadge>
                     ))}
                 </StyledBadgeContainer>
+                <FormInput
+                    label={label}
+                    ref={inputRef}
+                    onFocus={onTriggerClick}
+                    onChange={onValueInput}
+                    value={inputValue}
+                />
             </span>
 
             <Popup
@@ -161,18 +159,15 @@ export function Autocomplete({
             >
                 <StyledPopupContainer {...onESC}>
                     {filteredItems.length === 0 ? (
-                        <StyledButton
-                            type="button"
-                            disabled={!createNewOption}
-                            text={createNewOption ? tr('Add {inputValue}', { inputValue }) : tr('no options')}
-                            onClick={() => onCreateNewOptionClick(inputValue)}
+                        <ColorizedMenuItem
+                            title={createNewOption ? tr('Add {inputValue}', { inputValue }) : tr('no options')}
+                            onClick={() => createNewOption && onCreateNewOptionClick(inputValue)}
                         />
                     ) : (
                         filteredItems.map((item, index) => (
-                            <StyledButton
-                                type="button"
-                                text={typeof item === 'string' ? item : item.text}
+                            <ColorizedMenuItem
                                 key={index}
+                                title={typeof item === 'string' ? item : item.text}
                                 onClick={onItemClick(item)}
                             />
                         ))

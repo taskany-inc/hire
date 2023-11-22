@@ -49,7 +49,7 @@ export const AnalyticsFilterMenuBar = ({ hireStreams }: AnalyticsFilterMenuBarPr
             onPeriodChange={onPeriodChange}
             periodFilter={periodTitle}
         >
-            <Modal width={700} visible={openCustomPeriod} onClose={() => setCustomPeriod(false)}>
+            <Modal width={500} visible={openCustomPeriod} onClose={() => setCustomPeriod(false)}>
                 <ModalHeader>
                     <FormTitle>{tr('Custom period')}</FormTitle>
                 </ModalHeader>

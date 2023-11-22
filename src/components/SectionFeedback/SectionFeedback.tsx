@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
 import styled from 'styled-components';
 import { Text, Button } from '@taskany/bricks';
+import { danger0, gapM, gapS } from '@taskany/colors';
 
 import { useSectionUpdateMutation } from '../../modules/sectionHooks';
 import { InterviewEventTypes } from '../../modules/interviewEventTypes';
@@ -20,7 +21,6 @@ import { Stack } from '../Stack';
 import { GradeButton } from '../GradeButton';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { HireButtons } from '../HireButtons/HireButtons';
-import { FormHelperText } from '../StyledComponents';
 import { SectionFeedbackHireBadge } from '../SectionFeedbackHireBadge/SectionFeedbackHireBadge';
 import { SectionAttach } from '../SectionAttach/SectionAttach';
 
@@ -32,14 +32,18 @@ type SectionFeedbackProps = {
     candidateId: number;
 };
 
+const StyledErrorText = styled(Text)`
+    padding: ${gapS};
+`;
+
 const StyledMarkdownRenderer = styled(MarkdownRenderer)`
-    margin-top: 14px;
+    margin-top: ${gapM};
     max-width: 900px;
     overflow: auto;
 `;
 
 const StyledButton = styled(Button)`
-    margin: 12px 0;
+    margin: ${gapM} 0;
 `;
 
 const schema = z.object({
@@ -151,7 +155,7 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
                         <div>
                             <HireButtons section={section} setHire={setHire} setGrade={setGrade} />
                             {errors.hire && watch('hire') === null && (
-                                <FormHelperText>{errors.hire.message}</FormHelperText>
+                                <StyledErrorText color={danger0}>{errors.hire.message}</StyledErrorText>
                             )}
                         </div>
                     ) : (

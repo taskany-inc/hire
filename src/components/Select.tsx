@@ -1,31 +1,14 @@
 import React, { useCallback, useState } from 'react';
-import styled from 'styled-components';
-import { Button, Dropdown } from '@taskany/bricks';
-import { gray9 } from '@taskany/colors';
+import { gray8 } from '@taskany/colors';
+import { Dropdown, FiltersMenuItem, Text } from '@taskany/bricks';
 
 import { ColorizedMenuItem } from './ColorizedMenuItem';
+import { Stack } from './Stack';
 
 type DropdownOption = {
     value: string | number;
     text: string;
 };
-
-const Container = styled.div`
-    width: 100%;
-    max-width: 500px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-`;
-
-export const Label = styled.div`
-    font-style: normal;
-    font-weight: normal;
-    font-size: 16px;
-    line-height: 20px;
-    margin-bottom: 5px;
-
-    color: ${gray9};
-`;
 
 interface SelectProps {
     text: React.ComponentProps<typeof Dropdown>['text'];
@@ -53,8 +36,12 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
         );
 
         return (
-            <Container>
-                {label && <Label>{label}</Label>}
+            <Stack direction="column">
+                {label && (
+                    <Text as="label" size="m" color={gray8} weight="bold">
+                        {label}
+                    </Text>
+                )}
                 <Dropdown
                     ref={ref}
                     text={selected?.text || text}
@@ -64,7 +51,9 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
                     disabled={disabled}
                     maxHeight={300}
                     renderTrigger={(props) => (
-                        <Button ref={props.ref} disabled={props.disabled} onClick={props.onClick} text={props.text} />
+                        <FiltersMenuItem ref={props.ref} disabled={props.disabled} onClick={props.onClick}>
+                            {props.text}
+                        </FiltersMenuItem>
                     )}
                     renderItem={(props) => (
                         <ColorizedMenuItem
@@ -76,7 +65,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
                         />
                     )}
                 />
-            </Container>
+            </Stack>
         );
     },
 );

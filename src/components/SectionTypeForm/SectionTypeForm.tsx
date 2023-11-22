@@ -2,7 +2,21 @@ import { FC, useState, VFC } from 'react';
 import { SectionType } from '@prisma/client';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FormTitle, Modal, ModalContent, ModalHeader } from '@taskany/bricks';
+import {
+    Button,
+    Fieldset,
+    Form,
+    FormAction,
+    FormActions,
+    FormCard,
+    FormInput,
+    FormTitle,
+    Modal,
+    ModalContent,
+    ModalHeader,
+    Text,
+} from '@taskany/bricks';
+import { gapM, gapS, gray8 } from '@taskany/colors';
 import { IconAddOutline } from '@taskany/icons';
 import styled from 'styled-components';
 
@@ -15,15 +29,18 @@ import {
 import { useCreateSectionTypeMutation, useUpdateSectionTypeMutation } from '../../modules/sectionTypeHooks';
 import { generateColor } from '../../utils/color';
 import { errorsProvider } from '../../utils/forms';
-import { FormContainer } from '../FormContainer';
-import { FormInput } from '../FormInput';
 import { FormRandomColor } from '../FormRandomColor';
 import { FormGradeDropdown } from '../FormGradeDropdown/FormGradeDropdown';
 
 import { tr } from './SectionTypeForm.i18n';
 
 const StyledCheckbox = styled.div`
-    margin-bottom: 6px;
+    margin-bottom: ${gapS};
+    margin-left: ${gapM};
+`;
+
+const StyledGradesDropdownWrapper = styled.div`
+    margin-left: ${gapM};
 `;
 
 const checkboxes: {
@@ -72,54 +89,63 @@ export const SectionTypeForm: VFC<SectionTypeFormProps> = ({ afterSubmit, onCanc
     const onSubmit = handleSubmit((values) =>
         (props.type === 'create' ? createSectionType : updateSectionType).mutateAsync(values).then(afterSubmit),
     );
-    const { ref: refValue, ...restValue } = register('value');
-    const { ref: refTitle, ...restTitle } = register('title');
 
     const errorsResolver = errorsProvider(errors, isSubmitted);
 
     return (
-        <FormContainer
-            submitButtonText={tr('Save')}
-            onSubmitButton={onSubmit}
-            onCancelButton={onCancel}
-            cancelButtonText={tr('Cancel')}
-            submitButtonDisabled={isSubmitting || isSubmitSuccessful}
-        >
-            <FormInput
-                label={tr('Section code')}
-                helperText={errors.value?.message}
-                placeholder={tr('For example CODING or PRODUCT_FINAL')}
-                forwardRef={refValue}
-                {...restValue}
-            />
-            <FormInput
-                label={tr('Section name')}
-                helperText={errors.title?.message}
-                forwardRef={refTitle}
-                {...restTitle}
-            />
-            {checkboxes.map((checkbox) => (
-                <StyledCheckbox key={checkbox.name}>
-                    <label htmlFor={checkbox.name}>
-                        <input type="checkbox" {...register(checkbox.name)} id={checkbox.name} />
-                        {checkbox.label}
-                    </label>
-                </StyledCheckbox>
-            ))}
-            <Controller
-                name="gradeOptions"
-                control={control}
-                render={({ field }) => (
-                    <FormGradeDropdown
-                        text={tr('Grade options')}
-                        disabled={isSubmitting}
-                        error={errorsResolver(field.name)}
-                        {...field}
+        <FormCard>
+            <Form onSubmit={onSubmit}>
+                <Fieldset>
+                    <FormInput
+                        label={tr('Section code')}
+                        error={errors.value}
+                        placeholder={tr('For example CODING or PRODUCT_FINAL')}
+                        {...register('value')}
+                        autoComplete="off"
+                        flat="bottom"
                     />
-                )}
-            />
-            <FormRandomColor label={tr('Section color in the calendar')} name="eventColor" control={control} />
-        </FormContainer>
+                    <FormInput label={tr('Section name')} error={errors.title} {...register('title')} />
+
+                    <FormRandomColor label={tr('Section color in the calendar')} name="eventColor" control={control} />
+                    {checkboxes.map((checkbox) => (
+                        <StyledCheckbox key={checkbox.name}>
+                            <Text as="label" htmlFor={checkbox.name} color={gray8}>
+                                <input type="checkbox" {...register(checkbox.name)} id={checkbox.name} />
+                                {checkbox.label}
+                            </Text>
+                        </StyledCheckbox>
+                    ))}
+                    <StyledGradesDropdownWrapper>
+                        <Controller
+                            name="gradeOptions"
+                            control={control}
+                            render={({ field }) => (
+                                <FormGradeDropdown
+                                    text={tr('Grade options')}
+                                    disabled={isSubmitting}
+                                    error={errorsResolver(field.name)}
+                                    {...field}
+                                />
+                            )}
+                        />
+                    </StyledGradesDropdownWrapper>
+                </Fieldset>
+                <FormActions flat="top">
+                    <FormAction left inline></FormAction>
+                    <FormAction right inline>
+                        <Button onClick={onCancel} text={tr('Cancel')} size="m" outline type="button" />
+                        <Button
+                            size="m"
+                            view="primary"
+                            type="submit"
+                            disabled={isSubmitting || isSubmitSuccessful}
+                            text={tr('Save')}
+                            outline
+                        />
+                    </FormAction>
+                </FormActions>
+            </Form>
+        </FormCard>
     );
 };
 

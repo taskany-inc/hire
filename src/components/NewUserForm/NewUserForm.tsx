@@ -2,15 +2,20 @@ import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
+import styled from 'styled-components';
+import { Form, Button, Fieldset, FormAction, FormActions, FormCard } from '@taskany/bricks';
 
 import { CreateUser } from '../../modules/userTypes';
 import { useExternalUserSearch } from '../../modules/externalUserHooks';
 import { Paths } from '../../utils/paths';
+import { Autocomplete } from '../Autocomplete/Autocomplete';
 import { useCreateUserMutation } from '../../modules/userHooks';
-import { FormContainer } from '../FormContainer';
-import { FormAutoComplete } from '../FormAutocomplete';
 
 import { tr } from './NewUserForm.i18n';
+
+const StyledFormCard = styled(FormCard)`
+    width: 500px;
+`;
 
 export const NewUserForm = () => {
     const {
@@ -40,37 +45,50 @@ export const NewUserForm = () => {
     );
 
     return (
-        <FormContainer
-            submitButtonText={tr('Add user')}
-            onSubmitButton={onSubmit}
-            submitButtonDisabled={isSubmitting || isSubmitSuccessful}
-        >
-            <FormAutoComplete
-                label={tr('Full name')}
-                options={usersByName}
-                onChange={(name) => {
-                    const user = usersByNameQuery.data?.find((u) => u.fullName === name);
+        <StyledFormCard>
+            <Form onSubmit={onSubmit}>
+                <Fieldset>
+                    <Autocomplete
+                        label={tr('Full name')}
+                        options={usersByName}
+                        onChange={(name) => {
+                            const user = usersByNameQuery.data?.find((u) => u.fullName === name);
 
-                    if (user) {
-                        setValue('name', user.fullName);
-                        setValue('email', user.email);
-                    }
-                }}
-                onInputChange={(value) => setValue('name', value)}
-            />
-            <FormAutoComplete
-                label={tr('Email')}
-                options={usersByEmail}
-                onChange={(email) => {
-                    const user = usersByEmailQuery.data?.find((u) => u.email === email);
+                            if (user) {
+                                setValue('name', user.fullName);
+                                setValue('email', user.email);
+                            }
+                        }}
+                        onInputChange={(value) => setValue('name', value)}
+                    />
+                    <Autocomplete
+                        label={tr('Email')}
+                        options={usersByEmail}
+                        onChange={(email) => {
+                            const user = usersByEmailQuery.data?.find((u) => u.email === email);
 
-                    if (user) {
-                        setValue('name', user.fullName);
-                        setValue('email', user.email);
-                    }
-                }}
-                onInputChange={(value) => setValue('email', value)}
-            />
-        </FormContainer>
+                            if (user) {
+                                setValue('name', user.fullName);
+                                setValue('email', user.email);
+                            }
+                        }}
+                        onInputChange={(value) => setValue('email', value)}
+                    />
+                </Fieldset>
+                <FormActions flat="top">
+                    <FormAction left inline></FormAction>
+                    <FormAction right inline>
+                        <Button
+                            disabled={isSubmitting || isSubmitSuccessful}
+                            size="m"
+                            view="primary"
+                            type="submit"
+                            text={tr('Add user')}
+                            outline
+                        />
+                    </FormAction>
+                </FormActions>
+            </Form>
+        </StyledFormCard>
     );
 };

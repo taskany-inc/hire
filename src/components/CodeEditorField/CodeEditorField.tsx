@@ -2,11 +2,10 @@
 import { Control, FieldPath, FieldValues, RegisterOptions, useController } from 'react-hook-form';
 import styled from 'styled-components';
 import { useState } from 'react';
-import { Button, FormEditor } from '@taskany/bricks';
+import { Button, FormEditor, Text } from '@taskany/bricks';
 import { IconMarkdownOutline } from '@taskany/icons';
-import { gray10, gray8 } from '@taskany/colors';
+import { gapM, gapS, gapXs, gray10, gray8 } from '@taskany/colors';
 
-import { FormHelperText, Label } from '../StyledComponents';
 import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import { Tip } from '../Tip';
 
@@ -23,7 +22,7 @@ const HintContainer = styled.div`
 
 const StyledPreviewButton = styled(Button)`
     margin-left: auto;
-    margin-top: 4px;
+    margin-top: ${gapXs};
 `;
 
 const StyledFormEditor = styled(FormEditor)`
@@ -34,8 +33,12 @@ const StyledFormEditor = styled(FormEditor)`
 const StyledMarkdownIcon = styled.div`
     color: rgba(255, 255, 255, 0.54);
     margin-bottom: -20px;
-    margin-right: 5px;
-    margin-left: 8px;
+    margin-right: ${gapXs};
+    margin-left: ${gapS};
+`;
+
+const StyledLabel = styled(Text)`
+    padding: ${gapS} ${gapS} ${gapS} ${gapM};
 `;
 
 type FormEditorProps = JSX.LibraryManagedAttributes<typeof FormEditor, React.ComponentProps<typeof FormEditor>>;
@@ -64,14 +67,21 @@ export const CodeEditorField = <T extends FieldValues>(props: CodeEditorFieldPro
 
     return (
         <StyledRoot width={width}>
-            <Label>{label}</Label>
+            <StyledLabel as="label" size="m" color={gray8} weight="bold">
+                {label}
+            </StyledLabel>
 
             {preview ? (
                 <MarkdownRenderer minHeight={String(markdownRendererMinHeight)} value={control._getWatch(name)} />
             ) : (
-                <StyledFormEditor uploadLink={uploadLink} disableAttaches={disableAttaches} {...field} {...restProps} />
+                <StyledFormEditor
+                    error={fieldState.error}
+                    uploadLink={uploadLink}
+                    disableAttaches={disableAttaches}
+                    {...field}
+                    {...restProps}
+                />
             )}
-            {fieldState.error && <FormHelperText>{fieldState.error.message}</FormHelperText>}
             <HintContainer>
                 <StyledMarkdownIcon>
                     <IconMarkdownOutline size="s" color={gray8} />

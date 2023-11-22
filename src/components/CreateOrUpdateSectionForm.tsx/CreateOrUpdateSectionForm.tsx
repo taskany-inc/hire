@@ -28,7 +28,6 @@ import { CandidateNameSubtitle } from '../CandidateNameSubtitle';
 import { SectionScheduleCalendar, CalendarEventDetails } from '../SectionScheduleCalendar/SectionScheduleCalendar';
 import { UserComboBox } from '../UserComboBox';
 import { pageHrefs } from '../../utils/paths';
-import { validationRules } from '../../utils/validationRules';
 
 import { tr } from './CreateOrUpdateSectionForm.tsx.i18n';
 
@@ -106,7 +105,7 @@ export const CreateOrUpdateSectionForm = ({
                 router.push(pageHrefs.interviewSectionView(interviewId, sectionId));
             }
         },
-        [interviewId, router, schedulable, sectionCreateMutation, sectionType.id],
+        [interviewId, router, sectionCreateMutation, sectionType.id],
     );
 
     const updateSection: SubmitHandler<CreateOrUpdateSection> = useCallback(
@@ -153,8 +152,6 @@ export const CreateOrUpdateSectionForm = ({
         },
         [setValue, onSubmit],
     );
-
-    const { ref: refDescription, ...restDescription } = register('description', validationRules.nonEmptyString);
 
     const onInterviewerSelect = (interviewer: User) => {
         setValue('interviewerId', interviewer.id);

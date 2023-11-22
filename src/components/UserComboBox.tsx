@@ -1,4 +1,4 @@
-import { ComboBox, Input, UserMenuItem } from '@taskany/bricks';
+import { Button, ComboBox, FiltersMenuItem, Input, UserMenuItem } from '@taskany/bricks';
 import React, { ChangeEvent, Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { User } from '@prisma/client';
 import styled from 'styled-components';
@@ -26,6 +26,7 @@ export const UserComboBox = React.forwardRef<HTMLDivElement, UserComboBoxProps>(
 
         return (
             <StyledComboBox
+                text={placeholder}
                 ref={ref}
                 onClickOutside={onClickOutside}
                 renderInput={(props) => (
@@ -53,7 +54,7 @@ export const UserComboBox = React.forwardRef<HTMLDivElement, UserComboBoxProps>(
                     return value ? (
                         <UserMenuItem name={value.name || value.email} email={value.email} onClick={props.onClick} />
                     ) : (
-                        <Input placeholder={placeholder} {...props} />
+                        <FiltersMenuItem {...props}>{props.text}</FiltersMenuItem>
                     );
                 }}
                 items={items}

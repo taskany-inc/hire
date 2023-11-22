@@ -5,12 +5,12 @@ import { Candidate, HireStream } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { danger0 } from '@taskany/colors';
-import { Text } from '@taskany/bricks';
+import styled from 'styled-components';
+import { Button, Fieldset, Form, FormAction, FormActions, FormCard, Text } from '@taskany/bricks';
 
 import { generatePath, Paths } from '../../utils/paths';
 import { CreateInterview } from '../../modules/interviewTypes';
 import { useInterviewCreateMutation } from '../../modules/interviewHooks';
-import { FormContainer } from '../FormContainer';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { CandidateNameSubtitle } from '../CandidateNameSubtitle';
 import { Stack } from '../Stack';
@@ -18,6 +18,10 @@ import { DropdownFieldOption } from '../DropdownField';
 import { Select } from '../Select';
 
 import { tr } from './CandidateInterviewCreationForm.i18n';
+
+const StyledFormCard = styled(FormCard)`
+    width: 500px;
+`;
 
 type InterviewCreationFormData = Omit<CreateInterview, 'candidateId'>;
 
@@ -79,34 +83,45 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
         <Stack direction="column" gap={14}>
             <CandidateNameSubtitle name={candidate.name} />
 
-            <FormContainer
-                submitButtonText={tr('Add interview')}
-                onSubmitButton={handleSubmit(createInterview)}
-                submitButtonDisabled={isSubmitting || isSubmitSuccessful}
-            >
-                <Stack direction="column" gap={20}>
-                    <CodeEditorField
-                        name="description"
-                        label={tr('Comment')}
-                        control={control}
-                        placeholder={tr('Think carefully and write a couple of notes about this interview.')}
-                        height={130}
-                        disableAttaches
-                    />
+            <StyledFormCard>
+                <Form onSubmit={handleSubmit(createInterview)}>
+                    <Fieldset>
+                        <CodeEditorField
+                            name="description"
+                            label={tr('Comment')}
+                            control={control}
+                            placeholder={tr('Think carefully and write a couple of notes about this interview.')}
+                            height={130}
+                            disableAttaches
+                        />
 
-                    <Select
-                        options={hireStreamOptions}
-                        value={watch('hireStreamId')}
-                        onChange={onHireStreamIdChange}
-                        text={tr('Hire stream')}
-                    />
-                    {errors.hireStreamId && !watch('hireStreamId') && (
-                        <Text size="xs" color={danger0}>
-                            {errors.hireStreamId.message}
-                        </Text>
-                    )}
-                </Stack>
-            </FormContainer>
+                        <Select
+                            options={hireStreamOptions}
+                            value={watch('hireStreamId')}
+                            onChange={onHireStreamIdChange}
+                            text={tr('Hire stream')}
+                        />
+                        {errors.hireStreamId && !watch('hireStreamId') && (
+                            <Text size="xs" color={danger0}>
+                                {errors.hireStreamId.message}
+                            </Text>
+                        )}
+                    </Fieldset>
+                    <FormActions flat="top">
+                        <FormAction left inline></FormAction>
+                        <FormAction right inline>
+                            <Button
+                                size="m"
+                                view="primary"
+                                type="submit"
+                                text={tr('Add interview')}
+                                outline
+                                disabled={isSubmitting || isSubmitSuccessful}
+                            />
+                        </FormAction>
+                    </FormActions>
+                </Form>
+            </StyledFormCard>
         </Stack>
     );
 }

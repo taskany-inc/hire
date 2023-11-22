@@ -67,7 +67,6 @@ const FeedbackCreateForm = ({ onClose }: FeedbackCreateFormProps) => {
                     minHeight={100}
                     placeholder={tr("Feedback description. Say anything what's on your mind")}
                     flat="both"
-                    error={errorsResolver('description')}
                 />
 
                 <FormActions flat="top">

@@ -3,18 +3,17 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Candidate, OutstaffVendor } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { z } from 'zod';
+import styled from 'styled-components';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, Fieldset, Form, FormAction, FormActions, FormCard, FormInput } from '@taskany/bricks';
 
 import { UpdateCandidate, CreateCandidate } from '../../modules/candidateTypes';
 import { generatePath, Paths } from '../../utils/paths';
-import { validationRules } from '../../utils/validationRules';
 import { useCandidateCreateMutation, useCandidateUpdateMutation } from '../../modules/candidateHooks';
 import config from '../../config';
 import { useNullableDropdownFieldOptions } from '../DropdownField';
-import { FormContainer } from '../FormContainer';
-import { FormInput } from '../FormInput';
-import { FormPhoneInput } from '../FormPhoneInput';
 import { Select } from '../Select';
+import { PhoneField } from '../PhoneField/PhoneField';
 
 import { tr } from './AddOrUpdateCandidate.i18n';
 
@@ -35,6 +34,10 @@ const schema = z.object({
     outstaffVendorId: z.string().nullish(),
     phone: z.string().nullish(),
 });
+
+const StyledFormCard = styled(FormCard)`
+    max-width: 700px;
+`;
 
 export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
     const { variant, onSave, candidate, outstaffVendors } = props;
@@ -113,32 +116,51 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
     const onSubmit: SubmitHandler<FormValues> = variant === 'new' ? create : update;
     const onOutstaffVendorIdChange = (outstaffVendorId: string) => setValue('outstaffVendorId', outstaffVendorId);
 
-    const { ref: refName, ...restName } = register('name', validationRules.nonEmptyString);
-    const { ref: refEmail, ...restEmail } = register('email', {
-        required: false,
-    });
-
     return (
-        <FormContainer
-            submitButtonText={variant === 'new' ? tr('Add candidate') : tr('Save candidate')}
-            onSubmitButton={handleSubmit(onSubmit)}
-            submitButtonDisabled={isSubmitting}
-        >
-            <FormInput label={tr('Full name')} helperText={errors.name?.message} forwardRef={refName} {...restName} />
-            <Select
-                options={options}
-                value={watch('outstaffVendorId')}
-                onChange={onOutstaffVendorIdChange}
-                text={tr('Employment')}
-            />
-            <FormInput label={tr('Email')} helperText={errors.email?.message} forwardRef={refEmail} {...restEmail} />
-            <FormPhoneInput
-                name="phone"
-                control={control}
-                label={tr('Phone number')}
-                defaultValue={candidate?.phone || ''}
-                options={{ required: false }}
-            />
-        </FormContainer>
+        <StyledFormCard>
+            <Form onSubmit={handleSubmit(onSubmit)}>
+                <Fieldset>
+                    <FormInput
+                        {...register('name')}
+                        label={tr('Full name')}
+                        autoComplete="off"
+                        flat="bottom"
+                        error={errors.name}
+                    />
+                    <FormInput
+                        label={tr('Email')}
+                        error={errors.email}
+                        {...register('email')}
+                        autoComplete="off"
+                        flat="bottom"
+                    />
+                    <PhoneField
+                        name="phone"
+                        control={control}
+                        defaultValue={candidate?.phone || ''}
+                        options={{ required: false }}
+                    />
+                    <Select
+                        options={options}
+                        value={watch('outstaffVendorId')}
+                        onChange={onOutstaffVendorIdChange}
+                        text={tr('Employment')}
+                    />
+                </Fieldset>
+                <FormActions flat="top">
+                    <FormAction left inline></FormAction>
+                    <FormAction right inline>
+                        <Button
+                            size="m"
+                            view="primary"
+                            type="submit"
+                            text={variant === 'new' ? tr('Add candidate') : tr('Save candidate')}
+                            disabled={isSubmitting}
+                            outline
+                        />
+                    </FormAction>
+                </FormActions>
+            </Form>
+        </StyledFormCard>
     );
 };

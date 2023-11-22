@@ -5,13 +5,12 @@ import z from 'zod';
 import { useRouter } from 'next/router';
 import { InterviewStatus, RejectReason } from '@prisma/client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Modal, ModalContent, ModalHeader, FormTitle, Button } from '@taskany/bricks';
+import { Modal, ModalContent, ModalHeader, FormTitle, Button, FormTextarea, ErrorPopup } from '@taskany/bricks';
 
 import { useInterviewUpdateMutation } from '../../modules/interviewHooks';
 import { Stack } from '../Stack';
 import { generatePath, Paths } from '../../utils/paths';
 import { Select } from '../Select';
-import { FormTextArea } from '../FormTextArea';
 
 import { tr } from './HireOrRejectConfirmation.i18n';
 
@@ -122,13 +121,14 @@ export const HireOrRejectConfirmation = ({
                             />
                         )}
                         {isVisibleAdditionalComment && (
-                            <FormTextArea
-                                label={tr('Comment')}
-                                helperText={errors.statusComment?.message}
-                                placeholder={tr('Commentary on the interview')}
-                                rows={3}
-                                {...register('statusComment')}
-                            />
+                            <>
+                                <FormTextarea
+                                    error={errors.statusComment}
+                                    placeholder={tr('Commentary on the interview')}
+                                    {...register('statusComment')}
+                                />
+                                {errors.statusComment && <ErrorPopup>{errors.statusComment.message}</ErrorPopup>}
+                            </>
                         )}
                     </Stack>
                 </ModalContent>

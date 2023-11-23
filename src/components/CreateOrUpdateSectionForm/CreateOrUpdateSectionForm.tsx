@@ -11,13 +11,13 @@ import {
     FormAction,
     Button,
     FormCard,
-    FormInput,
+    FormTextarea,
 } from '@taskany/bricks';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useDebounce } from 'use-debounce';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { danger0 } from '@taskany/colors';
+import { danger0, gapS } from '@taskany/colors';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useSectionCreateMutation, useSectionUpdateMutation } from '../../modules/sectionHooks';
@@ -29,7 +29,7 @@ import { SectionScheduleCalendar, CalendarEventDetails } from '../SectionSchedul
 import { UserComboBox } from '../UserComboBox';
 import { pageHrefs } from '../../utils/paths';
 
-import { tr } from './CreateOrUpdateSectionForm.tsx.i18n';
+import { tr } from './CreateOrUpdateSectionForm.i18n';
 
 interface CreateOrUpdateSectionFormProps {
     interviewId: number;
@@ -58,7 +58,12 @@ const schema = z.object({
 });
 
 const StyledFormCard = styled(FormCard)`
-    width: 500px;
+    width: 620px;
+`;
+
+const WrapperCombobox = styled.div`
+    padding-left: ${gapS};
+    height: 50px;
 `;
 
 export const CreateOrUpdateSectionForm = ({
@@ -105,7 +110,7 @@ export const CreateOrUpdateSectionForm = ({
                 router.push(pageHrefs.interviewSectionView(interviewId, sectionId));
             }
         },
-        [interviewId, router, sectionCreateMutation, sectionType.id],
+        [interviewId, router, sectionCreateMutation, sectionType.id, schedulable],
     );
 
     const updateSection: SubmitHandler<CreateOrUpdateSection> = useCallback(
@@ -117,7 +122,7 @@ export const CreateOrUpdateSectionForm = ({
 
             await router.push(pageHrefs.interviewSectionView(interviewId, section.id));
         },
-        [interviewId, router, schedulable, sectionUpdateMutation, sectionType.id, section],
+        [interviewId, router, sectionUpdateMutation, section],
     );
 
     const {
@@ -189,28 +194,31 @@ export const CreateOrUpdateSectionForm = ({
                 <StyledFormCard>
                     <Form onSubmit={onSubmit}>
                         <Fieldset>
-                            <UserComboBox
-                                value={interviewer}
-                                items={interviewersQuery.data}
-                                onChange={onInterviewerSelect}
-                                setInputValue={setSearch}
-                                placeholder={tr('Choose an interviewer')}
-                            />
+                            <WrapperCombobox>
+                                <UserComboBox
+                                    value={interviewer}
+                                    items={interviewersQuery.data}
+                                    onChange={onInterviewerSelect}
+                                    setInputValue={setSearch}
+                                    placeholder={tr('Choose an interviewer')}
+                                />
+                            </WrapperCombobox>
                             {errors.interviewerId && !watch('interviewerId') && (
                                 <Text size="xs" color={danger0}>
                                     {errors.interviewerId.message}
                                 </Text>
                             )}
-                            {sectionType.userSelect && (
-                                <FormInput
-                                    {...register('description')}
-                                    label={tr('Description')}
-                                    error={errors.description}
-                                    placeholder={tr('In which team is the product final held?')}
-                                    autoComplete="off"
-                                    flat="bottom"
-                                />
-                            )}
+                            <FormTextarea
+                                {...register('description')}
+                                error={errors.description}
+                                placeholder={
+                                    sectionType.userSelect
+                                        ? tr('In which team is the product final held?')
+                                        : tr('Add a link to a meeting or write a couple of notes')
+                                }
+                                autoComplete="off"
+                                flat="bottom"
+                            />
                         </Fieldset>
                         <FormActions flat="top">
                             <FormAction left inline></FormAction>

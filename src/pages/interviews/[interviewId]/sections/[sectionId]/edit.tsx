@@ -7,7 +7,7 @@ import { createGetServerSideProps } from '../../../../../utils/createGetSSRProps
 import { useInterview } from '../../../../../modules/interviewHooks';
 import { useSection } from '../../../../../modules/sectionHooks';
 import { QueryResolver } from '../../../../../components/QueryResolver/QueryResolver';
-import { CreateOrUpdateSectionForm } from '../../../../../components/CreateOrUpdateSectionForm.tsx/CreateOrUpdateSectionForm';
+import { CreateOrUpdateSectionForm } from '../../../../../components/CreateOrUpdateSectionForm/CreateOrUpdateSectionForm';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,

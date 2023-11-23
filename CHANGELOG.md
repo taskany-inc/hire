@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.14.0](https://github.com/taskany-inc/hire/compare/v0.13.3...v0.14.0) (2023-11-23)
+
+
+### Features
+
+* **Confirmation:** focus on Agree button ([2317a16](https://github.com/taskany-inc/hire/commit/2317a16db85617e3a8486ea80786b7b6c20e4cff))
+* forms and form inputs from bricks ([0a54aac](https://github.com/taskany-inc/hire/commit/0a54aac57ac088ca4be3ae9f11d5afacfc029ef5))
+
 ## [0.13.3](https://github.com/taskany-inc/hire/compare/v0.13.2...v0.13.3) (2023-11-20)
 
 

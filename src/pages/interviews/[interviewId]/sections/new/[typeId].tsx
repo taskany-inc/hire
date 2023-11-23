@@ -7,7 +7,7 @@ import { useSectionType } from '../../../../../modules/sectionTypeHooks';
 import { QueryResolver } from '../../../../../components/QueryResolver/QueryResolver';
 import { useInterview } from '../../../../../modules/interviewHooks';
 import { useCandidate } from '../../../../../modules/candidateHooks';
-import { CreateOrUpdateSectionForm } from '../../../../../components/CreateOrUpdateSectionForm.tsx/CreateOrUpdateSectionForm';
+import { CreateOrUpdateSectionForm } from '../../../../../components/CreateOrUpdateSectionForm/CreateOrUpdateSectionForm';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,

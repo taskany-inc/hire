@@ -155,8 +155,15 @@ const findAllInterviewerSections = async (
 ): Promise<SectionWithInterviewRelation[]> => {
     const feedback = completed ? { not: null } : null;
 
+    const interview = completed ? undefined : { status: { notIn: [InterviewStatus.HIRED, InterviewStatus.REJECTED] } };
+
     return prisma.section.findMany({
-        where: { interviewerId, feedback, isCanceled: false },
+        where: {
+            interviewerId,
+            feedback,
+            isCanceled: false,
+            interview,
+        },
         orderBy: {
             createdAt: 'desc',
         },

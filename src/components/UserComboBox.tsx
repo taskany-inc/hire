@@ -1,4 +1,4 @@
-import { Button, ComboBox, FiltersMenuItem, Input, UserMenuItem } from '@taskany/bricks';
+import { ComboBox, FiltersMenuItem, Input, UserMenuItem } from '@taskany/bricks';
 import React, { ChangeEvent, Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { User } from '@prisma/client';
 import styled from 'styled-components';

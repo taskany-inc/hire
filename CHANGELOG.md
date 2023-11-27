@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.15.0](https://github.com/taskany-inc/hire/compare/v0.14.0...v0.15.0) (2023-11-27)
+
+
+### Features
+
+* **CreateOrUpdateSectionForm:** allow adding description to section of any type ([5cba85c](https://github.com/taskany-inc/hire/commit/5cba85c4b838373c8abb2e3abc4eb1a25b1c7b3c))
+
 ## [0.14.0](https://github.com/taskany-inc/hire/compare/v0.13.3...v0.14.0) (2023-11-23)
 
 

@@ -10,11 +10,13 @@ export enum UserRoles {
     HIRING_LEAD = 'hiringLead',
     RECRUITER = 'recruiter',
     INTERVIEWER = 'interviewer',
+    PROBLEM_EDITOR = 'problemEditor',
 }
 
 export const roleToLabel = (role: UserRoles): string => {
     return {
         [UserRoles.ADMIN]: tr('administrator'),
+        [UserRoles.PROBLEM_EDITOR]: tr('problemEditor'),
         [UserRoles.HIRE_STREAM_MANAGER]: tr('hiring flow manager'),
         [UserRoles.HIRING_LEAD]: tr('recruitment lead'),
         [UserRoles.RECRUITER]: tr('recruiter'),
@@ -24,6 +26,7 @@ export const roleToLabel = (role: UserRoles): string => {
 
 export type UserRolesInfo = {
     [UserRoles.ADMIN]: boolean;
+    [UserRoles.PROBLEM_EDITOR]: boolean;
     [UserRoles.HIRE_STREAM_MANAGER]: HireStream[];
     hasHireStreamManagerRoles: boolean;
     [UserRoles.HIRING_LEAD]: HireStream[];

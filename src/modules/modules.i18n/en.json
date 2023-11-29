@@ -63,7 +63,6 @@
     "Calendar exception of event on this date already exist": "",
     "Attach not found": "",
     "The start date cannot be later than the end date of the recruitment stream": "",
-    "The problem can be edited and deleted only by its author": "",
     "Only administrators can edit tags": "",
     "Only administrators can delete tags": "",
     "Only Hiring Leads and Recruiters can add candidates": "",
@@ -99,5 +98,7 @@
     "Cancel section": "",
     "Canceled section with": "",
     "Product final from": "",
-    "Section not selected": ""
+    "Section not selected": "",
+    "Only problem editors can change problems": "",
+    "Insufficient permissions to delete or edit the problem": ""
 }

@@ -50,13 +50,13 @@ export const accessChecks = {
         read: (): AccessCheckResult => allowed(),
 
         updateOrDelete: (session: Session, problem: Problem): AccessCheckResult => {
-            if (session.userRoles.admin) {
+            if (session.userRoles.admin || session.userRoles.problemEditor) {
                 return allowed();
             }
 
             return session.user.id === problem.authorId
                 ? allowed()
-                : notAllowed(tr('The problem can be edited and deleted only by its author'));
+                : notAllowed(tr('Insufficient permissions to delete or edit the problem'));
         },
     },
 

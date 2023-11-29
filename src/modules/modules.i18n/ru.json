@@ -63,7 +63,6 @@
     "Calendar exception of event on this date already exist": "Одиночное событие календаря на эту дату уже существует",
     "Attach not found": "Файл не найден",
     "The start date cannot be later than the end date of the recruitment stream": "Дата начала не может быть позже даты окончания в потоке найма",
-    "The problem can be edited and deleted only by its author": "Задачу может редактировать и удалять только ее автор",
     "Only administrators can edit tags": "Только администраторы могут редактировать теги",
     "Only administrators can delete tags": "Только администраторы могут удалять теги",
     "Only Hiring Leads and Recruiters can add candidates": "Только лиды найма и рекрутеры могут добавлять кандидатов",
@@ -99,5 +98,7 @@
     "Cancel section": "Отмена секции",
     "Canceled section with": "Отменена секция с",
     "Product final from": "Продуктовый финал от",
-    "Section not selected": "Секция не выбрана"
+    "Section not selected": "Секция не выбрана",
+    "Only problem editors can change problems": "Только редактор задачи может изменять задачи",
+    "Insufficient permissions to delete or edit the problem": "Недостаточно прав для удаления или редактирования задачи"
 }

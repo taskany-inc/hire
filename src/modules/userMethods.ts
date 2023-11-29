@@ -92,6 +92,7 @@ const getUserRoles = async (id: number) => {
         where: { id },
         select: {
             admin: true,
+            problemEditor: true,
             managerInHireStreams: true,
             hiringLeadInHireStreams: true,
             recruiterInHireStreams: true,
@@ -110,6 +111,7 @@ const getUserRoles = async (id: number) => {
 
     const userRoles: UserRolesInfo = {
         [UserRoles.ADMIN]: user.admin,
+        [UserRoles.PROBLEM_EDITOR]: user.problemEditor,
         [UserRoles.HIRE_STREAM_MANAGER]: user.managerInHireStreams,
         hasHireStreamManagerRoles: user.managerInHireStreams.length > 0,
         [UserRoles.HIRING_LEAD]: user.hiringLeadInHireStreams,

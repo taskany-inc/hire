@@ -11,6 +11,7 @@ const getUserRolesFromDebugCookie = async (roleDebugCookieValue: string): Promis
     const sectionTypes = await sectionTypeMethods.getAll({});
 
     const admin = params.has('admin');
+    const problemEditor = params.has('problemEditor');
     const hireStreamManagerFromCookie =
         params
             .get('hire_stream_manager')
@@ -43,6 +44,7 @@ const getUserRolesFromDebugCookie = async (roleDebugCookieValue: string): Promis
 
     const userRoles: UserRolesInfo = {
         [UserRoles.ADMIN]: admin,
+        [UserRoles.PROBLEM_EDITOR]: problemEditor,
         [UserRoles.HIRE_STREAM_MANAGER]: hireStreamManager,
         hasHireStreamManagerRoles: hireStreamManager.length > 0,
         [UserRoles.HIRING_LEAD]: hiringLead,

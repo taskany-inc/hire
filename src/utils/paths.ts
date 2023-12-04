@@ -47,6 +47,8 @@ export enum Paths {
     ANALYTICS = '/analytics',
     ANALYTICS_COMMON = '/analytics/common',
     ANALYTICS_HIRE_STREAM = '/analytics/hire-stream/{hireStreamName}',
+
+    ROLES = '/roles',
 }
 
 /* eslint-disable @typescript-eslint/no-unused-vars */

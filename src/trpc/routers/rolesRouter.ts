@@ -1,6 +1,7 @@
 import { accessMiddlewares } from '../../modules/accessMiddlewares';
 import { rolesMethods } from '../../modules/rolesMethods';
 import {
+    addAndRemoveProblemEditorRoleSchema,
     getUsersByHireStreamIdSchema,
     hireStreamIdAndSectionTypeIdAndUserIdSchema,
     hireStreamIdAndUserIdSchema,
@@ -73,5 +74,23 @@ export const rolesRouter = router({
         .use(accessMiddlewares.roles.readOrUpdateHireStreams)
         .mutation(({ input }) => {
             return rolesMethods.removeInterviewerFromSectionType(input);
+        }),
+
+    getAllproblemEditors: protectedProcedure.use(accessMiddlewares.roles.readAdmins).query(() => {
+        return rolesMethods.getAllProblemEditors();
+    }),
+
+    addProblemEditorRole: protectedProcedure
+        .input(addAndRemoveProblemEditorRoleSchema)
+        .use(accessMiddlewares.roles.readAdmins)
+        .mutation(({ input }) => {
+            return rolesMethods.addProblemEditorRole(input);
+        }),
+
+    removeProblemEditorRole: protectedProcedure
+        .input(addAndRemoveProblemEditorRoleSchema)
+        .use(accessMiddlewares.roles.readAdmins)
+        .mutation(({ input }) => {
+            return rolesMethods.removeProblemEditorRole(input);
         }),
 });

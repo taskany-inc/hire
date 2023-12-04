@@ -6,10 +6,11 @@ import { tr } from './AdminList.i18n';
 
 export const AdminsList = () => {
     const adminsListQuery = useAdminsList();
-
     return (
         <QueryResolver queries={[adminsListQuery]}>
-            {([admins]) => <UserList title={tr('Administrators')} users={admins} />}
+            {([admins]) => {
+                return <UserList title={tr('Administrators')} users={admins} />;
+            }}
         </QueryResolver>
     );
 };

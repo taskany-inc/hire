@@ -27,3 +27,8 @@ export type HireStreamUsersWithRoles = {
     [UserRoles.RECRUITER]: User[];
     [UserRoles.INTERVIEWER]: { sectionType: SectionType; users: User[] }[];
 };
+
+export const addAndRemoveProblemEditorRoleSchema = z.object({
+    userId: z.number(),
+});
+export type AddAndRemoveProblemEditorRole = z.infer<typeof addAndRemoveProblemEditorRoleSchema>;

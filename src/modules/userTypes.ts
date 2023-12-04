@@ -18,6 +18,7 @@ export const roleSchema = z.enum([
     'hiringLeadInHireStreams',
     'recruiterInHireStreams',
     'interviewerInSectionTypes',
+    'problemEditor',
 ]);
 export type Role = z.infer<typeof roleSchema>;
 

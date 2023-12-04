@@ -100,5 +100,7 @@
     "Product final from": "",
     "Section not selected": "",
     "Only problem editors can change problems": "",
-    "Insufficient permissions to delete or edit the problem": ""
+    "Insufficient permissions to delete or edit the problem": "",
+    "User {name} added as problem editor": "",
+    "User {name} is not problem editor anymore": ""
 }

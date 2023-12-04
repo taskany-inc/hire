@@ -23,7 +23,7 @@ type AddUserToRoleProps = {
     onSelect: (user: User) => void;
     placeholder: string;
     role: Role;
-    sectionTypeOrHireStreamId: number;
+    sectionTypeOrHireStreamId?: number;
 };
 
 export const AddUserToRole: VFC<AddUserToRoleProps> = ({ placeholder, onSelect, sectionTypeOrHireStreamId, role }) => {

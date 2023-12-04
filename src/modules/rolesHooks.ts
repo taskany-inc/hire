@@ -158,3 +158,43 @@ export const useRemoveInterviewerFromSectionTypeMutation = (hireStreamName: stri
         onError: enqueueErrorNotification,
     });
 };
+
+export const useProblemEditorsList = () => {
+    const { enqueueErrorNotification } = useNotifications();
+
+    return trpc.roles.getAllproblemEditors.useQuery(undefined, { onError: enqueueErrorNotification });
+};
+
+export const useAddProblemEditorToRolesMutation = () => {
+    const { enqueueSuccessNotification, enqueueErrorNotification } = useNotifications();
+    const utils = trpc.useContext();
+
+    return trpc.roles.addProblemEditorRole.useMutation({
+        onSuccess: (data) => {
+            enqueueSuccessNotification(
+                tr('User {name} added as problem editor', {
+                    name: data.name || '',
+                }),
+            );
+            utils.roles.getAllproblemEditors.invalidate();
+        },
+        onError: enqueueErrorNotification,
+    });
+};
+
+export const useRemoveProblemEditorToRolesMutation = () => {
+    const { enqueueSuccessNotification, enqueueErrorNotification } = useNotifications();
+    const utils = trpc.useContext();
+
+    return trpc.roles.removeProblemEditorRole.useMutation({
+        onSuccess: (data) => {
+            enqueueSuccessNotification(
+                tr('User {name} is not problem editor anymore', {
+                    name: data.name || '',
+                }),
+            );
+            utils.roles.getAllproblemEditors.invalidate();
+        },
+        onError: enqueueErrorNotification,
+    });
+};

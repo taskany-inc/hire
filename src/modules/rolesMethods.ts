@@ -4,6 +4,7 @@ import { UserRoles } from '../utils/userRoles';
 
 import { sectionTypeMethods } from './sectionTypeMethods';
 import {
+    AddAndRemoveProblemEditorRole,
     GetUsersByHireStreamId,
     HireStreamIdAndSectionTypeAndUserId,
     HireStreamIdAndUserId,
@@ -131,6 +132,24 @@ const removeInterviewerFromSectionType = async ({
     });
 };
 
+const getAllProblemEditors = () => {
+    return prisma.user.findMany({ where: { problemEditor: { equals: true } } });
+};
+
+const addProblemEditorRole = async ({ userId }: AddAndRemoveProblemEditorRole) => {
+    return prisma.user.update({
+        where: { id: userId },
+        data: { problemEditor: true },
+    });
+};
+
+const removeProblemEditorRole = async ({ userId }: AddAndRemoveProblemEditorRole) => {
+    return prisma.user.update({
+        where: { id: userId },
+        data: { problemEditor: false },
+    });
+};
+
 export const rolesMethods = {
     getAllAdmins,
     getUsersByHireStream,
@@ -142,4 +161,7 @@ export const rolesMethods = {
     removeRecruiterFromHireStream,
     addInterviewerToSectionType,
     removeInterviewerFromSectionType,
+    getAllProblemEditors,
+    addProblemEditorRole,
+    removeProblemEditorRole,
 };

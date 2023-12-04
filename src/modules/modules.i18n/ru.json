@@ -100,5 +100,7 @@
     "Product final from": "Продуктовый финал от",
     "Section not selected": "Секция не выбрана",
     "Only problem editors can change problems": "Только редактор задачи может изменять задачи",
-    "Insufficient permissions to delete or edit the problem": "Недостаточно прав для удаления или редактирования задачи"
+    "Insufficient permissions to delete or edit the problem": "Недостаточно прав для удаления или редактирования задачи",
+    "User {name} added as problem editor": "Пользователь {name} добавлен в роли редактора задач",
+    "User {name} is not problem editor anymore": "Пользователь {name} больше не является редактором задач"
 }

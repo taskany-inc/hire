@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.16.0](https://github.com/taskany-inc/hire/compare/v0.15.0...v0.16.0) (2023-12-04)
+
+
+### Features
+
+* **Problem editor role:** add global role ([bfe6214](https://github.com/taskany-inc/hire/commit/bfe6214cbb979bc642fd9a550ac3b3443624415f))
+
+
+### Bug Fixes
+
+* **MySection:** do not show seсtions with resolved interviews ([725a7f7](https://github.com/taskany-inc/hire/commit/725a7f7fc71c9a253e2d7bb09c7ee0c5ac58f93f))
+
 ## [0.15.0](https://github.com/taskany-inc/hire/compare/v0.14.0...v0.15.0) (2023-11-27)
 
 

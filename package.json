@@ -29,7 +29,7 @@
         "@tanstack/react-query": "4.29.13",
         "@tanstack/react-query-devtools": "4.29.13",
         "@taskany/bricks": "4.10.0",
-        "@taskany/colors": "1.1.0",
+        "@taskany/colors": "1.4.0",
         "@taskany/icons": "2.0.1",
         "@trpc/client": "10.1.0",
         "@trpc/next": "10.1.0",

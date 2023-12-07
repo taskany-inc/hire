@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.17.0](https://github.com/taskany-inc/hire/compare/v0.16.0...v0.17.0) (2023-12-07)
+
+
+### Features
+
+* **Problem editor role:** return roles page ([cb5a0e7](https://github.com/taskany-inc/hire/commit/cb5a0e7c5e12a689b0ee28fe0143b53efeaa52ad))
+
 ## [0.16.0](https://github.com/taskany-inc/hire/compare/v0.15.0...v0.16.0) (2023-12-04)
 
 

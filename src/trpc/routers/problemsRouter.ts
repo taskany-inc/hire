@@ -38,8 +38,8 @@ export const problemsRouter = router({
     update: protectedProcedure
         .input(updateProblemSchema)
         .use(accessMiddlewares.problem.updateOrDelete)
-        .mutation(({ input }) => {
-            return problemMethods.update(input);
+        .mutation(({ input, ctx }) => {
+            return problemMethods.update(input, ctx.session.user.id);
         }),
 
     delete: protectedProcedure

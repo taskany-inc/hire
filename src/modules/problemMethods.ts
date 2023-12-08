@@ -1,4 +1,4 @@
-import { Prisma, Problem } from '@prisma/client';
+import { Prisma, PrismaPromise, Problem } from '@prisma/client';
 
 import { prisma } from '../utils/prisma';
 import { idsToIdObjs, ErrorWithStatus } from '../utils';
@@ -129,7 +129,12 @@ const create = async (authorId: number, data: CreateProblem): Promise<Problem> =
 const getById = async (id: number) => {
     const problem = await prisma.problem.findFirst({
         where: { id },
-        include: { author: true, tags: true, favoritedBy: true },
+        include: {
+            author: true,
+            tags: true,
+            favoritedBy: true,
+            problemHistory: { orderBy: { createdAt: 'desc' }, include: { user: true } },
+        },
     });
 
     if (problem === null) {
@@ -191,6 +196,7 @@ const getList = async (
     const include = {
         author: true,
         tags: true,
+        problemHistory: { include: { user: true } },
         favoritedBy: {
             where: {
                 id: userId,
@@ -270,15 +276,52 @@ const getList = async (
     return { nextCursor, items: secondQueryItems, total: total.count };
 };
 
-const update = (data: UpdateProblem): Promise<Problem> => {
+const update = async (data: UpdateProblem, authorId: number): Promise<Problem> => {
+    const problem = await prisma.problem.findFirstOrThrow({
+        where: { id: data.problemId },
+    });
+
     const { problemId, tagIds, ...restData } = data;
     const updateData: Prisma.ProblemUpdateInput = { ...restData };
+
+    const transactionOperations: PrismaPromise<unknown>[] = [
+        prisma.problem.update({ data: updateData, where: { id: problemId } }),
+    ];
 
     if (tagIds && tagIds.length > 0) {
         updateData.tags = { set: idsToIdObjs(tagIds) };
     }
 
-    return prisma.problem.update({ data: updateData, where: { id: problemId } });
+    if (data.description !== problem.description) {
+        transactionOperations.push(
+            prisma.problemHistory.create({
+                data: {
+                    subject: 'description',
+                    user: { connect: { id: authorId } },
+                    problem: { connect: { id: data.problemId } },
+                    previousValue: problem.description,
+                    nextValue: data.description,
+                },
+            }),
+        );
+    }
+
+    if (data.solution !== problem.solution) {
+        transactionOperations.push(
+            prisma.problemHistory.create({
+                data: {
+                    subject: 'solution',
+                    user: { connect: { id: authorId } },
+                    problem: { connect: { id: data.problemId } },
+                    previousValue: problem.solution,
+                    nextValue: data.solution,
+                },
+            }),
+        );
+    }
+
+    const [updateProblem] = await prisma.$transaction(transactionOperations);
+    return updateProblem as Problem;
 };
 
 const deleteProblem = ({ problemId }: DeleteProblem): Promise<Problem> => {

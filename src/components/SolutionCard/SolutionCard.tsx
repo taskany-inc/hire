@@ -197,7 +197,7 @@ export const SolutionCard: FC<SolutionCardProps> = ({
             <CardContent>
                 <MarkdownRenderer value={problem.description} style={{ maxWidth: 900 }} />
 
-                <StyledProblemSolution size="l" as="div" onClick={() => setIsExpanded((v) => !v)}>
+                <StyledProblemSolution size="s" as="div" onClick={() => setIsExpanded((v) => !v)}>
                     {tr('Possible Solution')}
                     {isExpanded ? <IconArrowUpSmallOutline size="s" /> : <IconArrowDownSmallOutline size="s" />}
                 </StyledProblemSolution>

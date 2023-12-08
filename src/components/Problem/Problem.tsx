@@ -20,6 +20,7 @@ import { DropdownMenuItem } from '../TagFilterDropdown';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
 import { ProblemStats } from '../ProblemStats/ProblemStats';
 import { Link } from '../Link';
+import { ProblemHistoryCard } from '../ProblemHistoryCard/ProblemHistoryCard';
 
 import { tr } from './Problem.i18n';
 
@@ -34,8 +35,9 @@ const StyledTagsContainer = styled.div`
     gap: 8px;
 `;
 
-const StyledSolutionTitle = styled(Text)`
+const StyledTitle = styled(Text)`
     margin-top: 50px;
+    display: flex;
     margin-bottom: 40px;
     cursor: pointer;
     align-items: center;
@@ -49,8 +51,10 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
     const { setTagIds, setAuthor } = useProblemFilterContext();
 
     const [isSolutionExpanded, setIsSolutionExpanded] = useState(false);
+    const [isProblemHistoryExpanded, setIsProblemHistoryExpanded] = useState(false);
 
     const toggleSolutionExpansion = () => setIsSolutionExpanded((value) => !value);
+    const toggleProblemHistoryExpansion = () => setIsProblemHistoryExpanded((value) => !value);
 
     const problemRemoveMutation = useProblemRemoveMutation();
 
@@ -118,14 +122,31 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
             <ProblemStats good={problem.solutionsGood} ok={problem.solutionsOk} bad={problem.solutionsBad} />
             <MarkdownRenderer value={problem.description} />
 
-            <StyledSolutionTitle size="xl" onClick={toggleSolutionExpansion}>
+            <StyledTitle size="xl" onClick={toggleSolutionExpansion}>
                 {tr('Solution')}{' '}
                 {isSolutionExpanded ? <IconArrowUpSmallOutline size="m" /> : <IconArrowDownSmallOutline size="m" />}
-            </StyledSolutionTitle>
+            </StyledTitle>
 
             {isSolutionExpanded && <MarkdownRenderer value={problem.solution} />}
 
             <Confirmation {...problemRemoveConfirmation.props} />
+
+            <StyledTitle size="xl" onClick={toggleProblemHistoryExpansion}>
+                {tr('History of changes')}
+
+                {isProblemHistoryExpanded ? (
+                    <IconArrowUpSmallOutline size="m" />
+                ) : (
+                    <IconArrowDownSmallOutline size="m" />
+                )}
+            </StyledTitle>
+            {problem.problemHistory.length > 0 && isProblemHistoryExpanded && (
+                <>
+                    {problem.problemHistory.map((history) => (
+                        <ProblemHistoryCard key={history.id} problemHistoryChangeEvent={history} />
+                    ))}
+                </>
+            )}
         </LayoutMain>
     );
 };

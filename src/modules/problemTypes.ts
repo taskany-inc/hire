@@ -1,4 +1,4 @@
-import { InterviewStatus, Problem, ProblemDifficulty, SectionType, Tag, User } from '@prisma/client';
+import { InterviewStatus, Problem, ProblemDifficulty, ProblemHistory, SectionType, Tag, User } from '@prisma/client';
 import { z } from 'zod';
 
 import { ExtractPrismaTypeFromArray } from '../utils/types';
@@ -49,7 +49,14 @@ export const getProblemListSchema = z
     .partial();
 export type GetProblemList = z.infer<typeof getProblemListSchema>;
 
-export type ProblemFindManyWithAuthorAndTagsAndFavourite = Problem & { author: User; tags: Tag[]; favoritedBy: User[] };
+export type ProblemHistoryWithUser = ProblemHistory & { user: User };
+
+export type ProblemFindManyWithAuthorAndTagsAndFavourite = Problem & {
+    author: User;
+    tags: Tag[];
+    favoritedBy: User[];
+    problemHistory: ProblemHistoryWithUser[];
+};
 
 type UsedProblemMapValue = { sectionId: number; sectionType: SectionType };
 

@@ -76,6 +76,7 @@ model User {
   recruiterInHireStreams    HireStream[]     @relation("HireStreamToRecruiter")
   interviewerInSectionTypes SectionType[]    @relation("SectionTypeToInterviewer")
   settings                  UserSettings?
+  problemHistory            ProblemHistory[]
 
   @@index([email])
 }
@@ -89,10 +90,11 @@ model Problem {
   author   User @relation(name: "CreatedProblems", fields: [authorId], references: [id])
   authorId Int
 
-  tags        Tag[]
-  solutions   Solution[]
-  difficulty  ProblemDifficulty
-  favoritedBy User[]            @relation("FavoriteProblems")
+  tags           Tag[]
+  solutions      Solution[]
+  difficulty     ProblemDifficulty
+  favoritedBy    User[]            @relation("FavoriteProblems")
+  problemHistory ProblemHistory[]
 
   // Problem solutions counter
   solutionsGood Int @default(0)
@@ -103,6 +105,21 @@ model Problem {
   updatedAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
 
   @@index([name])
+}
+
+model ProblemHistory {
+  id            String  @id @default(cuid())
+  subject       String
+  previousValue String?
+  nextValue     String?
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  problem   Problem @relation(fields: [problemId], references: [id])
+  problemId Int
+
+  createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
 }
 
 model Tag {

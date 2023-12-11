@@ -5,5 +5,5 @@
     "Email": "Email",
     "Phone number": "Номер телефона",
     "Full name": "ФИО",
-    "Obligatory field": "Обязательное поле"
+    "Name cannot be less than 3 characters": "Имя не может содержать менее 3 символов"
 }

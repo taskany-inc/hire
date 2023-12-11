@@ -9,8 +9,9 @@ export const useProblems = (params: GetProblemList) => {
 
     const fixedParams: GetProblemList = {
         ...params,
-        authorId: params.authorId ? params.authorId : undefined,
+        authorIds: params.authorIds && params.authorIds.length > 0 ? params.authorIds : undefined,
         tagIds: params.tagIds && params.tagIds.length > 0 ? params.tagIds : undefined,
+        difficulty: params.difficulty && params.difficulty.length > 0 ? params.difficulty : undefined,
     };
 
     return trpc.problems.getList.useInfiniteQuery(fixedParams, {
@@ -24,8 +25,9 @@ export const useProblemCount = (params: GetProblemList) => {
 
     const fixedParams: GetProblemList = {
         ...params,
-        authorId: params.authorId ? params.authorId : undefined,
+        authorIds: params.authorIds && params.authorIds.length > 0 ? params.authorIds : undefined,
         tagIds: params.tagIds && params.tagIds.length > 0 ? params.tagIds : undefined,
+        difficulty: params.difficulty && params.difficulty.length > 0 ? params.difficulty : undefined,
     };
 
     return trpc.problems.getCount.useQuery(fixedParams, {

@@ -3,8 +3,9 @@ import { User, Prisma, UserSettings } from '@prisma/client';
 import { prisma } from '../utils/prisma';
 import { ErrorWithStatus, idObjsToIds } from '../utils';
 import { UserRoles, UserRolesInfo } from '../utils/userRoles';
+import { suggestionsTake } from '../utils/suggestions';
 
-import { AddProblemToFavorites, CreateUser, EditUserSettings, GetUserList } from './userTypes';
+import { AddProblemToFavorites, CreateUser, EditUserSettings, GetUserList, GetUserSuggestions } from './userTypes';
 import { sectionTypeMethods } from './sectionTypeMethods';
 import { tr } from './modules.i18n';
 
@@ -139,6 +140,22 @@ const editSettings = (userId: number, data: EditUserSettings) => {
     });
 };
 
+const suggestions = async ({ query, include, take = suggestionsTake }: GetUserSuggestions) => {
+    const where: Prisma.UserWhereInput = { name: { contains: query, mode: 'insensitive' } };
+
+    if (include) {
+        where.id = { notIn: include };
+    }
+    const suggestions = await prisma.user.findMany({ where, take });
+
+    if (include) {
+        const includes = await prisma.user.findMany({ where: { id: { in: include } } });
+        suggestions.push(...includes);
+    }
+
+    return suggestions;
+};
+
 export const userMethods = {
     create,
     find,
@@ -152,4 +169,5 @@ export const userMethods = {
     getUserList,
     getSettings,
     editSettings,
+    suggestions,
 };

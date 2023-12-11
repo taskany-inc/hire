@@ -31,11 +31,11 @@ export const getProblemListSchema = z
     .object({
         search: z.string(),
         tagIds: z.number().array(),
-        difficulty: z.nativeEnum(ProblemDifficulty),
+        difficulty: z.nativeEnum(ProblemDifficulty).array(),
         favoritesOnly: z.boolean(),
         nonFavoritesOnly: z.boolean(),
         excludeInterviewId: z.number(),
-        authorId: z.number(),
+        authorIds: z.number().array(),
         sectionId: z.number(),
         excludeProblemIds: z.number().array(),
         offset: z.number(),
@@ -64,3 +64,8 @@ export type ProblemWithRelationsAndProblemSection = ProblemFindManyWithAuthorAnd
     CheckIsAvailableProblemType;
 
 export type ProblemWithRelations = ExtractPrismaTypeFromArray<typeof problemMethods.getList>;
+
+export type ProblemCount = {
+    count: number;
+    total: number;
+};

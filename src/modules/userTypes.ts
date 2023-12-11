@@ -36,3 +36,11 @@ export const editUserSettingsSchema = z.object({
 });
 
 export type EditUserSettings = z.infer<typeof editUserSettingsSchema>;
+
+export const getUserSuggestionsSchema = z.object({
+    query: z.string(),
+    take: z.number().optional(),
+    include: z.array(z.number()).optional(),
+});
+
+export type GetUserSuggestions = z.infer<typeof getUserSuggestionsSchema>;

@@ -5,5 +5,5 @@
     "Email": "",
     "Phone number": "",
     "Full name": "",
-    "Obligatory field": ""
+    "Name cannot be less than 3 characters": ""
 }

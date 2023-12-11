@@ -13,7 +13,7 @@ export const CandidateBIO = ({ candidate }: CandidateBIOType): JSX.Element => {
         <div style={{ marginBottom: 10 }}>
             {candidate.outstaffVendor?.title && (
                 <Text size="s" color="textSecondary">
-                    {tr('Employment')} :{candidate.outstaffVendor.title}
+                    {tr('Employment')}: {candidate.outstaffVendor.title}
                 </Text>
             )}
             {candidate.email && (

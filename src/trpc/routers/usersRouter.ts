@@ -7,6 +7,7 @@ import {
     createUserSchema,
     editUserSettingsSchema,
     getUserListSchema,
+    getUserSuggestionsSchema,
 } from '../../modules/userTypes';
 import { protectedProcedure, router } from '../trpcBackend';
 
@@ -46,5 +47,9 @@ export const usersRouter = router({
 
     editSettings: protectedProcedure.input(editUserSettingsSchema).mutation(({ input, ctx }) => {
         return userMethods.editSettings(ctx.session.user.id, input);
+    }),
+
+    suggestions: protectedProcedure.input(getUserSuggestionsSchema).query(({ input }) => {
+        return userMethods.suggestions(input);
     }),
 });

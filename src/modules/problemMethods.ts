@@ -9,6 +9,7 @@ import {
     CreateProblem,
     DeleteProblem,
     GetProblemList,
+    ProblemCount,
     ProblemFindManyWithAuthorAndTagsAndFavourite,
     ProblemWithRelationsAndProblemSection,
     UpdateProblem,
@@ -19,7 +20,7 @@ import { sectionMethods } from './sectionMethods';
 import { tr } from './modules.i18n';
 
 const constructFindAllProblemsWhereFilter = async (
-    authorId: number,
+    userId: number,
     data: GetProblemList,
 ): Promise<Prisma.ProblemWhereInput> => {
     const where = {} as Prisma.ProblemWhereInput;
@@ -36,21 +37,21 @@ const constructFindAllProblemsWhereFilter = async (
     }
 
     if (data.difficulty) {
-        where.difficulty = data.difficulty;
+        where.difficulty = { in: data.difficulty };
     }
 
     where.id = {};
 
     if (data.favoritesOnly) {
-        where.favoritedBy = { some: { id: authorId } };
+        where.favoritedBy = { some: { id: userId } };
     }
 
     if (data.nonFavoritesOnly) {
-        where.NOT = { favoritedBy: { some: { id: authorId } } };
+        where.NOT = { favoritedBy: { some: { id: userId } } };
     }
 
-    if (data.authorId) {
-        where.authorId = data.authorId;
+    if (data.authorIds) {
+        where.authorId = { in: data.authorIds };
     }
 
     if (data.excludeProblemIds && data.excludeProblemIds.length) {
@@ -138,10 +139,13 @@ const getById = async (id: number) => {
     return problem;
 };
 
-const getCount = async (authorId: number, data: GetProblemList): Promise<number> => {
-    const where = await constructFindAllProblemsWhereFilter(authorId, data);
+const getCount = async (userId: number, data: GetProblemList): Promise<ProblemCount> => {
+    const where = await constructFindAllProblemsWhereFilter(userId, data);
 
-    return prisma.problem.count({ where });
+    const count = await prisma.problem.count({ where });
+    const total = await prisma.problem.count();
+
+    return { count, total };
 };
 
 // TODO: specify the type when we write the ProblemWithRelation type explicitly
@@ -233,7 +237,7 @@ const getList = async (
             const nextItem = firstQueryItems.pop();
             nextCursor = nextItem?.id;
 
-            return { nextCursor, items: firstQueryItems, total };
+            return { nextCursor, items: firstQueryItems, total: total.count };
         }
         const secondLimit = limit - firstQueryItems.length;
         const secondQueryItems = await secondQueryItemsFunction(secondLimit);
@@ -243,7 +247,7 @@ const getList = async (
             nextCursor = nextItem?.id;
         }
 
-        return { nextCursor, items: [...firstQueryItems, ...secondQueryItems], total };
+        return { nextCursor, items: [...firstQueryItems, ...secondQueryItems], total: total.count };
     };
 
     if (!cursor) {
@@ -263,7 +267,7 @@ const getList = async (
         nextCursor = nextItem?.id;
     }
 
-    return { nextCursor, items: secondQueryItems, total };
+    return { nextCursor, items: secondQueryItems, total: total.count };
 };
 
 const update = (data: UpdateProblem): Promise<Problem> => {

@@ -27,7 +27,7 @@ export const ProblemList = ({
     isSmallSize,
     interviewId,
 }: ProblemListProps): JSX.Element => {
-    const { debouncedSearch, difficulty, author, tagIds } = useProblemFilterContext();
+    const { debouncedSearch, difficulty, authorIds, tagIds } = useProblemFilterContext();
     const router = useRouter();
     const sectionId = parseNumber(router.query.sectionId);
 
@@ -36,7 +36,7 @@ export const ProblemList = ({
         search: debouncedSearch,
         difficulty,
         tagIds,
-        authorId: author?.id ?? undefined,
+        authorIds,
         sectionId,
         limit: 20,
     });

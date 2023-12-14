@@ -10,7 +10,6 @@ import { distanceDate } from '../../utils/date';
 import { problemDifficultyLabels } from '../../utils/dictionaries';
 import { generatePath, Paths } from '../../utils/paths';
 import { useSolutionCreateMutation } from '../../modules/solutionHooks';
-import { useProblemFilterContext } from '../../contexts/problemFilterContext';
 import { parseNumber } from '../../utils/paramParsers';
 import { trpc } from '../../trpc/trpcClient';
 import {
@@ -50,14 +49,6 @@ const StyledAuthor = styled.span`
     color: ${textColor};
 `;
 
-const StyledAuthorLink = styled.span`
-    cursor: pointer;
-
-    &:hover {
-        color: ${link0};
-    }
-`;
-
 const StyledLink = styled(Link)`
     font-size: 24px;
     color: ${gray8};
@@ -80,7 +71,6 @@ export type ProblemCardProps = {
 export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallSize }) => {
     const router = useRouter();
     const utils = trpc.useContext();
-    const { setAuthor, setTagIds } = useProblemFilterContext();
     const addToFavoritesMutation = useAddProblemToFavoritesMutation();
     const removeFromFavoritesMutation = useRemoveProblemFromFavoritesMutation();
     const solutionCreateMutation = useSolutionCreateMutation();
@@ -152,21 +142,18 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
         <UnavailableContainer isUnavailable={problem.isUsed} link={renderLinkToSection()}>
             <LoadingContainer isSpinnerVisible={isSpinnerVisible}>
                 <Card action={favoriteAction}>
+                    {/* TODO add authorId and tagId to filter onClick */}
                     <StyledCardHeader
                         title={problem.name}
                         isSmallSize={isSmallSize}
                         link={generatePath(Paths.PROBLEM, { problemId: problem.id })}
                         subTitle={
                             <StyledAuthor>
-                                {tr('Added by')}{' '}
-                                <StyledAuthorLink onClick={() => setAuthor(problem.author)}>
-                                    {problem.author.name}
-                                </StyledAuthorLink>{' '}
-                                {distanceDate(problem.createdAt)}
+                                {tr('Added by')} {problem.author.name} {distanceDate(problem.createdAt)}
                             </StyledAuthor>
                         }
                         chips={problem.tags.map((tag) => (
-                            <TagChip tag={tag} onClick={() => setTagIds([tag.id])} key={tag.id} />
+                            <TagChip tag={tag} key={tag.id} />
                         ))}
                     />
 

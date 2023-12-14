@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.18.0](https://github.com/taskany-inc/hire/compare/v0.17.1...v0.18.0) (2023-12-14)
+
+
+### Features
+
+* new problem filter backend ([007ca8e](https://github.com/taskany-inc/hire/commit/007ca8ebd7f2a1d9e37bc9796923394efd3e6f5c))
+* new problem filter frontend ([8555f38](https://github.com/taskany-inc/hire/commit/8555f384750f0c345ee2a34bfae99667b132c4be))
+* **ProblemPage:** history of the problem changes ([fe0b743](https://github.com/taskany-inc/hire/commit/fe0b743bb50908160697ea0ac72588f5f75463df))
+
 ## [0.17.1](https://github.com/taskany-inc/hire/compare/v0.17.0...v0.17.1) (2023-12-11)
 
 

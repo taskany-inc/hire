@@ -8,7 +8,7 @@ import React, {
     useContext,
     useState,
 } from 'react';
-import { ProblemDifficulty, User } from '@prisma/client';
+import { ProblemDifficulty } from '@prisma/client';
 import { useDebounce } from 'use-debounce';
 
 import { noop } from '../utils';
@@ -17,38 +17,48 @@ type ProblemFilterContext = {
     search?: string;
     debouncedSearch?: string;
     setSearch: Dispatch<SetStateAction<string | undefined>>;
-    difficulty?: ProblemDifficulty;
-    setDifficulty: Dispatch<SetStateAction<ProblemDifficulty | undefined>>;
+    difficulty?: ProblemDifficulty[];
+    setDifficulty: Dispatch<SetStateAction<ProblemDifficulty[] | undefined>>;
     tagIds: number[];
-    author: User | null;
+    authorIds: number[];
     setTagIds: Dispatch<SetStateAction<number[]>>;
-    setAuthor: Dispatch<SetStateAction<User | null>>;
+    setAuthorIds: Dispatch<SetStateAction<number[]>>;
     clearFilters: VoidFunction;
+    tagFilter: string[];
+    authorFilter: string[];
+    setTagFitlter: Dispatch<SetStateAction<string[]>>;
+    setAuthorFitlter: Dispatch<SetStateAction<string[]>>;
 };
 
 const problemFilterContext = createContext<ProblemFilterContext>({
     setSearch: noop,
     setDifficulty: noop,
     tagIds: [],
-    author: null,
+    authorIds: [],
     setTagIds: noop,
-    setAuthor: noop,
+    setAuthorIds: noop,
     clearFilters: noop,
+    tagFilter: [],
+    authorFilter: [],
+    setTagFitlter: noop,
+    setAuthorFitlter: noop,
 });
 
 export const ProblemFilterContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [search, setSearch] = useState<string>();
     const [debouncedSearch] = useDebounce(search, 300);
 
-    const [difficulty, setDifficulty] = useState<ProblemDifficulty>();
+    const [difficulty, setDifficulty] = useState<ProblemDifficulty[]>();
     const [tagIds, setTagIds] = useState<number[]>([]);
-    const [author, setAuthor] = useState<User | null>(null);
+    const [authorIds, setAuthorIds] = useState<number[]>([]);
 
+    const [tagFilter, setTagFitlter] = useState<string[]>(tagIds.map((id) => String(id)));
+    const [authorFilter, setAuthorFitlter] = useState<string[]>(authorIds.map((id) => String(id)));
     const clearFilters = useCallback(() => {
         setSearch(undefined);
         setDifficulty(undefined);
         setTagIds([]);
-        setAuthor(null);
+        setAuthorIds([]);
     }, []);
 
     const value: ProblemFilterContext = {
@@ -58,10 +68,14 @@ export const ProblemFilterContextProvider: FC<{ children: ReactNode }> = ({ chil
         difficulty,
         setDifficulty,
         tagIds,
-        author,
-        setAuthor,
+        authorIds,
+        setAuthorIds,
         setTagIds,
         clearFilters,
+        tagFilter,
+        setTagFitlter,
+        authorFilter,
+        setAuthorFitlter,
     };
 
     return <problemFilterContext.Provider value={value}>{children}</problemFilterContext.Provider>;

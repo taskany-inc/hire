@@ -10,7 +10,6 @@ import { pageHrefs, Paths } from '../../utils/paths';
 import { distanceDate } from '../../utils/date';
 import { ProblemWithRelationsAndProblemSection } from '../../modules/problemTypes';
 import { useSession } from '../../contexts/appSettingsContext';
-import { useProblemFilterContext } from '../../contexts/problemFilterContext';
 import { accessChecks } from '../../modules/accessChecks';
 import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import { TagChip } from '../TagChip';
@@ -45,8 +44,6 @@ const StyledSolutionTitle = styled(Text)`
 export const Problem: FC<ProblemProps> = ({ problem }) => {
     const session = useSession();
     const router = useRouter();
-
-    const { setTagIds, setAuthor } = useProblemFilterContext();
 
     const [isSolutionExpanded, setIsSolutionExpanded] = useState(false);
 
@@ -87,31 +84,17 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
                 #{problem.id}
                 <Text size="s" as="span" color="textSecondary">
                     <InlineDot />
+                    {/* TODO add authorId to filter onClick and push to Paths.PROBLEMS */}
                     <Text as="span" color={gray10}>
-                        {tr('Created by:')}{' '}
+                        {tr('Created by:')} {problem.author.name} {distanceDate(problem.createdAt)}
                     </Text>
-                    <span
-                        onClick={() => {
-                            setAuthor(problem.author);
-                            router.push(Paths.PROBLEMS);
-                        }}
-                    >
-                        <Link>{problem.author.name}</Link>
-                    </span>{' '}
-                    {distanceDate(problem.createdAt)}
                 </Text>
             </Text>
 
+            {/* TODO add tagId to filter onClick and push to Paths.PROBLEMS */}
             <StyledTagsContainer>
                 {problem.tags.map((tag) => (
-                    <TagChip
-                        tag={tag}
-                        key={tag.id}
-                        onClick={() => {
-                            setTagIds([tag.id]);
-                            router.push(Paths.PROBLEMS);
-                        }}
-                    />
+                    <TagChip tag={tag} key={tag.id} />
                 ))}
             </StyledTagsContainer>
 

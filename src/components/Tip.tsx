@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { gapM, gapS, gapXs, gray10, gray7, gray8 } from '@taskany/colors';
-import { nullable } from '@taskany/bricks/utils/nullable';
-import { Text } from '@taskany/bricks';
+import { Text, nullable } from '@taskany/bricks';
 
 interface TipProps {
     title?: string;

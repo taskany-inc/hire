@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { InterviewStatus, User, ProblemDifficulty } from '@prisma/client';
 import { gapM, gapS, gray5 } from '@taskany/colors';
-import { nullable } from '@taskany/bricks/utils/nullable';
-import { Input, Badge } from '@taskany/bricks';
+import { Input, Badge, nullable } from '@taskany/bricks';
 
 import { useTags } from '../../modules/tagHooks';
 import { ProblemAuthorFilter } from '../ProblemAuthorFilter/ProblemAuthorFilter';

@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer-continued';
 import styled from 'styled-components';
-import { gapM, gapS, gapSm, gapXs, gray9 } from '@taskany/colors';
+import { gapL, gapM, gapS, gapSm, gapXl, gapXs, gray9 } from '@taskany/colors';
 import { Button, Text, nullable } from '@taskany/bricks';
 import { IconDividerLineOutline } from '@taskany/icons';
 

@@ -1,5 +1,5 @@
+import { nullable } from '@taskany/bricks';
 import dynamic from 'next/dynamic';
-import { nullable } from '@taskany/bricks/utils/nullable';
 
 const themes = {
     dark: dynamic(() => import('@taskany/colors/themes/dark')),

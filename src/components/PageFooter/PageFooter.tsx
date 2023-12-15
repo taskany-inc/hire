@@ -1,6 +1,5 @@
 import { FC, useState } from 'react';
-import { Footer, Modal } from '@taskany/bricks';
-import { FooterItem } from '@taskany/bricks/components/Footer';
+import { Footer, FooterItem, Modal } from '@taskany/bricks';
 import { useRouter } from 'next/router';
 
 import FeedbackCreateForm from '../FeedbackCreateForm/FeedbackCreateForm';

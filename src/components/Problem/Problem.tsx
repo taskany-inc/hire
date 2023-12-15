@@ -2,7 +2,7 @@ import { useState, useMemo, FC } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { gray10 } from '@taskany/colors';
-import { Text } from '@taskany/bricks';
+import { Text, nullable } from '@taskany/bricks';
 import { IconArrowUpSmallOutline, IconArrowDownSmallOutline } from '@taskany/icons';
 
 import { useProblemRemoveMutation } from '../../modules/problemHooks';
@@ -112,23 +112,26 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
             {isSolutionExpanded && <MarkdownRenderer value={problem.solution} />}
 
             <Confirmation {...problemRemoveConfirmation.props} />
-
-            <StyledTitle size="xl" onClick={toggleProblemHistoryExpansion}>
-                {tr('History of changes')}
-
-                {isProblemHistoryExpanded ? (
-                    <IconArrowUpSmallOutline size="m" />
-                ) : (
-                    <IconArrowDownSmallOutline size="m" />
-                )}
-            </StyledTitle>
-            {problem.problemHistory.length > 0 && isProblemHistoryExpanded && (
+            {nullable(problem.problemHistory, () => (
                 <>
-                    {problem.problemHistory.map((history) => (
-                        <ProblemHistoryCard key={history.id} problemHistoryChangeEvent={history} />
-                    ))}
+                    <StyledTitle size="xl" onClick={toggleProblemHistoryExpansion}>
+                        {tr('History of changes')}
+
+                        {isProblemHistoryExpanded ? (
+                            <IconArrowUpSmallOutline size="m" />
+                        ) : (
+                            <IconArrowDownSmallOutline size="m" />
+                        )}
+                    </StyledTitle>
+                    {isProblemHistoryExpanded && (
+                        <>
+                            {problem.problemHistory.map((history) => (
+                                <ProblemHistoryCard key={history.id} problemHistoryChangeEvent={history} />
+                            ))}
+                        </>
+                    )}
                 </>
-            )}
+            ))}
         </LayoutMain>
     );
 };

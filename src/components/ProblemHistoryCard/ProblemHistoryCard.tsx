@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer-continued';
 import styled from 'styled-components';
-import { gapM, gapS, gapSm, gapXs, gray9 } from '@taskany/colors';
+import { gapM, gapSm, gapXs, gray9 } from '@taskany/colors';
 import { Button, Text, nullable } from '@taskany/bricks';
 import { IconDividerLineOutline } from '@taskany/icons';
 
@@ -15,30 +15,31 @@ type ProblemHistoryCardProps = {
 };
 
 const Card = styled.div`
-    margin: 0 ${gapM} 0 0;
-    border-radius: 4px;
-    padding: ${gapSm} 0 ${gapSm} 0;
-    max-width: 100%;
+    display: grid;
+    grid-template-column: 7fr 5fr;
+    gap: ${gapM};
+    flex: 1;
+    line-height: 1.5;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    max-width: 1000px;
 `;
 
 const CardTitleContainer = styled.div`
-    display: flex;
-    align-items: center;
-    margin-bottom: ${gapSm};
-    margin-left: 0;
-    gap: ${gapS};
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: start;
+    margin-top: ${gapSm};
+    gap: 1rem;
+    flex: 1;
 `;
 
 const VisibleContainer = styled.div`
-    margin-right: ${gapXs};
-    margin-left: auto;
     cursor: pointer;
-    display: flex;
-    align-items: center;
 `;
 
 const Content = styled.div`
-    margin-top: ${gapSm};
+    padding-top: ${gapXs};
 `;
 
 const newStyles = {
@@ -82,9 +83,11 @@ export const ProblemHistoryCard: FC<ProblemHistoryCardProps> = ({ problemHistory
             <CardTitleContainer>
                 <UserAvatar user={user} />
 
-                <Text size="m" color={gray9}>
-                    changed {subject} {distanceDate(createdAt)}
-                </Text>
+                <Content>
+                    <Text size="m" color={gray9}>
+                        changed {subject} {distanceDate(createdAt)}
+                    </Text>
+                </Content>
 
                 <VisibleContainer>
                     <Button

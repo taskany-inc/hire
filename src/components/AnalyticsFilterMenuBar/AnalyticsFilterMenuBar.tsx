@@ -26,8 +26,6 @@ export const AnalyticsFilterMenuBar = ({ hireStreams }: AnalyticsFilterMenuBarPr
 
     const [openCustomPeriod, setCustomPeriod] = useState(false);
 
-    const periods = [tr('Week'), tr('Month'), tr('Quarter'), tr('Year'), tr('Custom')];
-
     const onPeriodChange = (periodTitle: string) => {
         if (periodTitle === 'Custom') setCustomPeriod(true);
 
@@ -45,7 +43,6 @@ export const AnalyticsFilterMenuBar = ({ hireStreams }: AnalyticsFilterMenuBarPr
             streams={hireStreams}
             streamFilter={selectedHireStreams}
             onStreamChange={setHireStreams}
-            periods={periods}
             onPeriodChange={onPeriodChange}
             periodFilter={periodTitle}
         >

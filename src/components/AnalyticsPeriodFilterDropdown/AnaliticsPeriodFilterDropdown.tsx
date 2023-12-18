@@ -1,25 +1,33 @@
 import React, { useCallback, useState } from 'react';
 import { Dropdown } from '@taskany/bricks';
 
-import { ColorizedMenuItem } from './ColorizedMenuItem';
-import { FiltersMenuItem } from './FiltersMenuItem';
+import { ColorizedMenuItem } from '../ColorizedMenuItem';
+import { FiltersMenuItem } from '../FiltersMenuItem';
+
+import { tr } from './AnalyticsFilterMenuBar.i18n';
 
 interface AnaliticsPeriodFilterDropdownProps {
     value?: string;
     disabled?: React.ComponentProps<typeof Dropdown>['disabled'];
-    periods?: Array<string>;
-
     onChange?: (selected: string) => void;
 }
 
 export const AnaliticsPeriodFilterDropdown = React.forwardRef<HTMLDivElement, AnaliticsPeriodFilterDropdownProps>(
-    ({ value, disabled, onChange, periods }, ref) => {
+    ({ value, disabled, onChange }, ref) => {
         const [selected, setSelected] = useState<string | undefined>(value);
 
+        const periods = [
+            { title: tr('Week'), value: 'Week' },
+            { title: tr('Month'), value: 'Month' },
+            { title: tr('Quarter'), value: 'Quarter' },
+            { title: tr('Year'), value: 'Year' },
+            { title: tr('Custom'), value: 'Custom' },
+        ];
+
         const onStateClick = useCallback(
-            (item: string) => {
-                setSelected(item);
-                onChange?.(item);
+            (item: { title: string; value: string }) => {
+                setSelected(item.value);
+                onChange?.(item.value);
             },
             [onChange],
         );
@@ -39,15 +47,15 @@ export const AnaliticsPeriodFilterDropdown = React.forwardRef<HTMLDivElement, An
                         disabled={props.disabled}
                         onClick={props.onClick}
                     >
-                        {props.value}
+                        {periods.find((period) => period.value === props.value)?.title || value}
                     </FiltersMenuItem>
                 )}
                 renderItem={(props) => (
                     <ColorizedMenuItem
-                        key={props.item}
-                        title={props.item}
+                        key={props.item.value}
+                        title={props.item.title}
                         hoverColor="#565589"
-                        checked={selected === props.item}
+                        checked={selected === props.item.value}
                         onClick={props.onClick}
                     />
                 )}

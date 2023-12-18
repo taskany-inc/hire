@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.19.0](https://github.com/taskany-inc/hire/compare/v0.18.0...v0.19.0) (2023-12-18)
+
+
+### Features
+
+* **ProbleHistoryCard:** added tags and difficulties to history ([0d1b371](https://github.com/taskany-inc/hire/commit/0d1b371480aecda1ee1d3b81ca8a62affd6a48df))
+
+
+### Bug Fixes
+
+* analytics time filter works on both locales ([170fc53](https://github.com/taskany-inc/hire/commit/170fc53cdc74c00dfd39797e0080c9bad5e8a690))
+
 ## [0.18.0](https://github.com/taskany-inc/hire/compare/v0.17.1...v0.18.0) (2023-12-14)
 
 

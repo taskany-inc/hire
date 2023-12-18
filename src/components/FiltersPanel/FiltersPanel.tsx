@@ -11,7 +11,7 @@ import { TagFilterDropdown } from '../TagFilterDropdown';
 import { HireStreamFilterDropdown } from '../HireStreamFilterDropdown';
 import { InterviewStatusFilterDropdown } from '../InterviewStatusFilterDropdown';
 import { FiltersMenuItem } from '../FiltersMenuItem';
-import { AnaliticsPeriodFilterDropdown } from '../AnaliticsPeriodFilterDropdown';
+import { AnaliticsPeriodFilterDropdown } from '../AnalyticsPeriodFilterDropdown/AnaliticsPeriodFilterDropdown';
 
 import { tr } from './FiltersPanel.i18n';
 
@@ -21,7 +21,6 @@ interface FiltersPanelProps {
     statuses?: React.ComponentProps<typeof InterviewStatusFilterDropdown>['statuses'];
     author?: User | null;
 
-    periods?: Array<string>;
     difficulties?: Array<ProblemDifficulty>;
     difficultyFilter?: ProblemDifficulty;
     tagsFilter?: Array<number>;
@@ -76,7 +75,6 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
     streams,
     author,
     difficulties,
-    periods,
     streamFilter,
     difficultyFilter,
     periodFilter,
@@ -151,12 +149,8 @@ export const FiltersPanel: React.FC<FiltersPanelProps> = ({
                         {nullable(onAuthorChange, (onAuthorChange) => (
                             <ProblemAuthorFilter author={author} onChange={onAuthorChange} />
                         ))}
-                        {nullable(periods, (periods) => (
-                            <AnaliticsPeriodFilterDropdown
-                                periods={periods}
-                                value={periodFilter}
-                                onChange={onPeriodChange}
-                            />
+                        {nullable(onPeriodChange, (onPeriodChange) => (
+                            <AnaliticsPeriodFilterDropdown value={periodFilter} onChange={onPeriodChange} />
                         ))}
                     </StyledFiltersMenu>
                 </StyledFiltersMenuWrapper>

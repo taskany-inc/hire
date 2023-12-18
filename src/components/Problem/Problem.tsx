@@ -18,7 +18,6 @@ import { InlineDot } from '../InlineDot';
 import { DropdownMenuItem } from '../TagFilterDropdown';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
 import { ProblemStats } from '../ProblemStats/ProblemStats';
-import { Link } from '../Link';
 import { ProblemHistoryCard } from '../ProblemHistoryCard/ProblemHistoryCard';
 
 import { tr } from './Problem.i18n';

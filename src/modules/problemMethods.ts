@@ -277,19 +277,59 @@ const getList = async (
 };
 
 const update = async (data: UpdateProblem, authorId: number): Promise<Problem> => {
-    const problem = await prisma.problem.findFirstOrThrow({
-        where: { id: data.problemId },
-    });
-
     const { problemId, tagIds, ...restData } = data;
     const updateData: Prisma.ProblemUpdateInput = { ...restData };
 
+    const problem = await prisma.problem.findFirstOrThrow({
+        where: { id: data.problemId },
+        include: { tags: true },
+    });
+
+    const previousTagIds = problem.tags.map((tag) => tag.id);
+
+    if (tagIds && tagIds.length > 0) {
+        updateData.tags = { set: idsToIdObjs(tagIds) };
+    }
     const transactionOperations: PrismaPromise<unknown>[] = [
         prisma.problem.update({ data: updateData, where: { id: problemId } }),
     ];
 
-    if (tagIds && tagIds.length > 0) {
-        updateData.tags = { set: idsToIdObjs(tagIds) };
+    if (data.difficulty !== problem.difficulty) {
+        transactionOperations.push(
+            prisma.problemHistory.create({
+                data: {
+                    subject: 'difficulty',
+                    user: { connect: { id: authorId } },
+                    problem: { connect: { id: data.problemId } },
+                    previousValue: problem.difficulty,
+                    nextValue: data.difficulty,
+                },
+            }),
+        );
+    }
+
+    const sortPreviousTaIds = previousTagIds?.sort((a, b) => a - b);
+    const sortTaIds = tagIds?.sort((a, b) => a - b);
+
+    if (sortTaIds?.join(',') !== sortPreviousTaIds.join(',')) {
+        const tags = await prisma.tag.findMany({
+            where: { id: { in: tagIds } },
+        });
+
+        const previousTagNames = problem.tags.map((tag) => tag.name).join(', ');
+        const newTagNames = tags.map((tag) => tag.name).join(', ');
+
+        transactionOperations.push(
+            prisma.problemHistory.create({
+                data: {
+                    subject: 'tags',
+                    user: { connect: { id: authorId } },
+                    problem: { connect: { id: data.problemId } },
+                    previousValue: previousTagNames,
+                    nextValue: newTagNames,
+                },
+            }),
+        );
     }
 
     if (data.description !== problem.description) {

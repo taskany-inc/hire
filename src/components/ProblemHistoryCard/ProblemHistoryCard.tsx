@@ -1,13 +1,14 @@
 import { FC, useState } from 'react';
 import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer-continued';
 import styled from 'styled-components';
-import { gapL, gapM, gapS, gapSm, gapXl, gapXs, gray9 } from '@taskany/colors';
+import { gapM, gapS, gapSm, gapXs, gray9 } from '@taskany/colors';
 import { Button, Text, nullable } from '@taskany/bricks';
 import { IconDividerLineOutline } from '@taskany/icons';
 
 import { distanceDate } from '../../utils/date';
 import { UserAvatar } from '../UserAvatar';
 import { ProblemHistoryWithUser } from '../../modules/problemTypes';
+import { HistoryTagsAndDifficultyTextChange } from '../HistoryTagsAndDifficultyTextChange/HistoryTagsAndDifficultyTextChange';
 
 type ProblemHistoryCardProps = {
     problemHistoryChangeEvent: ProblemHistoryWithUser;
@@ -94,21 +95,24 @@ export const ProblemHistoryCard: FC<ProblemHistoryCardProps> = ({ problemHistory
                     />
                 </VisibleContainer>
             </CardTitleContainer>
-
-            {nullable(viewProblemHistoryDescription, () => (
-                <Content>
-                    <ReactDiffViewer
-                        oldValue={beforeData}
-                        newValue={afterData}
-                        extraLinesSurroundingDiff={2}
-                        compareMethod={DiffMethod.LINES}
-                        hideLineNumbers
-                        splitView={false}
-                        useDarkTheme
-                        styles={newStyles}
-                    />
-                </Content>
-            ))}
+            {nullable(viewProblemHistoryDescription, () =>
+                subject === 'tags' || subject === 'difficulty' ? (
+                    <HistoryTagsAndDifficultyTextChange from={beforeData} to={afterData} />
+                ) : (
+                    <Content>
+                        <ReactDiffViewer
+                            oldValue={beforeData}
+                            newValue={afterData}
+                            extraLinesSurroundingDiff={2}
+                            compareMethod={DiffMethod.LINES}
+                            hideLineNumbers
+                            splitView={false}
+                            useDarkTheme
+                            styles={newStyles}
+                        />
+                    </Content>
+                ),
+            )}
         </Card>
     );
 };

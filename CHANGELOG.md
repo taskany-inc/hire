@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.19.1](https://github.com/taskany-inc/hire/compare/v0.19.0...v0.19.1) (2023-12-20)
+
+
+### Bug Fixes
+
+* **ProblemPage:** fix history display ([8343650](https://github.com/taskany-inc/hire/commit/83436504a9182306e79a56399fd7e50cc9bf6249))
+* **SectionFeedback:** fix attaches ([d772c38](https://github.com/taskany-inc/hire/commit/d772c38337e8a60f10694202e12dad50395b20db))
+
 ## [0.19.0](https://github.com/taskany-inc/hire/compare/v0.18.0...v0.19.0) (2023-12-18)
 
 

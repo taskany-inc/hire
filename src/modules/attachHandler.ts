@@ -14,8 +14,8 @@ import { getObject, loadPic } from './s3Methods';
 import { tr } from './modules.i18n';
 
 type ResponseObj = {
-    failed: string[];
-    succeeded: string[];
+    failed: { type: string; filePath: string; name: string }[];
+    succeeded: { type: string; filePath: string; name: string }[];
     errorMessage?: string;
 };
 
@@ -58,20 +58,23 @@ export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => 
                 const response = await loadPic(
                     `${sectionId}/${file.originalFilename}`,
                     fs.createReadStream(file.filepath),
-                    file.mimetype || 'image/png',
+                    file.mimetype || '',
                 );
 
                 if (response) {
                     resultObject.errorMessage = response;
-                    resultObject.failed.push(filename);
+                    resultObject.failed.push({ type: file.mimetype || '', filePath: filename, name: filename });
                 } else {
                     const newFile = await attachMethods.create({
                         link,
                         filename,
                         sectionId: Number(sectionId),
                     });
-
-                    resultObject.succeeded.push(`/api/attach/${newFile.id}`);
+                    resultObject.succeeded.push({
+                        type: file.mimetype || '',
+                        filePath: `/api/attach/${newFile.id}`,
+                        name: filename,
+                    });
                 }
             }
 

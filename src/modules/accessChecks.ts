@@ -349,10 +349,18 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const { recruiterInHireStreams } = getUserRoleIds(session);
+            const { interviewerInSectionTypes, recruiterInHireStreams } = getUserRoleIds(session);
 
             if (recruiterInHireStreams.includes(section.interview.hireStreamId)) {
                 return allowed();
+            }
+
+            if (interviewerInSectionTypes.includes(section.sectionTypeId)) {
+                if (section.interviewerId === session.user.id) {
+                    return allowed();
+                }
+
+                return notAllowed(tr('This section is assigned to another interviewer'));
             }
 
             return notAllowed(tr('No access to recruitment stream'));

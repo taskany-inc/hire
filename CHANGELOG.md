@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.20.0](https://github.com/taskany-inc/hire/compare/v0.19.1...v0.20.0) (2023-12-21)
+
+
+### Features
+
+* allow interviewers to cancel their sections ([a1ab8cb](https://github.com/taskany-inc/hire/commit/a1ab8cb49d6c7936f33948799683fb91607ad053))
+
 ## [0.19.1](https://github.com/taskany-inc/hire/compare/v0.19.0...v0.19.1) (2023-12-20)
 
 

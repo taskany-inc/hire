@@ -282,6 +282,8 @@ model Grades {
   options String[]
 }
 
+//TODO: delete a model https://github.com/taskany-inc/hire/issues/440
+//depreceted model 
 model Reaction {
   name        String?
   userId      Int

@@ -10,13 +10,6 @@ export enum SectionType {
     PRODUCT_FINAL = 'PRODUCT_FINAL',
 }
 
-export enum ReactionEnum {
-    GOOD = 'GOOD',
-    OK = 'OK',
-    BAD = 'BAD',
-    UNKNOWN = 'UNKNOWN',
-}
-
 export const solutionResultText = {
     [SolutionResult.GOOD]: tr('Good'),
     [SolutionResult.OK]: tr('Ok'),
@@ -29,13 +22,6 @@ export const solutionResultEmoji = {
     [SolutionResult.OK]: '👌',
     [SolutionResult.BAD]: '👎',
     [SolutionResult.UNKNOWN]: '🤷‍♂️',
-};
-
-export const reactionEmoji = {
-    [ReactionEnum.GOOD]: '👍',
-    [ReactionEnum.OK]: '👌',
-    [ReactionEnum.BAD]: '👎',
-    [ReactionEnum.UNKNOWN]: '🤷‍♂️',
 };
 
 export const problemDifficultyLabels = {

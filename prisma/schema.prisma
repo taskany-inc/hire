@@ -69,7 +69,6 @@ model User {
   accounts                  Account[]
   sessions                  Session[]
   interviewEvents           InterviewEvent[]
-  reactions                 Reaction[]
   createdCalendarEvents     CalendarEvent[]
   managerInHireStreams      HireStream[]     @relation("HireStreamToManager")
   hiringLeadInHireStreams   HireStream[]     @relation("HireStreamToHiringLead")
@@ -171,7 +170,6 @@ model Interview {
   statusComment              String?
   hireStream                 HireStream       @relation(fields: [hireStreamId], references: [id])
   hireStreamId               Int
-  reactions                  Reaction[]
 }
 
 model Section {
@@ -280,21 +278,6 @@ model SectionType {
 model Grades {
   id      Int      @id @default(autoincrement())
   options String[]
-}
-
-//TODO: delete a model https://github.com/taskany-inc/hire/issues/440
-//depreceted model 
-model Reaction {
-  name        String?
-  userId      Int
-  user        User      @relation(fields: [userId], references: [id])
-  interviewId Int
-  interview   Interview @relation(fields: [interviewId], references: [id])
-  text        String?
-  createdAt   DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
-  updatedAt   DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
-
-  @@unique([interviewId, userId])
 }
 
 model AnalyticsEvent {

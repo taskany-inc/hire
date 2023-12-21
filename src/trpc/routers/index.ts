@@ -8,7 +8,6 @@ import { gradesRouter } from './gradesRouter';
 import { hireStreamsRouter } from './hireStreamsRouter';
 import { interviewsRouter } from './interviewsRouter';
 import { problemsRouter } from './problemsRouter';
-import { reactionsRouter } from './reactionsRouter';
 import { sectionTypesRouter } from './sectionTypesRouter';
 import { sectionsRouter } from './sectionsRouter';
 import { solutionsRouter } from './solutionsRouter';
@@ -26,7 +25,6 @@ export const trpcRouter = router({
     hireStreams: hireStreamsRouter,
     interviews: interviewsRouter,
     problems: problemsRouter,
-    reactions: reactionsRouter,
     sectionTypes: sectionTypesRouter,
     sections: sectionsRouter,
     solutions: solutionsRouter,

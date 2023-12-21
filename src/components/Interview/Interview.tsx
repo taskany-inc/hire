@@ -10,7 +10,6 @@ import { InterviewWithRelations } from '../../modules/interviewTypes';
 import { useInterviewRemoveMutation } from '../../modules/interviewHooks';
 import { useSession } from '../../contexts/appSettingsContext';
 import { accessChecks } from '../../modules/accessChecks';
-import { ReactionType } from '../../modules/reactionTypes';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
 import { Stack } from '../Stack';
 import {
@@ -24,7 +23,6 @@ import { LayoutMain } from '../LayoutMain';
 import { DropdownMenuItem } from '../TagFilterDropdown';
 import { InterviewSectionListItem } from '../InterviewSectionListItem';
 import { InterviewTags } from '../InterviewTags';
-import { ReactionBar } from '../ReactionBar';
 import { ExternalUserLink } from '../ExternalUserLink';
 
 import { tr } from './Interview.i18n';
@@ -32,11 +30,10 @@ import { tr } from './Interview.i18n';
 interface InterviewProps {
     interview: InterviewWithRelations;
     sectionTypes: SectionType[];
-    reactions?: ReactionType[];
     rejectReasons: RejectReason[];
 }
 
-export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reactions, rejectReasons }) => {
+export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, rejectReasons }) => {
     const router = useRouter();
     const session = useSession();
     const interviewId = Number(router.query.interviewId);
@@ -133,9 +130,6 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reacti
                     {tr('Created at')} {distanceDate(interview.createdAt)}
                 </Text>
                 <InterviewTags interview={interview} />
-                {Array.isArray(reactions) && (
-                    <ReactionBar reactions={reactions} interviewId={interviewId} style={{ marginTop: 30 }} />
-                )}
                 <Text size="s" as="p" style={{ marginTop: gapS }}>
                     {interview.statusComment}
                 </Text>

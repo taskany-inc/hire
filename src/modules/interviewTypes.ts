@@ -7,12 +7,9 @@ import {
     SectionType,
     User,
     HireStream,
-    Reaction,
     InterviewStatus,
 } from '@prisma/client';
 import { z } from 'zod';
-
-import { ReactionEnum } from '../utils/dictionaries';
 
 import { SectionWithInterviewerRelation } from './sectionTypes';
 import { AccessOptions } from './accessChecks';
@@ -25,8 +22,8 @@ export type InterviewIdQuery = z.infer<typeof interviewIdQuerySchema>;
 export const getInterviewByIdSchema = z.object({
     interviewId: z.number(),
     showGradeForOwnSectionOnly: z.object({ interviewerId: z.number() }).optional(),
-    showReactions: z.boolean().optional(),
 });
+
 export type GetInterviewById = z.infer<typeof getInterviewByIdSchema>;
 export type GetInterviewByIdOptions = Omit<GetInterviewById, 'interviewId'>;
 
@@ -92,18 +89,11 @@ export type SectionWithSectionTypeAndInterviewerAndSolutionsRelations = Section 
     })[];
 };
 
-export type ReactionWithRelations = Reaction & {
-    user: User;
-};
-
-export type ReactionsMatrix = Record<ReactionEnum, ReactionWithRelations[]>;
-
 export type InterviewWithRelations = InterviewWithHireStreamRelation & {
     creator: User;
     candidate: Candidate;
     sections: SectionWithSectionTypeAndInterviewerAndSolutionsRelations[];
     candidateSelectedSection: Section | null;
-    reactions?: ReactionWithRelations[];
 };
 
 export interface InterviewWithCandidateRelation extends Interview, Record<string, unknown> {

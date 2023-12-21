@@ -35,14 +35,6 @@ const create = async (creatorId: number, data: CreateInterview): Promise<Intervi
 
 const getById = async (id: number, options?: GetInterviewByIdOptions): Promise<InterviewWithRelations> => {
     const showGradeForOwnSectionOnly = options?.showGradeForOwnSectionOnly;
-    const showReactions = options?.showReactions;
-    const reactions = showReactions && {
-        reactions: {
-            include: {
-                user: true,
-            },
-        },
-    };
 
     const interview = await prisma.interview.findFirst({
         where: { id },
@@ -66,7 +58,6 @@ const getById = async (id: number, options?: GetInterviewByIdOptions): Promise<I
             },
             candidateSelectedSection: true,
             hireStream: true,
-            ...reactions,
         },
     });
 
@@ -105,13 +96,12 @@ const getByIdWithFilteredSections = async (session: Session | null, id: number):
         throw new ErrorWithStatus(tr('No session'), 401);
     }
     const shouldHideSectionGrade = !session.userRoles.admin && session.userRoles.interviewer;
-    const showReactions = session.userRoles.admin || session.userRoles.hasHiringLeadRoles;
 
     if (shouldHideSectionGrade) {
-        return getById(id, { showGradeForOwnSectionOnly: { interviewerId: session.user.id }, showReactions });
+        return getById(id, { showGradeForOwnSectionOnly: { interviewerId: session.user.id } });
     }
 
-    return getById(id, { showReactions });
+    return getById(id);
 };
 
 const getListByCandidateId = async ({

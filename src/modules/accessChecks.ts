@@ -534,20 +534,6 @@ export const accessChecks = {
         },
     },
 
-    reaction: {
-        createOrReadOrUpdateOrDelete: (session: Session, hireStreamId: number): AccessCheckResult => {
-            if (session.userRoles.admin) {
-                return allowed();
-            }
-
-            const { hiringLeadInHireStreams } = getUserRoleIds(session);
-
-            return hiringLeadInHireStreams.includes(hireStreamId)
-                ? allowed()
-                : notAllowed(tr('Only hiring leads can add reactions'));
-        },
-    },
-
     user: {
         create: (session: Session): AccessCheckResult => {
             if (session.userRoles.admin) {

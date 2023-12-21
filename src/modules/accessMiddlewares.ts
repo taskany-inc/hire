@@ -240,18 +240,6 @@ export const accessMiddlewares = {
         ),
     },
 
-    reaction: {
-        createOrReadOrUpdateOrDelete: createEntityCheckMiddleware(
-            (input: { interviewId: number }) => input.interviewId,
-            async (id) => {
-                const interview = await interviewMethods.getById(id);
-
-                return interview.hireStreamId;
-            },
-            accessChecks.reaction.createOrReadOrUpdateOrDelete,
-        ),
-    },
-
     user: {
         create: createMiddleware(accessChecks.user.create),
     },

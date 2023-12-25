@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.20.1](https://github.com/taskany-inc/hire/compare/v0.20.0...v0.20.1) (2023-12-25)
+
+
+### Bug Fixes
+
+* **Reaction:** remove reaction model ([e034a4c](https://github.com/taskany-inc/hire/commit/e034a4c85f337b3ca5bbdfdfb2df24b08d4186db))
+
 ## [0.20.0](https://github.com/taskany-inc/hire/compare/v0.19.1...v0.20.0) (2023-12-21)
 
 

@@ -5,13 +5,6 @@ import { ErrorWithStatus } from '../utils';
 
 import { tr } from './modules.i18n';
 
-export type MessageBody = {
-    html?: string;
-    text: string;
-    subject: string;
-    to: string;
-    from: string;
-};
 export type User = {
     _id: string;
     email: string;
@@ -43,14 +36,6 @@ const getExternalUser = async (email: string): Promise<User> => {
 
     return res.data;
 };
-const sendEmail = async (body: MessageBody) => {
-    await axios({
-        ...base,
-        url: config.sourceUsers.sendEmail,
-        data: body,
-        method: 'POST',
-    });
-};
 
 const searchUsers = async (search: string): Promise<User[]> => {
     const result = await axios({
@@ -68,7 +53,6 @@ const searchUsers = async (search: string): Promise<User[]> => {
 };
 
 export const externalUsersMethods = {
-    sendEmail,
     getExternalUser,
     searchUsers,
 };

@@ -24,7 +24,6 @@ export default {
     sourceUsers: {
         sourceOfUsersUrl: process.env.NEXT_PUBLIC_SOURCE_OF_USERS_URL,
         sourceOfUsersByEmail: process.env.SOURCE_OF_USERS_BY_EMAIL,
-        sendEmail: process.env.SEND_EMAIL,
         searchUsersList: process.env.SEARCHE_USERS_LIST,
         sourceOffUsersAccessToken: process.env.SOURCE_OF_USERS_ACCESS_TOKEN,
         userByEmailLink: process.env.NEXT_PUBLIC_LINK_TO_USER_BY_EMAIL,
@@ -52,6 +51,13 @@ export default {
         accessKeyId: process.env.S3_ACCESS_KEY_ID,
         secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
         bucket: process.env.S3_BUCKET,
+    },
+    nodemailer: {
+        host: process.env.MAIL_HOST,
+        port: process.env.MAIL_PORT,
+        authPass: process.env.MAIL_PASS,
+        authUser: process.env.MAIL_USER,
+        enabled: process.env.NODE_ENV === 'production',
     },
     pluginMenuItems: parsePluginMenuItems(process.env.NEXT_PUBLIC_PLUGIN_MENU_ITEMS),
 };

@@ -3,8 +3,8 @@ import { prisma } from '../utils/prisma';
 import { formatDateToLocaleString } from '../utils/date';
 
 import { UpdateSection } from './sectionTypes';
-import { externalUsersMethods } from './extUsersMethods';
 import { tr } from './modules.i18n';
+import { sendMail } from './nodemailer';
 
 export const notifyHR = async (id: number, data: UpdateSection) => {
     if (!data.feedback) {
@@ -21,7 +21,7 @@ export const notifyHR = async (id: number, data: UpdateSection) => {
     });
     if (section?.interview?.creator?.email) {
         // TODO: add localization after https://github.com/taskany-inc/hire/issues/191
-        return externalUsersMethods.sendEmail({
+        return sendMail({
             from: 'Taskany Hire',
             to: section?.interview?.creator?.email,
             subject: `Interviewer ${section.interviewer.name || ''} left feedback for the section with ${
@@ -50,7 +50,7 @@ export const cancelSectionEmail = async (id: number) => {
     if (section?.interviewer?.email) {
         const date = section.calendarSlot?.date ? formatDateToLocaleString(section.calendarSlot?.date) : '';
 
-        return externalUsersMethods.sendEmail({
+        return sendMail({
             from: 'Taskany Hire',
             to: section?.interviewer?.email,
             subject: tr('Cancel section'),

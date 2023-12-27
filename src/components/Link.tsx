@@ -2,25 +2,13 @@ import React from 'react';
 import NextLink from 'next/link';
 import { Link as LinkBricks } from '@taskany/bricks';
 
-interface LinkProps {
-    href?: string;
-    target?: React.ComponentProps<typeof LinkBricks>['target'];
-    className?: string;
-    children?: React.ReactNode;
-}
+type LinkProps = React.ComponentProps<typeof LinkBricks> & { forwardRef?: React.Ref<HTMLAnchorElement> };
 
-export const Link = ({ href, target, className, children }: LinkProps) => {
-    if (!href) {
-        return (
-            <LinkBricks inline className={className}>
-                {children}
-            </LinkBricks>
-        );
+const NextLinkWrapper = ({ inline, forwardRef, as, ...props }: LinkProps & { href: string }) => <NextLink {...props} />;
+
+export const Link = (props: LinkProps) => {
+    if (!props.href) {
+        return <LinkBricks inline {...props} />;
     }
-
-    return (
-        <LinkBricks as={NextLink} href={href} inline target={target} className={className}>
-            {children}
-        </LinkBricks>
-    );
+    return <LinkBricks as={NextLinkWrapper} inline {...props} />;
 };

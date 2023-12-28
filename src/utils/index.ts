@@ -74,6 +74,8 @@ export const times = (n: number, cb: VoidFunction): void => {
 
 export const yearInSeconds = 31536000;
 
+export const minuteInSeconds = 60000;
+
 export const deepClone = <T>(value: T): T => JSON.parse(JSON.stringify(value));
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

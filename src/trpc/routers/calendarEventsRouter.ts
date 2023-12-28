@@ -27,7 +27,7 @@ export const calendarEventsRouter = router({
         .input(createCalendarEventSchema)
         .use(accessMiddlewares.calendar.create)
         .mutation(({ input, ctx }) => {
-            return calendarEventMethods.createEvent(input, ctx.session.user.id);
+            return calendarEventMethods.createEvent(input, ctx.session.user);
         }),
 
     update: protectedProcedure
@@ -37,20 +37,23 @@ export const calendarEventsRouter = router({
             const { part, exceptionId, ...restInput } = input;
 
             if (exceptionId) {
-                return calendarEventMethods.updateEventException({
-                    part: 'exception',
-                    exceptionId,
-                    ...restInput,
-                });
+                return calendarEventMethods.updateEventException(
+                    {
+                        part: 'exception',
+                        exceptionId,
+                        ...restInput,
+                    },
+                    ctx.session.user,
+                );
             }
 
             switch (part) {
                 case 'exception':
-                    return calendarEventMethods.createEventException(input);
+                    return calendarEventMethods.createEventException(input, ctx.session.user);
                 case 'future':
-                    return calendarEventMethods.splitEventSeries(input, ctx.session.user.id);
+                    return calendarEventMethods.splitEventSeries(input, ctx.session.user);
                 case 'series':
-                    return calendarEventMethods.updateEventSeries(input);
+                    return calendarEventMethods.updateEventSeries(input, ctx.session.user);
                 default:
                     assertNever(part);
             }
@@ -59,20 +62,20 @@ export const calendarEventsRouter = router({
     remove: protectedProcedure
         .input(removeCalendarEventSchema)
         .use(accessMiddlewares.calendar.updateOrDelete)
-        .mutation(({ input }) => {
+        .mutation(({ input, ctx }) => {
             const { part, eventId, exceptionId, originalDate } = input;
 
             if (exceptionId) {
-                return calendarEventMethods.cancelEventException(eventId, exceptionId);
+                return calendarEventMethods.cancelEventException(eventId, exceptionId, ctx.session.user);
             }
 
             switch (part) {
                 case 'exception':
-                    return calendarEventMethods.createEventCancellation(eventId, originalDate);
+                    return calendarEventMethods.createEventCancellation(eventId, originalDate, ctx.session.user);
                 case 'future':
-                    return calendarEventMethods.stopEventSeries(eventId, originalDate);
+                    return calendarEventMethods.stopEventSeries(eventId, originalDate, ctx.session.user);
                 case 'series':
-                    return calendarEventMethods.removeEventSeries(eventId);
+                    return calendarEventMethods.removeEventSeries(eventId, ctx.session.user);
                 default:
                     assertNever(part);
             }

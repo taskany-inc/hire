@@ -18,14 +18,16 @@ export type MessageBody = {
     subject: string;
     text: string;
     html?: string;
+    icalEvent?: string;
 };
 
-const message = ({ from, to, subject, text, html }: MessageBody) => ({
+const message = ({ from, to, subject, text, html, icalEvent }: MessageBody) => ({
     from: `${from} <${config.nodemailer.authUser}>`,
     to,
     subject,
     text,
     ...(html && { html }),
+    ...(icalEvent && { icalEvent: { content: icalEvent } }),
 });
 
 export const sendMail = (body: MessageBody) => {

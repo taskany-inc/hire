@@ -1,6 +1,7 @@
 import config from '../config';
 import { prisma } from '../utils/prisma';
 import { formatDateToLocaleString } from '../utils/date';
+import { Paths, generatePath } from '../utils/paths';
 
 import { UpdateSection } from './sectionTypes';
 import { tr } from './modules.i18n';
@@ -31,7 +32,10 @@ export const notifyHR = async (id: number, data: UpdateSection) => {
                 data.hire ? `hire per ${data.grade} level/grade` : 'do not hire'
             } candidate ${section.interview.candidate.name}\n
             ${data.feedback}\n
-            ${config.defaultPageURL}/interviews/${section.interviewId}/sections/${section.id}`,
+            ${config.defaultPageURL}/${generatePath(Paths.SECTION, {
+                interviewId: section.interviewId,
+                sectionId: section.id,
+            })}`,
         });
     }
 };

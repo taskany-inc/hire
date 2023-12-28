@@ -84,7 +84,7 @@ export const getAuthOptions = (req: GetServerSidePropsContext['req']): NextAuthO
     adapter: PrismaAdapter(prisma),
     session: { strategy: 'jwt' },
     providers,
-    debug: true,
+    debug: false,
     callbacks: {
         session: async ({ session, token, user }) => {
             const id = (session.user.id || token?.id || user.id) as number;

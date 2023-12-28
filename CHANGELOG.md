@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.21.0](https://github.com/taskany-inc/hire/compare/v0.20.1...v0.21.0) (2023-12-28)
+
+
+### Features
+
+* send emails by nodemailer instead of ext service ([d0240b7](https://github.com/taskany-inc/hire/commit/d0240b73d9eb16ac3cc25eccda7bf05d5d4f6e63))
+
+
+### Bug Fixes
+
+* **Link:** wrap component to avoid dom warnings ([ab2721e](https://github.com/taskany-inc/hire/commit/ab2721e8056eb5fe1dff94284b23eea2d4bcf385))
+
 ## [0.20.1](https://github.com/taskany-inc/hire/compare/v0.20.0...v0.20.1) (2023-12-25)
 
 

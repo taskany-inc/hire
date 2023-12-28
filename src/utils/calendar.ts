@@ -12,6 +12,11 @@ export function getEventDuration(start: string | Date, end: string | Date): numb
     return differenceInMinutes(toDate(end), toDate(start));
 }
 
+export const userOfEvent = (user: User, creator: User | null) => ({
+    email: creator?.email || user.email,
+    name: creator?.name || user.name || undefined,
+});
+
 export interface BigCalendarEvent extends Event {
     eventId: string;
     exceptionId?: string;

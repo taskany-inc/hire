@@ -1,7 +1,12 @@
 import { InterviewStatus, Prisma, Section, Attach } from '@prisma/client';
+import { ICalCalendarMethod } from 'ical-generator';
+import RRule from 'rrule';
 
 import { prisma } from '../utils/prisma';
 import { ErrorWithStatus, idsToIdObjs } from '../utils';
+import { calendarEvents, createIcalEventData } from '../utils/ical';
+import config from '../config';
+import { Paths, generatePath } from '../utils/paths';
 
 import {
     CreateSection,
@@ -18,6 +23,7 @@ import { calendarMethods } from './calendarMethods';
 import { cancelSectionEmail, notifyHR } from './emaiMethods';
 import { AccessOptions } from './accessChecks';
 import { tr } from './modules.i18n';
+import { sendMail } from './nodemailer';
 
 async function getCalendarSlotData(
     params: SectionCalendarSlotBooking | undefined,
@@ -54,7 +60,10 @@ async function getCalendarSlotData(
 const create = async (data: CreateSection): Promise<Section> => {
     const { interviewId, interviewerId, sectionTypeId, calendarSlot, ...restData } = data;
 
-    const interview = await prisma.interview.findFirst({ where: { id: interviewId } });
+    const interview = await prisma.interview.findFirstOrThrow({
+        where: { id: interviewId },
+        include: { candidate: true },
+    });
 
     if (interview && interview.status === InterviewStatus.NEW) {
         await prisma.interview.update({
@@ -80,7 +89,74 @@ const create = async (data: CreateSection): Promise<Section> => {
         calendarSlot: slot,
     };
 
-    return prisma.section.create({ data: createData });
+    const newSection = await prisma.section.create({ data: createData });
+
+    if (newSection.calendarSlotId && calendarSlot) {
+        const exception = await prisma.calendarEventException.findFirstOrThrow({
+            where: { id: newSection.calendarSlotId },
+            include: { eventDetails: true },
+        });
+
+        const interviewer = await prisma.user.findFirstOrThrow({ where: { id: interviewerId } });
+
+        const icalEventDataException = createIcalEventData({
+            id: newSection.calendarSlotId,
+            users: [{ email: interviewer.email, name: interviewer.name || undefined }],
+            start: exception.date,
+            description: restData.description || exception.eventDetails.description,
+            duration: exception.eventDetails.duration,
+            summary: `Interview with ${interview.candidate.name}`,
+            url: `${config.defaultPageURL}/${generatePath(Paths.SECTION, {
+                interviewId,
+                sectionId: newSection.id,
+            })}`,
+        });
+        const { eventDetails, creator, ...series } = await calendarMethods.getEventById(exception.eventId);
+
+        const rRule = RRule.fromString(series.rule);
+        const exclude = [
+            ...series.exceptions.map((exception) => exception.originalDate),
+            ...series.cancellations.map((cancelletion) => cancelletion.originalDate),
+            calendarSlot?.originalDate,
+        ];
+        const icalEventDataUpdateEvent = createIcalEventData({
+            id: series.id,
+            users: [{ email: interviewer.email, name: interviewer.name || undefined }],
+            start: rRule.options.dtstart,
+            duration: eventDetails.duration,
+            description: eventDetails.description,
+            summary: eventDetails.title,
+            rule: rRule.options.freq,
+            exclude,
+        });
+
+        await sendMail({
+            from: 'Hire',
+            to: interviewer.email,
+            subject: `Interview with ${interview.candidate.name}`,
+            text: `${config.defaultPageURL}/${generatePath(Paths.SECTION, {
+                interviewId,
+                sectionId: newSection.id,
+            })}`,
+            icalEvent: calendarEvents({
+                method: ICalCalendarMethod.REQUEST,
+                events: [icalEventDataException],
+            }),
+        });
+
+        await sendMail({
+            from: 'Hire',
+            to: interviewer.email,
+            subject: eventDetails.title,
+            text: '',
+            icalEvent: calendarEvents({
+                method: ICalCalendarMethod.REQUEST,
+                events: [icalEventDataUpdateEvent],
+            }),
+        });
+    }
+
+    return newSection;
 };
 
 const getById = async (id: number, accessOptions: AccessOptions = {}): Promise<SectionWithRelationsAndResults> => {

@@ -80,9 +80,15 @@ export interface CalendarEventExceptionWithDetails extends CalendarEventExceptio
     interviewSection: SectionWithInterviewRelation | null;
 }
 
+export interface CalendarEventExceptionWithDetailsWOinterView extends CalendarEventException {
+    eventDetails: CalendarEventDetails;
+}
+
 export interface CalendarEventWithCreatorAndDetails extends CalendarEvent {
     eventDetails: CalendarEventDetails;
     creator: User | null;
+    exceptions: CalendarEventExceptionWithDetailsWOinterView[];
+    cancellations: CalendarEventCancellation[];
 }
 
 export interface CalendarEventWithRelations extends CalendarEvent {

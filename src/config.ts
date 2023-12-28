@@ -1,3 +1,5 @@
+import { stand } from './utils/stand';
+
 const parsePluginMenuItems = (variable: string | undefined): { text: string; path: string }[] => {
     if (!variable) {
         return [];
@@ -57,7 +59,7 @@ export default {
         port: process.env.MAIL_PORT,
         authPass: process.env.MAIL_PASS,
         authUser: process.env.MAIL_USER,
-        enabled: process.env.NODE_ENV === 'production',
+        enabled: stand === 'prom',
     },
     pluginMenuItems: parsePluginMenuItems(process.env.NEXT_PUBLIC_PLUGIN_MENU_ITEMS),
 };

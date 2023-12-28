@@ -10,7 +10,11 @@ import { TRPCError } from '@trpc/server';
 import { ErrorWithStatus } from '../utils';
 import { prisma } from '../utils/prisma';
 
-import { CalendarEventWithCreatorAndDetails, CalendarEventWithRelations } from './calendarTypes';
+import {
+    CalendarEventExceptionWithDetailsWOinterView,
+    CalendarEventWithCreatorAndDetails,
+    CalendarEventWithRelations,
+} from './calendarTypes';
 import { tr } from './modules.i18n';
 
 const getAllEvents = (creatorIds?: number[]): Promise<CalendarEventWithRelations[]> => {
@@ -53,6 +57,8 @@ const getEventById = async (eventId: string): Promise<CalendarEventWithCreatorAn
         include: {
             eventDetails: true,
             creator: true,
+            exceptions: { include: { eventDetails: true } },
+            cancellations: true,
         },
     });
 
@@ -63,9 +69,10 @@ const getEventById = async (eventId: string): Promise<CalendarEventWithCreatorAn
     return event;
 };
 
-const getEventExceptionById = async (exceptionId: string): Promise<CalendarEventException> => {
+const getEventExceptionById = async (exceptionId: string): Promise<CalendarEventExceptionWithDetailsWOinterView> => {
     const event = await prisma.calendarEventException.findUnique({
         where: { id: exceptionId },
+        include: { eventDetails: true },
     });
 
     if (!event) {

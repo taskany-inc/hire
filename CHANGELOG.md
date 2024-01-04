@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.22.0](https://github.com/taskany-inc/hire/compare/v0.21.0...v0.22.0) (2024-01-04)
+
+
+### Features
+
+* sync hire calendar with ical ([3d76610](https://github.com/taskany-inc/hire/commit/3d7661066c493167ba112fcdf2f1347f47b913b4))
+
+
+### Bug Fixes
+
+* **next-auth:** disable debug mode ([796468a](https://github.com/taskany-inc/hire/commit/796468a19adba66bdc553e45b3fab751fda46df1))
+
 ## [0.21.0](https://github.com/taskany-inc/hire/compare/v0.20.1...v0.21.0) (2023-12-28)
 
 

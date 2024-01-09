@@ -1,7 +1,7 @@
 import { addMinutes, differenceInMinutes, startOfDay } from 'date-fns';
 import { PrismaPromise, User } from '@prisma/client';
 import { ICalCalendarMethod } from 'ical-generator';
-import RRule from 'rrule';
+import { RRule } from 'rrule';
 
 import { prisma } from '../utils/prisma';
 import { calendarEvents, createIcalEventData } from '../utils/ical';

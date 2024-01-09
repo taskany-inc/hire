@@ -607,4 +607,35 @@ export const accessChecks = {
                 : notAllowed(tr('Only hiring stream managers can manage lists of hiring stream users'));
         },
     },
+    attach: {
+        create: (session: Session): AccessCheckResult => {
+            if (session.userRoles.admin) {
+                return allowed();
+            }
+            if (session.userRoles.hasInterviewerRoles || session.userRoles.hasRecruiterRoles) {
+                return allowed();
+            }
+            return notAllowed('Only recruiters and interviewers can upload files');
+        },
+
+        readOne: (session: Session): AccessCheckResult => {
+            if (session.userRoles.admin) {
+                return allowed();
+            }
+            if (session.userRoles.hasInterviewerRoles || session.userRoles.hasRecruiterRoles) {
+                return allowed();
+            }
+            return notAllowed('Only recruiters and interviewers can view files');
+        },
+
+        delete: (session: Session): AccessCheckResult => {
+            if (session.userRoles.admin) {
+                return allowed();
+            }
+            if (session.userRoles.hasInterviewerRoles || session.userRoles.hasRecruiterRoles) {
+                return allowed();
+            }
+            return notAllowed('Only recruiters and interviewers can delete files');
+        },
+    },
 };

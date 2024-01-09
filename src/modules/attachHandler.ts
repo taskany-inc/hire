@@ -6,11 +6,12 @@ import stream from 'stream';
 import { formFieldName } from '@taskany/bricks';
 
 import { parseError } from '../utils/errorParsing';
-import { prisma } from '../utils/prisma';
 import { ErrorWithStatus } from '../utils';
+import { parseNumber } from '../utils/paramParsers';
+import { pageHrefs } from '../utils/paths';
 
 import { attachMethods } from './attachMethods';
-import { getObject, loadPic } from './s3Methods';
+import { getObject, loadFile } from './s3Methods';
 import { tr } from './modules.i18n';
 
 type ResponseObj = {
@@ -21,7 +22,8 @@ type ResponseObj = {
 
 export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     const form = formidable({ multiples: true });
-    const sectionId = req.query.id;
+    const sectionId = parseNumber(req.query.sectionId);
+    const interviewId = parseNumber(req.query.interviewId);
 
     await new Promise((_resolve, reject) => {
         form.parse(req, async (err, _fields, files) => {
@@ -35,44 +37,29 @@ export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => 
 
             const data = [files[formFieldName]].flat();
 
-            const section = await prisma.section.findFirst({
-                where: { id: Number(sectionId) },
-                orderBy: {
-                    createdAt: 'asc',
-                },
-                include: {
-                    attaches: true,
-                },
-            });
-
             const resultObject: ResponseObj = {
                 failed: [],
                 succeeded: [],
             };
 
-            if (!section) return reject(new ErrorWithStatus(`${tr('No section')} ${sectionId}`, 400));
-
             for (const file of data) {
                 const filename = file.originalFilename || file.newFilename;
-                const link = `section/${sectionId}/${file.originalFilename}`;
-                const response = await loadPic(
-                    `${sectionId}/${file.originalFilename}`,
-                    fs.createReadStream(file.filepath),
-                    file.mimetype || '',
-                );
+                const link = `${Date.now()}_${filename}`;
+                const response = await loadFile(link, fs.createReadStream(file.filepath), file.mimetype || '');
 
                 if (response) {
                     resultObject.errorMessage = response;
                     resultObject.failed.push({ type: file.mimetype || '', filePath: filename, name: filename });
                 } else {
-                    const newFile = await attachMethods.create({
+                    const attach = await attachMethods.create({
                         link,
                         filename,
-                        sectionId: Number(sectionId),
+                        sectionId,
+                        interviewId,
                     });
                     resultObject.succeeded.push({
                         type: file.mimetype || '',
-                        filePath: `/api/attach/${newFile.id}`,
+                        filePath: pageHrefs.attach(attach.id),
                         name: filename,
                     });
                 }

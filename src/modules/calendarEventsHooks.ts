@@ -92,7 +92,7 @@ export const useCalendarRemoveEventMutation = () => {
 
     return trpc.calendarEvents.remove.useMutation({
         onMutate: async (data) => {
-            const { creatorIds, startDate, endDate, ...restData } = data;
+            const { creatorIds, startDate, endDate, ..._restData } = data;
             await utils.calendarEvents.getEventsForDateRange.cancel({
                 creatorIds,
                 startDate,

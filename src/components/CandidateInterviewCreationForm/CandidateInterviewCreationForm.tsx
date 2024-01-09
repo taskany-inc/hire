@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Candidate, HireStream } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -16,6 +16,8 @@ import { CandidateNameSubtitle } from '../CandidateNameSubtitle';
 import { Stack } from '../Stack';
 import { DropdownFieldOption } from '../DropdownField';
 import { Select } from '../Select';
+import { useUploadNotifications } from '../../modules/attachHooks';
+import { defaultAttachFormatter, File } from '../../utils/attachFormatter';
 
 import { tr } from './CandidateInterviewCreationForm.i18n';
 
@@ -43,6 +45,9 @@ const schema = z.object({
 export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props) {
     const router = useRouter();
     const interviewCreateMutation = useInterviewCreateMutation();
+    const [attachIds, setAttachIds] = useState<string[]>([]);
+
+    const { onUploadSuccess, onUploadFail } = useUploadNotifications();
 
     const hireStreamOptions = useMemo<DropdownFieldOption<number>[]>(
         () =>
@@ -55,16 +60,15 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
 
     const createInterview: SubmitHandler<InterviewCreationFormData> = useCallback(
         async ({ description, hireStreamId }) => {
-            const result = await interviewCreateMutation.mutateAsync({
+            const interview = await interviewCreateMutation.mutateAsync({
                 description,
-                candidateId: candidate.id,
                 hireStreamId,
+                candidateId: candidate.id,
+                attachIds,
             });
-            const interviewId = result.id;
-
-            router.push(generatePath(Paths.INTERVIEW, { interviewId }));
+            router.push(generatePath(Paths.INTERVIEW, { interviewId: interview.id }));
         },
-        [candidate.id, interviewCreateMutation, router],
+        [candidate.id, interviewCreateMutation, router, attachIds],
     );
 
     const {
@@ -79,6 +83,12 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
 
     const onHireStreamIdChange = (hireStreamId: number) => setValue('hireStreamId', hireStreamId);
 
+    const attachFormatter = useCallback((files: File[]) => {
+        const ids = files.map((file) => file.filePath.substring(15));
+        setAttachIds((prev) => [...prev, ...ids]);
+        return defaultAttachFormatter(files);
+    }, []);
+
     return (
         <Stack direction="column" gap={14}>
             <CandidateNameSubtitle name={candidate.name} />
@@ -92,7 +102,10 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
                             control={control}
                             placeholder={tr('Think carefully and write a couple of notes about this interview.')}
                             height={130}
-                            disableAttaches
+                            uploadLink={Paths.ATTACH}
+                            onUploadSuccess={onUploadSuccess}
+                            onUploadFail={onUploadFail}
+                            attachFormatter={attachFormatter}
                         />
 
                         <Select

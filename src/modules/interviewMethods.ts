@@ -2,7 +2,7 @@ import { Interview, Prisma } from '@prisma/client';
 import { Session } from 'next-auth';
 
 import { prisma } from '../utils/prisma';
-import { ErrorWithStatus } from '../utils';
+import { ErrorWithStatus, idsToIdObjs } from '../utils';
 import { buildItemListOrderBy, buildItemListWhere } from '../utils/itemList';
 import { ApiEntityListResult, ApiEntityListSelectionParams } from '../utils/types';
 
@@ -20,7 +20,7 @@ import {
 import { tr } from './modules.i18n';
 
 const create = async (creatorId: number, data: CreateInterview): Promise<Interview> => {
-    const { candidateId, hireStreamId, ...restData } = data;
+    const { candidateId, hireStreamId, attachIds, ...restData } = data;
 
     const createData: Prisma.InterviewCreateInput = {
         ...restData,
@@ -28,6 +28,7 @@ const create = async (creatorId: number, data: CreateInterview): Promise<Intervi
         creator: { connect: { id: creatorId } },
         candidate: { connect: { id: candidateId } },
         hireStream: { connect: { id: hireStreamId } },
+        attaches: attachIds ? { connect: idsToIdObjs(attachIds) } : undefined,
     };
 
     return prisma.interview.create({ data: createData });

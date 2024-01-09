@@ -49,6 +49,8 @@ export enum Paths {
     ANALYTICS_HIRE_STREAM = '/analytics/hire-stream/{hireStreamName}',
 
     ROLES = '/roles',
+
+    ATTACH = '/api/attach',
 }
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -83,7 +85,7 @@ export const pageHrefs = {
     interview: (interviewId: number): string => generatePath(Paths.INTERVIEW, { interviewId }),
     interviewHistory: (interviewId: number): string => generatePath(Paths.INTERVIEW_HISTORY, { interviewId }),
 
-    interviewSectionCreate: (interviewId: number, sectionTypeId: number, schedulable: boolean): string =>
+    interviewSectionCreate: (interviewId: number, sectionTypeId: number, _schedulable: boolean): string =>
         `${generatePath(Paths.SECTIONS_NEW, { interviewId })}/${sectionTypeId}`,
     interviewSectionView: (interviewId: number, sectionId: number): string =>
         generatePath(Paths.SECTION, { interviewId, sectionId }),
@@ -99,4 +101,8 @@ export const pageHrefs = {
 
     analyticsHireStream: (hireStreamName: string): string =>
         generatePath(Paths.ANALYTICS_HIRE_STREAM, { hireStreamName }),
+
+    attach: (id: string): string => `${Paths.ATTACH}?id=${id}`,
+    attachInterview: (interviewId: number): string => `${Paths.ATTACH}?interviewId=${interviewId}`,
+    attachSection: (sectionId: number): string => `${Paths.ATTACH}?sectionId=${sectionId}`,
 };

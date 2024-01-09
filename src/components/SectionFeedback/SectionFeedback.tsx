@@ -10,11 +10,11 @@ import { danger0, gapM, gapS } from '@taskany/colors';
 import { useSectionUpdateMutation } from '../../modules/sectionHooks';
 import { InterviewEventTypes } from '../../modules/interviewEventTypes';
 import { SectionWithRelationsAndResults, UpdateSection } from '../../modules/sectionTypes';
-import { generatePath, Paths } from '../../utils/paths';
+import { generatePath, pageHrefs, Paths } from '../../utils/paths';
 import { accessChecks } from '../../modules/accessChecks';
 import { LocalStorageManager, useSectionFeedbackPersisting } from '../../utils/localStorageManager';
 import { useSession } from '../../contexts/appSettingsContext';
-import { useOnUploadFail, useOnUploadSuccess } from '../../modules/attachHooks';
+import { useUploadNotifications } from '../../modules/attachHooks';
 import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
 import { Stack } from '../Stack';
@@ -60,8 +60,7 @@ const schema = z.object({
 export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): JSX.Element => {
     const [editMode, setEditMode] = useState<boolean>(section.hire === null);
 
-    const { onSuccess } = useOnUploadSuccess(section.id);
-    const { onFail } = useOnUploadFail();
+    const { onUploadSuccess, onUploadFail } = useUploadNotifications();
 
     const router = useRouter();
     const { interviewId } = section;
@@ -177,11 +176,11 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
                     {isEditable && editMode ? (
                         <CodeEditorField
                             style={{ width: '900px' }}
-                            onUploadSuccess={onSuccess}
-                            onUploadFail={onFail}
+                            onUploadSuccess={onUploadSuccess}
+                            onUploadFail={onUploadFail}
                             name="feedback"
                             control={control}
-                            uploadLink={`/api/attach/${section.id}`}
+                            uploadLink={pageHrefs.attachSection(section.id)}
                             placeholder={tr('Describe your impressions of the candidate')}
                         />
                     ) : (

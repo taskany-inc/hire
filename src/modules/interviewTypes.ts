@@ -31,6 +31,7 @@ export const createInterviewSchema = z.object({
     candidateId: z.number(),
     hireStreamId: z.number(),
     description: z.string().nullish(),
+    attachIds: z.string().array().optional(),
 });
 export type CreateInterview = z.infer<typeof createInterviewSchema>;
 

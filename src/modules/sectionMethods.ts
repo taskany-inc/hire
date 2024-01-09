@@ -1,6 +1,6 @@
 import { InterviewStatus, Prisma, Section, Attach } from '@prisma/client';
 import { ICalCalendarMethod } from 'ical-generator';
-import RRule from 'rrule';
+import { RRule } from 'rrule';
 
 import { prisma } from '../utils/prisma';
 import { ErrorWithStatus, idsToIdObjs } from '../utils';
@@ -255,7 +255,8 @@ const findAllInterviewerSections = async (
 };
 
 const update = async (data: UpdateSection): Promise<Section> => {
-    const { sectionId, solutionIds, interviewerId, interviewId, sendHrMail, calendarSlot, ...restData } = data;
+    const { sectionId, solutionIds, interviewerId, interviewId, sendHrMail, calendarSlot, attachIds, ...restData } =
+        data;
     let slot;
 
     if (calendarSlot) {
@@ -275,6 +276,7 @@ const update = async (data: UpdateSection): Promise<Section> => {
         interview: { connect: { id: interviewId } },
         interviewer: { connect: { id: interviewerId } },
         calendarSlot: slot,
+        attaches: attachIds ? { connect: idsToIdObjs(attachIds) } : undefined,
     };
 
     sendHrMail && notifyHR(sectionId, data);

@@ -2,18 +2,14 @@ import { FC } from 'react';
 import styled from 'styled-components';
 import { Text, Button } from '@taskany/bricks';
 
-import { generatePath, pageHrefs, Paths } from '../../utils/paths';
-import { distanceDate, formatDateToLocaleString } from '../../utils/date';
+import { pageHrefs } from '../../utils/paths';
 import { CandidateWithVendorRelation } from '../../modules/candidateTypes';
 import { InterviewWithHireStreamRelation } from '../../modules/interviewTypes';
-import { Card } from '../Card';
-import { CardHeader } from '../CardHeader';
-import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
-import { InterviewTags } from '../InterviewTags';
 import { Stack } from '../Stack';
-import { CardContent } from '../CardContent';
 import { Link } from '../Link';
 import { CandidateBIO } from '../CandidateBIO/CandidateBIO';
+import { useDistanceDate } from '../../hooks/useDateFormat';
+import { CandidateInterviewCard } from '../CandidateInterviewCard';
 
 import { tr } from './CandidateView.i18n';
 
@@ -29,11 +25,13 @@ interface Props {
 }
 
 export const CandidateView: FC<Props> = ({ candidate, interviews, isShowAddButton }) => {
+    const date = useDistanceDate(candidate.createdAt);
+
     return (
         <>
             <Stack direction="column">
                 <Text size="s" color="textSecondary" as="p" style={{ marginBottom: 10 }}>
-                    {tr('Added')} {distanceDate(candidate.createdAt)}
+                    {tr('Added')} {date}
                 </Text>
                 <CandidateBIO candidate={candidate} />
                 {isShowAddButton && (
@@ -47,19 +45,7 @@ export const CandidateView: FC<Props> = ({ candidate, interviews, isShowAddButto
                 <>
                     <StyledTitle size="xxl">{tr('Interview Logs')}</StyledTitle>
                     {interviews.map((interview) => (
-                        <Card key={interview.id}>
-                            <CardHeader
-                                title={`#${interview.id}`}
-                                subTitle={formatDateToLocaleString(interview.createdAt)}
-                                link={generatePath(Paths.INTERVIEW, {
-                                    interviewId: interview.id,
-                                })}
-                                chips={<InterviewTags interview={interview} />}
-                            />
-                            <CardContent>
-                                <MarkdownRenderer value={interview.description ?? ''} />
-                            </CardContent>
-                        </Card>
+                        <CandidateInterviewCard interview={interview} key={interview.id} />
                     ))}
                 </>
             )}

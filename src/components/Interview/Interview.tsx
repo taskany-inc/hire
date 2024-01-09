@@ -5,7 +5,6 @@ import { Text } from '@taskany/bricks';
 import { gapS, gray10 } from '@taskany/colors';
 
 import { pageHrefs } from '../../utils/paths';
-import { distanceDate } from '../../utils/date';
 import { InterviewWithRelations } from '../../modules/interviewTypes';
 import { useInterviewRemoveMutation } from '../../modules/interviewHooks';
 import { useSession } from '../../contexts/appSettingsContext';
@@ -24,6 +23,7 @@ import { DropdownMenuItem } from '../TagFilterDropdown';
 import { InterviewSectionListItem } from '../InterviewSectionListItem';
 import { InterviewTags } from '../InterviewTags';
 import { ExternalUserLink } from '../ExternalUserLink';
+import { useDistanceDate } from '../../hooks/useDateFormat';
 
 import { tr } from './Interview.i18n';
 
@@ -38,6 +38,8 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reject
     const session = useSession();
     const interviewId = Number(router.query.interviewId);
     const interviewRemove = useInterviewRemoveMutation();
+
+    const date = useDistanceDate(interview.createdAt);
 
     const interviewRemoveConfirmation = useConfirmation({
         message: tr('Delete interview?'),
@@ -127,7 +129,7 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reject
                 </Text>
                 <Text size="s" as="span" color={gray10}>
                     <InlineDot />
-                    {tr('Created at')} {distanceDate(interview.createdAt)}
+                    {tr('Created at')} {date}
                 </Text>
                 <InterviewTags interview={interview} />
                 <Text size="s" as="p" style={{ marginTop: gapS }}>

@@ -5,10 +5,10 @@ import { gapM, gapSm, gapXs, gray9 } from '@taskany/colors';
 import { Button, Text, nullable } from '@taskany/bricks';
 import { IconDividerLineOutline } from '@taskany/icons';
 
-import { distanceDate } from '../../utils/date';
 import { UserAvatar } from '../UserAvatar';
 import { ProblemHistoryWithUser } from '../../modules/problemTypes';
 import { HistoryTagsAndDifficultyTextChange } from '../HistoryTagsAndDifficultyTextChange/HistoryTagsAndDifficultyTextChange';
+import { useDistanceDate } from '../../hooks/useDateFormat';
 
 type ProblemHistoryCardProps = {
     problemHistoryChangeEvent: ProblemHistoryWithUser;
@@ -70,6 +70,7 @@ const newStyles = {
 export const ProblemHistoryCard: FC<ProblemHistoryCardProps> = ({ problemHistoryChangeEvent }) => {
     const { user, subject, createdAt, previousValue, nextValue } = problemHistoryChangeEvent;
     const [viewProblemHistoryDescription, setViewProblemHistoryDescription] = useState(false);
+    const date = useDistanceDate(createdAt);
 
     const beforeData = JSON.parse(JSON.stringify(previousValue, null, 4));
     const afterData = JSON.parse(JSON.stringify(nextValue, null, 4));
@@ -85,7 +86,7 @@ export const ProblemHistoryCard: FC<ProblemHistoryCardProps> = ({ problemHistory
 
                 <Content>
                     <Text size="m" color={gray9}>
-                        changed {subject} {distanceDate(createdAt)}
+                        changed {subject} {date}
                     </Text>
                 </Content>
 

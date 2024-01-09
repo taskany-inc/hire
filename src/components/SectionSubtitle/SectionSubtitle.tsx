@@ -1,10 +1,10 @@
 import { Text } from '@taskany/bricks';
 import { gray10 } from '@taskany/colors';
 
-import { formatDateToLocaleString } from '../../utils/date';
 import { SectionWithInterviewerRelation } from '../../modules/sectionTypes';
 import { InlineDot } from '../InlineDot';
 import { ExternalUserLink } from '../ExternalUserLink';
+import { useFormatDateToLocaleString } from '../../hooks/useDateFormat';
 
 import { tr } from './SectionSubtitle.i18n';
 
@@ -12,10 +12,11 @@ import { tr } from './SectionSubtitle.i18n';
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function SectionSubtitle({ section }: { section: SectionWithInterviewerRelation }) {
     const sectionName: string = section.description ?? '';
+    const date = useFormatDateToLocaleString(section.createdAt);
 
     return (
         <>
-            {formatDateToLocaleString(section.createdAt)}
+            {date}
 
             <InlineDot />
 

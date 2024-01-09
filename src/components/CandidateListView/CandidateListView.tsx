@@ -45,7 +45,7 @@ export const CandidateListView: FC = () => {
                     return (
                         <>
                             {candidates.pages.map((page) => (
-                                <>
+                                <div key={page.items[0].id}>
                                     {page.total === 0 ? (
                                         <Text>{tr('Nothing found')} 😔</Text>
                                     ) : (
@@ -53,7 +53,7 @@ export const CandidateListView: FC = () => {
                                             <CandidateCard candidate={candidate} key={candidate.id} />
                                         ))
                                     )}
-                                </>
+                                </div>
                             ))}
                             <div ref={ref}>{isFetching && <Text>{tr('Loading candidates')} ⏳</Text>}</div>
                         </>

@@ -1,12 +1,11 @@
 import { useCallback, useMemo, useState, VFC } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { textColor, link0, gray9, gray10, gray7, gray8 } from '@taskany/colors';
+import { textColor, link0, gray8 } from '@taskany/colors';
 import { Button } from '@taskany/bricks';
 import { IconStarOutline, IconStarSolid } from '@taskany/icons';
 
 import { ProblemWithRelationsAndProblemSection } from '../../modules/problemTypes';
-import { distanceDate } from '../../utils/date';
 import { problemDifficultyLabels } from '../../utils/dictionaries';
 import { generatePath, Paths } from '../../utils/paths';
 import { useSolutionCreateMutation } from '../../modules/solutionHooks';
@@ -26,6 +25,7 @@ import { CardHeader } from '../CardHeader';
 import { Link } from '../Link';
 import { TagChip } from '../TagChip';
 import { UnavailableContainer } from '../UnavailableContainer';
+import { useDistanceDate } from '../../hooks/useDateFormat';
 
 import { tr } from './ProblemCard.i18n';
 
@@ -82,6 +82,8 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
     );
     const interviewId = parseNumber(router.query.interviewId);
     const sectionId = parseNumber(router.query.sectionId);
+
+    const date = useDistanceDate(problem.createdAt);
 
     const addToSection = useCallback(async () => {
         if (sectionId) {
@@ -149,7 +151,7 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
                         link={generatePath(Paths.PROBLEM, { problemId: problem.id })}
                         subTitle={
                             <StyledAuthor>
-                                {tr('Added by')} {problem.author.name} {distanceDate(problem.createdAt)}
+                                {tr('Added by')} {problem.author.name} {date}
                             </StyledAuthor>
                         }
                         chips={problem.tags.map((tag) => (

@@ -7,10 +7,11 @@ import { CreateAttach } from './attachTypes';
 import { tr } from './modules.i18n';
 
 const create = async (data: CreateAttach): Promise<Attach> => {
-    const { sectionId, ...restData } = data;
+    const { sectionId, interviewId, ...restData } = data;
     const createData: Prisma.AttachCreateInput = {
         ...restData,
-        section: { connect: { id: sectionId } },
+        section: sectionId ? { connect: { id: sectionId } } : undefined,
+        interview: interviewId ? { connect: { id: interviewId } } : undefined,
     };
 
     return prisma.attach.create({ data: createData });

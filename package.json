@@ -12,7 +12,7 @@
         "db:migrate": "prisma migrate deploy",
         "db:seed": "npx prisma db seed",
         "dev:db:init": "npx prisma migrate dev --preview-feature && npx prisma db seed",
-        "generate:i18n": "generate-i18n --func=tr --langs=en,ru --path='./src/{components,controllers,pages,hooks,utils,plugins,i18n,schema,backend,contexts}/**/*' --getLang='./src/utils/getLang'",
+        "generate:i18n": "generate-i18n --func=tr --langs=en,ru --path='./src/{components,controllers,pages,hooks,utils,plugins,i18n,schema,backend,contexts,modules}/**/*' --getLang='./src/utils/getLang'",
         "test": "echo 'No tests yet'",
         "prepare": "husky install",
         "type-check": "npx tsc"

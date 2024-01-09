@@ -18,13 +18,13 @@ export const client = new S3Client({
     },
 });
 
-export const loadPic = async (key: string, data: PutObjectRequest['Body'] | string, contentType: string) => {
+export const loadFile = async (key: string, data: PutObjectRequest['Body'] | string, contentType: string) => {
     try {
         await client.send(
             new PutObjectCommand({
                 Bucket: config.s3.bucket,
                 BucketKeyEnabled: false,
-                Key: `section/${key}`,
+                Key: `${key}`,
                 Body: data,
                 ACL: 'authenticated-read',
                 ContentType: contentType,
@@ -36,7 +36,7 @@ export const loadPic = async (key: string, data: PutObjectRequest['Body'] | stri
     }
 };
 
-export const removePic = async (key: string) => {
+export const removeFile = async (key: string) => {
     const deleteObjectCommand = new DeleteObjectCommand({
         Bucket: config.s3.bucket,
         Key: key,

@@ -99,5 +99,8 @@
     "Only problem editors can change problems": "Только редактор задачи может изменять задачи",
     "Insufficient permissions to delete or edit the problem": "Недостаточно прав для удаления или редактирования задачи",
     "User {name} added as problem editor": "Пользователь {name} добавлен в роли редактора задач",
-    "User {name} is not problem editor anymore": "Пользователь {name} больше не является редактором задач"
+    "User {name} is not problem editor anymore": "Пользователь {name} больше не является редактором задач",
+    "Added documents": "Документ загружен",
+    "Failed to upload documents": "Не удалось загрузить документ",
+    "Deleted document": "Документ удален"
 }

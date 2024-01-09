@@ -41,6 +41,7 @@ export const updateSectionSchema = z.object({
     solutionIds: z.number().array().optional(),
     sendHrMail: z.boolean().optional(),
     calendarSlot: sectionCalendarSlotBookingSchema.optional(),
+    attachIds: z.string().array().optional(),
 });
 export type UpdateSection = z.infer<typeof updateSectionSchema>;
 

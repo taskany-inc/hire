@@ -92,8 +92,8 @@ export const RADIAN = Math.PI / 180;
 export const mapInterval = (in1Start: number, in1End: number, in2Start: number, in2End: number, value: number) =>
     ((value - in1Start) * (in2End - in2Start)) / (in1End - in1Start) + in2Start;
 
-export const idsToIdObjs = (ids: number[]): { id: number }[] => ids.map((id) => ({ id }));
+export const idsToIdObjs = <T extends string | number>(ids: T[]): { id: T }[] => ids.map((id) => ({ id }));
 
-export const idObjsToIds = (idObjs: { id: number }[]): number[] => idObjs.map((idObj) => idObj.id);
+export const idObjsToIds = <T extends string | number>(idObjs: { id: T }[]): T[] => idObjs.map((idObj) => idObj.id);
 
 export const onlyUnique = <T>(value: T, index: number, self: T[]) => self.indexOf(value) === index;

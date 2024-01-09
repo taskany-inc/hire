@@ -1,37 +1,23 @@
-import { NextApiRequest } from 'next';
 import { Session } from 'next-auth';
 
 import { getServerSession } from '../utils/auth';
 import { NextHandler } from '../utils/types';
 
 import { accessChecks, AccessCheckResult } from './accessChecks';
-import { attachMethods } from './attachMethods';
 
-type EntityIdGetter<TId = number> = (req: NextApiRequest) => TId;
+type AccessChecker = (session: Session) => AccessCheckResult;
 
-type EntityGetter<TEntity, TId = number> = (id: TId) => Promise<TEntity>;
-
-type EntityAccessChecker<TEntity> = (session: Session, entity: TEntity) => AccessCheckResult;
-
-const createEntityCheckGuard =
-    <TEntity, TId = number>(
-        getEntityId: EntityIdGetter<TId>,
-        getEntity: EntityGetter<TEntity, TId>,
-        checker: EntityAccessChecker<TEntity>,
-    ): NextHandler =>
+const createGuard =
+    (checker: AccessChecker): NextHandler =>
     async (req, res, next) => {
         const session = await getServerSession(req, res);
 
         if (!session) {
             res.status(401).end();
-
             return;
         }
 
-        const id = getEntityId(req);
-        const entity = await getEntity(id);
-
-        const checkResult = checker(session, entity);
+        const checkResult = checker(session);
 
         if (checkResult.allowed) {
             req.accessOptions = checkResult.accessOptions;
@@ -42,37 +28,10 @@ const createEntityCheckGuard =
         }
     };
 
-const getSectionMethods = () => import('./sectionMethods');
-
 export const accessGuards = {
     attach: {
-        create: createEntityCheckGuard(
-            (req) => Number(req.query.id),
-            async (id) => {
-                const { sectionMethods } = await getSectionMethods();
-
-                return sectionMethods.getById(id);
-            },
-            accessChecks.section.attachFile,
-        ),
-        readOne: createEntityCheckGuard(
-            (req) => String(req.query.id),
-            async (id) => {
-                const attach = await attachMethods.getById(id);
-
-                return attach.section;
-            },
-            accessChecks.section.readOne,
-        ),
-
-        delete: createEntityCheckGuard(
-            (req) => String(req.query.id),
-            async (id) => {
-                const attach = await attachMethods.getById(id);
-
-                return attach.section;
-            },
-            accessChecks.section.attachFile,
-        ),
+        create: createGuard(accessChecks.attach.create),
+        readOne: createGuard(accessChecks.attach.readOne),
+        delete: createGuard(accessChecks.attach.delete),
     },
 };

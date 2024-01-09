@@ -1,4 +1,4 @@
-import { gray10, gray9 } from '@taskany/colors';
+import { gray10 } from '@taskany/colors';
 import styled from 'styled-components';
 
 type GradeButtonProps = {

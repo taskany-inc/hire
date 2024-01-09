@@ -1,4 +1,4 @@
-import RRule, { Frequency, Options, RRuleSet, rrulestr } from 'rrule';
+import { RRule, Frequency, Options, RRuleSet, rrulestr } from 'rrule';
 import { addMinutes, differenceInMinutes, isSameMinute } from 'date-fns';
 
 import { CalendarData, CalendarEventInstance, CalendarEventWithRelations, EventRecurrence } from './calendarTypes';

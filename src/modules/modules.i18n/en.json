@@ -99,5 +99,8 @@
     "Only problem editors can change problems": "",
     "Insufficient permissions to delete or edit the problem": "",
     "User {name} added as problem editor": "",
-    "User {name} is not problem editor anymore": ""
+    "User {name} is not problem editor anymore": "",
+    "Added documents": "",
+    "Failed to upload documents": "",
+    "Deleted document": ""
 }

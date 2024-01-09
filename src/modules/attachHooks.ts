@@ -5,24 +5,20 @@ import { useNotifications } from '../hooks/useNotifications';
 import { trpc } from '../trpc/trpcClient';
 
 import { attachModule } from './attachModule';
+import { tr } from './modules.i18n';
 
-export const useOnUploadSuccess = (sectionId: number) => {
+export const useUploadNotifications = () => {
     const utils = trpc.useContext();
-    const { enqueueSuccessNotification } = useNotifications();
-    const onSuccess = () => {
-        enqueueSuccessNotification(`Added documents to the section ${sectionId}`);
+    const { enqueueSuccessNotification, enqueueValidErrorNotification } = useNotifications();
+    const onUploadSuccess = () => {
+        enqueueSuccessNotification(tr('Added documents'));
         utils.sections.invalidate();
+        utils.interviews.invalidate();
     };
-    return { onSuccess };
-};
-
-export const useOnUploadFail = () => {
-    const { enqueueValidErrorNotification } = useNotifications();
-
-    const onFail = (message = 'Failed to load') => {
+    const onUploadFail = (message = tr('Failed to upload documents')) => {
         enqueueValidErrorNotification(message);
     };
-    return { onFail };
+    return { onUploadSuccess, onUploadFail };
 };
 
 export const useAttachRemoveMutation = (): UseMutationResult<Attach, unknown, string> => {
@@ -30,9 +26,10 @@ export const useAttachRemoveMutation = (): UseMutationResult<Attach, unknown, st
     const { enqueueSuccessNotification, enqueueErrorNotification } = useNotifications();
 
     return useMutation((vars: string) => attachModule.remove(vars), {
-        onSuccess: (data) => {
-            enqueueSuccessNotification(`Deleted document ${data.filename}`);
+        onSuccess: () => {
+            enqueueSuccessNotification(tr('Deleted document'));
             utils.sections.invalidate();
+            utils.interviews.invalidate();
         },
         onError: enqueueErrorNotification,
     });

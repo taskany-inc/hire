@@ -170,6 +170,7 @@ model Interview {
   statusComment              String?
   hireStream                 HireStream       @relation(fields: [hireStreamId], references: [id])
   hireStreamId               Int
+  attaches                   Attach[]
 }
 
 model Section {
@@ -401,13 +402,15 @@ model CalendarEventCancellation {
 }
 
 model Attach {
-  id        String    @id @default(uuid())
-  createdAt DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
-  link      String
-  filename  String
-  deletedAt DateTime?
-  section   Section   @relation(fields: [sectionId], references: [id])
-  sectionId Int
+  id          String     @id @default(uuid())
+  createdAt   DateTime   @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  link        String
+  filename    String
+  deletedAt   DateTime?
+  section     Section?   @relation(fields: [sectionId], references: [id])
+  sectionId   Int?
+  interview   Interview? @relation(fields: [interviewId], references: [id])
+  interviewId Int?
 }
 
 model UserSettings {

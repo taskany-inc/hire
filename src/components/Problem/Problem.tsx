@@ -7,7 +7,6 @@ import { IconArrowUpSmallOutline, IconArrowDownSmallOutline } from '@taskany/ico
 
 import { useProblemRemoveMutation } from '../../modules/problemHooks';
 import { pageHrefs, Paths } from '../../utils/paths';
-import { distanceDate } from '../../utils/date';
 import { ProblemWithRelationsAndProblemSection } from '../../modules/problemTypes';
 import { useSession } from '../../contexts/appSettingsContext';
 import { accessChecks } from '../../modules/accessChecks';
@@ -19,6 +18,7 @@ import { DropdownMenuItem } from '../TagFilterDropdown';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
 import { ProblemStats } from '../ProblemStats/ProblemStats';
 import { ProblemHistoryCard } from '../ProblemHistoryCard/ProblemHistoryCard';
+import { useDistanceDate } from '../../hooks/useDateFormat';
 
 import { tr } from './Problem.i18n';
 
@@ -45,6 +45,7 @@ const StyledTitle = styled(Text)`
 export const Problem: FC<ProblemProps> = ({ problem }) => {
     const session = useSession();
     const router = useRouter();
+    const date = useDistanceDate(problem.createdAt);
 
     const [isSolutionExpanded, setIsSolutionExpanded] = useState(false);
     const [isProblemHistoryExpanded, setIsProblemHistoryExpanded] = useState(false);
@@ -89,7 +90,7 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
                     <InlineDot />
                     {/* TODO add authorId to filter onClick and push to Paths.PROBLEMS */}
                     <Text as="span" color={gray10}>
-                        {tr('Created by:')} {problem.author.name} {distanceDate(problem.createdAt)}
+                        {tr('Created by:')} {problem.author.name} {date}
                     </Text>
                 </Text>
             </Text>

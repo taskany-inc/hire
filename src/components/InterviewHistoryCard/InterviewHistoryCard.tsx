@@ -9,10 +9,10 @@ import {
     InterviewEventTypes,
     InterviewEventWithRelations,
 } from '../../modules/interviewEventTypes';
-import { distanceDate } from '../../utils/date';
 import { isSomeEnum } from '../../utils/typeGuards';
 import { useToggle } from '../../hooks/useToggle';
 import { UserAvatar } from '../UserAvatar';
+import { useDistanceDate } from '../../hooks/useDateFormat';
 
 import { tr } from './InterviewHistoryCard.i18n';
 
@@ -58,6 +58,7 @@ export const InterviewHistoryCard: VFC<InterviewHistoryCardProps> = ({ interview
     const { user, type, createdAt, before, after } = interviewChangeEvent;
     const [isVisible, toggle] = useToggle(false);
     const [sideBySide, toggleSide] = useToggle(true);
+    const date = useDistanceDate(createdAt);
 
     const beforeData = JSON.stringify(JSON.parse(`${before}`), null, 4);
     const afterData = JSON.stringify(JSON.parse(`${after}`), null, 4);
@@ -69,7 +70,7 @@ export const InterviewHistoryCard: VFC<InterviewHistoryCardProps> = ({ interview
                 <UserAvatar user={user} />
 
                 <ChangeEventLabel>
-                    {changeEventLabel} - {distanceDate(createdAt)}
+                    {changeEventLabel} - {date}
                 </ChangeEventLabel>
                 <VisibleContainer>
                     <label htmlFor={`${interviewChangeEvent.id}isVisible`}>

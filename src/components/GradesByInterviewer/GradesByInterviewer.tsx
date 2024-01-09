@@ -30,7 +30,7 @@ export const GradesByInterviewer = ({ hireStreamName }: Props) => {
             {([data]) => (
                 <>
                     {Object.entries(data).map(([sectionType, sectionTypeData]) => (
-                        <>
+                        <div key={sectionType}>
                             <Text size="xl" style={{ marginTop: 10, marginLeft: 40 }}>
                                 {tr('Estimates in section type')} {sectionType}
                             </Text>
@@ -61,7 +61,7 @@ export const GradesByInterviewer = ({ hireStreamName }: Props) => {
                                     <Legend formatter={(v: string) => v.slice(v.indexOf('.') + 1)} />
                                 </BarChart>
                             </ResponsiveContainer>
-                        </>
+                        </div>
                     ))}
                 </>
             )}

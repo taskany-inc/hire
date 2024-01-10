@@ -19,6 +19,7 @@ import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
 import { ProblemStats } from '../ProblemStats/ProblemStats';
 import { ProblemHistoryCard } from '../ProblemHistoryCard/ProblemHistoryCard';
 import { useDistanceDate } from '../../hooks/useDateFormat';
+import { ProblemDifficultyIcon } from '../ProblemDifficultyIcon/ProblemDifficultyIcon';
 
 import { tr } from './Problem.i18n';
 
@@ -31,6 +32,7 @@ const StyledTagsContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    align-items: center;
 `;
 
 const StyledTitle = styled(Text)`
@@ -100,6 +102,8 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
                 {problem.tags.map((tag) => (
                     <TagChip tag={tag} key={tag.id} />
                 ))}
+
+                <ProblemDifficultyIcon difficulty={problem.difficulty} />
             </StyledTagsContainer>
 
             <ProblemStats good={problem.solutionsGood} ok={problem.solutionsOk} bad={problem.solutionsBad} />

@@ -68,11 +68,12 @@ export const ColorizedMenuItem: React.FC<{
     focused?: boolean;
     checked?: boolean;
     onClick?: () => void;
-}> = ({ hoverColor, title, focused, checked, onClick }) => {
+    stateDotColor?: string;
+}> = ({ hoverColor, title, focused, checked, onClick, stateDotColor }) => {
     return (
         <StyledItemCard hoverColor={hoverColor} focused={focused} checked={checked} onClick={onClick}>
             <NoWrap>
-                <StateDot size={'s'} />
+                <StateDot size="s" color={stateDotColor} />
             </NoWrap>
             <StyledItemInfo size="s" weight="bold">
                 {title}

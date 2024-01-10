@@ -8,6 +8,7 @@ import { Stack } from './Stack';
 type DropdownOption = {
     value: string | number;
     text: string;
+    stateDotColor?: string;
 };
 
 interface SelectProps {
@@ -62,6 +63,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
                             hoverColor="#565589"
                             checked={selected === props.item}
                             onClick={props.onClick}
+                            stateDotColor={props.item.stateDotColor}
                         />
                     )}
                 />

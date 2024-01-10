@@ -44,7 +44,16 @@ export const createMapFromArray = <TEntity extends Record<string, unknown> = { i
         return result;
     }, {});
 
-export const difficultyOption = createSelectOption(ProblemDifficulty, problemDifficultyLabels);
+export const difficultyToColor: Record<ProblemDifficulty, string> = {
+    HARD: '#f85149',
+    MEDIUM: '#fac905',
+    EASY: '#18e022',
+};
+
+export const difficultyOption = createSelectOption(ProblemDifficulty, problemDifficultyLabels).map((option) => ({
+    ...option,
+    stateDotColor: difficultyToColor[option.value as ProblemDifficulty],
+}));
 
 // TODO: delete proxy
 export { parseEntityDates } from './date';

@@ -6,7 +6,6 @@ import { Button } from '@taskany/bricks';
 import { IconStarOutline, IconStarSolid } from '@taskany/icons';
 
 import { ProblemWithRelationsAndProblemSection } from '../../modules/problemTypes';
-import { problemDifficultyLabels } from '../../utils/dictionaries';
 import { generatePath, Paths } from '../../utils/paths';
 import { useSolutionCreateMutation } from '../../modules/solutionHooks';
 import { parseNumber } from '../../utils/paramParsers';
@@ -20,12 +19,12 @@ import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import { LoadingContainer } from '../LoadingContainer';
 import { Card } from '../Card';
 import { CardContent } from '../CardContent';
-import { CardFooter } from '../CardFooter';
 import { CardHeader } from '../CardHeader';
 import { Link } from '../Link';
 import { TagChip } from '../TagChip';
 import { UnavailableContainer } from '../UnavailableContainer';
 import { useDistanceDate } from '../../hooks/useDateFormat';
+import { ProblemDifficultyIcon } from '../ProblemDifficultyIcon/ProblemDifficultyIcon';
 
 import { tr } from './ProblemCard.i18n';
 
@@ -60,6 +59,13 @@ const StyledLink = styled(Link)`
 
 const IconStarWrapper = styled.div`
     margin-top: -6px;
+`;
+
+const StyledChipWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
 `;
 
 export type ProblemCardProps = {
@@ -154,18 +160,19 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
                                 {tr('Added by')} {problem.author.name} {date}
                             </StyledAuthor>
                         }
-                        chips={problem.tags.map((tag) => (
-                            <TagChip tag={tag} key={tag.id} />
-                        ))}
+                        chips={
+                            <StyledChipWrapper>
+                                {problem.tags.map((tag) => (
+                                    <TagChip tag={tag} key={tag.id} />
+                                ))}
+                                <ProblemDifficultyIcon difficulty={problem.difficulty} />
+                            </StyledChipWrapper>
+                        }
                     />
 
                     <CardContent>
                         <StyledMarkdownRenderer isSmallSize={isSmallSize} value={problem.description} />
                     </CardContent>
-
-                    <CardFooter>
-                        {tr('Difficulty:')} {problemDifficultyLabels[problem.difficulty]}
-                    </CardFooter>
 
                     {isShowAddButton && (
                         <StyledAddButton outline view="primary" onClick={addToSection} text={tr('Add')} />

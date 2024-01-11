@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.22.0](https://github.com/taskany-inc/hire/compare/v0.21.0...v0.22.0) (2024-01-11)
+
+
+### Features
+
+* add attaches to interview ([b63e659](https://github.com/taskany-inc/hire/commit/b63e659bebd7c499ab2f12a328b62603bae9da49))
+* problem difficulty circle indicator ([aa965da](https://github.com/taskany-inc/hire/commit/aa965da7f04d400ab4c64aed1cf3e6bcbf114638))
+* sync hire calendar with ical ([3d76610](https://github.com/taskany-inc/hire/commit/3d7661066c493167ba112fcdf2f1347f47b913b4))
+
+
+### Bug Fixes
+
+* data hydration errors fix ([b539a4a](https://github.com/taskany-inc/hire/commit/b539a4a779b0b3d3bfd55eb83228d59257cc2a39))
+* **i18n:** remove unused translations ([3d58c36](https://github.com/taskany-inc/hire/commit/3d58c369b37e96f625e04066419cf1e9ee147bbf))
+* **next-auth:** disable debug mode ([796468a](https://github.com/taskany-inc/hire/commit/796468a19adba66bdc553e45b3fab751fda46df1))
+
 ## [0.21.0](https://github.com/taskany-inc/hire/compare/v0.20.1...v0.21.0) (2023-12-28)
 
 

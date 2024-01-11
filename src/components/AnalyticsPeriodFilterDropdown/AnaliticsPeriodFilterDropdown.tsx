@@ -4,7 +4,7 @@ import { Dropdown } from '@taskany/bricks';
 import { ColorizedMenuItem } from '../ColorizedMenuItem';
 import { FiltersMenuItem } from '../FiltersMenuItem';
 
-import { tr } from './AnalyticsFilterMenuBar.i18n';
+import { tr } from './AnalyticsPeriodFilterDropdown.i18n';
 
 interface AnaliticsPeriodFilterDropdownProps {
     value?: string;

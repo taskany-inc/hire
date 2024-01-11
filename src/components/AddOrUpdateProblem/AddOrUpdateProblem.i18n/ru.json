@@ -5,11 +5,9 @@
     "Think carefully and describe the essence of the problem in as much detail as possible. It will not be superfluous to add snippets with code. Interviewers will thank you. Maybe ;)": "Хорошенько подумай и максимально подробно опиши суть задачи. Не лишним будет добавить сниппеты с кодом. Интервьюверы скажут тебе спасибо. Наверное ;)",
     "Think a little more and write a solution to the problem. Perhaps not even one, but several for different levels of candidates.": "Подумай ещё немного и напиши решение к задаче. Возможно даже не одно, а несколько для разных уровней кандидатов.",
     "Name": "Название",
-    "For example, \"Binary tree rotation\"": "Например, \"Вращение бинарного дерева\"",
     "Tags": "Теги",
     "Description": "Описание",
     "Solution": "Решение",
     "Problem difficulty": "Сложность задачи",
-    "Save": "Сохранить",
-    "Difficulty:": "Сложность"
+    "Save": "Сохранить"
 }

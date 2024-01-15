@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { gapM, gray10, gray5 } from '@taskany/colors';
+import { gapM, gray10 } from '@taskany/colors';
 import { Button, ModalContent, ModalHeader, ModalPreview, Text } from '@taskany/bricks';
 import styled from 'styled-components';
 
@@ -11,7 +11,7 @@ import { tr } from './AddProblemToSection.i18n';
 
 const StyledModalHeader = styled(ModalHeader)`
     position: sticky;
-    box-shadow: 0 2px 5px 2px rgb(0 0 0 / 10%);
+    padding-bottom: ${gapM};
 `;
 
 const StyledModalContent = styled(ModalContent)`
@@ -23,9 +23,7 @@ const StyledModalContent = styled(ModalContent)`
 `;
 
 const StyledFiltersPanel = styled.div`
-    width: 100vw;
     margin-left: -20px;
-    background-color: ${gray5};
 `;
 
 type AddProblemToSectionProps = {

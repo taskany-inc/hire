@@ -1,6 +1,8 @@
 import { ProblemDifficulty } from '@prisma/client';
 import { GetServerSidePropsContext } from 'next';
 
+import config from '../config';
+
 import { Option } from './types';
 import { problemDifficultyLabels } from './dictionaries';
 import { tr } from './utils.i18n';
@@ -106,3 +108,15 @@ export const idsToIdObjs = <T extends string | number>(ids: T[]): { id: T }[] =>
 export const idObjsToIds = <T extends string | number>(idObjs: { id: T }[]): T[] => idObjs.map((idObj) => idObj.id);
 
 export const onlyUnique = <T>(value: T, index: number, self: T[]) => self.indexOf(value) === index;
+
+export type StandConfig = {
+    isNextAuthEnabled?: string;
+    isDebugCookieAllowed?: string;
+    isLogToFileEnabled?: string;
+};
+
+export const standConfig = {
+    isNextAuthEnabled: config.nextAuthEnabled,
+    isDebugCookieAllowed: config.debugCookieEnabled,
+    isLogToFileEnabled: config.logToFileEnabled,
+};

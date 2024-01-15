@@ -1,5 +1,3 @@
-import { stand } from './utils/stand';
-
 const parsePluginMenuItems = (variable: string | undefined): { text: string; path: string }[] => {
     if (!variable) {
         return [];
@@ -59,7 +57,10 @@ export default {
         port: process.env.MAIL_PORT,
         authPass: process.env.MAIL_PASS,
         authUser: process.env.MAIL_USER,
-        enabled: stand === 'prom',
+        enabled: process.env.MAIL_ENABLE,
     },
     pluginMenuItems: parsePluginMenuItems(process.env.NEXT_PUBLIC_PLUGIN_MENU_ITEMS),
+    debugCookieEnabled: process.env.DEBUG_COOKIE_ENABLE,
+    nextAuthEnabled: process.env.NEXT_AUTH_ENABLE,
+    logToFileEnabled: process.env.LOG_TO_FILE_ENABLE,
 };

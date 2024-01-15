@@ -3,7 +3,7 @@ import React from 'react';
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
-import { standConfig } from '../utils/stand';
+import { standConfig } from '../utils';
 
 class TaskanyHireDocument extends Document {
     static async getInitialProps(ctx: any) {

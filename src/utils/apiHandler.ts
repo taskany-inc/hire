@@ -5,8 +5,9 @@ import { urlencoded } from 'body-parser';
 import pino from 'pino';
 import pinoHttp from 'pino-http';
 
+import config from '../config';
+
 import { parseError } from './errorParsing';
-import { stand, standConfig } from './stand';
 import { getServerSession } from './auth';
 
 const LOGGED_KEYS = ['id', 'method', 'url', 'query'];
@@ -42,7 +43,7 @@ const pinoLog = pinoHttp(
             },
         },
     },
-    standConfig.isLogToFileEnabled ? pino.destination('/opt/logs/pinohttp.log') : pino.destination(1),
+    config.logToFileEnabled ? pino.destination('/opt/logs/pinohttp.log') : pino.destination(1),
 );
 
 const onError: ErrorHandler<NextApiRequest, NextApiResponse> = (err, req, res) => {
@@ -55,7 +56,7 @@ export function getApiHandler(): NextConnect<NextApiRequest, NextApiResponse> {
 
     app.use(urlencoded({ extended: true }));
 
-    if (stand !== 'local') {
+    if (process.env.NODE_ENV !== 'development') {
         app.use(pinoLog);
     }
 

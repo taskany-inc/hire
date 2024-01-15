@@ -1,13 +1,13 @@
 import { sectionTypeMethods } from '../../modules/sectionTypeMethods';
-import { standConfig } from '../../utils/stand';
 import { Paths } from '../../utils/paths';
 import { createGetServerSideProps } from '../../utils/createGetSSRProps';
 import DebugRolesPage from '../../components/DebugRolesPage/DebugRolesPage';
+import config from '../../config';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     action: async ({ context, ssg }) => {
-        if (!standConfig.isDebugCookieAllowed) {
+        if (!config.debugCookieEnabled) {
             context.res.writeHead(302, { Location: Paths.HOME });
         }
 

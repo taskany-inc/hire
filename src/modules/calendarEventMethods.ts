@@ -47,7 +47,6 @@ async function createEvent(params: CreateCalendarEvent, user: User): Promise<Cal
     });
 
     await sendMail({
-        from: 'Hire',
         to: user.email,
         subject: title,
         text: '',
@@ -131,7 +130,6 @@ async function updateEventSeries(params: UpdateCalendarEvent, user: User): Promi
     });
 
     await sendMail({
-        from: 'Hire',
         to: user.email,
         subject: event.eventDetails.title,
         text: '',
@@ -252,7 +250,6 @@ async function splitEventSeries(params: UpdateCalendarEvent, user: User): Promis
     });
 
     await sendMail({
-        from: 'Hire',
         to: user.email,
         subject: oldEvent.eventDetails.title,
         text: '',
@@ -262,7 +259,6 @@ async function splitEventSeries(params: UpdateCalendarEvent, user: User): Promis
         }),
     });
     await sendMail({
-        from: 'Hire',
         to: user.email,
         subject: newEvent.eventDetails.title,
         text: '',
@@ -327,7 +323,6 @@ async function createEventException(params: UpdateCalendarEvent, user: User): Pr
     });
 
     await sendMail({
-        from: 'Hire',
         to: user.email,
         subject: eventDetails.title,
         text: '',
@@ -338,7 +333,6 @@ async function createEventException(params: UpdateCalendarEvent, user: User): Pr
     });
 
     await sendMail({
-        from: 'Hire',
         to: user.email,
         subject: title ?? eventDetails.title,
         text: '',
@@ -377,7 +371,6 @@ async function updateEventException(params: UpdateCalendarException, user: User)
     });
 
     await sendMail({
-        from: 'Hire',
         to: user.email,
         subject: title ?? eventDetails.title,
         text: '',
@@ -432,7 +425,6 @@ async function stopEventSeries(eventId: string, originalDate: Date, user: User):
     });
 
     await sendMail({
-        from: 'Hire',
         to: user.email,
         subject: eventDetails.title,
         text: '',
@@ -465,7 +457,6 @@ async function cancelEventException(eventId: string, exceptionId: string, user: 
     });
 
     await sendMail({
-        from: 'Hire',
         to: user.email,
         subject: restException.eventDetails.title,
         text: '',
@@ -513,7 +504,6 @@ async function createEventCancellation(eventId: string, originalDate: Date, user
     });
 
     await sendMail({
-        from: 'Hire',
         to: user.email,
         subject: eventDetails.title,
         text: '',
@@ -524,7 +514,6 @@ async function createEventCancellation(eventId: string, originalDate: Date, user
     });
 
     await sendMail({
-        from: 'Hire',
         to: user.email,
         subject: eventDetails.title,
         text: '',
@@ -549,7 +538,6 @@ async function removeEventSeries(eventId: string, user: User): Promise<void> {
     });
 
     await sendMail({
-        from: 'Hire',
         to: user.email,
         subject: eventDetails.title,
         text: '',

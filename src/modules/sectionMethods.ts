@@ -1,12 +1,7 @@
 import { InterviewStatus, Prisma, Section, Attach } from '@prisma/client';
-import { ICalCalendarMethod } from 'ical-generator';
-import { RRule } from 'rrule';
 
 import { prisma } from '../utils/prisma';
 import { ErrorWithStatus, idsToIdObjs } from '../utils';
-import { calendarEvents, createIcalEventData } from '../utils/ical';
-import config from '../config';
-import { Paths, generatePath } from '../utils/paths';
 
 import {
     CreateSection,
@@ -20,10 +15,9 @@ import {
 } from './sectionTypes';
 import { SectionWithInterviewRelation } from './interviewTypes';
 import { calendarMethods } from './calendarMethods';
-import { cancelSectionEmail, notifyHR } from './emaiMethods';
+import { assignSectionEmail, cancelSectionEmail, notifyHR } from './emailMethods';
 import { AccessOptions } from './accessChecks';
 import { tr } from './modules.i18n';
-import { sendMail } from './nodemailer';
 
 async function getCalendarSlotData(
     params: SectionCalendarSlotBooking | undefined,
@@ -92,70 +86,14 @@ const create = async (data: CreateSection): Promise<Section> => {
     const newSection = await prisma.section.create({ data: createData });
 
     if (newSection.calendarSlotId && calendarSlot) {
-        const exception = await prisma.calendarEventException.findFirstOrThrow({
-            where: { id: newSection.calendarSlotId },
-            include: { eventDetails: true },
-        });
-
-        const interviewer = await prisma.user.findFirstOrThrow({ where: { id: interviewerId } });
-
-        const icalEventDataException = createIcalEventData({
-            id: newSection.calendarSlotId,
-            users: [{ email: interviewer.email, name: interviewer.name || undefined }],
-            start: exception.date,
-            description: restData.description || exception.eventDetails.description,
-            duration: exception.eventDetails.duration,
-            summary: `Interview with ${interview.candidate.name}`,
-            url: `${config.defaultPageURL}/${generatePath(Paths.SECTION, {
-                interviewId,
-                sectionId: newSection.id,
-            })}`,
-        });
-        const { eventDetails, creator, ...series } = await calendarMethods.getEventById(exception.eventId);
-
-        const rRule = RRule.fromString(series.rule);
-        const exclude = [
-            ...series.exceptions.map((exception) => exception.originalDate),
-            ...series.cancellations.map((cancelletion) => cancelletion.originalDate),
-            calendarSlot?.originalDate,
-        ];
-        const icalEventDataUpdateEvent = createIcalEventData({
-            id: series.id,
-            users: [{ email: interviewer.email, name: interviewer.name || undefined }],
-            start: rRule.options.dtstart,
-            duration: eventDetails.duration,
-            description: eventDetails.description,
-            summary: eventDetails.title,
-            rule: rRule.options.freq,
-            exclude,
-        });
-
-        await sendMail({
-            from: 'Hire',
-            to: interviewer.email,
-            subject: `Interview with ${interview.candidate.name}`,
-            text: `${config.defaultPageURL}/${generatePath(Paths.SECTION, {
-                interviewId,
-                sectionId: newSection.id,
-            })}`,
-            icalEvent: calendarEvents({
-                method: ICalCalendarMethod.REQUEST,
-                events: [icalEventDataException],
-            }),
-        });
-
-        await sendMail({
-            from: 'Hire',
-            to: interviewer.email,
-            subject: eventDetails.title,
-            text: '',
-            icalEvent: calendarEvents({
-                method: ICalCalendarMethod.REQUEST,
-                events: [icalEventDataUpdateEvent],
-            }),
-        });
+        await assignSectionEmail(
+            newSection.calendarSlotId,
+            interviewerId,
+            interviewId,
+            newSection.id,
+            interview.candidate.name,
+        );
     }
-
     return newSection;
 };
 
@@ -266,6 +204,8 @@ const update = async (data: UpdateSection): Promise<Section> => {
             throw new ErrorWithStatus(tr('Calendar slot did not link to section'), 500);
         }
         const currentSection = await getById(sectionId);
+        await cancelSectionEmail(sectionId);
+
         currentSection.calendarSlotId &&
             (await prisma.calendarEventException.delete({ where: { id: currentSection.calendarSlotId } }));
     }
@@ -281,12 +221,28 @@ const update = async (data: UpdateSection): Promise<Section> => {
 
     sendHrMail && notifyHR(sectionId, data);
 
-    return prisma.section.update({ data: updateData, where: { id: sectionId } });
+    const updatedSection = await prisma.section.update({ data: updateData, where: { id: sectionId } });
+
+    if (calendarSlot && updatedSection.calendarSlotId) {
+        const interview = await prisma.interview.findFirstOrThrow({
+            where: { id: interviewId },
+            include: { candidate: true },
+        });
+        await assignSectionEmail(
+            updatedSection.calendarSlotId,
+            interviewerId,
+            interviewId,
+            sectionId,
+            interview.candidate.name,
+            updatedSection.description,
+        );
+    }
+    return updatedSection;
 };
 
 const cancelSection = async (data: CancelSection): Promise<Section> => {
     const { sectionId, cancelComment, calendarSlotId } = data;
-    cancelSectionEmail(sectionId);
+    await cancelSectionEmail(sectionId);
 
     if (calendarSlotId) {
         await prisma.calendarEventException.delete({ where: { id: calendarSlotId } });

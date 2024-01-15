@@ -13,15 +13,15 @@ export const transporter = nodemailer.createTransport({
 });
 
 export type MessageBody = {
-    from: string;
     to: string;
     subject: string;
     text: string;
+    from?: string;
     html?: string;
     icalEvent?: string;
 };
 
-const message = ({ from, to, subject, text, html, icalEvent }: MessageBody) => ({
+const message = ({ from = 'Hire', to, subject, text, html, icalEvent }: MessageBody) => ({
     from: `${from} <${config.nodemailer.authUser}>`,
     to,
     subject,

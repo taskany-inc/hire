@@ -44,8 +44,8 @@ export const CandidateListView: FC = () => {
                 {([candidates]) => {
                     return (
                         <>
-                            {candidates.pages.map((page) => (
-                                <div key={page.items[0].id}>
+                            {candidates.pages.map((page, index) => (
+                                <div key={`page-${index}`}>
                                     {page.total === 0 ? (
                                         <Text>{tr('Nothing found')} 😔</Text>
                                     ) : (

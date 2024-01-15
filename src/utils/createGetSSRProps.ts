@@ -9,9 +9,9 @@ import superjson from 'superjson';
 import { TrpcRouter, trpcRouter } from '../trpc/routers';
 import { AccessCheckResult } from '../modules/accessChecks';
 import { ErrorProps } from '../pages/_error';
+import config from '../config';
 
 import { Paths } from './paths';
-import { standConfig } from './stand';
 import { parseNumber } from './paramParsers';
 import { getServerSession } from './auth';
 import { tr } from './utils.i18n';
@@ -81,14 +81,14 @@ export const createGetServerSideProps =
             session = await getServerSession(context.req, context.res);
 
             if (!session) {
-                if (standConfig.isDebugCookieAllowed) {
+                if (config.debugCookieEnabled) {
                     return {
                         redirect: { destination: Paths.DEBUG_AUTH },
                         props: { session, browser },
                     };
                 }
 
-                if (standConfig.isNextAuthEnabled) {
+                if (config.nextAuthEnabled) {
                     return {
                         redirect: { destination: Paths.AUTH_SIGNIN },
                         props: { session, browser },

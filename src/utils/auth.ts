@@ -9,7 +9,6 @@ import { userMethods } from '../modules/userMethods';
 import { extUsersDebugMethods } from '../modules/extUsersDebugMethods';
 import config from '../config';
 
-import { standConfig } from './stand';
 import { UserRolesInfo } from './userRoles';
 import { prisma } from './prisma';
 import { tr } from './utils.i18n';
@@ -21,18 +20,14 @@ export const ROLE_DEBUG_COOKIE_NAME = 'interview-role-debug';
 
 const getDebugUser = async (cookies: NextApiRequest['cookies']): Promise<User | undefined> => {
     const cookie =
-        standConfig.isDebugCookieAllowed && AUTH_DEBUG_COOKIE_NAME in cookies
-            ? cookies[AUTH_DEBUG_COOKIE_NAME]
-            : undefined;
+        config.debugCookieEnabled && AUTH_DEBUG_COOKIE_NAME in cookies ? cookies[AUTH_DEBUG_COOKIE_NAME] : undefined;
 
     return cookie ? userMethods.getByEmail(cookie) : undefined;
 };
 
 const getDebugRoles = async (cookies: NextApiRequest['cookies']): Promise<UserRolesInfo | undefined> => {
     const cookie =
-        standConfig.isDebugCookieAllowed && ROLE_DEBUG_COOKIE_NAME in cookies
-            ? cookies[ROLE_DEBUG_COOKIE_NAME]
-            : undefined;
+        config.debugCookieEnabled && ROLE_DEBUG_COOKIE_NAME in cookies ? cookies[ROLE_DEBUG_COOKIE_NAME] : undefined;
 
     const debugUser = await getDebugUser(cookies);
     const debugRoles = cookie ? extUsersDebugMethods.getUserRolesFromDebugCookie(cookie) : undefined;
@@ -51,7 +46,7 @@ const getUser = async (id: number, req: GetServerSidePropsContext['req']): Promi
         return authDebugUser;
     }
 
-    if (standConfig.isNextAuthEnabled) {
+    if (config.nextAuthEnabled) {
         return userMethods.find(id);
     }
 

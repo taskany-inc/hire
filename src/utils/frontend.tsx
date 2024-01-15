@@ -1,4 +1,4 @@
-import { StandConfig } from './stand';
+import { StandConfig } from '.';
 
 const isFrontend = (): boolean => typeof window !== 'undefined';
 

@@ -11,6 +11,7 @@ import {
     FiltersMenuItem,
     Button,
     FilterPopup,
+    nullable,
 } from '@taskany/bricks';
 import styled from 'styled-components';
 import { gapS } from '@taskany/colors';
@@ -77,7 +78,7 @@ export const ProblemFilterBar = ({ embedded, loading, children }: ProblemFilterB
     });
 
     const difficulties = mapEnum(ProblemDifficulty, (key) => key);
-    const isFiltersEmpty = !difficulty && !tagIds.length;
+    const isFiltersEmpty = !difficulty && !tagIds.length && !authorIds.length;
     const onApplyClick = useCallback(() => {
         setFilterVisible(false);
         setTagQuery('');
@@ -151,13 +152,15 @@ export const ProblemFilterBar = ({ embedded, loading, children }: ProblemFilterB
                     {!embedded && <StyledFilterBarAddButton text={tr('Add problem')} link={Paths.PROBLEMS_NEW} />}
                 </FiltersPanelContent>
             </FiltersPanelContainer>
-            <ProblemFilterApplied
-                tags={tags}
-                tagIds={tagIds}
-                difficulty={difficulty}
-                authors={authors}
-                authorIds={authorIds}
-            />
+            {nullable(!isFiltersEmpty, () => (
+                <ProblemFilterApplied
+                    tags={tags}
+                    tagIds={tagIds}
+                    difficulty={difficulty}
+                    authors={authors}
+                    authorIds={authorIds}
+                />
+            ))}
             <FilterPopup
                 applyButtonText={tr('Apply')}
                 cancelButtonText={tr('Cancel')}

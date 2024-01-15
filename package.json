@@ -86,7 +86,7 @@
         "@types/body-parser": "1.19.5",
         "@types/formidable": "2.0.6",
         "@types/lodash.groupby": "4.6.7",
-        "@types/lodash.mapkeys": "4.6.7",
+        "@types/lodash.mapkeys": "4.6.9",
         "@types/lodash.mapvalues": "4.6.9",
         "@types/node": "20.2.5",
         "@types/nodemailer": "6.4.14",

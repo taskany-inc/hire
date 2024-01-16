@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.23.0](https://github.com/taskany-inc/hire/compare/v0.22.0...v0.23.0) (2024-01-16)
+
+
+### Features
+
+* config info from evn vars ([7bfbb18](https://github.com/taskany-inc/hire/commit/7bfbb18e927cdd26cfb53ac6dcfea36506eb3e7f))
+
+
+### Bug Fixes
+
+* **CandidateListView:** key in pages map does not crush app anymore ([795f85c](https://github.com/taskany-inc/hire/commit/795f85ce6a7b7609eb1655dee0243002c7411063))
+* problemfilterbar has same height in preview ([b8c6478](https://github.com/taskany-inc/hire/commit/b8c64783cbf5698755cf50888762c03029ea01dc))
+
 ## [0.22.0](https://github.com/taskany-inc/hire/compare/v0.21.0...v0.22.0) (2024-01-11)
 
 

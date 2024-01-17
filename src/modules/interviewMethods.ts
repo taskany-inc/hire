@@ -20,7 +20,7 @@ import {
 import { tr } from './modules.i18n';
 
 const create = async (creatorId: number, data: CreateInterview): Promise<Interview> => {
-    const { candidateId, hireStreamId, attachIds, ...restData } = data;
+    const { candidateId, hireStreamId, attachIds, cvAttachId, ...restData } = data;
 
     const createData: Prisma.InterviewCreateInput = {
         ...restData,
@@ -29,6 +29,7 @@ const create = async (creatorId: number, data: CreateInterview): Promise<Intervi
         candidate: { connect: { id: candidateId } },
         hireStream: { connect: { id: hireStreamId } },
         attaches: attachIds ? { connect: idsToIdObjs(attachIds) } : undefined,
+        cv: cvAttachId ? { connect: { id: cvAttachId } } : undefined,
     };
 
     return prisma.interview.create({ data: createData });
@@ -59,6 +60,7 @@ const getById = async (id: number, options?: GetInterviewByIdOptions): Promise<I
             },
             candidateSelectedSection: true,
             hireStream: true,
+            cv: true,
         },
     });
 

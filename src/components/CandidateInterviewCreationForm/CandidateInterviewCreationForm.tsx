@@ -1,12 +1,24 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Candidate, HireStream } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { danger0 } from '@taskany/colors';
+import { danger0, gapS, link10 } from '@taskany/colors';
+import { IconAttachOutline } from '@taskany/icons';
 import styled from 'styled-components';
-import { Button, Fieldset, Form, FormAction, FormActions, FormCard, Text } from '@taskany/bricks';
+import {
+    Button,
+    Fieldset,
+    Form,
+    FormAction,
+    FormActions,
+    FormCard,
+    Input,
+    nullable,
+    Text,
+    useUpload,
+} from '@taskany/bricks';
 
 import { generatePath, Paths } from '../../utils/paths';
 import { CreateInterview } from '../../modules/interviewTypes';
@@ -18,6 +30,7 @@ import { DropdownFieldOption } from '../DropdownField';
 import { Select } from '../Select';
 import { useUploadNotifications } from '../../modules/attachHooks';
 import { defaultAttachFormatter, File } from '../../utils/attachFormatter';
+import { getFileIdFromPath } from '../../utils/fileUpload';
 
 import { tr } from './CandidateInterviewCreationForm.i18n';
 
@@ -40,12 +53,24 @@ const schema = z.object({
     description: z.string().nullish(),
 });
 
+const FileInput = styled(Input)`
+    display: none;
+`;
+
+const FileInputText = styled(Text)`
+    cursor: pointer;
+    color: ${link10};
+    margin: ${gapS};
+`;
+
 // TODO: disable return value linting
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props) {
     const router = useRouter();
     const interviewCreateMutation = useInterviewCreateMutation();
     const [attachIds, setAttachIds] = useState<string[]>([]);
+    const [cvAttachId, setCvAttachId] = useState<string>();
+    const [cvAttachFilename, setCvAttachFilename] = useState<string>();
 
     const { onUploadSuccess, onUploadFail } = useUploadNotifications();
 
@@ -65,10 +90,11 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
                 hireStreamId,
                 candidateId: candidate.id,
                 attachIds,
+                cvAttachId,
             });
             router.push(generatePath(Paths.INTERVIEW, { interviewId: interview.id }));
         },
-        [candidate.id, interviewCreateMutation, router, attachIds],
+        [candidate.id, interviewCreateMutation, router, attachIds, cvAttachId],
     );
 
     const {
@@ -84,10 +110,23 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
     const onHireStreamIdChange = (hireStreamId: number) => setValue('hireStreamId', hireStreamId);
 
     const attachFormatter = useCallback((files: File[]) => {
-        const ids = files.map((file) => file.filePath.substring(15));
+        const ids = files.map((file) => getFileIdFromPath(file.filePath));
         setAttachIds((prev) => [...prev, ...ids]);
         return defaultAttachFormatter(files);
     }, []);
+
+    const upload = useUpload(undefined, undefined, Paths.ATTACH);
+
+    useEffect(() => {
+        if (!upload.files) return;
+        setCvAttachId(getFileIdFromPath(upload.files[0].filePath));
+        setCvAttachFilename(upload.files[0].name);
+    }, [upload.files]);
+
+    const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files) return;
+        await upload.uploadFiles(e.target.files);
+    };
 
     return (
         <Stack direction="column" gap={14}>
@@ -107,6 +146,24 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
                             onUploadFail={onUploadFail}
                             attachFormatter={attachFormatter}
                         />
+
+                        <FileInput
+                            type="file"
+                            id="cvAttach"
+                            accept="application/msword,application/pdf"
+                            onChange={onFileChange}
+                        />
+                        <label htmlFor="cvAttach">
+                            <FileInputText size="s">
+                                {nullable(upload.loading, () => tr('Uploading...'))}
+                                {nullable(cvAttachFilename, () => `${tr('CV:')} ${cvAttachFilename}`)}
+                                {nullable(!upload.loading && !cvAttachFilename, () => (
+                                    <>
+                                        <IconAttachOutline size="xxs" /> {tr('Attach CV')}
+                                    </>
+                                ))}
+                            </FileInputText>
+                        </label>
 
                         <Select
                             options={hireStreamOptions}

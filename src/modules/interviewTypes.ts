@@ -8,6 +8,7 @@ import {
     User,
     HireStream,
     InterviewStatus,
+    Attach,
 } from '@prisma/client';
 import { z } from 'zod';
 
@@ -32,6 +33,7 @@ export const createInterviewSchema = z.object({
     hireStreamId: z.number(),
     description: z.string().nullish(),
     attachIds: z.string().array().optional(),
+    cvAttachId: z.string().optional(),
 });
 export type CreateInterview = z.infer<typeof createInterviewSchema>;
 
@@ -95,6 +97,7 @@ export type InterviewWithRelations = InterviewWithHireStreamRelation & {
     candidate: Candidate;
     sections: SectionWithSectionTypeAndInterviewerAndSolutionsRelations[];
     candidateSelectedSection: Section | null;
+    cv?: Attach;
 };
 
 export interface InterviewWithCandidateRelation extends Interview, Record<string, unknown> {

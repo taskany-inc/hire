@@ -1,7 +1,7 @@
 import { useMemo, VFC } from 'react';
 import { useRouter } from 'next/router';
 import { InterviewStatus, RejectReason, SectionType } from '@prisma/client';
-import { Text } from '@taskany/bricks';
+import { nullable, Text } from '@taskany/bricks';
 import { gapS, gray10 } from '@taskany/colors';
 
 import { pageHrefs } from '../../utils/paths';
@@ -24,6 +24,7 @@ import { InterviewSectionListItem } from '../InterviewSectionListItem';
 import { InterviewTags } from '../InterviewTags';
 import { ExternalUserLink } from '../ExternalUserLink';
 import { useDistanceDate } from '../../hooks/useDateFormat';
+import { Link } from '../Link';
 
 import { tr } from './Interview.i18n';
 
@@ -121,7 +122,7 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reject
             headerGutter="0px"
             backlink={pageHrefs.candidate(interview.candidate.id)}
         >
-            <Text size="s" as="div" style={{ paddingTop: gapS }}>
+            <Text size="s" as="div" style={{ paddingTop: gapS, paddingBottom: gapS }}>
                 #{interview.id}
                 <Text size="m" as="span" color={gray10}>
                     <InlineDot />
@@ -136,6 +137,14 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reject
                     {interview.statusComment}
                 </Text>
                 {interview.description && <MarkdownRenderer value={interview.description} />}
+                {nullable(interview.cv, (cv) => (
+                    <Text>
+                        {tr('CV:')}{' '}
+                        <Link target="_blank" href={pageHrefs.attach(cv.id)}>
+                            {cv.filename}
+                        </Link>
+                    </Text>
+                ))}
             </Text>
             <Stack direction="column">
                 {canCreateSections && (

@@ -32,9 +32,9 @@ const constructFindAllProblemsWhereFilter = async (
         ];
     }
 
-    if (data.tagIds) {
-        where.AND = { tags: { some: { id: { in: data.tagIds } } } };
-    }
+    data.tagIds?.length === 1
+        ? (where.AND = { tags: { some: { id: data.tagIds[0] } } })
+        : (where.AND = data.tagIds?.map((id) => ({ tags: { some: { id } } })));
 
     if (data.difficulty) {
         where.difficulty = { in: data.difficulty };

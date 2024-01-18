@@ -3,6 +3,7 @@ import { IconBinOutline } from '@taskany/icons';
 import { useAttachRemoveMutation } from '../../modules/attachHooks';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
 import { Link } from '../Link';
+import { pageHrefs } from '../../utils/paths';
 
 import { tr } from './SectionAttach.i18n';
 
@@ -24,7 +25,7 @@ export const SectionAttach = ({ filename, fileId, canEditAttach }: SectionAttach
 
     return (
         <div>
-            <Link target="_blank" href={`/api/attach/${fileId}`}>
+            <Link target="_blank" href={pageHrefs.attach(fileId)}>
                 {filename}
             </Link>
             {canEditAttach && <IconBinOutline size="s" onClick={deleteAttachConfirmation.show} />}

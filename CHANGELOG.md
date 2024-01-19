@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.24.0](https://github.com/taskany-inc/hire/compare/v0.23.0...v0.24.0) (2024-01-19)
+
+
+### Features
+
+* cv attaches for interviews ([e7291a1](https://github.com/taskany-inc/hire/commit/e7291a159c79dccae24d775aa27c278b22d88541))
+* send ical events if updated at section update ([e66328a](https://github.com/taskany-inc/hire/commit/e66328a25ce6c5d98a36ddf571c7f279a632bece))
+
+
+### Bug Fixes
+
+* **ProblemFilter:** fix tag filter ([974723f](https://github.com/taskany-inc/hire/commit/974723fb44afa584ba6dd71201321350eaddb342))
+* **SectionAttach:** fix link to attach ([569b7a6](https://github.com/taskany-inc/hire/commit/569b7a616a9a3fe94ca743ff1b35f69530f8bdb7))
+
 ## [0.23.0](https://github.com/taskany-inc/hire/compare/v0.22.0...v0.23.0) (2024-01-16)
 
 

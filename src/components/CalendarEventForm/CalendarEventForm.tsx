@@ -73,7 +73,7 @@ export function CalendarEventForm({
 
     const startDateIsChanged = JSON.stringify(startDate) !== JSON.stringify(initialValues?.date);
     const durationsIsChanged = JSON.stringify(duration) !== JSON.stringify(initialValues?.duration);
-    const submitButtonDisabled = ![startDateIsChanged, durationsIsChanged, isDirty, isSubmitting].includes(true);
+    const submitButtonDisabled = ![startDateIsChanged, durationsIsChanged, isDirty].includes(true) || isSubmitting;
 
     const onRepeatChange = (repeatOption: EventRepeatMode) => setValue('recurrence.repeat', repeatOption);
 

@@ -390,6 +390,9 @@ export function InterviewSectionSlotCalendar(props: Props) {
         }
     };
 
+    const isLoading =
+        eventCreateMutation.isLoading || eventUpdateMutation.isLoading || eventRemoveEventMutation.isLoading;
+
     return (
         <>
             <SlotCalendar
@@ -417,9 +420,21 @@ export function InterviewSectionSlotCalendar(props: Props) {
                 <ModalContent>
                     <Text>{tr('What part of the event series do you want to change?')}</Text>
                     <Stack direction="row" gap={10} justifyContent="flex-start" style={{ marginTop: 15 }}>
-                        <Button onClick={handleSeriesPartSelected('exception')} text={tr('Just this')} />
-                        <Button onClick={handleSeriesPartSelected('future')} text={tr('This and subsequent')} />
-                        <Button onClick={handleSeriesPartSelected('series')} text={tr('Whole series')} />
+                        <Button
+                            onClick={handleSeriesPartSelected('exception')}
+                            text={tr('Just this')}
+                            disabled={isLoading}
+                        />
+                        <Button
+                            onClick={handleSeriesPartSelected('future')}
+                            text={tr('This and subsequent')}
+                            disabled={isLoading}
+                        />
+                        <Button
+                            onClick={handleSeriesPartSelected('series')}
+                            text={tr('Whole series')}
+                            disabled={isLoading}
+                        />
                     </Stack>
                 </ModalContent>
             </Modal>

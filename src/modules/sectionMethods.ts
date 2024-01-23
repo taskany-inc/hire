@@ -1,4 +1,5 @@
 import { InterviewStatus, Prisma, Section, Attach } from '@prisma/client';
+import { RRule } from 'rrule';
 
 import { prisma } from '../utils/prisma';
 import { ErrorWithStatus, idsToIdObjs } from '../utils';
@@ -27,7 +28,7 @@ async function getCalendarSlotData(
     }
 
     const { eventId, exceptionId, originalDate } = params;
-    await calendarMethods.isEventExceptionUnique(originalDate, eventId);
+    await calendarMethods.isEventExceptionAlreadyLinked(originalDate, eventId);
 
     if (!exceptionId) {
         const event = await calendarMethods.getEventById(eventId);
@@ -68,7 +69,9 @@ const create = async (data: CreateSection): Promise<Section> => {
     let slot;
 
     if (calendarSlot) {
-        slot = await getCalendarSlotData(calendarSlot);
+        slot = calendarSlot.exceptionId
+            ? { connect: { id: calendarSlot.exceptionId } }
+            : await getCalendarSlotData(calendarSlot);
 
         if (calendarSlot && slot === undefined) {
             throw new ErrorWithStatus(tr('Calendar slot did not link to section'), 500);
@@ -92,6 +95,7 @@ const create = async (data: CreateSection): Promise<Section> => {
             interviewId,
             newSection.id,
             interview.candidate.name,
+            !!calendarSlot.exceptionId,
         );
     }
     return newSection;
@@ -234,6 +238,7 @@ const update = async (data: UpdateSection): Promise<Section> => {
             interviewId,
             sectionId,
             interview.candidate.name,
+            !!calendarSlot.exceptionId,
             updatedSection.description,
         );
     }
@@ -245,7 +250,15 @@ const cancelSection = async (data: CancelSection): Promise<Section> => {
     await cancelSectionEmail(sectionId);
 
     if (calendarSlotId) {
-        await prisma.calendarEventException.delete({ where: { id: calendarSlotId } });
+        const exception = await prisma.calendarEventException.findFirstOrThrow({
+            where: { id: calendarSlotId },
+            include: { event: { include: { eventDetails: true } } },
+        });
+        const rRule = RRule.fromString(exception.event.rule);
+
+        if (!rRule.options.freq) {
+            await prisma.calendarEventException.delete({ where: { id: calendarSlotId } });
+        }
     }
 
     return prisma.section.update({

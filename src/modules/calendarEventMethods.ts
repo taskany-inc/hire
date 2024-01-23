@@ -1,6 +1,6 @@
 import { addMinutes, differenceInMinutes, startOfDay } from 'date-fns';
 import { PrismaPromise, User } from '@prisma/client';
-import { ICalCalendarMethod } from 'ical-generator';
+import { ICalCalendarMethod, ICalEventStatus } from 'ical-generator';
 import { RRule } from 'rrule';
 
 import { prisma } from '../utils/prisma';
@@ -66,12 +66,6 @@ async function getEventsForDateRange({
     return calendarRecurrenceMethods.expandEvents(events, startDate, endDate);
 }
 
-async function getEventRule(eventId: string): Promise<string> {
-    const event = await calendarMethods.getEventById(eventId);
-
-    return event.rule;
-}
-
 async function updateEventSeries(params: UpdateCalendarEvent, user: User): Promise<CalendarEventUpdateResult> {
     const { eventId, title, duration, description, date, originalDate } = params;
 
@@ -79,8 +73,9 @@ async function updateEventSeries(params: UpdateCalendarEvent, user: User): Promi
 
     const transactionOperations: PrismaPromise<unknown>[] = [];
 
+    const { rule, ...event } = await calendarMethods.getEventById(eventId);
+
     if (date) {
-        const rule = await getEventRule(eventId);
         const seriesStartDate = calendarRecurrenceMethods.getStartDate(rule);
         const dateDiffInMinutes = differenceInMinutes(date, originalDate);
 
@@ -97,6 +92,7 @@ async function updateEventSeries(params: UpdateCalendarEvent, user: User): Promi
     transactionOperations.push(
         calendarMethods.updateEvent(eventId, {
             rule: nextRule,
+            sequence: { increment: 1 },
             eventDetails: {
                 update: {
                     description,
@@ -109,9 +105,7 @@ async function updateEventSeries(params: UpdateCalendarEvent, user: User): Promi
 
     await prisma.$transaction(transactionOperations);
 
-    const event = await calendarMethods.getEventById(eventId);
-
-    const rRule = RRule.fromString(event.rule);
+    const rRule = RRule.fromString(rule);
     const exclude = [
         ...event.exceptions.map((exception) => exception.originalDate),
         ...event.cancellations.map((cancelletion) => cancelletion.originalDate),
@@ -127,6 +121,7 @@ async function updateEventSeries(params: UpdateCalendarEvent, user: User): Promi
         rule: rRule.options.freq,
         exclude,
         until: rRule.options.until || undefined,
+        sequence: event.sequence + 1,
     });
 
     await sendMail({
@@ -147,7 +142,7 @@ async function splitEventSeries(params: UpdateCalendarEvent, user: User): Promis
     const { eventId, title, duration, description, date, originalDate } = params;
 
     // TODO: Should just use the same creator instead
-    const { rule, creator, eventDetails } = await calendarMethods.getEventById(eventId);
+    const { rule, creator, eventDetails, sequence } = await calendarMethods.getEventById(eventId);
 
     const missingCreatorUpdate = creator ? {} : { creator: { connect: { id: user.id } } };
 
@@ -182,6 +177,7 @@ async function splitEventSeries(params: UpdateCalendarEvent, user: User): Promis
     const updateOperations: PrismaPromise<unknown>[] = [
         calendarMethods.updateEvent(eventId, {
             rule: calendarRecurrenceMethods.updateRule(rule, { endDate: getDateBeforeDay(originalDate) }),
+            sequence: { increment: 1 },
             ...missingCreatorUpdate,
         }),
         calendarMethods.updateEventExceptions(
@@ -227,6 +223,7 @@ async function splitEventSeries(params: UpdateCalendarEvent, user: User): Promis
         rule: oldRRule.options.freq,
         exclude: oldExclude,
         until: getDateBeforeDay(originalDate),
+        sequence: sequence + 1,
     });
 
     const newEvent = await calendarMethods.getEventById(futureEvent.id);
@@ -276,7 +273,9 @@ async function splitEventSeries(params: UpdateCalendarEvent, user: User): Promis
 async function createEventException(params: UpdateCalendarEvent, user: User): Promise<CalendarEventUpdateResult> {
     const { eventId, title, duration, description, date, originalDate } = params;
 
-    const { eventDetails, creator, ...series } = await calendarMethods.getEventById(eventId);
+    const { eventDetails, creator, sequence, ...series } = await calendarMethods.updateEvent(eventId, {
+        sequence: { increment: 1 },
+    });
 
     const exclude = [
         ...series.exceptions.map((exception) => exception.originalDate),
@@ -300,6 +299,7 @@ async function createEventException(params: UpdateCalendarEvent, user: User): Pr
             },
         },
     });
+
     const rRule = RRule.fromString(series.rule);
 
     const icalEventDataUpdateEvent = createIcalEventData({
@@ -311,6 +311,7 @@ async function createEventException(params: UpdateCalendarEvent, user: User): Pr
         summary: eventDetails.title,
         rule: rRule.options.freq,
         exclude,
+        sequence,
     });
 
     const icalEventDataException = createIcalEventData({
@@ -350,6 +351,7 @@ async function updateEventException(params: UpdateCalendarException, user: User)
 
     const eventException = await calendarMethods.updateEventException(exceptionId, {
         date,
+        sequence: { increment: 1 },
         eventDetails: {
             update: {
                 title,
@@ -368,6 +370,7 @@ async function updateEventException(params: UpdateCalendarException, user: User)
         description: eventDetails.description,
         duration: eventDetails.duration,
         summary: eventDetails.title,
+        sequence: eventException.sequence,
     });
 
     await sendMail({
@@ -384,27 +387,31 @@ async function updateEventException(params: UpdateCalendarException, user: User)
 }
 
 async function stopEventSeries(eventId: string, originalDate: Date, user: User): Promise<void> {
-    const { id, rule, creator, exceptions, cancellations, eventDetails } = await calendarMethods.getEventById(eventId);
+    const { rule } = await calendarMethods.getEventById(eventId);
 
-    await calendarMethods.updateEvent(eventId, {
-        rule: calendarRecurrenceMethods.updateRule(rule, {
-            endDate: getDateBeforeDay(originalDate),
-        }),
-        exceptions: {
-            deleteMany: {
-                originalDate: {
-                    gte: originalDate,
+    const { id, creator, exceptions, cancellations, eventDetails, sequence } = await calendarMethods.updateEvent(
+        eventId,
+        {
+            rule: calendarRecurrenceMethods.updateRule(rule, {
+                endDate: getDateBeforeDay(originalDate),
+            }),
+            exceptions: {
+                deleteMany: {
+                    originalDate: {
+                        gte: originalDate,
+                    },
                 },
             },
-        },
-        cancellations: {
-            deleteMany: {
-                originalDate: {
-                    gte: originalDate,
+            cancellations: {
+                deleteMany: {
+                    originalDate: {
+                        gte: originalDate,
+                    },
                 },
             },
+            sequence: { increment: 1 },
         },
-    });
+    );
     const rRule = RRule.fromString(rule);
 
     const exclude = [
@@ -422,6 +429,7 @@ async function stopEventSeries(eventId: string, originalDate: Date, user: User):
         rule: rRule.options.freq,
         exclude,
         until: getDateBeforeDay(originalDate),
+        sequence,
     });
 
     await sendMail({
@@ -436,7 +444,7 @@ async function stopEventSeries(eventId: string, originalDate: Date, user: User):
 }
 
 async function cancelEventException(eventId: string, exceptionId: string, user: User): Promise<void> {
-    const { originalDate, ...restException } = await calendarMethods.getEventExceptionById(exceptionId);
+    const { originalDate, sequence, ...restException } = await calendarMethods.getEventExceptionById(exceptionId);
 
     await calendarMethods.removeEventException(exceptionId);
     await calendarMethods.createEventCancellation({
@@ -454,6 +462,8 @@ async function cancelEventException(eventId: string, exceptionId: string, user: 
         description: restException.eventDetails.description,
         duration: restException.eventDetails.duration,
         summary: restException.eventDetails.title,
+        sequence: sequence + 1,
+        status: ICalEventStatus.CANCELLED,
     });
 
     await sendMail({
@@ -461,7 +471,7 @@ async function cancelEventException(eventId: string, exceptionId: string, user: 
         subject: restException.eventDetails.title,
         text: '',
         icalEvent: calendarEvents({
-            method: ICalCalendarMethod.CANCEL,
+            method: ICalCalendarMethod.REQUEST,
             events: [icalEventDataException],
         }),
     });
@@ -474,7 +484,10 @@ async function createEventCancellation(eventId: string, originalDate: Date, user
             connect: { id: eventId },
         },
     });
-    const { exceptions, rule, creator, cancellations, eventDetails } = await calendarMethods.getEventById(eventId);
+    const { exceptions, rule, creator, cancellations, eventDetails, sequence } = await calendarMethods.updateEvent(
+        eventId,
+        { sequence: { increment: 1 } },
+    );
     const rRule = RRule.fromString(rule);
 
     const exclude = [
@@ -492,6 +505,7 @@ async function createEventCancellation(eventId: string, originalDate: Date, user
         summary: eventDetails.title,
         rule: rRule.options.freq,
         exclude,
+        sequence,
     });
 
     const icalEventDataCanceletion = createIcalEventData({
@@ -501,6 +515,7 @@ async function createEventCancellation(eventId: string, originalDate: Date, user
         description: eventDetails.description,
         duration: eventDetails.duration,
         summary: eventDetails.title,
+        status: ICalEventStatus.CANCELLED,
     });
 
     await sendMail({
@@ -518,14 +533,16 @@ async function createEventCancellation(eventId: string, originalDate: Date, user
         subject: eventDetails.title,
         text: '',
         icalEvent: calendarEvents({
-            method: ICalCalendarMethod.CANCEL,
+            method: ICalCalendarMethod.REQUEST,
             events: [icalEventDataCanceletion],
         }),
     });
 }
 
 async function removeEventSeries(eventId: string, user: User): Promise<void> {
-    const { rule, creator, eventDetails } = await calendarMethods.getEventById(eventId);
+    const { rule, creator, eventDetails, sequence } = await calendarMethods.updateEvent(eventId, {
+        sequence: { increment: 1 },
+    });
     const rRule = RRule.fromString(rule);
 
     const icalEventDataSeriesRemove = createIcalEventData({
@@ -535,14 +552,16 @@ async function removeEventSeries(eventId: string, user: User): Promise<void> {
         description: eventDetails.description,
         duration: eventDetails.duration,
         summary: eventDetails.title,
+        status: ICalEventStatus.CANCELLED,
+        sequence,
     });
 
     await sendMail({
-        to: user.email,
+        to: creator?.email || user.email,
         subject: eventDetails.title,
         text: '',
         icalEvent: calendarEvents({
-            method: ICalCalendarMethod.CANCEL,
+            method: ICalCalendarMethod.REQUEST,
             events: [icalEventDataSeriesRemove],
         }),
     });

@@ -104,10 +104,19 @@ const createEvent = (data: Prisma.CalendarEventCreateInput): Promise<CalendarEve
         data,
     });
 
-const updateEvent = (eventId: string, data: Prisma.CalendarEventUpdateInput): PrismaPromise<CalendarEvent> =>
+const updateEvent = (
+    eventId: string,
+    data: Prisma.CalendarEventUpdateInput,
+): PrismaPromise<CalendarEventWithCreatorAndDetails> =>
     prisma.calendarEvent.update({
         where: { id: eventId },
         data,
+        include: {
+            creator: true,
+            eventDetails: true,
+            exceptions: { include: { eventDetails: true } },
+            cancellations: true,
+        },
     });
 
 async function removeEvent(eventId: string): Promise<void> {
@@ -232,12 +241,15 @@ const createEventCancellation = (
         data,
     });
 
-const isEventExceptionUnique = async (originalDate: Date, eventId: string): Promise<void> => {
+const isEventExceptionAlreadyLinked = async (originalDate: Date, eventId: string): Promise<void> => {
     const exeption = await prisma.calendarEventException.findFirst({
         where: { originalDate, eventId },
+        include: { interviewSection: true },
     });
 
-    if (exeption) throw new ErrorWithStatus(tr('Calendar exception of event on this date already exist'), 400);
+    if (exeption?.interviewSection) {
+        throw new ErrorWithStatus(tr('Calendar exception of event on this date already occupied'), 400);
+    }
 };
 
 export const calendarMethods = {
@@ -257,5 +269,5 @@ export const calendarMethods = {
     shiftEventCancellationOriginalDates,
     removeEventException,
     createEventCancellation,
-    isEventExceptionUnique,
+    isEventExceptionAlreadyLinked,
 };

@@ -55,7 +55,7 @@
     "Calendar event with id {eventId} not found": "Событие календаря с id {eventId} не найдено",
     "Calendar event exception with id {exceptionId} not found": "Одиночное событие календаря с id {exceptionId} не найдено",
     "addMinutes must be a number": "addMinutes должно быть числом",
-    "Calendar exception of event on this date already exist": "Одиночное событие календаря на эту дату уже существует",
+    "Calendar exception of event on this date already occupied": "Одиночное событие календаря на эту дату уже занято",
     "Attach not found": "Файл не найден",
     "The start date cannot be later than the end date of the recruitment stream": "Дата начала не может быть позже даты окончания в потоке найма",
     "Only administrators can edit tags": "Только администраторы могут редактировать теги",
@@ -97,5 +97,6 @@
     "User {name} is not problem editor anymore": "Пользователь {name} больше не является редактором задач",
     "Added documents": "Документ загружен",
     "Failed to upload documents": "Не удалось загрузить документ",
-    "Deleted document": "Документ удален"
+    "Deleted document": "Документ удален",
+    "Interview with": "Интервью с"
 }

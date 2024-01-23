@@ -362,6 +362,8 @@ model CalendarEvent {
   /// Creator of the event
   creator   User? @relation(fields: [creatorId], references: [id])
   creatorId Int?
+
+  sequence  Int @default(0)
 }
 
 /// Exception events from a recurring event series
@@ -386,6 +388,8 @@ model CalendarEventException {
 
   /// Related interview section
   interviewSection Section?
+
+  sequence Int @default(0)
 }
 
 /// Canceled event series instances

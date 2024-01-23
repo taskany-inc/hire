@@ -58,7 +58,7 @@
     "Calendar event with id {eventId} not found": "",
     "Calendar event exception with id {exceptionId} not found": "",
     "addMinutes must be a number": "",
-    "Calendar exception of event on this date already exist": "",
+    "Calendar exception of event on this date already occupied": "",
     "Attach not found": "",
     "The start date cannot be later than the end date of the recruitment stream": "",
     "Only administrators can edit tags": "",
@@ -102,5 +102,6 @@
     "User {name} is not problem editor anymore": "",
     "Added documents": "",
     "Failed to upload documents": "",
-    "Deleted document": ""
+    "Deleted document": "",
+    "Interview with": ""
 }

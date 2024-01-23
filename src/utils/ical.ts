@@ -1,5 +1,13 @@
-import ical, { ICalAttendeeStatus, ICalCalendarMethod, ICalEventRepeatingFreq, ICalEventData } from 'ical-generator';
+import ical, {
+    ICalAttendeeStatus,
+    ICalCalendarMethod,
+    ICalEventRepeatingFreq,
+    ICalEventData,
+    ICalEventStatus,
+} from 'ical-generator';
 import { Frequency } from 'rrule';
+
+import config from '../config';
 
 import { minuteInSeconds } from '.';
 
@@ -20,6 +28,7 @@ interface CreateIcalEventDTO {
     exclude?: Date[];
     until?: Date;
     sequence?: number;
+    status?: ICalEventStatus;
 }
 
 export const createIcalEventData = (data: CreateIcalEventDTO) => {
@@ -43,6 +52,7 @@ export const createIcalEventData = (data: CreateIcalEventDTO) => {
         start,
         end,
         attendees,
+        organizer: { name: 'Hire', email: config.nodemailer.authUser },
         ...restData,
     };
     if (rule) {

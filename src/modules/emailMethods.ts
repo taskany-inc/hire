@@ -37,7 +37,7 @@ export const notifyHR = async (id: number, data: UpdateSection) => {
                 data.hire ? `hire per ${data.grade} level/grade` : 'do not hire'
             } candidate ${section.interview.candidate.name}\n
             ${data.feedback}\n
-            ${config.defaultPageURL}/${generatePath(Paths.SECTION, {
+            ${config.defaultPageURL}${generatePath(Paths.SECTION, {
                 interviewId: section.interviewId,
                 sectionId: section.id,
             })}`,
@@ -58,61 +58,43 @@ export const cancelSectionEmail = async (sectionId: number) => {
 
     const date = section.calendarSlot?.date ? formatDateToLocaleString(section.calendarSlot?.date) : '';
 
+    let cancelEmailSubject = tr('Cancel section');
     let cancelIcalEvent;
     if (section.calendarSlotId) {
-        const { originalDate, ...restException } = await calendarMethods.getEventExceptionById(section.calendarSlotId);
+        const { originalDate, sequence, ...restException } = await prisma.calendarEventException.update({
+            where: { id: section.calendarSlotId },
+            data: { sequence: { increment: 1 } },
+            include: { event: true, eventDetails: true },
+        });
+
+        const rRule = RRule.fromString(restException.event.rule);
+
+        const icalId = rRule.options.freq ? section.calendarSlotId : restException.event.id;
+
+        const icalSequence = rRule.options.freq ? sequence : restException.event.sequence;
+
         const icalEventDataCancelException = createIcalEventData({
-            id: section.calendarSlotId,
+            id: icalId,
             users: [userOfEvent(section.interviewer, null)],
             start: restException.date,
             description: restException.eventDetails.description,
             duration: restException.eventDetails.duration,
             summary: restException.eventDetails.title,
+            sequence: icalSequence,
         });
 
         cancelIcalEvent = calendarEvents({
-            method: ICalCalendarMethod.CANCEL,
+            method: ICalCalendarMethod.REQUEST,
             events: [icalEventDataCancelException],
         });
-
-        const { eventDetails, ...series } = await calendarMethods.getEventById(restException.eventId);
-
-        const exclude = [
-            ...series.exceptions
-                .map((exception) => exception.originalDate)
-                .filter((date) => date.toTimeString() !== originalDate.toTimeString()),
-            ...series.cancellations.map((cancelletion) => cancelletion.originalDate),
-        ];
-
-        const rRule = RRule.fromString(series.rule);
-
-        const icalEventDataUpdateEvent = createIcalEventData({
-            id: series.id,
-            users: [userOfEvent(section.interviewer, null)],
-            start: rRule.options.dtstart,
-            duration: eventDetails.duration,
-            description: eventDetails.description,
-            summary: eventDetails.title,
-            rule: rRule.options.freq,
-            exclude: exclude.length ? exclude : undefined,
-        });
-
-        await sendMail({
-            to: section.interviewer.email,
-            subject: eventDetails.title,
-            text: '',
-            icalEvent: calendarEvents({
-                method: ICalCalendarMethod.REQUEST,
-                events: [icalEventDataUpdateEvent],
-            }),
-        });
+        cancelEmailSubject = restException.eventDetails.title;
     }
 
     return sendMail({
         to: section.interviewer.email,
-        subject: tr('Cancel section'),
+        subject: cancelEmailSubject,
         text: `${tr('Canceled section with')} ${section.interview.candidate.name} ${date}
-            ${config.defaultPageURL}/${generatePath(Paths.SECTION, {
+        ${config.defaultPageURL}${generatePath(Paths.SECTION, {
             interviewId: section.interviewId,
             sectionId: section.id,
         })}`,
@@ -126,64 +108,82 @@ export const assignSectionEmail = async (
     interviewId: number,
     sectionId: number,
     candidateName: string,
+    isSlotException?: boolean,
     description?: string | null,
 ) => {
     const interviewer = await prisma.user.findFirstOrThrow({ where: { id: interviewerId } });
     const exception = await prisma.calendarEventException.findFirstOrThrow({
         where: { id: calendarSlotId },
-        include: { eventDetails: true },
+        include: { eventDetails: true, event: true },
     });
+
+    const rRule = RRule.fromString(exception.event.rule);
+
+    const icalId = rRule.options.freq ? calendarSlotId : exception.event.id;
+
+    const icalSequence = rRule.options.freq ? exception.sequence : exception.event.sequence;
+
     const icalEventDataException = createIcalEventData({
-        id: calendarSlotId,
+        id: icalId,
         users: [{ email: interviewer.email, name: interviewer.name || undefined }],
         start: exception.date,
         description: description || exception.eventDetails.description,
         duration: exception.eventDetails.duration,
-        summary: `Interview with ${candidateName}`,
-        url: `${config.defaultPageURL}/${generatePath(Paths.SECTION, {
+        summary: `${tr('Interview with')} ${candidateName}`,
+        url: `${config.defaultPageURL}${generatePath(Paths.SECTION, {
             interviewId,
             sectionId,
         })}`,
+        sequence: icalSequence + 1,
     });
-    const { eventDetails, creator, ...series } = await calendarMethods.getEventById(exception.eventId);
 
-    const rRule = RRule.fromString(series.rule);
-    const exclude = [
-        ...series.exceptions.map((exception) => exception.originalDate),
-        ...series.cancellations.map((cancelletion) => cancelletion.originalDate),
-    ];
+    rRule.options.freq
+        ? await calendarMethods.updateEventException(calendarSlotId, { sequence: { increment: 1 } })
+        : await calendarMethods.updateEvent(exception.event.id, { sequence: { increment: 1 } });
 
-    const icalEventDataUpdateEvent = createIcalEventData({
-        id: series.id,
-        users: [{ email: interviewer.email, name: interviewer.name || undefined }],
-        start: rRule.options.dtstart,
-        duration: eventDetails.duration,
-        description: eventDetails.description,
-        summary: eventDetails.title,
-        rule: rRule.options.freq,
-        exclude,
-    });
+    if (!isSlotException && rRule.options.freq) {
+        const { eventDetails, creator, sequence, ...series } = await calendarMethods.updateEvent(exception.eventId, {
+            sequence: { increment: 1 },
+        });
+        const rRule = RRule.fromString(series.rule);
+        const exclude = [
+            ...series.exceptions.map((exception) => exception.originalDate),
+            ...series.cancellations.map((cancelletion) => cancelletion.originalDate),
+        ];
+
+        const icalEventDataUpdateEvent = createIcalEventData({
+            id: series.id,
+            users: [{ email: interviewer.email, name: interviewer.name || undefined }],
+            start: rRule.options.dtstart,
+            duration: eventDetails.duration,
+            description: eventDetails.description,
+            summary: eventDetails.title,
+            rule: rRule.options.freq,
+            exclude,
+            sequence,
+        });
+
+        await sendMail({
+            to: interviewer.email,
+            subject: eventDetails.title,
+            text: '',
+            icalEvent: calendarEvents({
+                method: ICalCalendarMethod.REQUEST,
+                events: [icalEventDataUpdateEvent],
+            }),
+        });
+    }
 
     await sendMail({
         to: interviewer.email,
-        subject: `Interview with ${candidateName}`,
-        text: `${config.defaultPageURL}/${generatePath(Paths.SECTION, {
+        subject: `${tr('Interview with')} ${candidateName}`,
+        text: `${config.defaultPageURL}${generatePath(Paths.SECTION, {
             interviewId,
             sectionId,
         })}`,
         icalEvent: calendarEvents({
             method: ICalCalendarMethod.REQUEST,
             events: [icalEventDataException],
-        }),
-    });
-
-    await sendMail({
-        to: interviewer.email,
-        subject: eventDetails.title,
-        text: '',
-        icalEvent: calendarEvents({
-            method: ICalCalendarMethod.REQUEST,
-            events: [icalEventDataUpdateEvent],
         }),
     });
 };

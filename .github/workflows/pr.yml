@@ -31,5 +31,7 @@ jobs:
         run: npm run lint
       - name: Unit
         run: npm run test
+      - name: type-check
+        run: npm run type-check
       # - name: Build
       #   run: npm run build

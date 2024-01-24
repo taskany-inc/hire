@@ -6,6 +6,7 @@ import {
     PrismaPromise,
 } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
+import { RRule } from 'rrule';
 
 import { ErrorWithStatus } from '../utils';
 import { prisma } from '../utils/prisma';
@@ -16,6 +17,7 @@ import {
     CalendarEventWithRelations,
 } from './calendarTypes';
 import { tr } from './modules.i18n';
+import { calendarRecurrenceMethods } from './calendarRecurrenceMethods';
 
 const getAllEvents = (creatorIds?: number[]): Promise<CalendarEventWithRelations[]> => {
     const where: Prisma.CalendarEventWhereInput = {};
@@ -119,7 +121,7 @@ const updateEvent = (
         },
     });
 
-async function removeEvent(eventId: string): Promise<void> {
+async function removeEvent(eventId: string, userId: number): Promise<void> {
     const eventDetailsRemoval = prisma.calendarEventDetails.deleteMany({
         where: {
             OR: [
@@ -153,7 +155,58 @@ async function removeEvent(eventId: string): Promise<void> {
         where: { id: eventId },
     });
 
-    await prisma.$transaction([exceptionRemoval, cancellationRemoval, eventRemoval, eventDetailsRemoval]);
+    const transactions = [exceptionRemoval, cancellationRemoval, eventRemoval, eventDetailsRemoval];
+
+    const exceptions = await prisma.calendarEventException.findMany({
+        where: {
+            eventId,
+        },
+        include: { eventDetails: true, event: { include: { eventDetails: true } }, interviewSection: true },
+    });
+
+    for (const exception of exceptions) {
+        const rule = calendarRecurrenceMethods.buildRule({
+            startDate: exception.date,
+            recurrence: { repeat: 'never' },
+        });
+
+        if (!RRule.fromString(exception.event.rule).options.freq) break;
+
+        const data: Prisma.CalendarEventCreateInput = {
+            id: exception.id,
+            rule,
+            sequence: exception.sequence,
+            creator: { connect: { id: exception.event.creatorId || userId } },
+            eventDetails: {
+                create: {
+                    description: exception.eventDetails.description,
+                    duration: exception.eventDetails.duration,
+                    title: exception.eventDetails.title,
+                },
+            },
+        };
+
+        if (exception.interviewSection) {
+            data.exceptions = {
+                create: {
+                    date: exception.date,
+                    originalDate: exception.originalDate,
+                    sequence: exception.sequence,
+                    eventDetails: {
+                        create: {
+                            title: exception.eventDetails.title,
+                            description: exception.eventDetails.description,
+                            duration: exception.eventDetails.duration,
+                        },
+                    },
+                    interviewSection: { connect: { id: exception.interviewSection.id } },
+                },
+            };
+        }
+        transactions.push(prisma.calendarEvent.create({ data }));
+    }
+
+    await prisma.$transaction(transactions);
 }
 
 const updateEventException = (

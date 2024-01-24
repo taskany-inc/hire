@@ -565,7 +565,7 @@ async function removeEventSeries(eventId: string, user: User): Promise<void> {
             events: [icalEventDataSeriesRemove],
         }),
     });
-    await calendarMethods.removeEvent(eventId);
+    await calendarMethods.removeEvent(eventId, user.id);
 }
 
 export const calendarEventMethods = {

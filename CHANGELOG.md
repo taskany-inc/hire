@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.25.0](https://github.com/taskany-inc/hire/compare/v0.24.0...v0.25.0) (2024-01-25)
+
+
+### Features
+
+* sequence for calendar events ([08ecabf](https://github.com/taskany-inc/hire/commit/08ecabfa1e6e63736bad8c5eab351bfa16f215bd))
+
+
+### Bug Fixes
+
+* disable buttons on ceate, update or delete calendar event ([d0a5893](https://github.com/taskany-inc/hire/commit/d0a5893f4ed3aaf5b8e60be3478bc3c9d4b3a678))
+
 ## [0.24.0](https://github.com/taskany-inc/hire/compare/v0.23.0...v0.24.0) (2024-01-19)
 
 

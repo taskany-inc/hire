@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.25.1](https://github.com/taskany-inc/hire/compare/v0.25.0...v0.25.1) (2024-01-26)
+
+
+### Bug Fixes
+
+* **ci:** disable sentry sourcemaps for public dh build ([ba255aa](https://github.com/taskany-inc/hire/commit/ba255aae21ecd0a7793ecb5466526a1ed2e14449))
+
 ## [0.25.0](https://github.com/taskany-inc/hire/compare/v0.24.0...v0.25.0) (2024-01-26)
 
 

@@ -24,6 +24,7 @@ const nextConfig = {
     sentry: {
         disableServerWebpackPlugin: process.env.SENTRY_DISABLED === '1',
         disableClientWebpackPlugin: process.env.SENTRY_DISABLED === '1',
+        dryRun: process.env.CI,
         widenClientFileUpload: true,
     },
     webpack(config, { dev, isServer }) {

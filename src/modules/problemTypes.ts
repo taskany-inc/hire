@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { ExtractPrismaTypeFromArray } from '../utils/types';
 
 import { problemMethods } from './problemMethods';
+import { CommentWithUser } from './commentTypes';
 
 export const createProblemSchema = z.object({
     name: z.string().min(3),
@@ -56,6 +57,7 @@ export type ProblemFindManyWithAuthorAndTagsAndFavourite = Problem & {
     tags: Tag[];
     favoritedBy: User[];
     problemHistory: ProblemHistoryWithUser[];
+    comments: CommentWithUser[];
 };
 
 type UsedProblemMapValue = { sectionId: number; sectionType: SectionType };

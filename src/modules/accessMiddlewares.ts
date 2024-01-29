@@ -22,6 +22,7 @@ import { hireStreamMethods } from './hireStreamMethods';
 import { UpdateInterview } from './interviewTypes';
 import { AccessCheckResult, accessChecks } from './accessChecks';
 import { tr } from './modules.i18n';
+import { commentMethods } from './commentMethods';
 
 type AccessChecker = (session: Session) => AccessCheckResult;
 
@@ -242,5 +243,15 @@ export const accessMiddlewares = {
 
     user: {
         create: createMiddleware(accessChecks.user.create),
+    },
+
+    comment: {
+        create: createMiddleware(accessChecks.comment.create),
+
+        updateOrDelete: createEntityCheckMiddleware(
+            (input: { id: string }) => input.id,
+            commentMethods.getById,
+            accessChecks.comment.updateOrDelete,
+        ),
     },
 };

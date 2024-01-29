@@ -76,6 +76,7 @@ model User {
   interviewerInSectionTypes SectionType[]    @relation("SectionTypeToInterviewer")
   settings                  UserSettings?
   problemHistory            ProblemHistory[]
+  comments                  Comment[]
 
   @@index([email])
 }
@@ -94,6 +95,7 @@ model Problem {
   difficulty     ProblemDifficulty
   favoritedBy    User[]            @relation("FavoriteProblems")
   problemHistory ProblemHistory[]
+  comments       Comment[]
 
   // Problem solutions counter
   solutionsGood Int @default(0)
@@ -365,7 +367,7 @@ model CalendarEvent {
   creator   User? @relation(fields: [creatorId], references: [id])
   creatorId Int?
 
-  sequence  Int @default(0)
+  sequence Int @default(0)
 }
 
 /// Exception events from a recurring event series
@@ -428,4 +430,21 @@ model UserSettings {
   userId Int  @unique
 
   theme String @default("system")
+}
+
+model Comment {
+  id   String @id @default(uuid())
+  text String
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  problem   Problem @relation(fields: [problemId], references: [id])
+  problemId Int
+
+  createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
+
+  @@index([userId])
+  @@index([problemId])
 }

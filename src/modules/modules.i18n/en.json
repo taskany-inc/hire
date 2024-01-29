@@ -98,5 +98,18 @@
     "Added documents": "",
     "Failed to upload documents": "",
     "Deleted document": "",
-    "Interview with": ""
+    "Interview with": "",
+    "Insufficient permissions to delete or edit the comment": "",
+    "New comment created": "",
+    "Only recruiters and interviewers can create files": "",
+    "Only recruiters and interviewers can view files": "",
+    "Only recruiters and interviewers can delete files": "",
+    "Comment updated": "",
+    "Comment deleted": "",
+    "Comments's description is required": "",
+    "Comments's description must be a string": "",
+    "Comments's description must be longer than 1 symbol": "",
+    "Comment not found": "",
+    "Comment on proplem": "",
+    "Comment on proplem {comment.problem.name}": ""
 }

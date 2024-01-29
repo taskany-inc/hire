@@ -1,7 +1,7 @@
-import { useState, useMemo, FC } from 'react';
+import { useState, useMemo, FC, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { gray10 } from '@taskany/colors';
+import { gapM, gray10 } from '@taskany/colors';
 import { Text, nullable } from '@taskany/bricks';
 import { IconArrowUpSmallOutline, IconArrowDownSmallOutline } from '@taskany/icons';
 
@@ -20,6 +20,10 @@ import { ProblemStats } from '../ProblemStats/ProblemStats';
 import { ProblemHistoryCard } from '../ProblemHistoryCard/ProblemHistoryCard';
 import { useDistanceDate } from '../../hooks/useDateFormat';
 import { ProblemDifficultyIcon } from '../ProblemDifficultyIcon/ProblemDifficultyIcon';
+import { ProblemComment } from '../ProblemComment/ProblemComment';
+import CommentCreateForm from '../CommentCreateForm/CommentCreateForm';
+import { CommentSchema } from '../../modules/commentTypes';
+import { useCommentCreateMutation } from '../../modules/commentHooks';
 
 import { tr } from './Problem.i18n';
 
@@ -44,6 +48,17 @@ const StyledTitle = styled(Text)`
     gap: 5px;
 `;
 
+const StyledComment = styled.div`
+    display: grid;
+    grid-template-column: 7fr 5fr;
+    gap: ${gapM};
+    flex: 1;
+    line-height: 1.5;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    max-width: 500px;
+`;
+
 export const Problem: FC<ProblemProps> = ({ problem }) => {
     const session = useSession();
     const router = useRouter();
@@ -56,6 +71,7 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
     const toggleProblemHistoryExpansion = () => setIsProblemHistoryExpanded((value) => !value);
 
     const problemRemoveMutation = useProblemRemoveMutation();
+    const commentCreateMutation = useCommentCreateMutation();
 
     const problemRemoveConfirmation = useConfirmation({
         message: tr('Delete problem?'),
@@ -83,6 +99,23 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
 
         return items;
     }, [session, problem, problemRemoveConfirmation.show, router]);
+
+    const onCreateCommentSubmit = useCallback(
+        async (value: CommentSchema) => {
+            if (!session?.user) {
+                return null;
+            }
+
+            const result = await commentCreateMutation.mutateAsync({
+                text: value.text,
+                problemId: problem.id,
+                userId: session.user.id,
+            });
+
+            return result;
+        },
+        [commentCreateMutation, problem.id, session?.user],
+    );
 
     return (
         <LayoutMain pageTitle={problem.name} headerGutter="0px" titleMenuItems={titleMenuItems}>
@@ -137,6 +170,17 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
                     )}
                 </>
             ))}
+
+            <StyledTitle size="xl">{tr('Comments')}</StyledTitle>
+
+            <StyledComment>
+                <>
+                    {problem.comments.map((comment) => (
+                        <ProblemComment key={`comment - ${comment.id}`} comment={comment} />
+                    ))}
+                    <CommentCreateForm onSubmit={onCreateCommentSubmit} />
+                </>
+            </StyledComment>
         </LayoutMain>
     );
 };

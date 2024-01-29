@@ -1,4 +1,4 @@
-import { CalendarEvent, HireStream, Problem } from '@prisma/client';
+import { CalendarEvent, HireStream, Problem, Comment } from '@prisma/client';
 import { Session } from 'next-auth';
 
 import { onlyUnique } from '../utils';
@@ -615,7 +615,7 @@ export const accessChecks = {
             if (session.userRoles.hasInterviewerRoles || session.userRoles.hasRecruiterRoles) {
                 return allowed();
             }
-            return notAllowed('Only recruiters and interviewers can upload files');
+            return notAllowed(tr('Only recruiters and interviewers can create files'));
         },
 
         readOne: (session: Session): AccessCheckResult => {
@@ -625,7 +625,7 @@ export const accessChecks = {
             if (session.userRoles.hasInterviewerRoles || session.userRoles.hasRecruiterRoles) {
                 return allowed();
             }
-            return notAllowed('Only recruiters and interviewers can view files');
+            return notAllowed(tr('Only recruiters and interviewers can view files'));
         },
 
         delete: (session: Session): AccessCheckResult => {
@@ -635,7 +635,21 @@ export const accessChecks = {
             if (session.userRoles.hasInterviewerRoles || session.userRoles.hasRecruiterRoles) {
                 return allowed();
             }
-            return notAllowed('Only recruiters and interviewers can delete files');
+            return notAllowed(tr('Only recruiters and interviewers can delete files'));
+        },
+    },
+
+    comment: {
+        create: (): AccessCheckResult => allowed(),
+
+        updateOrDelete: (session: Session, comment: Comment): AccessCheckResult => {
+            if (session.userRoles.admin) {
+                return allowed();
+            }
+
+            return session.user.id === comment.userId
+                ? allowed()
+                : notAllowed(tr('Insufficient permissions to delete or edit the comment'));
         },
     },
 };

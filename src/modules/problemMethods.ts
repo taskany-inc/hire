@@ -134,6 +134,7 @@ const getById = async (id: number) => {
             tags: true,
             favoritedBy: true,
             problemHistory: { orderBy: { createdAt: 'desc' }, include: { user: true } },
+            comments: { include: { user: true } },
         },
     });
 
@@ -197,6 +198,7 @@ const getList = async (
         author: true,
         tags: true,
         problemHistory: { include: { user: true } },
+        comments: { include: { user: true } },
         favoritedBy: {
             where: {
                 id: userId,

@@ -2,6 +2,8 @@ import { endOfMonth, endOfWeek, format, formatDistance, formatISO, startOfMonth,
 import { enGB } from 'date-fns/locale';
 import type { View } from 'react-big-calendar';
 
+import { TLocale } from './getLang';
+
 export const distanceDate = (date: Date): string => formatDistance(date, new Date(), { locale: enGB, addSuffix: true });
 
 /**
@@ -52,3 +54,14 @@ export interface DateRange {
     startDate: Date;
     endDate: Date;
 }
+
+interface LocaleArg {
+    locale: TLocale;
+}
+
+export const createLocaleDate = (date: Date, { locale }: LocaleArg): string =>
+    new Intl.DateTimeFormat(locale, {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+    }).format(date);

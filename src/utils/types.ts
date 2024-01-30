@@ -28,6 +28,7 @@ export type NextHandler = RequestHandler<NextApiRequest & { accessOptions?: Acce
 export interface ApiEntityListResult<TData> {
     items: TData[];
     total: number;
+    count?: number;
     nextCursor?: number | null;
 }
 

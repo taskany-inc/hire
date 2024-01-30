@@ -1,25 +1,14 @@
-import { useHireStreams } from '../../modules/hireStreamsHooks';
-import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { CandidateListView } from '../CandidateListView/CandidateListView';
-import { CandidatesFilterBar } from '../CandidatesFilterBar/CandidatesFilterBar';
+import { CandidateFilterBar } from '../CandidateFilterBar/CandidateFilterBar';
 import { LayoutMain } from '../LayoutMain';
 
 import { tr } from './CandidatesPage.i18n';
 
 const CandidatesPage = () => {
-    const hireStreamsQuery = useHireStreams();
-
     return (
-        <QueryResolver queries={[hireStreamsQuery]}>
-            {([hireStreams]) => (
-                <LayoutMain
-                    pageTitle={tr('Candidates')}
-                    aboveContainer={<CandidatesFilterBar hireStreams={hireStreams} />}
-                >
-                    <CandidateListView />
-                </LayoutMain>
-            )}
-        </QueryResolver>
+        <LayoutMain pageTitle={tr('Candidates')} aboveContainer={<CandidateFilterBar />}>
+            <CandidateListView />
+        </LayoutMain>
     );
 };
 

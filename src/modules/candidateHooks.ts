@@ -16,6 +16,7 @@ export const useCandidates = (params: GetCandidateList) => {
         ...params,
         hireStreamIds: params.hireStreamIds && params.hireStreamIds.length > 0 ? params.hireStreamIds : undefined,
         statuses: params.statuses && params.statuses.length > 0 ? params.statuses : undefined,
+        hrIds: params.hrIds && params.hrIds.length > 0 ? params.hrIds : undefined,
     };
 
     return trpc.candidates.getList.useInfiniteQuery(preparedParams, {

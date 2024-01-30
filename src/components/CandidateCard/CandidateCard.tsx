@@ -29,7 +29,7 @@ export const CandidateCard: React.FC<Props> = ({ candidate }) => {
             ? generatePath(Paths.CANDIDATE, { candidateId: candidate.id })
             : undefined;
 
-    const { setStatuses, setHireStreams } = useCandidateFilterContext();
+    const { setStatuses, setHireStreamIds } = useCandidateFilterContext();
 
     const lastInterview = useMemo<InterviewWithHireStreamRelation | undefined>(() => {
         const { interviews } = candidate;
@@ -51,7 +51,9 @@ export const CandidateCard: React.FC<Props> = ({ candidate }) => {
                         {lastInterview?.hireStream?.name && (
                             <TagChip
                                 tag={lastInterview?.hireStream}
-                                onClick={() => lastInterview.hireStream && setHireStreams([lastInterview.hireStream])}
+                                onClick={() =>
+                                    lastInterview.hireStream && setHireStreamIds([lastInterview.hireStream.id])
+                                }
                             />
                         )}
                     </>

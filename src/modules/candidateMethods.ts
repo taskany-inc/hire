@@ -1,4 +1,4 @@
-import { Candidate, InterviewStatus, OutstaffVendor, Prisma } from '@prisma/client';
+import { Candidate, OutstaffVendor, Prisma } from '@prisma/client';
 
 import { prisma } from '../utils/prisma';
 import { ErrorWithStatus } from '../utils';
@@ -45,16 +45,11 @@ const searchSettings: SearchSettings = {
     fieldsToSearchFrom: ['name', 'email', 'phone', 'outstaffVendor.title', 'outstaffVendorId'],
 };
 
-type WhereList = {
-    OR?: Prisma.CandidateWhereInput[];
-    AND?: Prisma.CandidateWhereInput;
-};
-
 const getList = async (
     params: GetCandidateList = {},
     accessOptions: AccessOptions = {},
 ): Promise<ApiEntityListResult<CandidateWithVendorAndInterviewWithSectionsRelations>> => {
-    const { statuses, search, hireStreamIds, cursor } = params;
+    const { statuses, search, hireStreamIds, cursor, hrIds } = params;
     const limit = params.limit ?? 50;
     const { filterInterviewsByHireStreamIds, filterCandidatesBySectionTypeIds } = accessOptions;
     const interviewIdsGroupByCandidates = await prisma.interview.groupBy({ by: ['candidateId'], _max: { id: true } });
@@ -80,7 +75,9 @@ const getList = async (
         equals: null,
     } as Prisma.StringNullableFilter;
 
-    const where: WhereList = {};
+    const where: Prisma.CandidateWhereInput = {};
+
+    const whereAnd: Prisma.CandidateWhereInput[] = [];
 
     if (search && search.length >= searchSettings.minSearchLength) {
         const whereSearchCondition: Prisma.StringFilter = {
@@ -97,17 +94,19 @@ const getList = async (
         });
     }
 
-    if (statuses && [statuses].flat().some((status) => status === InterviewStatus.NEW)) {
-        where.AND = {
-            OR: [
-                { interviews: { none: {} } },
-                { interviews: { some: { id: { in: interviewIdsWithRequestedStatuses } } } },
-            ],
-        };
+    if (statuses) {
+        whereAnd.push({ interviews: { some: { id: { in: interviewIdsWithRequestedStatuses } } } });
     }
 
-    if (statuses && ![statuses].flat().some((status) => status === InterviewStatus.NEW)) {
-        where.AND = { interviews: { some: { id: { in: interviewIdsWithRequestedStatuses } } } };
+    if (hrIds) {
+        const interviewsOfRequestedHrs = await prisma.interview.findMany({
+            where: {
+                id: { in: interviewIdsWithNoNulls },
+                creatorId: { in: hrIds },
+            },
+        });
+
+        whereAnd.push({ interviews: { some: { id: { in: interviewsOfRequestedHrs.map(({ id }) => id) } } } });
     }
 
     if (hireStreamIds) {
@@ -118,7 +117,7 @@ const getList = async (
             },
         });
         const interviewRequestedHireStreamIds = interviewWithRequestedHireStreams.map((item) => item.id);
-        where.AND = { interviews: { some: { id: { in: interviewRequestedHireStreamIds } } } };
+        whereAnd.push({ interviews: { some: { id: { in: interviewRequestedHireStreamIds } } } });
     }
 
     const interviewAccessFilter: Prisma.InterviewWhereInput = {};
@@ -131,11 +130,16 @@ const getList = async (
         interviewAccessFilter.sections = { some: { sectionTypeId: { in: filterCandidatesBySectionTypeIds } } };
     }
 
-    const total = await prisma.candidate.count({ where });
+    if (whereAnd.length) where.AND = whereAnd;
 
-    if (!total) {
+    const count = await prisma.candidate.count({ where });
+
+    const total = await prisma.candidate.count({});
+
+    if (!count) {
         return {
             items: [],
+            count,
             total,
         };
     }
@@ -164,7 +168,7 @@ const getList = async (
         nextCursor = nextItem?.id;
     }
 
-    return { items, total, nextCursor };
+    return { items, total, nextCursor, count };
 };
 
 const getById = async (id: number): Promise<CandidateWithVendorRelation> => {

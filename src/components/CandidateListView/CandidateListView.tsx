@@ -1,4 +1,4 @@
-import { FC, useCallback, useRef } from 'react';
+import { FC, useCallback, useEffect, useRef } from 'react';
 import { Text } from '@taskany/bricks';
 
 import { useCandidates } from '../../modules/candidateHooks';
@@ -10,14 +10,21 @@ import { CandidateCard } from '../CandidateCard/CandidateCard';
 import { tr } from './CandidateListView.i18n';
 
 export const CandidateListView: FC = () => {
-    const { debouncedSearch, statuses, hireStreams } = useCandidateFilterContext();
-    const hireStreamIds = hireStreams.map((hireStream) => hireStream.id);
+    const { debouncedSearch, statuses, hireStreamIds, hrIds, setCount, setTotal } = useCandidateFilterContext();
     const candidatesQuery = useCandidates({
         search: debouncedSearch,
         statuses,
         hireStreamIds,
+        hrIds,
         limit: 20,
     });
+
+    useEffect(() => {
+        if (candidatesQuery.data?.pages[0]) {
+            setTotal(candidatesQuery.data.pages[0].total);
+            setCount(candidatesQuery.data.pages[0].count || 0);
+        }
+    }, [setTotal, setCount, candidatesQuery]);
 
     const { isFetching, hasNextPage, fetchNextPage } = candidatesQuery;
 

@@ -18,6 +18,7 @@ export const getCandidateListSchema = z
         orderBy: z.string(),
         orderDirection: z.enum(['asc', 'desc']),
         cursor: z.number().nullish(),
+        hrIds: z.number().array(),
     })
     .partial();
 export type GetCandidateList = z.infer<typeof getCandidateListSchema>;

@@ -142,11 +142,17 @@ const editSettings = (userId: number, data: EditUserSettings) => {
     });
 };
 
-const suggestions = async ({ query, include, take = suggestionsTake }: GetUserSuggestions) => {
-    const where: Prisma.UserWhereInput = { name: { contains: query, mode: 'insensitive' } };
+const suggestions = async ({ query, include, take = suggestionsTake, hr }: GetUserSuggestions) => {
+    const where: Prisma.UserWhereInput = {
+        name: { contains: query, mode: 'insensitive' },
+    };
 
     if (include) {
         where.id = { notIn: include };
+    }
+
+    if (hr) {
+        where.createdInterviews = { some: {} };
     }
     const suggestions = await prisma.user.findMany({ where, take });
 

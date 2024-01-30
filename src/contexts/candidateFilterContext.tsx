@@ -1,4 +1,4 @@
-import { HireStream, InterviewStatus } from '@prisma/client';
+import { InterviewStatus } from '@prisma/client';
 import React, {
     createContext,
     Dispatch,
@@ -20,8 +20,18 @@ type CandidateFilterContext = {
     statuses: InterviewStatus[];
     setStatuses: Dispatch<SetStateAction<InterviewStatus[]>>;
     clearFilters: VoidFunction;
-    setHireStreams: Dispatch<SetStateAction<HireStream[]>>;
-    hireStreams: HireStream[];
+    setHireStreamFilter: Dispatch<SetStateAction<string[]>>;
+    hireStreamFilter: string[];
+    hrIds: number[];
+    setHrIds: Dispatch<SetStateAction<number[]>>;
+    hrFilter: string[];
+    setHrFitlter: Dispatch<SetStateAction<string[]>>;
+    total: number;
+    setTotal: Dispatch<SetStateAction<number>>;
+    count: number;
+    setCount: Dispatch<SetStateAction<number>>;
+    hireStreamIds: number[];
+    setHireStreamIds: Dispatch<SetStateAction<number[]>>;
 };
 
 const candidateFilterContext = createContext<CandidateFilterContext>({
@@ -29,20 +39,40 @@ const candidateFilterContext = createContext<CandidateFilterContext>({
     statuses: [],
     setStatuses: noop,
     clearFilters: noop,
-    hireStreams: [],
-    setHireStreams: noop,
+    hireStreamFilter: [],
+    setHireStreamFilter: noop,
+    hrIds: [],
+    setHrIds: noop,
+    hrFilter: [],
+    setHrFitlter: noop,
+    total: 0,
+    setTotal: noop,
+    count: 0,
+    setCount: noop,
+    hireStreamIds: [],
+    setHireStreamIds: noop,
 });
 
 export const CandidateFilterContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [search, setSearch] = useState<string>();
     const [debouncedSearch] = useDebounce(search, 300);
     const [statuses, setStatuses] = useState<InterviewStatus[]>([]);
-    const [hireStreams, setHireStreams] = useState<HireStream[]>([]);
+
+    const [hireStreamIds, setHireStreamIds] = useState<number[]>([]);
+    const [hireStreamFilter, setHireStreamFilter] = useState<string[]>(hireStreamIds.map((id) => String(id)));
+
+    const [hrIds, setHrIds] = useState<number[]>([]);
+
+    const [total, setTotal] = useState<number>(0);
+    const [count, setCount] = useState<number>(0);
+
+    const [hrFilter, setHrFitlter] = useState<string[]>(hrIds.map((id) => String(id)));
 
     const clearFilters = useCallback(() => {
         setSearch(undefined);
         setStatuses([]);
-        setHireStreams([]);
+        setHireStreamIds([]);
+        setHrIds([]);
     }, []);
 
     const value: CandidateFilterContext = {
@@ -52,8 +82,18 @@ export const CandidateFilterContextProvider: FC<{ children: ReactNode }> = ({ ch
         statuses,
         setStatuses,
         clearFilters,
-        setHireStreams,
-        hireStreams,
+        setHireStreamFilter,
+        hireStreamFilter,
+        hrIds,
+        setHrIds,
+        hrFilter,
+        setHrFitlter,
+        total,
+        setTotal,
+        count,
+        setCount,
+        hireStreamIds,
+        setHireStreamIds,
     };
 
     return <candidateFilterContext.Provider value={value}>{children}</candidateFilterContext.Provider>;

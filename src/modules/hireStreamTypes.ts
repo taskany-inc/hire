@@ -17,3 +17,11 @@ export const createHireStreamSchema = z.object({
         .regex(/^[a-z_]+$/, 'Valid characters: a-z, _'),
 });
 export type CreateHireStream = z.infer<typeof createHireStreamSchema>;
+
+export const getHireStreamSuggestionsSchema = z.object({
+    query: z.string(),
+    take: z.number().optional(),
+    include: z.array(z.number()).optional(),
+});
+
+export type GetHireStreamSuggestions = z.infer<typeof getHireStreamSuggestionsSchema>;

@@ -1,6 +1,11 @@
 import { accessMiddlewares } from '../../modules/accessMiddlewares';
 import { hireStreamMethods } from '../../modules/hireStreamMethods';
-import { createHireStreamSchema, hireStreamNameSchema, hireStreamQuerySchema } from '../../modules/hireStreamTypes';
+import {
+    createHireStreamSchema,
+    getHireStreamSuggestionsSchema,
+    hireStreamNameSchema,
+    hireStreamQuerySchema,
+} from '../../modules/hireStreamTypes';
 import { protectedProcedure, router } from '../trpcBackend';
 
 export const hireStreamsRouter = router({
@@ -34,4 +39,8 @@ export const hireStreamsRouter = router({
         .mutation(({ input, ctx }) => {
             return hireStreamMethods.create(input, ctx.session.user.id);
         }),
+
+    suggestions: protectedProcedure.input(getHireStreamSuggestionsSchema).query(({ input }) => {
+        return hireStreamMethods.suggestions(input);
+    }),
 });

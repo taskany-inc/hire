@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.26.0](https://github.com/taskany-inc/hire/compare/v0.25.1...v0.26.0) (2024-02-01)
+
+
+### Features
+
+* filter candidates by hr ([9dae472](https://github.com/taskany-inc/hire/commit/9dae472f6b8058ab79b30344c1980ea463e5d416))
+
 ## [0.25.1](https://github.com/taskany-inc/hire/compare/v0.25.0...v0.25.1) (2024-01-26)
 
 

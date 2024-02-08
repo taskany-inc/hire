@@ -448,3 +448,8 @@ model Comment {
   @@index([userId])
   @@index([problemId])
 }
+
+model ApiToken {
+  id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  description String
+}

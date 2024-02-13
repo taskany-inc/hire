@@ -59,6 +59,11 @@ export default {
         authUser: process.env.MAIL_USER,
         enabled: process.env.MAIL_ENABLE,
     },
+    worker: {
+        queueInterval: process.env.WORKER_JOBS_INTERVAL,
+        retryLimit: process.env.WORKER_JOBS_RETRY,
+        workerJobsDelay: process.env.WORKER_JOBS_DELAY,
+    },
     pluginMenuItems: parsePluginMenuItems(process.env.NEXT_PUBLIC_PLUGIN_MENU_ITEMS),
     debugCookieEnabled: process.env.DEBUG_COOKIE_ENABLE,
     nextAuthEnabled: process.env.NEXT_AUTH_ENABLE,

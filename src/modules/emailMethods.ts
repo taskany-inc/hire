@@ -7,10 +7,10 @@ import { formatDateToLocaleString } from '../utils/date';
 import { Paths, generatePath } from '../utils/paths';
 import { calendarEvents, createIcalEventData } from '../utils/ical';
 import { userOfEvent } from '../utils/calendar';
+import { createEmailJob } from '../utils/worker/create';
 
 import { UpdateSection } from './sectionTypes';
 import { tr } from './modules.i18n';
-import { sendMail } from './nodemailer';
 import { calendarMethods } from './calendarMethods';
 
 export const notifyHR = async (id: number, data: UpdateSection) => {
@@ -28,7 +28,7 @@ export const notifyHR = async (id: number, data: UpdateSection) => {
     });
     if (section?.interview?.creator?.email) {
         // TODO: add localization after https://github.com/taskany-inc/hire/issues/191
-        return sendMail({
+        return createEmailJob({
             to: section?.interview?.creator?.email,
             subject: `Interviewer ${section.interviewer.name || ''} left feedback for the section with ${
                 section.interview.candidate.name
@@ -90,7 +90,7 @@ export const cancelSectionEmail = async (sectionId: number) => {
         cancelEmailSubject = restException.eventDetails.title;
     }
 
-    return sendMail({
+    return createEmailJob({
         to: section.interviewer.email,
         subject: cancelEmailSubject,
         text: `${tr('Canceled section with')} ${section.interview.candidate.name} ${date}
@@ -163,7 +163,7 @@ export const assignSectionEmail = async (
             sequence,
         });
 
-        await sendMail({
+        await createEmailJob({
             to: interviewer.email,
             subject: eventDetails.title,
             text: '',
@@ -174,7 +174,7 @@ export const assignSectionEmail = async (
         });
     }
 
-    await sendMail({
+    await createEmailJob({
         to: interviewer.email,
         subject: `${tr('Interview with')} ${candidateName}`,
         text: `${config.defaultPageURL}${generatePath(Paths.SECTION, {

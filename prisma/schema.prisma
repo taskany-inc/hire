@@ -453,3 +453,20 @@ model ApiToken {
   id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   description String
 }
+
+model Job {
+  id       String  @id @default(cuid())
+  state    String
+  priority Int     @default(0)
+  kind     String
+  data     Json
+  delay    Int?
+  retry    Int?
+  runs     Int     @default(0)
+  force    Boolean @default(false)
+  cron     String?
+  error    String?
+
+  createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
+}

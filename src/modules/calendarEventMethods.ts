@@ -6,6 +6,7 @@ import { RRule } from 'rrule';
 import { prisma } from '../utils/prisma';
 import { calendarEvents, createIcalEventData } from '../utils/ical';
 import { userOfEvent } from '../utils/calendar';
+import { createEmailJob } from '../utils/worker/create';
 
 import { calendarRecurrenceMethods } from './calendarRecurrenceMethods';
 import { calendarMethods } from './calendarMethods';
@@ -18,7 +19,6 @@ import {
     UpdateCalendarEvent,
     UpdateCalendarException,
 } from './calendarTypes';
-import { sendMail } from './nodemailer';
 
 async function createEvent(params: CreateCalendarEvent, user: User): Promise<CalendarEventCreateResult> {
     const { date, title, duration, description = '', recurrence } = params;
@@ -46,7 +46,7 @@ async function createEvent(params: CreateCalendarEvent, user: User): Promise<Cal
         rule: rRule.options.freq,
     });
 
-    await sendMail({
+    await createEmailJob({
         to: user.email,
         subject: title,
         text: '',
@@ -124,7 +124,7 @@ async function updateEventSeries(params: UpdateCalendarEvent, user: User): Promi
         sequence: event.sequence + 1,
     });
 
-    await sendMail({
+    await createEmailJob({
         to: user.email,
         subject: event.eventDetails.title,
         text: '',
@@ -246,7 +246,7 @@ async function splitEventSeries(params: UpdateCalendarEvent, user: User): Promis
         until: newRRule.options.until || undefined,
     });
 
-    await sendMail({
+    await createEmailJob({
         to: user.email,
         subject: oldEvent.eventDetails.title,
         text: '',
@@ -255,7 +255,7 @@ async function splitEventSeries(params: UpdateCalendarEvent, user: User): Promis
             events: [icalEventDataOldEvent],
         }),
     });
-    await sendMail({
+    await createEmailJob({
         to: user.email,
         subject: newEvent.eventDetails.title,
         text: '',
@@ -323,7 +323,7 @@ async function createEventException(params: UpdateCalendarEvent, user: User): Pr
         summary: title ?? eventDetails.title,
     });
 
-    await sendMail({
+    await createEmailJob({
         to: user.email,
         subject: eventDetails.title,
         text: '',
@@ -333,7 +333,7 @@ async function createEventException(params: UpdateCalendarEvent, user: User): Pr
         }),
     });
 
-    await sendMail({
+    await createEmailJob({
         to: user.email,
         subject: title ?? eventDetails.title,
         text: '',
@@ -373,7 +373,7 @@ async function updateEventException(params: UpdateCalendarException, user: User)
         sequence: eventException.sequence,
     });
 
-    await sendMail({
+    await createEmailJob({
         to: user.email,
         subject: title ?? eventDetails.title,
         text: '',
@@ -432,7 +432,7 @@ async function stopEventSeries(eventId: string, originalDate: Date, user: User):
         sequence,
     });
 
-    await sendMail({
+    await createEmailJob({
         to: user.email,
         subject: eventDetails.title,
         text: '',
@@ -466,7 +466,7 @@ async function cancelEventException(eventId: string, exceptionId: string, user: 
         status: ICalEventStatus.CANCELLED,
     });
 
-    await sendMail({
+    await createEmailJob({
         to: user.email,
         subject: restException.eventDetails.title,
         text: '',
@@ -518,7 +518,7 @@ async function createEventCancellation(eventId: string, originalDate: Date, user
         status: ICalEventStatus.CANCELLED,
     });
 
-    await sendMail({
+    await createEmailJob({
         to: user.email,
         subject: eventDetails.title,
         text: '',
@@ -528,7 +528,7 @@ async function createEventCancellation(eventId: string, originalDate: Date, user
         }),
     });
 
-    await sendMail({
+    await createEmailJob({
         to: user.email,
         subject: eventDetails.title,
         text: '',
@@ -556,7 +556,7 @@ async function removeEventSeries(eventId: string, user: User): Promise<void> {
         sequence,
     });
 
-    await sendMail({
+    await createEmailJob({
         to: creator?.email || user.email,
         subject: eventDetails.title,
         text: '',

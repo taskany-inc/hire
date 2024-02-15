@@ -48,6 +48,8 @@ export enum Paths {
     ANALYTICS_COMMON = '/analytics/common',
     ANALYTICS_HIRE_STREAM = '/analytics/hire-stream/{hireStreamName}',
 
+    VACANCIES = '/vacancies',
+
     ROLES = '/roles',
 
     ATTACH = '/api/attach',

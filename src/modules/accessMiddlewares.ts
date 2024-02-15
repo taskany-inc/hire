@@ -254,4 +254,8 @@ export const accessMiddlewares = {
             accessChecks.comment.updateOrDelete,
         ),
     },
+
+    vacancy: {
+        read: createMiddleware(accessChecks.vacancy.read),
+    },
 };

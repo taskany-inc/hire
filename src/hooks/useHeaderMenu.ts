@@ -51,6 +51,10 @@ export const useHeaderMenu = (): UseHeaderMenuResult => {
             items.push({ path: Paths.ANALYTICS, text: tr('Analytics') });
         }
 
+        if (accessChecks.vacancy.read(session).allowed) {
+            items.push({ path: Paths.VACANCIES, text: tr('Vacancies') });
+        }
+
         config.pluginMenuItems.forEach((p) => items.push({ text: p.text, path: pageHrefs.plugins(p.path) }));
 
         if (session.userRoles.admin || session.userRoles.hasHireStreamManagerRoles) {

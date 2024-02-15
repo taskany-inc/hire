@@ -110,6 +110,5 @@
     "Comments's description must be a string": "",
     "Comments's description must be longer than 1 symbol": "",
     "Comment not found": "",
-    "Comment on proplem": "",
     "Comment on proplem {comment.problem.name}": ""
 }

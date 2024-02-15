@@ -652,4 +652,16 @@ export const accessChecks = {
                 : notAllowed(tr('Insufficient permissions to delete or edit the comment'));
         },
     },
+
+    vacancy: {
+        read: (session: Session): AccessCheckResult => {
+            if (session.userRoles.admin) {
+                return allowed();
+            }
+            if (session.userRoles.hasHiringLeadRoles || session.userRoles.hasRecruiterRoles) {
+                return allowed();
+            }
+            return notAllowed('Only hiring leads and recruiters can see vacancies');
+        },
+    },
 };

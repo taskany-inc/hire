@@ -63,4 +63,8 @@ export default {
     debugCookieEnabled: process.env.DEBUG_COOKIE_ENABLE,
     nextAuthEnabled: process.env.NEXT_AUTH_ENABLE,
     logToFileEnabled: process.env.LOG_TO_FILE_ENABLE,
+    crew: {
+        url: process.env.CREW_URL,
+        apiToken: process.env.CREW_API_TOKEN,
+    },
 };

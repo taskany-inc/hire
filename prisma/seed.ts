@@ -500,6 +500,8 @@ const main = async () => {
             },
         },
     });
+
+    await prisma.apiToken.create({ data: { id: '849892e1-6518-4843-9530-006216245037', description: 'test-token' } });
 };
 
 main()

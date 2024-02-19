@@ -125,7 +125,7 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
 
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return;
-        await upload.uploadFiles(e.target.files);
+        await upload.uploadFiles(Array.from(e.target.files));
     };
 
     return (

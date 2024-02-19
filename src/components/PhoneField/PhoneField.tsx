@@ -1,11 +1,11 @@
 import { SyntheticEvent } from 'react';
 import { useRifm } from 'rifm';
 import { Control, FieldPath, FieldValues, RegisterOptions, useController } from 'react-hook-form';
-import { FormInput, Input } from '@taskany/bricks';
+import { FormInput } from '@taskany/bricks';
 
 import { tr } from './PhoneField.i18n';
 
-type InputProps = JSX.LibraryManagedAttributes<typeof Input, React.ComponentProps<typeof Input>>;
+type InputProps = JSX.LibraryManagedAttributes<typeof FormInput, React.ComponentProps<typeof FormInput>>;
 
 const stripPhone = (str: string) => str.slice(3).replace(/[^\d]/g, '');
 

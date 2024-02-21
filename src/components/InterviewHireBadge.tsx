@@ -20,25 +20,25 @@ export const InterviewHireBadge: VFC<InterviewHireBadgeProps> = ({ status, onCli
     switch (status) {
         case InterviewStatus.NEW:
             return (
-                <Badge size={'l'} color={TagPaletteColor.BLUE} onClick={onClick}>
+                <Badge size="l" color={TagPaletteColor.BLUE} onClick={onClick}>
                     {label}
                 </Badge>
             );
         case InterviewStatus.HIRED:
             return (
-                <Badge size={'l'} color={TagPaletteColor.GREEN} onClick={onClick}>
+                <Badge size="l" color={TagPaletteColor.GREEN} onClick={onClick}>
                     {label}
                 </Badge>
             );
         case InterviewStatus.REJECTED:
             return (
-                <Badge size={'l'} color={TagPaletteColor.MAGENTA} onClick={onClick}>
+                <Badge size="l" color={TagPaletteColor.MAGENTA} onClick={onClick}>
                     {label}
                 </Badge>
             );
         case InterviewStatus.IN_PROGRESS:
             return (
-                <Badge size={'l'} color={TagPaletteColor.CYAN} onClick={onClick}>
+                <Badge size="l" color={TagPaletteColor.CYAN} onClick={onClick}>
                     {label}
                 </Badge>
             );

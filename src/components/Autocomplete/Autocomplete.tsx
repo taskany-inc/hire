@@ -132,7 +132,7 @@ export function Autocomplete({
             <span ref={popupRef} {...onESC}>
                 <StyledBadgeContainer>
                     {added.map((item, index) => (
-                        <StyledBadge size={'xl'} onClick={() => onItemRemove(item)} key={index}>
+                        <StyledBadge size="xl" onClick={() => onItemRemove(item)} key={index}>
                             {item.text}
                         </StyledBadge>
                     ))}

@@ -7,6 +7,7 @@ import { useVacancies } from '../../modules/crewHooks';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { Stack } from '../Stack';
 import { VacancyCard } from '../VacancyCard/VacancyCard';
+import { useVacancyFilterContext } from '../../contexts/vacancyFilterContext';
 
 import { tr } from './VacancyList.i18n';
 
@@ -15,7 +16,13 @@ const StyledLoadMoreButton = styled(Button)`
 `;
 
 export const VacancyList = () => {
-    const vacanciesQuery = useVacancies({ archived: false, take: 30 });
+    const { debouncedSearch, statuses, hireStreamIds } = useVacancyFilterContext();
+    const vacanciesQuery = useVacancies({
+        archived: false,
+        statuses,
+        search: debouncedSearch,
+        hireStreamIds,
+    });
     const { isLoading, hasNextPage, fetchNextPage } = vacanciesQuery;
 
     return (

@@ -43,7 +43,7 @@ export function InterviewSectionListItem({ section, interview }: Props) {
             })}
             chips={
                 <>
-                    <Badge size={'xl'} color={SectionStatusTagPalette[sectionChip]}>
+                    <Badge size="xl" color={SectionStatusTagPalette[sectionChip]}>
                         {sectionChip}
                     </Badge>
 

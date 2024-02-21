@@ -8,7 +8,7 @@ module.exports = {
         'plugin:@typescript-eslint/recommended',
     ],
     parser: '@typescript-eslint/parser',
-    plugins: ['import', 'prettier'],
+    plugins: ['import', 'prettier', 'react'],
     rules: {
         'react/react-in-jsx-scope': 'off',
         '@typescript-eslint/no-empty-function': 'off',
@@ -87,5 +87,12 @@ module.exports = {
         'no-use-before-define': 'off',
         '@typescript-eslint/no-use-before-define': ['error'],
         'react/display-name': 'off',
+        'react/jsx-curly-brace-presence': [
+            'error',
+            {
+                props: 'never',
+                children: 'never',
+            },
+        ],
     },
 };

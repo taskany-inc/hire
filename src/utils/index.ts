@@ -120,3 +120,7 @@ export const standConfig = {
     isDebugCookieAllowed: config.debugCookieEnabled,
     isLogToFileEnabled: config.logToFileEnabled,
 };
+
+export const contextNotInitialized = (message: string) => () => {
+    throw new Error(message);
+};

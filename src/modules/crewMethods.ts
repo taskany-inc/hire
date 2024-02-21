@@ -11,8 +11,18 @@ const checkConfig = () => {
     return { url: config.crew.url, apiToken: config.crew.apiToken };
 };
 
+const getDataFromResponse = async <T>(response: Response): Promise<T> => {
+    if (response.ok) {
+        return response.json();
+    }
+    const message = await response.text();
+    throw new TRPCError({ code: 'BAD_REQUEST', message });
+};
+
+const vacancyListTake = 30;
+
 export const crewMethods = {
-    getVacancyList: async ({ cursor, ...data }: Omit<GetVacancyList, 'skip'>) => {
+    getVacancyList: async ({ cursor, take = vacancyListTake, ...data }: Omit<GetVacancyList, 'skip'>) => {
         const { url, apiToken } = checkConfig();
         const response = await fetch(`${url}/api/rest/vacancies/list`, {
             method: 'POST',
@@ -20,9 +30,8 @@ export const crewMethods = {
                 authorization: apiToken,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ ...data, skip: cursor }),
+            body: JSON.stringify({ ...data, take, skip: cursor }),
         });
-        const json: { vacancies: Vacancy[]; count: number } = await response.json();
-        return json;
+        return getDataFromResponse<{ vacancies: Vacancy[]; count: number; total: number }>(response);
     },
 };

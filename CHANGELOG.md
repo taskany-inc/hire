@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.28.0](https://github.com/taskany-inc/hire/compare/v0.27.0...v0.28.0) (2024-02-22)
+
+
+### Features
+
+* **ESLint:** add rules for curly braces ([398702a](https://github.com/taskany-inc/hire/commit/398702ab6807e20084cded9766483a2223590a90))
+* filter candidates by vacancy ([f5d9602](https://github.com/taskany-inc/hire/commit/f5d9602a906a4ae8f2460d9ce0e51bffc798ab90))
+* **Harmony:** update offline banner from bricks ([3d06f4c](https://github.com/taskany-inc/hire/commit/3d06f4cd68463dd003ded3486dc49c5f89b74072))
+* **Harmony:** update packages & theme ([f04e059](https://github.com/taskany-inc/hire/commit/f04e059713214d09b8b1e2dc632e0d0e426e3e37))
+* link vacancy to interview ([3f77243](https://github.com/taskany-inc/hire/commit/3f77243677b9d719cae773d21b3886b5004f54c3))
+* vacancy list page ([1b1f786](https://github.com/taskany-inc/hire/commit/1b1f78654d681f7f295d393f7f6db5b76fe137a5))
+* **vacancy page:** filter bar ([f8382d9](https://github.com/taskany-inc/hire/commit/f8382d9a799fa1dfec911fa471f6cc2c4c7064d2))
+
 ## [0.27.0](https://github.com/taskany-inc/hire/compare/v0.26.0...v0.27.0) (2024-02-08)
 
 

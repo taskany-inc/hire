@@ -23,6 +23,7 @@ import { suggestionsTake, useQueryOptions } from '../../utils/suggestions';
 import { useSession } from '../../contexts/appSettingsContext';
 import { useCandidateFilterContext } from '../../contexts/candidateFilterContext';
 import { CandidateFilterApplied } from '../CandidateFilterApplied/CandidateFilterApplied';
+import { useVacancies } from '../../modules/crewHooks';
 
 import { tr } from './CandidateFilterBar.i18n';
 
@@ -53,6 +54,8 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
         setHrIds,
         hrFilter,
         setHrFitlter,
+        vacancyIds,
+        setVacancyIds,
         total,
         count,
     } = useCandidateFilterContext();
@@ -65,11 +68,14 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
 
     const [hireStreamQuery, setHireStreamQuery] = useState('');
 
+    const [vacancyQuery, setVacancyQuery] = useState<string>('');
+
     const isFiltersEmpty = !statuses && !hireStreamFilter.length && !hrIds.length;
     const onApplyClick = useCallback(() => {
         setFilterVisible(false);
         setHireStreamQuery('');
         setHrQuery('');
+        setVacancyQuery('');
 
         setStatuses(interviewStatusFilter as InterviewStatus[]);
         setHireStreamIds(hireStreamFilter.map((hireStream) => Number(hireStream)));
@@ -103,9 +109,13 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
         useQueryOptions,
     );
 
+    const vacanciesQuery = useVacancies({ archived: false, take: 5, search: vacancyQuery });
+    const vacancies = vacanciesQuery.data?.pages[0].vacancies ?? [];
+
     const onResetFilers = () => {
         setHireStreamQuery('');
         setHrQuery('');
+        setVacancyQuery('');
         setHireStreamFilter([]);
         setInterviewStatusFilter([]);
         setHrFitlter([]);
@@ -142,6 +152,8 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
                     interviewStatuses={interviewStatusFilter}
                     hireStreams={hireStreams}
                     hireStreamIds={hireStreamFilter}
+                    vacancies={vacancies}
+                    vacancyIds={vacancyIds}
                 />
             ))}
             <FilterPopup
@@ -188,6 +200,21 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
                     filterCheckboxName="hrs"
                     onChange={setHrFitlter}
                     onSearchChange={setHrQuery}
+                    viewMode="split"
+                />
+                <Filter
+                    title={tr('Suggestions')}
+                    tabName="vacancies"
+                    label={tr('Vacancies')}
+                    placeholder={tr('Search')}
+                    value={vacancyIds}
+                    items={vacancies.map((vacancy) => ({
+                        id: vacancy.id,
+                        name: `${vacancy.name}, ${tr('grade')}: ${vacancy.grade}, ${tr('unit')}: ${vacancy.unit}`,
+                    }))}
+                    filterCheckboxName="vacancies"
+                    onChange={setVacancyIds}
+                    onSearchChange={setVacancyQuery}
                     viewMode="split"
                 />
             </FilterPopup>

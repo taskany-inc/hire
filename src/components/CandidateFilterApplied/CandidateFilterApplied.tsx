@@ -4,6 +4,8 @@ import { User } from 'prisma/prisma-client';
 import { gray7 } from '@taskany/colors';
 import styled from 'styled-components';
 
+import { Vacancy } from '../../modules/crewTypes';
+
 import { tr } from './CandidateFilterApplied.i18n';
 
 type ProblemFilterAppliedProps = {
@@ -12,6 +14,8 @@ type ProblemFilterAppliedProps = {
     interviewStatuses?: string[];
     hrs?: User[];
     hrIds?: number[];
+    vacancies?: Vacancy[];
+    vacancyIds?: string[];
 };
 
 const StyledApplied = styled(FiltersApplied)`
@@ -24,6 +28,8 @@ export const CandidateFilterApplied = ({
     interviewStatuses,
     hrs,
     hrIds,
+    vacancies,
+    vacancyIds,
 }: ProblemFilterAppliedProps) => {
     const filterAppliedString = useMemo(() => {
         let result = '';
@@ -53,8 +59,16 @@ export const CandidateFilterApplied = ({
                     .join(', ')
             }. `;
         }
+
+        if (vacancies?.length && vacancyIds?.length) {
+            result += `${tr('Vacancies')}: ${vacancies
+                .filter((vacancy) => vacancyIds.includes(vacancy.id))
+                .map((v) => v.name)
+                .join(', ')}`;
+        }
+
         return result;
-    }, [hireStreams, hireStreamIds, interviewStatuses, hrs, hrIds]);
+    }, [hireStreams, hireStreamIds, interviewStatuses, hrs, hrIds, vacancies, vacancyIds]);
 
     return (
         <StyledApplied size="s" weight="bold" color={gray7}>

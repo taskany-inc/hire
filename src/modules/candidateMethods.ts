@@ -49,7 +49,7 @@ const getList = async (
     params: GetCandidateList = {},
     accessOptions: AccessOptions = {},
 ): Promise<ApiEntityListResult<CandidateWithVendorAndInterviewWithSectionsRelations>> => {
-    const { statuses, search, hireStreamIds, cursor, hrIds } = params;
+    const { statuses, search, hireStreamIds, cursor, hrIds, vacancyIds } = params;
     const limit = params.limit ?? 50;
     const { filterInterviewsByHireStreamIds, filterCandidatesBySectionTypeIds } = accessOptions;
     const interviewIdsGroupByCandidates = await prisma.interview.groupBy({ by: ['candidateId'], _max: { id: true } });
@@ -128,6 +128,10 @@ const getList = async (
 
     if (filterCandidatesBySectionTypeIds) {
         interviewAccessFilter.sections = { some: { sectionTypeId: { in: filterCandidatesBySectionTypeIds } } };
+    }
+
+    if (vacancyIds) {
+        whereAnd.push({ interviews: { some: { crewVacancyId: { in: vacancyIds } } } });
     }
 
     if (whereAnd.length) where.AND = whereAnd;

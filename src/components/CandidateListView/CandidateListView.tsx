@@ -10,12 +10,14 @@ import { CandidateCard } from '../CandidateCard/CandidateCard';
 import { tr } from './CandidateListView.i18n';
 
 export const CandidateListView: FC = () => {
-    const { debouncedSearch, statuses, hireStreamIds, hrIds, setCount, setTotal } = useCandidateFilterContext();
+    const { debouncedSearch, statuses, hireStreamIds, hrIds, vacancyIds, setCount, setTotal } =
+        useCandidateFilterContext();
     const candidatesQuery = useCandidates({
         search: debouncedSearch,
         statuses,
         hireStreamIds,
         hrIds,
+        vacancyIds,
         limit: 20,
     });
 

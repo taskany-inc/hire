@@ -25,6 +25,7 @@ import { InterviewTags } from '../InterviewTags';
 import { ExternalUserLink } from '../ExternalUserLink';
 import { useDistanceDate } from '../../hooks/useDateFormat';
 import { Link } from '../Link';
+import { VacancyInfoById } from '../VacancyInfo/VacancyInfo';
 
 import { tr } from './Interview.i18n';
 
@@ -146,7 +147,10 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reject
                     </Text>
                 ))}
             </Text>
-            <Stack direction="column">
+            <Stack direction="column" gap={gapS}>
+                {nullable(interview.crewVacancyId, (vacancyId) => (
+                    <VacancyInfoById vacancyId={vacancyId} />
+                ))}
                 {canCreateSections && (
                     <AssignSectionDropdownButton interviewId={interviewId} sectionTypes={sectionTypes} />
                 )}

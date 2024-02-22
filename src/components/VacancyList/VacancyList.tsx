@@ -8,6 +8,7 @@ import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { Stack } from '../Stack';
 import { VacancyCard } from '../VacancyCard/VacancyCard';
 import { useVacancyFilterContext } from '../../contexts/vacancyFilterContext';
+import { Vacancy } from '../../modules/crewTypes';
 
 import { tr } from './VacancyList.i18n';
 
@@ -15,7 +16,11 @@ const StyledLoadMoreButton = styled(Button)`
     justify-self: flex-start;
 `;
 
-export const VacancyList = () => {
+interface VacancyListProps {
+    onSelect?: (vacancy: Vacancy) => void;
+}
+
+export const VacancyList = ({ onSelect }: VacancyListProps) => {
     const { debouncedSearch, statuses, hireStreamIds } = useVacancyFilterContext();
     const vacanciesQuery = useVacancies({
         archived: false,
@@ -35,7 +40,7 @@ export const VacancyList = () => {
                                 <Text>{tr('Nothing found')}</Text>
                             ))}
                             {page.vacancies.map((vacancy) => (
-                                <VacancyCard key={vacancy.id} vacancy={vacancy} />
+                                <VacancyCard key={vacancy.id} vacancy={vacancy} onSelect={onSelect} />
                             ))}
                         </Fragment>
                     ))}

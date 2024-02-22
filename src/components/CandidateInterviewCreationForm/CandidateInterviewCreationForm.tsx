@@ -4,8 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Candidate, HireStream } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { danger0, gapS, link10 } from '@taskany/colors';
-import { IconAttachOutline } from '@taskany/icons';
+import { danger0, gapS, gray9, link10 } from '@taskany/colors';
+import { IconAttachOutline, IconXOutline } from '@taskany/icons';
 import styled from 'styled-components';
 import {
     Button,
@@ -31,6 +31,8 @@ import { Select } from '../Select';
 import { useUploadNotifications } from '../../modules/attachHooks';
 import { defaultAttachFormatter, File } from '../../utils/attachFormatter';
 import { getFileIdFromPath } from '../../utils/fileUpload';
+import { AddVacancyToInterview } from '../AddVacancyToInterview/AddVacancyToInterview';
+import { Vacancy } from '../../modules/crewTypes';
 
 import { tr } from './CandidateInterviewCreationForm.i18n';
 
@@ -63,6 +65,13 @@ const FileInputText = styled(Text)`
     margin: ${gapS};
 `;
 
+const VacancyWrapper = styled.div`
+    display: flex;
+    gap: ${gapS};
+    align-items: center;
+    margin-left: ${gapS};
+`;
+
 // TODO: disable return value linting
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props) {
@@ -71,6 +80,7 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
     const [attachIds, setAttachIds] = useState<string[]>([]);
     const [cvAttachId, setCvAttachId] = useState<string>();
     const [cvAttachFilename, setCvAttachFilename] = useState<string>();
+    const [vacancy, setVacancy] = useState<Vacancy>();
 
     const { onUploadSuccess, onUploadFail } = useUploadNotifications();
 
@@ -91,10 +101,11 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
                 candidateId: candidate.id,
                 attachIds,
                 cvAttachId,
+                crewVacancyId: vacancy?.id,
             });
             router.push(generatePath(Paths.INTERVIEW, { interviewId: interview.id }));
         },
-        [candidate.id, interviewCreateMutation, router, attachIds, cvAttachId],
+        [candidate.id, interviewCreateMutation, router, attachIds, cvAttachId, vacancy?.id],
     );
 
     const {
@@ -176,6 +187,21 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
                                 {errors.hireStreamId.message}
                             </Text>
                         )}
+
+                        <VacancyWrapper>
+                            {nullable(
+                                vacancy,
+                                (v) => (
+                                    <>
+                                        <Text color={gray9} weight="bold">
+                                            {v.name}, {tr('grade')} {v.grade}, {tr('unit')} {v.unit}
+                                        </Text>
+                                        <IconXOutline size="xxs" onClick={() => setVacancy(undefined)} />
+                                    </>
+                                ),
+                                <AddVacancyToInterview onSelect={(vacancy) => setVacancy(vacancy)} />,
+                            )}
+                        </VacancyWrapper>
                     </Fieldset>
                     <FormActions flat="top">
                         <FormAction left inline></FormAction>

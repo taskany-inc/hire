@@ -12,6 +12,9 @@ export const getServerSideProps = createGetServerSideProps({
     numberIds: { interviewId: true },
     action: async ({ ssg, session, numberIds, handleAccessChecks }) => {
         const interview = await ssg.interviews.getById.fetch({ interviewId: numberIds.interviewId });
+        if (interview.crewVacancyId) {
+            await ssg.crew.getVacancyById.fetch(interview.crewVacancyId);
+        }
         await ssg.sectionTypes.getByHireStreamId.fetch({ hireStreamId: interview.hireStreamId });
 
         const rejectReasons = await rejectReasonMethods.findAll();

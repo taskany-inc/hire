@@ -22,6 +22,17 @@ const getDataFromResponse = async <T>(response: Response): Promise<T> => {
 const vacancyListTake = 30;
 
 export const crewMethods = {
+    getVacancyById: async (vacancyId: string) => {
+        const { url, apiToken } = checkConfig();
+        const response = await fetch(`${url}/api/rest/vacancy/${vacancyId}`, {
+            method: 'GET',
+            headers: {
+                authorization: apiToken,
+            },
+        });
+        return getDataFromResponse<Vacancy>(response);
+    },
+
     getVacancyList: async ({ cursor, take = vacancyListTake, ...data }: Omit<GetVacancyList, 'skip'>) => {
         const { url, apiToken } = checkConfig();
         const response = await fetch(`${url}/api/rest/vacancies/list`, {

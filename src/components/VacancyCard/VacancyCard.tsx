@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
-import { Badge, Text } from '@taskany/bricks';
-import { gray10, textColor } from '@taskany/colors';
+import { Badge, Button, Text, nullable } from '@taskany/bricks';
+import { gapS, gray10, textColor } from '@taskany/colors';
+import styled from 'styled-components';
 
 import { Vacancy, vacancyLabels, vacancyStatusColors } from '../../modules/crewTypes';
 import { Card } from '../Card';
@@ -13,9 +14,14 @@ import { tr } from './VacancyCard.i18n';
 
 interface VacancyCardProps {
     vacancy: Vacancy;
+    onSelect?: (vacancy: Vacancy) => void;
 }
 
-export const VacancyCard = ({ vacancy }: VacancyCardProps) => {
+const StyledButton = styled(Button)`
+    margin-top: ${gapS};
+`;
+
+export const VacancyCard = ({ vacancy, onSelect }: VacancyCardProps) => {
     const hireStreamsQuery = useHireStreams();
 
     const stream = useMemo(
@@ -55,6 +61,10 @@ export const VacancyCard = ({ vacancy }: VacancyCardProps) => {
                         {vacancy.grade}
                     </Text>
                 </Text>
+
+                {nullable(onSelect, (cb) => (
+                    <StyledButton text={tr('Select')} onClick={() => cb(vacancy)} />
+                ))}
             </CardContent>
         </Card>
     );

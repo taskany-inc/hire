@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.28.0](https://github.com/taskany-inc/hire/compare/v0.27.0...v0.28.0) (2024-02-22)
+
+
+### Features
+
+* **ESLint:** add rules for curly braces ([398702a](https://github.com/taskany-inc/hire/commit/398702ab6807e20084cded9766483a2223590a90))
+* **Harmony:** update packages & theme ([f04e059](https://github.com/taskany-inc/hire/commit/f04e059713214d09b8b1e2dc632e0d0e426e3e37))
+* vacancy list page ([1b1f786](https://github.com/taskany-inc/hire/commit/1b1f78654d681f7f295d393f7f6db5b76fe137a5))
+* **vacancy page:** filter bar ([f8382d9](https://github.com/taskany-inc/hire/commit/f8382d9a799fa1dfec911fa471f6cc2c4c7064d2))
+
 ## [0.27.0](https://github.com/taskany-inc/hire/compare/v0.26.0...v0.27.0) (2024-02-08)
 
 

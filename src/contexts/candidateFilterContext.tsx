@@ -10,6 +10,7 @@ import React, {
     useState,
 } from 'react';
 import { useDebounce } from 'use-debounce';
+import { useRouter } from 'next/router';
 
 import { noop } from '../utils';
 
@@ -32,6 +33,8 @@ type CandidateFilterContext = {
     setCount: Dispatch<SetStateAction<number>>;
     hireStreamIds: number[];
     setHireStreamIds: Dispatch<SetStateAction<number[]>>;
+    vacancyIds: string[];
+    setVacancyIds: Dispatch<SetStateAction<string[]>>;
 };
 
 const candidateFilterContext = createContext<CandidateFilterContext>({
@@ -51,9 +54,13 @@ const candidateFilterContext = createContext<CandidateFilterContext>({
     setCount: noop,
     hireStreamIds: [],
     setHireStreamIds: noop,
+    vacancyIds: [],
+    setVacancyIds: noop,
 });
 
 export const CandidateFilterContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
+    const router = useRouter();
+
     const [search, setSearch] = useState<string>();
     const [debouncedSearch] = useDebounce(search, 300);
     const [statuses, setStatuses] = useState<InterviewStatus[]>([]);
@@ -68,11 +75,17 @@ export const CandidateFilterContextProvider: FC<{ children: ReactNode }> = ({ ch
 
     const [hrFilter, setHrFitlter] = useState<string[]>(hrIds.map((id) => String(id)));
 
+    const [vacancyIds, setVacancyIds] = useState<string[]>(() => {
+        const vacancyIdParam = router.query.vacancyId;
+        return vacancyIdParam ? [String(vacancyIdParam)] : [];
+    });
+
     const clearFilters = useCallback(() => {
         setSearch(undefined);
         setStatuses([]);
         setHireStreamIds([]);
         setHrIds([]);
+        setVacancyIds([]);
     }, []);
 
     const value: CandidateFilterContext = {
@@ -94,6 +107,8 @@ export const CandidateFilterContextProvider: FC<{ children: ReactNode }> = ({ ch
         setCount,
         hireStreamIds,
         setHireStreamIds,
+        vacancyIds,
+        setVacancyIds,
     };
 
     return <candidateFilterContext.Provider value={value}>{children}</candidateFilterContext.Provider>;

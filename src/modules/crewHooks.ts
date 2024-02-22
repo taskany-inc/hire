@@ -3,6 +3,12 @@ import { trpc } from '../trpc/trpcClient';
 
 import { GetVacancyList } from './crewTypes';
 
+export const useVacancy = (vacancyId: string) => {
+    const { enqueueErrorNotification } = useNotifications();
+
+    return trpc.crew.getVacancyById.useQuery(vacancyId, { onError: enqueueErrorNotification });
+};
+
 export const useVacancies = (params: Omit<GetVacancyList, 'skip'>) => {
     const { enqueueErrorNotification } = useNotifications();
 

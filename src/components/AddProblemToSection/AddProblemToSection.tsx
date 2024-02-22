@@ -39,7 +39,7 @@ const AddProblemToSectionInner: FC<AddProblemToSectionProps> = ({ interviewId })
             <ModalPreview visible={open} onClose={() => setOpen(false)}>
                 <StyledModalHeader>
                     <Text weight="bold" color={gray10}>
-                        Add problem
+                        {tr('Add problem')}
                     </Text>
                     <StyledFiltersPanel>
                         <ProblemFilterBar embedded />

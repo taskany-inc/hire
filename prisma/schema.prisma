@@ -175,6 +175,7 @@ model Interview {
   attaches                   Attach[]
   cv                         Attach?          @relation("InterviewCV", fields: [cvId], references: [id])
   cvId                       String?          @unique
+  crewVacancyId              String?
 }
 
 model Section {

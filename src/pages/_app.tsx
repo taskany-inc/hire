@@ -14,7 +14,6 @@ import { link0 } from '@taskany/colors';
 
 import { AppSettingsContextProvider } from '../contexts/appSettingsContext';
 import { ProblemFilterContextProvider } from '../contexts/problemFilterContext';
-import { CandidateFilterContextProvider } from '../contexts/candidateFilterContext';
 import { Browser } from '../utils';
 import { trpc } from '../trpc/trpcClient';
 import { TLocale, setSSRLocale } from '../utils/getLang';
@@ -58,10 +57,8 @@ const TaskanyHireApp: FC<AppProps<TaskanyHireAppProps>> = ({ Component, pageProp
                         <AppSettingsContextProvider session={session} browserServerSide={browser}>
                             <ThemeProvider themes={['light', 'dark']}>
                                 <ProblemFilterContextProvider>
-                                    <CandidateFilterContextProvider>
-                                        <ReactQueryDevtools />
-                                        {error ? <Error {...error} /> : <Component {...restPageProps} />}
-                                    </CandidateFilterContextProvider>
+                                    <ReactQueryDevtools />
+                                    {error ? <Error {...error} /> : <Component {...restPageProps} />}
                                 </ProblemFilterContextProvider>
                             </ThemeProvider>
                         </AppSettingsContextProvider>

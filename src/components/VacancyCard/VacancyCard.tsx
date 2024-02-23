@@ -9,6 +9,9 @@ import { CardHeader } from '../CardHeader';
 import { CardContent } from '../CardContent';
 import { InlineDot } from '../InlineDot';
 import { useHireStreams } from '../../modules/hireStreamsHooks';
+import { Paths } from '../../utils/paths';
+import { Link } from '../Link';
+import config from '../../config';
 
 import { tr } from './VacancyCard.i18n';
 
@@ -33,6 +36,7 @@ export const VacancyCard = ({ vacancy, onSelect }: VacancyCardProps) => {
         <Card>
             <CardHeader
                 title={vacancy.name}
+                link={`${Paths.CANDIDATES}?vacancyId=${vacancy.id}`}
                 subTitle={
                     <>
                         {tr('Hiring manager')}: {vacancy.hiringManager.name}
@@ -60,6 +64,14 @@ export const VacancyCard = ({ vacancy, onSelect }: VacancyCardProps) => {
                     <Text color={textColor} as="span">
                         {vacancy.grade}
                     </Text>
+                </Text>
+                <Text color={gray10}>
+                    {tr('Team')}:{' '}
+                    <Link href={`${config.crew.url}/teams/${vacancy.group.id}`} target="_blank">
+                        <Text color={textColor} as="span">
+                            {vacancy.group.name}
+                        </Text>
+                    </Link>
                 </Text>
 
                 {nullable(onSelect, (cb) => (

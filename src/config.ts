@@ -64,7 +64,7 @@ export default {
     nextAuthEnabled: process.env.NEXT_AUTH_ENABLE,
     logToFileEnabled: process.env.LOG_TO_FILE_ENABLE,
     crew: {
-        url: process.env.CREW_URL,
+        url: process.env.NEXT_PUBLIC_CREW_URL,
         apiToken: process.env.CREW_API_TOKEN,
     },
 };

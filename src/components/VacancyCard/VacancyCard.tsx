@@ -53,18 +53,22 @@ export const VacancyCard = ({ vacancy, onSelect }: VacancyCardProps) => {
                 }
             />
             <CardContent>
-                <Text color={gray10}>
-                    {tr('Unit')}:{' '}
-                    <Text color={textColor} as="span">
-                        {vacancy.unit}
+                {nullable(vacancy.unit, (unit) => (
+                    <Text color={gray10}>
+                        {tr('Unit')}:{' '}
+                        <Text color={textColor} as="span">
+                            {unit}
+                        </Text>
                     </Text>
-                </Text>
-                <Text color={gray10}>
-                    {tr('Grade')}:{' '}
-                    <Text color={textColor} as="span">
-                        {vacancy.grade}
+                ))}
+                {nullable(vacancy.grade, (grade) => (
+                    <Text color={gray10}>
+                        {tr('Grade')}:{' '}
+                        <Text color={textColor} as="span">
+                            {grade}
+                        </Text>
                     </Text>
-                </Text>
+                ))}
                 <Text color={gray10}>
                     {tr('Team')}:{' '}
                     <Link href={`${config.crew.url}/teams/${vacancy.group.id}`} target="_blank">

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.28.1](https://github.com/taskany-inc/hire/compare/v0.28.0...v0.28.1) (2024-02-26)
+
+
+### Bug Fixes
+
+* add vacancy to existing interview ([8928a0a](https://github.com/taskany-inc/hire/commit/8928a0a9c1c7071351d6f50a11c5e0628fb8f9b1))
+* link from vacancy to crew group ([d13cc3f](https://github.com/taskany-inc/hire/commit/d13cc3f663a1262255b8b5ac6e8627e3a83acfca))
+
 ## [0.28.0](https://github.com/taskany-inc/hire/compare/v0.27.0...v0.28.0) (2024-02-22)
 
 

@@ -49,7 +49,7 @@
         "lodash.mapkeys": "4.6.0",
         "lodash.mapvalues": "4.6.0",
         "next": "13.4.19",
-        "next-auth": "4.24.5",
+        "next-auth": "4.24.6",
         "next-connect": "0.13.0",
         "next-superjson-plugin": "0.5.9",
         "next-themes": "0.2.1",

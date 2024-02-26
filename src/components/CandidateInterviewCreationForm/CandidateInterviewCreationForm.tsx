@@ -4,8 +4,8 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Candidate, HireStream } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { danger0, gapS, gray9, link10 } from '@taskany/colors';
-import { IconAttachOutline, IconXOutline } from '@taskany/icons';
+import { danger0, gapS, link10 } from '@taskany/colors';
+import { IconAttachOutline } from '@taskany/icons';
 import styled from 'styled-components';
 import {
     Button,
@@ -66,9 +66,6 @@ const FileInputText = styled(Text)`
 `;
 
 const VacancyWrapper = styled.div`
-    display: flex;
-    gap: ${gapS};
-    align-items: center;
     margin-left: ${gapS};
 `;
 
@@ -189,18 +186,7 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
                         )}
 
                         <VacancyWrapper>
-                            {nullable(
-                                vacancy,
-                                (v) => (
-                                    <>
-                                        <Text color={gray9} weight="bold">
-                                            {v.name}, {tr('grade')} {v.grade}, {tr('unit')} {v.unit}
-                                        </Text>
-                                        <IconXOutline size="xxs" onClick={() => setVacancy(undefined)} />
-                                    </>
-                                ),
-                                <AddVacancyToInterview onSelect={(vacancy) => setVacancy(vacancy)} />,
-                            )}
+                            <AddVacancyToInterview vacancyId={vacancy?.id} onSelect={setVacancy} />
                         </VacancyWrapper>
                     </Fieldset>
                     <FormActions flat="top">

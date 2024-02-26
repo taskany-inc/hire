@@ -1,9 +1,10 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { HireStream } from '@prisma/client';
 import styled from 'styled-components';
 import { Button, Fieldset, Form, FormAction, FormActions, FormCard } from '@taskany/bricks';
+import { gapS } from '@taskany/colors';
 
 import { pageHrefs } from '../../utils/paths';
 import { InterviewWithRelations, UpdateInterview } from '../../modules/interviewTypes';
@@ -15,6 +16,7 @@ import { CandidateNameSubtitle } from '../CandidateNameSubtitle';
 import { Stack } from '../Stack';
 import { DropdownFieldOption } from '../DropdownField';
 import { Select } from '../Select';
+import { AddVacancyToInterview } from '../AddVacancyToInterview/AddVacancyToInterview';
 
 import { tr } from './CandidateInterviewUpdateForm.i18n';
 
@@ -33,11 +35,17 @@ interface Props {
     hireStreams: HireStream[];
 }
 
+const VacancyWrapper = styled.div`
+    margin-left: ${gapS};
+`;
+
 // TODO: disable return value linting
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) {
     const router = useRouter();
     const interviewUpdateMutation = useInterviewUpdateMutation();
+
+    const [vacancyId, setVacancyId] = useState(interview.crewVacancyId);
 
     const hireStreamOptions = useMemo<DropdownFieldOption<number>[]>(
         () =>
@@ -58,12 +66,13 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
                     description,
                     candidateSelectedSectionId: candidateSelectedSectionId < 0 ? null : candidateSelectedSectionId,
                     hireStreamId,
+                    crewVacancyId: vacancyId,
                 },
             });
 
             router.push(pageHrefs.interview(interview.id));
         },
-        [interview.id, interviewUpdateMutation, router],
+        [interview.id, interviewUpdateMutation, router, vacancyId],
     );
 
     const {
@@ -107,6 +116,13 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
                             options={hireStreamOptions}
                             onChange={onHireStreamIdChange}
                         />
+
+                        <VacancyWrapper>
+                            <AddVacancyToInterview
+                                vacancyId={vacancyId}
+                                onSelect={(vacancy) => setVacancyId(vacancy?.id ?? null)}
+                            />
+                        </VacancyWrapper>
 
                         <Select
                             value={watch('candidateSelectedSectionId')}

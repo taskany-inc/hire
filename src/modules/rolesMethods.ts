@@ -5,6 +5,7 @@ import { UserRoles } from '../utils/userRoles';
 import { sectionTypeMethods } from './sectionTypeMethods';
 import {
     AddAndRemoveProblemEditorRole,
+    GetHireStreamRecruiters,
     GetUsersByHireStreamId,
     HireStreamIdAndSectionTypeAndUserId,
     HireStreamIdAndUserId,
@@ -48,6 +49,15 @@ const getUsersByHireStream = async ({ hireStreamId }: GetUsersByHireStreamId): P
         [UserRoles.RECRUITER]: recruiters,
         [UserRoles.INTERVIEWER]: sectionTypeUsers,
     };
+};
+
+const getHireStreamRecruiters = ({ id, search, take }: GetHireStreamRecruiters) => {
+    return prisma.user.findMany({
+        where: {
+            recruiterInHireStreams: { some: { id, name: { contains: search, mode: 'insensitive' } } },
+        },
+        take,
+    });
 };
 
 const addHireStreamManagerToHireStream = async ({ hireStreamId, userId }: HireStreamIdAndUserId) => {
@@ -153,6 +163,7 @@ const removeProblemEditorRole = async ({ userId }: AddAndRemoveProblemEditorRole
 export const rolesMethods = {
     getAllAdmins,
     getUsersByHireStream,
+    getHireStreamRecruiters,
     addHireStreamManagerToHireStream,
     removeHireStreamManagerFromHireStream,
     addHiringLeadToHireStream,

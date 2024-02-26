@@ -24,6 +24,7 @@ import { useSession } from '../../contexts/appSettingsContext';
 import { useCandidateFilterContext } from '../../contexts/candidateFilterContext';
 import { CandidateFilterApplied } from '../CandidateFilterApplied/CandidateFilterApplied';
 import { useVacancies } from '../../modules/crewHooks';
+import { Vacancy } from '../../modules/crewTypes';
 
 import { tr } from './CandidateFilterBar.i18n';
 
@@ -36,6 +37,17 @@ const StyledResetButton = styled(Button)`
     margin-left: auto;
     margin-right: ${gapS};
 `;
+
+const vacancyToString = (vacancy: Vacancy) => {
+    let result = vacancy.name;
+    if (vacancy.grade !== null) {
+        result += `, ${tr('grade')}: ${vacancy.grade}`;
+    }
+    if (vacancy.unit) {
+        result += `, ${tr('unit')}: ${vacancy.unit}`;
+    }
+    return result;
+};
 
 export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProps) => {
     const session = useSession();
@@ -210,7 +222,7 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
                     value={vacancyIds}
                     items={vacancies.map((vacancy) => ({
                         id: vacancy.id,
-                        name: `${vacancy.name}, ${tr('grade')}: ${vacancy.grade}, ${tr('unit')}: ${vacancy.unit}`,
+                        name: vacancyToString(vacancy),
                     }))}
                     filterCheckboxName="vacancies"
                     onChange={setVacancyIds}

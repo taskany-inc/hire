@@ -32,3 +32,10 @@ export const addAndRemoveProblemEditorRoleSchema = z.object({
     userId: z.number(),
 });
 export type AddAndRemoveProblemEditorRole = z.infer<typeof addAndRemoveProblemEditorRoleSchema>;
+
+export const getHireStreamRecruitersSchema = z.object({
+    id: z.number(),
+    search: z.string().optional(),
+    take: z.number().optional(),
+});
+export type GetHireStreamRecruiters = z.infer<typeof getHireStreamRecruitersSchema>;

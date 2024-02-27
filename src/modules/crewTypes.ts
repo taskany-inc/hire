@@ -59,3 +59,10 @@ export const getVacancyListSchema = z.object({
     cursor: z.number().optional(), // for infinite queries
 });
 export type GetVacancyList = z.infer<typeof getVacancyListSchema>;
+
+export const editVacancySchema = z.object({
+    id: z.string(),
+    unit: z.number().optional(),
+    status: z.nativeEnum(VacancyStatus).optional(),
+});
+export type EditVacancy = z.infer<typeof editVacancySchema>;

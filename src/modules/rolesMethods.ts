@@ -54,7 +54,8 @@ const getUsersByHireStream = async ({ hireStreamId }: GetUsersByHireStreamId): P
 const getHireStreamRecruiters = ({ id, search, take }: GetHireStreamRecruiters) => {
     return prisma.user.findMany({
         where: {
-            recruiterInHireStreams: { some: { id, name: { contains: search, mode: 'insensitive' } } },
+            name: { contains: search, mode: 'insensitive' },
+            recruiterInHireStreams: { some: { id } },
         },
         take,
     });

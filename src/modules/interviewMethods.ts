@@ -1,4 +1,4 @@
-import { Interview, Prisma } from '@prisma/client';
+import { Interview, InterviewStatus, Prisma } from '@prisma/client';
 import { Session } from 'next-auth';
 
 import { prisma } from '../utils/prisma';
@@ -18,6 +18,8 @@ import {
     UpdateInterview,
 } from './interviewTypes';
 import { tr } from './modules.i18n';
+import { crewMethods } from './crewMethods';
+import { VacancyStatus } from './crewTypes';
 
 const create = async (creatorId: number, data: CreateInterview): Promise<Interview> => {
     const { candidateId, hireStreamId, attachIds, cvAttachId, ...restData } = data;
@@ -154,6 +156,16 @@ const update = async ({
             : { disconnect: true };
 
     const hireStream = updateHireStreamConnection(hireStreamId);
+
+    if (data.status === InterviewStatus.HIRED) {
+        const interview = await prisma.interview.findFirstOrThrow({
+            where: { id: interviewId },
+            select: { crewVacancyId: true },
+        });
+        if (interview.crewVacancyId !== null) {
+            crewMethods.editVacancy({ id: interview.crewVacancyId, status: VacancyStatus.CLOSED });
+        }
+    }
 
     return prisma.interview.update({
         data: { ...data, candidateSelectedSection, hireStream },

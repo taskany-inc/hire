@@ -2,7 +2,7 @@ import { TRPCError } from '@trpc/server';
 
 import config from '../config';
 
-import { Vacancy, GetVacancyList } from './crewTypes';
+import { Vacancy, GetVacancyList, EditVacancy } from './crewTypes';
 
 const checkConfig = () => {
     if (!config.crew.url || !config.crew.apiToken) {
@@ -44,5 +44,18 @@ export const crewMethods = {
             body: JSON.stringify({ ...data, take, skip: cursor }),
         });
         return getDataFromResponse<{ vacancies: Vacancy[]; count: number; total: number }>(response);
+    },
+
+    editVacancy: async (data: EditVacancy) => {
+        const { url, apiToken } = checkConfig();
+        const response = await fetch(`${url}/api/rest/vacancy`, {
+            method: 'POST',
+            headers: {
+                authorization: apiToken,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+        return getDataFromResponse<Vacancy>(response);
     },
 };

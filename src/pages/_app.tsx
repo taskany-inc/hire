@@ -1,5 +1,4 @@
 import { AppProps } from 'next/app';
-import Head from 'next/head';
 import { ThemeProvider } from 'next-themes';
 import '@taskany/bricks/harmony/style.css';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -42,10 +41,6 @@ const TaskanyHireApp: FC<AppProps<TaskanyHireAppProps>> = ({ Component, pageProp
     return (
         <>
             <NextNProgress color={link0} options={{ showSpinner: false }} />
-
-            <Head>
-                <link rel="icon" href="/favicon.png" />
-            </Head>
 
             <SentryNextJs.ErrorBoundary fallback={<p>An error has occurred</p>}>
                 <SnackbarProvider

@@ -277,6 +277,8 @@ const main = async () => {
 
     const tags = await Promise.all(tagsData.map((data) => prisma.tag.create({ data })));
 
+    await prisma.appConfig.create({});
+
     const problems = await Promise.all(
         problemsData.map((data) =>
             prisma.problem.create({

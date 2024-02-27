@@ -454,3 +454,8 @@ model ApiToken {
   id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   description String
 }
+
+model AppConfig {
+  id   String  @id @default(nanoid())
+  logo String?
+}

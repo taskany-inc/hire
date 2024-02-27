@@ -107,6 +107,7 @@ export const createGetServerSideProps =
         });
 
         await ssgHelper.users.getSettings.prefetch();
+        await ssgHelper.appConfig.get.fetch();
 
         const numberIds = {} as Record<Num, number>;
         const stringIds = {} as Record<Str, string>;

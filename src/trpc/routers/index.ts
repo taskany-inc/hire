@@ -17,6 +17,7 @@ import { rolesRouter } from './rolesRouter';
 import { feedbackRouter } from './feedbackRouter';
 import { commentRouter } from './commentRouter';
 import { crewRouter } from './crewRouter';
+import { appConfigRouter } from './appConfigRouter';
 
 export const trpcRouter = router({
     analyticsQueries: analyticsQueriesRouter,
@@ -36,6 +37,7 @@ export const trpcRouter = router({
     feedback: feedbackRouter,
     comment: commentRouter,
     crew: crewRouter,
+    appConfig: appConfigRouter,
 });
 
 export type TrpcRouter = typeof trpcRouter;

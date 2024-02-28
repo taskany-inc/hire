@@ -43,7 +43,9 @@ export const LayoutMain: FC<LayoutMainProps> = ({
     children,
 }) => {
     const userSettings = trpc.users.getSettings.useQuery();
-    const config = trpc.appConfig.get.useQuery();
+    const config = trpc.appConfig.get.useQuery(undefined, {
+        staleTime: Infinity,
+    });
     const title = pageTitle ? `${pageTitle} - Taskany Hire` : 'Taskany Hire';
 
     const { resolvedTheme } = useTheme();
@@ -55,7 +57,7 @@ export const LayoutMain: FC<LayoutMainProps> = ({
         <>
             <Head>
                 <title>{title}</title>
-                <link rel="icon" href={config.data?.logo ?? '/favicon.png'} />
+                <link rel="icon" href={config.data?.favicon ?? '/favicon.png'} />
                 <link rel="stylesheet" id="themeVariables" href={`/theme/${theme}.css`} />
             </Head>
 
@@ -63,7 +65,7 @@ export const LayoutMain: FC<LayoutMainProps> = ({
 
             <GlobalStyle />
 
-            <PageHeader />
+            <PageHeader logo={config.data?.logo ?? undefined} />
             <Theme theme={theme} />
             <StyledContent>
                 {!hidePageHeader && (

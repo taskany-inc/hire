@@ -1,15 +1,11 @@
-import { TaskanyLogo } from '@taskany/bricks';
+import { TaskanyLogo } from '@taskany/bricks/harmony';
 
 import { Paths } from '../utils/paths';
 
 import { Link } from './Link';
 
-export const PageHeaderLogo: React.FC = () => {
-    // TODO: resolve custom logo from settings in db
-
-    return (
-        <Link href={Paths.HOME}>
-            <TaskanyLogo />
-        </Link>
-    );
-};
+export const PageHeaderLogo: React.FC<{ logo?: string }> = ({ logo }) => (
+    <Link href={Paths.HOME}>
+        <TaskanyLogo src={logo} />
+    </Link>
+);

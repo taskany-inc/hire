@@ -456,6 +456,7 @@ model ApiToken {
 }
 
 model AppConfig {
-  id   String  @id @default(nanoid())
-  logo String?
+  id      String  @id @default(cuid())
+  favicon String?
+  logo    String?
 }

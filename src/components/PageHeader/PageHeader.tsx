@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { ComponentProps, useMemo, useRef, useState } from 'react';
 import NextLink from 'next/link';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
@@ -36,7 +36,7 @@ const StyledHeaderNav = styled(HeaderNav)`
     align-items: center;
 `;
 
-export const PageHeader: React.FC = () => {
+export const PageHeader: React.FC<{ logo?: ComponentProps<typeof PageHeaderLogo>['logo'] }> = ({ logo }) => {
     const { entityListMenuItems, entityCreationMenuItems } = useHeaderMenu();
     const router = useRouter();
     const session = useSession();
@@ -87,7 +87,7 @@ export const PageHeader: React.FC = () => {
         <Header
             logo={
                 <HeaderLogo>
-                    <PageHeaderLogo />
+                    <PageHeaderLogo logo={logo} />
                 </HeaderLogo>
             }
             menu={

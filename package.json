@@ -1,6 +1,6 @@
 {
     "name": "@taskany/hire",
-    "version": "0.29.0",
+    "version": "0.30.0",
     "private": true,
     "scripts": {
         "dev": "npm run build:css && next dev",

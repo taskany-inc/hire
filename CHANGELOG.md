@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.30.0](https://github.com/taskany-inc/hire/compare/v0.29.0...v0.30.0) (2024-02-28)
+
+
+### Features
+
+* close vacancy on hire ([56aec40](https://github.com/taskany-inc/hire/commit/56aec40c1f756805f6a0fe253af15d9659df0a8d))
+
+
+### Bug Fixes
+
+* **MarkdownRenderer:** lower the case of detected language ([6c92cea](https://github.com/taskany-inc/hire/commit/6c92cea12a31f8ec6d9572fcb5e842f1beff5112))
+
 ## [0.29.0](https://github.com/taskany-inc/hire/compare/v0.28.0...v0.29.0) (2024-02-26)
 
 

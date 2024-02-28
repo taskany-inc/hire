@@ -60,7 +60,7 @@ export const MarkdownRenderer: VFC<MarkdownRendererProps> = ({
                                     style={vscDarkPlus}
                                     wrapLongLines
                                     showLineNumbers={!isSafari}
-                                    language={match[1]}
+                                    language={match[1].toLowerCase()}
                                 >
                                     {String(children).replace(/\n$/, '')}
                                 </SyntaxHighlighter>

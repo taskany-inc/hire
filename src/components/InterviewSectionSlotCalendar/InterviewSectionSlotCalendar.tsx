@@ -396,9 +396,7 @@ export function InterviewSectionSlotCalendar(props: Props) {
     return (
         <>
             <SlotCalendar
-                isLoading={
-                    eventCreateMutation.isLoading || eventUpdateMutation.isLoading || eventRemoveEventMutation.isLoading
-                }
+                isLoading={isLoading}
                 creatorIds={interviewerIds ?? (user?.id ? [user.id] : [])}
                 selectable
                 resizable
@@ -452,6 +450,7 @@ export function InterviewSectionSlotCalendar(props: Props) {
                             isNew={!eventForm.eventId}
                             deleteButtonText={eventForm?.eventId && tr('Delete')}
                             onDeleteButton={handleRemove}
+                            deleteButtonDisabled={eventRemoveEventMutation.isLoading}
                         />
                     )}
                 </ModalContent>

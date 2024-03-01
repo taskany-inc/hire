@@ -1,6 +1,6 @@
 import { addMinutes, differenceInMinutes, startOfDay } from 'date-fns';
 import { PrismaPromise, User } from '@prisma/client';
-import { ICalCalendarMethod, ICalEventStatus } from 'ical-generator';
+import { ICalCalendarMethod } from 'ical-generator';
 import { RRule } from 'rrule';
 
 import { prisma } from '../utils/prisma';
@@ -221,7 +221,7 @@ async function splitEventSeries(params: UpdateCalendarEvent, user: User): Promis
         description: oldEvent.eventDetails.description,
         summary: oldEvent.eventDetails.title,
         rule: oldRRule.options.freq,
-        exclude: oldExclude,
+        exclude: oldExclude.length ? oldExclude : undefined,
         until: getDateBeforeDay(originalDate),
         sequence: sequence + 1,
     });
@@ -242,7 +242,7 @@ async function splitEventSeries(params: UpdateCalendarEvent, user: User): Promis
         description: newEvent.eventDetails.description,
         summary: newEvent.eventDetails.title,
         rule: newRRule.options.freq,
-        exclude: newExclude,
+        exclude: newExclude.length ? newExclude : undefined,
         until: newRRule.options.until || undefined,
     });
 
@@ -255,6 +255,7 @@ async function splitEventSeries(params: UpdateCalendarEvent, user: User): Promis
             events: [icalEventDataOldEvent],
         }),
     });
+
     await sendMail({
         to: user.email,
         subject: newEvent.eventDetails.title,
@@ -427,7 +428,7 @@ async function stopEventSeries(eventId: string, originalDate: Date, user: User):
         description: eventDetails.description,
         summary: eventDetails.title,
         rule: rRule.options.freq,
-        exclude,
+        exclude: exclude.length ? exclude : undefined,
         until: getDateBeforeDay(originalDate),
         sequence,
     });
@@ -463,7 +464,6 @@ async function cancelEventException(eventId: string, exceptionId: string, user: 
         duration: restException.eventDetails.duration,
         summary: restException.eventDetails.title,
         sequence: sequence + 1,
-        status: ICalEventStatus.CANCELLED,
     });
 
     await sendMail({
@@ -471,14 +471,14 @@ async function cancelEventException(eventId: string, exceptionId: string, user: 
         subject: restException.eventDetails.title,
         text: '',
         icalEvent: calendarEvents({
-            method: ICalCalendarMethod.REQUEST,
+            method: ICalCalendarMethod.CANCEL,
             events: [icalEventDataException],
         }),
     });
 }
 
 async function createEventCancellation(eventId: string, originalDate: Date, user: User): Promise<void> {
-    const canceletion = await calendarMethods.createEventCancellation({
+    await calendarMethods.createEventCancellation({
         originalDate,
         event: {
             connect: { id: eventId },
@@ -508,16 +508,6 @@ async function createEventCancellation(eventId: string, originalDate: Date, user
         sequence,
     });
 
-    const icalEventDataCanceletion = createIcalEventData({
-        id: canceletion.id,
-        users: [userOfEvent(user, creator)],
-        start: originalDate,
-        description: eventDetails.description,
-        duration: eventDetails.duration,
-        summary: eventDetails.title,
-        status: ICalEventStatus.CANCELLED,
-    });
-
     await sendMail({
         to: user.email,
         subject: eventDetails.title,
@@ -525,16 +515,6 @@ async function createEventCancellation(eventId: string, originalDate: Date, user
         icalEvent: calendarEvents({
             method: ICalCalendarMethod.REQUEST,
             events: [icalEventDataUpdateEvent],
-        }),
-    });
-
-    await sendMail({
-        to: user.email,
-        subject: eventDetails.title,
-        text: '',
-        icalEvent: calendarEvents({
-            method: ICalCalendarMethod.REQUEST,
-            events: [icalEventDataCanceletion],
         }),
     });
 }
@@ -552,7 +532,6 @@ async function removeEventSeries(eventId: string, user: User): Promise<void> {
         description: eventDetails.description,
         duration: eventDetails.duration,
         summary: eventDetails.title,
-        status: ICalEventStatus.CANCELLED,
         sequence,
     });
 
@@ -561,7 +540,7 @@ async function removeEventSeries(eventId: string, user: User): Promise<void> {
         subject: eventDetails.title,
         text: '',
         icalEvent: calendarEvents({
-            method: ICalCalendarMethod.REQUEST,
+            method: ICalCalendarMethod.CANCEL,
             events: [icalEventDataSeriesRemove],
         }),
     });

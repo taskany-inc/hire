@@ -27,6 +27,7 @@ interface CalendarEventFormProps {
     isNew: boolean;
     onDeleteButton?: () => void;
     deleteButtonText?: string;
+    deleteButtonDisabled?: boolean;
 }
 
 const repeatOptions: DropdownFieldOption<EventRepeatMode>[] = [
@@ -43,6 +44,7 @@ export function CalendarEventForm({
     isNew,
     onDeleteButton,
     deleteButtonText,
+    deleteButtonDisabled,
 }: CalendarEventFormProps) {
     const {
         handleSubmit,
@@ -115,6 +117,7 @@ export function CalendarEventForm({
                                 view="danger"
                                 size="m"
                                 outline
+                                disabled={deleteButtonDisabled}
                             />
                         )}
                         <Button

@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.31.0](https://github.com/taskany-inc/hire/compare/v0.30.0...v0.31.0) (2024-03-04)
+
+
+### Features
+
+* config logo ([e5122bb](https://github.com/taskany-inc/hire/commit/e5122bb645a74ea1c33f4699c374ca37bf23e938))
+* updated crew vacancy types ([7ef696b](https://github.com/taskany-inc/hire/commit/7ef696ba554f0653af922dd86f3ef49cf553c0c0))
+
+
+### Bug Fixes
+
+* ical events update and cancellation fix ([170598c](https://github.com/taskany-inc/hire/commit/170598ca37aaf440677d2ed52d71fa7998fd1f4c))
+
 ## [0.30.0](https://github.com/taskany-inc/hire/compare/v0.29.0...v0.30.0) (2024-02-28)
 
 

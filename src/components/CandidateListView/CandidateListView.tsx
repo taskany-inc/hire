@@ -1,32 +1,20 @@
-import { FC, useCallback, useEffect, useRef } from 'react';
+import { FC, useCallback, useRef } from 'react';
 import { Text } from '@taskany/bricks';
 
 import { useCandidates } from '../../modules/candidateHooks';
-import { useCandidateFilterContext } from '../../contexts/candidateFilterContext';
 import { Stack } from '../Stack';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { CandidateCard } from '../CandidateCard/CandidateCard';
+import {
+    candidateFilterValuesToRequestData,
+    useCandidateFilterUrlParams,
+} from '../../hooks/useCandidateFilterUrlParams';
 
 import { tr } from './CandidateListView.i18n';
 
 export const CandidateListView: FC = () => {
-    const { debouncedSearch, statuses, hireStreamIds, hrIds, vacancyIds, setCount, setTotal } =
-        useCandidateFilterContext();
-    const candidatesQuery = useCandidates({
-        search: debouncedSearch,
-        statuses,
-        hireStreamIds,
-        hrIds,
-        vacancyIds,
-        limit: 20,
-    });
-
-    useEffect(() => {
-        if (candidatesQuery.data?.pages[0]) {
-            setTotal(candidatesQuery.data.pages[0].total);
-            setCount(candidatesQuery.data.pages[0].count || 0);
-        }
-    }, [setTotal, setCount, candidatesQuery]);
+    const { values } = useCandidateFilterUrlParams();
+    const candidatesQuery = useCandidates(candidateFilterValuesToRequestData(values));
 
     const { isFetching, hasNextPage, fetchNextPage } = candidatesQuery;
 

@@ -10,7 +10,7 @@ import { tr } from './CandidateFilterApplied.i18n';
 
 type ProblemFilterAppliedProps = {
     hireStreams?: { id: number; name: string }[];
-    hireStreamIds?: string[];
+    hireStreamIds?: number[];
     interviewStatuses?: string[];
     hrs?: User[];
     hrIds?: number[];
@@ -39,7 +39,7 @@ export const CandidateFilterApplied = ({
                 result +
                 tr('Hire streams: ') +
                 hireStreams
-                    .filter((hireStream) => hireStreamIds?.includes(String(hireStream.id)))
+                    .filter((hireStream) => hireStreamIds?.includes(hireStream.id))
                     .map((t) => t.name)
                     .join(', ')
             }. `;

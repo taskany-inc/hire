@@ -1,8 +1,8 @@
-import { protectedProcedure, router } from '../trpcBackend';
+import { publicProcedure, router } from '../trpcBackend';
 import { appConfigMethods } from '../../modules/appConfigMethods';
 
 export const appConfigRouter = router({
-    get: protectedProcedure.query(() => {
+    get: publicProcedure.query(() => {
         return appConfigMethods.get();
     }),
 });

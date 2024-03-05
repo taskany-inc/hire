@@ -1,5 +1,5 @@
 import { InterviewStatus } from '@prisma/client';
-import React, { ReactNode, useCallback, useRef, useState } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 import {
     FiltersMenuContainer,
     FiltersCounter,
@@ -21,10 +21,14 @@ import { Filter } from '../Filter';
 import { trpc } from '../../trpc/trpcClient';
 import { suggestionsTake, useQueryOptions } from '../../utils/suggestions';
 import { useSession } from '../../contexts/appSettingsContext';
-import { useCandidateFilterContext } from '../../contexts/candidateFilterContext';
 import { CandidateFilterApplied } from '../CandidateFilterApplied/CandidateFilterApplied';
 import { useVacancies } from '../../modules/crewHooks';
 import { Vacancy } from '../../modules/crewTypes';
+import {
+    useCandidateFilterUrlParams,
+    candidateFilterValuesToRequestData,
+} from '../../hooks/useCandidateFilterUrlParams';
+import { useCandidates } from '../../modules/candidateHooks';
 
 import { tr } from './CandidateFilterBar.i18n';
 
@@ -54,59 +58,40 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
     const filterNodeRef = useRef<HTMLSpanElement>(null);
     const [filterVisible, setFilterVisible] = useState(false);
 
-    const {
-        setSearch,
-        statuses,
-        setStatuses,
-        hireStreamFilter,
-        setHireStreamFilter,
-        setHireStreamIds,
-        clearFilters,
-        hrIds,
-        setHrIds,
-        hrFilter,
-        setHrFitlter,
-        vacancyIds,
-        setVacancyIds,
-        total,
-        count,
-    } = useCandidateFilterContext();
+    const { values, setter, clearParams, setSearch } = useCandidateFilterUrlParams();
 
     const [hrQuery, setHrQuery] = useState<string>('');
 
     const interviewStatuses = mapEnum(InterviewStatus, (key) => key);
 
-    const [interviewStatusFilter, setInterviewStatusFilter] = useState<string[]>(statuses || []);
+    const [interviewStatusLocal, setInterviewStatusLocal] = useState<string[] | undefined>(values.statuses);
+
+    const [hrIdsLocal, setHrIdsLocal] = useState(values.hrIds);
+
+    const [hireStreamIdsLocal, setHireStreamIdsLocal] = useState(values.hireStreamIds);
+
+    const [vacancyIdsLocal, setVacancyIdsLocal] = useState(values.vacancyIds);
 
     const [hireStreamQuery, setHireStreamQuery] = useState('');
 
     const [vacancyQuery, setVacancyQuery] = useState<string>('');
 
-    const isFiltersEmpty = !statuses && !hireStreamFilter.length && !hrIds.length;
-    const onApplyClick = useCallback(() => {
+    const isFiltersEmpty =
+        !values.statuses && !values.hireStreamIds?.length && !values.hrIds?.length && !values.vacancyIds?.length;
+
+    const onApplyClick = () => {
         setFilterVisible(false);
         setHireStreamQuery('');
         setHrQuery('');
         setVacancyQuery('');
-
-        setStatuses(interviewStatusFilter as InterviewStatus[]);
-        setHireStreamIds(hireStreamFilter.map((hireStream) => Number(hireStream)));
-
-        setHrIds(hrFilter.map((id) => Number(id)));
-    }, [
-        setFilterVisible,
-        hrFilter,
-        setHrIds,
-        setHrQuery,
-        setHireStreamQuery,
-        setStatuses,
-        interviewStatusFilter,
-        setHireStreamIds,
-        hireStreamFilter,
-    ]);
+        setter('statuses', interviewStatusLocal);
+        setter('hireStreamIds', hireStreamIdsLocal);
+        setter('hrIds', hrIdsLocal);
+        setter('vacancyIds', vacancyIdsLocal);
+    };
 
     const { data: hireStreams = [] } = trpc.hireStreams.suggestions.useQuery(
-        { query: hireStreamQuery, take: suggestionsTake, include: hireStreamFilter.map((id) => Number(id)) },
+        { query: hireStreamQuery, take: suggestionsTake, include: values.hireStreamIds },
         useQueryOptions,
     );
     const { data: hrs = [] } = trpc.users.suggestions.useQuery(
@@ -114,9 +99,7 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
             query: hrQuery,
             hr: true,
             take: suggestionsTake - 1,
-            include: session
-                ? [session.user.id, ...hrFilter.map((id) => Number(id))]
-                : hrFilter.map((id) => Number(id)),
+            include: session ? [session.user.id, ...(values.hrIds ?? [])] : values.hrIds,
         },
         useQueryOptions,
     );
@@ -128,21 +111,31 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
         setHireStreamQuery('');
         setHrQuery('');
         setVacancyQuery('');
-        setHireStreamFilter([]);
-        setInterviewStatusFilter([]);
-        setHrFitlter([]);
-        clearFilters();
+        setInterviewStatusLocal([]);
+        setHrIdsLocal([]);
+        setHireStreamIdsLocal([]);
+        setVacancyIdsLocal([]);
+        clearParams();
     };
+
+    const candidatesQuery = useCandidates(candidateFilterValuesToRequestData(values));
 
     return (
         <>
             <FiltersPanelContainer loading={loading}>
                 <FiltersPanelContent>
                     <FiltersSearchContainer>
-                        <Input placeholder={tr('Search')} onChange={(e) => setSearch(e.target.value)} />
+                        <Input
+                            placeholder={tr('Search')}
+                            defaultValue={values.search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
                     </FiltersSearchContainer>
                     <FiltersCounterContainer>
-                        <FiltersCounter total={total} counter={count} />
+                        <FiltersCounter
+                            total={candidatesQuery.data?.pages[0].total ?? 0}
+                            counter={candidatesQuery.data?.pages[0].count}
+                        />
                     </FiltersCounterContainer>
                     <FiltersMenuContainer>
                         <FiltersMenuItem
@@ -160,12 +153,12 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
             {nullable(!isFiltersEmpty, () => (
                 <CandidateFilterApplied
                     hrs={hrs}
-                    hrIds={hrIds}
-                    interviewStatuses={interviewStatusFilter}
+                    hrIds={values.hrIds}
+                    interviewStatuses={interviewStatusLocal}
                     hireStreams={hireStreams}
-                    hireStreamIds={hireStreamFilter}
+                    hireStreamIds={values.hireStreamIds}
                     vacancies={vacancies}
-                    vacancyIds={vacancyIds}
+                    vacancyIds={values.vacancyIds}
                 />
             ))}
             <FilterPopup
@@ -180,10 +173,10 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
                 <Filter
                     tabName="interviewStatus"
                     label={tr('Interview status')}
-                    value={interviewStatusFilter}
+                    value={interviewStatusLocal}
                     items={interviewStatuses.map((status) => ({ id: status, name: status }))}
                     filterCheckboxName="interviewStatus"
-                    onChange={setInterviewStatusFilter}
+                    onChange={setInterviewStatusLocal}
                     viewMode="union"
                 />
                 <Filter
@@ -191,10 +184,10 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
                     tabName="hireStream"
                     label={tr('Hire streams')}
                     placeholder={tr('Search')}
-                    value={hireStreamFilter}
+                    value={hireStreamIdsLocal?.map((i) => String(i))}
                     items={hireStreams.map((tag) => ({ id: String(tag.id), name: tag.name }))}
                     filterCheckboxName="hireStream"
-                    onChange={setHireStreamFilter}
+                    onChange={(v) => setHireStreamIdsLocal(v.map(Number))}
                     onSearchChange={setHireStreamQuery}
                     viewMode="split"
                 />
@@ -203,14 +196,14 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
                     tabName="hrs"
                     label={tr("HR's")}
                     placeholder={tr('Search')}
-                    value={hrFilter}
+                    value={hrIdsLocal?.map((i) => String(i))}
                     items={hrs.map((hr) => ({
                         id: String(hr.id),
                         name: `${hr.name || hr.email} ${hr.id === session?.user.id ? tr('(You)') : ''}`,
                         email: hr.email,
                     }))}
                     filterCheckboxName="hrs"
-                    onChange={setHrFitlter}
+                    onChange={(v) => setHrIdsLocal(v.map(Number))}
                     onSearchChange={setHrQuery}
                     viewMode="split"
                 />
@@ -219,13 +212,13 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
                     tabName="vacancies"
                     label={tr('Vacancies')}
                     placeholder={tr('Search')}
-                    value={vacancyIds}
+                    value={vacancyIdsLocal}
                     items={vacancies.map((vacancy) => ({
                         id: vacancy.id,
                         name: vacancyToString(vacancy),
                     }))}
                     filterCheckboxName="vacancies"
-                    onChange={setVacancyIds}
+                    onChange={(v) => setVacancyIdsLocal(v)}
                     onSearchChange={setVacancyQuery}
                     viewMode="split"
                 />

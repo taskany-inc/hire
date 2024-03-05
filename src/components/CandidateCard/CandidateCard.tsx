@@ -4,7 +4,6 @@ import { gray10 } from '@taskany/colors';
 
 import { generatePath, Paths } from '../../utils/paths';
 import { CandidateWithVendorAndInterviewWithSectionsRelations } from '../../modules/candidateTypes';
-import { useCandidateFilterContext } from '../../contexts/candidateFilterContext';
 import { InterviewWithHireStreamRelation } from '../../modules/interviewTypes';
 import { useSession } from '../../contexts/appSettingsContext';
 import { accessChecks } from '../../modules/accessChecks';
@@ -15,6 +14,7 @@ import { CardHeader } from '../CardHeader';
 import { Card } from '../Card';
 import { Stack } from '../Stack';
 import { CardContent } from '../CardContent';
+import { useCandidateFilterUrlParams } from '../../hooks/useCandidateFilterUrlParams';
 
 import { tr } from './CandidateCard.i18n';
 
@@ -29,7 +29,7 @@ export const CandidateCard: React.FC<Props> = ({ candidate }) => {
             ? generatePath(Paths.CANDIDATE, { candidateId: candidate.id })
             : undefined;
 
-    const { setStatuses, setHireStreamIds } = useCandidateFilterContext();
+    const { setter } = useCandidateFilterUrlParams();
 
     const lastInterview = useMemo<InterviewWithHireStreamRelation | undefined>(() => {
         const { interviews } = candidate;
@@ -46,13 +46,13 @@ export const CandidateCard: React.FC<Props> = ({ candidate }) => {
                     <>
                         <InterviewHireBadge
                             status={lastInterview?.status}
-                            onClick={() => lastInterview?.status && setStatuses([lastInterview?.status])}
+                            onClick={() => lastInterview?.status && setter('statuses', [lastInterview?.status])}
                         />
                         {lastInterview?.hireStream?.name && (
                             <TagChip
                                 tag={lastInterview?.hireStream}
                                 onClick={() =>
-                                    lastInterview.hireStream && setHireStreamIds([lastInterview.hireStream.id])
+                                    lastInterview.hireStream && setter('hireStreamIds', [lastInterview.hireStream.id])
                                 }
                             />
                         )}

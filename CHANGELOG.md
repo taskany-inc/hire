@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.32.0](https://github.com/taskany-inc/hire/compare/v0.31.0...v0.32.0) (2024-03-06)
+
+
+### Features
+
+* candidate filter through url params ([d3a5ee1](https://github.com/taskany-inc/hire/commit/d3a5ee13ddc0e3cee5f84d335cda850fa3b8c595))
+* use eslint rules prefer-interface ([63e66c8](https://github.com/taskany-inc/hire/commit/63e66c8115488c5a0110058d11658a0529056f99))
+
 ## [0.31.0](https://github.com/taskany-inc/hire/compare/v0.30.0...v0.31.0) (2024-03-04)
 
 

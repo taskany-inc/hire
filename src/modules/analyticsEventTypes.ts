@@ -1,16 +1,16 @@
-type CandidateCreated = {
+interface CandidateCreated {
     event: 'candidate_created';
     candidateId: number;
-};
+}
 
-type InterviewCreated = {
+interface InterviewCreated {
     event: 'interview_created';
     candidateId: number;
     recruiterId: number;
     hireStream: string;
-};
+}
 
-type CandidateFinishedSection = {
+interface CandidateFinishedSection {
     event: 'candidate_finished_section';
     candidateId: number;
     interviewId: number;
@@ -20,16 +20,16 @@ type CandidateFinishedSection = {
     hireStream: string;
     hire: boolean;
     grade?: string;
-};
+}
 
-type CandidateFinishedInterview = {
+interface CandidateFinishedInterview {
     event: 'candidate_finished_interview';
     interviewId: number;
     candidateId: number;
     hireStream: string;
     hire: boolean;
     rejectReason?: string;
-};
+}
 
 export type AnalyticsEventData =
     | CandidateCreated

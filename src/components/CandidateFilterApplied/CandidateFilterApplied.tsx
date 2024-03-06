@@ -8,7 +8,7 @@ import { Vacancy } from '../../modules/crewTypes';
 
 import { tr } from './CandidateFilterApplied.i18n';
 
-type ProblemFilterAppliedProps = {
+interface ProblemFilterAppliedProps {
     hireStreams?: { id: number; name: string }[];
     hireStreamIds?: number[];
     interviewStatuses?: string[];
@@ -16,7 +16,7 @@ type ProblemFilterAppliedProps = {
     hrIds?: number[];
     vacancies?: Vacancy[];
     vacancyIds?: string[];
-};
+}
 
 const StyledApplied = styled(FiltersApplied)`
     position: absolute;

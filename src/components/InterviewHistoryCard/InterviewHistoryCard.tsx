@@ -16,9 +16,9 @@ import { useDistanceDate } from '../../hooks/useDateFormat';
 
 import { tr } from './InterviewHistoryCard.i18n';
 
-type InterviewHistoryCardProps = {
+interface InterviewHistoryCardProps {
     interviewChangeEvent: InterviewEventWithRelations;
-};
+}
 
 const Card = styled.div`
     border: solid 1px ${gray9};

@@ -1,11 +1,11 @@
 import { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 
-type isUnavailableContaineProps = {
+interface isUnavailableContaineProps {
     isUnavailable?: boolean;
     link: ReactNode;
     children?: ReactNode;
-};
+}
 
 const StyledUnavaliableContainer = styled.div`
     position: relative;

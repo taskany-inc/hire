@@ -24,7 +24,7 @@ export const roleToLabel = (role: UserRoles): string => {
     }[role];
 };
 
-export type UserRolesInfo = {
+export interface UserRolesInfo {
     [UserRoles.ADMIN]: boolean;
     [UserRoles.PROBLEM_EDITOR]: boolean;
     [UserRoles.HIRE_STREAM_MANAGER]: HireStream[];
@@ -35,4 +35,4 @@ export type UserRolesInfo = {
     hasRecruiterRoles: boolean;
     [UserRoles.INTERVIEWER]: SectionTypeWithHireStream[];
     hasInterviewerRoles: boolean;
-};
+}

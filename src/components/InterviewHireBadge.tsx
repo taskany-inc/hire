@@ -5,10 +5,10 @@ import { Badge } from '@taskany/bricks';
 import { TagPaletteColor } from '../utils/tagPalette';
 import { interviewStatusLabels } from '../utils/dictionaries';
 
-type InterviewHireBadgeProps = {
+interface InterviewHireBadgeProps {
     status?: InterviewStatus;
     onClick?: () => void;
-};
+}
 
 export const InterviewHireBadge: VFC<InterviewHireBadgeProps> = ({ status, onClick }) => {
     if (!status) {

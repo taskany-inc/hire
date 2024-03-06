@@ -6,10 +6,10 @@ import config from '../config';
 
 import { Link } from './Link';
 
-type ExternalUserLinkProps = {
+interface ExternalUserLinkProps {
     user: User;
     style?: CSSProperties;
-};
+}
 
 export const ExternalUserLink = ({ user, style }: ExternalUserLinkProps) => {
     const userByEmailLink = `${config.sourceUsers.userByEmailLink}/${user.email}`;

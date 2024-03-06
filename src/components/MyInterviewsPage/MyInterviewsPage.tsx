@@ -4,10 +4,10 @@ import { SectionList } from '../SectionList/SectionList';
 
 import { tr } from './MyInterviewsPage.i18n';
 
-export type MyInterviewsPageProps = {
+export interface MyInterviewsPageProps {
     onGoingSections: SectionWithInterviewRelation[];
     completedSections: SectionWithInterviewRelation[];
-};
+}
 
 const MyInterviewsPage = ({ onGoingSections, completedSections }: MyInterviewsPageProps) => {
     return (

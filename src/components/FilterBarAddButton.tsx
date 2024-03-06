@@ -3,10 +3,10 @@ import { Button } from '@taskany/bricks';
 
 import { Link } from './Link';
 
-type FilterBarAddButtonProps = {
+interface FilterBarAddButtonProps {
     link: string;
     text: string;
-};
+}
 
 export const FilterBarAddButton: VFC<FilterBarAddButtonProps> = ({ link, text }) => {
     return (

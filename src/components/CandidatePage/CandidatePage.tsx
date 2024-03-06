@@ -12,12 +12,12 @@ import { CandidateView } from '../CandidateView/CandidateView';
 
 import { tr } from './CandidatePage.i18n';
 
-export type CandidatePageProps = {
+export interface CandidatePageProps {
     numberIds: Record<'candidateId', number>;
     isShowAddButton: boolean;
     canEditCandidate: boolean;
     hasAccessToDelete: boolean;
-};
+}
 
 const CandidatePage = ({ numberIds, isShowAddButton, canEditCandidate, hasAccessToDelete }: CandidatePageProps) => {
     const router = useRouter();

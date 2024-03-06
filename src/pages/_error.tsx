@@ -3,10 +3,10 @@ import type { NextPage, NextPageContext } from 'next';
 
 import { LayoutMain } from '../components/LayoutMain';
 
-export type ErrorProps = {
+export interface ErrorProps {
     statusCode: number;
     message: string;
-};
+}
 
 const CustomErrorComponent: NextPage<ErrorProps> = ({ message }: ErrorProps) => {
     return (

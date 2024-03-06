@@ -5,12 +5,12 @@ import { ErrorWithStatus } from '../utils';
 
 import { tr } from './modules.i18n';
 
-export type User = {
+export interface User {
     _id: string;
     email: string;
     additionalEmails: string[];
     fullName: string;
-};
+}
 
 const base = {
     baseURL: config.sourceUsers.sourceOfUsersUrl,

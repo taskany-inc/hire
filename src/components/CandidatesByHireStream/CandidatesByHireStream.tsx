@@ -10,9 +10,9 @@ import { QueryResolver } from '../QueryResolver/QueryResolver';
 
 import { tr } from './CandidatesByHireStream.i18n';
 
-type CandidatesByHireStreamProps = {
+interface CandidatesByHireStreamProps {
     allStreams: HireStream[];
-};
+}
 
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, value, hirestream }: any) => {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;

@@ -33,14 +33,14 @@ const schema = z
         }),
     );
 
-type HireOrRejectConfirmationProps = {
+interface HireOrRejectConfirmationProps {
     interviewId: number;
     status: InterviewStatus;
     isOpen: boolean;
     onClose: () => void;
     onSubmitSuccessful?: (status: InterviewStatus) => Promise<void>;
     rejectReasons: RejectReason[];
-};
+}
 
 export const HireOrRejectConfirmation = ({
     interviewId,

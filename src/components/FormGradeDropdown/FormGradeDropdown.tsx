@@ -6,7 +6,7 @@ import { useGradeOptions } from '../../modules/gradesHooks';
 
 import { tr } from './FormGradeDropdown.i18n';
 
-type FormGradeDropdownProps = {
+interface FormGradeDropdownProps {
     text: React.ComponentProps<typeof Dropdown>['text'];
     value?: string[] | null;
     disabled?: React.ComponentProps<typeof Dropdown>['disabled'];
@@ -14,7 +14,7 @@ type FormGradeDropdownProps = {
     className?: string;
 
     onChange?: (priority: Grades) => void;
-};
+}
 
 const separator = ', ';
 

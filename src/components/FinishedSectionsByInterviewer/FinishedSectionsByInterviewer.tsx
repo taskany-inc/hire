@@ -10,9 +10,9 @@ import { QueryResolver } from '../QueryResolver/QueryResolver';
 
 import { tr } from './FinishedSectionsByInterviewer.i18n';
 
-type FinishedSectionsByInterviewerProps = {
+interface FinishedSectionsByInterviewerProps {
     allStreams: HireStream[];
-};
+}
 
 const Chart = ({ data }: { data: FinishedSectionsByInterviewerOutput }) => {
     return (

@@ -6,13 +6,13 @@ import styled from 'styled-components';
 
 import { tr } from './ProblemFilterApplied.i18n';
 
-type ProblemFilterAppliedProps = {
+interface ProblemFilterAppliedProps {
     authors?: User[];
     authorIds?: number[];
     difficulty?: ProblemDifficulty[];
     tags?: Tag[];
     tagIds?: number[];
-};
+}
 
 const StyledApplied = styled(FiltersApplied)`
     position: absolute;

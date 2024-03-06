@@ -24,20 +24,20 @@ import { SwitchSolutionsOrderButton } from '../SwitchSolutionOrderButton';
 
 import { tr } from './SolutionCard.i18n';
 
-type SolutionCardProps = {
+interface SolutionCardProps {
     solution: SolutionWithRelations;
     interviewId: number;
     isEditable: boolean;
     goUp?: () => Promise<void>;
     goDown?: () => Promise<void>;
     isSwitchOrderDisabled: boolean;
-};
+}
 
-type ResultButtonProps = {
+interface ResultButtonProps {
     result: SolutionResult;
     onClick: () => void;
     style?: CSSProperties;
-};
+}
 
 const StyledHeaderWrapper = styled.div`
     display: flex;

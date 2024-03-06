@@ -41,10 +41,10 @@ const StyledErrorText = styled(Text)`
     margin-left: ${gapS};
 `;
 
-type AddOrUpdateProblemProps = {
+interface AddOrUpdateProblemProps {
     variant: 'new' | 'update';
     initialValues?: AddOrUpdateProblemInitialValues;
-};
+}
 
 const schema = z.object({
     description: z.string({ required_error: tr('Obligatory field') }),

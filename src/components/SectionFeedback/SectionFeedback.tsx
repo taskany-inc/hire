@@ -26,11 +26,11 @@ import { SectionAttach } from '../SectionAttach/SectionAttach';
 
 import { tr } from './SectionFeedback.i18n';
 
-type SectionFeedbackProps = {
+interface SectionFeedbackProps {
     section: SectionWithRelationsAndResults;
     isEditable: boolean;
     candidateId: number;
-};
+}
 
 const StyledErrorText = styled(Text)`
     padding: ${gapS};

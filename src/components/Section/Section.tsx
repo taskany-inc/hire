@@ -21,9 +21,9 @@ import { SectionCancelationConfirmation } from '../SectionCancelationConfirmatio
 
 import { tr } from './Section.i18n';
 
-type SectionProps = {
+interface SectionProps {
     section: SectionWithRelationsAndResults;
-};
+}
 
 export const Section = ({ section }: SectionProps): JSX.Element => {
     const router = useRouter();

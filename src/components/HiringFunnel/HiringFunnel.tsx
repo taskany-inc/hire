@@ -9,9 +9,9 @@ import { QueryResolver } from '../QueryResolver/QueryResolver';
 
 import { tr } from './HiringFunnel.i18n';
 
-type HiringFunnelProps = {
+interface HiringFunnelProps {
     allStreams: HireStream[];
-};
+}
 
 export const HiringFunnel = ({ allStreams }: HiringFunnelProps) => {
     const { startDate, endDate, hireStreams: choosenStreams } = useAnalyticsFilterContext();

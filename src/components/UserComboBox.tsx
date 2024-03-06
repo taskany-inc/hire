@@ -3,14 +3,14 @@ import React, { ChangeEvent, Dispatch, SetStateAction, useCallback, useState } f
 import { User } from '@prisma/client';
 import styled from 'styled-components';
 
-type UserComboBoxProps = {
+interface UserComboBoxProps {
     placeholder?: string;
     onChange?: (user: User) => void;
     disabled?: boolean;
     setInputValue?: Dispatch<SetStateAction<string>>;
     items?: User[];
     value?: User;
-};
+}
 
 const StyledComboBox = styled(ComboBox)`
     width: fit-content;

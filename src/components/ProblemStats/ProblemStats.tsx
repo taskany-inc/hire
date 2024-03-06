@@ -4,11 +4,11 @@ import { Popup, Text } from '@taskany/bricks';
 
 import { tr } from './ProblemStats.i18n';
 
-type Stats = {
+interface Stats {
     good: number;
     ok: number;
     bad: number;
-};
+}
 
 type ProblemStatsProps = Stats & {
     className?: string;

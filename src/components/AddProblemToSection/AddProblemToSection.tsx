@@ -26,9 +26,9 @@ const StyledFiltersPanel = styled.div`
     margin-left: -20px;
 `;
 
-type AddProblemToSectionProps = {
+interface AddProblemToSectionProps {
     interviewId: number;
-};
+}
 
 const AddProblemToSectionInner: FC<AddProblemToSectionProps> = ({ interviewId }) => {
     const [open, setOpen] = useState(false);

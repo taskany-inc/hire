@@ -14,11 +14,11 @@ import { attachMethods } from './attachMethods';
 import { getObject, loadFile } from './s3Methods';
 import { tr } from './modules.i18n';
 
-type ResponseObj = {
+interface ResponseObj {
     failed: { type: string; filePath: string; name: string }[];
     succeeded: { type: string; filePath: string; name: string }[];
     errorMessage?: string;
-};
+}
 
 export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     const form = formidable({ multiples: true });

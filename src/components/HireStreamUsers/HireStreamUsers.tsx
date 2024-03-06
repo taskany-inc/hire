@@ -21,9 +21,9 @@ import { AddUserToRole } from '../AddUserToRole/AddUserToRole';
 
 import { tr } from './HireStreamUsers.i18n';
 
-type HireStreamUsersProps = {
+interface HireStreamUsersProps {
     hireStream: HireStream;
-};
+}
 
 export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
     const hireStreamId = hireStream.id;

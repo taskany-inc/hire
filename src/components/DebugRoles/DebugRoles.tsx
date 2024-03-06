@@ -11,10 +11,10 @@ import { yearInSeconds } from '../../utils';
 
 import { tr } from './DebugRoles.i18n';
 
-type DebugRolesProps = {
+interface DebugRolesProps {
     hireStreams: HireStream[];
     sectionTypes: SectionTypeWithHireStream[];
-};
+}
 
 const StyledTitle = styled(Text)`
     margin-top: 50px;

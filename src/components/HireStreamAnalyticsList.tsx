@@ -6,9 +6,9 @@ import { Card } from './Card';
 import { CardHeader } from './CardHeader';
 import { Stack } from './Stack';
 
-type HireStreamAnalyticsListProps = {
+interface HireStreamAnalyticsListProps {
     hireStreams: HireStream[];
-};
+}
 
 export const HireStreamAnalyticsList = ({ hireStreams }: HireStreamAnalyticsListProps) => {
     return (

@@ -12,9 +12,9 @@ import { yearInSeconds } from '../../utils';
 
 import { tr } from './DebugAuth.i18n';
 
-type DebugAuthProps = {
+interface DebugAuthProps {
     users: User[];
-};
+}
 
 const StyledUserCards = styled.div`
     display: flex;

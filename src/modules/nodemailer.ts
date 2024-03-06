@@ -12,14 +12,14 @@ export const transporter = nodemailer.createTransport({
     },
 });
 
-export type MessageBody = {
+export interface MessageBody {
     to: string;
     subject: string;
     text: string;
     from?: string;
     html?: string;
     icalEvent?: string;
-};
+}
 
 const message = ({ from = 'Hire', to, subject, text, html, icalEvent }: MessageBody) => ({
     from: `${from} <${config.nodemailer.authUser}>`,

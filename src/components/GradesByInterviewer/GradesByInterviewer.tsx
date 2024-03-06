@@ -10,9 +10,9 @@ import { QueryResolver } from '../QueryResolver/QueryResolver';
 
 import { tr } from './GradesByInterviewer.i18n';
 
-type Props = {
+interface Props {
     hireStreamName: string;
-};
+}
 
 export const GradesByInterviewer = ({ hireStreamName }: Props) => {
     const { startDate, endDate } = useAnalyticsFilterContext();

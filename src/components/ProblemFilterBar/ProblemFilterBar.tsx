@@ -29,11 +29,11 @@ import { Paths } from '../../utils/paths';
 
 import { tr } from './ProblemFilterBar.i18n';
 
-type ProblemFilterBarProps = {
+interface ProblemFilterBarProps {
     embedded?: boolean;
     loading?: boolean;
     children?: ReactNode;
-};
+}
 
 const StyledFilterBarAddButton = styled(FilterBarAddButton)`
     margin-left: 10px;

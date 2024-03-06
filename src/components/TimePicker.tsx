@@ -4,11 +4,11 @@ import { getOptions, getStringTime, splitDateValue, SplitDateValueResult } from 
 
 import { Select } from './Select';
 
-type TimePickerProps = {
+interface TimePickerProps {
     value: Date;
     onChange?: (value: SplitDateValueResult) => void;
     label?: string;
-};
+}
 
 export const TimePicker = ({ value: initialValue, label, onChange = () => {} }: TimePickerProps): JSX.Element => {
     const options = useMemo(() => getOptions(), []);

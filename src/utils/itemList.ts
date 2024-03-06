@@ -7,9 +7,9 @@ export interface SearchSettings {
     fieldsToSearchFrom: string[];
 }
 
-type ItemListParams = {
+interface ItemListParams {
     search?: string;
-};
+}
 
 interface ItemListOrderParams {
     orderBy?: string;

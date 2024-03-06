@@ -5,9 +5,9 @@ import { LayoutMain } from '../LayoutMain';
 
 import { tr } from './CandidateEditPage.i18n';
 
-export type CandidateEditPageProps = {
+export interface CandidateEditPageProps {
     numberIds: Record<'candidateId', number>;
-};
+}
 const CandidateEditPage = ({ numberIds }: CandidateEditPageProps) => {
     const candidateQuery = useCandidate(numberIds.candidateId);
     const outstaffVendorsQuery = useOutstaffVendors();

@@ -40,9 +40,9 @@ const CheckboxLine = ({ value, text }: { value: boolean; text: string }) => (
     </CenteredText>
 );
 
-type SectionTypeCardProps = {
+interface SectionTypeCardProps {
     sectionType: SectionType;
-};
+}
 
 export const SectionTypeCard: VFC<SectionTypeCardProps> = ({ sectionType }) => {
     const deleteSectionType = useDeleteSectionTypeMutation();

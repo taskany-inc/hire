@@ -7,10 +7,10 @@ import { QueryResolver } from '../QueryResolver/QueryResolver';
 
 import { tr } from './ProblemEditPage.i18n';
 
-export type ProblemEditPageProps = {
+export interface ProblemEditPageProps {
     problem: Problem;
     numberIds: Record<'problemId', number>;
-};
+}
 
 const ProblemEditPage = ({ numberIds }: ProblemEditPageProps) => {
     const problemQuery = useProblem(numberIds.problemId);

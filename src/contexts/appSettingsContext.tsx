@@ -3,21 +3,21 @@ import { ReactNode, useState, useEffect, useContext, FC, createContext, useMemo 
 
 import { Browser } from '../utils';
 
-type AppSettingsContext = {
+interface AppSettingsContext {
     session: Session | null;
     browser: Browser;
-};
+}
 
 const appSettingsContext = createContext<AppSettingsContext>({
     session: null,
     browser: undefined,
 });
 
-type AppSettingsContextProviderProps = {
+interface AppSettingsContextProviderProps {
     session: Session;
     browserServerSide?: Browser;
     children: ReactNode;
-};
+}
 
 export const AppSettingsContextProvider: FC<AppSettingsContextProviderProps> = ({
     session,

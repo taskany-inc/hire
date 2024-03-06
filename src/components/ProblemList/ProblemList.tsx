@@ -12,13 +12,13 @@ import { ProblemCard } from '../ProblemCard/ProblemCard';
 
 import { tr } from './ProblemList.i18n';
 
-type ProblemListProps = {
+interface ProblemListProps {
     embedded?: boolean;
     className?: string;
     style?: CSSProperties;
     isSmallSize?: boolean;
     interviewId?: number;
-};
+}
 
 export const ProblemList = ({
     className,

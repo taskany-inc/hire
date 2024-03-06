@@ -20,7 +20,7 @@ const QUARTER = 1000 * 60 * 60 * 24 * 30 * 3;
 const MONTH = 1000 * 60 * 60 * 24 * 30;
 const WEEK = 1000 * 60 * 60 * 24 * 7;
 
-type AnalyticsFilterContext = {
+interface AnalyticsFilterContext {
     clearFilters: VoidFunction;
     setHireStreams: Dispatch<SetStateAction<HireStream[]>>;
     hireStreams: HireStream[];
@@ -36,7 +36,7 @@ type AnalyticsFilterContext = {
     setWeek: () => void;
     periodTitle: string;
     setPeriodTitle: Dispatch<SetStateAction<string>>;
-};
+}
 
 const analyticsFilterContext = createContext<AnalyticsFilterContext>({
     clearFilters: noop,

@@ -10,9 +10,9 @@ import { ProblemHistoryWithUser } from '../../modules/problemTypes';
 import { HistoryTagsAndDifficultyTextChange } from '../HistoryTagsAndDifficultyTextChange/HistoryTagsAndDifficultyTextChange';
 import { useDistanceDate } from '../../hooks/useDateFormat';
 
-type ProblemHistoryCardProps = {
+interface ProblemHistoryCardProps {
     problemHistoryChangeEvent: ProblemHistoryWithUser;
-};
+}
 
 const Card = styled.div`
     display: grid;

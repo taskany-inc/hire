@@ -4,9 +4,9 @@ import { CandidateWithVendorRelation } from '../../modules/candidateTypes';
 
 import { tr } from './CandidateBIO.i18n';
 
-type CandidateBIOType = {
+interface CandidateBIOType {
     candidate: CandidateWithVendorRelation;
-};
+}
 
 export const CandidateBIO = ({ candidate }: CandidateBIOType): JSX.Element => {
     return (

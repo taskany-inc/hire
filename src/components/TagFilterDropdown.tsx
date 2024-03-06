@@ -2,13 +2,13 @@ import React, { FC, useMemo } from 'react';
 import { FiltersDropdown } from '@taskany/bricks';
 import { Tag } from '@prisma/client';
 
-export type DropdownMenuItem = {
+export interface DropdownMenuItem {
     onClick: VoidFunction;
     hint?: string;
     disabled?: boolean;
     text: string;
     highlight?: boolean;
-};
+}
 
 export const TagFilterDropdown: FC<{
     text: string;

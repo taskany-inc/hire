@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { gray0 } from '@taskany/colors';
 
-type SwitchSolutionsOrderButtonProps = {
+interface SwitchSolutionsOrderButtonProps {
     disabled?: boolean;
     onClick: () => void;
     direction: 'up' | 'down';
-};
+}
 
 const StyledButton = styled.button<SwitchSolutionsOrderButtonProps>`
     border-bottom: ${({ disabled }) => (disabled ? 'solid 2px gray' : 'solid 1px white')};

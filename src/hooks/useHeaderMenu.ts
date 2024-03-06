@@ -7,12 +7,15 @@ import config from '../config';
 
 import { tr } from './hooks.i18n';
 
-type HeaderLink = { path: string; text: string };
+interface HeaderLink {
+    path: string;
+    text: string;
+}
 
-type UseHeaderMenuResult = {
+interface UseHeaderMenuResult {
     entityListMenuItems: HeaderLink[];
     entityCreationMenuItems: HeaderLink[];
-};
+}
 
 export const useHeaderMenu = (): UseHeaderMenuResult => {
     const session = useSession();

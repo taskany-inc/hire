@@ -3,11 +3,11 @@ import { InterviewWithSections } from './interviewTypes';
 import { InterviewEventTypes } from './interviewEventTypes';
 import { interviewEvenMethods } from './interviewEventMethods';
 
-type RecordingUpdateEvent = {
+interface RecordingUpdateEvent {
     userId: number;
     eventType: InterviewEventTypes;
     previousInterview: InterviewWithSections;
-};
+}
 
 async function recordingUpdateEvent({ previousInterview, userId, eventType }: RecordingUpdateEvent): Promise<void> {
     const { id: interviewId } = previousInterview;
@@ -24,10 +24,10 @@ async function recordingUpdateEvent({ previousInterview, userId, eventType }: Re
     await interviewEvenMethods.create(data);
 }
 
-type RecordingCreateSection = {
+interface RecordingCreateSection {
     userId: number;
     previousInterview: InterviewWithSections;
-};
+}
 
 async function recordingCreateSectionEvent({ userId, previousInterview }: RecordingCreateSection): Promise<void> {
     const { id: interviewId } = previousInterview;
@@ -43,10 +43,10 @@ async function recordingCreateSectionEvent({ userId, previousInterview }: Record
     await interviewEvenMethods.create(data);
 }
 
-type RecordingCreateInterviewEvent = {
+interface RecordingCreateInterviewEvent {
     userId: number;
     interview: InterviewWithSections;
-};
+}
 
 async function recordingCreateInterviewEvent({ userId, interview }: RecordingCreateInterviewEvent): Promise<void> {
     const data = {
@@ -59,10 +59,10 @@ async function recordingCreateInterviewEvent({ userId, interview }: RecordingCre
     await interviewEvenMethods.create(data);
 }
 
-type RecordingDeleteInterviewEvent = {
+interface RecordingDeleteInterviewEvent {
     userId: number;
     interview: InterviewWithSections;
-};
+}
 
 async function recordingDeleteInterviewEvent({ userId, interview }: RecordingDeleteInterviewEvent): Promise<void> {
     const data = {

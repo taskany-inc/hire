@@ -32,10 +32,10 @@ import { useCandidates } from '../../modules/candidateHooks';
 
 import { tr } from './CandidateFilterBar.i18n';
 
-type CandidateFilterBarProps = {
+interface CandidateFilterBarProps {
     loading?: boolean;
     children?: ReactNode;
-};
+}
 
 const StyledResetButton = styled(Button)`
     margin-left: auto;

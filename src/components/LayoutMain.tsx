@@ -14,7 +14,7 @@ import { PageFooter } from './PageFooter/PageFooter';
 import { PageTitle } from './PageTitle';
 import { GlobalStyle } from './GlobalStyle';
 
-type LayoutMainProps = {
+interface LayoutMainProps {
     pageTitle: string;
     aboveContainer?: JSX.Element;
     headerGutter?: string;
@@ -22,7 +22,7 @@ type LayoutMainProps = {
     backlink?: string;
     hidePageHeader?: boolean;
     children?: ReactNode;
-};
+}
 
 const StyledContainer = styled.div`
     padding-left: 40px;

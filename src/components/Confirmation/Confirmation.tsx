@@ -7,7 +7,7 @@ import { AsyncAnyFunction } from '../../utils/types';
 
 import { tr } from './Confirmation.i18n';
 
-type ConfirmationProps = {
+interface ConfirmationProps {
     open: boolean;
     message: string;
     description?: string;
@@ -15,7 +15,7 @@ type ConfirmationProps = {
     onClose: VoidFunction;
     inProgress?: boolean;
     destructive?: boolean;
-};
+}
 
 const StyledWrapper = styled.div`
     display: flex;

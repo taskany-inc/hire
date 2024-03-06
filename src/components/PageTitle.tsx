@@ -5,12 +5,12 @@ import { Text } from '@taskany/bricks';
 
 import { Link } from './Link';
 
-type PageTitleProps = {
+interface PageTitleProps {
     title: string;
     gutter?: string;
     backlink?: string;
     children?: ReactNode;
-};
+}
 
 const StyledContainer = styled.div<{ gutter: string }>`
     padding: 0 40px;

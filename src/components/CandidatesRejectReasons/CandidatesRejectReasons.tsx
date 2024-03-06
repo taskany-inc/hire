@@ -11,9 +11,9 @@ import { QueryResolver } from '../QueryResolver/QueryResolver';
 
 import { tr } from './CandidatesRejectReasons.i18n';
 
-type Props = {
+interface Props {
     allStreams: HireStream[];
-};
+}
 
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, value }: any) => {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.3;

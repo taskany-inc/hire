@@ -32,10 +32,10 @@ export interface ApiEntityListResult<TData> {
     nextCursor?: number | null;
 }
 
-export type Option = {
+export interface Option {
     text: string;
     value: number;
-};
+}
 
 export type PropsWithClassName<T = unknown> = T & { className?: string };
 

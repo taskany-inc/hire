@@ -68,11 +68,11 @@ const StyledChipWrapper = styled.div`
     gap: 8px;
 `;
 
-export type ProblemCardProps = {
+export interface ProblemCardProps {
     problem: ProblemWithRelationsAndProblemSection;
     embedded?: boolean;
     isSmallSize?: boolean;
-};
+}
 
 export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallSize }) => {
     const router = useRouter();

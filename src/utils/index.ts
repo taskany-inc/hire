@@ -109,11 +109,11 @@ export const idObjsToIds = <T extends string | number>(idObjs: { id: T }[]): T[]
 
 export const onlyUnique = <T>(value: T, index: number, self: T[]) => self.indexOf(value) === index;
 
-export type StandConfig = {
+export interface StandConfig {
     isNextAuthEnabled?: string;
     isDebugCookieAllowed?: string;
     isLogToFileEnabled?: string;
-};
+}
 
 export const standConfig = {
     isNextAuthEnabled: config.nextAuthEnabled,

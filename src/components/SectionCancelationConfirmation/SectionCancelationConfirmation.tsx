@@ -8,13 +8,13 @@ import { Stack } from '../Stack';
 
 import { tr } from './SectionCancelationConfirmation.i18n';
 
-type SectionCancelationConfirmationProps = {
+interface SectionCancelationConfirmationProps {
     isOpen: boolean;
     onClose: () => void;
     sectionId: number;
     interviewId: number;
     calendarSlotId?: string | null;
-};
+}
 
 export const SectionCancelationConfirmation = ({
     isOpen,

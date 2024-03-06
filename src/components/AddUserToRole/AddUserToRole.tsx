@@ -19,12 +19,12 @@ const StyledButton = styled(Button)`
     margin-left: 6px;
 `;
 
-type AddUserToRoleProps = {
+interface AddUserToRoleProps {
     onSelect: (user: User) => void;
     placeholder: string;
     role: Role;
     sectionTypeOrHireStreamId?: number;
-};
+}
 
 export const AddUserToRole: VFC<AddUserToRoleProps> = ({ placeholder, onSelect, sectionTypeOrHireStreamId, role }) => {
     const [search, setSearch] = useState('');

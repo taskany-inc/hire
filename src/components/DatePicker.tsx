@@ -5,11 +5,11 @@ import { gray8 } from '@taskany/colors';
 
 import { Stack } from './Stack';
 
-type DatePickerProps = {
+interface DatePickerProps {
     value: Date;
     onChange?: (value: Date) => void;
     label?: string;
-};
+}
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 

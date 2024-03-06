@@ -13,9 +13,9 @@ const StyledFormCard = styled(FormCard)`
     width: 300px;
 `;
 
-type CustomPeriodFormProps = {
+interface CustomPeriodFormProps {
     close: () => void;
-};
+}
 
 const StyledDateContainer = styled.div`
     display: flex;

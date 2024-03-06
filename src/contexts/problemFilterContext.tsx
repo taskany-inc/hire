@@ -13,7 +13,7 @@ import { useDebounce } from 'use-debounce';
 
 import { noop } from '../utils';
 
-type ProblemFilterContext = {
+interface ProblemFilterContext {
     search?: string;
     debouncedSearch?: string;
     setSearch: Dispatch<SetStateAction<string | undefined>>;
@@ -28,7 +28,7 @@ type ProblemFilterContext = {
     authorFilter: string[];
     setTagFitlter: Dispatch<SetStateAction<string[]>>;
     setAuthorFitlter: Dispatch<SetStateAction<string[]>>;
-};
+}
 
 const problemFilterContext = createContext<ProblemFilterContext>({
     setSearch: noop,

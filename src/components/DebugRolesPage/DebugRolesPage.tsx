@@ -6,9 +6,9 @@ import { LayoutMain } from '../LayoutMain';
 
 import { tr } from './DebugRolesPage.i18n';
 
-export type DebugRolesPageProps = {
+export interface DebugRolesPageProps {
     sectionTypes: SectionTypeWithHireStream[];
-};
+}
 const DebugRolesPage = ({ sectionTypes }: DebugRolesPageProps) => {
     const hireStreamsQuery = useHireStreams();
 

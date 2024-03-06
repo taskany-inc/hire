@@ -13,11 +13,11 @@ import { SectionFeedbackHireBadge, SectionTypeBadge } from '../SectionFeedbackHi
 
 import { tr } from './SectionList.i18n';
 
-type SectionListProps = {
+interface SectionListProps {
     sections: SectionWithInterviewRelation[];
     header?: string;
     completed?: boolean;
-};
+}
 
 const StyledTitle = styled(Text)<{ completed: boolean }>`
     margin-left: ${gapS};

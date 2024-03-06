@@ -5,10 +5,10 @@ import { LayoutMain } from '../components/LayoutMain';
 
 import { tr } from './plugins.i18n';
 
-type Plugin = {
+interface Plugin {
     default: ComponentType;
     pluginName: string;
-};
+}
 
 const usePlugin = (importPath: string) => {
     const Component = useRef<ComponentType>(() => null);

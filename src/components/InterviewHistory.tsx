@@ -5,7 +5,9 @@ import { InterviewEventWithRelations } from '../modules/interviewEventTypes';
 import { Stack } from './Stack';
 import { InterviewHistoryCard } from './InterviewHistoryCard/InterviewHistoryCard';
 
-type InterviewCardProps = { interviewHistory: InterviewEventWithRelations[] };
+interface InterviewCardProps {
+    interviewHistory: InterviewEventWithRelations[];
+}
 
 export const InterviewHistory: VFC<InterviewCardProps> = ({ interviewHistory }) => (
     <Stack direction="column" gap={12}>

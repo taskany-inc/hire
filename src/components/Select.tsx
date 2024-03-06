@@ -5,11 +5,11 @@ import { Dropdown, FiltersMenuItem, Text } from '@taskany/bricks';
 import { ColorizedMenuItem } from './ColorizedMenuItem';
 import { Stack } from './Stack';
 
-type DropdownOption = {
+interface DropdownOption {
     value: string | number;
     text: string;
     stateDotColor?: string;
-};
+}
 
 interface SelectProps {
     text: React.ComponentProps<typeof Dropdown>['text'];

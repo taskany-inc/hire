@@ -20,11 +20,11 @@ import '../../react-big-calendar.css';
 
 import Error, { ErrorProps } from './_error';
 
-type TaskanyHireAppProps = {
+interface TaskanyHireAppProps {
     session: Session;
     browser: Browser;
     error?: ErrorProps;
-};
+}
 
 const TaskanyHireApp: FC<AppProps<TaskanyHireAppProps>> = ({ Component, pageProps, router }) => {
     setSSRLocale(router.locale as TLocale);

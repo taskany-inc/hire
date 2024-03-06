@@ -7,9 +7,9 @@ import { AnalyticsFilterMenuBar } from '../AnalyticsFilterMenuBar/AnalyticsFilte
 
 import { tr } from './AnalyticsHireStreamPage.i18n';
 
-export type HireStreamPageProps = {
+export interface HireStreamPageProps {
     stringIds: Record<'hireStream', string>;
-};
+}
 
 export const AnalyticsHireStreamPage = ({ stringIds }: HireStreamPageProps) => {
     return (

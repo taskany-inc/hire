@@ -8,9 +8,9 @@ import { QueryResolver } from '../QueryResolver/QueryResolver';
 
 import { tr } from './HiringBySectionType.i18n';
 
-type HiringBySectionTypeProps = {
+interface HiringBySectionTypeProps {
     hireStreamName: string;
-};
+}
 
 export const HiringBySectionType = ({ hireStreamName }: HiringBySectionTypeProps) => {
     const { startDate, endDate } = useAnalyticsFilterContext();

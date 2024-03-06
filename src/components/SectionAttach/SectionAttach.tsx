@@ -7,11 +7,11 @@ import { pageHrefs } from '../../utils/paths';
 
 import { tr } from './SectionAttach.i18n';
 
-type SectionAttachProps = {
+interface SectionAttachProps {
     filename: string;
     fileId: string;
     canEditAttach: boolean;
-};
+}
 
 export const SectionAttach = ({ filename, fileId, canEditAttach }: SectionAttachProps) => {
     const deleteAttach = useAttachRemoveMutation();

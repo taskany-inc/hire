@@ -1,7 +1,7 @@
 import { CSSProperties, FC, ReactNode } from 'react';
 import styled from 'styled-components';
 
-type StackProps = {
+interface StackProps {
     direction: 'row' | 'column';
     gap?: number | string;
     align?: CSSProperties['alignItems'];
@@ -10,7 +10,7 @@ type StackProps = {
     style?: CSSProperties;
     className?: string;
     children?: ReactNode;
-};
+}
 
 const StyledStack = styled.div<StackProps>`
     display: grid;

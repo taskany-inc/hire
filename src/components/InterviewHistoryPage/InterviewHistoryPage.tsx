@@ -4,9 +4,9 @@ import { LayoutMain } from '../LayoutMain';
 
 import { tr } from './InterviewHistoryPage.i18n';
 
-export type InterviewHistoryPageProps = {
+export interface InterviewHistoryPageProps {
     interviewHistory: InterviewEventWithRelations[];
-};
+}
 
 const InterviewHistoryPage = ({ interviewHistory }: InterviewHistoryPageProps) => (
     <LayoutMain pageTitle={tr('History of changes')}>

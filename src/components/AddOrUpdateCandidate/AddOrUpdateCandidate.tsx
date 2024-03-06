@@ -17,12 +17,12 @@ import { PhoneField } from '../PhoneField/PhoneField';
 
 import { tr } from './AddOrUpdateCandidate.i18n';
 
-type AddOrUpdateCandidateProps = {
+interface AddOrUpdateCandidateProps {
     variant: 'new' | 'update';
     onSave?: () => void;
     candidate?: Candidate;
     outstaffVendors: OutstaffVendor[];
-};
+}
 
 type FormValues = Omit<CreateCandidate, 'outstaffVendorId'> & {
     outstaffVendorId: string | null;

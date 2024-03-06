@@ -9,9 +9,9 @@ import { SectionTypeCard } from '../SectionTypeCard/SectionTypeCard';
 
 import { tr } from './SectionTypeManagement.i18n';
 
-type SectionTypeManagementProps = {
+interface SectionTypeManagementProps {
     hireStream: HireStream;
-};
+}
 
 export const SectionTypeManagement: VFC<SectionTypeManagementProps> = ({ hireStream }) => {
     const sectionTypesQuery = useSectionTypes(hireStream.id);

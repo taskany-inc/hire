@@ -10,9 +10,9 @@ import { trpc } from '../../trpc/trpcClient';
 
 import { tr } from './FeedbackCreateForm.i18n';
 
-type FeedbackCreateFormProps = {
+interface FeedbackCreateFormProps {
     onClose: () => void;
-};
+}
 
 const FeedbackCreateForm = ({ onClose }: FeedbackCreateFormProps) => {
     const [formBusy, setFormBusy] = useState(false);

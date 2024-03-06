@@ -14,9 +14,9 @@ const StyledFormCard = styled(FormCard)`
     width: 500px;
 `;
 
-type HireStreamFormProps = {
+interface HireStreamFormProps {
     afterSubmit: (hireStream: HireStream) => void;
-};
+}
 
 export const HireStreamForm: VFC<HireStreamFormProps> = ({ afterSubmit }) => {
     const {

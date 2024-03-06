@@ -60,21 +60,24 @@ export type ProblemFindManyWithAuthorAndTagsAndFavourite = Problem & {
     comments: CommentWithUser[];
 };
 
-type UsedProblemMapValue = { sectionId: number; sectionType: SectionType };
+interface UsedProblemMapValue {
+    sectionId: number;
+    sectionType: SectionType;
+}
 
 export type UsedProblemMap = Map<number, UsedProblemMapValue>;
 
-export type CheckIsAvailableProblemType = {
+export interface CheckIsAvailableProblemType {
     isUsed?: boolean;
     problemSection?: { sectionId: number; sectionType: SectionType };
-};
+}
 
 export type ProblemWithRelationsAndProblemSection = ProblemFindManyWithAuthorAndTagsAndFavourite &
     CheckIsAvailableProblemType;
 
 export type ProblemWithRelations = ExtractPrismaTypeFromArray<typeof problemMethods.getList>;
 
-export type ProblemCount = {
+export interface ProblemCount {
     count: number;
     total: number;
-};
+}

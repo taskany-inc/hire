@@ -4,12 +4,12 @@ import { getOptionsWithDuration } from '../utils/dateTimePickers';
 
 import { Select } from './Select';
 
-type DurationPickerProps = {
+interface DurationPickerProps {
     startDate: Date;
     duration: number;
     label?: string;
     onChange?: (x: number) => void;
-};
+}
 
 export const DurationPicker = ({
     startDate,

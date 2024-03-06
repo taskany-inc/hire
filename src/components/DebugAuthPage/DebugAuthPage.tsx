@@ -5,9 +5,9 @@ import { LayoutMain } from '../LayoutMain';
 
 import { tr } from './DebugAuthPage.i18n';
 
-export type DebugAuthPageProps = {
+export interface DebugAuthPageProps {
     users: User[];
-};
+}
 const DebugAuthPage = ({ users }: DebugAuthPageProps) => {
     return (
         <LayoutMain pageTitle={tr('Auth by debug cookie')}>

@@ -21,12 +21,12 @@ export const hireStreamIdAndSectionTypeIdAndUserIdSchema = z.object({
 });
 export type HireStreamIdAndSectionTypeAndUserId = z.infer<typeof hireStreamIdAndSectionTypeIdAndUserIdSchema>;
 
-export type HireStreamUsersWithRoles = {
+export interface HireStreamUsersWithRoles {
     [UserRoles.HIRE_STREAM_MANAGER]: User[];
     [UserRoles.HIRING_LEAD]: User[];
     [UserRoles.RECRUITER]: User[];
     [UserRoles.INTERVIEWER]: { sectionType: SectionType; users: User[] }[];
-};
+}
 
 export const addAndRemoveProblemEditorRoleSchema = z.object({
     userId: z.number(),

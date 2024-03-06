@@ -9,9 +9,9 @@ import { getSectionChip } from '../helpers';
 
 import { tr } from './SectionResults.i18n';
 
-type SectionResultsProps = {
+interface SectionResultsProps {
     passedSections: SectionWithSectionType[];
-};
+}
 
 const sectionColumnWidth = '250px';
 const interviewerColumnWidth = '150px';

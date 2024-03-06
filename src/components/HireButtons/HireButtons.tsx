@@ -6,11 +6,11 @@ import { GradeButton } from '../GradeButton';
 
 import { tr } from './HireButtons.i18n';
 
-export type HireButtonsProps = {
+export interface HireButtonsProps {
     section: SectionWithRelationsAndResults;
     setHire: (value: boolean | null) => void;
     setGrade: (value: string | null) => void;
-};
+}
 
 export const HireButtons = ({ section, setHire, setGrade }: HireButtonsProps): JSX.Element => {
     let defaultValue = null;

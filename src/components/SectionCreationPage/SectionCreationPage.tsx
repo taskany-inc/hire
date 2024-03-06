@@ -6,9 +6,9 @@ import { LayoutMain } from '../LayoutMain';
 
 import { tr } from './SectionCreationPage.i18n';
 
-export type SectionCreationPageProps = {
+export interface SectionCreationPageProps {
     numberIds: Record<'candidateId', number>;
-};
+}
 
 const SectionCreationPage = ({ numberIds }: SectionCreationPageProps) => {
     const candidateQuery = useCandidate(numberIds.candidateId);

@@ -7,9 +7,9 @@ import { Card } from './Card';
 import { CardHeader } from './CardHeader';
 import { Stack } from './Stack';
 
-type HireStreamsListProps = {
+interface HireStreamsListProps {
     hireStreams: HireStream[];
-};
+}
 
 export const HireStreamList = ({ hireStreams }: HireStreamsListProps) => {
     const session = useSession();

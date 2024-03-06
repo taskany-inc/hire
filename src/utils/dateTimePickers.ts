@@ -1,9 +1,9 @@
 import { add, format } from 'date-fns';
 
-export type SplitDateValueResult = {
+export interface SplitDateValueResult {
     hours: number;
     minutes: number;
-};
+}
 
 export const getDurationString = (duration: number): string => {
     if (duration < 60) {

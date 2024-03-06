@@ -44,7 +44,7 @@ const StyledTitle = styled(Text)`
     margin-right: 12px;
 `;
 
-type UserListProps = {
+interface UserListProps {
     title?: string;
     titleFragment?: ReactNode;
     users: User[];
@@ -56,7 +56,7 @@ type UserListProps = {
     showFilter?: boolean;
     className?: string;
     style?: CSSProperties;
-};
+}
 
 export const UserList: VFC<UserListProps> = ({ title, titleFragment, users, action, showFilter, className, style }) => {
     const [filter, setFilter] = useState('');

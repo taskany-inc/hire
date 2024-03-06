@@ -2,10 +2,10 @@ import * as Sentry from '@sentry/nextjs';
 
 import { LayoutMain } from '../components/LayoutMain';
 
-export type ErrorProps = {
+export interface ErrorProps {
     statusCode: number;
     message: string;
-};
+}
 
 export default function Custom404() {
     return (

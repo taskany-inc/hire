@@ -1,11 +1,11 @@
 import { gray10 } from '@taskany/colors';
 import styled from 'styled-components';
 
-type GradeButtonProps = {
+interface GradeButtonProps {
     onClick?: (e: React.MouseEvent) => void;
     matching?: boolean;
     selected?: boolean;
-};
+}
 
 export const GradeButton = styled.button<GradeButtonProps>`
     all: unset;

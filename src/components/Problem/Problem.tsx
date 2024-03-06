@@ -27,9 +27,9 @@ import { useCommentCreateMutation } from '../../modules/commentHooks';
 
 import { tr } from './Problem.i18n';
 
-type ProblemProps = {
+interface ProblemProps {
     problem: ProblemWithRelationsAndProblemSection;
-};
+}
 
 const StyledTagsContainer = styled.div`
     margin-bottom: 20px;

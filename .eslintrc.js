@@ -8,8 +8,9 @@ module.exports = {
         'plugin:@typescript-eslint/recommended',
     ],
     parser: '@typescript-eslint/parser',
-    plugins: ['import', 'prettier', 'react'],
+    plugins: ['import', 'prettier', 'react', '@taskany/rules'],
     rules: {
+        '@taskany/rules/prefer-interface': 'error',
         'react/react-in-jsx-scope': 'off',
         '@typescript-eslint/no-empty-function': 'off',
         '@typescript-eslint/no-empty-interface': 'off',

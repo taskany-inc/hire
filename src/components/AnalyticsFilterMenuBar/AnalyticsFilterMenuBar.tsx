@@ -8,9 +8,9 @@ import { CustomPeriodForm } from '../CustomPeriodForm/CustomPeriodForm';
 
 import { tr } from './AnalyticsFilterMenuBar.i18n';
 
-type AnalyticsFilterMenuBarPropsType = {
+interface AnalyticsFilterMenuBarPropsType {
     hireStreams?: HireStream[];
-};
+}
 
 export const AnalyticsFilterMenuBar = ({ hireStreams }: AnalyticsFilterMenuBarPropsType): JSX.Element => {
     const {

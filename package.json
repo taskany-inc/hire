@@ -41,7 +41,7 @@
         "classnames": "2.5.1",
         "color-contrast-checker": "2.1.0",
         "concurrently": "8.2.2",
-        "date-fns": "2.30.0",
+        "date-fns": "3.4.0",
         "easy-typed-intl": "1.0.3",
         "formidable": "2.1.1",
         "ical-generator": "6.0.1",

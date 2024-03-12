@@ -1,8 +1,9 @@
 import { TRPCError } from '@trpc/server';
 
 import config from '../config';
+import { defaultListLimit } from '../utils/constants';
 
-import { Vacancy, GetVacancyList, EditVacancy } from './crewTypes';
+import { Vacancy, GetVacancyList, EditVacancy, Group, GetGroupList } from './crewTypes';
 
 const checkConfig = () => {
     if (!config.crew.url || !config.crew.apiToken) {
@@ -57,5 +58,18 @@ export const crewMethods = {
             body: JSON.stringify(data),
         });
         return getDataFromResponse<Vacancy>(response);
+    },
+
+    getGroupList: async (data: GetGroupList) => {
+        const { search, take, filter } = data;
+        const { url, apiToken } = checkConfig();
+        const response = await fetch(`${url}/api/rest/groups/list`, {
+            method: 'POST',
+            headers: {
+                authorization: apiToken,
+            },
+            body: JSON.stringify({ search, take: take || defaultListLimit, filter }),
+        });
+        return getDataFromResponse<Group[]>(response);
     },
 };

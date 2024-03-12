@@ -6,7 +6,7 @@ import { gray8 } from '@taskany/colors';
 import { Stack } from './Stack';
 
 interface DatePickerProps {
-    value: Date;
+    value?: Date;
     onChange?: (value: Date) => void;
     label?: string;
 }
@@ -14,9 +14,10 @@ interface DatePickerProps {
 const DATE_FORMAT = 'yyyy-MM-dd';
 
 export const DatePicker = ({ label, value, onChange = () => {} }: DatePickerProps): JSX.Element => {
-    const [date, setDate] = useState<string>(() => format(value, DATE_FORMAT));
+    const initialDate = () => (value ? format(value, DATE_FORMAT) : undefined);
+    const [date, setDate] = useState<string | undefined>(initialDate);
     const handleChange = ({ target: { value: eventValue } }: React.ChangeEvent<{ value: string }>): void => {
-        const formattedDate: Date = parse(eventValue, DATE_FORMAT, new Date(value));
+        const formattedDate: Date = parse(eventValue, DATE_FORMAT, value ? new Date(value) : new Date());
 
         setDate(eventValue);
         onChange(formattedDate);

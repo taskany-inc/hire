@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 import { crewMethods } from '../../modules/crewMethods';
-import { getVacancyListSchema } from '../../modules/crewTypes';
+import { getGroupListSchema, getVacancyListSchema } from '../../modules/crewTypes';
 import { protectedProcedure, router } from '../trpcBackend';
 
 export const crewRouter = router({
@@ -11,5 +11,9 @@ export const crewRouter = router({
 
     getVacancyList: protectedProcedure.input(getVacancyListSchema).query(({ input }) => {
         return crewMethods.getVacancyList(input);
+    }),
+
+    getGroupList: protectedProcedure.input(getGroupListSchema).query(({ input }) => {
+        return crewMethods.getGroupList(input);
     }),
 });

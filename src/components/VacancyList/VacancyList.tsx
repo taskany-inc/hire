@@ -7,7 +7,7 @@ import { useVacancies } from '../../modules/crewHooks';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { Stack } from '../Stack';
 import { VacancyCard } from '../VacancyCard/VacancyCard';
-import { useVacancyFilterContext } from '../../contexts/vacancyFilterContext';
+import { useVacancyFilterUrlParams, vacancyFilterValuesToRequestData } from '../../hooks/useVacancyFilterUrlParams';
 import { Vacancy } from '../../modules/crewTypes';
 
 import { tr } from './VacancyList.i18n';
@@ -21,13 +21,8 @@ interface VacancyListProps {
 }
 
 export const VacancyList = ({ onSelect }: VacancyListProps) => {
-    const { debouncedSearch, statuses, hireStreamIds } = useVacancyFilterContext();
-    const vacanciesQuery = useVacancies({
-        archived: false,
-        statuses,
-        search: debouncedSearch,
-        hireStreamIds,
-    });
+    const { values } = useVacancyFilterUrlParams();
+    const vacanciesQuery = useVacancies(vacancyFilterValuesToRequestData(values));
     const { isLoading, hasNextPage, fetchNextPage } = vacanciesQuery;
 
     return (

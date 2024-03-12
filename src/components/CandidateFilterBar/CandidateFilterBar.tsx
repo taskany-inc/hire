@@ -1,5 +1,5 @@
 import { InterviewStatus } from '@prisma/client';
-import React, { ReactNode, useRef, useState } from 'react';
+import React, { ReactNode, useMemo, useRef, useState } from 'react';
 import {
     FiltersMenuContainer,
     FiltersCounter,
@@ -105,7 +105,7 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
     );
 
     const vacanciesQuery = useVacancies({ archived: false, take: 5, search: vacancyQuery });
-    const vacancies = vacanciesQuery.data?.pages[0].vacancies ?? [];
+    const vacancies = useMemo(() => vacanciesQuery.data?.pages[0].vacancies ?? [], [vacanciesQuery.data?.pages]);
 
     const onResetFilers = () => {
         setHireStreamQuery('');
@@ -119,6 +119,26 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
     };
 
     const candidatesQuery = useCandidates(candidateFilterValuesToRequestData(values));
+
+    const vacancyFilterItems = useMemo(
+        () => vacancies.map((vacancy) => ({ id: vacancy.id, name: vacancyToString(vacancy) })),
+        [vacancies],
+    );
+
+    const hrFilterItems = useMemo(
+        () =>
+            hrs.map((hr) => ({
+                id: String(hr.id),
+                name: `${hr.name || hr.email} ${hr.id === session?.user.id ? tr('(You)') : ''}`,
+                email: hr.email,
+            })),
+        [hrs, session?.user.id],
+    );
+
+    const hireStreamFilterItems = useMemo(
+        () => hireStreams.map((hireStream) => ({ id: String(hireStream.id), name: hireStream.name })),
+        [hireStreams],
+    );
 
     return (
         <>
@@ -185,7 +205,7 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
                     label={tr('Hire streams')}
                     placeholder={tr('Search')}
                     value={hireStreamIdsLocal?.map((i) => String(i))}
-                    items={hireStreams.map((tag) => ({ id: String(tag.id), name: tag.name }))}
+                    items={hireStreamFilterItems}
                     filterCheckboxName="hireStream"
                     onChange={(v) => setHireStreamIdsLocal(v.map(Number))}
                     onSearchChange={setHireStreamQuery}
@@ -197,11 +217,7 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
                     label={tr("HR's")}
                     placeholder={tr('Search')}
                     value={hrIdsLocal?.map((i) => String(i))}
-                    items={hrs.map((hr) => ({
-                        id: String(hr.id),
-                        name: `${hr.name || hr.email} ${hr.id === session?.user.id ? tr('(You)') : ''}`,
-                        email: hr.email,
-                    }))}
+                    items={hrFilterItems}
                     filterCheckboxName="hrs"
                     onChange={(v) => setHrIdsLocal(v.map(Number))}
                     onSearchChange={setHrQuery}
@@ -213,10 +229,7 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
                     label={tr('Vacancies')}
                     placeholder={tr('Search')}
                     value={vacancyIdsLocal}
-                    items={vacancies.map((vacancy) => ({
-                        id: vacancy.id,
-                        name: vacancyToString(vacancy),
-                    }))}
+                    items={vacancyFilterItems}
                     filterCheckboxName="vacancies"
                     onChange={(v) => setVacancyIdsLocal(v)}
                     onSearchChange={setVacancyQuery}

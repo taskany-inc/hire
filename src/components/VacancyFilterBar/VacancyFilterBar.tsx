@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import {
     Button,
     FilterPopup,
-    FiltersApplied,
     FiltersCounter,
     FiltersCounterContainer,
     FiltersMenuContainer,
@@ -14,45 +13,20 @@ import {
     Input,
     nullable,
 } from '@taskany/bricks';
-import { gapS, gray7 } from '@taskany/colors';
+import { gapS } from '@taskany/colors';
 
 import { Filter } from '../Filter';
-import { useVacancyFilterContext } from '../../contexts/vacancyFilterContext';
 import { mapEnum } from '../../utils';
 import { VacancyStatus, vacancyLabels } from '../../modules/crewTypes';
-import { useHireStreams } from '../../modules/hireStreamsHooks';
 import { useVacancies } from '../../modules/crewHooks';
+import { suggestionsTake, useQueryOptions } from '../../utils/suggestions';
+import { trpc } from '../../trpc/trpcClient';
+import { VacancyFilterApplied } from '../VacancyFilterApplied/VacancyFilterApplied';
+import { DatesFilter } from '../DateFilter/DatesFilter';
+import { useSession } from '../../contexts/appSettingsContext';
+import { useVacancyFilterUrlParams, vacancyFilterValuesToRequestData } from '../../hooks/useVacancyFilterUrlParams';
 
 import { tr } from './VacancyFilterBar.i18n';
-
-const VacancyFilterApplied = () => {
-    const { statuses, hireStreamIds } = useVacancyFilterContext();
-    const hireStreamsQuery = useHireStreams();
-
-    const applied = useMemo(() => {
-        const hireStreams = hireStreamsQuery.data ?? [];
-        let result = '';
-
-        if (statuses?.length) {
-            result += `${tr('Status')}: ${statuses.map((s) => vacancyLabels[s]).join(', ')}.`;
-        }
-
-        if (hireStreamIds?.length) {
-            result += `${tr('Streams')}: ${hireStreamIds
-                .map((id) => hireStreams.find((s) => String(s.id) === id))
-                .map((s) => s?.name)
-                .join(', ')}.`;
-        }
-
-        return result;
-    }, [statuses, hireStreamIds, hireStreamsQuery.data]);
-
-    return (
-        <FiltersApplied size="s" weight="bold" color={gray7}>
-            {applied}
-        </FiltersApplied>
-    );
-};
 
 interface VacancyFilterBarProps {
     children?: ReactNode;
@@ -68,57 +42,128 @@ const StyledResetButton = styled(Button)`
 `;
 
 export const VacancyFilterBar = ({ children }: VacancyFilterBarProps) => {
-    const { search, debouncedSearch, setSearch, statuses, setStatuses, hireStreamIds, setHireStreamIds } =
-        useVacancyFilterContext();
-    const vacanciesQuery = useVacancies({
-        archived: false,
-        statuses,
-        search: debouncedSearch,
-        hireStreamIds,
-    });
+    const session = useSession();
+
+    const { values, setter, clearParams, setSearch } = useVacancyFilterUrlParams();
+
+    const vacanciesQuery = useVacancies(vacancyFilterValuesToRequestData(values));
     const count = vacanciesQuery.data?.pages.at(-1)?.count;
     const total = vacanciesQuery.data?.pages.at(-1)?.total ?? 0;
 
     const filterNodeRef = useRef<HTMLSpanElement>(null);
     const [filterVisible, setFilterVisible] = useState(false);
 
-    const [localStatuses, setLocalStatuses] = useState(statuses);
-    const [localHireStreamIds, setLocalHireStreamIds] = useState(hireStreamIds);
+    const [statusesLocal, setStatusesLocal] = useState(values.statuses);
+    const [hireStreamIdsLocal, setHireStreamIdsLocal] = useState(values.hireStreamIds);
+    const [hrEmailsLocal, setHrEmailsLocal] = useState(values.hrEmails);
+    const [hiringManagerEmailsLocal, setHiringManagerEmailsLocal] = useState(values.hiringManagerEmails);
+    const [teamIdsLocal, setTeamIdsLocal] = useState(values.teamIds);
+    const [startDateLocal, setStartDateLocal] = useState<Date | undefined>(
+        values.closedAtStart ? new Date(values.closedAtStart) : undefined,
+    );
 
-    const isFiltersEmpty = !localStatuses && !localHireStreamIds;
+    const [endDateLocal, setEndDateLocal] = useState<Date | undefined>(
+        values.closedAtEnd ? new Date(values.closedAtEnd) : undefined,
+    );
+
+    const [hireStreamQuery, setHireStreamQuery] = useState('');
+    const [hrQuery, setHrQuery] = useState('');
+    const [hiringManagerQuery, setHiringManagerQuery] = useState('');
+    const [teamQuery, setTeamQuery] = useState('');
+
+    const isFiltersEmpty =
+        !statusesLocal &&
+        !hireStreamIdsLocal &&
+        !hrEmailsLocal &&
+        !hiringManagerEmailsLocal &&
+        !teamIdsLocal &&
+        !endDateLocal &&
+        !startDateLocal;
 
     const onApplyClick = () => {
         setFilterVisible(false);
-        setStatuses(localStatuses);
-        setHireStreamIds(localHireStreamIds);
+        setter('statuses', statusesLocal);
+        setter('hireStreamIds', hireStreamIdsLocal);
+        setter('hrEmails', hrEmailsLocal);
+        setter('hiringManagerEmails', hiringManagerEmailsLocal);
+        setter('teamIds', teamIdsLocal);
+        endDateLocal && setter('closedAtEnd', endDateLocal.toISOString());
+
+        startDateLocal && setter('closedAtStart', startDateLocal.toISOString());
     };
 
-    const onStatusChange = (items: string[]) => {
-        if (items.length === 0) {
-            setLocalStatuses(undefined);
-        } else {
-            setLocalStatuses(items as VacancyStatus[]);
-        }
-    };
+    const { data: hireStreams = [] } = trpc.hireStreams.suggestions.useQuery(
+        { query: hireStreamQuery, take: suggestionsTake, include: values.hireStreamIds },
+        useQueryOptions,
+    );
 
-    const onHireStreamChange = (items: string[]) => {
-        if (items.length === 0) {
-            setLocalHireStreamIds(undefined);
-        } else {
-            setLocalHireStreamIds(items);
-        }
-    };
+    const { data: hrs = [] } = trpc.users.suggestions.useQuery(
+        {
+            query: hrQuery,
+            hr: true,
+            take: suggestionsTake - 1,
+            includeEmails: session ? [session.user.email, ...(values.hrEmails ?? [])] : values.hrEmails,
+        },
+        useQueryOptions,
+    );
+
+    const { data: hiringManagers = [] } = trpc.users.suggestions.useQuery(
+        {
+            query: hiringManagerQuery,
+            take: suggestionsTake - 1,
+            includeEmails: session ? [session.user.email, ...(values.hrEmails ?? [])] : values.hrEmails,
+        },
+        useQueryOptions,
+    );
+
+    const { data: teams = [] } = trpc.crew.getGroupList.useQuery(
+        { search: teamQuery, take: suggestionsTake, filter: values.teamIds },
+        useQueryOptions,
+    );
 
     const onFilterReset = () => {
-        setSearch(undefined);
-        setStatuses(undefined);
-        setLocalStatuses(undefined);
-        setHireStreamIds(undefined);
-        setLocalHireStreamIds(undefined);
+        setStatusesLocal([]);
+        setHireStreamQuery('');
+        setHireStreamIdsLocal([]);
+        setHrEmailsLocal([]);
+        setHrQuery('');
+        setHiringManagerEmailsLocal([]);
+        setHiringManagerQuery('');
+        setTeamIdsLocal([]);
+        setTeamQuery('');
+        setStartDateLocal(undefined);
+        setEndDateLocal(undefined);
+        clearParams();
     };
 
-    const hireStreamsQuery = useHireStreams();
-    const hireStreamItems = hireStreamsQuery.data?.map((s) => ({ id: String(s.id), name: s.name })) ?? [];
+    const hireStreamFilterItems = useMemo(
+        () => hireStreams.map((hireStream) => ({ id: String(hireStream.id), name: hireStream.name })),
+        [hireStreams],
+    );
+
+    const hrEmailFilterItems = useMemo(
+        () =>
+            hrs.map((hr) => ({
+                id: hr.email,
+                name: `${hr.name || hr.email} ${hr.id === session?.user.id ? tr('(You)') : ''}`,
+                email: hr.email,
+            })),
+        [hrs, session?.user.id],
+    );
+
+    const hiringManagerEmailFilterItems = useMemo(
+        () =>
+            hiringManagers.map((hiringManager) => ({
+                id: hiringManager.email,
+                name: `${hiringManager.name || hiringManager.email} ${
+                    hiringManager.id === session?.user.id ? tr('(You)') : ''
+                }`,
+                email: hiringManager.email,
+            })),
+        [hiringManagers, session?.user.id],
+    );
+
+    const teamFilterItems = useMemo(() => teams.map((team) => ({ id: team.id, name: team.name })), [teams]);
 
     return (
         <>
@@ -127,7 +172,7 @@ export const VacancyFilterBar = ({ children }: VacancyFilterBarProps) => {
                     <StyledFiltersSearchContainer>
                         <Input
                             placeholder={tr('Search')}
-                            value={search ?? ''}
+                            defaultValue={values.search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
                     </StyledFiltersSearchContainer>
@@ -151,7 +196,17 @@ export const VacancyFilterBar = ({ children }: VacancyFilterBarProps) => {
             </FiltersPanelContainer>
 
             {nullable(!isFiltersEmpty, () => (
-                <VacancyFilterApplied />
+                <VacancyFilterApplied
+                    hrs={hrs}
+                    hrEmails={values.hrEmails}
+                    statuses={statusesLocal}
+                    hireStreams={hireStreams}
+                    hireStreamIds={values.hireStreamIds}
+                    hiringManagers={hiringManagers}
+                    hiringManagerEmails={values.hiringManagerEmails}
+                    teams={teams}
+                    teamIds={values.teamIds}
+                />
             ))}
 
             <FilterPopup
@@ -166,21 +221,71 @@ export const VacancyFilterBar = ({ children }: VacancyFilterBarProps) => {
                 <Filter
                     tabName="statuses"
                     label={tr('Status')}
-                    value={localStatuses}
+                    value={statusesLocal}
                     items={mapEnum(VacancyStatus, (s) => ({ id: s, name: vacancyLabels[s] }))}
                     filterCheckboxName="statuses"
-                    onChange={onStatusChange}
+                    onChange={setStatusesLocal}
                     viewMode="union"
                 />
 
                 <Filter
-                    tabName="hireStreams"
+                    title={tr('Suggestions')}
+                    tabName="hireStream"
                     label={tr('Streams')}
-                    value={localHireStreamIds}
-                    items={hireStreamItems}
-                    filterCheckboxName="hireStreams"
-                    onChange={onHireStreamChange}
-                    viewMode="union"
+                    placeholder={tr('Search')}
+                    value={hireStreamIdsLocal?.map((i) => String(i))}
+                    items={hireStreamFilterItems}
+                    filterCheckboxName="hireStream"
+                    onChange={(v) => setHireStreamIdsLocal(v.map(Number))}
+                    onSearchChange={setHireStreamQuery}
+                    viewMode="split"
+                />
+
+                <Filter
+                    title={tr('Suggestions')}
+                    tabName="teams"
+                    label={tr('Teams')}
+                    placeholder={tr('Search')}
+                    value={teamIdsLocal}
+                    items={teamFilterItems}
+                    filterCheckboxName="teams"
+                    onChange={(v) => setTeamIdsLocal(v)}
+                    onSearchChange={setTeamQuery}
+                    viewMode="split"
+                />
+
+                <Filter
+                    title={tr('Suggestions')}
+                    tabName="hrs"
+                    label={tr("HR's")}
+                    placeholder={tr('Search')}
+                    value={hrEmailsLocal}
+                    items={hrEmailFilterItems}
+                    filterCheckboxName="hrs"
+                    onChange={(v) => setHrEmailsLocal(v)}
+                    onSearchChange={setHrQuery}
+                    viewMode="split"
+                />
+
+                <Filter
+                    title={tr('Suggestions')}
+                    tabName="hiringManagers"
+                    label={tr('Hiring Managers')}
+                    placeholder={tr('Search')}
+                    value={hiringManagerEmailsLocal}
+                    items={hiringManagerEmailFilterItems}
+                    filterCheckboxName="hiringManagers"
+                    onChange={(v) => setHiringManagerEmailsLocal(v)}
+                    onSearchChange={setHiringManagerQuery}
+                    viewMode="split"
+                />
+                <DatesFilter
+                    tabName="ClosedAt"
+                    label={tr('Vacancy closed at')}
+                    startDate={startDateLocal}
+                    endDate={endDateLocal}
+                    setStartDate={setStartDateLocal}
+                    setEndDate={setEndDateLocal}
                 />
             </FilterPopup>
         </>

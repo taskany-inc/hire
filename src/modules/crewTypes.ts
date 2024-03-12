@@ -33,28 +33,29 @@ export interface Vacancy {
         id: string;
     };
     hr: {
-        name: string | null;
+        name?: string;
         id: string;
         email: string;
     };
     hiringManager: {
-        name: string | null;
+        name?: string;
         id: string;
         email: string;
     };
     status: VacancyStatus;
-    unit: number | null;
-    grade: number | null;
+    unit?: number;
+    grade?: number;
 
-    activeSince: Date | null;
+    closedAt?: Date;
+
+    activeSince?: Date;
     timeAtWork: number;
 }
 
 export const getVacancyListSchema = z.object({
     search: z.string().optional(),
     archived: z.boolean().optional(),
-    hireStreamIds: z.array(z.string()).optional(),
-    searchByTeam: z.string().optional(),
+    hireStreamIds: z.array(z.number()).optional(),
     statuses: z.array(z.nativeEnum(VacancyStatus)).optional(),
     hiringManagerEmails: z.array(z.string()).optional(),
     hrEmails: z.array(z.string()).optional(),
@@ -72,3 +73,17 @@ export const editVacancySchema = z.object({
     status: z.nativeEnum(VacancyStatus).optional(),
 });
 export type EditVacancy = z.infer<typeof editVacancySchema>;
+
+export interface Group {
+    id: string;
+    name: string;
+    description?: string;
+}
+
+export const getGroupListSchema = z.object({
+    search: z.string().optional(),
+    filter: z.array(z.string()).optional(),
+    take: z.number().optional(),
+});
+
+export type GetGroupList = z.infer<typeof getGroupListSchema>;

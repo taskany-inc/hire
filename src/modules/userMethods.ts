@@ -142,13 +142,17 @@ const editSettings = (userId: number, data: EditUserSettings) => {
     });
 };
 
-const suggestions = async ({ query, include, take = suggestionsTake, hr }: GetUserSuggestions) => {
+const suggestions = async ({ query, include, take = suggestionsTake, hr, includeEmails }: GetUserSuggestions) => {
     const where: Prisma.UserWhereInput = {
         name: { contains: query, mode: 'insensitive' },
     };
 
     if (include) {
         where.id = { notIn: include };
+    }
+
+    if (includeEmails) {
+        where.email = { notIn: includeEmails };
     }
 
     if (hr) {
@@ -158,6 +162,11 @@ const suggestions = async ({ query, include, take = suggestionsTake, hr }: GetUs
 
     if (include) {
         const includes = await prisma.user.findMany({ where: { id: { in: include } } });
+        suggestions.push(...includes);
+    }
+
+    if (includeEmails) {
+        const includes = await prisma.user.findMany({ where: { email: { in: includeEmails } } });
         suggestions.push(...includes);
     }
 

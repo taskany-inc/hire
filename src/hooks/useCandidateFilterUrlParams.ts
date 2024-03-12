@@ -2,10 +2,9 @@ import { useCallback } from 'react';
 import { InterviewStatus } from '@prisma/client';
 import { debounce } from 'throttle-debounce';
 import { useRouter } from 'next/router';
+import { useUrlParams } from '@taskany/bricks';
 
 import { GetCandidateList } from '../modules/candidateTypes';
-
-import { useUrlParams } from './useUrlParams';
 
 export const useCandidateFilterUrlParams = () => {
     const router = useRouter();

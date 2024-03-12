@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Button, ModalContent, ModalHeader, ModalPreview, Text } from '@taskany/bricks';
 import { gapS, gray10 } from '@taskany/colors';
 
-import { VacancyFilterContextProvider } from '../../contexts/vacancyFilterContext';
 import { VacancyFilterBar } from '../VacancyFilterBar/VacancyFilterBar';
 import { VacancyList } from '../VacancyList/VacancyList';
 import { Vacancy } from '../../modules/crewTypes';
@@ -20,7 +19,7 @@ const StyledButton = styled(Button)`
     margin-top: ${gapS};
 `;
 
-const AddVacancyToInterviewInner = ({ vacancyId, onSelect }: AddVacancyToInterviewProps) => {
+export const AddVacancyToInterview = ({ vacancyId, onSelect }: AddVacancyToInterviewProps) => {
     const [open, setOpen] = useState(false);
 
     const selectAndClose = (vacancy: Vacancy) => {
@@ -53,13 +52,5 @@ const AddVacancyToInterviewInner = ({ vacancyId, onSelect }: AddVacancyToIntervi
                 </ModalContent>
             </ModalPreview>
         </>
-    );
-};
-
-export const AddVacancyToInterview = (props: AddVacancyToInterviewProps) => {
-    return (
-        <VacancyFilterContextProvider>
-            <AddVacancyToInterviewInner {...props} />
-        </VacancyFilterContextProvider>
     );
 };

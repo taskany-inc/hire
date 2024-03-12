@@ -42,6 +42,7 @@ export const getUserSuggestionsSchema = z.object({
     query: z.string(),
     take: z.number().optional(),
     include: z.array(z.number()).optional(),
+    includeEmails: z.array(z.string()).optional(),
     hr: z.boolean().optional(),
 });
 

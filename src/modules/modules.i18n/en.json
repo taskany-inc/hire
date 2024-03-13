@@ -110,5 +110,6 @@
     "Comments's description must be a string": "",
     "Comments's description must be longer than 1 symbol": "",
     "Comment not found": "",
-    "Comment on proplem {comment.problem.name}": ""
+    "Comment on proplem {comment.problem.name}": "",
+    "Section re-assigned to another interviewer": ""
 }

@@ -74,7 +74,7 @@ export type DeleteSection = z.infer<typeof deleteSectionSchema>;
 export const cancelSectionSchema = z.object({
     sectionId: z.number(),
     interviewId: z.number(),
-    cancelComment: z.string().optional(),
+    cancelComment: z.string(),
     calendarSlotId: z.string().nullish(),
 });
 export type CancelSection = z.infer<typeof cancelSectionSchema>;

@@ -45,7 +45,7 @@ export const notifyHR = async (id: number, data: UpdateSection) => {
     }
 };
 
-export const cancelSectionEmail = async (sectionId: number) => {
+export const cancelSectionEmail = async (sectionId: number, cancelComment: string) => {
     const section = await prisma.section.findFirstOrThrow({
         where: { id: sectionId },
         include: {
@@ -93,8 +93,10 @@ export const cancelSectionEmail = async (sectionId: number) => {
     return sendMail({
         to: section.interviewer.email,
         subject: cancelEmailSubject,
-        text: `${tr('Canceled section with')} ${section.interview.candidate.name} ${date}
-        ${config.defaultPageURL}${generatePath(Paths.SECTION, {
+        text: `${tr('Canceled section with')}
+${section.interview.candidate.name} ${date}
+${cancelComment}
+${config.defaultPageURL}${generatePath(Paths.SECTION, {
             interviewId: section.interviewId,
             sectionId: section.id,
         })}`,

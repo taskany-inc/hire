@@ -208,7 +208,7 @@ const update = async (data: UpdateSection): Promise<Section> => {
             throw new ErrorWithStatus(tr('Calendar slot did not link to section'), 500);
         }
         const currentSection = await getById(sectionId);
-        await cancelSectionEmail(sectionId);
+        await cancelSectionEmail(sectionId, tr('Section re-assigned to another interviewer'));
 
         currentSection.calendarSlotId &&
             (await prisma.calendarEventException.delete({ where: { id: currentSection.calendarSlotId } }));
@@ -247,7 +247,7 @@ const update = async (data: UpdateSection): Promise<Section> => {
 
 const cancelSection = async (data: CancelSection): Promise<Section> => {
     const { sectionId, cancelComment, calendarSlotId } = data;
-    await cancelSectionEmail(sectionId);
+    await cancelSectionEmail(sectionId, cancelComment);
 
     if (calendarSlotId) {
         const exception = await prisma.calendarEventException.findFirstOrThrow({

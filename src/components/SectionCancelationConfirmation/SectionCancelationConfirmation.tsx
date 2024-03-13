@@ -27,7 +27,7 @@ export const SectionCancelationConfirmation = ({
 
     const sectionCancelMutation = useSectionCancelMutation();
 
-    const onSubmit: SubmitHandler<{ cancelComment?: string }> = async (data) => {
+    const onSubmit: SubmitHandler<{ cancelComment: string }> = async (data) => {
         const { cancelComment } = data;
 
         await sectionCancelMutation.mutateAsync({ sectionId, interviewId, cancelComment, calendarSlotId }).then(() => {
@@ -40,7 +40,7 @@ export const SectionCancelationConfirmation = ({
         handleSubmit,
         register,
         formState: { isSubmitting, errors },
-    } = useForm<{ cancelComment?: string }>();
+    } = useForm<{ cancelComment: string }>();
 
     return (
         <Modal visible={isOpen} onClose={onClose}>

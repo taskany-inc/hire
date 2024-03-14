@@ -1,13 +1,12 @@
 import { useState, useCallback, useMemo } from 'react';
 import { View } from 'react-big-calendar';
 import { User } from '@prisma/client';
-import { Text, Button, Modal, ModalHeader, ModalContent } from '@taskany/bricks';
+import { Text, Button, Modal, ModalHeader, ModalContent, FormInput } from '@taskany/bricks';
 import styled from 'styled-components';
 import { gapL, gapM, gapS } from '@taskany/colors';
 
 import { InlineDot } from '../InlineDot';
 import { DateRange, firstVisibleDay, lastVisibleDay } from '../../utils/date';
-import { SectionCalendarSlotBooking } from '../../modules/sectionTypes';
 import { SlotCalendar } from '../SlotCalendar';
 import {
     CalendarEventLinkedSection,
@@ -24,11 +23,11 @@ export interface CalendarEventDetails extends CalendarEventLinkedSectionProps {
     title: string;
     originalDate: Date;
 }
-interface Props {
+interface SectionScheduleCalendarProps {
     interviewerIds: number[];
     onSlotSelected: (eventDetails: CalendarEventDetails) => void;
-    selectedSlot: SectionCalendarSlotBooking | undefined;
     isSectionSubmitting: boolean;
+    setVideoCallLink: (arg: string) => void;
 }
 
 const StyledButtonWrapper = styled.div`
@@ -43,7 +42,12 @@ const StyledTextWrapper = styled.div`
 `;
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function SectionScheduleCalendar({ interviewerIds, onSlotSelected, isSectionSubmitting }: Props) {
+export function SectionScheduleCalendar({
+    interviewerIds,
+    onSlotSelected,
+    isSectionSubmitting,
+    setVideoCallLink,
+}: SectionScheduleCalendarProps) {
     const [eventDetails, setEventDetails] = useState<CalendarEventDetails | null>(null);
     const closeEventFormModal = useCallback(() => {
         setEventDetails(null);
@@ -108,6 +112,12 @@ export function SectionScheduleCalendar({ interviewerIds, onSlotSelected, isSect
                         <Text as="span" size="s">
                             {eventDetails?.title}
                         </Text>
+                        <FormInput
+                            label={tr('Meeting link')}
+                            onChange={(e) => setVideoCallLink(e.target.value)}
+                            autoComplete="off"
+                            flat="bottom"
+                        />
                     </StyledTextWrapper>
                     <StyledButtonWrapper>
                         <Button onClick={closeEventFormModal} text={tr('Cancel')} />

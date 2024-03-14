@@ -1,8 +1,9 @@
-import { Text } from '@taskany/bricks';
+import { Text, nullable } from '@taskany/bricks';
 
-import { pageHrefs } from '../utils/paths';
+import { pageHrefs } from '../../utils/paths';
+import { Link } from '../Link';
 
-import { Link } from './Link';
+import { tr } from './CandidateNameSubtitle.i18n';
 
 interface Props {
     id?: number;
@@ -21,7 +22,14 @@ export function CandidateNameSubtitle({ id, name }: Props) {
                 lineHeight: '28px',
             }}
         >
-            Candidate: {typeof id !== 'number' ? name : <Link href={pageHrefs.candidate(id)}>{name}</Link>}
+            {tr('Candidate')}:{' '}
+            {nullable(
+                id,
+                (id) => (
+                    <Link href={pageHrefs.candidate(id)}>{name}</Link>
+                ),
+                name,
+            )}
         </Text>
     );
 }

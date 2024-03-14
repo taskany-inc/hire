@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import { gapM, gray10 } from '@taskany/colors';
 import { Button, ModalContent, ModalHeader, ModalPreview, Text } from '@taskany/bricks';
 import styled from 'styled-components';
+import { IconPlusCircleOutline } from '@taskany/icons';
 
 import { ProblemFilterContextProvider } from '../../contexts/problemFilterContext';
 import { ProblemList } from '../ProblemList/ProblemList';
@@ -35,7 +36,14 @@ const AddProblemToSectionInner: FC<AddProblemToSectionProps> = ({ interviewId })
 
     return (
         <>
-            <Button view="primary" outline type="button" text={tr('Add problem')} onClick={() => setOpen(true)} />
+            <Button
+                iconRight={<IconPlusCircleOutline size="s" />}
+                view="default"
+                outline
+                type="button"
+                text={tr('Add problem')}
+                onClick={() => setOpen(true)}
+            />
             <ModalPreview visible={open} onClose={() => setOpen(false)}>
                 <StyledModalHeader>
                     <Text weight="bold" color={gray10}>

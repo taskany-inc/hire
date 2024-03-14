@@ -12,6 +12,7 @@ import {
     Button,
     FormCard,
     FormTextarea,
+    FormInput,
 } from '@taskany/bricks';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
@@ -24,7 +25,7 @@ import { useSectionCreateMutation, useSectionUpdateMutation } from '../../module
 import { SectionWithRelationsAndResults, CreateOrUpdateSection } from '../../modules/sectionTypes';
 import { trpc } from '../../trpc/trpcClient';
 import { Stack } from '../Stack';
-import { CandidateNameSubtitle } from '../CandidateNameSubtitle';
+import { CandidateNameSubtitle } from '../CandidateNameSubtitle/CandidateNameSubtitle';
 import { SectionScheduleCalendar, CalendarEventDetails } from '../SectionScheduleCalendar/SectionScheduleCalendar';
 import { UserComboBox } from '../UserComboBox';
 import { pageHrefs } from '../../utils/paths';
@@ -47,6 +48,7 @@ const schema = z.object({
     }),
     description: z.string().nullish(),
     sectionId: z.number().optional(),
+    videoCallLink: z.string().nullish(),
     interviewId: z.number(),
     calendarSlot: z
         .object({
@@ -95,13 +97,14 @@ export const CreateOrUpdateSectionForm = ({
     const interviewerIds = (interviewersQuery.data || []).map(({ id }) => id);
 
     const createSection: SubmitHandler<CreateOrUpdateSection> = useCallback(
-        async ({ interviewerId, description, calendarSlot }) => {
+        async ({ interviewerId, description, calendarSlot, videoCallLink }) => {
             const result = await sectionCreateMutation.mutateAsync({
                 sectionTypeId: sectionType.id,
                 description,
                 interviewId,
                 interviewerId,
                 calendarSlot: schedulable ? calendarSlot : undefined,
+                videoCallLink,
             });
 
             const sectionId = result.id;
@@ -168,6 +171,7 @@ export const CreateOrUpdateSectionForm = ({
         setSchedulable(arg);
         setSearch('');
     };
+    const setVideoCallLink = (link: string) => setValue('videoCallLink', link);
 
     return (
         <Stack direction="column" gap={14}>
@@ -185,8 +189,8 @@ export const CreateOrUpdateSectionForm = ({
                 <SectionScheduleCalendar
                     isSectionSubmitting={isSubmitting}
                     interviewerIds={interviewerIds}
-                    selectedSlot={watch('calendarSlot')}
                     onSlotSelected={setCalendarSlotAndSubmit}
+                    setVideoCallLink={setVideoCallLink}
                 />
             )}
 
@@ -214,8 +218,15 @@ export const CreateOrUpdateSectionForm = ({
                                 placeholder={
                                     sectionType.userSelect
                                         ? tr('In which team is the product final held?')
-                                        : tr('Add a link to a meeting or write a couple of notes')
+                                        : tr('Write a couple of notes')
                                 }
+                                autoComplete="off"
+                                flat="bottom"
+                            />
+                            <FormInput
+                                label={tr('Meeting link')}
+                                error={errors.videoCallLink}
+                                {...register('videoCallLink')}
                                 autoComplete="off"
                                 flat="bottom"
                             />

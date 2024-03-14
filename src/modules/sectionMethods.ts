@@ -96,6 +96,7 @@ const create = async (data: CreateSection): Promise<Section> => {
             newSection.id,
             interview.candidate.name,
             !!calendarSlot.exceptionId,
+            restData.videoCallLink!,
         );
     }
     return newSection;
@@ -239,6 +240,7 @@ const update = async (data: UpdateSection): Promise<Section> => {
             sectionId,
             interview.candidate.name,
             !!calendarSlot.exceptionId,
+            restData.videoCallLink!,
             updatedSection.description,
         );
     }

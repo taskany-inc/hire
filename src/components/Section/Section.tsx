@@ -1,22 +1,22 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Text } from '@taskany/bricks';
+import { Text, nullable } from '@taskany/bricks';
 
 import { pageHrefs } from '../../utils/paths';
 import { accessChecks } from '../../modules/accessChecks';
 import { SectionWithRelationsAndResults } from '../../modules/sectionTypes';
 import { useSession } from '../../contexts/appSettingsContext';
 import { useSolutions } from '../../modules/solutionHooks';
-import { SectionSummary } from '../SectionSummary/SectionSummary';
 import { SectionProblemSolutions } from '../SectionProblemSolutions/SectionProblemSolutions';
 import { LayoutMain } from '../LayoutMain';
-import { CandidateNameSubtitle } from '../CandidateNameSubtitle';
+import { CandidateNameSubtitle } from '../CandidateNameSubtitle/CandidateNameSubtitle';
 import { Stack } from '../Stack';
 import { SectionSubtitle } from '../SectionSubtitle/SectionSubtitle';
 import { SectionResults } from '../SectionResults/SectionResults';
 import { getSectionTitle } from '../helpers';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { DropdownMenuItem } from '../TagFilterDropdown';
+import { SectionFeedback } from '../SectionFeedback/SectionFeedback';
 import { SectionCancelationConfirmation } from '../SectionCancelationConfirmation/SectionCancelationConfirmation';
 
 import { tr } from './Section.i18n';
@@ -92,14 +92,17 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
                     <>
                         <CandidateNameSubtitle name={interview.candidate.name} id={interview.candidate.id} />
 
-                        {showOtherGrades && <SectionResults passedSections={passedSections} />}
-                        <SectionSummary
-                            interview={interview}
+                        {nullable(showOtherGrades, () => (
+                            <SectionResults passedSections={passedSections} />
+                        ))}
+                        <SectionFeedback
                             section={section}
                             isEditable={isEditable}
+                            candidateId={interview.candidateId}
                             hasTasks={hasTasks}
                         />
-                        {hasTasks && canReadSolutions && (
+
+                        {nullable(hasTasks && canReadSolutions, () => (
                             <QueryResolver queries={[solutionsQuery]}>
                                 {([solutions]) => (
                                     <SectionProblemSolutions
@@ -110,7 +113,7 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
                                     />
                                 )}
                             </QueryResolver>
-                        )}
+                        ))}
                     </>
                 )}
             </Stack>

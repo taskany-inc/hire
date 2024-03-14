@@ -24,7 +24,7 @@ import { generatePath, Paths } from '../../utils/paths';
 import { CreateInterview } from '../../modules/interviewTypes';
 import { useInterviewCreateMutation } from '../../modules/interviewHooks';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
-import { CandidateNameSubtitle } from '../CandidateNameSubtitle';
+import { CandidateNameSubtitle } from '../CandidateNameSubtitle/CandidateNameSubtitle';
 import { Stack } from '../Stack';
 import { DropdownFieldOption } from '../DropdownField';
 import { Select } from '../Select';

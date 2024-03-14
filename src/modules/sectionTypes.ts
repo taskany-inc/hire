@@ -16,6 +16,7 @@ export const createSectionSchema = z.object({
     interviewId: z.number(),
     sectionTypeId: z.number(),
     interviewerId: z.number(),
+    videoCallLink: z.string().nullish(),
     calendarSlot: sectionCalendarSlotBookingSchema.optional(),
 });
 export type CreateSection = z.infer<typeof createSectionSchema>;
@@ -42,6 +43,7 @@ export const updateSectionSchema = z.object({
     sendHrMail: z.boolean().optional(),
     calendarSlot: sectionCalendarSlotBookingSchema.optional(),
     attachIds: z.string().array().optional(),
+    videoCallLink: z.string().nullish(),
 });
 export type UpdateSection = z.infer<typeof updateSectionSchema>;
 
@@ -51,6 +53,7 @@ export const createOrUpdateSectionSchema = z.object({
     interviewId: z.number(),
     interviewerId: z.number(),
     description: z.string().nullish(),
+    videoCallLink: z.string().nullish(),
     calendarSlot: sectionCalendarSlotBookingSchema.optional(),
 });
 export type CreateOrUpdateSection = z.infer<typeof createOrUpdateSectionSchema>;

@@ -4,8 +4,10 @@ import { useRouter } from 'next/router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
 import styled from 'styled-components';
-import { Text, Button } from '@taskany/bricks';
+import { Text, Button, nullable } from '@taskany/bricks';
 import { danger0, gapM, gapS } from '@taskany/colors';
+import { Attach } from '@prisma/client';
+import { IconPhonecallOutline, IconSendOutline } from '@taskany/icons';
 
 import { useSectionUpdateMutation } from '../../modules/sectionHooks';
 import { InterviewEventTypes } from '../../modules/interviewEventTypes';
@@ -23,6 +25,8 @@ import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { HireButtons } from '../HireButtons/HireButtons';
 import { SectionFeedbackHireBadge } from '../SectionFeedbackHireBadge/SectionFeedbackHireBadge';
 import { SectionAttach } from '../SectionAttach/SectionAttach';
+import { Link } from '../Link';
+import { AddProblemToSection } from '../AddProblemToSection/AddProblemToSection';
 
 import { tr } from './SectionFeedback.i18n';
 
@@ -30,6 +34,7 @@ interface SectionFeedbackProps {
     section: SectionWithRelationsAndResults;
     isEditable: boolean;
     candidateId: number;
+    hasTasks: boolean;
 }
 
 const StyledErrorText = styled(Text)`
@@ -42,7 +47,9 @@ const StyledMarkdownRenderer = styled(MarkdownRenderer)`
     overflow: auto;
 `;
 
-const StyledButton = styled(Button)`
+const StyledButtonWrapper = styled.div`
+    display: flex;
+    gap: ${gapS};
     margin: ${gapM} 0;
 `;
 
@@ -57,7 +64,7 @@ const schema = z.object({
     }),
 });
 
-export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): JSX.Element => {
+export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedbackProps): JSX.Element => {
     const [editMode, setEditMode] = useState<boolean>(section.hire === null);
 
     const { onUploadSuccess, onUploadFail } = useUploadNotifications();
@@ -91,10 +98,9 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
     const canEditAttach = session && accessChecks.section.attachFile(session, section).allowed;
 
     useEffect(() => {
-        // TODO: use useLocalStorage from bricks after https://github.com/taskany-inc/bricks/issues/553
         const localStorageFeedback = LocalStorageManager.getPersistedSectionFeedback(section.id);
         if (localStorageFeedback) setValue('feedback', localStorageFeedback);
-    }, []);
+    });
 
     const onSubmit = handleSubmit(async (values) => {
         const interviewerId = section.interviewer.id;
@@ -146,6 +152,7 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
 
     const editButtonTitle = editMode ? tr('Cancel') : tr('Edit');
 
+    const isProblemCreationAvailable = isEditable && hasTasks;
     return (
         <>
             <form>
@@ -190,18 +197,35 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
                         />
                     )}
 
-                    {isEditable && editMode && (
-                        <StyledButton
-                            type="button"
-                            outline
-                            view="primary"
-                            disabled={isSubmitting || isSubmitSuccessful}
-                            onClick={section.hire === null ? sendFeedbackConfirmation.show : onSubmit}
-                            text={section.feedback ? tr('Save') : tr('Send feedback')}
-                        />
-                    )}
-
-                    {isEditable && section.hire !== null && (
+                    <StyledButtonWrapper>
+                        {nullable(isEditable && editMode, () => (
+                            <Button
+                                iconRight={<IconSendOutline size="s" />}
+                                type="button"
+                                outline
+                                view="primary"
+                                disabled={isSubmitting || isSubmitSuccessful}
+                                onClick={section.hire === null ? sendFeedbackConfirmation.show : onSubmit}
+                                text={section.feedback ? tr('Save') : tr('Send feedback')}
+                            />
+                        ))}
+                        {nullable(isProblemCreationAvailable, () => (
+                            <AddProblemToSection interviewId={interviewId} />
+                        ))}
+                        {nullable(section.videoCallLink, (videoCallLink) => (
+                            <Link href={videoCallLink} target="_blank">
+                                <Button
+                                    iconRight={<IconPhonecallOutline size="s" />}
+                                    type="button"
+                                    onClick={() => {}}
+                                    outline
+                                    view="default"
+                                    text={tr('Meeting')}
+                                />
+                            </Link>
+                        ))}
+                    </StyledButtonWrapper>
+                    {nullable(isEditable && section.hire !== null, () => (
                         <Button
                             type="button"
                             view={editMode ? 'default' : 'primary'}
@@ -213,14 +237,14 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
                             }}
                             text={editButtonTitle}
                         />
-                    )}
+                    ))}
                 </Stack>
             </form>
 
-            {section.attaches.length > 0 && (
+            {nullable(section.attaches.length > 0, () => (
                 <>
                     <Text size="l">Attaches:</Text>
-                    {section.attaches.map((attach: any) => (
+                    {section.attaches.map((attach: Attach) => (
                         <SectionAttach
                             fileId={attach.id}
                             filename={attach.filename}
@@ -229,7 +253,7 @@ export const SectionFeedback = ({ section, isEditable }: SectionFeedbackProps): 
                         />
                     ))}
                 </>
-            )}
+            ))}
             <Confirmation {...sendFeedbackConfirmation.props} />
         </>
     );

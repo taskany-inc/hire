@@ -111,6 +111,7 @@ export const assignSectionEmail = async (
     sectionId: number,
     candidateName: string,
     isSlotException?: boolean,
+    location?: string,
     description?: string | null,
 ) => {
     const interviewer = await prisma.user.findFirstOrThrow({ where: { id: interviewerId } });
@@ -136,6 +137,7 @@ export const assignSectionEmail = async (
             interviewId,
             sectionId,
         })}`,
+        location,
         sequence: icalSequence + 1,
     });
 
@@ -182,7 +184,9 @@ export const assignSectionEmail = async (
         text: `${config.defaultPageURL}${generatePath(Paths.SECTION, {
             interviewId,
             sectionId,
-        })}`,
+        })}
+        
+        ${location || ''}`,
         icalEvent: calendarEvents({
             method: ICalCalendarMethod.REQUEST,
             events: [icalEventDataException],

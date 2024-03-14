@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.33.0](https://github.com/taskany-inc/hire/compare/v0.32.0...v0.33.0) (2024-03-14)
+
+
+### Features
+
+* add new parameters in vacancy filter ([efade1c](https://github.com/taskany-inc/hire/commit/efade1c0004c7a89439798fd3285b31649b52b62))
+* cancel comment in section cancellation email ([e07f558](https://github.com/taskany-inc/hire/commit/e07f558a41c1701316c889e7ea0712dbf43b2447))
+* video call link to section ([1614c72](https://github.com/taskany-inc/hire/commit/1614c725d8e0bfe2bf1b22205b1accf2f02362dc))
+
 ## [0.32.0](https://github.com/taskany-inc/hire/compare/v0.31.0...v0.32.0) (2024-03-06)
 
 

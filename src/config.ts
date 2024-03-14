@@ -67,4 +67,12 @@ export default {
         url: process.env.NEXT_PUBLIC_CREW_URL,
         apiToken: process.env.CREW_API_TOKEN,
     },
+    aiAssistant: {
+        apiUrl: process.env.AI_ASSISTANT_API_URL,
+        authUrl: process.env.AI_ASSISTANT_AUTH_URL,
+        authHeader: process.env.AI_ASSISTANT_AUTH_HEADER,
+        authScope: process.env.AI_ASSISTANT_AUTH_SCOPE,
+        model: process.env.AI_ASSISTANT_MODEL,
+        cvParsePrompt: process.env.AI_ASSISTANT_CV_PARSE_PROMPT,
+    },
 };

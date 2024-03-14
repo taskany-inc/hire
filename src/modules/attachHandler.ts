@@ -13,10 +13,13 @@ import { pageHrefs } from '../utils/paths';
 import { attachMethods } from './attachMethods';
 import { getObject, loadFile } from './s3Methods';
 import { tr } from './modules.i18n';
+import { aiAssistantMethods } from './aiAssistantMethods';
+import { CvParsingResult } from './aiAssistantTypes';
+import { candidateMethods } from './candidateMethods';
 
 interface ResponseObj {
     failed: { type: string; filePath: string; name: string }[];
-    succeeded: { type: string; filePath: string; name: string }[];
+    succeeded: { type: string; filePath: string; name: string; cvParsingResult?: CvParsingResult }[];
     errorMessage?: string;
 }
 
@@ -24,6 +27,8 @@ export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => 
     const form = formidable({ multiples: true });
     const sectionId = parseNumber(req.query.sectionId);
     const interviewId = parseNumber(req.query.interviewId);
+    const { parseCv } = req.query;
+    const candidateId = parseNumber(req.query.candidateId);
 
     await new Promise((_resolve, reject) => {
         form.parse(req, async (err, _fields, files) => {
@@ -45,7 +50,18 @@ export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => 
             for (const file of data) {
                 const filename = file.originalFilename || file.newFilename;
                 const link = `${Date.now()}_${filename}`;
-                const response = await loadFile(link, fs.createReadStream(file.filepath), file.mimetype || '');
+                const stream = fs.createReadStream(file.filepath);
+                let cvParsingResult: CvParsingResult | undefined;
+                if (parseCv && candidateId) {
+                    const buffer = fs.readFileSync(file.filepath);
+                    cvParsingResult = await aiAssistantMethods.parseCv(buffer);
+                    await candidateMethods.update({
+                        candidateId,
+                        email: cvParsingResult?.email,
+                        phone: cvParsingResult?.phone,
+                    });
+                }
+                const response = await loadFile(link, stream, file.mimetype || '');
 
                 if (response) {
                     resultObject.errorMessage = response;
@@ -61,6 +77,7 @@ export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => 
                         type: file.mimetype || '',
                         filePath: pageHrefs.attach(attach.id),
                         name: filename,
+                        cvParsingResult,
                     });
                 }
             }

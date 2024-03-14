@@ -20,7 +20,7 @@ import {
     useUpload,
 } from '@taskany/bricks';
 
-import { generatePath, Paths } from '../../utils/paths';
+import { generatePath, pageHrefs, Paths } from '../../utils/paths';
 import { CreateInterview } from '../../modules/interviewTypes';
 import { useInterviewCreateMutation } from '../../modules/interviewHooks';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
@@ -33,6 +33,8 @@ import { defaultAttachFormatter, File } from '../../utils/attachFormatter';
 import { getFileIdFromPath } from '../../utils/fileUpload';
 import { AddVacancyToInterview } from '../AddVacancyToInterview/AddVacancyToInterview';
 import { Vacancy } from '../../modules/crewTypes';
+import { cvParsingResultToDescription } from '../../utils/aiAssistantUtils';
+import { CvParsingResult } from '../../modules/aiAssistantTypes';
 
 import { tr } from './CandidateInterviewCreationForm.i18n';
 
@@ -108,6 +110,7 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
     const {
         control,
         watch,
+        getValues,
         setValue,
         handleSubmit,
         formState: { isSubmitting, isSubmitSuccessful, errors },
@@ -123,13 +126,19 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
         return defaultAttachFormatter(files);
     }, []);
 
-    const upload = useUpload(undefined, undefined, Paths.ATTACH);
+    const upload = useUpload(undefined, undefined, pageHrefs.attachAndParseCv(candidate.id));
 
     useEffect(() => {
-        if (!upload.files) return;
-        setCvAttachId(getFileIdFromPath(upload.files[0].filePath));
-        setCvAttachFilename(upload.files[0].name);
-    }, [upload.files]);
+        const file = upload.files?.[0];
+        if (!file) return;
+        if ('cvParsingResult' in file) {
+            const cvDescription = cvParsingResultToDescription(file.cvParsingResult as CvParsingResult);
+            const prevDescription = getValues('description') ?? '';
+            setValue('description', `${prevDescription}\n${cvDescription}`);
+        }
+        setCvAttachId(getFileIdFromPath(file.filePath));
+        setCvAttachFilename(file.name);
+    }, [upload.files, getValues, setValue]);
 
     const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files) return;

@@ -105,6 +105,7 @@ export const pageHrefs = {
         generatePath(Paths.ANALYTICS_HIRE_STREAM, { hireStreamName }),
 
     attach: (id: string): string => `${Paths.ATTACH}?id=${id}`,
+    attachAndParseCv: (candidateId: number): string => `${Paths.ATTACH}?parseCv=1&candidateId=${candidateId}`,
     attachInterview: (interviewId: number): string => `${Paths.ATTACH}?interviewId=${interviewId}`,
     attachSection: (sectionId: number): string => `${Paths.ATTACH}?sectionId=${sectionId}`,
 };

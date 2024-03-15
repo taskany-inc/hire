@@ -2,22 +2,32 @@ import { v4 as uuidv4 } from 'uuid';
 import pdfParse from 'pdf-parse';
 
 import config from '../config';
+import { tryGetAsyncValue } from '../utils/tryGetAsyncValue';
 
 import { CvParsingResult, cvParsingResultSchema } from './aiAssistantTypes';
 
-const getToken = async () => {
-    if (!config.aiAssistant.authUrl || !config.aiAssistant.authHeader || !config.aiAssistant.authScope) return;
-    const response = await fetch(config.aiAssistant.authUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            Accept: 'application/json',
-            RqUID: uuidv4(),
-            Authorization: `Basic ${config.aiAssistant.authHeader}`,
-        },
-        body: config.aiAssistant.authScope,
+const getConfigValues = () => {
+    Object.values(config.aiAssistant).forEach((v) => {
+        if (!v) throw new Error('Ai assistant is not configured');
     });
-    if (!response.ok) return;
+    return { ...config.aiAssistant } as Record<keyof typeof config.aiAssistant, string>;
+};
+
+const getToken = async () => {
+    const { authUrl, authHeader, authScope } = getConfigValues();
+    const response = await tryGetAsyncValue(() =>
+        fetch(authUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                Accept: 'application/json',
+                RqUID: uuidv4(),
+                Authorization: `Basic ${authHeader}`,
+            },
+            body: authScope,
+        }),
+    );
+    if (!response?.ok) return;
     const json = await response.json();
     if (typeof json.access_token === 'string') {
         return json.access_token;
@@ -26,30 +36,33 @@ const getToken = async () => {
 
 export const aiAssistantMethods = {
     parseCv: async (file: Buffer): Promise<CvParsingResult | undefined> => {
-        if (!config.aiAssistant.apiUrl || !config.aiAssistant.model || !config.aiAssistant.cvParsePrompt) return;
+        const { apiUrl, model, cvParsePrompt } = getConfigValues();
         const token = await getToken();
         if (!token) return;
         const parsedPdf = await pdfParse(file);
-        const response = await fetch(`${config.aiAssistant.apiUrl}/chat/completions`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Accept: 'application/json',
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-                model: config.aiAssistant.model,
-                messages: [
-                    {
-                        role: 'user',
-                        content: `${config.aiAssistant.cvParsePrompt}\n${parsedPdf.text}`,
-                    },
-                ],
+        const response = await tryGetAsyncValue(() =>
+            fetch(`${apiUrl}/chat/completions`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    model,
+                    messages: [
+                        {
+                            role: 'user',
+                            content: `${cvParsePrompt}\n${parsedPdf.text}`,
+                        },
+                    ],
+                }),
             }),
-        });
+        );
+        if (!response?.ok) return;
         const json = await response.json();
         const content = JSON.parse(json.choices?.[0]?.message?.content);
-        const parsedAssistantResponse = cvParsingResultSchema.safeParse(content);
-        return parsedAssistantResponse.success ? parsedAssistantResponse.data : undefined;
+        const validatedAssistantResponse = cvParsingResultSchema.safeParse(content);
+        return validatedAssistantResponse.success ? validatedAssistantResponse.data : undefined;
     },
 };

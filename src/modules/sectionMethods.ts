@@ -28,7 +28,9 @@ async function getCalendarSlotData(
     }
 
     const { eventId, exceptionId, originalDate } = params;
-    await calendarMethods.isEventExceptionAlreadyLinked(originalDate, eventId);
+    const existingExceptionId = await calendarMethods.isEventExceptionAlreadyExist(originalDate, eventId);
+
+    if (existingExceptionId) return { connect: { id: existingExceptionId } };
 
     if (!exceptionId) {
         const event = await calendarMethods.getEventById(eventId);
@@ -254,7 +256,7 @@ const cancelSection = async (data: CancelSection): Promise<Section> => {
     if (calendarSlotId) {
         const exception = await prisma.calendarEventException.findFirstOrThrow({
             where: { id: calendarSlotId },
-            include: { event: { include: { eventDetails: true } } },
+            include: { event: true },
         });
         const rRule = RRule.fromString(exception.event.rule);
 

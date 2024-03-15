@@ -294,7 +294,7 @@ const createEventCancellation = (
         data,
     });
 
-const isEventExceptionAlreadyLinked = async (originalDate: Date, eventId: string): Promise<void> => {
+const isEventExceptionAlreadyExist = async (originalDate: Date, eventId: string): Promise<string | undefined> => {
     const exeption = await prisma.calendarEventException.findFirst({
         where: { originalDate, eventId },
         include: { interviewSection: true },
@@ -303,6 +303,7 @@ const isEventExceptionAlreadyLinked = async (originalDate: Date, eventId: string
     if (exeption?.interviewSection) {
         throw new ErrorWithStatus(tr('Calendar exception of event on this date already occupied'), 400);
     }
+    return exeption?.id;
 };
 
 export const calendarMethods = {
@@ -322,5 +323,5 @@ export const calendarMethods = {
     shiftEventCancellationOriginalDates,
     removeEventException,
     createEventCancellation,
-    isEventExceptionAlreadyLinked,
+    isEventExceptionAlreadyExist,
 };

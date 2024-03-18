@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.33.1](https://github.com/taskany-inc/hire/compare/v0.33.0...v0.33.1) (2024-03-18)
+
+
+### Bug Fixes
+
+* **ai assistant:** catch request errors ([2c87e45](https://github.com/taskany-inc/hire/commit/2c87e45a5b583960c6675f707ed832c62db589be))
+* check if exception exist on section create ([1876c4e](https://github.com/taskany-inc/hire/commit/1876c4e8223ae3717fc1590bad2d3844bcebc4f4))
+
 ## [0.33.0](https://github.com/taskany-inc/hire/compare/v0.32.0...v0.33.0) (2024-03-14)
 
 

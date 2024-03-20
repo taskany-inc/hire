@@ -1,7 +1,6 @@
 import { Candidate, Section, SectionType, Solution, User, Attach } from '@prisma/client';
 import { z } from 'zod';
 
-import { InterviewEventTypes } from './interviewEventTypes';
 import { type InterviewWithSections } from './interviewTypes';
 
 const sectionCalendarSlotBookingSchema = z.object({
@@ -60,11 +59,6 @@ export type CreateOrUpdateSection = z.infer<typeof createOrUpdateSectionSchema>;
 
 export const updateSectionWithMetadataSchema = z.object({
     data: updateSectionSchema,
-    metadata: z
-        .object({
-            eventsType: z.nativeEnum(InterviewEventTypes).optional(),
-        })
-        .optional(),
 });
 export type UpdateSectionWithMetadata = z.infer<typeof updateSectionWithMetadataSchema>;
 

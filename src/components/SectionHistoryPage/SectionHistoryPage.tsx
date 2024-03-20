@@ -3,24 +3,25 @@ import { trpc } from '../../trpc/trpcClient';
 import { HistoryRecord } from '../HistoryRecord/HistoryRecord';
 import { LayoutMain } from '../LayoutMain';
 
-import s from './InterviewHistoryPage.module.css';
-import { tr } from './InterviewHistoryPage.i18n';
+import s from './SectionHistoryPage.module.css';
+import { tr } from './SectionHistoryPage.i18n';
 
-interface InterviewHistoryPageProps {
+interface SectionHistoryPageProps {
     interviewId: number;
+    sectionId: number;
 }
 
-const InterviewHistoryPage = ({ interviewId }: InterviewHistoryPageProps) => {
+export const SectionHistoryPage = ({ sectionId }: SectionHistoryPageProps) => {
     const historyEventsQuery = trpc.historyEvents.getHistoryEvents.useQuery({
-        subject: HistorySubject.INTERVIEW,
-        subjectId: String(interviewId),
+        subject: HistorySubject.SECTION,
+        subjectId: String(sectionId),
     });
 
     const events = historyEventsQuery.data ?? [];
 
     return (
         <LayoutMain pageTitle={tr('History of changes')}>
-            <div className={s.InterviewHistoryPageContainer}>
+            <div className={s.SectionHistoryPageContainer}>
                 {events.map((event) => (
                     <HistoryRecord key={event.id} event={event} />
                 ))}
@@ -28,5 +29,3 @@ const InterviewHistoryPage = ({ interviewId }: InterviewHistoryPageProps) => {
         </LayoutMain>
     );
 };
-
-export default InterviewHistoryPage;

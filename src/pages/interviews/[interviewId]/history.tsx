@@ -1,4 +1,3 @@
-import { interviewEvenMethods } from '../../../modules/interviewEventMethods';
 import { accessChecks } from '../../../modules/accessChecks';
 import { createGetServerSideProps } from '../../../utils/createGetSSRProps';
 import InterviewHistoryPage from '../../../components/InterviewHistoryPage/InterviewHistoryPage';
@@ -13,9 +12,7 @@ export const getServerSideProps = createGetServerSideProps({
 
         await handleAccessChecks(() => accessChecks.interview.readOne(session, interview));
 
-        const interviewHistory = await interviewEvenMethods.findWithRelations(numberIds.interviewId);
-
-        return { interviewHistory };
+        return { interviewId: numberIds.interviewId };
     },
 });
 

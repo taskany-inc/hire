@@ -43,7 +43,6 @@
     "Section not found": "Секция не найдена",
     "Section type {sectionTypeId} is not in hire stream {hireStreamId}": "Тип секции {sectionTypeId} не найден в потоке найма {hireStreamId}",
     "Problem not found": "Задача не найдена",
-    "Interview history not found": "История собеседования не найдена",
     "Interview not found": "Собеседование не найдено",
     "No session": "Нет сессии",
     "Hire stream not found!": "Поток найма не найден!",

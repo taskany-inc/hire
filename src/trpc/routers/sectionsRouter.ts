@@ -1,8 +1,6 @@
 import { accessMiddlewares } from '../../modules/accessMiddlewares';
 import { analyticsEventMethods } from '../../modules/analyticsEventMethods';
 import { hireStreamMethods } from '../../modules/hireStreamMethods';
-import { interviewEventRecordingMethod } from '../../modules/interviewEventRecordingMethod';
-import { InterviewEventTypes } from '../../modules/interviewEventTypes';
 import { interviewMethods } from '../../modules/interviewMethods';
 import { sectionTypeMethods } from '../../modules/sectionTypeMethods';
 import { sectionMethods } from '../../modules/sectionMethods';
@@ -15,6 +13,14 @@ import {
     updateSectionWithMetadataSchema,
 } from '../../modules/sectionTypes';
 import { protectedProcedure, router } from '../trpcBackend';
+import { historyEventMethods } from '../../modules/historyEventMethods';
+import { HistorySubject } from '../../modules/historyEventTypes';
+import { prisma } from '../../utils/prisma';
+
+const hireStatusToString = (hire: boolean | null | undefined) => {
+    if (hire === undefined || hire === null) return;
+    return hire ? 'HIRE' : 'NO_HIRE';
+};
 
 export const sectionsRouter = router({
     getInterviewSections: protectedProcedure
@@ -35,19 +41,25 @@ export const sectionsRouter = router({
         .input(createSectionSchema)
         .use(accessMiddlewares.section.create)
         .mutation(async ({ input, ctx }) => {
-            const userId = ctx.session.user.id;
-            const previousInterview = await interviewMethods.findWithSections(input.interviewId);
-            const result = await sectionMethods.create(input);
-            interviewEventRecordingMethod.recordingCreateSectionEvent({ userId, previousInterview });
+            const section = await sectionMethods.create(input);
 
-            return result;
+            const sectionType = await prisma.sectionType.findFirstOrThrow({ where: { id: input.sectionTypeId } });
+            await historyEventMethods.create({
+                userId: ctx.session.user.id,
+                subject: HistorySubject.INTERVIEW,
+                subjectId: input.interviewId,
+                action: 'add_section',
+                after: `${sectionType.title}.${section.id}`,
+            });
+
+            return section;
         }),
 
     update: protectedProcedure
         .input(updateSectionWithMetadataSchema)
         .use(accessMiddlewares.section.update)
         .mutation(async ({ input, ctx }) => {
-            const { data, metadata } = input;
+            const { data } = input;
 
             const sectionBeforeUpdate = await sectionMethods.getById(data.sectionId);
             const createFinishSectionEvent = sectionBeforeUpdate.hire === null && data.hire !== null;
@@ -75,11 +87,38 @@ export const sectionsRouter = router({
                 );
             }
 
-            interviewEventRecordingMethod.recordingUpdateEvent({
+            const commonHistoryFields = {
                 userId: ctx.session.user.id,
-                previousInterview,
-                eventType: metadata?.eventsType ?? InterviewEventTypes.SECTION_UPDATE,
-            });
+                subject: HistorySubject.SECTION,
+                subjectId: data.sectionId,
+            };
+
+            if ('hire' in data && sectionBeforeUpdate.hire !== data.hire) {
+                await historyEventMethods.create({
+                    ...commonHistoryFields,
+                    action: 'set_hire',
+                    before: hireStatusToString(sectionBeforeUpdate.hire),
+                    after: hireStatusToString(data.hire),
+                });
+            }
+
+            if ('grade' in data && sectionBeforeUpdate.grade !== data.grade) {
+                await historyEventMethods.create({
+                    ...commonHistoryFields,
+                    action: 'set_grade',
+                    before: sectionBeforeUpdate.grade ?? undefined,
+                    after: data.grade ?? undefined,
+                });
+            }
+
+            if ('feedback' in data && sectionBeforeUpdate.feedback !== data.feedback) {
+                await historyEventMethods.create({
+                    ...commonHistoryFields,
+                    action: 'set_feedback',
+                    before: sectionBeforeUpdate.feedback ?? undefined,
+                    after: data.feedback ?? undefined,
+                });
+            }
 
             return result;
         }),
@@ -90,11 +129,11 @@ export const sectionsRouter = router({
         .mutation(async ({ input, ctx }) => {
             const result = await sectionMethods.cancel(input);
 
-            const previousInterview = await interviewMethods.findWithSections(input.interviewId);
-            interviewEventRecordingMethod.recordingUpdateEvent({
+            await historyEventMethods.create({
                 userId: ctx.session.user.id,
-                previousInterview,
-                eventType: InterviewEventTypes.SECTION_CANCEL,
+                subject: HistorySubject.SECTION,
+                subjectId: input.sectionId,
+                action: 'cancel',
             });
 
             return result;
@@ -103,16 +142,7 @@ export const sectionsRouter = router({
     delete: protectedProcedure
         .input(deleteSectionSchema)
         .use(accessMiddlewares.section.delete)
-        .mutation(async ({ input, ctx }) => {
-            const result = await sectionMethods.delete(input);
-
-            const previousInterview = await interviewMethods.findWithSections(input.interviewId);
-            interviewEventRecordingMethod.recordingUpdateEvent({
-                userId: ctx.session.user.id,
-                previousInterview,
-                eventType: InterviewEventTypes.SECTION_REMOVE,
-            });
-
-            return result;
+        .mutation(async ({ input }) => {
+            return sectionMethods.delete(input);
         }),
 });

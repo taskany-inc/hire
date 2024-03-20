@@ -10,7 +10,6 @@ import { Attach } from '@prisma/client';
 import { IconPhonecallOutline, IconSendOutline } from '@taskany/icons';
 
 import { useSectionUpdateMutation } from '../../modules/sectionHooks';
-import { InterviewEventTypes } from '../../modules/interviewEventTypes';
 import { SectionWithRelationsAndResults, UpdateSection } from '../../modules/sectionTypes';
 import { generatePath, pageHrefs, Paths } from '../../utils/paths';
 import { accessChecks } from '../../modules/accessChecks';
@@ -120,9 +119,6 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                     feedback,
                     grade,
                     sendHrMail: section.hire === null,
-                },
-                metadata: {
-                    eventsType: InterviewEventTypes.SET_SECTION_FEEDBACK,
                 },
             })
             .then(() => {

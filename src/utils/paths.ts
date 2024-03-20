@@ -17,6 +17,7 @@ export enum Paths {
     SECTIONS_NEW = '/interviews/{interviewId}/sections/new',
     SECTION = '/interviews/{interviewId}/sections/{sectionId}',
     SECTION_EDIT = '/interviews/{interviewId}/sections/{sectionId}/edit',
+    SECTION_HISTORY = '/interviews/{interviewId}/sections/{sectionId}/history',
 
     SECTION_TYPES_NEW = '/section-types/new',
     SECTION_TYPES = '/section-types',
@@ -93,6 +94,8 @@ export const pageHrefs = {
         generatePath(Paths.SECTION, { interviewId, sectionId }),
     interviewSectionEdit: (interviewId: number, sectionId: number): string =>
         generatePath(Paths.SECTION_EDIT, { interviewId, sectionId }),
+    interviewSectionHistory: (interviewId: number, sectionId: number): string =>
+        generatePath(Paths.SECTION_HISTORY, { interviewId, sectionId }),
 
     sectionType: (sectionTypeId: number): string => generatePath(Paths.SECTION_TYPE, { sectionTypeId }),
     sectionTypeEdit: (sectionTypeId: number): string => generatePath(Paths.SECTION_TYPE_EDIT, { sectionTypeId }),

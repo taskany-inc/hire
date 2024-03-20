@@ -4,8 +4,6 @@ import { accessMiddlewares } from '../../modules/accessMiddlewares';
 import { analyticsEventMethods } from '../../modules/analyticsEventMethods';
 import { candidateIdQuery } from '../../modules/candidateTypes';
 import { hireStreamMethods } from '../../modules/hireStreamMethods';
-import { interviewEventRecordingMethod } from '../../modules/interviewEventRecordingMethod';
-import { InterviewEventTypes } from '../../modules/interviewEventTypes';
 import { interviewMethods } from '../../modules/interviewMethods';
 import {
     createInterviewSchema,
@@ -13,6 +11,8 @@ import {
     updateInterviewWithMetadataSchema,
 } from '../../modules/interviewTypes';
 import { protectedProcedure, router } from '../trpcBackend';
+import { historyEventMethods } from '../../modules/historyEventMethods';
+import { HistorySubject } from '../../modules/historyEventTypes';
 
 export const interviewsRouter = router({
     getById: protectedProcedure
@@ -50,11 +50,6 @@ export const interviewsRouter = router({
                 ctx.session.user.id,
             );
 
-            interviewEventRecordingMethod.recordingCreateInterviewEvent({
-                userId: ctx.session.user.id,
-                interview: { ...result, sections: [] },
-            });
-
             return result;
         }),
 
@@ -81,11 +76,36 @@ export const interviewsRouter = router({
                 );
             }
 
-            interviewEventRecordingMethod.recordingUpdateEvent({
-                previousInterview,
+            const commonHistoryFields = {
                 userId: ctx.session.user.id,
-                eventType: InterviewEventTypes.INTERVIEW_UPDATE,
-            });
+                subject: HistorySubject.INTERVIEW,
+                subjectId: input.data.interviewId,
+            };
+
+            if (
+                'candidateSelectedSectionId' in input.data &&
+                previousInterview.candidateSelectedSectionId !== input.data.candidateSelectedSectionId
+            ) {
+                await historyEventMethods.create({
+                    ...commonHistoryFields,
+                    action: 'set_candidate_selected_section',
+                    before: previousInterview.candidateSelectedSectionId
+                        ? String(previousInterview.candidateSelectedSectionId)
+                        : undefined,
+                    after: input.data.candidateSelectedSectionId
+                        ? String(input.data.candidateSelectedSectionId)
+                        : undefined,
+                });
+            }
+
+            if ('status' in input.data && previousInterview.status !== input.data.status) {
+                await historyEventMethods.create({
+                    ...commonHistoryFields,
+                    action: 'set_status',
+                    before: previousInterview.status,
+                    after: input.data.status,
+                });
+            }
 
             return newInterview;
         }),
@@ -93,16 +113,7 @@ export const interviewsRouter = router({
     delete: protectedProcedure
         .input(interviewIdQuerySchema)
         .use(accessMiddlewares.interview.delete)
-        .mutation(async ({ input, ctx }) => {
-            const interviewWithSections = await interviewMethods.getById(input.interviewId);
-
-            const result = await interviewMethods.delete(input.interviewId);
-
-            interviewEventRecordingMethod.recordingDeleteInterviewEvent({
-                userId: ctx.session.user.id,
-                interview: interviewWithSections,
-            });
-
-            return result;
+        .mutation(async ({ input }) => {
+            return interviewMethods.delete(input.interviewId);
         }),
 });

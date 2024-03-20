@@ -2,5 +2,6 @@
     "Edit": "Редактировать",
     "Delete": "Удалить",
     "Section canceled due to": "Секция отменена по причине",
-    "Section with {name} canceled": "Отменена секция с {name}"
+    "Section with {name} canceled": "Отменена секция с {name}",
+    "History of changes": "История изменений"
 }

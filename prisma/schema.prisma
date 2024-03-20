@@ -68,6 +68,7 @@ model User {
   updatedAt                 DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
   accounts                  Account[]
   sessions                  Session[]
+  /// DEPRECATED
   interviewEvents           InterviewEvent[]
   createdCalendarEvents     CalendarEvent[]
   managerInHireStreams      HireStream[]     @relation("HireStreamToManager")
@@ -77,6 +78,7 @@ model User {
   settings                  UserSettings?
   problemHistory            ProblemHistory[]
   comments                  Comment[]
+  historyEvents             HistoryEvent[]
 
   @@index([email])
 }
@@ -168,6 +170,7 @@ model Interview {
   updatedAt                  DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
   candidateSelectedSectionId Int?
   candidateSelectedSection   Section?         @relation(name: "CandidateSelectedSection", fields: [candidateSelectedSectionId], references: [id])
+  /// DEPRECATED
   interviewEvents            InterviewEvent[]
   statusComment              String?
   hireStream                 HireStream       @relation(fields: [hireStreamId], references: [id])
@@ -220,6 +223,7 @@ model Solution {
   @@unique([problemId, sectionId])
 }
 
+/// DEPRECATED
 model InterviewEvent {
   id          Int        @id @default(autoincrement())
   userId      Int
@@ -302,6 +306,22 @@ model AnalyticsEvent {
   hire          Boolean?
   grade         String?
   rejectReason  String?
+}
+
+model HistoryEvent {
+  id String @id @default(uuid())
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  subject   String
+  subjectId String
+  action    String
+
+  before String?
+  after  String?
+
+  createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
 }
 
 model RejectReason {

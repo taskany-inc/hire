@@ -18,6 +18,7 @@ import { feedbackRouter } from './feedbackRouter';
 import { commentRouter } from './commentRouter';
 import { crewRouter } from './crewRouter';
 import { appConfigRouter } from './appConfigRouter';
+import { historyEventsRouter } from './historyEventsRouter';
 
 export const trpcRouter = router({
     analyticsQueries: analyticsQueriesRouter,
@@ -38,6 +39,7 @@ export const trpcRouter = router({
     comment: commentRouter,
     crew: crewRouter,
     appConfig: appConfigRouter,
+    historyEvents: historyEventsRouter,
 });
 
 export type TrpcRouter = typeof trpcRouter;

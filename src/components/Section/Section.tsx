@@ -46,9 +46,14 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
         : getSectionTitle(section);
 
     const titleMenuItems = useMemo<DropdownMenuItem[]>(() => {
-        const items: DropdownMenuItem[] = [];
+        const items: DropdownMenuItem[] = [
+            {
+                onClick: () => router.push(pageHrefs.interviewSectionHistory(interviewId, sectionId)),
+                text: tr('History of changes'),
+            },
+        ];
 
-        if (section.isCanceled) return [];
+        if (section.isCanceled) return items;
 
         if (isEditable) {
             items.push({

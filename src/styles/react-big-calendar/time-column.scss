@@ -122,11 +122,8 @@
   margin-left: -1px;
 }
 
-.rbc-time-slot {
-
-  &.rbc-now {
-    font-weight: bold;
-  }
+.rbc-time-slot .rbc-now {
+  font-weight: bold;
 }
 
 .rbc-day-header {

@@ -88,7 +88,9 @@ const create = async (data: CreateSection): Promise<Section> => {
         calendarSlot: slot,
     };
 
-    const newSection = await prisma.section.create({ data: createData });
+    const newSection = await prisma.section.create({ data: createData, include: { sectionType: true } });
+
+    const sectionTypeTitle = newSection.sectionType.title;
 
     if (newSection.calendarSlotId && calendarSlot) {
         await assignSectionEmail(
@@ -99,6 +101,7 @@ const create = async (data: CreateSection): Promise<Section> => {
             interview.candidate.name,
             !!calendarSlot.exceptionId,
             restData.videoCallLink!,
+            sectionTypeTitle,
         );
     }
     return newSection;
@@ -228,7 +231,13 @@ const update = async (data: UpdateSection): Promise<Section> => {
 
     sendHrMail && notifyHR(sectionId, data);
 
-    const updatedSection = await prisma.section.update({ data: updateData, where: { id: sectionId } });
+    const updatedSection = await prisma.section.update({
+        data: updateData,
+        where: { id: sectionId },
+        include: { sectionType: true },
+    });
+
+    const sectionTypeTitle = updatedSection.sectionType.title;
 
     if (calendarSlot && updatedSection.calendarSlotId) {
         const interview = await prisma.interview.findFirstOrThrow({
@@ -244,6 +253,7 @@ const update = async (data: UpdateSection): Promise<Section> => {
             !!calendarSlot.exceptionId,
             restData.videoCallLink!,
             updatedSection.description,
+            sectionTypeTitle,
         );
     }
     return updatedSection;

@@ -98,7 +98,6 @@
     "Added documents": "Документ загружен",
     "Failed to upload documents": "Не удалось загрузить документ",
     "Deleted document": "Документ удален",
-    "Interview with": "Интервью с",
     "Insufficient permissions to delete or edit the comment": "Недостаточно разрешений для удаления или редактирования комментария",
     "New comment created": "Новый комментарий добавлен",
     "Only recruiters and interviewers can create files": "Только рекрутеры и интервьюеры могут добавлять файлы",
@@ -111,5 +110,6 @@
     "Comments's description must be longer than 1 symbol": "Текст комментария должен быть длиннее 1 символа",
     "Comment not found": "Коментарий не найден",
     "Comment on proplem {comment.problem.name}": "Комментарий к задаче {comment.problem.name}",
-    "Section re-assigned to another interviewer": "Секция переназначена на другого собеседующего"
+    "Section re-assigned to another interviewer": "Секция переназначена на другого собеседующего",
+    "with": "c"
 }

@@ -135,10 +135,30 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                 });
             });
     });
+    const solutionsWithoutResultWarn = section.solutions.reduce((acc: string[], rec) => {
+        rec.result === 'UNKNOWN' && acc.push(rec.problem.name);
+        return acc;
+    }, []);
 
     const sendFeedbackConfirmation = useConfirmation({
         message: tr('Send feedback?'),
-        description: !section.feedback ? tr('HR will receive a notification about the completed feedback') : undefined,
+        description: (
+            <>
+                {nullable(solutionsWithoutResultWarn.length, () => (
+                    <>
+                        <Text>{tr('Ouch! You probably forgot to add these solutions:')}</Text>
+                        <ul>
+                            {solutionsWithoutResultWarn.map((title) => (
+                                <li key={title}>{title}</li>
+                            ))}
+                        </ul>
+                    </>
+                ))}
+                {nullable(!section.feedback, () => (
+                    <Text>{tr('HR will receive a notification about the completed feedback')}</Text>
+                ))}
+            </>
+        ),
         onAgree: onSubmit,
     });
 

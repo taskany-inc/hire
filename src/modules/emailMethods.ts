@@ -113,13 +113,13 @@ export const assignSectionEmail = async (
     isSlotException?: boolean,
     location?: string,
     description?: string | null,
+    sectionTypeTitle?: string,
 ) => {
     const interviewer = await prisma.user.findFirstOrThrow({ where: { id: interviewerId } });
     const exception = await prisma.calendarEventException.findFirstOrThrow({
         where: { id: calendarSlotId },
         include: { eventDetails: true, event: true },
     });
-
     const rRule = RRule.fromString(exception.event.rule);
 
     const icalId = rRule.options.freq ? calendarSlotId : exception.event.id;
@@ -132,7 +132,7 @@ export const assignSectionEmail = async (
         start: exception.date,
         description: description || exception.eventDetails.description,
         duration: exception.eventDetails.duration,
-        summary: `${tr('Interview with')} ${candidateName}`,
+        summary: `${sectionTypeTitle} ${tr('with')} ${candidateName}`,
         url: `${config.defaultPageURL}${generatePath(Paths.SECTION, {
             interviewId,
             sectionId,
@@ -180,7 +180,7 @@ export const assignSectionEmail = async (
 
     await sendMail({
         to: interviewer.email,
-        subject: `${tr('Interview with')} ${candidateName}`,
+        subject: `${sectionTypeTitle} ${tr('with')} ${candidateName}`,
         text: `${config.defaultPageURL}${generatePath(Paths.SECTION, {
             interviewId,
             sectionId,

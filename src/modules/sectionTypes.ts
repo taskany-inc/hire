@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 import { InterviewEventTypes } from './interviewEventTypes';
 import { type InterviewWithSections } from './interviewTypes';
+import { SolutionProblem } from './solutionTypes';
 
 const sectionCalendarSlotBookingSchema = z.object({
     eventId: z.string(),
@@ -86,7 +87,7 @@ export type SectionWithSectionType = Section & { interviewer: User; sectionType:
 
 export type SectionWithRelationsAndResults = Section & {
     interviewer: User;
-    solutions: Solution[];
+    solutions: Array<Solution & SolutionProblem>;
     sectionType: SectionType;
     interview: InterviewWithSections & { candidate: Candidate };
     passedSections: SectionWithSectionType[];

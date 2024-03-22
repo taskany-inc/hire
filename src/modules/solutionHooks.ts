@@ -36,6 +36,7 @@ export const useSolutionUpdateMutation = () => {
         onSuccess: (data) => {
             enqueueSuccessNotification(tr('Solution {id} updated', { id: data.id }));
             utils.solutions.invalidate();
+            utils.sections.getById.invalidate();
         },
         onError: enqueueErrorNotification,
     });

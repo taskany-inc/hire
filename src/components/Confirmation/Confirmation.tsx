@@ -1,6 +1,6 @@
-import { useRef, useState, VFC } from 'react';
-import { Button, FormTitle, Modal, ModalContent, ModalCross, ModalHeader, Text } from '@taskany/bricks';
-import { gapM, gapS, gapXl } from '@taskany/colors';
+import { ReactNode, useRef, useState, VFC } from 'react';
+import { Button, FormTitle, Modal, ModalContent, ModalCross, ModalHeader } from '@taskany/bricks';
+import { gapL, gapM, gapS } from '@taskany/colors';
 import styled from 'styled-components';
 
 import { AsyncAnyFunction } from '../../utils/types';
@@ -10,7 +10,7 @@ import { tr } from './Confirmation.i18n';
 interface ConfirmationProps {
     open: boolean;
     message: string;
-    description?: string;
+    description?: ReactNode;
     onAgree: VoidFunction;
     onClose: VoidFunction;
     inProgress?: boolean;
@@ -21,7 +21,7 @@ const StyledWrapper = styled.div`
     display: flex;
     gap: ${gapS};
     float: right;
-    margin: ${gapXl} 0 ${gapM} 0;
+    margin: ${gapL} 0 ${gapM} 0;
 `;
 
 export const Confirmation: VFC<ConfirmationProps> = ({
@@ -45,7 +45,7 @@ export const Confirmation: VFC<ConfirmationProps> = ({
                 <FormTitle>{message}</FormTitle>
             </ModalHeader>
             <ModalContent>
-                {description && <Text>{description}</Text>}
+                {description}
                 <StyledWrapper>
                     <Button
                         ref={ref}
@@ -65,7 +65,7 @@ export const Confirmation: VFC<ConfirmationProps> = ({
 
 type UseConfirmation = (config: {
     message: string;
-    description?: string;
+    description?: ReactNode;
     onAgree: AsyncAnyFunction;
     /** Colors the Ok button red to warn the user of a dangerous action */
     destructive?: boolean;

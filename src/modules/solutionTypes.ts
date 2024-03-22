@@ -1,4 +1,4 @@
-import { SolutionResult } from '@prisma/client';
+import { Problem, SolutionResult } from '@prisma/client';
 import { z } from 'zod';
 
 import { ExtractPrismaTypeFromArray } from '../utils/types';
@@ -39,3 +39,7 @@ export const switchSolutionsOrderSchema = z.object({
     secondSolutionId: z.number(),
 });
 export type SwitchSolutionsOrder = z.infer<typeof switchSolutionsOrderSchema>;
+
+export interface SolutionProblem {
+    problem: Problem;
+}

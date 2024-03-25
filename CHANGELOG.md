@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.34.0](https://github.com/taskany-inc/hire/compare/v0.33.1...v0.34.0) (2024-03-25)
+
+
+### Features
+
+* **assignSectionEmail:** show section type on invite ([c925b04](https://github.com/taskany-inc/hire/commit/c925b04a1eacd933d4bceb776faf04e633ecb518))
+* **SectionFeedback:** warn about solutions without result ([fe809e9](https://github.com/taskany-inc/hire/commit/fe809e936d8dea77935ebc353913415d89d53247))
+
+
+### Bug Fixes
+
+* **Calendar:** reduce amount of stripes in calendar ([782d938](https://github.com/taskany-inc/hire/commit/782d938b994c6f325d9489dd05f2c934e85c2296))
+* **Calendar:** reduce amount of stripes in calendar ([61dabc7](https://github.com/taskany-inc/hire/commit/61dabc7f74aa97624f7bf58db3e4ec41cecc0daa))
+
 ## [0.33.1](https://github.com/taskany-inc/hire/compare/v0.33.0...v0.33.1) (2024-03-18)
 
 

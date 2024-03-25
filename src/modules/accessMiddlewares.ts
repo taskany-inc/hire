@@ -19,7 +19,7 @@ import {
 } from './sectionTypes';
 import { solutionMethods } from './solutionMethods';
 import { hireStreamMethods } from './hireStreamMethods';
-import { UpdateInterview } from './interviewTypes';
+import { EditInterviewAccessList, UpdateInterview } from './interviewTypes';
 import { AccessCheckResult, accessChecks } from './accessChecks';
 import { tr } from './modules.i18n';
 import { commentMethods } from './commentMethods';
@@ -220,6 +220,14 @@ export const accessMiddlewares = {
             accessChecks.interview.update,
         ),
         delete: createMiddleware(accessChecks.interview.delete),
+        editAccessList: createEntityCheckMiddleware(
+            (input: EditInterviewAccessList) => input.interviewId,
+            async (interviewId) => {
+                const interview = await interviewMethods.getById(interviewId);
+                return interview.hireStreamId;
+            },
+            accessChecks.interview.update,
+        ),
     },
 
     roles: {

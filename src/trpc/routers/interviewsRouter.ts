@@ -7,12 +7,14 @@ import { hireStreamMethods } from '../../modules/hireStreamMethods';
 import { interviewMethods } from '../../modules/interviewMethods';
 import {
     createInterviewSchema,
+    editInterviewAccessListSchema,
     interviewIdQuerySchema,
     updateInterviewWithMetadataSchema,
 } from '../../modules/interviewTypes';
 import { protectedProcedure, router } from '../trpcBackend';
 import { historyEventMethods } from '../../modules/historyEventMethods';
 import { HistorySubject } from '../../modules/historyEventTypes';
+import { prisma } from '../../utils/prisma';
 
 export const interviewsRouter = router({
     getById: protectedProcedure
@@ -115,5 +117,38 @@ export const interviewsRouter = router({
         .use(accessMiddlewares.interview.delete)
         .mutation(async ({ input }) => {
             return interviewMethods.delete(input.interviewId);
+        }),
+
+    editAccessList: protectedProcedure
+        .input(editInterviewAccessListSchema)
+        .use(accessMiddlewares.interview.editAccessList)
+        .mutation(async ({ input, ctx }) => {
+            const user = await prisma.user.findFirstOrThrow({ where: { id: input.userId }, select: { name: true } });
+
+            const editedInterview = await interviewMethods.editAccessList(input);
+
+            const commonHistoryFields = {
+                userId: ctx.session.user.id,
+                subject: HistorySubject.INTERVIEW,
+                subjectId: input.interviewId,
+            };
+
+            if (input.action === 'ADD') {
+                await historyEventMethods.create({
+                    ...commonHistoryFields,
+                    action: 'add_restricted_user',
+                    after: `${input.userId}.${user.name}`,
+                });
+            }
+
+            if (input.action === 'DELETE') {
+                await historyEventMethods.create({
+                    ...commonHistoryFields,
+                    action: 'remove_restricted_user',
+                    after: `${input.userId}.${user.name}`,
+                });
+            }
+
+            return editedInterview;
         }),
 });

@@ -1,4 +1,4 @@
-import { useState, VFC } from 'react';
+import { useState } from 'react';
 import { User } from '@prisma/client';
 import { Button } from '@taskany/bricks';
 import styled from 'styled-components';
@@ -8,7 +8,7 @@ import { trpc } from '../../trpc/trpcClient';
 import { Role } from '../../modules/userTypes';
 import { UserComboBox } from '../UserComboBox';
 
-import { tr } from './AddUserToRole.i18n';
+import { tr } from './UserSelector.i18n';
 
 const StyledWrapper = styled.div`
     display: flex;
@@ -19,14 +19,14 @@ const StyledButton = styled(Button)`
     margin-left: 6px;
 `;
 
-interface AddUserToRoleProps {
+interface UserSelectorProps {
     onSelect: (user: User) => void;
     placeholder: string;
-    role: Role;
+    role?: Role;
     sectionTypeOrHireStreamId?: number;
 }
 
-export const AddUserToRole: VFC<AddUserToRoleProps> = ({ placeholder, onSelect, sectionTypeOrHireStreamId, role }) => {
+export const UserSelector = ({ placeholder, onSelect, sectionTypeOrHireStreamId, role }: UserSelectorProps) => {
     const [search, setSearch] = useState('');
     const [debouncedSearch] = useDebounce(search, 300);
     const [user, setUser] = useState<User | undefined>(undefined);
@@ -38,6 +38,7 @@ export const AddUserToRole: VFC<AddUserToRoleProps> = ({ placeholder, onSelect, 
             staleTime: 0,
         },
     );
+
     const onUserSelect = (user: User) => {
         setUser(user);
         setSearch('');

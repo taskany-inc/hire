@@ -10,5 +10,7 @@
     "canceled the section": "отменил(а) секцию",
     "hire status": "статус найма",
     "grade": "грейд",
-    "updated the feedback": "обновил(а) фидбек"
+    "updated the feedback": "обновил(а) фидбек",
+    "restricted access for": "ограничил(а) доступ для",
+    "removed access restriction from": "убрал(а) ограничения доступа для"
 }

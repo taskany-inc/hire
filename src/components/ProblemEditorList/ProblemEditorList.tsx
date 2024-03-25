@@ -8,7 +8,7 @@ import {
 } from '../../modules/rolesHooks';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { UserList } from '../UserList/UserList';
-import { AddUserToRole } from '../AddUserToRole/AddUserToRole';
+import { UserSelector } from '../UserSelector/UserSelector';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
 
 import { tr } from './ProblemEditorList.i18n';
@@ -39,7 +39,7 @@ export const ProblemEditorsList = () => {
                             title={tr('Problem Editors')}
                             users={users}
                             titleFragment={
-                                <AddUserToRole
+                                <UserSelector
                                     role="problemEditor"
                                     placeholder={tr('Add problem editor role')}
                                     onSelect={(user) =>

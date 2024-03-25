@@ -71,10 +71,24 @@ const InterviewSetCandidateSelectedSection = ({ event }: EventProps) => (
     </Text>
 );
 
+const InterviewAddOrRemoveRestrictedUser = ({ event }: EventProps) => {
+    const action =
+        event.action === 'add_restricted_user' ? tr('restricted access for') : tr('removed access restriction from');
+    const dotIndex = event.after?.indexOf('.') ?? 0;
+    const userName = event.after?.slice(dotIndex + 1);
+    return (
+        <Text size="xs" weight="thin">
+            {action} {userName}
+        </Text>
+    );
+};
+
 const interviewEventMap: Record<HistoryAction<HistorySubject.INTERVIEW>, (props: EventProps) => ReactNode> = {
     add_section: InterviewAddSection,
     set_status: InterviewSetStatus,
     set_candidate_selected_section: InterviewSetCandidateSelectedSection,
+    add_restricted_user: InterviewAddOrRemoveRestrictedUser,
+    remove_restricted_user: InterviewAddOrRemoveRestrictedUser,
 };
 
 const SectionCancel = () => (

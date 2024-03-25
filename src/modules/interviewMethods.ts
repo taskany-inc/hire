@@ -9,6 +9,7 @@ import { ApiEntityListResult, ApiEntityListSelectionParams } from '../utils/type
 import {
     CandidateInterviewsFetchParams,
     CreateInterview,
+    EditInterviewAccessList,
     GetInterviewByIdOptions,
     InterviewByInterviewer,
     InterviewWithCandidateRelation,
@@ -63,6 +64,7 @@ const getById = async (id: number, options?: GetInterviewByIdOptions): Promise<I
             candidateSelectedSection: true,
             hireStream: true,
             cv: true,
+            restrictedUsers: true,
         },
     });
 
@@ -113,7 +115,11 @@ const getListByCandidateId = async ({
     candidateId,
     accessOptions = {},
 }: CandidateInterviewsFetchParams): Promise<InterviewWithHireStreamAndSectionsRelation[]> => {
-    const { filterInterviewsByHireStreamIds, filterInterviewsBySectionTypeIds } = accessOptions;
+    const {
+        filterInterviewsByHireStreamIds,
+        filterInterviewsBySectionTypeIds,
+        filterInterviewsByUserAccessRestriction,
+    } = accessOptions;
     const interviewAccessFilter: Prisma.InterviewWhereInput = {};
 
     if (filterInterviewsByHireStreamIds) {
@@ -122,6 +128,12 @@ const getListByCandidateId = async ({
 
     if (filterInterviewsBySectionTypeIds) {
         interviewAccessFilter.sections = { some: { sectionTypeId: { in: filterInterviewsBySectionTypeIds } } };
+    }
+
+    if (filterInterviewsByUserAccessRestriction) {
+        interviewAccessFilter.restrictedUsers = {
+            none: { id: { equals: filterInterviewsByUserAccessRestriction } },
+        };
     }
 
     return prisma.interview.findMany({
@@ -247,6 +259,27 @@ const findAll = async (
     return { items, total };
 };
 
+const editAccessList = async (data: EditInterviewAccessList) => {
+    const interview = await prisma.interview.findFirst({
+        where: { id: data.interviewId },
+        select: { restrictedUsers: { select: { id: true } } },
+    });
+    let restrictedUserIds = interview?.restrictedUsers.map((u) => u.id) ?? [];
+    if (data.action === 'ADD') {
+        restrictedUserIds.push(data.userId);
+    }
+    if (data.action === 'DELETE') {
+        restrictedUserIds = restrictedUserIds.filter((id) => id !== data.userId);
+    }
+    const uniqueRestrictedUsers = Array.from(new Set(restrictedUserIds));
+    return prisma.interview.update({
+        where: { id: data.interviewId },
+        data: {
+            restrictedUsers: { set: idsToIdObjs(uniqueRestrictedUsers) },
+        },
+    });
+};
+
 export const interviewMethods = {
     create,
     getById,
@@ -257,4 +290,5 @@ export const interviewMethods = {
     delete: deleteInterview,
     findAllInterviewerInterviews,
     findWithSections,
+    editAccessList,
 };

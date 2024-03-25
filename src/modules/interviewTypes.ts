@@ -64,6 +64,13 @@ export const updateInterviewWithMetadataSchema = z.object({
 });
 export type UpdateInterviewWithMetadata = z.infer<typeof updateInterviewWithMetadataSchema>;
 
+export const editInterviewAccessListSchema = z.object({
+    interviewId: z.number(),
+    userId: z.number(),
+    action: z.enum(['ADD', 'DELETE']),
+});
+export type EditInterviewAccessList = z.infer<typeof editInterviewAccessListSchema>;
+
 export interface CandidateInterviewsFetchParams {
     candidateId: number;
     accessOptions?: AccessOptions;
@@ -77,6 +84,8 @@ export type SectionWithInterviewRelation = Section & {
 export type InterviewWithSections = Interview & {
     sections: Section[];
 };
+
+export type InterviewWithSectionsAndRestrictedUsers = InterviewWithSections & { restrictedUsers?: User[] };
 
 export type InterviewWithHireStreamAndSectionsRelation = InterviewWithSections & {
     hireStream: HireStream | null;
@@ -100,6 +109,7 @@ export type InterviewWithRelations = InterviewWithHireStreamRelation & {
     sections: SectionWithSectionTypeAndInterviewerAndSolutionsRelations[];
     candidateSelectedSection: Section | null;
     cv?: Attach;
+    restrictedUsers?: User[];
 };
 
 export interface InterviewWithCandidateRelation extends Interview, Record<string, unknown> {

@@ -56,3 +56,20 @@ export const useInterviewRemoveMutation = () => {
         onError: enqueueErrorNotification,
     });
 };
+
+export const useEditInterviewAccessList = () => {
+    const { enqueueSuccessNotification, enqueueErrorNotification } = useNotifications();
+    const utils = trpc.useContext();
+
+    return trpc.interviews.editAccessList.useMutation({
+        onSuccess: (_data, input) => {
+            const message =
+                input.action === 'ADD'
+                    ? tr('User added to the restriction list')
+                    : tr('User removed from the restriction list');
+            enqueueSuccessNotification(message);
+            utils.interviews.invalidate();
+        },
+        onError: enqueueErrorNotification,
+    });
+};

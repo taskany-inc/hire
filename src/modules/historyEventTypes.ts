@@ -6,7 +6,12 @@ export enum HistorySubject {
 }
 
 export interface HistoryEvents {
-    [HistorySubject.INTERVIEW]: 'add_section' | 'set_status' | 'set_candidate_selected_section';
+    [HistorySubject.INTERVIEW]:
+        | 'add_section'
+        | 'set_status'
+        | 'set_candidate_selected_section'
+        | 'add_restricted_user'
+        | 'remove_restricted_user';
     [HistorySubject.SECTION]: 'cancel' | 'set_hire' | 'set_grade' | 'set_feedback';
 }
 

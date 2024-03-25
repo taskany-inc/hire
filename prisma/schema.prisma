@@ -63,7 +63,7 @@ model User {
   problems                  Problem[]        @relation("CreatedProblems")
   favoriteProblems          Problem[]        @relation("FavoriteProblems")
   section                   Section[]
-  createdInterviews         Interview[]
+  createdInterviews         Interview[]      @relation("InterviewCreator")
   createdAt                 DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
   updatedAt                 DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
   accounts                  Account[]
@@ -79,6 +79,7 @@ model User {
   problemHistory            ProblemHistory[]
   comments                  Comment[]
   historyEvents             HistoryEvent[]
+  restrictedInterviews      Interview[]      @relation("InterviewAccessRestriction")
 
   @@index([email])
 }
@@ -159,7 +160,7 @@ model OutstaffVendor {
 model Interview {
   id                         Int              @id @default(autoincrement())
   description                String?
-  creator                    User             @relation(fields: [creatorId], references: [id])
+  creator                    User             @relation("InterviewCreator", fields: [creatorId], references: [id])
   creatorId                  Int
   candidate                  Candidate        @relation(fields: [candidateId], references: [id])
   candidateId                Int
@@ -179,6 +180,7 @@ model Interview {
   cv                         Attach?          @relation("InterviewCV", fields: [cvId], references: [id])
   cvId                       String?          @unique
   crewVacancyId              String?
+  restrictedUsers            User[]           @relation("InterviewAccessRestriction")
 }
 
 model Section {

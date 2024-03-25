@@ -91,10 +91,16 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reject
         }
 
         if (canEditInterviews) {
-            items.push({
-                onClick: () => router.push(pageHrefs.candidateInterviewUpdate(interview.candidate.id, interviewId)),
-                text: tr('Edit'),
-            });
+            items.push(
+                {
+                    onClick: () => router.push(pageHrefs.candidateInterviewUpdate(interview.candidate.id, interviewId)),
+                    text: tr('Edit'),
+                },
+                {
+                    onClick: () => router.push(pageHrefs.interviewAccess(interview.id)),
+                    text: tr('Restrict access'),
+                },
+            );
         }
 
         if (canDeleteInterviews) {

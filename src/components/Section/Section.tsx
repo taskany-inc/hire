@@ -1,6 +1,9 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Text, nullable } from '@taskany/bricks';
+import { IconAttachmentOutline } from '@taskany/icons';
+import { gapM } from '@taskany/colors';
+import styled from 'styled-components';
 
 import { pageHrefs } from '../../utils/paths';
 import { accessChecks } from '../../modules/accessChecks';
@@ -18,12 +21,18 @@ import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { DropdownMenuItem } from '../TagFilterDropdown';
 import { SectionFeedback } from '../SectionFeedback/SectionFeedback';
 import { SectionCancelationConfirmation } from '../SectionCancelationConfirmation/SectionCancelationConfirmation';
+import { Link } from '../Link';
 
 import { tr } from './Section.i18n';
 
 interface SectionProps {
     section: SectionWithRelationsAndResults;
 }
+
+const StyledLinksWrapper = styled.div`
+    display: flex;
+    gap: ${gapM};
+`;
 
 export const Section = ({ section }: SectionProps): JSX.Element => {
     const router = useRouter();
@@ -95,7 +104,17 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
                 </Text>
                 {!section.isCanceled && (
                     <>
-                        <CandidateNameSubtitle name={interview.candidate.name} id={interview.candidate.id} />
+                        <StyledLinksWrapper>
+                            <CandidateNameSubtitle name={interview.candidate.name} id={interview.candidate.id} />
+
+                            {nullable(section.interview.cvId, (cvId) => (
+                                <Text weight="bold" size="l">
+                                    <Link href={pageHrefs.attach(cvId)} target="_blank">
+                                        {tr('CV')} <IconAttachmentOutline size="s" />
+                                    </Link>
+                                </Text>
+                            ))}
+                        </StyledLinksWrapper>
 
                         {nullable(showOtherGrades, () => (
                             <SectionResults passedSections={passedSections} />

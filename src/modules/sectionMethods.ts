@@ -93,16 +93,16 @@ const create = async (data: CreateSection): Promise<Section> => {
     const sectionTypeTitle = newSection.sectionType.title;
 
     if (newSection.calendarSlotId && calendarSlot) {
-        await assignSectionEmail(
-            newSection.calendarSlotId,
+        await assignSectionEmail({
+            calendarSlotId: newSection.calendarSlotId,
             interviewerId,
             interviewId,
-            newSection.id,
-            interview.candidate.name,
-            !!calendarSlot.exceptionId,
-            restData.videoCallLink!,
+            sectionId: newSection.id,
+            candidateName: interview.candidate.name,
             sectionTypeTitle,
-        );
+            isSlotException: !!calendarSlot.exceptionId,
+            location: restData.videoCallLink!,
+        });
     }
     return newSection;
 };
@@ -244,17 +244,17 @@ const update = async (data: UpdateSection): Promise<Section> => {
             where: { id: interviewId },
             include: { candidate: true },
         });
-        await assignSectionEmail(
-            updatedSection.calendarSlotId,
+        await assignSectionEmail({
+            calendarSlotId: updatedSection.calendarSlotId,
             interviewerId,
             interviewId,
             sectionId,
-            interview.candidate.name,
-            !!calendarSlot.exceptionId,
-            restData.videoCallLink!,
-            updatedSection.description,
+            candidateName: interview.candidate.name,
             sectionTypeTitle,
-        );
+            isSlotException: !!calendarSlot.exceptionId,
+            location: restData.videoCallLink!,
+            description: updatedSection.description!,
+        });
     }
     return updatedSection;
 };

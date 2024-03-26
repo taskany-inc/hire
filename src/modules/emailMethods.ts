@@ -13,6 +13,18 @@ import { tr } from './modules.i18n';
 import { sendMail } from './nodemailer';
 import { calendarMethods } from './calendarMethods';
 
+export interface AssignSectionEmailData {
+    calendarSlotId: string;
+    interviewerId: number;
+    interviewId: number;
+    sectionId: number;
+    candidateName: string;
+    sectionTypeTitle: string;
+    isSlotException?: boolean;
+    location?: string;
+    description?: string;
+}
+
 export const notifyHR = async (id: number, data: UpdateSection) => {
     if (!data.feedback) {
         return;
@@ -104,25 +116,15 @@ ${config.defaultPageURL}${generatePath(Paths.SECTION, {
     });
 };
 
-export const assignSectionEmail = async (
-    calendarSlotId: string,
-    interviewerId: number,
-    interviewId: number,
-    sectionId: number,
-    candidateName: string,
-    isSlotException?: boolean,
-    location?: string,
-    description?: string | null,
-    sectionTypeTitle?: string,
-) => {
-    const interviewer = await prisma.user.findFirstOrThrow({ where: { id: interviewerId } });
+export const assignSectionEmail = async (data: AssignSectionEmailData) => {
+    const interviewer = await prisma.user.findFirstOrThrow({ where: { id: data.interviewerId } });
     const exception = await prisma.calendarEventException.findFirstOrThrow({
-        where: { id: calendarSlotId },
+        where: { id: data.calendarSlotId },
         include: { eventDetails: true, event: true },
     });
     const rRule = RRule.fromString(exception.event.rule);
 
-    const icalId = rRule.options.freq ? calendarSlotId : exception.event.id;
+    const icalId = rRule.options.freq ? data.calendarSlotId : exception.event.id;
 
     const icalSequence = rRule.options.freq ? exception.sequence : exception.event.sequence;
 
@@ -130,22 +132,24 @@ export const assignSectionEmail = async (
         id: icalId,
         users: [{ email: interviewer.email, name: interviewer.name || undefined }],
         start: exception.date,
-        description: description || exception.eventDetails.description,
+        description: data.description || exception.eventDetails.description,
         duration: exception.eventDetails.duration,
-        summary: `${sectionTypeTitle} ${tr('with')} ${candidateName}`,
+        summary: data.sectionTypeTitle
+            ? `${data.sectionTypeTitle} ${tr('with')} ${data.candidateName}`
+            : `${tr('Interview with')} ${data.candidateName}`,
         url: `${config.defaultPageURL}${generatePath(Paths.SECTION, {
-            interviewId,
-            sectionId,
+            interviewId: data.interviewId,
+            sectionId: data.sectionId,
         })}`,
-        location,
+        location: data.location,
         sequence: icalSequence + 1,
     });
 
     rRule.options.freq
-        ? await calendarMethods.updateEventException(calendarSlotId, { sequence: { increment: 1 } })
+        ? await calendarMethods.updateEventException(data.calendarSlotId, { sequence: { increment: 1 } })
         : await calendarMethods.updateEvent(exception.event.id, { sequence: { increment: 1 } });
 
-    if (!isSlotException && rRule.options.freq) {
+    if (!data.isSlotException && rRule.options.freq) {
         const { eventDetails, creator, sequence, ...series } = await calendarMethods.updateEvent(exception.eventId, {
             sequence: { increment: 1 },
         });
@@ -180,13 +184,13 @@ export const assignSectionEmail = async (
 
     await sendMail({
         to: interviewer.email,
-        subject: `${sectionTypeTitle} ${tr('with')} ${candidateName}`,
+        subject: `${data.sectionTypeTitle} ${tr('with')} ${data.candidateName}`,
         text: `${config.defaultPageURL}${generatePath(Paths.SECTION, {
-            interviewId,
-            sectionId,
+            interviewId: data.interviewId,
+            sectionId: data.sectionId,
         })}
         
-        ${location || ''}`,
+        ${{ location: data.location || '' }}`,
         icalEvent: calendarEvents({
             method: ICalCalendarMethod.REQUEST,
             events: [icalEventDataException],

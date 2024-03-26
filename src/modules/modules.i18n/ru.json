@@ -110,5 +110,6 @@
     "Comment not found": "Коментарий не найден",
     "Comment on proplem {comment.problem.name}": "Комментарий к задаче {comment.problem.name}",
     "Section re-assigned to another interviewer": "Секция переназначена на другого собеседующего",
-    "with": "c"
+    "with": "c",
+    "Interview with": "Интервью с"
 }

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.34.1](https://github.com/taskany-inc/hire/compare/v0.34.0...v0.34.1) (2024-03-27)
+
+
+### Bug Fixes
+
+* **Calendar:** show title sectionType in invite ([58bc896](https://github.com/taskany-inc/hire/commit/58bc8966fac2ae62ab488fff3146700a752911c8))
+* **OfflineBanner:** infinity requests at health checks ([337e292](https://github.com/taskany-inc/hire/commit/337e2926b4fae605de5156cb34775a0601e489b8))
+
 ## [0.34.0](https://github.com/taskany-inc/hire/compare/v0.33.1...v0.34.0) (2024-03-25)
 
 

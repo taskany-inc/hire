@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.35.0](https://github.com/taskany-inc/hire/compare/v0.34.1...v0.35.0) (2024-03-28)
+
+
+### Features
+
+* **interview access:** restrict access for selected users ([e54e82f](https://github.com/taskany-inc/hire/commit/e54e82fb38b697662e5538d5cd87d6f551fde698))
+
 ## [0.34.1](https://github.com/taskany-inc/hire/compare/v0.34.0...v0.34.1) (2024-03-27)
 
 

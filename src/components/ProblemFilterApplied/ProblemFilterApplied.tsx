@@ -4,6 +4,8 @@ import { Tag, User, ProblemDifficulty } from 'prisma/prisma-client';
 import { gray7 } from '@taskany/colors';
 import styled from 'styled-components';
 
+import { arrayToAppliedString } from '../../utils';
+
 import { tr } from './ProblemFilterApplied.i18n';
 
 interface ProblemFilterAppliedProps {
@@ -23,14 +25,7 @@ export const ProblemFilterApplied = ({ difficulty, tags, tagIds, authorIds, auth
         let result = '';
 
         if (tags?.length && tagIds?.length) {
-            result = `${
-                result +
-                tr('Tags: ') +
-                tags
-                    .filter((tag) => tagIds?.includes(tag.id))
-                    .map((t) => t.name)
-                    .join(', ')
-            }. `;
+            result += arrayToAppliedString(tags, tagIds, tr('Tags: '), 'id');
         }
 
         if (difficulty?.length) {
@@ -38,14 +33,7 @@ export const ProblemFilterApplied = ({ difficulty, tags, tagIds, authorIds, auth
         }
 
         if (authors?.length && authorIds?.length) {
-            result = `${
-                result +
-                tr('Authors: ') +
-                authors
-                    .filter((author) => authorIds?.includes(author.id))
-                    .map((a) => a.name || a.email)
-                    .join(', ')
-            }. `;
+            result += arrayToAppliedString(authors, authorIds, tr('Authors: '), 'id');
         }
         return result;
     }, [authors, authorIds, difficulty, tags, tagIds]);

@@ -5,6 +5,7 @@ import { gray7 } from '@taskany/colors';
 import styled from 'styled-components';
 
 import { Vacancy } from '../../modules/crewTypes';
+import { arrayToAppliedString } from '../../utils';
 
 import { tr } from './CandidateFilterApplied.i18n';
 
@@ -35,14 +36,7 @@ export const CandidateFilterApplied = ({
         let result = '';
 
         if (hireStreams?.length && hireStreamIds?.length) {
-            result = `${
-                result +
-                tr('Hire streams: ') +
-                hireStreams
-                    .filter((hireStream) => hireStreamIds?.includes(hireStream.id))
-                    .map((t) => t.name)
-                    .join(', ')
-            }. `;
+            result += arrayToAppliedString(hireStreams, hireStreamIds, tr('Hire streams: '), 'id');
         }
 
         if (interviewStatuses?.length) {
@@ -50,21 +44,11 @@ export const CandidateFilterApplied = ({
         }
 
         if (hrs?.length && hrIds?.length) {
-            result = `${
-                result +
-                tr("HR's: ") +
-                hrs
-                    .filter((hrs) => hrIds?.includes(hrs.id))
-                    .map((a) => a.name || a.email)
-                    .join(', ')
-            }. `;
+            result += arrayToAppliedString(hrs, hrIds, tr("HR's: "), 'id');
         }
 
         if (vacancies?.length && vacancyIds?.length) {
-            result += `${tr('Vacancies')}: ${vacancies
-                .filter((vacancy) => vacancyIds.includes(vacancy.id))
-                .map((v) => v.name)
-                .join(', ')}`;
+            result += arrayToAppliedString(vacancies, vacancyIds, tr('Vacancies'), 'id');
         }
 
         return result;

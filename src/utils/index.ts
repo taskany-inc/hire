@@ -36,16 +36,6 @@ const createSelectOption = (enumOptions: Enum, labels: Record<string, string>) =
         return { value: item, text: labels[item] };
     });
 
-export const createMapFromArray = <TEntity extends Record<string, unknown> = { id: string; [key: string]: unknown }>(
-    array: TEntity[] = [],
-    key: keyof TEntity = 'id',
-): Record<string, TEntity> =>
-    array.reduce((result, current: TEntity) => {
-        Object.assign(result, { [current[key] as string]: current });
-
-        return result;
-    }, {});
-
 export const difficultyToColor: Record<ProblemDifficulty, string> = {
     HARD: '#f85149',
     MEDIUM: '#fac905',
@@ -124,3 +114,35 @@ export const standConfig = {
 export const contextNotInitialized = (message: string) => () => {
     throw new Error(message);
 };
+
+interface EntityData {
+    id: string | number;
+    name: string;
+}
+
+interface TEntity {
+    id: string | number;
+    name?: string | null;
+    email?: string;
+}
+
+export function arrayToAppliedString<T extends TEntity>(
+    array: T[],
+    ids: Array<number | string>,
+    title: string,
+    key: keyof T,
+): string {
+    const map: Record<string, EntityData> = array.reduce(
+        (result, current: T) => ({
+            ...result,
+            [current[key] as string]: { id: current[key], name: current.email || current.name },
+        }),
+        {},
+    );
+
+    const arrayApplied = ids.reduce((acc, rec, index) => {
+        const name = index === ids.length - 1 ? map[rec].name : `${map[rec].name}, `;
+        return acc + name;
+    }, '');
+    return `${title}${arrayApplied}. `;
+}

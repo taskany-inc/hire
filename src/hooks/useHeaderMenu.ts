@@ -42,7 +42,7 @@ export const useHeaderMenu = (): UseHeaderMenuResult => {
             items.push({ path: Paths.MY_SECTIONS, text: tr('Sections') });
         }
 
-        const canWorkWithCalendar = accessChecks.calendar.create(session).allowed;
+        const canWorkWithCalendar = accessChecks.calendar.readMany(session).allowed;
 
         if (canWorkWithCalendar) {
             items.push({ path: Paths.CALENDAR_MY, text: tr('Calendar') });

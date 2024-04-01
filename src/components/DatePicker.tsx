@@ -9,11 +9,12 @@ interface DatePickerProps {
     value?: Date;
     onChange?: (value: Date) => void;
     label?: string;
+    disabled?: boolean;
 }
 
 const DATE_FORMAT = 'yyyy-MM-dd';
 
-export const DatePicker = ({ label, value, onChange = () => {} }: DatePickerProps): JSX.Element => {
+export const DatePicker = ({ label, disabled, value, onChange = () => {} }: DatePickerProps): JSX.Element => {
     const initialDate = () => (value ? format(value, DATE_FORMAT) : undefined);
     const [date, setDate] = useState<string | undefined>(initialDate);
     const handleChange = ({ target: { value: eventValue } }: React.ChangeEvent<{ value: string }>): void => {
@@ -28,7 +29,7 @@ export const DatePicker = ({ label, value, onChange = () => {} }: DatePickerProp
             <Text as="label" size="m" color={gray8} weight="bold">
                 {label}
             </Text>
-            <Input type="date" defaultValue={date} onChange={handleChange} />
+            <Input disabled={disabled} type="date" defaultValue={date} onChange={handleChange} />
         </Stack>
     );
 };

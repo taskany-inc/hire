@@ -9,6 +9,7 @@ interface DurationPickerProps {
     duration: number;
     label?: string;
     onChange?: (x: number) => void;
+    disabled?: boolean;
 }
 
 export const DurationPicker = ({
@@ -16,6 +17,7 @@ export const DurationPicker = ({
     duration: initialDuration,
     label,
     onChange,
+    disabled,
 }: DurationPickerProps): JSX.Element => {
     const options = useMemo(() => getOptionsWithDuration(startDate), [startDate]);
     const [duration, setDuration] = useState(initialDuration);
@@ -28,5 +30,7 @@ export const DurationPicker = ({
         }
     };
 
-    return <Select text="" value={duration} onChange={handleChange} options={options} label={label} />;
+    return (
+        <Select disabled={disabled} text="" value={duration} onChange={handleChange} options={options} label={label} />
+    );
 };

@@ -46,14 +46,16 @@ interface EventFormParams extends CalendarEventLinkedSectionProps {
     eventId?: string;
     exceptionId?: string;
     isRecurrent?: boolean;
+    creatorId?: number;
 }
 
-interface Props {
+interface InterviewSectionSlotCalendarProps {
     interviewerIds?: number[];
+    my?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function InterviewSectionSlotCalendar(props: Props) {
+export function InterviewSectionSlotCalendar(props: InterviewSectionSlotCalendarProps) {
     const [calendarDate, setCalendarDate] = useState(() => new Date());
     const [calendarView, setCalendarView] = useState<View>('work_week');
     const range = useMemo<DateRange>(() => {
@@ -205,9 +207,9 @@ export function InterviewSectionSlotCalendar(props: Props) {
         description,
         isRecurrent,
         interviewSection,
+        creator,
     }: BigCalendarEvent) => {
         const startDate = toDate(start);
-
         setEventForm({
             eventId,
             exceptionId,
@@ -219,9 +221,9 @@ export function InterviewSectionSlotCalendar(props: Props) {
             },
             isRecurrent,
             interviewSection,
+            creatorId: creator?.id,
         });
     };
-
     const resizeEvent = (params: {
         event: BigCalendarEvent;
         start: stringOrDate;
@@ -409,6 +411,7 @@ export function InterviewSectionSlotCalendar(props: Props) {
                 setCalendarView={setCalendarView}
                 calendarView={calendarView}
                 range={range}
+                my={props.my}
             />
 
             <Modal width={500} visible={!!seriesUpdatePartDialog} onClose={closeUpdatePartDialog}>
@@ -451,6 +454,7 @@ export function InterviewSectionSlotCalendar(props: Props) {
                             deleteButtonText={eventForm?.eventId && tr('Delete')}
                             onDeleteButton={handleRemove}
                             deleteButtonDisabled={eventRemoveEventMutation.isLoading}
+                            creatorId={eventForm.creatorId}
                         />
                     )}
                 </ModalContent>

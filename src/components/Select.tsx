@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { gray8 } from '@taskany/colors';
-import { Dropdown, FiltersMenuItem, Text } from '@taskany/bricks';
+import { Dropdown, FiltersMenuItem, MenuItem, Text } from '@taskany/bricks';
 
 import { ColorizedMenuItem } from './ColorizedMenuItem';
 import { Stack } from './Stack';
@@ -43,30 +43,34 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
                         {label}
                     </Text>
                 )}
-                <Dropdown
-                    ref={ref}
-                    text={selected?.text || text}
-                    value={value}
-                    onChange={onStateClick}
-                    items={options}
-                    disabled={disabled}
-                    maxHeight={300}
-                    renderTrigger={(props) => (
-                        <FiltersMenuItem ref={props.ref} disabled={props.disabled} onClick={props.onClick}>
-                            {props.text}
-                        </FiltersMenuItem>
-                    )}
-                    renderItem={(props) => (
-                        <ColorizedMenuItem
-                            key={props.item.value}
-                            title={props.item.text}
-                            hoverColor="#565589"
-                            checked={selected === props.item}
-                            onClick={props.onClick}
-                            stateDotColor={props.item.stateDotColor}
-                        />
-                    )}
-                />
+                {disabled ? (
+                    <MenuItem disabled={disabled}>{selected?.text || text}</MenuItem>
+                ) : (
+                    <Dropdown
+                        ref={ref}
+                        text={selected?.text || text}
+                        value={value}
+                        onChange={onStateClick}
+                        items={options}
+                        disabled={disabled}
+                        maxHeight={300}
+                        renderTrigger={(props) => (
+                            <FiltersMenuItem ref={props.ref} disabled={props.disabled} onClick={props.onClick}>
+                                {props.text}
+                            </FiltersMenuItem>
+                        )}
+                        renderItem={(props) => (
+                            <ColorizedMenuItem
+                                key={props.item.value}
+                                title={props.item.text}
+                                hoverColor="#565589"
+                                checked={selected === props.item}
+                                onClick={props.onClick}
+                                stateDotColor={props.item.stateDotColor}
+                            />
+                        )}
+                    />
+                )}
             </Stack>
         );
     },

@@ -1,13 +1,13 @@
 import { addMinutes, differenceInMinutes, startOfDay } from 'date-fns';
 import { PrismaPromise, User } from '@prisma/client';
 import { ICalCalendarMethod } from 'ical-generator';
-import { RRule } from 'rrule';
+import { RRule, rrulestr } from 'rrule';
 
 import { prisma } from '../utils/prisma';
 import { calendarEvents, createIcalEventData } from '../utils/ical';
 import { userOfEvent } from '../utils/calendar';
 
-import { calendarRecurrenceMethods } from './calendarRecurrenceMethods';
+import { calendarRecurrenceMethods, parseRecurrenceParams } from './calendarRecurrenceMethods';
 import { calendarMethods } from './calendarMethods';
 import {
     CalendarData,
@@ -56,14 +56,45 @@ async function createEvent(params: CreateCalendarEvent, user: User): Promise<Cal
     return { eventId: event.id };
 }
 
-async function getEventsForDateRange({
-    startDate,
-    endDate,
-    creatorIds,
-}: GetCalendarEventsForRange): Promise<CalendarData> {
+async function getEventsForDateRange(
+    { startDate, endDate, creatorIds, my }: GetCalendarEventsForRange,
+    userId: number,
+): Promise<CalendarData> {
     const events = await calendarMethods.getAllEvents(creatorIds);
 
-    return calendarRecurrenceMethods.expandEvents(events, startDate, endDate);
+    let exceptions: CalendarData = [];
+
+    const calendarEvents = calendarRecurrenceMethods.expandEvents(events, startDate, endDate);
+
+    if (my) {
+        const sectionExceptions = await prisma.calendarEventException.findMany({
+            where: { interviewSection: { interview: { creatorId: userId } }, date: { gt: startDate, lt: endDate } },
+            include: {
+                interviewSection: { include: { sectionType: true, interview: { include: { candidate: true } } } },
+                eventDetails: true,
+                event: { include: { creator: true } },
+            },
+        });
+
+        exceptions = sectionExceptions.map((exception) => {
+            const rrule = rrulestr(exception.event.rule);
+            const recurrence = parseRecurrenceParams(rrule);
+
+            return {
+                ...exception.eventDetails,
+                date: exception.date,
+                eventId: exception.event.id,
+                exceptionId: exception.id,
+                recurrence,
+                interviewSection: exception.interviewSection,
+                creator: exception.event.creator,
+            };
+        });
+    }
+
+    const calendarEventSet = new Set([...exceptions, ...calendarEvents]);
+
+    return Array.from(calendarEventSet);
 }
 
 async function updateEventSeries(params: UpdateCalendarEvent, user: User): Promise<CalendarEventUpdateResult> {

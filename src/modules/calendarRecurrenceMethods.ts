@@ -3,7 +3,7 @@ import { addMinutes, differenceInMinutes, isSameMinute } from 'date-fns';
 
 import { CalendarData, CalendarEventInstance, CalendarEventWithRelations, EventRecurrence } from './calendarTypes';
 
-function parseRecurrenceParams(rrule: RRule): EventRecurrence {
+export function parseRecurrenceParams(rrule: RRule): EventRecurrence {
     const { freq } = rrule.options;
 
     switch (freq) {

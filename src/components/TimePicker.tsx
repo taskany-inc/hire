@@ -8,9 +8,14 @@ interface TimePickerProps {
     value: Date;
     onChange?: (value: SplitDateValueResult) => void;
     label?: string;
+    disabled?: boolean;
 }
-
-export const TimePicker = ({ value: initialValue, label, onChange = () => {} }: TimePickerProps): JSX.Element => {
+export const TimePicker = ({
+    value: initialValue,
+    disabled,
+    label,
+    onChange = () => {},
+}: TimePickerProps): JSX.Element => {
     const options = useMemo(() => getOptions(), []);
     const [value, setValue] = useState<string>(getStringTime(initialValue.getHours(), initialValue.getMinutes()));
     const handleChange = (eventValue: string): void => {
@@ -18,5 +23,5 @@ export const TimePicker = ({ value: initialValue, label, onChange = () => {} }: 
         onChange(splitDateValue(eventValue as string));
     };
 
-    return <Select text="" value={value} onChange={handleChange} options={options} label={label} />;
+    return <Select disabled={disabled} text="" value={value} onChange={handleChange} options={options} label={label} />;
 };

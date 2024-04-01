@@ -1,5 +1,3 @@
-import { endOfDay } from 'date-fns';
-
 import { assertNever } from '../../utils';
 import { accessMiddlewares } from '../../modules/accessMiddlewares';
 import { calendarEventMethods } from '../../modules/calendarEventMethods';
@@ -15,12 +13,8 @@ export const calendarEventsRouter = router({
     getEventsForDateRange: protectedProcedure
         .input(getCalendarEventsForRangeSchema)
         .use(accessMiddlewares.calendar.readMany)
-        .query(({ input }) => {
-            return calendarEventMethods.getEventsForDateRange({
-                startDate: input.startDate,
-                endDate: endOfDay(input.endDate),
-                creatorIds: input.creatorIds,
-            });
+        .query(({ input, ctx }) => {
+            return calendarEventMethods.getEventsForDateRange({ ...input }, ctx.session.user.id);
         }),
 
     create: protectedProcedure

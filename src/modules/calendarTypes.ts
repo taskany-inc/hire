@@ -25,6 +25,7 @@ export const getCalendarEventsForRangeSchema = z.object({
     startDate: z.date(),
     endDate: z.date(),
     creatorIds: z.number().array().optional(),
+    my: z.boolean().optional(),
 });
 export type GetCalendarEventsForRange = z.infer<typeof getCalendarEventsForRangeSchema>;
 

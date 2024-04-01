@@ -13,6 +13,7 @@ export interface DateTimeSelectorProps {
     startDate: Date;
     duration: number;
     onChange?: (data: Date, duration: number) => void;
+    disabled?: boolean;
 }
 
 export const Container = styled.div`
@@ -27,6 +28,7 @@ export function DateTimePickers({
     startDate,
     duration: initialDuration,
     onChange = () => {},
+    disabled,
 }: DateTimeSelectorProps): JSX.Element {
     const [date, setDate] = useState<Date>(startDate);
     const [duration, setDuration] = useState<number>(initialDuration);
@@ -52,13 +54,14 @@ export function DateTimePickers({
 
     return (
         <Container>
-            <DatePicker value={date} label={tr('Start date')} onChange={handleStartDateChange} />
-            <TimePicker value={date} label={tr('Start time')} onChange={handleStartTimeChange} />
+            <DatePicker disabled={disabled} value={date} label={tr('Start date')} onChange={handleStartDateChange} />
+            <TimePicker disabled={disabled} value={date} label={tr('Start time')} onChange={handleStartTimeChange} />
             <DurationPicker
                 startDate={date}
                 duration={duration}
                 label={tr('End time')}
                 onChange={handleDurationChange}
+                disabled={disabled}
             />
         </Container>
     );

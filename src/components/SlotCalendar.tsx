@@ -89,6 +89,7 @@ export interface SlotCalendarProps
     calendarView: View;
     setCalendarView: Dispatch<SetStateAction<View>>;
     range: DateRange;
+    my?: boolean;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -100,12 +101,14 @@ export function SlotCalendar({
     calendarView,
     setCalendarView,
     range,
+    my,
     ...bigCalendarProps
 }: SlotCalendarProps) {
     const calendarEventsQuery = useCalendarEvents({
         startDate: range.startDate,
         endDate: range.endDate,
         creatorIds,
+        my,
     });
 
     const navigateToDateAndView = (nextDate: Date, view: View, action: NavigateAction): void => {

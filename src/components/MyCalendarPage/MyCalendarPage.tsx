@@ -6,7 +6,7 @@ import { tr } from './MyCalendarPage.i18n';
 export const MyCalendarPage = () => {
     return (
         <LayoutMain pageTitle={tr('Calendar')}>
-            <InterviewSectionSlotCalendar />
+            <InterviewSectionSlotCalendar my />
         </LayoutMain>
     );
 };

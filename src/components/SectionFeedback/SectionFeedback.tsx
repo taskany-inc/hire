@@ -99,7 +99,7 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
     useEffect(() => {
         const localStorageFeedback = LocalStorageManager.getPersistedSectionFeedback(section.id);
         if (localStorageFeedback) setValue('feedback', localStorageFeedback);
-    });
+    }, [section.id, setValue]);
 
     const onSubmit = handleSubmit(async (values) => {
         const interviewerId = section.interviewer.id;

@@ -134,9 +134,7 @@ export const assignSectionEmail = async (data: AssignSectionEmailData) => {
         start: exception.date,
         description: data.description || exception.eventDetails.description,
         duration: exception.eventDetails.duration,
-        summary: data.sectionTypeTitle
-            ? `${data.sectionTypeTitle} ${tr('with')} ${data.candidateName}`
-            : `${tr('Interview with')} ${data.candidateName}`,
+        summary: `${data.sectionTypeTitle} ${tr('with')} ${data.candidateName}`,
         url: `${config.defaultPageURL}${generatePath(Paths.SECTION, {
             interviewId: data.interviewId,
             sectionId: data.sectionId,
@@ -190,7 +188,7 @@ export const assignSectionEmail = async (data: AssignSectionEmailData) => {
             sectionId: data.sectionId,
         })}
         
-        ${{ location: data.location || '' }}`,
+${data.location || ''}`,
         icalEvent: calendarEvents({
             method: ICalCalendarMethod.REQUEST,
             events: [icalEventDataException],

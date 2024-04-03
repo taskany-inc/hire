@@ -2,7 +2,7 @@ import { CSSProperties, FC, useCallback, useRef, useState } from 'react';
 import { SolutionResult } from '@prisma/client';
 import { Resolver, ResolverError, useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { colorPrimary, gray6 } from '@taskany/colors';
+import { colorPrimary, danger0, gapL, gapM, gapS, gapXs, gray6 } from '@taskany/colors';
 import { Text, Button, Popup } from '@taskany/bricks';
 import { IconArrowUpSmallOutline, IconArrowDownSmallOutline } from '@taskany/icons';
 
@@ -49,8 +49,45 @@ const StyledProblemSolution = styled(Text)`
     display: inline-flex;
     align-items: center;
     cursor: pointer;
-    margin-top: 12px;
-    gap: 5px;
+    margin-top: ${gapM};
+    gap: ${gapXs};
+`;
+
+const StyledCard = styled(Card)`
+    width: 900px;
+`;
+
+const StyledCandidatesSolutionText = styled(Text)`
+    margin-top: ${gapL};
+    margin-bottom: ${gapS};
+`;
+
+const StyledResultButtonStack = styled(Stack)`
+    margin-top: ${gapM};
+    width: max-content;
+`;
+
+const StyledErrorTextWrapper = styled.div`
+    position: relative;
+`;
+
+const StyledResultErrorText = styled(Text)`
+    margin-top: ${gapXs};
+    position: absolute;
+`;
+
+const StyledResultText = styled(Text)`
+    margin-top: ${gapM};
+`;
+
+const StyledMarkdownRenderer = styled(MarkdownRenderer)`
+    max-width: 900px;
+`;
+
+const StyledButtonStack = styled(Stack)`
+    margin-top: ${gapM};
+    margin-left: auto;
+    width: max-content;
 `;
 
 export const ResultButton = ({ result, onClick, style }: ResultButtonProps): JSX.Element => {
@@ -174,7 +211,7 @@ export const SolutionCard: FC<SolutionCardProps> = ({
     };
 
     return (
-        <Card>
+        <StyledCard>
             <StyledHeaderWrapper>
                 <CardHeader
                     title={problem.name}
@@ -195,26 +232,26 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                 </div>
             </StyledHeaderWrapper>
             <CardContent>
-                <MarkdownRenderer value={problem.description} style={{ maxWidth: 900 }} />
+                <StyledMarkdownRenderer value={problem.description} />
 
                 <StyledProblemSolution size="s" as="div" onClick={() => setIsExpanded((v) => !v)}>
                     {tr('Possible Solution')}
                     {isExpanded ? <IconArrowUpSmallOutline size="s" /> : <IconArrowDownSmallOutline size="s" />}
                 </StyledProblemSolution>
 
-                {isExpanded && <MarkdownRenderer value={problem.solution} />}
+                {isExpanded && <StyledMarkdownRenderer value={problem.solution} />}
 
                 <LoadingContainer isSpinnerVisible={isSpinnerVisible}>
-                    <Text size="l" style={{ marginTop: 20, marginBottom: 12 }} forwardRef={solutionRef}>
+                    <StyledCandidatesSolutionText size="l" forwardRef={solutionRef}>
                         {tr("Candidate's solution")}
-                    </Text>
+                    </StyledCandidatesSolutionText>
 
                     {solution.answer && !editOpen ? (
-                        <MarkdownRenderer value={solution.answer} />
+                        <StyledMarkdownRenderer value={solution.answer} />
                     ) : (
                         <form id={formId} onSubmit={handleSubmit(onSubmit)}>
                             <CodeEditorField
-                                width="100%"
+                                width="900px"
                                 disableAttaches
                                 name="answer"
                                 control={control}
@@ -223,7 +260,7 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                                 options={validationRules.nonEmptyString}
                             />
 
-                            <Stack direction="row" style={{ marginTop: 12, width: 'max-content' }}>
+                            <StyledResultButtonStack direction="row">
                                 {solutionSubmitButtons.map((result) => {
                                     const isCurrentResult = result && result === currentResult;
 
@@ -238,33 +275,24 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                                         />
                                     );
                                 })}
-                                {errors.result && (
-                                    <Text as="p" size="s" color="error" style={{ marginTop: 3 }}>
+                            </StyledResultButtonStack>
+                            {errors.result && (
+                                <StyledErrorTextWrapper>
+                                    <StyledResultErrorText as="p" size="s" color={danger0}>
                                         {errors.result.message}
-                                    </Text>
-                                )}
-                            </Stack>
+                                    </StyledResultErrorText>
+                                </StyledErrorTextWrapper>
+                            )}
                         </form>
                     )}
                     {!editOpen && solution.answer && (
-                        <Text size="l" style={{ marginTop: 12 }}>
-                            <strong>
-                                {tr('Result:')} {solutionResultEmoji[solution.result]}{' '}
-                                {solutionResultText[solution.result]}
-                            </strong>
-                        </Text>
+                        <StyledResultText weight="bold" size="l">
+                            {tr('Result:')} {solutionResultEmoji[solution.result]} {solutionResultText[solution.result]}
+                        </StyledResultText>
                     )}
 
                     {isEditable && (
-                        <Stack
-                            direction="row"
-                            gap={12}
-                            style={{
-                                marginTop: 12,
-                                marginLeft: 'auto',
-                                width: 'max-content',
-                            }}
-                        >
+                        <StyledButtonStack direction="row" gap={12}>
                             {!(solution.answer && !editOpen) && (
                                 <Button view="primary" type="submit" form={formId} text={tr('Save')} />
                             )}
@@ -276,10 +304,10 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                                 ))}
 
                             <Button view="danger" onClick={onRemoveSolution} text={tr('Delete problem')} />
-                        </Stack>
+                        </StyledButtonStack>
                     )}
                 </LoadingContainer>
             </CardContent>
-        </Card>
+        </StyledCard>
     );
 };

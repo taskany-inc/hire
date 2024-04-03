@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { Text, Button, nullable } from '@taskany/bricks';
 import { danger0, gapM, gapS } from '@taskany/colors';
 import { Attach } from '@prisma/client';
-import { IconPhonecallOutline, IconSendOutline } from '@taskany/icons';
+import { IconPhonecallOutline, IconSendOutline, IconEditOutline, IconXCircleOutline } from '@taskany/icons';
 
 import { useSectionUpdateMutation } from '../../modules/sectionHooks';
 import { SectionWithRelationsAndResults, UpdateSection } from '../../modules/sectionTypes';
@@ -50,6 +50,10 @@ const StyledButtonWrapper = styled.div`
     display: flex;
     gap: ${gapS};
     margin: ${gapM} 0;
+`;
+
+const StyledFormStack = styled(Stack)`
+    margin-top: ${gapM};
 `;
 
 const schema = z.object({
@@ -172,7 +176,7 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
     return (
         <>
             <form>
-                <Stack direction="column" style={{ marginTop: 12 }} justifyItems="flex-start" gap="8px">
+                <StyledFormStack direction="column" justifyItems="flex-start" gap="8px">
                     {isEditable ? (
                         <div>
                             <HireButtons section={section} setHire={setHire} setGrade={setGrade} />
@@ -181,24 +185,22 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                             )}
                         </div>
                     ) : (
-                        <div style={{ marginLeft: '-1em' }}>
-                            <Stack direction="row" gap="8px" justifyContent="flex-start" align="center">
-                                <SectionFeedbackHireBadge hire={section.hire} />
-                                {section.grade && (
-                                    <>
-                                        {tr('Grade:')}{' '}
-                                        <GradeButton type="button" matching>
-                                            {section.grade}
-                                        </GradeButton>
-                                    </>
-                                )}
-                            </Stack>
-                        </div>
+                        <Stack direction="row" gap="8px" justifyContent="flex-start" align="center">
+                            <SectionFeedbackHireBadge hire={section.hire} />
+                            {section.grade && (
+                                <>
+                                    {tr('Grade:')}{' '}
+                                    <GradeButton type="button" matching>
+                                        {section.grade}
+                                    </GradeButton>
+                                </>
+                            )}
+                        </Stack>
                     )}
 
                     {isEditable && editMode ? (
                         <CodeEditorField
-                            style={{ width: '900px' }}
+                            width="900px"
                             onUploadSuccess={onUploadSuccess}
                             onUploadFail={onUploadFail}
                             name="feedback"
@@ -207,10 +209,7 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                             placeholder={tr('Describe your impressions of the candidate')}
                         />
                     ) : (
-                        <StyledMarkdownRenderer
-                            style={{ width: '900px' }}
-                            value={section.feedback || watch('feedback') || ''}
-                        />
+                        <StyledMarkdownRenderer value={section.feedback || watch('feedback') || ''} />
                     )}
 
                     <StyledButtonWrapper>
@@ -225,10 +224,10 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                                 text={section.feedback ? tr('Save') : tr('Send feedback')}
                             />
                         ))}
-                        {nullable(isProblemCreationAvailable, () => (
+                        {nullable(editMode && isProblemCreationAvailable, () => (
                             <AddProblemToSection interviewId={interviewId} />
                         ))}
-                        {nullable(section.videoCallLink, (videoCallLink) => (
+                        {nullable(editMode && section.videoCallLink, (videoCallLink) => (
                             <Link href={videoCallLink} target="_blank">
                                 <Button
                                     iconRight={<IconPhonecallOutline size="s" />}
@@ -240,21 +239,23 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                                 />
                             </Link>
                         ))}
+                        {nullable(isEditable && section.hire !== null, () => (
+                            <Button
+                                type="button"
+                                outline
+                                iconRight={editMode ? <IconXCircleOutline size="s" /> : <IconEditOutline size="s" />}
+                                view={editMode ? 'default' : 'primary'}
+                                onClick={() => {
+                                    if (editMode) {
+                                        setValue('feedback', section.feedback);
+                                    }
+                                    setEditMode(!editMode);
+                                }}
+                                text={editButtonTitle}
+                            />
+                        ))}
                     </StyledButtonWrapper>
-                    {nullable(isEditable && section.hire !== null, () => (
-                        <Button
-                            type="button"
-                            view={editMode ? 'default' : 'primary'}
-                            onClick={() => {
-                                if (editMode) {
-                                    setValue('feedback', section.feedback);
-                                }
-                                setEditMode(!editMode);
-                            }}
-                            text={editButtonTitle}
-                        />
-                    ))}
-                </Stack>
+                </StyledFormStack>
             </form>
 
             {nullable(section.attaches.length > 0, () => (

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.36.0](https://github.com/taskany-inc/hire/compare/v0.35.0...v0.36.0) (2024-04-04)
+
+
+### Features
+
+* **calendarEventMethods:** show HR their interview section on calendar ([76f448b](https://github.com/taskany-inc/hire/commit/76f448bf791a45ed73c46090fda8a8805fae8f7f))
+
+
+### Bug Fixes
+
+* **emailMethods:** fix location link in section email ([2e9ca35](https://github.com/taskany-inc/hire/commit/2e9ca358b648268b81de4828c05d78502ffec7b2))
+* fix button location in section feedback ([7d77cc4](https://github.com/taskany-inc/hire/commit/7d77cc484df49cdf6ca67b45a3f96683363ec148))
+* **section feedback:** don't reset text on refetch ([07b23f3](https://github.com/taskany-inc/hire/commit/07b23f3eac1cba49e217f489d862aa7832127f0c))
+
 ## [0.35.0](https://github.com/taskany-inc/hire/compare/v0.34.1...v0.35.0) (2024-03-28)
 
 

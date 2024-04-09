@@ -87,3 +87,51 @@ export const getGroupListSchema = z.object({
 });
 
 export type GetGroupList = z.infer<typeof getGroupListSchema>;
+
+export const getAchievementsSchema = z.object({
+    search: z.string().optional(),
+    take: z.number().optional(),
+});
+export type GetAchievements = z.infer<typeof getAchievementsSchema>;
+
+export const giveAchievementSchema = z.object({
+    targetUserEmail: z.string(),
+    actingUserEmail: z.string(),
+    achievementId: z.string(),
+    amount: z.number().optional(),
+});
+export type GiveAchievement = z.infer<typeof giveAchievementSchema>;
+
+export interface Achievement {
+    id: string;
+    title: string;
+    icon: string;
+    description: string;
+}
+
+export interface CrewUserNameAndEmail {
+    id: string;
+    name: string;
+    email: string;
+}
+
+interface UserAchievement {
+    count: number;
+    achievement: Achievement;
+}
+
+export interface CrewUser {
+    id: string;
+    active: boolean;
+    email: string;
+    achievements: UserAchievement[];
+    name?: string;
+    emailVerified?: Date;
+    image?: string;
+    organizationUnitId?: string;
+    supervisorId?: string;
+    title?: string;
+    deactivatedAt?: string;
+    createdAt?: string;
+    updatedAt?: string;
+}

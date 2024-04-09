@@ -40,7 +40,6 @@ export const updateSectionSchema = z.object({
     hire: z.boolean().nullish(),
     feedback: z.string().nullish(),
     solutionIds: z.number().array().optional(),
-    sendHrMail: z.boolean().optional(),
     calendarSlot: sectionCalendarSlotBookingSchema.optional(),
     attachIds: z.string().array().optional(),
     videoCallLink: z.string().nullish(),

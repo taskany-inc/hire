@@ -136,11 +136,18 @@ const SectionSetFeedback = ({ event }: EventProps) => {
     );
 };
 
+const AchievementsForSections = ({ event }: EventProps) => (
+    <Text size="xs" weight="thin">
+        {tr('got {amount} achievements for this and previous sections', { amount: String(event.after) })}
+    </Text>
+);
+
 const sectionEventMap: Record<HistoryAction<HistorySubject.SECTION>, (props: EventProps) => ReactNode> = {
     cancel: SectionCancel,
     set_hire: SectionSetHire,
     set_grade: SectionSetGrade,
     set_feedback: SectionSetFeedback,
+    get_achievement: AchievementsForSections,
 };
 
 export const HistoryRecord = ({ event }: InterviewHistoryCardProps) => {

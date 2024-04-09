@@ -16,7 +16,7 @@ import {
 } from './sectionTypes';
 import { SectionWithInterviewRelation } from './interviewTypes';
 import { calendarMethods } from './calendarMethods';
-import { assignSectionEmail, cancelSectionEmail, notifyHR } from './emailMethods';
+import { assignSectionEmail, cancelSectionEmail } from './emailMethods';
 import { AccessOptions } from './accessChecks';
 import { tr } from './modules.i18n';
 
@@ -203,8 +203,7 @@ const findAllInterviewerSections = async (
 };
 
 const update = async (data: UpdateSection): Promise<Section> => {
-    const { sectionId, solutionIds, interviewerId, interviewId, sendHrMail, calendarSlot, attachIds, ...restData } =
-        data;
+    const { sectionId, solutionIds, interviewerId, interviewId, calendarSlot, attachIds, ...restData } = data;
     let slot;
 
     if (calendarSlot) {
@@ -228,8 +227,6 @@ const update = async (data: UpdateSection): Promise<Section> => {
         calendarSlot: slot,
         attaches: attachIds ? { connect: idsToIdObjs(attachIds) } : undefined,
     };
-
-    sendHrMail && notifyHR(sectionId, data);
 
     const updatedSection = await prisma.section.update({
         data: updateData,

@@ -122,7 +122,6 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                     interviewerId,
                     feedback,
                     grade,
-                    sendHrMail: section.hire === null,
                 },
             })
             .then(() => {

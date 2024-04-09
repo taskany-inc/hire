@@ -16,10 +16,49 @@ import { protectedProcedure, router } from '../trpcBackend';
 import { historyEventMethods } from '../../modules/historyEventMethods';
 import { HistorySubject } from '../../modules/historyEventTypes';
 import { prisma } from '../../utils/prisma';
+import { notifyHR } from '../../modules/emailMethods';
+import config from '../../config';
+import { userMethods } from '../../modules/userMethods';
+import { crewMethods } from '../../modules/crewMethods';
 
 const hireStatusToString = (hire: boolean | null | undefined) => {
     if (hire === undefined || hire === null) return;
     return hire ? 'HIRE' : 'NO_HIRE';
+};
+
+const giveSectionAchievement = async (interviewerId: number, sectionId: number) => {
+    if (!config.crew.techUserEmail || !config.crew.sectionAchiementId) return;
+
+    const amountOfInterviewerCompletedSections = await prisma.section.count({
+        where: { interviewerId, feedback: { not: null } },
+    });
+
+    if (amountOfInterviewerCompletedSections % config.crew.sectionAmountForAchievement !== 0) return;
+
+    const { email } = await userMethods.find(interviewerId);
+    const crewUser = await crewMethods.getUserInfo(email);
+
+    const sectionAchievementCount =
+        crewUser.achievements.find((a) => a.achievement.id === config.crew.sectionAchiementId)?.count || 0;
+    const amount =
+        amountOfInterviewerCompletedSections / config.crew.sectionAmountForAchievement - sectionAchievementCount;
+
+    if (amount <= 0) return;
+
+    await crewMethods.giveAchievement({
+        targetUserEmail: email,
+        actingUserEmail: config.crew.techUserEmail,
+        achievementId: config.crew.sectionAchiementId,
+        amount,
+    });
+    await historyEventMethods.create({
+        userId: interviewerId,
+        subject: HistorySubject.SECTION,
+        subjectId: sectionId,
+        action: 'get_achievement',
+        before: String(sectionAchievementCount),
+        after: String(sectionAchievementCount + amount),
+    });
 };
 
 export const sectionsRouter = router({
@@ -85,6 +124,9 @@ export const sectionsRouter = router({
                     },
                     ctx.session.user.id,
                 );
+
+                await notifyHR(result.id, data);
+                await giveSectionAchievement(ctx.session.user.id, result.id);
             }
 
             const commonHistoryFields = {

@@ -12,7 +12,7 @@ export interface HistoryEvents {
         | 'set_candidate_selected_section'
         | 'add_restricted_user'
         | 'remove_restricted_user';
-    [HistorySubject.SECTION]: 'cancel' | 'set_hire' | 'set_grade' | 'set_feedback';
+    [HistorySubject.SECTION]: 'cancel' | 'set_hire' | 'set_grade' | 'set_feedback' | 'get_achievement';
 }
 
 export type HistoryAction<T extends HistorySubject> = HistoryEvents[T];

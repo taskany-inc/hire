@@ -66,6 +66,9 @@ export default {
     crew: {
         url: process.env.NEXT_PUBLIC_CREW_URL,
         apiToken: process.env.CREW_API_TOKEN,
+        sectionAchiementId: process.env.CREW_SECTIONS_ACHIEVEMENT,
+        techUserEmail: process.env.CREW_TECHNICAL_USER_EMAIL,
+        sectionAmountForAchievement: Number(process.env.SECTION_AMOUNT_FOR_ACHIEVEMENT) || 5,
     },
     aiAssistant: {
         apiUrl: process.env.AI_ASSISTANT_API_URL,

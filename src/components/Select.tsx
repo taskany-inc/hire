@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { gray8 } from '@taskany/colors';
-import { Dropdown, FiltersMenuItem, MenuItem, Text } from '@taskany/bricks';
+import { Dropdown, FiltersMenuItem, Text } from '@taskany/bricks';
 
 import { ColorizedMenuItem } from './ColorizedMenuItem';
 import { Stack } from './Stack';
@@ -44,7 +44,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
                     </Text>
                 )}
                 {disabled ? (
-                    <MenuItem disabled={disabled}>{selected?.text || text}</MenuItem>
+                    <FiltersMenuItem disabled={disabled}>{selected?.text || text}</FiltersMenuItem>
                 ) : (
                     <Dropdown
                         ref={ref}

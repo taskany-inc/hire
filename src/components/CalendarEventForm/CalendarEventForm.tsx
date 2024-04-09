@@ -86,22 +86,20 @@ export function CalendarEventForm({
     const submitButtonDisabled = ![startDateIsChanged, durationsIsChanged, isDirty].includes(true) || isSubmitting;
 
     const onRepeatChange = (repeatOption: EventRepeatMode) => setValue('recurrence.repeat', repeatOption);
-    const canEdit = creatorId === session.user.id || session.user.admin;
+    const canEdit = isNew || creatorId === session.user.id || session.user.admin;
 
     return (
         <FormCard>
             <Form onSubmit={handleSubmit(onSave)}>
                 <Fieldset>
-                    {nullable(canEdit, () => (
-                        <FormInput
-                            {...register('title')}
-                            label={tr('Name')}
-                            autoComplete="off"
-                            flat="bottom"
-                            error={errors.title}
-                            disabled={canEdit}
-                        />
-                    ))}
+                    <FormInput
+                        {...register('title')}
+                        label={tr('Name')}
+                        autoComplete="off"
+                        flat="bottom"
+                        error={errors.title}
+                        disabled={!canEdit}
+                    />
 
                     <DateTimePickers
                         startDate={startDate}

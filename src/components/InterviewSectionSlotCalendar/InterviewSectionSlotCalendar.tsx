@@ -69,7 +69,7 @@ export function InterviewSectionSlotCalendar(props: InterviewSectionSlotCalendar
 
     const { interviewerIds } = props;
 
-    const { user } = useSession() ?? {};
+    const { user, userRoles } = useSession() ?? {};
 
     const eventCreateMutation = useCalendarEventCreateMutation();
     const eventUpdateMutation = useCalendarEventUpdateMutation();
@@ -77,6 +77,11 @@ export function InterviewSectionSlotCalendar(props: InterviewSectionSlotCalendar
 
     const [eventForm, setEventForm] = useState<EventFormParams | null>(null);
     const [startEventFormSubmit, resolveEventFormSubmit, rejectEventFormSubmit] = usePromiseResolver<void>();
+
+    const canReadEvents = userRoles?.hasInterviewerRoles || userRoles?.hasRecruiterRoles || user?.admin;
+    const canCreateEvents = userRoles?.hasInterviewerRoles || user?.admin;
+
+    const canOpenEventForm = eventForm?.eventId ? canReadEvents : canCreateEvents;
 
     const closeEventFormModal = () => {
         setEventForm(null);
@@ -440,7 +445,7 @@ export function InterviewSectionSlotCalendar(props: InterviewSectionSlotCalendar
                 </ModalContent>
             </Modal>
 
-            <Modal width={600} visible={!!eventForm} onClose={closeEventFormModal}>
+            <Modal width={600} visible={!!eventForm && canOpenEventForm} onClose={closeEventFormModal}>
                 <ModalHeader>
                     <ModalCross onClick={closeEventFormModal} />
                     <CalendarEventLinkedSection interviewSection={eventForm?.interviewSection} />

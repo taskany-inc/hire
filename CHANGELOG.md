@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.36.1](https://github.com/taskany-inc/hire/compare/v0.36.0...v0.36.1) (2024-04-09)
+
+
+### Bug Fixes
+
+* interwiever can edit new event ([c6feb57](https://github.com/taskany-inc/hire/commit/c6feb57f8d2a836f50acb4923e9a3e7005108459))
+
 ## [0.36.0](https://github.com/taskany-inc/hire/compare/v0.35.0...v0.36.0) (2024-04-04)
 
 

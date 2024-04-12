@@ -31,6 +31,7 @@ import { generateColor } from '../../utils/color';
 import { errorsProvider } from '../../utils/forms';
 import { FormRandomColor } from '../FormRandomColor';
 import { FormGradeDropdown } from '../FormGradeDropdown/FormGradeDropdown';
+import config from '../../config';
 
 import { tr } from './SectionTypeForm.i18n';
 
@@ -45,7 +46,7 @@ const StyledGradesDropdownWrapper = styled.div`
 
 const checkboxes: {
     label: string;
-    name: 'hasTasks' | 'userSelect' | 'showOtherGrades' | 'schedulable';
+    name: 'hasTasks' | 'userSelect' | 'showOtherGrades' | 'schedulable' | 'giveAchievement';
 }[] = [
     { label: tr('You can add tasks to the section'), name: 'hasTasks' },
     { label: tr('The team is selected in the section'), name: 'userSelect' },
@@ -54,6 +55,13 @@ const checkboxes: {
         name: 'showOtherGrades',
     },
     { label: tr('Section can be assigned via calendar'), name: 'schedulable' },
+
+    {
+        label: tr('Interviewer will receive achievement for every {amount} finished sections', {
+            amount: config.crew.sectionAmountForAchievement,
+        }),
+        name: 'giveAchievement',
+    },
 ];
 
 type SectionTypeFormProps = {
@@ -80,6 +88,7 @@ export const SectionTypeForm: VFC<SectionTypeFormProps> = ({ afterSubmit, onCanc
             schedulable: sectionType?.schedulable ?? false,
             eventColor: sectionType?.eventColor ?? defaultColor,
             gradeOptions: sectionType?.gradeOptions,
+            giveAchievement: sectionType?.giveAchievement ?? true,
         },
         resolver: zodResolver(props.type === 'create' ? createSectionTypeSchema : updateSectionTypeSchema),
     });

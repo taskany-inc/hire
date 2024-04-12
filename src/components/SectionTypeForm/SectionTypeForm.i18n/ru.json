@@ -11,5 +11,6 @@
     "New section type": "Новый тип секции",
     "Section type edit": "Редактирование типа секции",
     "Grade options": "Оценки в секции",
-    "Cancel": "Отмена"
+    "Cancel": "Отмена",
+    "Interviewer will receive achievement for every {amount} finished sections": "Интервьюер будет получать ачивку за каждые {amount} проведенные секции"
 }

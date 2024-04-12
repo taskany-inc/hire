@@ -21,6 +21,7 @@ export const createSectionTypeSchema = z.object({
     schedulable: z.boolean(),
     eventColor: z.string(),
     gradeOptions: z.string().array(),
+    giveAchievement: z.boolean(),
 });
 export type CreateSectionType = z.infer<typeof createSectionTypeSchema>;
 

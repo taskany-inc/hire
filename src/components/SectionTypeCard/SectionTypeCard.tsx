@@ -11,6 +11,7 @@ import { CardContent } from '../CardContent';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
 import { DropdownMenuItem } from '../TagFilterDropdown';
 import { UpdateSectionTypeModal } from '../SectionTypeForm/SectionTypeForm';
+import config from '../../config';
 
 import { tr } from './SectionTypeCard.i18n';
 
@@ -72,6 +73,12 @@ export const SectionTypeCard: VFC<SectionTypeCardProps> = ({ sectionType }) => {
                     <CheckboxLine value={sectionType.userSelect} text={tr('Team selection')} />
                     <CheckboxLine value={sectionType.showOtherGrades} text={tr('Show results of other sections')} />
                     <CheckboxLine value={sectionType.schedulable} text={tr('Appointment via calendar')} />
+                    <CheckboxLine
+                        value={sectionType.giveAchievement}
+                        text={tr('Give achievement for every {amount} finished sections', {
+                            amount: config.crew.sectionAmountForAchievement,
+                        })}
+                    />
                     <span>
                         {tr('Section grades: ')}
                         {sectionType.gradeOptions.join(', ')}

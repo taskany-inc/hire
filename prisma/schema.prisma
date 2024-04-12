@@ -285,6 +285,8 @@ model SectionType {
   schedulable Boolean @default(false)
   eventColor  String?
 
+  giveAchievement Boolean @default(true)
+
   interviewers User[] @relation("SectionTypeToInterviewer")
 }
 

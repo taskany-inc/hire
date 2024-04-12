@@ -126,7 +126,7 @@ export const sectionsRouter = router({
                 );
 
                 await notifyHR(result.id, data);
-                await giveSectionAchievement(ctx.session.user.id, result.id);
+                if (sectionType.giveAchievement) await giveSectionAchievement(ctx.session.user.id, result.id);
             }
 
             const commonHistoryFields = {

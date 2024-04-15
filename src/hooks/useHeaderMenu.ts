@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { UserSettings } from '@prisma/client';
 
 import { pageHrefs, Paths } from '../utils/paths';
 import { useSession } from '../contexts/appSettingsContext';
@@ -17,7 +18,7 @@ interface UseHeaderMenuResult {
     entityCreationMenuItems: HeaderLink[];
 }
 
-export const useHeaderMenu = (): UseHeaderMenuResult => {
+export const useHeaderMenu = (userSettings?: UserSettings): UseHeaderMenuResult => {
     const session = useSession();
 
     const entityListMenuItems = useMemo(() => {
@@ -65,7 +66,7 @@ export const useHeaderMenu = (): UseHeaderMenuResult => {
         }
 
         return items;
-    }, [session]);
+    }, [session, userSettings]);
 
     const entityCreationMenuItems = useMemo(() => {
         const items: HeaderLink[] = [{ path: Paths.PROBLEMS_NEW, text: tr('New problem') }];
@@ -89,7 +90,7 @@ export const useHeaderMenu = (): UseHeaderMenuResult => {
         }
 
         return items;
-    }, [session]);
+    }, [session, userSettings]);
 
     return { entityListMenuItems, entityCreationMenuItems };
 };

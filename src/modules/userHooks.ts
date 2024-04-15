@@ -65,7 +65,7 @@ export const useEditUserSettings = () => {
 
     return trpc.users.editSettings.useMutation({
         onSuccess: () => {
-            enqueueSuccessNotification(tr('Theme changed'));
+            enqueueSuccessNotification(tr('Settings changed'));
             utils.users.getSettings.invalidate();
         },
         onError: enqueueErrorNotification,

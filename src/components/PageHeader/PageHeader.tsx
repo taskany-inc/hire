@@ -16,6 +16,7 @@ import {
     UserMenu,
     Popup,
 } from '@taskany/bricks';
+import { UserSettings } from '@prisma/client';
 import { IconUpSmallSolid, IconDownSmallSolid } from '@taskany/icons';
 
 import { Paths } from '../../utils/paths';
@@ -36,8 +37,11 @@ const StyledHeaderNav = styled(HeaderNav)`
     align-items: center;
 `;
 
-export const PageHeader: React.FC<{ logo?: ComponentProps<typeof PageHeaderLogo>['logo'] }> = ({ logo }) => {
-    const { entityListMenuItems, entityCreationMenuItems } = useHeaderMenu();
+export const PageHeader: React.FC<{
+    logo?: ComponentProps<typeof PageHeaderLogo>['logo'];
+    userSettings?: UserSettings;
+}> = ({ logo, userSettings }) => {
+    const { entityListMenuItems, entityCreationMenuItems } = useHeaderMenu(userSettings);
     const router = useRouter();
     const session = useSession();
     const onMenuItemClick = ({ path }: { path: string }) => router.push(path);
@@ -81,7 +85,7 @@ export const PageHeader: React.FC<{ logo?: ComponentProps<typeof PageHeaderLogo>
         }
 
         return `${user.name}\n${roles.join('\n')}`;
-    }, [session]);
+    }, [session, userSettings]);
 
     return (
         <Header

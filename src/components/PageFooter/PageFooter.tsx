@@ -1,27 +1,27 @@
-import { FC, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { Footer, FooterItem, Modal } from '@taskany/bricks';
 import { useRouter } from 'next/router';
 
 import FeedbackCreateForm from '../FeedbackCreateForm/FeedbackCreateForm';
 import { Link } from '../Link';
 import { defaultLocale, languages } from '../../utils/getLang';
-import { yearInSeconds } from '../../utils';
+import { useEditUserSettings } from '../../modules/userHooks';
 
 import { tr } from './PageFooter.i18n';
 
 export const PageFooter: FC = () => {
     const [openFeedbackForm, setOpenFeedbackForm] = useState(false);
+
     const router = useRouter();
+    const { locale } = router;
 
-    const { asPath, locale } = router;
+    const editUserSettings = useEditUserSettings();
 
-    const newLocale = locale === defaultLocale ? languages[1] : defaultLocale;
-    const changeLocaleTitle = locale === defaultLocale ? 'Ru' : 'En';
+    const onLocaleChange = useCallback(async () => {
+        const newLocale = locale === defaultLocale ? languages[1] : defaultLocale;
 
-    const push = () => {
-        document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=${yearInSeconds};SameSite=Strict`;
-        router.push(asPath, asPath, { locale: newLocale });
-    };
+        return editUserSettings.mutateAsync({ locale: newLocale });
+    }, [editUserSettings, locale]);
 
     const menuItems = [
         { title: tr('Terms'), url: '/terms' },
@@ -47,7 +47,7 @@ export const PageFooter: FC = () => {
             ))}
 
             <Link>
-                <FooterItem onClick={push}>{changeLocaleTitle}</FooterItem>
+                <FooterItem onClick={onLocaleChange}>{tr('Locale change title')}</FooterItem>
             </Link>
         </Footer>
     );

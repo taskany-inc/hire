@@ -34,6 +34,7 @@ export type GetUserList = z.infer<typeof getUserListSchema>;
 
 export const editUserSettingsSchema = z.object({
     theme: z.enum(themes).optional(),
+    locale: z.string().optional(),
 });
 
 export type EditUserSettings = z.infer<typeof editUserSettingsSchema>;

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.38.0](https://github.com/taskany-inc/hire/compare/v0.37.0...v0.38.0) (2024-04-15)
+
+
+### Features
+
+* change locale in settings ([67dc77b](https://github.com/taskany-inc/hire/commit/67dc77b86e7751b7cc4a612d396d85c725d0286d))
+* section type achievement settings ([4540834](https://github.com/taskany-inc/hire/commit/4540834681a525a6383735efee2aeebb21cfb418))
+
 ## [0.37.0](https://github.com/taskany-inc/hire/compare/v0.36.1...v0.37.0) (2024-04-11)
 
 

@@ -1,7 +1,8 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode, useEffect } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import { useTheme } from 'next-themes';
+import { useRouter } from 'next/router';
 
 import { trpc } from '../trpc/trpcClient';
 
@@ -42,16 +43,25 @@ export const LayoutMain: FC<LayoutMainProps> = ({
     hidePageHeader,
     children,
 }) => {
-    const userSettings = trpc.users.getSettings.useQuery();
+    const { data: userSettings } = trpc.users.getSettings.useQuery();
     const config = trpc.appConfig.get.useQuery(undefined, {
         staleTime: Infinity,
     });
     const title = pageTitle ? `${pageTitle} - Taskany Hire` : 'Taskany Hire';
 
     const { resolvedTheme } = useTheme();
-    const theme = (
-        userSettings.data?.theme === 'system' ? resolvedTheme || 'dark' : userSettings.data?.theme || 'light'
-    ) as 'dark' | 'light';
+    const theme = (userSettings?.theme === 'system' ? resolvedTheme || 'dark' : userSettings?.theme || 'light') as
+        | 'dark'
+        | 'light';
+    const router = useRouter();
+
+    useEffect(() => {
+        const { asPath, locale, replace } = router;
+
+        if (userSettings?.locale && locale !== userSettings.locale) {
+            replace(asPath, asPath, { locale: userSettings.locale });
+        }
+    }, [router, userSettings]);
 
     return (
         <>
@@ -65,7 +75,7 @@ export const LayoutMain: FC<LayoutMainProps> = ({
 
             <GlobalStyle />
 
-            <PageHeader logo={config.data?.logo ?? undefined} />
+            <PageHeader logo={config.data?.logo ?? undefined} userSettings={userSettings} />
             <Theme theme={theme} />
             <StyledContent>
                 {!hidePageHeader && (

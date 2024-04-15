@@ -138,7 +138,7 @@ const getSettings = async (id: number): Promise<UserSettings> => {
 const editSettings = (userId: number, data: EditUserSettings) => {
     return prisma.userSettings.update({
         where: { userId },
-        data: { theme: data.theme },
+        data,
     });
 };
 

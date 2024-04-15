@@ -8,6 +8,7 @@ import { useEditUserSettings } from '../../modules/userHooks';
 import { SettingsCard, SettingsContainer } from '../Settings';
 import { LayoutMain } from '../LayoutMain';
 import { PageSep } from '../PageSep';
+import { languages } from '../../utils/getLang';
 
 import { tr } from './UserSettingsPage.i18n';
 
@@ -36,6 +37,10 @@ export const UserSettingsPage = ({ userId }: UserSettingsPageProps) => {
         setTheme(theme);
     };
 
+    const onLocaleChange = (locale: string) => {
+        editUserSettings.mutateAsync({ locale });
+    };
+
     return (
         <LayoutMain pageTitle={user.name || user.email}>
             <StyledPageSep />
@@ -52,6 +57,17 @@ export const UserSettingsPage = ({ userId }: UserSettingsPageProps) => {
                             >
                                 {themes.map((t) => (
                                     <FormRadioInput key={t} value={t} label={t} />
+                                ))}
+                            </FormRadio>
+
+                            <FormRadio
+                                label={tr('Locale')}
+                                name="locale"
+                                value={settings.locale}
+                                onChange={(v) => onLocaleChange(v)}
+                            >
+                                {languages.map((language) => (
+                                    <FormRadioInput key={language} value={language} label={language} />
                                 ))}
                             </FormRadio>
                         </Fieldset>

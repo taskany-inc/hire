@@ -33,7 +33,7 @@
     "User {name} is not recruiter in hire srteam {hireStreamName} anymore": "Пользователь {name} больше не является рекрутером в потоке {hireStreamName}",
     "User {name} added in hire stream {hireStreamName} as interviewer": "Пользователь {name} добавлен в поток {hireStreamName} в качестве собеседующего",
     "User {name} is not interviewer in hire srteam {hireStreamName} anymore": "Пользователь {name} больше не является собеседующим потока {hireStreamName}",
-    "Theme changed": "Тема изменена",
+    "Settings changed": "Настройки изменены",
     "User not found": "Пользователь не найден",
     "Tag is too short": "Тег слишком короткий",
     "Solution not found": "Решение не найдено",

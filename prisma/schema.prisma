@@ -455,7 +455,8 @@ model UserSettings {
   user   User @relation(fields: [userId], references: [id])
   userId Int  @unique
 
-  theme String @default("system")
+  theme  String @default("system")
+  locale String @default("en")
 }
 
 model Comment {

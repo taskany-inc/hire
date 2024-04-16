@@ -160,6 +160,7 @@ const update = async ({
     interviewId,
     candidateSelectedSectionId,
     hireStreamId,
+    cvAttachId,
     ...data
 }: UpdateInterview): Promise<Interview> => {
     const candidateSelectedSection =
@@ -180,7 +181,12 @@ const update = async ({
     }
 
     return prisma.interview.update({
-        data: { ...data, candidateSelectedSection, hireStream },
+        data: {
+            ...data,
+            candidateSelectedSection,
+            hireStream,
+            cv: cvAttachId ? { connect: { id: cvAttachId } } : undefined,
+        },
         where: { id: interviewId },
     });
 };

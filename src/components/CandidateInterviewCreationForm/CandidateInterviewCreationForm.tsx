@@ -1,26 +1,14 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Candidate, HireStream } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { danger0, gapS, link10 } from '@taskany/colors';
-import { IconAttachOutline } from '@taskany/icons';
+import { danger0, gapS } from '@taskany/colors';
 import styled from 'styled-components';
-import {
-    Button,
-    Fieldset,
-    Form,
-    FormAction,
-    FormActions,
-    FormCard,
-    Input,
-    nullable,
-    Text,
-    useUpload,
-} from '@taskany/bricks';
+import { Button, Fieldset, Form, FormAction, FormActions, FormCard, Text } from '@taskany/bricks';
 
-import { generatePath, pageHrefs, Paths } from '../../utils/paths';
+import { generatePath, Paths } from '../../utils/paths';
 import { CreateInterview } from '../../modules/interviewTypes';
 import { useInterviewCreateMutation } from '../../modules/interviewHooks';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
@@ -33,8 +21,7 @@ import { defaultAttachFormatter, File } from '../../utils/attachFormatter';
 import { getFileIdFromPath } from '../../utils/fileUpload';
 import { AddVacancyToInterview } from '../AddVacancyToInterview/AddVacancyToInterview';
 import { Vacancy } from '../../modules/crewTypes';
-import { cvParsingResultToDescription } from '../../utils/aiAssistantUtils';
-import { CvParsingResult } from '../../modules/aiAssistantTypes';
+import { InterviewCvAttach } from '../InterviewCvAttach/InterviewCvAttach';
 
 import { tr } from './CandidateInterviewCreationForm.i18n';
 
@@ -57,16 +44,6 @@ const schema = z.object({
     description: z.string().nullish(),
 });
 
-const FileInput = styled(Input)`
-    display: none;
-`;
-
-const FileInputText = styled(Text)`
-    cursor: pointer;
-    color: ${link10};
-    margin: ${gapS};
-`;
-
 const VacancyWrapper = styled.div`
     margin-left: ${gapS};
 `;
@@ -78,7 +55,6 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
     const interviewCreateMutation = useInterviewCreateMutation();
     const [attachIds, setAttachIds] = useState<string[]>([]);
     const [cvAttachId, setCvAttachId] = useState<string>();
-    const [cvAttachFilename, setCvAttachFilename] = useState<string>();
     const [vacancy, setVacancy] = useState<Vacancy>();
 
     const { onUploadSuccess, onUploadFail } = useUploadNotifications();
@@ -126,24 +102,14 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
         return defaultAttachFormatter(files);
     }, []);
 
-    const upload = useUpload(undefined, undefined, pageHrefs.attachAndParseCv(candidate.id));
-
-    useEffect(() => {
-        const file = upload.files?.[0];
-        if (!file) return;
-        if ('cvParsingResult' in file) {
-            const cvDescription = cvParsingResultToDescription(file.cvParsingResult as CvParsingResult);
-            const prevDescription = getValues('description') ?? '';
-            setValue('description', `${prevDescription}\n${cvDescription}`);
-        }
-        setCvAttachId(getFileIdFromPath(file.filePath));
-        setCvAttachFilename(file.name);
-    }, [upload.files, getValues, setValue]);
-
-    const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.files) return;
-        await upload.uploadFiles(Array.from(e.target.files));
-    };
+    const onCvParse = useCallback(
+        (attachId: string, description: string) => {
+            setCvAttachId(attachId);
+            const oldDescription = getValues('description');
+            setValue('description', `${oldDescription}${description}`);
+        },
+        [getValues, setValue],
+    );
 
     return (
         <Stack direction="column" gap={14}>
@@ -164,23 +130,7 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
                             attachFormatter={attachFormatter}
                         />
 
-                        <FileInput
-                            type="file"
-                            id="cvAttach"
-                            accept="application/msword,application/pdf"
-                            onChange={onFileChange}
-                        />
-                        <label htmlFor="cvAttach">
-                            <FileInputText size="s">
-                                {nullable(upload.loading, () => tr('Uploading...'))}
-                                {nullable(cvAttachFilename, () => `${tr('CV:')} ${cvAttachFilename}`)}
-                                {nullable(!upload.loading && !cvAttachFilename, () => (
-                                    <>
-                                        <IconAttachOutline size="xxs" /> {tr('Attach CV')}
-                                    </>
-                                ))}
-                            </FileInputText>
-                        </label>
+                        <InterviewCvAttach candidateId={candidate.id} onParse={onCvParse} />
 
                         <Select
                             options={hireStreamOptions}

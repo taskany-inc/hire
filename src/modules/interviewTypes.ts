@@ -48,6 +48,7 @@ export const updateInterviewSchema = z.object({ interviewId: z.number() }).merge
             hireStreamId: z.number(),
             candidateId: z.number(),
             candidateSelectedSectionId: z.number().nullable(),
+            cvAttachId: z.string().optional(),
             crewVacancyId: z.string().nullish(),
         })
         .partial(),

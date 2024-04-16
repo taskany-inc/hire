@@ -17,6 +17,7 @@ import { Stack } from '../Stack';
 import { DropdownFieldOption } from '../DropdownField';
 import { Select } from '../Select';
 import { AddVacancyToInterview } from '../AddVacancyToInterview/AddVacancyToInterview';
+import { InterviewCvAttach } from '../InterviewCvAttach/InterviewCvAttach';
 
 import { tr } from './CandidateInterviewUpdateForm.i18n';
 
@@ -45,6 +46,7 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
     const router = useRouter();
     const interviewUpdateMutation = useInterviewUpdateMutation();
 
+    const [cvAttachId, setCvAttachId] = useState<string>();
     const [vacancyId, setVacancyId] = useState(interview.crewVacancyId);
 
     const hireStreamOptions = useMemo<DropdownFieldOption<number>[]>(
@@ -65,6 +67,7 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
                     interviewId: interview.id,
                     description,
                     candidateSelectedSectionId: candidateSelectedSectionId < 0 ? null : candidateSelectedSectionId,
+                    cvAttachId,
                     hireStreamId,
                     crewVacancyId: vacancyId,
                 },
@@ -72,7 +75,7 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
 
             router.push(pageHrefs.interview(interview.id));
         },
-        [interview.id, interviewUpdateMutation, router, vacancyId],
+        [interview.id, interviewUpdateMutation, router, vacancyId, cvAttachId],
     );
 
     const {
@@ -80,6 +83,7 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
         handleSubmit,
         watch,
         setValue,
+        getValues,
         formState: { isSubmitting },
     } = useForm<InterviewUpdateFormData>({
         defaultValues: {
@@ -93,6 +97,15 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
 
     const onHireStreamIdChange = (hireStreamId: number) => setValue('hireStreamId', hireStreamId);
     const onProductFinalSectionChange = (sectionId: number) => setValue('candidateSelectedSectionId', sectionId);
+
+    const onCvParse = useCallback(
+        (attachId: string, description: string) => {
+            setCvAttachId(attachId);
+            const oldDescription = getValues('description');
+            setValue('description', `${oldDescription}${description}`);
+        },
+        [getValues, setValue],
+    );
 
     return (
         <Stack direction="column" gap={14}>
@@ -109,6 +122,8 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
                             placeholder={tr('Think carefully and write a couple of notes about this interview.')}
                             height={130}
                         />
+
+                        <InterviewCvAttach candidateId={candidate.id} onParse={onCvParse} />
 
                         <Select
                             value={watch('hireStreamId')}

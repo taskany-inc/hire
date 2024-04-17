@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useMemo, useState } from 'react';
 import styled from 'styled-components';
 import { brandColor, danger0, gapM, gapS, gray4, textColor } from '@taskany/colors';
-import { Card, CardComment, CardInfo, UserPic, nullable, Button, Md, Dropdown, MenuItem } from '@taskany/bricks';
+import { Card, CardComment, CardInfo, UserPic, nullable, Button, Dropdown, MenuItem } from '@taskany/bricks';
 import { IconBinOutline, IconEditOutline, IconMoreVerticalOutline } from '@taskany/icons';
 import { Comment } from '@prisma/client';
 
@@ -16,6 +16,7 @@ import { Link } from '../Link';
 import { accessChecks } from '../../modules/accessChecks';
 import { useSession } from '../../contexts/appSettingsContext';
 import { useDistanceDate } from '../../hooks/useDateFormat';
+import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 
 import { tr } from './CommentView.i18n';
 
@@ -97,10 +98,6 @@ const StyledCardComment = styled(CardComment)`
     flex-direction: column;
     gap: ${gapM};
     word-break: keep-all;
-`;
-
-const StyledMd = styled(Md)`
-    overflow-x: auto;
 `;
 
 export const CommentView: FC<CommentViewProps> = ({
@@ -236,7 +233,7 @@ export const CommentView: FC<CommentViewProps> = ({
                     </StyledCardInfo>
 
                     <StyledCardComment>
-                        <StyledMd>{commentText.text}</StyledMd>
+                        <MarkdownRenderer value={commentText.text} />
                     </StyledCardComment>
                 </StyledCommentCard>
             )}

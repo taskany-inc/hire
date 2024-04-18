@@ -20,7 +20,7 @@ import { ProblemStats } from '../ProblemStats/ProblemStats';
 import { ProblemHistoryCard } from '../ProblemHistoryCard/ProblemHistoryCard';
 import { useDistanceDate } from '../../hooks/useDateFormat';
 import { ProblemDifficultyIcon } from '../ProblemDifficultyIcon/ProblemDifficultyIcon';
-import { ProblemComment } from '../ProblemComment/ProblemComment';
+import { Comment } from '../Comment/Comment';
 import CommentCreateForm from '../CommentCreateForm/CommentCreateForm';
 import { CommentSchema } from '../../modules/commentTypes';
 import { useCommentCreateMutation } from '../../modules/commentHooks';
@@ -108,10 +108,9 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
 
             const result = await commentCreateMutation.mutateAsync({
                 text: value.text,
-                problemId: problem.id,
                 userId: session.user.id,
+                target: { problemId: problem.id },
             });
-
             return result;
         },
         [commentCreateMutation, problem.id, session?.user],
@@ -176,7 +175,7 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
             <StyledComment>
                 <>
                     {problem.comments.map((comment) => (
-                        <ProblemComment key={`comment - ${comment.id}`} comment={comment} />
+                        <Comment key={`comment - ${comment.id}`} comment={comment} />
                     ))}
                     <CommentCreateForm onSubmit={onCreateCommentSubmit} />
                 </>

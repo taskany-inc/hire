@@ -113,5 +113,9 @@
     "with": "c",
     "You don't have access to this interview": "У вас нет доступа к этому интервью",
     "User added to the restriction list": "Пользователь добавлен к списку органиченного доступа",
-    "User removed from the restriction list": "Пользователь удален из списка ограниченного доступа"
+    "User removed from the restriction list": "Пользователь удален из списка ограниченного доступа",
+    "Comment on problem": "Комментарий к задаче",
+    "Comment on interview": "Комментарий к интервью",
+    "User": "Пользователь",
+    "wrote:": "написал"
 }

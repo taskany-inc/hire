@@ -113,5 +113,10 @@
     "with": "",
     "You don't have access to this interview": "",
     "User added to the restriction list": "",
-    "User removed from the restriction list": ""
+    "User removed from the restriction list": "",
+    "Comment on problem {comment.problem.name}": "",
+    "Comment on problem": "",
+    "Comment on interview": "",
+    "User": "",
+    "wrote:": ""
 }

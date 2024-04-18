@@ -4,11 +4,11 @@ import { useCommentDeleteMutation, useCommentEditMutation } from '../../modules/
 import { CommentSchema, CommentWithUser } from '../../modules/commentTypes';
 import { CommentView } from '../CommentView/CommentView';
 
-interface ProblemCommentsProps {
+interface CommentProps {
     comment: CommentWithUser;
 }
 
-export const ProblemComment = ({ comment }: ProblemCommentsProps) => {
+export const Comment = ({ comment }: CommentProps) => {
     const { user, id } = comment;
 
     const commentEditMutation = useCommentEditMutation();

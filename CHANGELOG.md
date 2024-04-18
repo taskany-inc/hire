@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.39.0](https://github.com/taskany-inc/hire/compare/v0.38.0...v0.39.0) (2024-04-18)
+
+
+### Features
+
+* add cv to existing interview ([75b7472](https://github.com/taskany-inc/hire/commit/75b7472b3316f5ab8e83fc73e0f1300235906d40))
+* create candidate and interview by cv ([06e48a9](https://github.com/taskany-inc/hire/commit/06e48a9af34dcfecd56b10a3a347374b3ec1e85f))
+
+
+### Bug Fixes
+
+* **CommentView:** fix md in comments ([4243e89](https://github.com/taskany-inc/hire/commit/4243e89c2a8f93868428ca0877622758104ff3e0))
+
 ## [0.38.0](https://github.com/taskany-inc/hire/compare/v0.37.0...v0.38.0) (2024-04-15)
 
 

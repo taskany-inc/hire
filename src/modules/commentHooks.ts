@@ -8,10 +8,17 @@ export const useCommentCreateMutation = () => {
     const utils = trpc.useContext();
 
     return trpc.comment.create.useMutation({
-        onSuccess: () => {
+        onSuccess: (data) => {
             enqueueSuccessNotification(`${tr('New comment created')}`);
             utils.comment.invalidate();
-            utils.problems.invalidate();
+
+            if (data.problemId) {
+                utils.problems.invalidate();
+            }
+
+            if (data.interviewId) {
+                utils.interviews.invalidate();
+            }
         },
         onError: enqueueErrorNotification,
     });
@@ -22,10 +29,16 @@ export const useCommentEditMutation = () => {
     const utils = trpc.useContext();
 
     return trpc.comment.edit.useMutation({
-        onSuccess: () => {
+        onSuccess: (data) => {
             enqueueSuccessNotification(`${tr('Comment updated')}`);
             utils.comment.invalidate();
-            utils.problems.invalidate();
+
+            if (data.problemId) {
+                utils.problems.invalidate();
+            }
+            if (data.interviewId) {
+                utils.interviews.invalidate();
+            }
         },
         onError: enqueueErrorNotification,
     });
@@ -36,10 +49,15 @@ export const useCommentDeleteMutation = () => {
     const utils = trpc.useContext();
 
     return trpc.comment.delete.useMutation({
-        onSuccess: () => {
+        onSuccess: (data) => {
             enqueueSuccessNotification(`${tr('Comment deleted')}`);
             utils.comment.invalidate();
-            utils.problems.invalidate();
+            if (data.problemId) {
+                utils.problems.invalidate();
+            }
+            if (data.interviewId) {
+                utils.interviews.invalidate();
+            }
         },
         onError: enqueueErrorNotification,
     });

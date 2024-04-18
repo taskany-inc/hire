@@ -18,7 +18,7 @@ export type CommentSchema = z.infer<typeof commentSchema>;
 
 export const createCommentSchema = commentSchema.extend({
     userId: z.number(),
-    problemId: z.number(),
+    target: z.union([z.object({ problemId: z.number() }), z.object({ interviewId: z.number() })]),
 });
 
 export type CreateComment = z.infer<typeof createCommentSchema>;

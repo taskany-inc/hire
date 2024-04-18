@@ -181,6 +181,7 @@ model Interview {
   cvId                       String?          @unique
   crewVacancyId              String?
   restrictedUsers            User[]           @relation("InterviewAccessRestriction")
+  comments                   Comment[]
 }
 
 model Section {
@@ -466,8 +467,11 @@ model Comment {
   user   User @relation(fields: [userId], references: [id])
   userId Int
 
-  problem   Problem @relation(fields: [problemId], references: [id])
-  problemId Int
+  problem   Problem? @relation(fields: [problemId], references: [id])
+  problemId Int?
+
+  interview   Interview? @relation(fields: [interviewId], references: [id])
+  interviewId Int?
 
   createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
   updatedAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt

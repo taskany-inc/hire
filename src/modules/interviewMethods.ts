@@ -65,6 +65,11 @@ const getById = async (id: number, options?: GetInterviewByIdOptions): Promise<I
             hireStream: true,
             cv: true,
             restrictedUsers: true,
+            comments: {
+                include: {
+                    user: true,
+                },
+            },
         },
     });
 
@@ -250,6 +255,7 @@ const findAll = async (
         where,
         include: {
             candidate: { select: { name: true } },
+            comments: { include: { user: true } },
         },
         orderBy: buildItemListOrderBy<Prisma.InterviewOrderByWithRelationInput>(params, defaultOrderBy),
         take: params.limit,

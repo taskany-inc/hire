@@ -1,17 +1,9 @@
 import React, { useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import { backgroundColor, gapM, gray4 } from '@taskany/colors';
-import {
-    Button,
-    Form,
-    FormCard,
-    FormAction,
-    FormActions,
-    nullable,
-    useClickOutside,
-    FormEditor,
-} from '@taskany/bricks';
+import { Form, FormCard, FormAction, FormActions, nullable, useClickOutside } from '@taskany/bricks';
 import { IconQuestionCircleOutline } from '@taskany/icons';
+import { FormControlEditor, FormControl, Button } from '@taskany/bricks/harmony';
 
 import { CommentSchema } from '../../modules/commentTypes';
 
@@ -60,10 +52,6 @@ const StyledCommentForm = styled(FormCard)`
     }
 `;
 
-const StyledIconQuestionCircleOutline = styled(IconQuestionCircleOutline)`
-    display: flex;
-`;
-
 export const CommentForm: React.FC<CommentFormProps> = ({
     text = '',
     autoFocus,
@@ -102,30 +90,31 @@ export const CommentForm: React.FC<CommentFormProps> = ({
     return (
         <StyledCommentForm ref={ref} tabIndex={0}>
             <Form onSubmit={onCommentSubmit}>
-                <FormEditor
-                    disabled={busy}
-                    placeholder={tr('Leave a comment')}
-                    height={focused ? 120 : 40}
-                    onCancel={onCommentCancel}
-                    onFocus={onFocus}
-                    autoFocus={autoFocus}
-                    value={text}
-                    onChange={onTextChange}
-                    disableAttaches={true}
-                />
-
+                <FormControl>
+                    <FormControlEditor
+                        disabled={busy}
+                        placeholder={tr('Leave a comment')}
+                        height={focused ? 120 : 40}
+                        onCancel={onCommentCancel}
+                        onFocus={onFocus}
+                        autoFocus={autoFocus}
+                        value={text}
+                        onChange={onTextChange}
+                        disableAttaches={true}
+                    />
+                </FormControl>
                 {nullable(focused, () => (
                     <FormActions>
                         <FormAction left inline>
                             {nullable(focused, () => (
                                 <StyledFormBottom>
-                                    <StyledIconQuestionCircleOutline size="s" />{' '}
+                                    <IconQuestionCircleOutline size="s" />{' '}
                                 </StyledFormBottom>
                             ))}
                         </FormAction>
                         <FormAction right inline>
                             {nullable(!busy, () => (
-                                <Button outline text={tr('Cancel')} onClick={onCommentCancel} />
+                                <Button text={tr('Cancel')} onClick={onCommentCancel} />
                             ))}
 
                             {actionButton}

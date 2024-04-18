@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { useCallback, useMemo, useState } from 'react';
+import { ComponentProps, useCallback, useMemo, useState } from 'react';
 import { HireStream } from '@prisma/client';
 import styled from 'styled-components';
 import { Button, Fieldset, Form, FormAction, FormActions, FormCard } from '@taskany/bricks';
@@ -17,7 +17,8 @@ import { Stack } from '../Stack';
 import { DropdownFieldOption } from '../DropdownField';
 import { Select } from '../Select';
 import { AddVacancyToInterview } from '../AddVacancyToInterview/AddVacancyToInterview';
-import { InterviewCvAttach } from '../InterviewCvAttach/InterviewCvAttach';
+import { CvAttach } from '../CvAttach/CvAttach';
+import { cvParsingResultToDescription } from '../../utils/aiAssistantUtils';
 
 import { tr } from './CandidateInterviewUpdateForm.i18n';
 
@@ -98,11 +99,11 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
     const onHireStreamIdChange = (hireStreamId: number) => setValue('hireStreamId', hireStreamId);
     const onProductFinalSectionChange = (sectionId: number) => setValue('candidateSelectedSectionId', sectionId);
 
-    const onCvParse = useCallback(
-        (attachId: string, description: string) => {
-            setCvAttachId(attachId);
+    const onCvParse = useCallback<ComponentProps<typeof CvAttach>['onParse']>(
+        (attach, parsedData) => {
+            setCvAttachId(attach.id);
             const oldDescription = getValues('description');
-            setValue('description', `${oldDescription}${description}`);
+            setValue('description', `${oldDescription}${cvParsingResultToDescription(parsedData)}`);
         },
         [getValues, setValue],
     );
@@ -123,7 +124,7 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
                             height={130}
                         />
 
-                        <InterviewCvAttach candidateId={candidate.id} onParse={onCvParse} />
+                        <CvAttach candidateId={candidate.id} onParse={onCvParse} />
 
                         <Select
                             value={watch('hireStreamId')}

@@ -19,5 +19,5 @@ export const readBooleanFromMetaTag = (value: keyof StandConfig): boolean | unde
         return undefined;
     }
 
-    return content === 'true';
+    return !!content;
 };

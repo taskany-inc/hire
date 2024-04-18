@@ -52,14 +52,16 @@ export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => 
                 const link = `${Date.now()}_${filename}`;
                 const stream = fs.createReadStream(file.filepath);
                 let cvParsingResult: CvParsingResult | undefined;
-                if (parseCv && candidateId) {
+                if (parseCv) {
                     const buffer = fs.readFileSync(file.filepath);
                     cvParsingResult = await aiAssistantMethods.parseCv(buffer);
-                    await candidateMethods.update({
-                        candidateId,
-                        email: cvParsingResult?.email,
-                        phone: cvParsingResult?.phone,
-                    });
+                    if (candidateId) {
+                        await candidateMethods.update({
+                            candidateId,
+                            email: cvParsingResult?.email,
+                            phone: cvParsingResult?.phone,
+                        });
+                    }
                 }
                 const response = await loadFile(link, stream, file.mimetype || '');
 

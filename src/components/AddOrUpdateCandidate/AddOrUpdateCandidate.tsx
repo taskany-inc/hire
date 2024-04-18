@@ -9,7 +9,11 @@ import { Button, Fieldset, Form, FormAction, FormActions, FormCard, FormInput } 
 
 import { UpdateCandidate, CreateCandidate } from '../../modules/candidateTypes';
 import { generatePath, Paths } from '../../utils/paths';
-import { useCandidateCreateMutation, useCandidateUpdateMutation } from '../../modules/candidateHooks';
+import {
+    useCandidateCreateMutation,
+    useCandidateUpdateMutation,
+    useOutstaffVendors,
+} from '../../modules/candidateHooks';
 import config from '../../config';
 import { useNullableDropdownFieldOptions } from '../DropdownField';
 import { Select } from '../Select';
@@ -17,12 +21,18 @@ import { PhoneField } from '../PhoneField/PhoneField';
 
 import { tr } from './AddOrUpdateCandidate.i18n';
 
-interface AddOrUpdateCandidateProps {
-    variant: 'new' | 'update';
-    onSave?: () => void;
-    candidate?: Candidate;
-    outstaffVendors: OutstaffVendor[];
-}
+type AddOrUpdateCandidateProps = {
+    onSave?: (candidate: Candidate) => void;
+} & (
+    | {
+          variant: 'new';
+          candidate?: Partial<Omit<Candidate, 'createdAt' | 'updatedAt' | 'id'>>;
+      }
+    | {
+          variant: 'update';
+          candidate: Candidate;
+      }
+);
 
 type FormValues = Omit<CreateCandidate, 'outstaffVendorId'> & {
     outstaffVendorId: string | null;
@@ -40,7 +50,10 @@ const StyledFormCard = styled(FormCard)`
 `;
 
 export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
-    const { variant, onSave, candidate, outstaffVendors } = props;
+    const { variant, onSave, candidate } = props;
+
+    const outstaffVendorsQuery = useOutstaffVendors();
+    const outstaffVendors = outstaffVendorsQuery.data ?? [];
 
     const router = useRouter();
 
@@ -76,7 +89,7 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
     });
 
     const update: SubmitHandler<FormValues> = async (values) => {
-        if (!candidate) {
+        if (variant === 'new') {
             return;
         }
 
@@ -90,9 +103,12 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
 
         const result = await candidateUpdateMutation.mutateAsync(data);
         const candidateId = result.id;
-        router.push(generatePath(Paths.CANDIDATE, { candidateId }));
 
-        if (onSave) onSave();
+        if (onSave) {
+            onSave(result);
+        } else {
+            router.push(generatePath(Paths.CANDIDATE, { candidateId }));
+        }
     };
 
     const create: SubmitHandler<FormValues> = async (values) => {
@@ -108,9 +124,11 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
         const result = await candidateCreateMutation.mutateAsync(data);
         const candidateId = result.id;
 
-        router.push(generatePath(Paths.CANDIDATE, { candidateId })).then();
-
-        if (onSave) onSave();
+        if (onSave) {
+            onSave(result);
+        } else {
+            router.push(generatePath(Paths.CANDIDATE, { candidateId })).then();
+        }
     };
 
     const onSubmit: SubmitHandler<FormValues> = variant === 'new' ? create : update;

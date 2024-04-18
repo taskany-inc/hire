@@ -1,5 +1,4 @@
 import { useCandidate } from '../../modules/candidateHooks';
-import { useAllowedHireStreams } from '../../modules/hireStreamsHooks';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { CandidateInterviewCreationForm } from '../CandidateInterviewCreationForm/CandidateInterviewCreationForm';
 import { LayoutMain } from '../LayoutMain';
@@ -12,14 +11,11 @@ export interface SectionCreationPageProps {
 
 const SectionCreationPage = ({ numberIds }: SectionCreationPageProps) => {
     const candidateQuery = useCandidate(numberIds.candidateId);
-    const hireStreamsQuery = useAllowedHireStreams();
 
     return (
         <LayoutMain pageTitle={tr('New interview')}>
-            <QueryResolver queries={[candidateQuery, hireStreamsQuery]}>
-                {([candidate, hireStreams]) => (
-                    <CandidateInterviewCreationForm candidate={candidate} hireStreams={hireStreams} />
-                )}
+            <QueryResolver queries={[candidateQuery]}>
+                {([candidate]) => <CandidateInterviewCreationForm candidate={candidate} />}
             </QueryResolver>
         </LayoutMain>
     );

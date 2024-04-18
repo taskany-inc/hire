@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { useCallback, useMemo, useState } from 'react';
-import { Candidate, HireStream } from '@prisma/client';
+import { ComponentProps, useCallback, useMemo, useState } from 'react';
+import { Candidate } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { danger0, gapS } from '@taskany/colors';
@@ -21,7 +21,9 @@ import { defaultAttachFormatter, File } from '../../utils/attachFormatter';
 import { getFileIdFromPath } from '../../utils/fileUpload';
 import { AddVacancyToInterview } from '../AddVacancyToInterview/AddVacancyToInterview';
 import { Vacancy } from '../../modules/crewTypes';
-import { InterviewCvAttach } from '../InterviewCvAttach/InterviewCvAttach';
+import { CvAttach } from '../CvAttach/CvAttach';
+import { cvParsingResultToDescription } from '../../utils/aiAssistantUtils';
+import { useAllowedHireStreams } from '../../modules/hireStreamsHooks';
 
 import { tr } from './CandidateInterviewCreationForm.i18n';
 
@@ -33,7 +35,7 @@ type InterviewCreationFormData = Omit<CreateInterview, 'candidateId'>;
 
 interface Props {
     candidate: Candidate;
-    hireStreams: HireStream[];
+    preparedCvAttach?: { id: string; filename: string };
 }
 
 const schema = z.object({
@@ -48,24 +50,23 @@ const VacancyWrapper = styled.div`
     margin-left: ${gapS};
 `;
 
-// TODO: disable return value linting
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props) {
+export function CandidateInterviewCreationForm({ candidate, preparedCvAttach }: Props) {
     const router = useRouter();
     const interviewCreateMutation = useInterviewCreateMutation();
     const [attachIds, setAttachIds] = useState<string[]>([]);
-    const [cvAttachId, setCvAttachId] = useState<string>();
+    const [cvAttachId, setCvAttachId] = useState(preparedCvAttach?.id);
     const [vacancy, setVacancy] = useState<Vacancy>();
 
     const { onUploadSuccess, onUploadFail } = useUploadNotifications();
 
+    const hireStreamsQuery = useAllowedHireStreams();
     const hireStreamOptions = useMemo<DropdownFieldOption<number>[]>(
         () =>
-            hireStreams.map(({ id, name }) => ({
+            (hireStreamsQuery.data ?? []).map(({ id, name }) => ({
                 text: name,
                 value: id,
             })),
-        [hireStreams],
+        [hireStreamsQuery],
     );
 
     const createInterview: SubmitHandler<InterviewCreationFormData> = useCallback(
@@ -102,11 +103,11 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
         return defaultAttachFormatter(files);
     }, []);
 
-    const onCvParse = useCallback(
-        (attachId: string, description: string) => {
-            setCvAttachId(attachId);
+    const onCvParse = useCallback<ComponentProps<typeof CvAttach>['onParse']>(
+        (attach, parsedData) => {
+            setCvAttachId(attach.id);
             const oldDescription = getValues('description');
-            setValue('description', `${oldDescription}${description}`);
+            setValue('description', `${oldDescription}${cvParsingResultToDescription(parsedData)}`);
         },
         [getValues, setValue],
     );
@@ -130,7 +131,7 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
                             attachFormatter={attachFormatter}
                         />
 
-                        <InterviewCvAttach candidateId={candidate.id} onParse={onCvParse} />
+                        <CvAttach candidateId={candidate.id} preparedCvAttach={preparedCvAttach} onParse={onCvParse} />
 
                         <Select
                             options={hireStreamOptions}
@@ -143,7 +144,6 @@ export function CandidateInterviewCreationForm({ candidate, hireStreams }: Props
                                 {errors.hireStreamId.message}
                             </Text>
                         )}
-
                         <VacancyWrapper>
                             <AddVacancyToInterview vacancyId={vacancy?.id} onSelect={setVacancy} />
                         </VacancyWrapper>

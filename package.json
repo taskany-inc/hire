@@ -29,7 +29,7 @@
         "@sentry/nextjs": "7.99.0",
         "@tanstack/react-query": "4.29.13",
         "@tanstack/react-query-devtools": "4.29.13",
-        "@taskany/bricks": "5.22.2",
+        "@taskany/bricks": "5.29.0",
         "@taskany/colors": "1.11.0",
         "@taskany/icons": "2.0.5",
         "@trpc/client": "10.1.0",
@@ -128,7 +128,7 @@
         "prettier": "2.8.8",
         "prisma": "5.2.0",
         "ts-node": "10.9.2",
-        "typescript": "5.3.3",
+        "typescript": "5.4.5",
         "typescript-plugin-css-modules": "5.1.0",
         "webpack": "5.90.1"
     }

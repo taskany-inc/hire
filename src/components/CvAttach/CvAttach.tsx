@@ -5,11 +5,10 @@ import { IconAttachOutline } from '@taskany/icons';
 import { gapS, link10 } from '@taskany/colors';
 
 import { pageHrefs } from '../../utils/paths';
-import { cvParsingResultToDescription } from '../../utils/aiAssistantUtils';
 import { CvParsingResult } from '../../modules/aiAssistantTypes';
 import { getFileIdFromPath } from '../../utils/fileUpload';
 
-import { tr } from './InterviewCvAttach.i18n';
+import { tr } from './CvAttach.i18n';
 
 const FileInput = styled(Input)`
     display: none;
@@ -21,16 +20,17 @@ const FileInputText = styled(Text)`
     margin: ${gapS};
 `;
 
-interface InterviewCvAttachProps {
-    candidateId: number;
-    onParse: (attachId: string, description: string) => void;
+interface CvAttachProps {
+    candidateId?: number;
+    preparedCvAttach?: { id: string; filename: string };
+    onParse: (attach: { id: string; filename: string }, parsedData: CvParsingResult) => void;
 }
 
-export const InterviewCvAttach = ({ candidateId, onParse }: InterviewCvAttachProps) => {
+export const CvAttach = ({ candidateId, preparedCvAttach, onParse }: CvAttachProps) => {
     const id = useId();
 
-    const [cvAttachId, setCvAttachId] = useState<string>();
-    const [cvAttachFilename, setCvAttachFilename] = useState<string>();
+    const [cvAttachId, setCvAttachId] = useState(preparedCvAttach?.id);
+    const [cvAttachFilename, setCvAttachFilename] = useState(preparedCvAttach?.filename);
 
     const upload = useUpload(undefined, undefined, pageHrefs.attachAndParseCv(candidateId));
 
@@ -40,10 +40,9 @@ export const InterviewCvAttach = ({ candidateId, onParse }: InterviewCvAttachPro
         if ('cvParsingResult' in file) {
             const cvId = getFileIdFromPath(file.filePath);
             if (cvId === cvAttachId) return;
-            const cvDescription = cvParsingResultToDescription(file.cvParsingResult as CvParsingResult);
             setCvAttachId(cvId);
             setCvAttachFilename(file.name);
-            onParse(cvId, cvDescription);
+            onParse({ id: cvId, filename: file.name }, file.cvParsingResult as CvParsingResult);
         }
     }, [upload.files, onParse, cvAttachId]);
 

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.40.0](https://github.com/taskany-inc/hire/compare/v0.39.0...v0.40.0) (2024-04-22)
+
+
+### Features
+
+* **InterviewComment:** add a comment to interview ([1db6c25](https://github.com/taskany-inc/hire/commit/1db6c25fe7a3791716f0281eb03350967cea9c16))
+
 ## [0.39.0](https://github.com/taskany-inc/hire/compare/v0.38.0...v0.39.0) (2024-04-18)
 
 

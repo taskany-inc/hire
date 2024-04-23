@@ -37,6 +37,10 @@ const StyledWrapper = styled.div`
     margin: ${gapS} 0 0 ${gapS};
 `;
 
+const StyledMarkdownRenderer = styled(MarkdownRenderer)`
+    max-width: 600px;
+`;
+
 export const SectionList = ({ sections, header, completed = false }: SectionListProps) => {
     return (
         <div>
@@ -71,7 +75,7 @@ export const SectionList = ({ sections, header, completed = false }: SectionList
 
                                 <CardContent>
                                     {section.interview.description && (
-                                        <MarkdownRenderer value={section.interview.description} />
+                                        <StyledMarkdownRenderer value={section.interview.description} />
                                     )}
                                 </CardContent>
                             </StyledOpacityCard>

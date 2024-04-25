@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.40.1](https://github.com/taskany-inc/hire/compare/v0.40.0...v0.40.1) (2024-04-25)
+
+
+### Bug Fixes
+
+* **SectionList:** max width for interview description ([fb9d52c](https://github.com/taskany-inc/hire/commit/fb9d52c90c570e9d28fcdafbb00c69304e4f224b))
+
 ## [0.40.0](https://github.com/taskany-inc/hire/compare/v0.39.0...v0.40.0) (2024-04-22)
 
 

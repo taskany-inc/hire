@@ -36,7 +36,7 @@ export const trpcRouter = router({
     users: usersRouter,
     roles: rolesRouter,
     feedback: feedbackRouter,
-    comment: commentRouter,
+    comments: commentRouter,
     crew: crewRouter,
     appConfig: appConfigRouter,
     historyEvents: historyEventsRouter,

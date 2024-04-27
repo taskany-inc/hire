@@ -7,10 +7,10 @@ export const useCommentCreateMutation = () => {
     const { enqueueSuccessNotification, enqueueErrorNotification } = useNotifications();
     const utils = trpc.useContext();
 
-    return trpc.comment.create.useMutation({
+    return trpc.comments.create.useMutation({
         onSuccess: (data) => {
             enqueueSuccessNotification(`${tr('New comment created')}`);
-            utils.comment.invalidate();
+            utils.comments.invalidate();
 
             if (data.problemId) {
                 utils.problems.invalidate();
@@ -28,10 +28,10 @@ export const useCommentEditMutation = () => {
     const { enqueueSuccessNotification, enqueueErrorNotification } = useNotifications();
     const utils = trpc.useContext();
 
-    return trpc.comment.edit.useMutation({
+    return trpc.comments.edit.useMutation({
         onSuccess: (data) => {
             enqueueSuccessNotification(`${tr('Comment updated')}`);
-            utils.comment.invalidate();
+            utils.comments.invalidate();
 
             if (data.problemId) {
                 utils.problems.invalidate();
@@ -48,10 +48,10 @@ export const useCommentDeleteMutation = () => {
     const { enqueueSuccessNotification, enqueueErrorNotification } = useNotifications();
     const utils = trpc.useContext();
 
-    return trpc.comment.delete.useMutation({
+    return trpc.comments.delete.useMutation({
         onSuccess: (data) => {
             enqueueSuccessNotification(`${tr('Comment deleted')}`);
-            utils.comment.invalidate();
+            utils.comments.invalidate();
             if (data.problemId) {
                 utils.problems.invalidate();
             }

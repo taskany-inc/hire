@@ -5,5 +5,6 @@ export const createAttachSchema = z.object({
     link: z.string(),
     sectionId: z.number().optional(),
     interviewId: z.number().optional(),
+    commentId: z.string().optional(),
 });
 export type CreateAttach = z.infer<typeof createAttachSchema>;

@@ -68,6 +68,7 @@ const getById = async (id: number, options?: GetInterviewByIdOptions): Promise<I
             comments: {
                 include: {
                     user: true,
+                    attaches: true,
                 },
             },
         },

@@ -7,7 +7,7 @@ import { formFieldName } from '@taskany/bricks';
 
 import { parseError } from '../utils/errorParsing';
 import { ErrorWithStatus } from '../utils';
-import { parseNumber } from '../utils/paramParsers';
+import { parseNumber, parseString } from '../utils/paramParsers';
 import { pageHrefs } from '../utils/paths';
 
 import { attachMethods } from './attachMethods';
@@ -27,6 +27,7 @@ export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => 
     const form = formidable({ multiples: true });
     const sectionId = parseNumber(req.query.sectionId);
     const interviewId = parseNumber(req.query.interviewId);
+    const commentId = parseString(req.query.commentId);
     const { parseCv } = req.query;
     const candidateId = parseNumber(req.query.candidateId);
 
@@ -74,6 +75,7 @@ export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => 
                         filename,
                         sectionId,
                         interviewId,
+                        commentId,
                     });
                     resultObject.succeeded.push({
                         type: file.mimetype || '',

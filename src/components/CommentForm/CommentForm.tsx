@@ -1,13 +1,15 @@
 import React, { useCallback, useRef } from 'react';
-import styled from 'styled-components';
-import { backgroundColor, gapM, gray4 } from '@taskany/colors';
-import { Form, FormCard, FormAction, FormActions, nullable, useClickOutside } from '@taskany/bricks';
-import { IconQuestionCircleOutline } from '@taskany/icons';
-import { FormControlEditor, FormControl, Button } from '@taskany/bricks/harmony';
+import { Form, FormAction, nullable, useClickOutside } from '@taskany/bricks';
+import { FormControl, Button } from '@taskany/bricks/harmony';
+import cn from 'classnames';
 
 import { CommentSchema } from '../../modules/commentTypes';
+import { FormActions } from '../FormActions/FormActions';
+import { HelpButton } from '../HelpButton/HelpButton';
+import { FormControlEditor } from '../FormControlEditorForm/FormControlEditorForm';
 
 import { tr } from './CommentForm.i18n';
+import s from './CommentForm.module.css';
 
 interface CommentFormProps {
     actionButton: React.ReactNode;
@@ -20,37 +22,10 @@ interface CommentFormProps {
     onChange?: (form: CommentSchema) => void;
     onFocus?: () => void;
     onCancel?: () => void;
+    onUploadSuccess?: () => void;
+    onUploadFail?: (message?: string) => void;
+    uploadLink?: string;
 }
-
-const StyledFormBottom = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding-top: ${gapM};
-`;
-
-const StyledCommentForm = styled(FormCard)`
-    &::before {
-        position: absolute;
-        z-index: 0;
-
-        content: '';
-
-        width: 14px;
-        height: 14px;
-
-        background-color: ${backgroundColor};
-
-        border-left: 1px solid ${gray4};
-        border-top: 1px solid ${gray4};
-        border-radius: 2px;
-
-        transform: rotate(-45deg);
-        top: 12px;
-        left: -8px;
-    }
-`;
 
 export const CommentForm: React.FC<CommentFormProps> = ({
     text = '',
@@ -62,6 +37,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({
     onSubmit,
     onFocus,
     onCancel,
+    uploadLink,
 }) => {
     const ref = useRef(null);
 
@@ -88,30 +64,27 @@ export const CommentForm: React.FC<CommentFormProps> = ({
     });
 
     return (
-        <StyledCommentForm ref={ref} tabIndex={0}>
+        <div className={cn(s.CommentFormWrapper, { [s.CommentFormWrapper_focused]: focused })} ref={ref} tabIndex={0}>
             <Form onSubmit={onCommentSubmit}>
                 <FormControl>
                     <FormControlEditor
                         disabled={busy}
                         placeholder={tr('Leave a comment')}
-                        height={focused ? 120 : 40}
+                        height={focused ? 120 : 80}
                         onCancel={onCommentCancel}
                         onFocus={onFocus}
                         autoFocus={autoFocus}
                         value={text}
                         onChange={onTextChange}
-                        disableAttaches={true}
+                        outline
+                        uploadLink={uploadLink}
                     />
                 </FormControl>
                 {nullable(focused, () => (
                     <FormActions>
-                        <FormAction left inline>
-                            {nullable(focused, () => (
-                                <StyledFormBottom>
-                                    <IconQuestionCircleOutline size="s" />{' '}
-                                </StyledFormBottom>
-                            ))}
-                        </FormAction>
+                        <div className={s.FormHelpButton}>
+                            <HelpButton />
+                        </div>
                         <FormAction right inline>
                             {nullable(!busy, () => (
                                 <Button text={tr('Cancel')} onClick={onCommentCancel} />
@@ -122,6 +95,6 @@ export const CommentForm: React.FC<CommentFormProps> = ({
                     </FormActions>
                 ))}
             </Form>
-        </StyledCommentForm>
+        </div>
     );
 };

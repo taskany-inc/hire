@@ -14,6 +14,7 @@ export const useUploadNotifications = () => {
         enqueueSuccessNotification(tr('Added documents'));
         utils.sections.invalidate();
         utils.interviews.invalidate();
+        utils.comments.invalidate();
     };
     const onUploadFail = (message = tr('Failed to upload documents')) => {
         enqueueValidErrorNotification(message);
@@ -30,6 +31,7 @@ export const useAttachRemoveMutation = (): UseMutationResult<Attach, unknown, st
             enqueueSuccessNotification(tr('Deleted document'));
             utils.sections.invalidate();
             utils.interviews.invalidate();
+            utils.comments.invalidate();
         },
         onError: enqueueErrorNotification,
     });

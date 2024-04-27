@@ -114,4 +114,5 @@ export const pageHrefs = {
         `${Paths.ATTACH}?parseCv=1${candidateId ? `&candidateId=${candidateId}` : ''}`,
     attachInterview: (interviewId: number): string => `${Paths.ATTACH}?interviewId=${interviewId}`,
     attachSection: (sectionId: number): string => `${Paths.ATTACH}?sectionId=${sectionId}`,
+    attachComment: (commentId: string): string => `${Paths.ATTACH}?commentId=${commentId}`,
 };

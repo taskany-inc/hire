@@ -448,6 +448,8 @@ model Attach {
   interviewId      Int?
   cvForInterview   Interview? @relation("InterviewCV")
   cvForInterviewId Int?
+  comment          Comment?   @relation(fields: [commentId], references: [id])
+  commentId        String?
 }
 
 model UserSettings {
@@ -472,6 +474,8 @@ model Comment {
 
   interview   Interview? @relation(fields: [interviewId], references: [id])
   interviewId Int?
+
+  attaches Attach[]
 
   createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
   updatedAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt

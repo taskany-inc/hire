@@ -1,7 +1,7 @@
-import { useState, useMemo, FC, useCallback } from 'react';
+import { useState, useMemo, FC } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
-import { gapM, gray10 } from '@taskany/colors';
+import { gray10 } from '@taskany/colors';
 import { Text, nullable } from '@taskany/bricks';
 import { IconArrowUpSmallOutline, IconArrowDownSmallOutline } from '@taskany/icons';
 
@@ -21,11 +21,10 @@ import { ProblemHistoryCard } from '../ProblemHistoryCard/ProblemHistoryCard';
 import { useDistanceDate } from '../../hooks/useDateFormat';
 import { ProblemDifficultyIcon } from '../ProblemDifficultyIcon/ProblemDifficultyIcon';
 import { Comment } from '../Comment/Comment';
-import CommentCreateForm from '../CommentCreateForm/CommentCreateForm';
-import { CommentSchema } from '../../modules/commentTypes';
-import { useCommentCreateMutation } from '../../modules/commentHooks';
+import ProblemCommentCreateForm from '../ProblemCommentCreationForm/ProblemCommentCreationForm';
 
 import { tr } from './Problem.i18n';
+import s from './Problem.module.css';
 
 interface ProblemProps {
     problem: ProblemWithRelationsAndProblemSection;
@@ -48,17 +47,6 @@ const StyledTitle = styled(Text)`
     gap: 5px;
 `;
 
-const StyledComment = styled.div`
-    display: grid;
-    grid-template-column: 7fr 5fr;
-    gap: ${gapM};
-    flex: 1;
-    line-height: 1.5;
-    align-items: flex-start;
-    flex-wrap: nowrap;
-    max-width: 500px;
-`;
-
 export const Problem: FC<ProblemProps> = ({ problem }) => {
     const session = useSession();
     const router = useRouter();
@@ -71,7 +59,6 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
     const toggleProblemHistoryExpansion = () => setIsProblemHistoryExpanded((value) => !value);
 
     const problemRemoveMutation = useProblemRemoveMutation();
-    const commentCreateMutation = useCommentCreateMutation();
 
     const problemRemoveConfirmation = useConfirmation({
         message: tr('Delete problem?'),
@@ -99,22 +86,6 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
 
         return items;
     }, [session, problem, problemRemoveConfirmation.show, router]);
-
-    const onCreateCommentSubmit = useCallback(
-        async (value: CommentSchema) => {
-            if (!session?.user) {
-                return null;
-            }
-
-            const result = await commentCreateMutation.mutateAsync({
-                text: value.text,
-                userId: session.user.id,
-                target: { problemId: problem.id },
-            });
-            return result;
-        },
-        [commentCreateMutation, problem.id, session?.user],
-    );
 
     return (
         <LayoutMain pageTitle={problem.name} headerGutter="0px" titleMenuItems={titleMenuItems}>
@@ -172,14 +143,12 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
 
             <StyledTitle size="xl">{tr('Comments')}</StyledTitle>
 
-            <StyledComment>
-                <>
-                    {problem.comments.map((comment) => (
-                        <Comment key={`comment - ${comment.id}`} comment={comment} />
-                    ))}
-                    <CommentCreateForm onSubmit={onCreateCommentSubmit} />
-                </>
-            </StyledComment>
+            <div className={s.ProblemCommentWrapper}>
+                {problem.comments.map((comment) => (
+                    <Comment key={`comment - ${comment.id}`} comment={comment} />
+                ))}
+                <ProblemCommentCreateForm problem={problem} />
+            </div>
         </LayoutMain>
     );
 };

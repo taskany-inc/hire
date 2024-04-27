@@ -1,5 +1,6 @@
-import React, { useState, useCallback } from 'react';
-import { Button, UserPic } from '@taskany/bricks';
+import React, { useState, useCallback, ComponentProps } from 'react';
+import { UserPic } from '@taskany/bricks';
+import { FormEditor, Button } from '@taskany/bricks/harmony';
 
 import { useSession } from '../../contexts/appSettingsContext';
 import { CommentForm } from '../CommentForm/CommentForm';
@@ -11,6 +12,8 @@ import { tr } from './CommentCreateForm.i18n';
 interface CommentCreateFormProps extends Omit<React.ComponentProps<typeof CommentForm>, 'actionButton'> {
     onSubmit: (comment: CommentSchema) => void;
     onChange?: (comment: CommentSchema) => void;
+    attachFormatter?: ComponentProps<typeof FormEditor>['attachFormatter'];
+    uploadLink?: string;
 }
 
 const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
@@ -19,6 +22,7 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
     onFocus,
     onCancel,
     onChange,
+    uploadLink,
 }) => {
     const session = useSession();
 
@@ -75,9 +79,10 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
                 onFocus={onCommentFocus}
                 actionButton={
                     <>
-                        <Button size="m" view="primary" disabled={busy} outline type="submit" text={tr('Comment')} />
+                        <Button view="primary" disabled={busy} type="submit" text={tr('Comment')} />
                     </>
                 }
+                uploadLink={uploadLink}
             />
         </ActivityFeedItem>
     );

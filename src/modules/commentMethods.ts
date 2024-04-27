@@ -3,19 +3,20 @@ import { Comment, Prisma } from '@prisma/client';
 import { prisma } from '../utils/prisma';
 import { Paths, generatePath } from '../utils/paths';
 import config from '../config';
-import { ErrorWithStatus } from '../utils';
+import { ErrorWithStatus, idsToIdObjs } from '../utils';
 
 import { sendMail } from './nodemailer';
 import { CreateComment, EditComment, DeleteComment } from './commentTypes';
 import { tr } from './modules.i18n';
 
-const createComment = async (params: CreateComment) => {
-    const { text, userId, target, ...restData } = params;
+const createComment = async (params: CreateComment): Promise<Comment> => {
+    const { text, userId, target, attachIds, ...restData } = params;
 
     const data: Prisma.CommentCreateInput = {
         ...restData,
         text,
         user: { connect: { id: params.userId } },
+        attaches: attachIds ? { connect: idsToIdObjs(attachIds) } : undefined,
     };
 
     if ('problemId' in target) {
@@ -32,6 +33,7 @@ const createComment = async (params: CreateComment) => {
             user: true,
             problem: { include: { comments: { include: { user: true } }, author: true } },
             interview: { include: { comments: { include: { user: true } }, creator: true } },
+            attaches: true,
         },
     });
 
@@ -64,7 +66,10 @@ const createComment = async (params: CreateComment) => {
 };
 
 const getById = async (id: string): Promise<Comment> => {
-    const comment = await prisma.comment.findFirst({ where: { id } });
+    const comment = await prisma.comment.findFirst({
+        where: { id },
+        include: { attaches: { where: { deletedAt: null } } },
+    });
 
     if (comment === null) {
         throw new ErrorWithStatus(tr('Comment not found'), 404);
@@ -74,9 +79,12 @@ const getById = async (id: string): Promise<Comment> => {
 };
 
 const updateComment = async (data: EditComment) => {
-    const { id, text } = data;
+    const { id, text, attachIds } = data;
 
-    const comment = prisma.comment.update({ where: { id }, data: { text } });
+    const comment = prisma.comment.update({
+        where: { id },
+        data: { text, attaches: attachIds ? { connect: idsToIdObjs(attachIds) } : undefined },
+    });
 
     return comment;
 };

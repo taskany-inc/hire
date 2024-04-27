@@ -1,8 +1,8 @@
-import { useCallback, useMemo, VFC } from 'react';
+import { useMemo, VFC } from 'react';
 import { useRouter } from 'next/router';
 import { InterviewStatus, RejectReason, SectionType } from '@prisma/client';
 import { nullable, Text } from '@taskany/bricks';
-import { gapM, gapS, gray10 } from '@taskany/colors';
+import { gapS, gray10 } from '@taskany/colors';
 import styled from 'styled-components';
 
 import { pageHrefs } from '../../utils/paths';
@@ -27,12 +27,11 @@ import { ExternalUserLink } from '../ExternalUserLink';
 import { useDistanceDate } from '../../hooks/useDateFormat';
 import { Link } from '../Link';
 import { VacancyInfoById } from '../VacancyInfo/VacancyInfo';
-import { CommentSchema } from '../../modules/commentTypes';
-import { useCommentCreateMutation } from '../../modules/commentHooks';
 import { Comment } from '../Comment/Comment';
-import CommentCreateForm from '../CommentCreateForm/CommentCreateForm';
+import InterviewCommentCreateForm from '../InterviewCommentCreationForm/InterviewCommentCreationForm';
 
 import { tr } from './Interview.i18n';
+import s from './Interview.module.css';
 
 interface InterviewProps {
     interview: InterviewWithRelations;
@@ -48,21 +47,12 @@ const StyledTitle = styled(Text)`
     gap: 5px;
 `;
 
-const StyledComment = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: ${gapM};
-    max-width: 500px;
-`;
-
 export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, rejectReasons }) => {
     const router = useRouter();
     const session = useSession();
     const interviewId = Number(router.query.interviewId);
     const interviewRemove = useInterviewRemoveMutation();
-
     const date = useDistanceDate(interview.createdAt);
-    const commentCreateMutation = useCommentCreateMutation();
 
     const interviewRemoveConfirmation = useConfirmation({
         message: tr('Delete interview?'),
@@ -143,22 +133,6 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reject
         return items;
     }, [session, interview, hireOrRejectConfirmation, interviewId, interviewRemoveConfirmation.show, router]);
 
-    const onCreateInterviewCommentSubmit = useCallback(
-        async (value: CommentSchema) => {
-            if (!session?.user) {
-                return null;
-            }
-
-            const result = await commentCreateMutation.mutateAsync({
-                text: value.text,
-                userId: session.user.id,
-                target: { interviewId: interview.id },
-            });
-            return result;
-        },
-        [commentCreateMutation, interview.id, session?.user],
-    );
-
     return (
         <LayoutMain
             pageTitle={interview.candidate.name}
@@ -208,15 +182,12 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reject
                     </>
                 )}
                 <StyledTitle size="xl">{tr('Comments')}</StyledTitle>
-
-                <StyledComment>
-                    <>
-                        {interview.comments.map((comment) => (
-                            <Comment key={`comment - ${comment.id}`} comment={comment} />
-                        ))}
-                        <CommentCreateForm onSubmit={onCreateInterviewCommentSubmit} />
-                    </>
-                </StyledComment>
+                <div className={s.InterviewCommentWrapper}>
+                    {interview.comments.map((comment) => (
+                        <Comment key={`comment - ${comment.id}`} comment={comment} />
+                    ))}
+                    <InterviewCommentCreateForm interview={interview} />
+                </div>
             </Stack>
 
             <Confirmation {...interviewRemoveConfirmation.props} />

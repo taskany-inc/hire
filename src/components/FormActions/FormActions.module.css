@@ -1,0 +1,4 @@
+.FormActions {
+    display: flex;
+    gap: var(--gap-sm);
+}

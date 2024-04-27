@@ -1,9 +1,10 @@
 import React, { FC, useCallback, useMemo, useState } from 'react';
-import styled from 'styled-components';
-import { brandColor, danger0, gapM, gapS, gray4, textColor } from '@taskany/colors';
-import { Card, CardComment, CardInfo, UserPic, nullable, Button, Dropdown, MenuItem } from '@taskany/bricks';
+import { textColor } from '@taskany/colors';
+import { UserPic, nullable, Dropdown, MenuItem } from '@taskany/bricks';
 import { IconBinOutline, IconEditOutline, IconMoreVerticalOutline } from '@taskany/icons';
 import { Comment } from '@prisma/client';
+import { Card, CardInfo, Button, CardContent } from '@taskany/bricks/harmony';
+import cn from 'classnames';
 
 import { ActivityFeedItem } from '../ActivityFeed';
 import { CommentForm } from '../CommentForm/CommentForm';
@@ -19,6 +20,7 @@ import { useDistanceDate } from '../../hooks/useDateFormat';
 import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 
 import { tr } from './CommentView.i18n';
+import s from './CommentView.module.css';
 
 interface CommentViewProps {
     author?: {
@@ -32,73 +34,8 @@ interface CommentViewProps {
     onChange?: (comment: CommentSchema) => void;
     onCancel?: () => void;
     onDelete: () => void;
+    className?: string;
 }
-
-const StyledCommentActions = styled.div`
-    display: flex;
-    align-items: center;
-    justify-self: end;
-
-    margin-right: -10px;
-
-    & > span + span {
-        margin-left: ${gapS};
-    }
-`;
-
-const StyledCommentCard = styled(Card)<Pick<CommentViewProps, 'highlight'>>`
-    position: relative;
-    min-height: 60px;
-
-    transition: border-color 200ms ease-in-out;
-    border-radius: 9px;
-
-    ${({ highlight }) =>
-        highlight &&
-        `
-            border-color: ${brandColor};
-        `}
-
-    &::before {
-        position: absolute;
-        z-index: 0;
-
-        content: '';
-
-        width: 14px;
-        height: 14px;
-
-        background-color: ${gray4};
-
-        border-left: 1px solid ${gray4};
-        border-top: 1px solid ${gray4};
-        border-radius: 2px;
-
-        transform: rotate(-45deg);
-        transition: border-color 200ms ease-in-out;
-
-        top: 7px;
-        left: -6px;
-
-        ${({ highlight }) =>
-            highlight &&
-            `
-                border-color: ${brandColor};
-            `}
-    }
-`;
-
-const StyledCardInfo = styled(CardInfo)`
-    display: flex;
-    justify-content: space-between;
-`;
-
-const StyledCardComment = styled(CardComment)`
-    display: flex;
-    flex-direction: column;
-    gap: ${gapM};
-    word-break: keep-all;
-`;
 
 export const CommentView: FC<CommentViewProps> = ({
     author,
@@ -109,6 +46,7 @@ export const CommentView: FC<CommentViewProps> = ({
     onCancel,
     onSubmit,
     onDelete,
+    className,
 }) => {
     const [editMode, setEditMode] = useState(false);
     const [focused, setFocused] = useState(false);
@@ -163,7 +101,7 @@ export const CommentView: FC<CommentViewProps> = ({
             items.push({
                 onClick: onDelete,
                 label: tr('Delete'),
-                color: danger0,
+                className: s.CommentActionsItem_danger,
                 icon: <IconBinOutline size="xxs" />,
             });
         }
@@ -172,7 +110,7 @@ export const CommentView: FC<CommentViewProps> = ({
     }, [session, comment, onDelete]);
 
     return (
-        <ActivityFeedItem id={`comment-${comment.id}`}>
+        <ActivityFeedItem className={cn(s.CommentView, className)} id={`comment-${comment.id}`}>
             <Circle size={31}>
                 {nullable(userByEmailLink && author, ({ email, name }) => (
                     <Link href={userByEmailLink} inline target="_blank">
@@ -195,25 +133,24 @@ export const CommentView: FC<CommentViewProps> = ({
                             size="m"
                             view="primary"
                             disabled={commentText.text === comment.text || busy}
-                            outline
                             type="submit"
                             text={tr('Save')}
                         />
                     }
                 />
             ) : (
-                <StyledCommentCard highlight={highlight}>
-                    <StyledCardInfo>
+                <Card className={cn(s.CommentCard, { [s.CommentCard_highlighted]: highlight })}>
+                    <CardInfo className={s.CardInfo}>
                         {nullable(author, (data) => (
                             <CardHeaderComment name={data.name || data.email} timeAgo={date} />
                         ))}
 
-                        <StyledCommentActions>
+                        <div className={s.CommentActions}>
                             <Dropdown
                                 items={dropdownItems}
                                 renderTrigger={({ ref, onClick }) => (
                                     <Light color={textColor} ref={ref} onClick={onClick}>
-                                        <IconMoreVerticalOutline size="xs" />
+                                        <IconMoreVerticalOutline size="xs" className={s.DropdownTrigger} />
                                     </Light>
                                 )}
                                 renderItem={({ item, cursor, index }) => (
@@ -229,13 +166,13 @@ export const CommentView: FC<CommentViewProps> = ({
                                     </MenuItem>
                                 )}
                             />
-                        </StyledCommentActions>
-                    </StyledCardInfo>
+                        </div>
+                    </CardInfo>
 
-                    <StyledCardComment>
-                        <MarkdownRenderer value={commentText.text} />
-                    </StyledCardComment>
-                </StyledCommentCard>
+                    <CardContent view="transparent" className={s.CardComment}>
+                        <MarkdownRenderer className={s.Markdown} value={commentText.text} />
+                    </CardContent>
+                </Card>
             )}
         </ActivityFeedItem>
     );

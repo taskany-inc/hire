@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.41.0](https://github.com/taskany-inc/hire/compare/v0.40.1...v0.41.0) (2024-05-06)
+
+
+### Features
+
+* **AttachmentsInComments:** add ataches in comments ([e6a9779](https://github.com/taskany-inc/hire/commit/e6a9779903a9e9c3b7253e7bf9bc2b28e3418471))
+
 ## [0.40.1](https://github.com/taskany-inc/hire/compare/v0.40.0...v0.40.1) (2024-04-25)
 
 

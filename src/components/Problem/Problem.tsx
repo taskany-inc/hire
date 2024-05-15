@@ -144,7 +144,7 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
             <StyledTitle size="xl">{tr('Comments')}</StyledTitle>
 
             <div className={s.ProblemCommentWrapper}>
-                {problem.comments.map((comment) => (
+                {problem.comments?.map((comment) => (
                     <Comment key={`comment - ${comment.id}`} comment={comment} />
                 ))}
                 <ProblemCommentCreateForm problem={problem} />

@@ -5,6 +5,7 @@ import { prisma } from '../utils/prisma';
 import { ErrorWithStatus, idsToIdObjs } from '../utils';
 import { buildItemListOrderBy, buildItemListWhere } from '../utils/itemList';
 import { ApiEntityListResult, ApiEntityListSelectionParams } from '../utils/types';
+import { commentFormatting } from '../utils/commentFormatting';
 
 import {
     CandidateInterviewsFetchParams,
@@ -69,10 +70,13 @@ const getById = async (id: number, options?: GetInterviewByIdOptions): Promise<I
                 include: {
                     user: true,
                     attaches: true,
+                    reactions: { include: { user: { select: { name: true, email: true } } } },
                 },
             },
         },
     });
+
+    const comments = commentFormatting(interview?.comments);
 
     if (interview === null) {
         throw new ErrorWithStatus(tr('Interview not found'), 404);
@@ -86,7 +90,7 @@ const getById = async (id: number, options?: GetInterviewByIdOptions): Promise<I
         });
     }
 
-    return interview as InterviewWithRelations;
+    return { ...interview, comments };
 };
 
 const findWithSections = async (id: number): Promise<InterviewWithSections> => {

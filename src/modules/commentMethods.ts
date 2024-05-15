@@ -34,6 +34,7 @@ const createComment = async (params: CreateComment): Promise<Comment> => {
             problem: { include: { comments: { include: { user: true } }, author: true } },
             interview: { include: { comments: { include: { user: true } }, creator: true } },
             attaches: true,
+            reactions: true,
         },
     });
 

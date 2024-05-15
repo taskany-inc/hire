@@ -18,6 +18,10 @@ import { accessChecks } from '../../modules/accessChecks';
 import { useSession } from '../../contexts/appSettingsContext';
 import { useDistanceDate } from '../../hooks/useDateFormat';
 import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
+import ReactionsDropdown from '../ReactionDropdown/ReactionDropdown';
+import { Reactions } from '../Reactions/Reactions';
+import { ReactionsMap } from '../../modules/reactionTypes';
+import { useReactionsResource } from '../../modules/reactionHooks';
 
 import { tr } from './CommentView.i18n';
 import s from './CommentView.module.css';
@@ -28,6 +32,7 @@ interface CommentViewProps {
         email: string;
     };
     highlight?: boolean;
+    reactions: ReactionsMap;
     comment: Comment;
 
     onSubmit?: (comment: CommentSchema) => void;
@@ -35,11 +40,13 @@ interface CommentViewProps {
     onCancel?: () => void;
     onDelete: () => void;
     className?: string;
+    onReactionToggle?: React.ComponentProps<typeof ReactionsDropdown>['onClick'];
 }
 
 export const CommentView: FC<CommentViewProps> = ({
     author,
     comment,
+    reactions,
     highlight,
 
     onChange,
@@ -47,6 +54,7 @@ export const CommentView: FC<CommentViewProps> = ({
     onSubmit,
     onDelete,
     className,
+    onReactionToggle,
 }) => {
     const [editMode, setEditMode] = useState(false);
     const [focused, setFocused] = useState(false);
@@ -54,6 +62,7 @@ export const CommentView: FC<CommentViewProps> = ({
     const [commentText, setCommentText] = useState({ text: comment.text });
     const session = useSession();
     const date = useDistanceDate(comment.createdAt);
+    const { reactionsProps } = useReactionsResource(reactions);
 
     const onCommentSubmit = useCallback(
         async (form: CommentSchema) => {
@@ -171,6 +180,12 @@ export const CommentView: FC<CommentViewProps> = ({
 
                     <CardContent view="transparent" className={s.CardComment}>
                         <MarkdownRenderer className={s.Markdown} value={commentText.text} />
+
+                        <Reactions reactions={reactions} onClick={onReactionToggle}>
+                            {nullable(!reactionsProps.limited, () => (
+                                <ReactionsDropdown view="button" onClick={onReactionToggle} />
+                            ))}
+                        </Reactions>
                     </CardContent>
                 </Card>
             )}

@@ -3,6 +3,7 @@ import { Prisma, PrismaPromise, Problem } from '@prisma/client';
 import { prisma } from '../utils/prisma';
 import { idsToIdObjs, ErrorWithStatus } from '../utils';
 import { ApiEntityListResult } from '../utils/types';
+import { commentFormatting } from '../utils/commentFormatting';
 
 import {
     CheckIsAvailableProblemType,
@@ -134,15 +135,23 @@ const getById = async (id: number) => {
             tags: true,
             favoritedBy: true,
             problemHistory: { orderBy: { createdAt: 'desc' }, include: { user: true } },
-            comments: { include: { user: true, attaches: true } },
+            comments: {
+                include: {
+                    user: true,
+                    attaches: true,
+                    reactions: { include: { user: { select: { name: true, email: true } } } },
+                },
+            },
         },
     });
+
+    const comments = commentFormatting(problem?.comments);
 
     if (problem === null) {
         throw new ErrorWithStatus(tr('Problem not found'), 404);
     }
 
-    return problem;
+    return { ...problem, comments };
 };
 
 const getCount = async (userId: number, data: GetProblemList): Promise<ProblemCount> => {
@@ -198,7 +207,6 @@ const getList = async (
         author: true,
         tags: true,
         problemHistory: { include: { user: true } },
-        comments: { include: { user: true } },
         favoritedBy: {
             where: {
                 id: userId,

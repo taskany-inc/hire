@@ -19,6 +19,7 @@ import { commentRouter } from './commentRouter';
 import { crewRouter } from './crewRouter';
 import { appConfigRouter } from './appConfigRouter';
 import { historyEventsRouter } from './historyEventsRouter';
+import { reactionRouter } from './reactionRouter';
 
 export const trpcRouter = router({
     analyticsQueries: analyticsQueriesRouter,
@@ -40,6 +41,7 @@ export const trpcRouter = router({
     crew: crewRouter,
     appConfig: appConfigRouter,
     historyEvents: historyEventsRouter,
+    reaction: reactionRouter,
 });
 
 export type TrpcRouter = typeof trpcRouter;

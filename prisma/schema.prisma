@@ -80,6 +80,7 @@ model User {
   comments                  Comment[]
   historyEvents             HistoryEvent[]
   restrictedInterviews      Interview[]      @relation("InterviewAccessRestriction")
+  reactions                 Reaction[]
 
   @@index([email])
 }
@@ -99,11 +100,11 @@ model Problem {
   favoritedBy    User[]            @relation("FavoriteProblems")
   problemHistory ProblemHistory[]
   comments       Comment[]
-
+  reactions      Reaction[]
   // Problem solutions counter
-  solutionsGood Int @default(0)
-  solutionsOk   Int @default(0)
-  solutionsBad  Int @default(0)
+  solutionsGood  Int               @default(0)
+  solutionsOk    Int               @default(0)
+  solutionsBad   Int               @default(0)
 
   createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
   updatedAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
@@ -182,6 +183,7 @@ model Interview {
   crewVacancyId              String?
   restrictedUsers            User[]           @relation("InterviewAccessRestriction")
   comments                   Comment[]
+  reactions                  Reaction[]
 }
 
 model Section {
@@ -477,6 +479,8 @@ model Comment {
 
   attaches Attach[]
 
+  reactions Reaction[]
+
   createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
   updatedAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
 
@@ -493,4 +497,30 @@ model AppConfig {
   id      String  @id @default(cuid())
   favicon String?
   logo    String?
+}
+
+model Reaction {
+  id    String @id @default(cuid())
+  emoji String
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  comment   Comment? @relation(fields: [commentId], references: [id])
+  commentId String?
+
+  problem   Problem? @relation(fields: [problemId], references: [id])
+  problemId Int?
+
+  interview   Interview? @relation(fields: [interviewId], references: [id])
+  interviewId Int?
+
+  createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
+
+  @@unique([emoji, commentId, userId])
+  @@index([userId])
+  @@index([problemId])
+  @@index([interviewId])
+  @@index([commentId])
 }

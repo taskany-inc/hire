@@ -14,7 +14,7 @@ import { z } from 'zod';
 
 import { SectionWithInterviewerRelation } from './sectionTypes';
 import { AccessOptions } from './accessChecks';
-import { CommentWithUser } from './commentTypes';
+import { CommentWithUserAndReaction } from './commentTypes';
 
 export const interviewIdQuerySchema = z.object({
     interviewId: z.number(),
@@ -110,9 +110,9 @@ export type InterviewWithRelations = InterviewWithHireStreamRelation & {
     candidate: Candidate;
     sections: SectionWithSectionTypeAndInterviewerAndSolutionsRelations[];
     candidateSelectedSection: Section | null;
-    cv?: Attach;
+    cv: Attach | null;
     restrictedUsers?: User[];
-    comments: CommentWithUser[];
+    comments: CommentWithUserAndReaction[] | undefined;
 };
 
 export interface InterviewWithCandidateRelation extends Interview, Record<string, unknown> {

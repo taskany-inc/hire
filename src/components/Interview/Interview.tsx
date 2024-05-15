@@ -183,7 +183,7 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reject
                 )}
                 <StyledTitle size="xl">{tr('Comments')}</StyledTitle>
                 <div className={s.InterviewCommentWrapper}>
-                    {interview.comments.map((comment) => (
+                    {interview.comments?.map((comment) => (
                         <Comment key={`comment - ${comment.id}`} comment={comment} />
                     ))}
                     <InterviewCommentCreateForm interview={interview} />

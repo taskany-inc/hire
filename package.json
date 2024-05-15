@@ -57,6 +57,7 @@
         "nodemailer": "6.9.9",
         "notistack": "3.0.1",
         "pdf-parse": "1.1.1",
+        "picmo": "5.8.5",
         "pino": "8.19.0",
         "pino-http": "9.0.0",
         "postcss-cli": "11.0.0",

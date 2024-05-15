@@ -1,7 +1,8 @@
 import { z } from 'zod';
-import { User, Comment } from '@prisma/client';
+import { User, Comment, Reaction, Attach } from '@prisma/client';
 
 import { tr } from './modules.i18n';
+import { ReactionsMap } from './reactionTypes';
 
 export const commentSchema = z.object({
     text: z
@@ -42,3 +43,12 @@ export type DeleteComment = z.infer<typeof deleteCommentSchema>;
 export type CommentWithUser = Comment & {
     user: User;
 };
+
+export type CommentWithUserAndReaction = CommentWithUser & {
+    reactions: ReactionsMap;
+};
+export type CommentWithUserAndEmoji =
+    | CommentWithUser & {
+          attaches: Attach[];
+          reactions: Array<Reaction & { user: { name: string | null; email: string } }>;
+      };

@@ -6,6 +6,7 @@ import { UserSelector } from '../UserSelector/UserSelector';
 import { useEditInterviewAccessList, useInterview } from '../../modules/interviewHooks';
 import { LayoutMain } from '../LayoutMain';
 
+import s from './InterviewAccessPage.module.css';
 import { tr } from './InterviewAccessPage.i18n';
 
 interface InterviewAccesPageProps {
@@ -17,24 +18,43 @@ export const InterviewAccessPage = ({ interviewId }: InterviewAccesPageProps) =>
 
     const editInterviewAccessList = useEditInterviewAccessList();
 
-    const onSelect = (user: User) => {
-        editInterviewAccessList.mutateAsync({ action: 'ADD', interviewId, userId: user.id });
+    const onAddRestriction = (user: User) => {
+        editInterviewAccessList.mutateAsync({ type: 'RESTRICT', action: 'ADD', interviewId, userId: user.id });
     };
 
-    const onDelete = (user: User) => {
-        editInterviewAccessList.mutateAsync({ action: 'DELETE', interviewId, userId: user.id });
+    const onDeleteRestriction = (user: User) => {
+        editInterviewAccessList.mutateAsync({ type: 'RESTRICT', action: 'DELETE', interviewId, userId: user.id });
+    };
+
+    const onAddPermission = (user: User) => {
+        editInterviewAccessList.mutateAsync({ type: 'ALLOW', action: 'ADD', interviewId, userId: user.id });
+    };
+
+    const onDeletePersmission = (user: User) => {
+        editInterviewAccessList.mutateAsync({ type: 'ALLOW', action: 'DELETE', interviewId, userId: user.id });
     };
 
     return (
-        <LayoutMain pageTitle={tr('Interview access restriction')}>
+        <LayoutMain pageTitle={tr('Interview access')}>
             <UserList
                 title={tr('Users with restricted access')}
-                titleFragment={<UserSelector placeholder={tr('Add user')} onSelect={onSelect} />}
+                titleFragment={<UserSelector placeholder={tr('Add user')} onSelect={onAddRestriction} />}
                 users={interviewQuery.data?.restrictedUsers ?? []}
                 action={{
                     icon: <IconXOutline size="s" />,
                     disabled: false,
-                    handler: onDelete,
+                    handler: onDeleteRestriction,
+                }}
+                className={s.UserList}
+            />
+            <UserList
+                title={tr('Users with allowed access')}
+                titleFragment={<UserSelector placeholder={tr('Add user')} onSelect={onAddPermission} />}
+                users={interviewQuery.data?.allowedUsers ?? []}
+                action={{
+                    icon: <IconXOutline size="s" />,
+                    disabled: false,
+                    handler: onDeletePersmission,
                 }}
             />
         </LayoutMain>

@@ -13,5 +13,7 @@
     "updated the feedback": "обновил(а) фидбек",
     "restricted access for": "ограничил(а) доступ для",
     "removed access restriction from": "убрал(а) ограничения доступа для",
-    "got {amount} achievements for this and previous sections": "получил(а) {amount} ачивок за эту и предыдущие секции"
+    "got {amount} achievements for this and previous sections": "получил(а) {amount} ачивок за эту и предыдущие секции",
+    "allowed access for": "разрешил(а) доступ для",
+    "removed access from": "убрал(а) разрешение на доступ для"
 }

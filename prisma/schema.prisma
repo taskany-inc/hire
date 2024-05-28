@@ -80,6 +80,7 @@ model User {
   comments                  Comment[]
   historyEvents             HistoryEvent[]
   restrictedInterviews      Interview[]      @relation("InterviewAccessRestriction")
+  allowedInterviews         Interview[]      @relation("InterviewAccessPermission")
   reactions                 Reaction[]
 
   @@index([email])
@@ -182,6 +183,7 @@ model Interview {
   cvId                       String?          @unique
   crewVacancyId              String?
   restrictedUsers            User[]           @relation("InterviewAccessRestriction")
+  allowedUsers               User[]           @relation("InterviewAccessPermission")
   comments                   Comment[]
   reactions                  Reaction[]
 }

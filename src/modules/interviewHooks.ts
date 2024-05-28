@@ -63,10 +63,16 @@ export const useEditInterviewAccessList = () => {
 
     return trpc.interviews.editAccessList.useMutation({
         onSuccess: (_data, input) => {
-            const message =
-                input.action === 'ADD'
-                    ? tr('User added to the restriction list')
-                    : tr('User removed from the restriction list');
+            const message = {
+                ALLOW: {
+                    ADD: tr('User added to the list of allowed users'),
+                    DELETE: tr('User is removed from the list of allowed users'),
+                },
+                RESTRICT: {
+                    ADD: tr('User added to the restriction list'),
+                    DELETE: tr('User removed from the restriction list'),
+                },
+            }[input.type][input.action];
             enqueueSuccessNotification(message);
             utils.interviews.invalidate();
         },

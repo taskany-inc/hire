@@ -3,7 +3,7 @@ import { CSSProperties, useMemo, useState, VFC, ReactNode } from 'react';
 import styled from 'styled-components';
 import { useDebounce } from 'use-debounce';
 import { gray4, textColor } from '@taskany/colors';
-import { Text, UserPic, Input } from '@taskany/bricks';
+import { Text, UserPic, Input, nullable } from '@taskany/bricks';
 
 import { ExternalUserLink } from '../ExternalUserLink';
 import { IconButton } from '../IconButton';
@@ -42,6 +42,10 @@ const StyledTitleWrapper = styled.div`
 const StyledTitle = styled(Text)`
     margin-bottom: 6px;
     margin-right: 12px;
+`;
+
+const StyledTextMessage = styled(Text)`
+    margin-left: 22px;
 `;
 
 interface UserListProps {
@@ -90,6 +94,9 @@ export const UserList: VFC<UserListProps> = ({ title, titleFragment, users, acti
                 </StyledFromInput>
             )}
             <StyledCardsContainer>
+                {nullable(users.length === 0, () => (
+                    <StyledTextMessage>{tr('No users')}</StyledTextMessage>
+                ))}
                 {filteredUsers.map((user) => (
                     <StyledCard key={user.id}>
                         <UserPic name={user.name} email={user.email} />

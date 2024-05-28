@@ -1,5 +1,6 @@
 {
-    "Interview access restriction": "Ограничение доступа к интервью",
     "Users with restricted access": "Пользователи с ограниченным доступом",
-    "Add user": "Добавить пользователя"
+    "Add user": "Добавить пользователя",
+    "Interview access": "Доступ к интервью",
+    "Users with allowed access": "Пользователи с разрешенным доступом"
 }

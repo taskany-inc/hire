@@ -71,9 +71,14 @@ const InterviewSetCandidateSelectedSection = ({ event }: EventProps) => (
     </Text>
 );
 
-const InterviewAddOrRemoveRestrictedUser = ({ event }: EventProps) => {
-    const action =
-        event.action === 'add_restricted_user' ? tr('restricted access for') : tr('removed access restriction from');
+const InterviewAddOrRemoveSpecialAccessUser = ({ event }: EventProps) => {
+    const translations: Record<string, string> = {
+        add_restricted_user: tr('restricted access for'),
+        remove_restricted_user: tr('removed access restriction from'),
+        add_allowed_user: tr('allowed access for'),
+        remove_allowed_user: tr('removed access from'),
+    };
+    const action = translations[event.action];
     const dotIndex = event.after?.indexOf('.') ?? 0;
     const userName = event.after?.slice(dotIndex + 1);
     return (
@@ -87,8 +92,10 @@ const interviewEventMap: Record<HistoryAction<HistorySubject.INTERVIEW>, (props:
     add_section: InterviewAddSection,
     set_status: InterviewSetStatus,
     set_candidate_selected_section: InterviewSetCandidateSelectedSection,
-    add_restricted_user: InterviewAddOrRemoveRestrictedUser,
-    remove_restricted_user: InterviewAddOrRemoveRestrictedUser,
+    add_restricted_user: InterviewAddOrRemoveSpecialAccessUser,
+    remove_restricted_user: InterviewAddOrRemoveSpecialAccessUser,
+    add_allowed_user: InterviewAddOrRemoveSpecialAccessUser,
+    remove_allowed_user: InterviewAddOrRemoveSpecialAccessUser,
 };
 
 const SectionCancel = () => (

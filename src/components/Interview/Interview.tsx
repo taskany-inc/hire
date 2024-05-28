@@ -109,7 +109,7 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reject
                 },
                 {
                     onClick: () => router.push(pageHrefs.interviewAccess(interview.id)),
-                    text: tr('Restrict access'),
+                    text: tr('Restrict / allow access'),
                 },
             );
         }

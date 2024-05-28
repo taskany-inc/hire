@@ -133,7 +133,7 @@ export const interviewsRouter = router({
                 subjectId: input.interviewId,
             };
 
-            if (input.action === 'ADD') {
+            if (input.type === 'RESTRICT' && input.action === 'ADD') {
                 await historyEventMethods.create({
                     ...commonHistoryFields,
                     action: 'add_restricted_user',
@@ -141,10 +141,26 @@ export const interviewsRouter = router({
                 });
             }
 
-            if (input.action === 'DELETE') {
+            if (input.type === 'RESTRICT' && input.action === 'DELETE') {
                 await historyEventMethods.create({
                     ...commonHistoryFields,
                     action: 'remove_restricted_user',
+                    after: `${input.userId}.${user.name}`,
+                });
+            }
+
+            if (input.type === 'ALLOW' && input.action === 'ADD') {
+                await historyEventMethods.create({
+                    ...commonHistoryFields,
+                    action: 'add_allowed_user',
+                    after: `${input.userId}.${user.name}`,
+                });
+            }
+
+            if (input.type === 'ALLOW' && input.action === 'DELETE') {
+                await historyEventMethods.create({
+                    ...commonHistoryFields,
+                    action: 'remove_allowed_user',
                     after: `${input.userId}.${user.name}`,
                 });
             }

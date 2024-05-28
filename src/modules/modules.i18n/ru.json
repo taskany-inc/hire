@@ -116,5 +116,7 @@
     "Comment on problem": "Комментарий к задаче",
     "Comment on interview": "Комментарий к интервью",
     "User": "Пользователь",
-    "wrote:": "написал"
+    "wrote:": "написал",
+    "User added to the list of allowed users": "Пользователю разрешен доступ к интервью",
+    "User is removed from the list of allowed users": "Доступ пользователя к интервью отменен"
 }

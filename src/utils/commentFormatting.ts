@@ -1,5 +1,6 @@
 import { ReactionsMap } from '../modules/reactionTypes';
-import { CommentWithUserAndEmoji } from '../modules/commentTypes';
+import { CommentWithUserAndEmoji, CommentWithUserAndReaction } from '../modules/commentTypes';
+import { SectionWithSectionTypeAndInterviewerAndSolutionsRelations, ActivityFeedItem } from '../modules/interviewTypes';
 
 export const commentFormatting = (comments: CommentWithUserAndEmoji[] | undefined) => {
     const limit = 10;
@@ -38,4 +39,25 @@ export const commentFormatting = (comments: CommentWithUserAndEmoji[] | undefine
     });
 
     return commentWithReactions;
+};
+
+export const getActivityFeed = (
+    comments: CommentWithUserAndReaction[],
+    sections: SectionWithSectionTypeAndInterviewerAndSolutionsRelations[],
+) => {
+    const activityFeed: ActivityFeedItem[] = sections.map((section) => {
+        return {
+            type: 'section',
+            value: section,
+        };
+    });
+
+    for (const comment of comments) {
+        activityFeed.push({
+            type: 'comment',
+            value: comment,
+        });
+    }
+
+    return activityFeed.sort((a, b) => a.value.createdAt.getTime() - b.value.createdAt.getTime());
 };

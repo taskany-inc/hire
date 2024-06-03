@@ -1,56 +1,69 @@
-import { Section } from '@prisma/client';
-import { Badge } from '@taskany/bricks';
+import { nullable, UserPic } from '@taskany/bricks';
+import { Card, CardInfo, CardContent } from '@taskany/bricks/harmony';
+import cn from 'classnames';
+import { HTMLAttributes } from 'react';
 
-import { generatePath, Paths } from '../utils/paths';
-import { SectionStatusTagPalette } from '../utils/tagPalette';
 import {
     InterviewWithRelations,
     SectionWithSectionTypeAndInterviewerAndSolutionsRelations,
 } from '../modules/interviewTypes';
+import { useDistanceDate } from '../hooks/useDateFormat';
+import config from '../config';
 import { SectionStatus } from '../utils/dictionaries';
 
-import { ListItem } from './ListItem';
-import { CandidateSelectedSectionBadge } from './CandidateSelectedSectionBadge';
-import { SectionSubtitle } from './SectionSubtitle/SectionSubtitle';
+import { ActivityFeedItem } from './ActivityFeed';
+import s from './CommentView/CommentView.module.css';
+import { Circle } from './Circle';
+import { Link } from './Link';
+import { CardHeaderSection } from './CardHeaderSection/CardHeaderSection';
+import { MarkdownRenderer } from './MarkdownRenderer/MarkdownRenderer';
+import { getSectionChip } from './helpers';
 
-const getSectionChip = (section: Section) => {
-    if (section.feedback) {
-        return section.hire ? SectionStatus.HIRE : SectionStatus.NO_HIRE;
-    }
-
-    return SectionStatus.NEW;
+const SectionStatusColors: Record<SectionStatus, string> = {
+    [SectionStatus.HIRE]: s.CardInfoSectionHire,
+    [SectionStatus.NO_HIRE]: s.CardInfoSectionNoHire,
+    [SectionStatus.NEW]: s.CardInfoSectionNew,
 };
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
     section: SectionWithSectionTypeAndInterviewerAndSolutionsRelations;
     interview: InterviewWithRelations;
+    highlight?: boolean;
 }
 
 // TODO: disable return value linting
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function InterviewSectionListItem({ section, interview }: Props) {
+export function InterviewSectionListItem({ section, interview, className, highlight }: Props) {
+    const userByEmailLink = `${config.sourceUsers.userByEmailLink}/${section.interviewer.email}`;
+    const date = useDistanceDate(section.createdAt);
     const sectionChip = getSectionChip(section);
-    const isSelected = section.id === interview.candidateSelectedSectionId;
 
     return (
-        <ListItem
-            key={section.id}
-            title={section.sectionType.title}
-            subtitle={<SectionSubtitle section={section} />}
-            link={generatePath(Paths.SECTION, {
-                interviewId: interview.id,
-                sectionId: section.id,
-            })}
-            chips={
-                <>
-                    <Badge size="xl" color={SectionStatusTagPalette[sectionChip]}>
-                        {sectionChip}
-                    </Badge>
-
-                    {isSelected && <CandidateSelectedSectionBadge section={section} interview={interview} />}
-                </>
-            }
-            markdown={section.feedback ?? ''}
-        />
+        <>
+            <ActivityFeedItem className={cn(s.CommentView, className)} id={`section-${section.id}`}>
+                <Circle size={31}>
+                    {nullable(userByEmailLink && section.interviewer, ({ email, name }) => (
+                        <Link href={userByEmailLink} inline target="_blank">
+                            <UserPic size={35} email={email} name={name} />
+                        </Link>
+                    ))}
+                </Circle>
+                <Card className={cn(s.CommentCard, { [s.CommentCard_highlighted]: highlight })}>
+                    <CardInfo className={cn(s.CardInfo, SectionStatusColors[sectionChip])}>
+                        {nullable(section, (data) => (
+                            <CardHeaderSection
+                                name={data.interviewer.name || data.interviewer.email}
+                                timeAgo={date}
+                                section={section}
+                                interview={interview}
+                            />
+                        ))}
+                    </CardInfo>
+                    <CardContent view="transparent" className={s.CardComment}>
+                        <MarkdownRenderer value={section.feedback ?? ''} />
+                    </CardContent>
+                </Card>
+            </ActivityFeedItem>
+        </>
     );
 }

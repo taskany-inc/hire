@@ -30,6 +30,21 @@
     justify-content: space-between;
 }
 
+.CardInfoSectionHire {
+    background-color: var(--primary-900);;
+    color:var(--primary-500);
+}
+
+.CardInfoSectionNoHire {
+    background-color: var(--danger-900);
+    color:  var(--danger-500);
+}
+
+.CardInfoSectionNew {
+    background-color: var(--blue-900);;
+    color:var(--blue-500);
+}
+
 .CardComment {
     display: flex;
     flex-direction: column;

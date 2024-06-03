@@ -1,0 +1,14 @@
+
+.CardHeaderSection {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+
+}
+
+.CardHeaderSectionSubtitle {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: var(--gap-s);
+}

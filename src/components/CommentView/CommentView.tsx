@@ -8,7 +8,7 @@ import cn from 'classnames';
 
 import { ActivityFeedItem } from '../ActivityFeed';
 import { CommentForm } from '../CommentForm/CommentForm';
-import { CardHeaderComment } from '../CardHeaderComment';
+import { CardHeaderComment } from '../CardHeaderComment/CardHeaderComment';
 import config from '../../config';
 import { Circle } from '../Circle';
 import { CommentSchema } from '../../modules/commentTypes';
@@ -139,7 +139,7 @@ export const CommentView: FC<CommentViewProps> = ({
                     onCancel={onCommentCancel}
                     actionButton={
                         <Button
-                            size="m"
+                            size="s"
                             view="primary"
                             disabled={commentText.text === comment.text || busy}
                             type="submit"

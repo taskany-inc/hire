@@ -1,20 +1,16 @@
 import { nullable, Text } from '@taskany/bricks';
-import { gapXs, gray8 } from '@taskany/colors';
-import styled from 'styled-components';
+import { gray8 } from '@taskany/colors';
+
+import s from './CardHeaderComment.module.css';
 
 interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
     name: string;
     timeAgo: string;
 }
 
-const StyledCardHeader = styled.div`
-    display: inline-flex;
-    gap: ${gapXs};
-`;
-
 export const CardHeaderComment: React.FC<CardHeaderProps> = ({ name, timeAgo }) => {
     return (
-        <StyledCardHeader>
+        <div className={s.CardHeaderComment}>
             {nullable(name, (n) => (
                 <>
                     <Text size="xs" color={gray8} weight="bold">
@@ -25,6 +21,6 @@ export const CardHeaderComment: React.FC<CardHeaderProps> = ({ name, timeAgo }) 
                     </Text>
                 </>
             ))}
-        </StyledCardHeader>
+        </div>
     );
 };

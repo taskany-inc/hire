@@ -105,6 +105,10 @@ export type SectionWithSectionTypeAndInterviewerAndSolutionsRelations = Section 
     })[];
 };
 
+export type ActivityFeedItem =
+    | { type: 'section'; value: SectionWithSectionTypeAndInterviewerAndSolutionsRelations }
+    | { type: 'comment'; value: CommentWithUserAndReaction };
+
 export type InterviewWithRelations = InterviewWithHireStreamRelation & {
     creator: User;
     candidate: Candidate;
@@ -113,6 +117,7 @@ export type InterviewWithRelations = InterviewWithHireStreamRelation & {
     cv: Attach | null;
     restrictedUsers?: User[];
     comments: CommentWithUserAndReaction[] | undefined;
+    activityFeed: ActivityFeedItem[];
 };
 
 export interface InterviewWithCandidateRelation extends Interview, Record<string, unknown> {

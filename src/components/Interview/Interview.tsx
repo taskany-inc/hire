@@ -171,21 +171,22 @@ export const Interview: VFC<InterviewProps> = ({ interview, sectionTypes, reject
                 {canCreateSections && (
                     <AssignSectionDropdownButton interviewId={interviewId} sectionTypes={sectionTypes} />
                 )}
-                {interview.sections.length > 0 && (
-                    <>
-                        <Text size="xxl" style={{ marginTop: 30 }}>
-                            {tr('Interview sections')}
-                        </Text>
-                        {interview.sections.map((section) => (
-                            <InterviewSectionListItem key={section.id} section={section} interview={interview} />
-                        ))}
-                    </>
-                )}
-                <StyledTitle size="xl">{tr('Comments')}</StyledTitle>
+                <StyledTitle size="xl">{tr('Activity Feed')}</StyledTitle>
+
                 <div className={s.InterviewCommentWrapper}>
-                    {interview.comments?.map((comment) => (
-                        <Comment key={`comment - ${comment.id}`} comment={comment} />
-                    ))}
+                    {nullable(interview.activityFeed, (activityFeed) =>
+                        activityFeed.map((item) =>
+                            item.type === 'comment' ? (
+                                <Comment key={`comment - ${item.value.id}`} comment={item.value} />
+                            ) : (
+                                <InterviewSectionListItem
+                                    key={`section-${item.value.id}`}
+                                    section={item.value}
+                                    interview={interview}
+                                />
+                            ),
+                        ),
+                    )}
                     <InterviewCommentCreateForm interview={interview} />
                 </div>
             </Stack>

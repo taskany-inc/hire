@@ -5,7 +5,7 @@ import { prisma } from '../utils/prisma';
 import { ErrorWithStatus, idsToIdObjs } from '../utils';
 import { buildItemListOrderBy, buildItemListWhere } from '../utils/itemList';
 import { ApiEntityListResult, ApiEntityListSelectionParams } from '../utils/types';
-import { commentFormatting } from '../utils/commentFormatting';
+import { commentFormatting, getActivityFeed } from '../utils/commentFormatting';
 
 import {
     CandidateInterviewsFetchParams,
@@ -78,6 +78,10 @@ const getById = async (id: number, options?: GetInterviewByIdOptions): Promise<I
 
     const comments = commentFormatting(interview?.comments);
 
+    const sections = interview?.sections;
+
+    const activityFeed = getActivityFeed(comments ?? [], sections ?? []);
+
     if (interview === null) {
         throw new ErrorWithStatus(tr('Interview not found'), 404);
     }
@@ -90,7 +94,7 @@ const getById = async (id: number, options?: GetInterviewByIdOptions): Promise<I
         });
     }
 
-    return { ...interview, comments };
+    return { ...interview, comments, activityFeed };
 };
 
 const findWithSections = async (id: number): Promise<InterviewWithSections> => {

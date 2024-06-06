@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.43.0](https://github.com/taskany-inc/hire/compare/v0.42.0...v0.43.0) (2024-06-06)
+
+
+### Features
+
+* **InterviewSectionListItem:** join timeline with sections ([d05468a](https://github.com/taskany-inc/hire/commit/d05468ab8a9c0e52a3e95c0782e80b1ca86b1d6d))
+
 ## [0.42.0](https://github.com/taskany-inc/hire/compare/v0.41.0...v0.42.0) (2024-05-23)
 
 

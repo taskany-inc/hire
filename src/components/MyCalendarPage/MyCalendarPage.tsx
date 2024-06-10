@@ -19,7 +19,7 @@ export const MyCalendarPage = () => {
 
     const session = useSession();
 
-    const rights = session?.userRoles.hasRecruiterRoles;
+    const rights = session?.user.admin || session?.userRoles.hasRecruiterRoles;
 
     const hireStreamsQuery = trpc.hireStreams.getAllowed.useQuery();
 

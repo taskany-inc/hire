@@ -61,6 +61,10 @@ export const constructFindUserListWhereFilter = async (data: GetUserList): Promi
         where[data.role] = { none: { id: data.sectionTypeOrHireStreamId } };
     }
 
+    if (data.interviewerInHireStreamId) {
+        where.interviewerInSectionTypes = { some: { hireStreamId: data.interviewerInHireStreamId } };
+    }
+
     return where;
 };
 

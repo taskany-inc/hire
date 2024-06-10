@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.44.0](https://github.com/taskany-inc/hire/compare/v0.43.0...v0.44.0) (2024-06-10)
+
+
+### Features
+
+* admins can see hire streams calendar ([9c41a40](https://github.com/taskany-inc/hire/commit/9c41a40b5f22206f05fcf2a58e408d6e85319da3))
+* calendar for hirestreams ([6cd3eca](https://github.com/taskany-inc/hire/commit/6cd3eca540873dc499c0bda2a73fcbf52c93257f))
+
+
+### Bug Fixes
+
+* **InterviewSectionListItem:** add a section updated date ([d62334e](https://github.com/taskany-inc/hire/commit/d62334e84bba0c67b6f33831c0b58319f218455c))
+
 ## [0.43.0](https://github.com/taskany-inc/hire/compare/v0.42.0...v0.43.0) (2024-06-06)
 
 

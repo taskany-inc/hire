@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.43.1](https://github.com/taskany-inc/hire/compare/v0.43.0...v0.43.1) (2024-06-10)
+
+
+### Bug Fixes
+
+* **InterviewSectionListItem:** add a section updated date ([d62334e](https://github.com/taskany-inc/hire/commit/d62334e84bba0c67b6f33831c0b58319f218455c))
+
 ## [0.43.0](https://github.com/taskany-inc/hire/compare/v0.42.0...v0.43.0) (2024-06-06)
 
 

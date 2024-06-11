@@ -44,9 +44,8 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
 
     const isEditable = session ? accessChecks.section.update(session, section).allowed : false;
     const isCancelable = session ? accessChecks.section.delete(session, section).allowed : false;
-    const canReadSolutions = session ? accessChecks.solution.read(session, section).allowed : false;
 
-    const solutionsQuery = useSolutions({ sectionId: section.id }, { enabled: canReadSolutions });
+    const solutionsQuery = useSolutions({ sectionId: section.id });
 
     const pageTitle = section.isCanceled
         ? tr('Section with {name} canceled', {
@@ -126,7 +125,7 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
                             hasTasks={hasTasks}
                         />
 
-                        {nullable(hasTasks && canReadSolutions, () => (
+                        {nullable(hasTasks, () => (
                             <QueryResolver queries={[solutionsQuery]}>
                                 {([solutions]) => (
                                     <SectionProblemSolutions

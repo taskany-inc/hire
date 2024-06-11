@@ -17,12 +17,13 @@ import {
     GetSection,
     UpdateSectionWithMetadata,
 } from './sectionTypes';
-import { solutionMethods } from './solutionMethods';
 import { hireStreamMethods } from './hireStreamMethods';
 import { EditInterviewAccessList, UpdateInterview } from './interviewTypes';
 import { AccessCheckResult, accessChecks } from './accessChecks';
 import { tr } from './modules.i18n';
 import { commentMethods } from './commentMethods';
+import { SolutionIdQuery, SwitchSolutionsOrder, UpdateSolution } from './solutionTypes';
+import { solutionMethods } from './solutionMethods';
 
 type AccessChecker = (session: Session) => AccessCheckResult;
 
@@ -81,33 +82,6 @@ export const accessMiddlewares = {
         ),
     },
 
-    solution: {
-        create: createEntityCheckMiddleware(
-            (input: { sectionId: number }) => input.sectionId,
-            sectionMethods.getById,
-            accessChecks.solution.create,
-        ),
-        readBySectionId: createEntityCheckMiddleware(
-            (input: { sectionId: number }) => input.sectionId,
-            sectionMethods.getById,
-            accessChecks.solution.read,
-        ),
-        updateOrDeleteBySectionId: createEntityCheckMiddleware(
-            (input: { sectionId: number }) => input.sectionId,
-            sectionMethods.getById,
-            accessChecks.solution.updateOrDelete,
-        ),
-        updateOrDelete: createEntityCheckMiddleware(
-            (input: { solutionId: number }) => input.solutionId,
-            async (id) => {
-                const solution = await solutionMethods.getById(id);
-
-                return solution.section;
-            },
-            accessChecks.solution.updateOrDelete,
-        ),
-    },
-
     section: {
         create: createEntityCheckMiddleware(
             (input: CreateSection) => input.interviewId,
@@ -130,6 +104,24 @@ export const accessMiddlewares = {
         ),
         update: createEntityCheckMiddleware(
             (input: UpdateSectionWithMetadata) => input.data.sectionId,
+            sectionMethods.getById,
+            accessChecks.section.update,
+        ),
+        updateNoMetadata: createEntityCheckMiddleware(
+            (input: { sectionId: number }) => input.sectionId,
+            sectionMethods.getById,
+            accessChecks.section.update,
+        ),
+        updateOrDeleteSolution: createEntityCheckMiddleware(
+            (input: UpdateSolution | SolutionIdQuery) => input.solutionId,
+            async (solutionId) => {
+                const solution = await solutionMethods.getById(solutionId);
+                return solution.section;
+            },
+            accessChecks.section.update,
+        ),
+        switchSolutions: createEntityCheckMiddleware(
+            (input: SwitchSolutionsOrder) => input.sectionId,
             sectionMethods.getById,
             accessChecks.section.update,
         ),

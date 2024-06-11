@@ -396,68 +396,6 @@ export const accessChecks = {
         },
     },
 
-    solution: {
-        create: (session: Session, section: SectionWithInterviewRelation): AccessCheckResult => {
-            if (session.userRoles.admin) {
-                return allowed();
-            }
-
-            const { recruiterInHireStreams, interviewerInSectionTypes } = getUserRoleIds(session);
-
-            if (recruiterInHireStreams.includes(section.interview.hireStreamId)) {
-                return allowed();
-            }
-
-            if (interviewerInSectionTypes.includes(section.sectionTypeId)) {
-                return session.user.id === section.interviewerId ? allowed() : notAllowed(tr('No access to section'));
-            }
-
-            return notAllowed(tr('No access to hire stream or section type'));
-        },
-
-        read: (session: Session, section: SectionWithInterviewRelation): AccessCheckResult => {
-            if (session.userRoles.admin) {
-                return allowed();
-            }
-
-            const { hiringLeadInHireStreams, recruiterInHireStreams, interviewerInSectionTypes } =
-                getUserRoleIds(session);
-
-            if (
-                hiringLeadInHireStreams.includes(section.interview.hireStreamId) ||
-                recruiterInHireStreams.includes(section.interview.hireStreamId)
-            ) {
-                return allowed();
-            }
-
-            if (interviewerInSectionTypes.includes(section.sectionTypeId)) {
-                return section.interview.sections.some((section) => section.interviewerId === session.user.id)
-                    ? allowed()
-                    : notAllowed(tr('No access to section'));
-            }
-
-            return notAllowed(tr('No access to hire stream or section type'));
-        },
-
-        updateOrDelete: (session: Session, section: SectionWithInterviewRelation): AccessCheckResult => {
-            if (session.userRoles.admin) {
-                return allowed();
-            }
-
-            const { recruiterInHireStreams, interviewerInSectionTypes } = getUserRoleIds(session);
-
-            if (recruiterInHireStreams.includes(section.interview.hireStreamId)) {
-                return allowed();
-            }
-
-            if (interviewerInSectionTypes.includes(section.sectionTypeId)) {
-                return session.user.id === section.interviewerId ? allowed() : notAllowed(tr('No access to section'));
-            }
-
-            return notAllowed(tr('No access to hire stream or section type'));
-        },
-    },
-
     hireStream: {
         create: (session: Session): AccessCheckResult => {
             if (session.userRoles.admin) {

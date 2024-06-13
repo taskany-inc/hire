@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.45.0](https://github.com/taskany-inc/hire/compare/v0.44.0...v0.45.0) (2024-06-13)
+
+
+### Features
+
+* remove specific access checks for solutions ([251a174](https://github.com/taskany-inc/hire/commit/251a17472eeabf32c6f45a23814c3f12d5601020))
+
 ## [0.44.0](https://github.com/taskany-inc/hire/compare/v0.43.0...v0.44.0) (2024-06-10)
 
 

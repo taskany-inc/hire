@@ -1,9 +1,20 @@
 import React, { FC, useCallback, useMemo, useState } from 'react';
 import { textColor } from '@taskany/colors';
-import { UserPic, nullable, Dropdown, MenuItem } from '@taskany/bricks';
+import { UserPic, nullable } from '@taskany/bricks';
 import { IconBinOutline, IconEditOutline, IconMoreVerticalOutline } from '@taskany/icons';
-import { Comment } from '@prisma/client';
-import { Card, CardInfo, Button, CardContent } from '@taskany/bricks/harmony';
+import { Comment, InterviewStatus } from '@prisma/client';
+import {
+    Card,
+    CardInfo,
+    Button,
+    CardContent,
+    Dropdown,
+    DropdownTrigger,
+    DropdownPanel,
+    MenuItem,
+    ListView,
+    ListViewItem,
+} from '@taskany/bricks/harmony';
 import cn from 'classnames';
 
 import { ActivityFeedItem } from '../ActivityFeed';
@@ -22,6 +33,7 @@ import ReactionsDropdown from '../ReactionDropdown/ReactionDropdown';
 import { Reactions } from '../Reactions/Reactions';
 import { ReactionsMap } from '../../modules/reactionTypes';
 import { useReactionsResource } from '../../modules/reactionHooks';
+import { InterviewStatusCommentCard } from '../InterviewStatusCommentCard/InterviewStatusCommentCard';
 
 import { tr } from './CommentView.i18n';
 import s from './CommentView.module.css';
@@ -34,6 +46,7 @@ interface CommentViewProps {
     highlight?: boolean;
     reactions: ReactionsMap;
     comment: Comment;
+    status?: InterviewStatus;
 
     onSubmit?: (comment: CommentSchema) => void;
     onChange?: (comment: CommentSchema) => void;
@@ -55,14 +68,17 @@ export const CommentView: FC<CommentViewProps> = ({
     onDelete,
     className,
     onReactionToggle,
+    status,
 }) => {
     const [editMode, setEditMode] = useState(false);
     const [focused, setFocused] = useState(false);
     const [busy, setBusy] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
     const [commentText, setCommentText] = useState({ text: comment.text });
     const session = useSession();
     const date = useDistanceDate(comment.createdAt);
     const { reactionsProps } = useReactionsResource(reactions);
+    const userByEmailLink = `${config.sourceUsers.userByEmailLink}/${author?.email}`;
 
     const onCommentSubmit = useCallback(
         async (form: CommentSchema) => {
@@ -91,8 +107,6 @@ export const CommentView: FC<CommentViewProps> = ({
         onCancel?.();
     }, [comment.text, onCancel]);
 
-    const userByEmailLink = `${config.sourceUsers.userByEmailLink}/${author?.email}`;
-
     const dropdownItems = useMemo(() => {
         const canUpdateOrDelete = session && accessChecks.comment.updateOrDelete(session, comment).allowed;
         const items = [];
@@ -120,13 +134,15 @@ export const CommentView: FC<CommentViewProps> = ({
 
     return (
         <ActivityFeedItem className={cn(s.CommentView, className)} id={`comment-${comment.id}`}>
-            <Circle size={31}>
-                {nullable(userByEmailLink && author, ({ email, name }) => (
-                    <Link href={userByEmailLink} inline target="_blank">
-                        <UserPic size={35} email={email} name={name} />
-                    </Link>
-                ))}
-            </Circle>
+            <Card className={cn(s.CommentCard, { [s.CommentCard_highlighted]: highlight })}>
+                <Circle size={31}>
+                    {nullable(userByEmailLink && author, ({ email, name }) => (
+                        <Link href={userByEmailLink} inline target="_blank">
+                            <UserPic size={35} email={email} name={name} />
+                        </Link>
+                    ))}
+                </Circle>
+            </Card>
 
             {editMode ? (
                 <CommentForm
@@ -149,34 +165,53 @@ export const CommentView: FC<CommentViewProps> = ({
                 />
             ) : (
                 <Card className={cn(s.CommentCard, { [s.CommentCard_highlighted]: highlight })}>
-                    <CardInfo className={s.CardInfo}>
-                        {nullable(author, (data) => (
-                            <CardHeaderComment name={data.name || data.email} timeAgo={date} />
-                        ))}
-
-                        <div className={s.CommentActions}>
-                            <Dropdown
-                                items={dropdownItems}
-                                renderTrigger={({ ref, onClick }) => (
-                                    <Light color={textColor} ref={ref} onClick={onClick}>
-                                        <IconMoreVerticalOutline size="xs" className={s.DropdownTrigger} />
-                                    </Light>
-                                )}
-                                renderItem={({ item, cursor, index }) => (
-                                    <MenuItem
-                                        key={item.label}
-                                        ghost
-                                        color={item.color}
-                                        focused={cursor === index}
-                                        icon={item.icon}
-                                        onClick={item.onClick}
-                                    >
-                                        {item.label}
-                                    </MenuItem>
-                                )}
+                    {status === InterviewStatus.REJECTED || status === InterviewStatus.HIRED ? (
+                        nullable(author, (data) => (
+                            <InterviewStatusCommentCard
+                                name={data.name || data.email}
+                                timeAgo={date}
+                                comment={comment}
+                                userByEmailLink={userByEmailLink}
                             />
-                        </div>
-                    </CardInfo>
+                        ))
+                    ) : (
+                        <CardInfo className={s.CardInfo}>
+                            {nullable(author, (data) => (
+                                <CardHeaderComment name={data.name || data.email} timeAgo={date} />
+                            ))}
+                            <div className={s.CommentActions}>
+                                <Dropdown isOpen={isOpen} onClose={() => setIsOpen(false)}>
+                                    <DropdownTrigger
+                                        renderTrigger={(props) => (
+                                            <Light color={textColor} ref={props.ref} onClick={() => setIsOpen(!isOpen)}>
+                                                <IconMoreVerticalOutline size="xs" className={s.DropdownTrigger} />
+                                            </Light>
+                                        )}
+                                    />
+                                    <DropdownPanel placement="top-end">
+                                        <ListView>
+                                            {dropdownItems.map((item) => (
+                                                <ListViewItem
+                                                    key={item.label}
+                                                    value={item}
+                                                    renderItem={({ active, hovered, ...props }) => (
+                                                        <MenuItem
+                                                            hovered={active || hovered}
+                                                            onClick={item.onClick}
+                                                            key={item.label}
+                                                            {...props}
+                                                        >
+                                                            {item.label}
+                                                        </MenuItem>
+                                                    )}
+                                                />
+                                            ))}
+                                        </ListView>
+                                    </DropdownPanel>
+                                </Dropdown>
+                            </div>
+                        </CardInfo>
+                    )}
 
                     <CardContent view="transparent" className={s.CardComment}>
                         <MarkdownRenderer className={s.Markdown} value={commentText.text} />

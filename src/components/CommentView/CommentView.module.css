@@ -30,17 +30,31 @@
     justify-content: space-between;
 }
 
-.CardInfoSectionHire {
+.CardHeaderInterviewStatus {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+
+}
+
+.CardHeaderInterviewStatusSubtitle {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: var(--gap-s);
+}
+
+.CardInfoHeaderHire {
     background-color: var(--primary-900);;
     color:var(--primary-500);
 }
 
-.CardInfoSectionNoHire {
+.CardInfoHeaderNoHire {
     background-color: var(--danger-900);
     color:  var(--danger-500);
 }
 
-.CardInfoSectionNew {
+.CardInfoHeaderNew {
     background-color: var(--blue-900);;
     color:var(--blue-500);
 }

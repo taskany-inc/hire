@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { InterviewStatus } from '@prisma/client';
 
 import { useCommentDeleteMutation, useCommentEditMutation } from '../../modules/commentHooks';
 import { CommentSchema, CommentWithUserAndReaction } from '../../modules/commentTypes';
@@ -7,9 +8,10 @@ import { useReactionsResource } from '../../modules/reactionHooks';
 
 interface CommentProps {
     comment: CommentWithUserAndReaction;
+    status?: InterviewStatus;
 }
 
-export const Comment = ({ comment }: CommentProps) => {
+export const Comment = ({ comment, status }: CommentProps) => {
     const { id, reactions, user } = comment;
     const commentEditMutation = useCommentEditMutation();
     const commentDeleteMutation = useCommentDeleteMutation();
@@ -54,6 +56,7 @@ export const Comment = ({ comment }: CommentProps) => {
                 onReactionToggle={onCommentReactionToggle(comment.id)}
                 onDelete={() => onDeleteComment(id)}
                 onSubmit={onCommenEditSubmit}
+                status={status}
             />
         </>
     );

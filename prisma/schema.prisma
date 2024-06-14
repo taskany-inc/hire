@@ -483,6 +483,8 @@ model Comment {
 
   reactions Reaction[]
 
+  status InterviewStatus?
+
   createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
   updatedAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
 

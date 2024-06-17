@@ -16,4 +16,8 @@ export const crewRouter = router({
     getGroupList: protectedProcedure.input(getGroupListSchema).query(({ input }) => {
         return crewMethods.getGroupList(input);
     }),
+
+    searchUsers: protectedProcedure.input(z.string()).query(({ input }) => {
+        return crewMethods.searchUsers(input);
+    }),
 });

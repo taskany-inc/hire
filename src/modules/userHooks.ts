@@ -71,3 +71,15 @@ export const useEditUserSettings = () => {
         onError: enqueueErrorNotification,
     });
 };
+
+export const useGetUserByCrewUserMutation = () => {
+    const { enqueueErrorNotification } = useNotifications();
+    const utils = trpc.useContext();
+
+    return trpc.users.getByCrewUser.useMutation({
+        onSuccess: () => {
+            utils.users.invalidate();
+        },
+        onError: enqueueErrorNotification,
+    });
+};

@@ -2,7 +2,7 @@ import { User } from '@prisma/client';
 import { IconXOutline } from '@taskany/icons';
 
 import { UserList } from '../UserList/UserList';
-import { UserSelector } from '../UserSelector/UserSelector';
+import { CrewUserSelector } from '../CrewUserSelector/CrewUserSelector';
 import { useEditInterviewAccessList, useInterview } from '../../modules/interviewHooks';
 import { LayoutMain } from '../LayoutMain';
 
@@ -38,7 +38,7 @@ export const InterviewAccessPage = ({ interviewId }: InterviewAccesPageProps) =>
         <LayoutMain pageTitle={tr('Interview access')}>
             <UserList
                 title={tr('Users with restricted access')}
-                titleFragment={<UserSelector placeholder={tr('Add user')} onSelect={onAddRestriction} />}
+                titleFragment={<CrewUserSelector placeholder={tr('Add user')} onSelect={onAddRestriction} />}
                 users={interviewQuery.data?.restrictedUsers ?? []}
                 action={{
                     icon: <IconXOutline size="s" />,
@@ -49,7 +49,7 @@ export const InterviewAccessPage = ({ interviewId }: InterviewAccesPageProps) =>
             />
             <UserList
                 title={tr('Users with allowed access')}
-                titleFragment={<UserSelector placeholder={tr('Add user')} onSelect={onAddPermission} />}
+                titleFragment={<CrewUserSelector placeholder={tr('Add user')} onSelect={onAddPermission} />}
                 users={interviewQuery.data?.allowedUsers ?? []}
                 action={{
                     icon: <IconXOutline size="s" />,

@@ -6,6 +6,7 @@ import {
     addProblemToFavoritesSchema,
     createUserSchema,
     editUserSettingsSchema,
+    getUserByCrewUserSchema,
     getUserListSchema,
     getUserSuggestionsSchema,
 } from '../../modules/userTypes';
@@ -51,5 +52,9 @@ export const usersRouter = router({
 
     suggestions: protectedProcedure.input(getUserSuggestionsSchema).query(({ input }) => {
         return userMethods.suggestions(input);
+    }),
+
+    getByCrewUser: protectedProcedure.input(getUserByCrewUserSchema).mutation(({ input }) => {
+        return userMethods.getByCrewUser(input);
     }),
 });

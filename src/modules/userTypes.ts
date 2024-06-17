@@ -49,3 +49,11 @@ export const getUserSuggestionsSchema = z.object({
 });
 
 export type GetUserSuggestions = z.infer<typeof getUserSuggestionsSchema>;
+
+export const getUserByCrewUserSchema = z.object({
+    name: z.string().nullish(),
+    login: z.string().nullish(),
+    email: z.string(),
+});
+
+export type GetUserByCrewUser = z.infer<typeof getUserByCrewUserSchema>;

@@ -135,3 +135,12 @@ export interface CrewUser {
     createdAt?: string;
     updatedAt?: string;
 }
+
+export interface CrewUserShort {
+    id: string;
+    name?: string | null;
+    login?: string | null;
+    email: string;
+    active: boolean;
+    supervisorId?: string;
+}

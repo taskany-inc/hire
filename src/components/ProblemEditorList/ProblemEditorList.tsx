@@ -8,7 +8,7 @@ import {
 } from '../../modules/rolesHooks';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { UserList } from '../UserList/UserList';
-import { UserSelector } from '../UserSelector/UserSelector';
+import { CrewUserSelector } from '../CrewUserSelector/CrewUserSelector';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
 
 import { tr } from './ProblemEditorList.i18n';
@@ -39,8 +39,7 @@ export const ProblemEditorsList = () => {
                             title={tr('Problem Editors')}
                             users={users}
                             titleFragment={
-                                <UserSelector
-                                    role="problemEditor"
+                                <CrewUserSelector
                                     placeholder={tr('Add problem editor role')}
                                     onSelect={(user) =>
                                         addProblemEditorMutation.mutate({

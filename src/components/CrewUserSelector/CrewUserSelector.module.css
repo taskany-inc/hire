@@ -1,0 +1,9 @@
+.CrewUserSelector {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-s);
+}
+
+.CrewUserSelectorCombobox {
+    width: fit-content;
+}

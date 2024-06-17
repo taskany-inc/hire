@@ -14,6 +14,7 @@ import {
     Achievement,
     CrewUserNameAndEmail,
     CrewUser,
+    CrewUserShort,
 } from './crewTypes';
 
 const checkConfig = () => {
@@ -88,6 +89,12 @@ export const crewMethods = {
         const params = new URLSearchParams({ field: 'email', value: email });
         const response = await fetchGet(`api/rest/users/get-by-field?${params}`);
         return getDataFromResponse<CrewUser>(response);
+    },
+
+    searchUsers: async (query: string) => {
+        const params = new URLSearchParams({ query });
+        const response = await fetchGet(`api/rest/search/users?${params}`);
+        return getDataFromResponse<CrewUserShort[]>(response);
     },
 
     getAchievements: async (data: GetAchievements) => {

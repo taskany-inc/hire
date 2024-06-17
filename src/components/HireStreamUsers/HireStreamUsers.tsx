@@ -17,7 +17,7 @@ import { UserRoles } from '../../utils/userRoles';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { UserList } from '../UserList/UserList';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
-import { UserSelector } from '../UserSelector/UserSelector';
+import { CrewUserSelector } from '../CrewUserSelector/CrewUserSelector';
 
 import { tr } from './HireStreamUsers.i18n';
 
@@ -100,9 +100,7 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                         <UserList
                             title={tr('Hiring stream managers')}
                             titleFragment={
-                                <UserSelector
-                                    role="managerInHireStreams"
-                                    sectionTypeOrHireStreamId={hireStreamId}
+                                <CrewUserSelector
                                     placeholder={tr('Add Recruitment Stream Manager')}
                                     onSelect={(user) =>
                                         addHireStreamManagerMutation.mutate({
@@ -127,7 +125,7 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                         <UserList
                             title={tr('Hiring Leads')}
                             titleFragment={
-                                <UserSelector
+                                <CrewUserSelector
                                     placeholder={tr('Add a Hiring Lead')}
                                     onSelect={(user) =>
                                         addHiringLeadMutation.mutate({
@@ -135,8 +133,6 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                                             userId: user.id,
                                         })
                                     }
-                                    role="hiringLeadInHireStreams"
-                                    sectionTypeOrHireStreamId={hireStreamId}
                                 />
                             }
                             users={hiringLeads}
@@ -154,7 +150,7 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                         <UserList
                             title={tr('Recruiters')}
                             titleFragment={
-                                <UserSelector
+                                <CrewUserSelector
                                     placeholder={tr('Add a recruiter')}
                                     onSelect={(user) =>
                                         addRecruiterMutation.mutate({
@@ -162,8 +158,6 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                                             userId: user.id,
                                         })
                                     }
-                                    role="recruiterInHireStreams"
-                                    sectionTypeOrHireStreamId={hireStreamId}
                                 />
                             }
                             users={recruiters}
@@ -183,7 +177,7 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                                 key={sectionType.id}
                                 title={sectionType.title}
                                 titleFragment={
-                                    <UserSelector
+                                    <CrewUserSelector
                                         placeholder={tr('Add Interviewer')}
                                         onSelect={(user) =>
                                             addInterviewerMutation.mutate({
@@ -192,8 +186,6 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
                                                 userId: user.id,
                                             })
                                         }
-                                        role="interviewerInSectionTypes"
-                                        sectionTypeOrHireStreamId={sectionType.id}
                                     />
                                 }
                                 users={users}

@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.46.0](https://github.com/taskany-inc/hire/compare/v0.45.0...v0.46.0) (2024-06-17)
+
+
+### Features
+
+* crew user selector ([184067a](https://github.com/taskany-inc/hire/commit/184067a48d25d5972f1b8aab6d349e36dcdfefb5))
+
+
+### Bug Fixes
+
+* keep monaco files in repo ([fc8ca38](https://github.com/taskany-inc/hire/commit/fc8ca389ab05c65d396e80d5394ee9a4c28f1ec1))
+
 ## [0.45.0](https://github.com/taskany-inc/hire/compare/v0.44.0...v0.45.0) (2024-06-13)
 
 

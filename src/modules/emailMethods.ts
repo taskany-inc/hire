@@ -1,5 +1,6 @@
 import { ICalCalendarMethod } from 'ical-generator';
 import { RRule } from 'rrule';
+import { User } from '@prisma/client';
 
 import config from '../config';
 import { prisma } from '../utils/prisma';
@@ -23,6 +24,7 @@ export interface AssignSectionEmailData {
     isSlotException?: boolean;
     location?: string;
     description?: string;
+    creator: User;
 }
 
 export const notifyHR = async (id: number, data: UpdateSection) => {
@@ -187,6 +189,8 @@ export const assignSectionEmail = async (data: AssignSectionEmailData) => {
             interviewId: data.interviewId,
             sectionId: data.sectionId,
         })}
+
+${data.creator.name || ''} ${data.creator.email}
         
 ${data.location || ''}`,
         icalEvent: calendarEvents({

@@ -80,7 +80,7 @@ export const sectionsRouter = router({
         .input(createSectionSchema)
         .use(accessMiddlewares.section.create)
         .mutation(async ({ input, ctx }) => {
-            const section = await sectionMethods.create(input);
+            const section = await sectionMethods.create(input, ctx.session.user);
 
             const sectionType = await prisma.sectionType.findFirstOrThrow({ where: { id: input.sectionTypeId } });
             await historyEventMethods.create({
@@ -103,7 +103,7 @@ export const sectionsRouter = router({
             const sectionBeforeUpdate = await sectionMethods.getById(data.sectionId);
             const createFinishSectionEvent = sectionBeforeUpdate.hire === null && data.hire !== null;
 
-            const result = await sectionMethods.update(data);
+            const result = await sectionMethods.update(data, ctx.session.user);
 
             const previousInterview = await interviewMethods.findWithSections(data.interviewId);
 

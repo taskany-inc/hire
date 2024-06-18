@@ -1,4 +1,4 @@
-import { InterviewStatus, Prisma, Section, Attach } from '@prisma/client';
+import { InterviewStatus, Prisma, Section, Attach, User } from '@prisma/client';
 import { RRule } from 'rrule';
 
 import { prisma } from '../utils/prisma';
@@ -54,7 +54,7 @@ async function getCalendarSlotData(
     }
 }
 
-const create = async (data: CreateSection): Promise<Section> => {
+const create = async (data: CreateSection, user: User): Promise<Section> => {
     const { interviewId, interviewerId, sectionTypeId, calendarSlot, ...restData } = data;
 
     const interview = await prisma.interview.findFirstOrThrow({
@@ -102,6 +102,7 @@ const create = async (data: CreateSection): Promise<Section> => {
             sectionTypeTitle,
             isSlotException: !!calendarSlot.exceptionId,
             location: restData.videoCallLink!,
+            creator: user,
         });
     }
     return newSection;
@@ -202,7 +203,7 @@ const findAllInterviewerSections = async (
     });
 };
 
-const update = async (data: UpdateSection): Promise<Section> => {
+const update = async (data: UpdateSection, user: User): Promise<Section> => {
     const { sectionId, solutionIds, interviewerId, interviewId, calendarSlot, attachIds, ...restData } = data;
     let slot;
 
@@ -251,6 +252,7 @@ const update = async (data: UpdateSection): Promise<Section> => {
             isSlotException: !!calendarSlot.exceptionId,
             location: restData.videoCallLink!,
             description: updatedSection.description!,
+            creator: user,
         });
     }
     return updatedSection;

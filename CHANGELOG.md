@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.47.0](https://github.com/taskany-inc/hire/compare/v0.46.0...v0.47.0) (2024-06-20)
+
+
+### Features
+
+* add hr contact link to meeting ([d833c6f](https://github.com/taskany-inc/hire/commit/d833c6f9ae6c9c1f3cad7ca7e60321097713cb76))
+
 ## [0.46.0](https://github.com/taskany-inc/hire/compare/v0.45.0...v0.46.0) (2024-06-17)
 
 

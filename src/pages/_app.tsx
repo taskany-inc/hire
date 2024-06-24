@@ -12,7 +12,6 @@ import * as SentryBrowser from '@sentry/browser';
 import { link0 } from '@taskany/colors';
 
 import { AppSettingsContextProvider } from '../contexts/appSettingsContext';
-import { ProblemFilterContextProvider } from '../contexts/problemFilterContext';
 import { Browser } from '../utils';
 import { trpc } from '../trpc/trpcClient';
 import { TLocale, setSSRLocale } from '../utils/getLang';
@@ -51,10 +50,8 @@ const TaskanyHireApp: FC<AppProps<TaskanyHireAppProps>> = ({ Component, pageProp
                     <SessionProvider session={session} refetchOnWindowFocus>
                         <AppSettingsContextProvider session={session} browserServerSide={browser}>
                             <ThemeProvider themes={['light', 'dark']}>
-                                <ProblemFilterContextProvider>
-                                    <ReactQueryDevtools />
-                                    {error ? <Error {...error} /> : <Component {...restPageProps} />}
-                                </ProblemFilterContextProvider>
+                                <ReactQueryDevtools />
+                                {error ? <Error {...error} /> : <Component {...restPageProps} />}
                             </ThemeProvider>
                         </AppSettingsContextProvider>
                     </SessionProvider>

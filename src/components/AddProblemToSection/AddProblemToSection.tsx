@@ -4,7 +4,6 @@ import { Button, ModalContent, ModalHeader, ModalPreview, Text } from '@taskany/
 import styled from 'styled-components';
 import { IconPlusCircleOutline } from '@taskany/icons';
 
-import { ProblemFilterContextProvider } from '../../contexts/problemFilterContext';
 import { ProblemList } from '../ProblemList/ProblemList';
 import { ProblemFilterBar } from '../ProblemFilterBar/ProblemFilterBar';
 
@@ -31,7 +30,7 @@ interface AddProblemToSectionProps {
     interviewId: number;
 }
 
-const AddProblemToSectionInner: FC<AddProblemToSectionProps> = ({ interviewId }) => {
+export const AddProblemToSection: FC<AddProblemToSectionProps> = ({ interviewId }) => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -60,9 +59,3 @@ const AddProblemToSectionInner: FC<AddProblemToSectionProps> = ({ interviewId })
         </>
     );
 };
-
-export const AddProblemToSection: FC<AddProblemToSectionProps> = (props) => (
-    <ProblemFilterContextProvider>
-        <AddProblemToSectionInner {...props} />
-    </ProblemFilterContextProvider>
-);

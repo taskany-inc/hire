@@ -1,14 +1,14 @@
-import { useRouter } from 'next/router';
 import { CSSProperties } from 'react';
 import { Text } from '@taskany/bricks';
+import { ProblemDifficulty } from '@prisma/client';
 
-import { useProblemFilterContext } from '../../contexts/problemFilterContext';
 import { useProblems } from '../../modules/problemHooks';
 import { parseNumber } from '../../utils/paramParsers';
 import { Stack } from '../Stack';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { LoadMoreProblemsButton } from '../LoadMoreProblemsButton/LoadMoreProblemsButton';
 import { ProblemCard } from '../ProblemCard/ProblemCard';
+import { useQueryParamList } from '../../hooks/useQueryParamList';
 
 import { tr } from './ProblemList.i18n';
 
@@ -27,16 +27,16 @@ export const ProblemList = ({
     isSmallSize,
     interviewId,
 }: ProblemListProps): JSX.Element => {
-    const { debouncedSearch, difficulty, authorIds, tagIds } = useProblemFilterContext();
-    const router = useRouter();
-    const sectionId = parseNumber(router.query.sectionId);
+    const [getIdsFromQueryParams, { query }] = useQueryParamList();
+
+    const sectionId = parseNumber(query.sectionId);
 
     const problemsQuery = useProblems({
         excludeInterviewId: interviewId,
-        search: debouncedSearch,
-        difficulty,
-        tagIds,
-        authorIds,
+        search: query.q as string,
+        difficulty: getIdsFromQueryParams('difficulty') as ProblemDifficulty[] | undefined,
+        tagIds: getIdsFromQueryParams('tag').map(Number),
+        authorIds: getIdsFromQueryParams('author').map(Number),
         sectionId,
         limit: 20,
     });

@@ -15,8 +15,8 @@ import {
 } from '@taskany/bricks';
 import styled from 'styled-components';
 import { gapS } from '@taskany/colors';
+import { useDebouncedCallback } from 'use-debounce';
 
-import { useProblemFilterContext } from '../../contexts/problemFilterContext';
 import { useProblemCount } from '../../modules/problemHooks';
 import { mapEnum } from '../../utils';
 import { Filter } from '../Filter';
@@ -26,6 +26,7 @@ import { suggestionsTake, useQueryOptions } from '../../utils/suggestions';
 import { useSession } from '../../contexts/appSettingsContext';
 import { FilterBarAddButton } from '../FilterBarAddButton';
 import { Paths } from '../../utils/paths';
+import { useQueryParamList } from '../../hooks/useQueryParamList';
 
 import { tr } from './ProblemFilterBar.i18n';
 
@@ -48,27 +49,37 @@ export const ProblemFilterBar = ({ embedded, loading, children }: ProblemFilterB
     const session = useSession();
     const filterNodeRef = useRef<HTMLSpanElement>(null);
     const [filterVisible, setFilterVisible] = useState(false);
+    const [getQueryParams, router] = useQueryParamList();
 
-    const {
-        debouncedSearch,
-        setSearch,
-        setAuthorIds,
-        difficulty,
-        tagIds,
-        authorIds,
-        setDifficulty,
-        clearFilters,
-        setTagIds,
-        tagFilter,
-        setTagFitlter,
-        authorFilter,
-        setAuthorFitlter,
-    } = useProblemFilterContext();
+    const [difficultyFilter, setDifficultyFilter] = useState(getQueryParams('difficulty'));
+    const [tagFilter, setTagFilter] = useState(getQueryParams('tag'));
+    const [authorFilter, setAuthorFilter] = useState(getQueryParams('author'));
+    const [search, setSearch] = useState('');
+    const [debouncedSearch, setDebouncedSearch] = useState(search);
+    const setQuery = useDebouncedCallback(() => {
+        setDebouncedSearch(search);
+        router.push({
+            query: {
+                ...router.query,
+                q: search,
+                difficulty: difficultyFilter,
+                tag: tagFilter,
+                author: authorFilter,
+            },
+        });
+    }, 300);
 
-    const [difficultyFilter, setDifficultyFilter] = useState<string[]>(difficulty || []);
+    const onSearchChange = (value: string) => {
+        setQuery();
+        setSearch(value);
+    };
 
     const [tagQuery, setTagQuery] = useState<string>('');
     const [authorQuery, setAuthorQuery] = useState<string>('');
+
+    const authorIds = getQueryParams('author').map(Number);
+    const tagIds = getQueryParams('tag').map(Number);
+    const difficulty = getQueryParams('difficulty') as ProblemDifficulty[];
 
     const problemCountQuery = useProblemCount({
         search: debouncedSearch,
@@ -80,26 +91,19 @@ export const ProblemFilterBar = ({ embedded, loading, children }: ProblemFilterB
     const difficulties = mapEnum(ProblemDifficulty, (key) => key);
     const isFiltersEmpty = !difficulty && !tagIds.length && !authorIds.length;
     const onApplyClick = useCallback(() => {
+        router.push({
+            query: {
+                ...router.query,
+                q: search,
+                difficulty: difficultyFilter,
+                tag: tagFilter,
+                author: authorFilter,
+            },
+        });
         setFilterVisible(false);
         setTagQuery('');
         setAuthorQuery('');
-        setTagIds(tagFilter.map((id) => Number(id)));
-
-        setAuthorIds(authorFilter.map((id) => Number(id)));
-        setDifficulty(difficultyFilter as ProblemDifficulty[]);
-
-        if (!difficultyFilter.length) setDifficulty(undefined);
-    }, [
-        setFilterVisible,
-        setTagQuery,
-        setTagIds,
-        tagFilter,
-        difficultyFilter,
-        setDifficulty,
-        authorFilter,
-        setAuthorIds,
-        setAuthorQuery,
-    ]);
+    }, [router, search, difficultyFilter, tagFilter, authorFilter]);
 
     const { data: tags = [] } = trpc.tags.suggestions.useQuery(
         { query: tagQuery, take: suggestionsTake, include: tagFilter.map((id) => Number(id)) },
@@ -120,9 +124,8 @@ export const ProblemFilterBar = ({ embedded, loading, children }: ProblemFilterB
         setTagQuery('');
         setAuthorQuery('');
         setDifficultyFilter([]);
-        setTagFitlter([]);
-        setAuthorFitlter([]);
-        clearFilters();
+        setTagFilter([]);
+        setAuthorFilter([]);
     };
 
     return (
@@ -130,7 +133,7 @@ export const ProblemFilterBar = ({ embedded, loading, children }: ProblemFilterB
             <FiltersPanelContainer loading={loading}>
                 <FiltersPanelContent>
                     <FiltersSearchContainer>
-                        <Input placeholder={tr('Search')} onChange={(e) => setSearch(e.target.value)} />
+                        <Input placeholder={tr('Search')} onChange={(e) => onSearchChange(e.target.value)} />
                     </FiltersSearchContainer>
                     <FiltersCounterContainer>
                         <FiltersCounter
@@ -187,7 +190,7 @@ export const ProblemFilterBar = ({ embedded, loading, children }: ProblemFilterB
                     value={tagFilter}
                     items={tags.map((tag) => ({ id: String(tag.id), name: tag.name }))}
                     filterCheckboxName="difficulty"
-                    onChange={setTagFitlter}
+                    onChange={setTagFilter}
                     onSearchChange={setTagQuery}
                     viewMode="split"
                 />
@@ -203,7 +206,7 @@ export const ProblemFilterBar = ({ embedded, loading, children }: ProblemFilterB
                         email: author.email,
                     }))}
                     filterCheckboxName="author"
-                    onChange={setAuthorFitlter}
+                    onChange={setAuthorFilter}
                     onSearchChange={setAuthorQuery}
                     viewMode="split"
                 />

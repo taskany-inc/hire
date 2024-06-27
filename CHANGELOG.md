@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.48.0](https://github.com/taskany-inc/hire/compare/v0.47.0...v0.48.0) (2024-06-27)
+
+
+### Features
+
+* use url params for problem filter refusal to use problem filter context ([248f804](https://github.com/taskany-inc/hire/commit/248f804546d3554e820d9ee6fa980f35bd62c052))
+
+
+### Bug Fixes
+
+* add base url to hire in hr contact link ([43fc664](https://github.com/taskany-inc/hire/commit/43fc6644c7d5b6d0baefb739af995283c2ca5a55))
+* add encodeuricomponent to hr contact link ([ed0001d](https://github.com/taskany-inc/hire/commit/ed0001d78eb20cc81e57727359616ce1619d898e))
+* delete problem filter context ([affbc90](https://github.com/taskany-inc/hire/commit/affbc90e64c5b5e41492846d82ab2b166102cb54))
+* fix ts error ([293d633](https://github.com/taskany-inc/hire/commit/293d63351eed0efe3a3d5d50c178f81a00a5f720))
+* sync input with url params ([9b823f9](https://github.com/taskany-inc/hire/commit/9b823f9f40a0ae52981f8888ea4b290c60297b8a))
+
 ## [0.47.0](https://github.com/taskany-inc/hire/compare/v0.46.0...v0.47.0) (2024-06-20)
 
 

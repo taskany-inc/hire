@@ -24,6 +24,7 @@ export interface CalendarEventDetails extends CalendarEventLinkedSectionProps {
     originalDate: Date;
 }
 interface SectionScheduleCalendarProps {
+    videoCallLink?: string;
     interviewerIds: number[];
     onSlotSelected: (eventDetails: CalendarEventDetails) => void;
     isSectionSubmitting: boolean;
@@ -47,6 +48,7 @@ export function SectionScheduleCalendar({
     onSlotSelected,
     isSectionSubmitting,
     setVideoCallLink,
+    videoCallLink,
 }: SectionScheduleCalendarProps) {
     const [eventDetails, setEventDetails] = useState<CalendarEventDetails | null>(null);
     const closeEventFormModal = useCallback(() => {
@@ -113,6 +115,7 @@ export function SectionScheduleCalendar({
                             {eventDetails?.title}
                         </Text>
                         <FormInput
+                            defaultValue={videoCallLink}
                             label={tr('Meeting link')}
                             onChange={(e) => setVideoCallLink(e.target.value)}
                             autoComplete="off"

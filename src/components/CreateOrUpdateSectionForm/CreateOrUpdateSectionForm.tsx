@@ -133,11 +133,13 @@ export const CreateOrUpdateSectionForm = ({
         register,
         watch,
         setValue,
+        getValues,
         formState: { isSubmitting, errors },
     } = useForm<CreateOrUpdateSection>({
         defaultValues: {
             interviewerId: section?.interviewer.id,
             description: section?.description ?? '',
+            videoCallLink: section?.videoCallLink ?? '',
             sectionId: section?.id,
             interviewId,
         },
@@ -172,6 +174,7 @@ export const CreateOrUpdateSectionForm = ({
         setSearch('');
     };
     const setVideoCallLink = (link: string) => setValue('videoCallLink', link);
+    const { videoCallLink } = getValues();
 
     return (
         <Stack direction="column" gap={14}>
@@ -187,6 +190,7 @@ export const CreateOrUpdateSectionForm = ({
 
             {schedulable && (
                 <SectionScheduleCalendar
+                    videoCallLink={videoCallLink ?? ''}
                     isSectionSubmitting={isSubmitting}
                     interviewerIds={interviewerIds}
                     onSlotSelected={setCalendarSlotAndSubmit}

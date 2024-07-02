@@ -26,39 +26,22 @@ const hireStatusToString = (hire: boolean | null | undefined) => {
     return hire ? 'HIRE' : 'NO_HIRE';
 };
 
-const giveSectionAchievement = async (interviewerId: number, sectionId: number) => {
-    if (!config.crew.techUserEmail || !config.crew.sectionAchiementId) return;
+const giveSectionAchievement = async (interviewerId: number) => {
+    if (!config.crew.techUserEmail) return;
 
     const amountOfInterviewerCompletedSections = await prisma.section.count({
-        where: { interviewerId, feedback: { not: null } },
+        where: { interviewerId, feedback: { not: null }, sectionType: { giveAchievement: true } },
     });
-
-    if (amountOfInterviewerCompletedSections % config.crew.sectionAmountForAchievement !== 0) return;
 
     const { email } = await userMethods.find(interviewerId);
-    const crewUser = await crewMethods.getUserInfo(email);
 
-    const sectionAchievementCount =
-        crewUser.achievements.find((a) => a.achievement.id === config.crew.sectionAchiementId)?.count || 0;
-    const amount =
-        amountOfInterviewerCompletedSections / config.crew.sectionAmountForAchievement - sectionAchievementCount;
-
-    if (amount <= 0) return;
-
-    await crewMethods.giveAchievement({
+    const achievementResult = await crewMethods.giveAchievement({
         targetUserEmail: email,
         actingUserEmail: config.crew.techUserEmail,
-        achievementId: config.crew.sectionAchiementId,
-        amount,
+        sectionsNumber: amountOfInterviewerCompletedSections,
     });
-    await historyEventMethods.create({
-        userId: interviewerId,
-        subject: HistorySubject.SECTION,
-        subjectId: sectionId,
-        action: 'get_achievement',
-        before: String(sectionAchievementCount),
-        after: String(sectionAchievementCount + amount),
-    });
+
+    console.log(`Crew achievement response: ${achievementResult}`);
 };
 
 export const sectionsRouter = router({
@@ -126,7 +109,7 @@ export const sectionsRouter = router({
                 );
 
                 await notifyHR(result.id, data);
-                if (sectionType.giveAchievement) await giveSectionAchievement(ctx.session.user.id, result.id);
+                if (sectionType.giveAchievement) await giveSectionAchievement(ctx.session.user.id);
             }
 
             const commonHistoryFields = {

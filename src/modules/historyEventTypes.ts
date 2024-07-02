@@ -14,7 +14,7 @@ export interface HistoryEvents {
         | 'remove_restricted_user'
         | 'add_allowed_user'
         | 'remove_allowed_user';
-    [HistorySubject.SECTION]: 'cancel' | 'set_hire' | 'set_grade' | 'set_feedback' | 'get_achievement';
+    [HistorySubject.SECTION]: 'cancel' | 'set_hire' | 'set_grade' | 'set_feedback';
 }
 
 export type HistoryAction<T extends HistorySubject> = HistoryEvents[T];

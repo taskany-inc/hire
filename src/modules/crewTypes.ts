@@ -97,8 +97,7 @@ export type GetAchievements = z.infer<typeof getAchievementsSchema>;
 export const giveAchievementSchema = z.object({
     targetUserEmail: z.string(),
     actingUserEmail: z.string(),
-    achievementId: z.string(),
-    amount: z.number().optional(),
+    sectionsNumber: z.number(),
 });
 export type GiveAchievement = z.infer<typeof giveAchievementSchema>;
 

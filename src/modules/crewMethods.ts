@@ -12,7 +12,6 @@ import {
     GiveAchievement,
     GetAchievements,
     Achievement,
-    CrewUserNameAndEmail,
     CrewUser,
     CrewUserShort,
 } from './crewTypes';
@@ -108,7 +107,7 @@ export const crewMethods = {
     },
 
     giveAchievement: async (data: GiveAchievement) => {
-        const response = await fetchPost('api/rest/achievements/give', JSON.stringify(data));
-        return getDataFromResponse<CrewUserNameAndEmail>(response);
+        const response = await fetchPost('api/rest/achievements/sections', JSON.stringify(data));
+        return getDataFromResponse<string>(response);
     },
 };

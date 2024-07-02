@@ -4,7 +4,7 @@ import { IconXOutline } from '@taskany/icons';
 import { UserList } from '../UserList/UserList';
 import { CrewUserSelector } from '../CrewUserSelector/CrewUserSelector';
 import { useEditInterviewAccessList, useInterview } from '../../modules/interviewHooks';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 
 import s from './InterviewAccessPage.module.css';
 import { tr } from './InterviewAccessPage.i18n';

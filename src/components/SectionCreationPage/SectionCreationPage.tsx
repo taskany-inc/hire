@@ -1,7 +1,7 @@
 import { useCandidate } from '../../modules/candidateHooks';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { CandidateInterviewCreationForm } from '../CandidateInterviewCreationForm/CandidateInterviewCreationForm';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 
 import { tr } from './SectionCreationPage.i18n';
 

@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/nextjs';
 
-import { LayoutMain } from '../components/LayoutMain';
+import { LayoutMain } from '../components/LayoutMain/LayoutMain';
 
 export interface ErrorProps {
     statusCode: number;

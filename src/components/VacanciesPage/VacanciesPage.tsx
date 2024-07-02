@@ -1,4 +1,4 @@
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { VacancyFilterBar } from '../VacancyFilterBar/VacancyFilterBar';
 import { VacancyList } from '../VacancyList/VacancyList';
 

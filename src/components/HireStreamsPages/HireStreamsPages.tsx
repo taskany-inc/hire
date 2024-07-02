@@ -1,7 +1,7 @@
 import { trpc } from '../../trpc/trpcClient';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { HireStreamList } from '../HireStreamList';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 
 import { tr } from './HireStreamsPages.i18n';
 

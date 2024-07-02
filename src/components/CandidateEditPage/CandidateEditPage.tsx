@@ -1,7 +1,7 @@
 import { useCandidate } from '../../modules/candidateHooks';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { AddOrUpdateCandidate } from '../AddOrUpdateCandidate/AddOrUpdateCandidate';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 
 import { tr } from './CandidateEditPage.i18n';
 

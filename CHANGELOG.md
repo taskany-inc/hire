@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.49.0](https://github.com/taskany-inc/hire/compare/v0.48.0...v0.49.0) (2024-07-02)
+
+
+### Features
+
+* **InterviewStatusComment:** status update comments ([c887f2f](https://github.com/taskany-inc/hire/commit/c887f2f2d2aae827170d141d112319b884569ca2))
+
+
+### Bug Fixes
+
+* add default video call link in section schedule calendar ([b04ad49](https://github.com/taskany-inc/hire/commit/b04ad494c2631b05c3648af4583e8e0582687819))
+
 ## [0.48.0](https://github.com/taskany-inc/hire/compare/v0.47.0...v0.48.0) (2024-06-27)
 
 

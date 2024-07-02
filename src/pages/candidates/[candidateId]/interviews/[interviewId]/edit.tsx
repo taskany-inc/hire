@@ -1,5 +1,5 @@
 import { InferServerSideProps } from '../../../../../utils/types';
-import { LayoutMain } from '../../../../../components/LayoutMain';
+import { LayoutMain } from '../../../../../components/LayoutMain/LayoutMain';
 import { pageHrefs } from '../../../../../utils/paths';
 import { CandidateInterviewUpdateForm } from '../../../../../components/CandidateInterviewUpdateForm/CandidateInterviewUpdateForm';
 import { ErrorWithStatus } from '../../../../../utils';

@@ -10,9 +10,9 @@ import {
 import { getSectionChip } from '../helpers';
 import { CandidateSelectedSectionBadge } from '../CandidateSelectedSectionBadge';
 import { Link } from '../Link';
-import { TitleMenu } from '../TitleMenu';
 import { DropdownMenuItem } from '../TagFilterDropdown';
 import config from '../../config';
+import { TitleMenu } from '../TitleMenu/TitleMenu';
 
 import s from './CardHeaderSection.module.css';
 import { tr } from './CardHeaderSection.i18n';

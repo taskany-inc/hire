@@ -12,7 +12,7 @@ import { useSession } from '../../contexts/appSettingsContext';
 import { accessChecks } from '../../modules/accessChecks';
 import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import { TagChip } from '../TagChip';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { InlineDot } from '../InlineDot';
 import { DropdownMenuItem } from '../TagFilterDropdown';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';

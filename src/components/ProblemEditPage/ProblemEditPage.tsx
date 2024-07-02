@@ -1,7 +1,7 @@
 import { Problem } from '@prisma/client';
 
 import { useProblem } from '../../modules/problemHooks';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { AddOrUpdateProblem } from '../AddOrUpdateProblem/AddOrUpdateProblem';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 

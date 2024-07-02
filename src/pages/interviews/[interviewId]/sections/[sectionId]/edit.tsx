@@ -1,4 +1,4 @@
-import { LayoutMain } from '../../../../../components/LayoutMain';
+import { LayoutMain } from '../../../../../components/LayoutMain/LayoutMain';
 import { pageHrefs } from '../../../../../utils/paths';
 import { InferServerSideProps } from '../../../../../utils/types';
 import { symbols } from '../../../../../utils/symbols';

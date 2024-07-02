@@ -1,5 +1,5 @@
 import { SectionWithInterviewRelation } from '../../modules/interviewTypes';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { SectionList } from '../SectionList/SectionList';
 
 import { tr } from './MyInterviewsPage.i18n';

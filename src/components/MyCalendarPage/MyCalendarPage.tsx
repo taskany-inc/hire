@@ -6,7 +6,7 @@ import { gapS } from '@taskany/colors';
 import { useSession } from '../../contexts/appSettingsContext';
 import { trpc } from '../../trpc/trpcClient';
 import { InterviewSectionSlotCalendar } from '../InterviewSectionSlotCalendar/InterviewSectionSlotCalendar';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 
 import { tr } from './MyCalendarPage.i18n';
 

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 
 import { pageHrefs } from '../../utils/paths';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { HireStreamForm } from '../HireStreamForm/HireStreamForm';
 
 import { tr } from './NewHireStreamPage.i18n';

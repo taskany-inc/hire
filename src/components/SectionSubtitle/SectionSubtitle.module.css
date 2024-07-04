@@ -1,0 +1,14 @@
+.SectionSubtitleWrapper{
+    display: flex;
+    align-items: center;
+    margin-top: var(--gap-s);
+    gap: var(--gap-s);
+}
+
+.SectionSubtitleDot {
+    background-color: var(--text-primary);
+}
+
+.SectionSubtitle {
+    color: var( --text-secondary);
+}

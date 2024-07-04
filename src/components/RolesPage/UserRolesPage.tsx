@@ -1,7 +1,7 @@
 import { useSession } from '../../contexts/appSettingsContext';
 import { accessChecks } from '../../modules/accessChecks';
 import { AdminsList } from '../AdminList/AdminList';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { ProblemEditorsList } from '../ProblemEditorList/ProblemEditorList';
 import { Stack } from '../Stack';
 

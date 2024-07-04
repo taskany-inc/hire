@@ -5,8 +5,8 @@ import { Text } from '@taskany/bricks';
 import { PropsWithClassName } from '../utils/types';
 
 import { DropdownMenuItem } from './TagFilterDropdown';
-import { TitleMenu } from './TitleMenu';
 import { Link } from './Link';
+import { TitleMenu } from './TitleMenu/TitleMenu';
 
 const StyledTitleRow = styled.div`
     display: flex;

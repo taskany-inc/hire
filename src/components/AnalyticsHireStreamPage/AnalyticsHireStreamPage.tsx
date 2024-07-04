@@ -1,5 +1,5 @@
 import { Paths } from '../../utils/paths';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { HiringBySectionType } from '../HiringBySectionType/HiringBySectionType';
 import { GradesByInterviewer } from '../GradesByInterviewer/GradesByInterviewer';
 import { AnalyticsFilterContextProvider } from '../../contexts/analyticsFilterContext';

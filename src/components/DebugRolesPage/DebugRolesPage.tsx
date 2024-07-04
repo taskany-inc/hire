@@ -2,7 +2,7 @@ import { SectionTypeWithHireStream } from '../../modules/sectionTypeTypes';
 import { useHireStreams } from '../../modules/hireStreamsHooks';
 import { DebugRoles } from '../DebugRoles/DebugRoles';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 
 import { tr } from './DebugRolesPage.i18n';
 

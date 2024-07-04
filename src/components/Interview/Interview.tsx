@@ -15,7 +15,7 @@ import { Stack } from '../Stack';
 import { InlineDot } from '../InlineDot';
 import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import { AssignSectionDropdownButton } from '../AssignSectionDropdownButton/AssignSectionDropdownButton';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { DropdownMenuItem } from '../TagFilterDropdown';
 import { InterviewSectionListItem } from '../InterviewSectionListItem';
 import { InterviewTags } from '../InterviewTags';

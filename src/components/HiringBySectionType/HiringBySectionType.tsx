@@ -2,9 +2,9 @@ import { Bar, BarChart, CartesianGrid, LabelList, Legend, ResponsiveContainer, T
 import { backgroundColor, gray6 } from '@taskany/colors';
 import { Text } from '@taskany/bricks';
 
-import { useAnalyticsFilterContext } from '../../contexts/analyticsFilterContext';
 import { useHiringBySectionType } from '../../modules/analyticsQueriesHooks';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
+import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
 
 import { tr } from './HiringBySectionType.i18n';
 
@@ -13,7 +13,8 @@ interface HiringBySectionTypeProps {
 }
 
 export const HiringBySectionType = ({ hireStreamName }: HiringBySectionTypeProps) => {
-    const { startDate, endDate } = useAnalyticsFilterContext();
+    const { startDate, endDate } = useAnalyticsFilterUrlParams();
+    console.log(startDate, endDate);
 
     const dataQuery = useHiringBySectionType({
         from: startDate,

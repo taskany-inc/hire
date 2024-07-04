@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { HireStream } from '@prisma/client';
 import { FormTitle, Modal, ModalContent, ModalHeader } from '@taskany/bricks';
 
-import { useAnalyticsFilterContext } from '../../contexts/analyticsFilterContext';
 import { FiltersPanel } from '../FiltersPanel/FiltersPanel';
 import { CustomPeriodForm } from '../CustomPeriodForm/CustomPeriodForm';
+import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
 
 import { tr } from './AnalyticsFilterMenuBar.i18n';
 
@@ -22,7 +22,9 @@ export const AnalyticsFilterMenuBar = ({ hireStreams }: AnalyticsFilterMenuBarPr
         hireStreams: selectedHireStreams,
         setHireStreams,
         clearFilters,
-    } = useAnalyticsFilterContext();
+    } = useAnalyticsFilterUrlParams(hireStreams);
+
+    console.log(useAnalyticsFilterUrlParams(hireStreams));
 
     const [openCustomPeriod, setCustomPeriod] = useState(false);
 

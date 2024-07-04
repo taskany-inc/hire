@@ -1,5 +1,4 @@
 import { useHireStreams } from '../../modules/hireStreamsHooks';
-import { AnalyticsFilterContextProvider } from '../../contexts/analyticsFilterContext';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { AnalyticsFilterMenuBar } from '../AnalyticsFilterMenuBar/AnalyticsFilterMenuBar';
@@ -15,21 +14,19 @@ export const AnalyticsCommonPage = () => {
     const hireStreamsQuery = useHireStreams();
 
     return (
-        <AnalyticsFilterContextProvider>
-            <QueryResolver queries={[hireStreamsQuery]}>
-                {([hireStreams]) => (
-                    <LayoutMain
-                        pageTitle={tr('General charts')}
-                        aboveContainer={<AnalyticsFilterMenuBar hireStreams={hireStreams} />}
-                        backlink={Paths.ANALYTICS}
-                    >
-                        <HiringFunnel allStreams={hireStreams} />
-                        <FinishedSectionsByInterviewer allStreams={hireStreams} />
-                        <CandidatesByHireStream allStreams={hireStreams} />
-                        <CandidatesRejectReasons allStreams={hireStreams} />
-                    </LayoutMain>
-                )}
-            </QueryResolver>
-        </AnalyticsFilterContextProvider>
+        <QueryResolver queries={[hireStreamsQuery]}>
+            {([hireStreams]) => (
+                <LayoutMain
+                    pageTitle={tr('General charts')}
+                    aboveContainer={<AnalyticsFilterMenuBar hireStreams={hireStreams} />}
+                    backlink={Paths.ANALYTICS}
+                >
+                    <HiringFunnel allStreams={hireStreams} />
+                    <FinishedSectionsByInterviewer allStreams={hireStreams} />
+                    <CandidatesByHireStream allStreams={hireStreams} />
+                    <CandidatesRejectReasons allStreams={hireStreams} />
+                </LayoutMain>
+            )}
+        </QueryResolver>
     );
 };

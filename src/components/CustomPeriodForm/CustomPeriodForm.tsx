@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { gapS } from '@taskany/colors';
 import { Button, Fieldset, Form, FormAction, FormActions, FormCard } from '@taskany/bricks';
 
-import { useAnalyticsFilterContext } from '../../contexts/analyticsFilterContext';
 import { DatePicker } from '../DatePicker';
+import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
 
 import { tr } from './CustomPeriodForm.i18n';
 
@@ -23,7 +23,7 @@ const StyledDateContainer = styled.div`
 `;
 
 export const CustomPeriodForm = ({ close }: CustomPeriodFormProps) => {
-    const { startDate, endDate, setStartDate, setEndDate, setPeriodTitle } = useAnalyticsFilterContext();
+    const { startDate, endDate, setStartDate, setEndDate, setPeriodTitle } = useAnalyticsFilterUrlParams();
 
     const [newStartDate, setNewStartDate] = useState<Date>(startDate);
     const [newEndDate, setNewEndDate] = useState<Date>(endDate);

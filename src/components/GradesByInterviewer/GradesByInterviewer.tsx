@@ -2,11 +2,11 @@ import { Bar, BarChart, CartesianGrid, LabelList, Legend, ResponsiveContainer, T
 import { backgroundColor, gray6 } from '@taskany/colors';
 import { Text } from '@taskany/bricks';
 
-import { useAnalyticsFilterContext } from '../../contexts/analyticsFilterContext';
 import { useSectionTypeToGradesByInterviewer } from '../../modules/analyticsQueriesHooks';
 import { getPieChartSliceColor, mapInterval } from '../../utils';
 import { useGradeOptions } from '../../modules/gradesHooks';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
+import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
 
 import { tr } from './GradesByInterviewer.i18n';
 
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const GradesByInterviewer = ({ hireStreamName }: Props) => {
-    const { startDate, endDate } = useAnalyticsFilterContext();
+    const { startDate, endDate } = useAnalyticsFilterUrlParams();
     const grades = (useGradeOptions().data ?? []).flat();
     const lastGrade = grades.at(-1);
 

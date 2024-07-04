@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { backgroundColor } from '@taskany/colors';
 import { Text } from '@taskany/bricks';
 
-import { useAnalyticsFilterContext } from '../../contexts/analyticsFilterContext';
 import { useCandidatesRejectReasons } from '../../modules/analyticsQueriesHooks';
 import { getPieChartSliceColor, mapInterval, RADIAN } from '../../utils';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
+import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
 
 import { tr } from './CandidatesRejectReasons.i18n';
 
@@ -49,7 +49,7 @@ const StyledChartWrapper = styled.div`
 `;
 
 export const CandidatesRejectReasons = ({ allStreams }: Props) => {
-    const { startDate, endDate, hireStreams: choosenStreams } = useAnalyticsFilterContext();
+    const { startDate, endDate, hireStreams: choosenStreams } = useAnalyticsFilterUrlParams(allStreams);
     const hireStreams = choosenStreams.length === 0 ? allStreams : choosenStreams;
 
     const dataQuery = useCandidatesRejectReasons({

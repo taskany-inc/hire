@@ -4,9 +4,9 @@ import { backgroundColor, gray6 } from '@taskany/colors';
 import { Text } from '@taskany/bricks';
 
 import { FinishedSectionsByInterviewerOutput } from '../../modules/analyticsQueriesTypes';
-import { useAnalyticsFilterContext } from '../../contexts/analyticsFilterContext';
 import { useFinishedSectionsByInterviewer } from '../../modules/analyticsQueriesHooks';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
+import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
 
 import { tr } from './FinishedSectionsByInterviewer.i18n';
 
@@ -41,7 +41,7 @@ const Chart = ({ data }: { data: FinishedSectionsByInterviewerOutput }) => {
 };
 
 export const FinishedSectionsByInterviewer = ({ allStreams }: FinishedSectionsByInterviewerProps) => {
-    const { startDate, endDate, hireStreams: choosenStreams } = useAnalyticsFilterContext();
+    const { startDate, endDate, hireStreams: choosenStreams } = useAnalyticsFilterUrlParams(allStreams);
 
     const hireStreams = choosenStreams.length === 0 ? allStreams : choosenStreams;
 

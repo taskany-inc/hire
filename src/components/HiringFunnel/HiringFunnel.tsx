@@ -4,8 +4,8 @@ import { backgroundColor, gray6 } from '@taskany/colors';
 import { Text } from '@taskany/bricks';
 
 import { useHiringFunnel } from '../../modules/analyticsQueriesHooks';
-import { useAnalyticsFilterContext } from '../../contexts/analyticsFilterContext';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
+import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
 
 import { tr } from './HiringFunnel.i18n';
 
@@ -14,7 +14,7 @@ interface HiringFunnelProps {
 }
 
 export const HiringFunnel = ({ allStreams }: HiringFunnelProps) => {
-    const { startDate, endDate, hireStreams: choosenStreams } = useAnalyticsFilterContext();
+    const { startDate, endDate, hireStreams: choosenStreams } = useAnalyticsFilterUrlParams(allStreams);
 
     const hireStreams = choosenStreams.length === 0 ? allStreams : choosenStreams;
     const hiringFunnelQuery = useHiringFunnel({

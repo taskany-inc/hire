@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.50.0](https://github.com/taskany-inc/hire/compare/v0.49.0...v0.50.0) (2024-07-04)
+
+
+### Features
+
+* hire section achievement calculations on crew side ([2a68492](https://github.com/taskany-inc/hire/commit/2a68492cc90f2cef2500e8dc07788db0252aa45a))
+
 ## [0.49.0](https://github.com/taskany-inc/hire/compare/v0.48.0...v0.49.0) (2024-07-02)
 
 

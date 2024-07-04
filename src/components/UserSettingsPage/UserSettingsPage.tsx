@@ -6,7 +6,7 @@ import { Theme, themes } from '../../utils/theme';
 import { trpc } from '../../trpc/trpcClient';
 import { useEditUserSettings } from '../../modules/userHooks';
 import { SettingsCard, SettingsContainer } from '../Settings';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { PageSep } from '../PageSep';
 import { languages } from '../../utils/getLang';
 

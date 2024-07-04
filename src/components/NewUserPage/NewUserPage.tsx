@@ -1,4 +1,4 @@
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { NewUserForm } from '../NewUserForm/NewUserForm';
 
 import { tr } from './NewUserPage.i18n';

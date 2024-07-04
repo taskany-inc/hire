@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import { useAllowedHireStreams } from '../../modules/hireStreamsHooks';
 import { Paths } from '../../utils/paths';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { CardHeader } from '../CardHeader';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { HireStreamAnalyticsList } from '../HireStreamAnalyticsList';

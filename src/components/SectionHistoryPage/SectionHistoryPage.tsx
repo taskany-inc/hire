@@ -1,7 +1,7 @@
 import { HistorySubject } from '../../modules/historyEventTypes';
 import { trpc } from '../../trpc/trpcClient';
 import { HistoryRecord } from '../HistoryRecord/HistoryRecord';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 
 import s from './SectionHistoryPage.module.css';
 import { tr } from './SectionHistoryPage.i18n';

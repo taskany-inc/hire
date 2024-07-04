@@ -7,7 +7,7 @@ import { Paths, generatePath } from '../../utils/paths';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
 import { DropdownMenuItem } from '../TagFilterDropdown';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { CandidateView } from '../CandidateView/CandidateView';
 
 import { tr } from './CandidatePage.i18n';
@@ -65,7 +65,7 @@ const CandidatePage = ({ numberIds, isShowAddButton, canEditCandidate, hasAccess
     return (
         <QueryResolver queries={[candidateQuery, interviewsQuery]}>
             {([candidate, interviews]) => (
-                <LayoutMain pageTitle={candidate.name} titleMenuItems={titleMenuItems} headerGutter="0px">
+                <LayoutMain pageTitle={candidate.name} titleMenuItems={titleMenuItems}>
                     <CandidateView candidate={candidate} interviews={interviews} isShowAddButton={isShowAddButton} />
                     <Confirmation {...candidateRemoveConfirmation.props} />
                 </LayoutMain>

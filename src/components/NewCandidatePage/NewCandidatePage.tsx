@@ -3,7 +3,7 @@ import { nullable } from '@taskany/bricks';
 import { Switch, SwitchControl } from '@taskany/bricks/harmony';
 
 import { AddOrUpdateCandidate } from '../AddOrUpdateCandidate/AddOrUpdateCandidate';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { AddCandidateByCv } from '../AddCandidateByCv/AddCandidateByCv';
 
 import s from './NewCandidatePage.module.css';

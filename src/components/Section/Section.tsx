@@ -1,9 +1,8 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Text, nullable } from '@taskany/bricks';
+import { nullable } from '@taskany/bricks';
+import { Text } from '@taskany/bricks/harmony';
 import { IconAttachmentOutline } from '@taskany/icons';
-import { gapM } from '@taskany/colors';
-import styled from 'styled-components';
 
 import { pageHrefs } from '../../utils/paths';
 import { accessChecks } from '../../modules/accessChecks';
@@ -11,9 +10,8 @@ import { SectionWithRelationsAndResults } from '../../modules/sectionTypes';
 import { useSession } from '../../contexts/appSettingsContext';
 import { useSolutions } from '../../modules/solutionHooks';
 import { SectionProblemSolutions } from '../SectionProblemSolutions/SectionProblemSolutions';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { CandidateNameSubtitle } from '../CandidateNameSubtitle/CandidateNameSubtitle';
-import { Stack } from '../Stack';
 import { SectionSubtitle } from '../SectionSubtitle/SectionSubtitle';
 import { SectionResults } from '../SectionResults/SectionResults';
 import { getSectionTitle } from '../helpers';
@@ -24,15 +22,11 @@ import { SectionCancelationConfirmation } from '../SectionCancelationConfirmatio
 import { Link } from '../Link';
 
 import { tr } from './Section.i18n';
+import s from './Section.module.css';
 
 interface SectionProps {
     section: SectionWithRelationsAndResults;
 }
-
-const StyledLinksWrapper = styled.div`
-    display: flex;
-    gap: ${gapM};
-`;
 
 export const Section = ({ section }: SectionProps): JSX.Element => {
     const router = useRouter();
@@ -87,14 +81,9 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
     } = section;
 
     return (
-        <LayoutMain
-            pageTitle={pageTitle}
-            titleMenuItems={titleMenuItems}
-            backlink={pageHrefs.interview(interviewId)}
-            headerGutter="0px"
-        >
-            <Stack direction="column" gap={20}>
-                <Text size="s">
+        <LayoutMain pageTitle={pageTitle} titleMenuItems={titleMenuItems} backlink={pageHrefs.interview(interviewId)}>
+            <div className={s.SectionTitleContainer}>
+                <Text className={s.SectionTitle}>
                     {!section.isCanceled ? (
                         <SectionSubtitle section={section} />
                     ) : (
@@ -103,7 +92,7 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
                 </Text>
                 {!section.isCanceled && (
                     <>
-                        <StyledLinksWrapper>
+                        <div className={s.SectionTitleContainer}>
                             <CandidateNameSubtitle name={interview.candidate.name} id={interview.candidate.id} />
 
                             {nullable(section.interview.cvId, (cvId) => (
@@ -113,7 +102,7 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
                                     </Link>
                                 </Text>
                             ))}
-                        </StyledLinksWrapper>
+                        </div>
 
                         {nullable(showOtherGrades, () => (
                             <SectionResults passedSections={passedSections} />
@@ -139,7 +128,7 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
                         ))}
                     </>
                 )}
-            </Stack>
+            </div>
 
             <SectionCancelationConfirmation
                 isOpen={openCancelConfirmation}

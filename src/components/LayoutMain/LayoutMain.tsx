@@ -1,19 +1,19 @@
 import { FC, ReactNode, useEffect } from 'react';
 import Head from 'next/head';
-import styled from 'styled-components';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/router';
 
-import { trpc } from '../trpc/trpcClient';
+import { trpc } from '../../trpc/trpcClient';
+import { OfflineBanner } from '../OfflineBanner/OfflineBanner';
+import { Theme } from '../Theme';
+import { DropdownMenuItem } from '../TagFilterDropdown';
+import { PageHeader } from '../PageHeader/PageHeader';
+import { PageFooter } from '../PageFooter/PageFooter';
+import { PageTitle } from '../PageTitle/PageTitle';
+import { GlobalStyle } from '../GlobalStyle';
+import { TitleMenu } from '../TitleMenu/TitleMenu';
 
-import { TitleMenu } from './TitleMenu';
-import { OfflineBanner } from './OfflineBanner/OfflineBanner';
-import { Theme } from './Theme';
-import { DropdownMenuItem } from './TagFilterDropdown';
-import { PageHeader } from './PageHeader/PageHeader';
-import { PageFooter } from './PageFooter/PageFooter';
-import { PageTitle } from './PageTitle';
-import { GlobalStyle } from './GlobalStyle';
+import s from './LayoutMain.module.css';
 
 interface LayoutMainProps {
     pageTitle: string;
@@ -24,15 +24,6 @@ interface LayoutMainProps {
     hidePageHeader?: boolean;
     children?: ReactNode;
 }
-
-const StyledContainer = styled.div`
-    padding-left: 40px;
-`;
-
-const StyledContent = styled.main`
-    /* presses the footer to the bottom*/
-    min-height: calc(100vh - 160px);
-`;
 
 export const LayoutMain: FC<LayoutMainProps> = ({
     pageTitle,
@@ -77,19 +68,22 @@ export const LayoutMain: FC<LayoutMainProps> = ({
 
             <PageHeader logo={config.data?.logo ?? undefined} userSettings={userSettings} />
             <Theme theme={theme} />
-            <StyledContent>
-                {!hidePageHeader && (
-                    <PageTitle title={pageTitle} gutter={headerGutter} backlink={backlink}>
-                        {titleMenuItems && titleMenuItems.length > 0 && <TitleMenu items={titleMenuItems} />}
-                    </PageTitle>
-                )}
 
-                {aboveContainer}
+            <div className={s.LayoutMain}>
+                <main className={s.Main}>
+                    {!hidePageHeader && (
+                        <PageTitle title={pageTitle} gutter={headerGutter} backlink={backlink}>
+                            {titleMenuItems && titleMenuItems.length > 0 && <TitleMenu items={titleMenuItems} />}
+                        </PageTitle>
+                    )}
 
-                <StyledContainer>{children}</StyledContainer>
-            </StyledContent>
+                    {aboveContainer}
 
-            <PageFooter />
+                    <div className={s.LayoutMainContent}>{children}</div>
+
+                    <PageFooter />
+                </main>
+            </div>
         </>
     );
 };

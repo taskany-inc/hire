@@ -4,7 +4,7 @@ import { TabsMenu, TabsMenuItem } from '@taskany/bricks';
 import { HireStream } from '@prisma/client';
 
 import { Paths, generatePath } from '../../utils/paths';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { Link } from '../Link';
 
 import { tr } from './HireStreamLayout.i18n';

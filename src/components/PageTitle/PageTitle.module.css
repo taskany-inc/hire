@@ -1,0 +1,5 @@
+.PageTitleWrapperText {
+    display: inline-block;
+    margin-top: var(--gap-l);
+    padding-left: var(--gap-l);
+}

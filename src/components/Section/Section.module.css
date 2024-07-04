@@ -1,0 +1,11 @@
+.SectionTitleContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-m);
+}
+
+.SectionTitle {
+    display: flex;
+    gap: var(--gap-xs);
+    margin-bottom: var(--gap-xxs);
+}

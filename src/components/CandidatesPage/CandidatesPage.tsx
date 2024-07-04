@@ -1,6 +1,6 @@
 import { CandidateListView } from '../CandidateListView/CandidateListView';
 import { CandidateFilterBar } from '../CandidateFilterBar/CandidateFilterBar';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 
 import { tr } from './CandidatesPage.i18n';
 

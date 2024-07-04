@@ -1,12 +1,12 @@
-import { Text } from '@taskany/bricks';
-import { gray10 } from '@taskany/colors';
+import { Text, Dot } from '@taskany/bricks/harmony';
+import { nullable } from '@taskany/bricks';
 
 import { SectionWithInterviewerRelation } from '../../modules/sectionTypes';
-import { InlineDot } from '../InlineDot';
 import { ExternalUserLink } from '../ExternalUserLink';
 import { useFormatDateToLocaleString } from '../../hooks/useDateFormat';
 
 import { tr } from './SectionSubtitle.i18n';
+import s from './SectionSubtitle.module.css';
 
 // TODO: find out return type
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -16,26 +16,18 @@ export function SectionSubtitle({ section }: { section: SectionWithInterviewerRe
 
     return (
         <>
-            {date}
-
-            <InlineDot />
-
-            <Text as="span" color={gray10}>
-                {tr('Interviewer')}
-                {'  '}
-                <Text size="s" as="span">
-                    <ExternalUserLink user={section.interviewer} />
+            <div className={s.SectionSubtitleWrapper}>
+                <Text size="m">{date}</Text>
+                <Dot className={s.SectionSubtitleDot} />
+                <Text size="m" className={s.SectionSubtitle}>
+                    {tr('Interviewer')}
                 </Text>
-            </Text>
-            {sectionName.length > 0 && (
-                <>
-                    <InlineDot />
-
-                    <Text size="s" as="span">
-                        {sectionName}
-                    </Text>
-                </>
-            )}
+                <ExternalUserLink user={section.interviewer} />
+                <Dot className={s.SectionSubtitleDot} />
+                {nullable(sectionName, () => (
+                    <Text size="m">{sectionName}</Text>
+                ))}
+            </div>
         </>
     );
 }

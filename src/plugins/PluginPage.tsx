@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { ComponentType, useEffect, useRef, useState } from 'react';
 
-import { LayoutMain } from '../components/LayoutMain';
+import { LayoutMain } from '../components/LayoutMain/LayoutMain';
 
 import { tr } from './plugins.i18n';
 

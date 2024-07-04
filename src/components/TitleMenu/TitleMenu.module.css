@@ -1,0 +1,5 @@
+.TitleMenu {
+   display: inline-block;
+   padding-left: var(--gap-xs);
+}
+

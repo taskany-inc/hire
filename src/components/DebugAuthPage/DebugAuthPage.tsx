@@ -1,7 +1,7 @@
 import { User } from '@prisma/client';
 
 import { DebugAuth } from '../DebugAuth/DebugAuth';
-import { LayoutMain } from '../LayoutMain';
+import { LayoutMain } from '../LayoutMain/LayoutMain';
 
 import { tr } from './DebugAuthPage.i18n';
 

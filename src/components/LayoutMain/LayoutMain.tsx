@@ -12,6 +12,7 @@ import { PageFooter } from '../PageFooter/PageFooter';
 import { PageTitle } from '../PageTitle/PageTitle';
 import { GlobalStyle } from '../GlobalStyle';
 import { TitleMenu } from '../TitleMenu/TitleMenu';
+import { WhatsNew } from '../WhatsNew/WhatsNew';
 
 import s from './LayoutMain.module.css';
 
@@ -82,6 +83,7 @@ export const LayoutMain: FC<LayoutMainProps> = ({
                     <div className={s.LayoutMainContent}>{children}</div>
 
                     <PageFooter />
+                    <WhatsNew />
                 </main>
             </div>
         </>

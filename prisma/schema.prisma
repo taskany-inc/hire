@@ -464,6 +464,9 @@ model UserSettings {
 
   theme  String @default("system")
   locale String @default("en")
+
+  releasesRead    Release[] @relation("releasesRead")
+  releasesDelayed Release[] @relation("releasesDelayed")
 }
 
 model Comment {
@@ -527,4 +530,14 @@ model Reaction {
   @@index([problemId])
   @@index([interviewId])
   @@index([commentId])
+}
+
+model Release {
+  id       String     @id @default(cuid())
+  version  String     @unique
+  readers  UserSettings[] @relation("releasesRead")
+  delayers UserSettings[] @relation("releasesDelayed")
+
+  createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
 }

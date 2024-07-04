@@ -3,6 +3,7 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/router';
+// import dynamic from 'next/dynamic';
 
 import { trpc } from '../trpc/trpcClient';
 
@@ -14,6 +15,7 @@ import { PageHeader } from './PageHeader/PageHeader';
 import { PageFooter } from './PageFooter/PageFooter';
 import { PageTitle } from './PageTitle';
 import { GlobalStyle } from './GlobalStyle';
+import { WhatsNew } from './WhatsNew/WhatsNew';
 
 interface LayoutMainProps {
     pageTitle: string;
@@ -90,6 +92,7 @@ export const LayoutMain: FC<LayoutMainProps> = ({
             </StyledContent>
 
             <PageFooter />
+            <WhatsNew />
         </>
     );
 };

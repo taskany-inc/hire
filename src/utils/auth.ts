@@ -8,6 +8,7 @@ import { type NextAuthOptions, unstable_getServerSession, Session } from 'next-a
 import { userMethods } from '../modules/userMethods';
 import { extUsersDebugMethods } from '../modules/extUsersDebugMethods';
 import config from '../config';
+import { WithSettings } from '../modules/userTypes';
 
 import { UserRolesInfo } from './userRoles';
 import { prisma } from './prisma';
@@ -18,7 +19,7 @@ import { ErrorWithStatus } from '.';
 export const AUTH_DEBUG_COOKIE_NAME = 'interview-auth-debug';
 export const ROLE_DEBUG_COOKIE_NAME = 'interview-role-debug';
 
-const getDebugUser = async (cookies: NextApiRequest['cookies']): Promise<User | undefined> => {
+const getDebugUser = async (cookies: NextApiRequest['cookies']): Promise<(User & WithSettings) | undefined> => {
     const cookie =
         config.debugCookieEnabled && AUTH_DEBUG_COOKIE_NAME in cookies ? cookies[AUTH_DEBUG_COOKIE_NAME] : undefined;
 
@@ -39,7 +40,7 @@ const getDebugRoles = async (cookies: NextApiRequest['cookies']): Promise<UserRo
     return debugRoles;
 };
 
-const getUser = async (id: number, req: GetServerSidePropsContext['req']): Promise<User> => {
+const getUser = async (id: number, req: GetServerSidePropsContext['req']): Promise<User & WithSettings> => {
     const authDebugUser = await getDebugUser(req.cookies);
 
     if (authDebugUser) {
@@ -127,7 +128,7 @@ export const getServerSession = async (
 
 declare module 'next-auth' {
     interface Session {
-        user: User;
+        user: User & WithSettings;
         userRoles: UserRolesInfo;
     }
 }

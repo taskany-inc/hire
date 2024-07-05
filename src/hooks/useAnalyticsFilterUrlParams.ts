@@ -79,7 +79,9 @@ export const useAnalyticsFilterUrlParams = (allStreams: HireStream[] = []) => {
     }, []);
 
     useLayoutEffect(() => {
-        setYear();
+        if (!values.endDate && !values.startDate) {
+            setYear();
+        }
     }, []);
 
     return {

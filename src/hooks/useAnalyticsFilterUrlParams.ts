@@ -1,8 +1,7 @@
 import { HireStream } from '@prisma/client';
 import { useUrlParams } from '@taskany/bricks';
 import { useRouter } from 'next/router';
-import { useCallback, useLayoutEffect, useState } from 'react';
-import { debounce } from 'throttle-debounce';
+import { useCallback, useLayoutEffect } from 'react';
 
 const YEAR = 1000 * 60 * 60 * 24 * 365;
 const QUARTER = 1000 * 60 * 60 * 24 * 30 * 3;
@@ -14,7 +13,6 @@ export const useAnalyticsFilterUrlParams = (allStreams: HireStream[] = []) => {
     const pushUrl = useCallback((url: string) => router.push(url), [router]);
     const { values, setter } = useUrlParams(
         {
-            search: 'string',
             streams: 'numberArray',
             startDate: 'number',
             endDate: 'number',
@@ -23,15 +21,8 @@ export const useAnalyticsFilterUrlParams = (allStreams: HireStream[] = []) => {
         router.query,
         pushUrl,
     );
-    const setSearch = useCallback(
-        debounce(300, (s) => setter('search', s)),
-        [],
-    );
-
-    const [, setHireStreams] = useState<HireStream[]>([]);
 
     const onChangeHireStreams = useCallback((streams: HireStream[]) => {
-        setHireStreams(streams);
         setter(
             'streams',
             streams.map(({ id }) => id),
@@ -91,7 +82,6 @@ export const useAnalyticsFilterUrlParams = (allStreams: HireStream[] = []) => {
         periodTitle: values.periodTitle ?? 'Year',
         setter,
         values,
-        setSearch,
         setStartDate,
         setEndDate,
         setPeriodTitle,

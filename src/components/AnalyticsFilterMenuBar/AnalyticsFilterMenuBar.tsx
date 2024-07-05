@@ -24,8 +24,6 @@ export const AnalyticsFilterMenuBar = ({ hireStreams }: AnalyticsFilterMenuBarPr
         clearFilters,
     } = useAnalyticsFilterUrlParams(hireStreams);
 
-    console.log(useAnalyticsFilterUrlParams(hireStreams));
-
     const [openCustomPeriod, setCustomPeriod] = useState(false);
 
     const onPeriodChange = (periodTitle: string) => {

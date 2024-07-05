@@ -14,7 +14,6 @@ interface HiringBySectionTypeProps {
 
 export const HiringBySectionType = ({ hireStreamName }: HiringBySectionTypeProps) => {
     const { startDate, endDate } = useAnalyticsFilterUrlParams();
-    console.log(startDate, endDate);
 
     const dataQuery = useHiringBySectionType({
         from: startDate,

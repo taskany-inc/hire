@@ -1,0 +1,22 @@
+.Label {
+    padding: var(--gap-s) var(--gap-s) var(--gap-s) var(--gap-sm);
+    color: var(--text-secondary);
+}
+
+.CommentFormWrapper {
+    position: relative;
+    transition: 200ms ease-in;
+    transition-property: background-color;
+}
+
+.Button {
+    display: flex;
+    gap: var(--gap-s);
+    margin-top: var(--gap-m) 0;
+}
+
+.PreviewButton {
+    float: right;
+    color: var( --text-secondary);
+    margin-top:  var(--gap-xs);
+}

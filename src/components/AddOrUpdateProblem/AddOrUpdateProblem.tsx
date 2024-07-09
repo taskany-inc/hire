@@ -23,6 +23,7 @@ import { Select } from '../Select';
 import { Autocomplete } from '../Autocomplete/Autocomplete';
 
 import { tr } from './AddOrUpdateProblem.i18n';
+import s from './AddOrUpdateProblem.module.css';
 
 type FormData = Omit<CreateProblem, 'tagIds'> & {
     tags: { name: string; value: number }[];
@@ -168,6 +169,8 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                         )}
                     </QueryResolver>
                     <CodeEditorField
+                        className={s.CodeEditorField}
+                        passedError={errors.description}
                         disableAttaches
                         name="description"
                         label={tr('Description')}
@@ -176,6 +179,8 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                         placeholder={descriptionPlaceholder}
                     />
                     <CodeEditorField
+                        className={s.CodeEditorField}
+                        passedError={errors.solution}
                         disableAttaches
                         name="solution"
                         label={tr('Solution')}

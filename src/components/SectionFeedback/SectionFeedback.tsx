@@ -3,9 +3,8 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
-import styled from 'styled-components';
-import { Text, Button, nullable } from '@taskany/bricks';
-import { danger0, gapM, gapS } from '@taskany/colors';
+import { nullable } from '@taskany/bricks';
+import { Text, Button } from '@taskany/bricks/harmony';
 import { Attach } from '@prisma/client';
 import { IconPhonecallOutline, IconSendOutline, IconEditOutline, IconXCircleOutline } from '@taskany/icons';
 
@@ -15,10 +14,8 @@ import { generatePath, pageHrefs, Paths } from '../../utils/paths';
 import { accessChecks } from '../../modules/accessChecks';
 import { LocalStorageManager, useSectionFeedbackPersisting } from '../../utils/localStorageManager';
 import { useSession } from '../../contexts/appSettingsContext';
-import { useUploadNotifications } from '../../modules/attachHooks';
 import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
-import { Stack } from '../Stack';
 import { GradeButton } from '../GradeButton';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { HireButtons } from '../HireButtons/HireButtons';
@@ -26,8 +23,10 @@ import { SectionFeedbackHireBadge } from '../SectionFeedbackHireBadge/SectionFee
 import { SectionAttach } from '../SectionAttach/SectionAttach';
 import { Link } from '../Link';
 import { AddProblemToSection } from '../AddProblemToSection/AddProblemToSection';
+import { useUploadNotifications } from '../../modules/attachHooks';
 
 import { tr } from './SectionFeedback.i18n';
+import s from './SectionFeedback.module.css';
 
 interface SectionFeedbackProps {
     section: SectionWithRelationsAndResults;
@@ -36,40 +35,17 @@ interface SectionFeedbackProps {
     hasTasks: boolean;
 }
 
-const StyledErrorText = styled(Text)`
-    padding: ${gapS};
-`;
-
-const StyledMarkdownRenderer = styled(MarkdownRenderer)`
-    margin-top: ${gapM};
-    max-width: 900px;
-    overflow: auto;
-`;
-
-const StyledButtonWrapper = styled.div`
-    display: flex;
-    gap: ${gapS};
-    margin: ${gapM} 0;
-`;
-
-const StyledFormStack = styled(Stack)`
-    margin-top: ${gapM};
-`;
-
 const schema = z.object({
     hire: z.boolean({
         invalid_type_error: tr('Decide on a candidate'),
         required_error: tr('Decide on a candidate'),
     }),
     grade: z.string().nullish(),
-    feedback: z.string().min(1, {
-        message: tr("Mandatory field, fill in the candidate's impressions"),
-    }),
+    feedback: z.string().min(1, { message: tr("Mandatory field, fill in the candidate's impressions") }),
 });
 
 export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedbackProps): JSX.Element => {
     const [editMode, setEditMode] = useState<boolean>(section.hire === null);
-
     const { onUploadSuccess, onUploadFail } = useUploadNotifications();
 
     const router = useRouter();
@@ -174,17 +150,17 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
     const isProblemCreationAvailable = isEditable && hasTasks;
     return (
         <>
-            <form>
-                <StyledFormStack direction="column" justifyItems="flex-start" gap="8px">
+            <form className={s.SectionFeedbackForm}>
+                <div>
                     {isEditable ? (
                         <div>
                             <HireButtons section={section} setHire={setHire} setGrade={setGrade} />
                             {errors.hire && watch('hire') === null && (
-                                <StyledErrorText color={danger0}>{errors.hire.message}</StyledErrorText>
+                                <Text className={s.ErrorText}>{errors.hire.message}</Text>
                             )}
                         </div>
                     ) : (
-                        <Stack direction="row" gap="8px" justifyContent="flex-start" align="center">
+                        <div className={s.SectionFeedbackHireBadge}>
                             <SectionFeedbackHireBadge hire={section.hire} />
                             {section.grade && (
                                 <>
@@ -194,12 +170,17 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                                     </GradeButton>
                                 </>
                             )}
-                        </Stack>
+                        </div>
                     )}
 
                     {isEditable && editMode ? (
                         <CodeEditorField
-                            width="900px"
+                            className={s.CodeEditorField}
+                            passedError={
+                                errors.feedback && !watch('feedback')
+                                    ? { message: tr("Mandatory field, fill in the candidate's impressions") }
+                                    : undefined
+                            }
                             onUploadSuccess={onUploadSuccess}
                             onUploadFail={onUploadFail}
                             name="feedback"
@@ -208,15 +189,17 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                             placeholder={tr('Describe your impressions of the candidate')}
                         />
                     ) : (
-                        <StyledMarkdownRenderer value={section.feedback || watch('feedback') || ''} />
+                        <MarkdownRenderer
+                            className={s.MarkdownRenderer}
+                            value={section.feedback || watch('feedback') || ''}
+                        />
                     )}
 
-                    <StyledButtonWrapper>
+                    <div className={s.Button}>
                         {nullable(isEditable && editMode, () => (
                             <Button
                                 iconRight={<IconSendOutline size="s" />}
                                 type="button"
-                                outline
                                 view="primary"
                                 disabled={isSubmitting || isSubmitSuccessful}
                                 onClick={section.hire === null ? sendFeedbackConfirmation.show : onSubmit}
@@ -232,7 +215,6 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                                     iconRight={<IconPhonecallOutline size="s" />}
                                     type="button"
                                     onClick={() => {}}
-                                    outline
                                     view="default"
                                     text={tr('Meeting')}
                                 />
@@ -241,7 +223,6 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                         {nullable(isEditable && section.hire !== null, () => (
                             <Button
                                 type="button"
-                                outline
                                 iconRight={editMode ? <IconXCircleOutline size="s" /> : <IconEditOutline size="s" />}
                                 view={editMode ? 'default' : 'primary'}
                                 onClick={() => {
@@ -253,8 +234,8 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                                 text={editButtonTitle}
                             />
                         ))}
-                    </StyledButtonWrapper>
-                </StyledFormStack>
+                    </div>
+                </div>
             </form>
 
             {nullable(section.attaches.length > 0, () => (

@@ -23,9 +23,11 @@ export function SectionSubtitle({ section }: { section: SectionWithInterviewerRe
                     {tr('Interviewer')}
                 </Text>
                 <ExternalUserLink user={section.interviewer} />
-                <Dot className={s.SectionSubtitleDot} />
                 {nullable(sectionName, () => (
-                    <Text size="m">{sectionName}</Text>
+                    <>
+                        <Dot className={s.SectionSubtitleDot} />
+                        <Text size="m">{sectionName}</Text>
+                    </>
                 ))}
             </div>
         </>

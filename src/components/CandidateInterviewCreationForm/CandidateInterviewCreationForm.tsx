@@ -26,6 +26,7 @@ import { cvParsingResultToDescription } from '../../utils/aiAssistantUtils';
 import { useAllowedHireStreams } from '../../modules/hireStreamsHooks';
 
 import { tr } from './CandidateInterviewCreationForm.i18n';
+import s from './CandidateInterviewCreationForm.module.css';
 
 const StyledFormCard = styled(FormCard)`
     width: 500px;
@@ -120,6 +121,7 @@ export function CandidateInterviewCreationForm({ candidate, preparedCvAttach }: 
                 <Form onSubmit={handleSubmit(createInterview)}>
                     <Fieldset>
                         <CodeEditorField
+                            className={s.CodeEditorField}
                             name="description"
                             label={tr('Comment')}
                             control={control}

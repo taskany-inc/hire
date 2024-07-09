@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
-import { gapM, gray10 } from '@taskany/colors';
-import { Button, ModalContent, ModalHeader, ModalPreview, Text } from '@taskany/bricks';
+import { gapM } from '@taskany/colors';
+import { ModalContent, ModalHeader, ModalPreview } from '@taskany/bricks';
+import { Button, Text } from '@taskany/bricks/harmony';
 import styled from 'styled-components';
 import { IconPlusCircleOutline } from '@taskany/icons';
 
@@ -8,6 +9,7 @@ import { ProblemList } from '../ProblemList/ProblemList';
 import { ProblemFilterBar } from '../ProblemFilterBar/ProblemFilterBar';
 
 import { tr } from './AddProblemToSection.i18n';
+import s from './AddProblemToSection.module.css';
 
 const StyledModalHeader = styled(ModalHeader)`
     position: sticky;
@@ -38,14 +40,13 @@ export const AddProblemToSection: FC<AddProblemToSectionProps> = ({ interviewId 
             <Button
                 iconRight={<IconPlusCircleOutline size="s" />}
                 view="default"
-                outline
                 type="button"
                 text={tr('Add problem')}
                 onClick={() => setOpen(true)}
             />
             <ModalPreview visible={open} onClose={() => setOpen(false)}>
                 <StyledModalHeader>
-                    <Text weight="bold" color={gray10}>
+                    <Text weight="bold" className={s.AddProblemText}>
                         {tr('Add problem')}
                     </Text>
                     <StyledFiltersPanel>

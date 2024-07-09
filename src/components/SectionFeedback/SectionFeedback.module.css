@@ -1,0 +1,31 @@
+.SectionFeedbackForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    margin-top: var(--gap-m);
+    max-width: 900px;
+}
+
+.ErrorText {
+    padding: var(--gap-s) 0;
+    color: var(--danger-500);
+}
+
+.SectionFeedbackHireBadge {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--gap-xs);
+}
+
+.Button {
+    display: flex; 
+    gap: var(--gap-s);
+    margin: var(--gap-xs) 0;
+}
+
+.MarkdownRenderer {
+    margin-top: var(--gap-m);
+    max-width: 900px;
+    overflow: auto;
+}

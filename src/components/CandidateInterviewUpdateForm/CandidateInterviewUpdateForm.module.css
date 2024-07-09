@@ -1,0 +1,4 @@
+.CodeEditorField {
+    width: 500px;
+    margin-top: var(--gap-sm);
+}

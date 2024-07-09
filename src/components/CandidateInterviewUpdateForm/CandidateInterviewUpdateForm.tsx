@@ -21,6 +21,7 @@ import { CvAttach } from '../CvAttach/CvAttach';
 import { cvParsingResultToDescription } from '../../utils/aiAssistantUtils';
 
 import { tr } from './CandidateInterviewUpdateForm.i18n';
+import s from './CandidateInterviewUpdateForm.module.css';
 
 const StyledFormCard = styled(FormCard)`
     width: 500px;
@@ -116,6 +117,7 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
                 <Form onSubmit={handleSubmit(updateInterview)}>
                     <Fieldset>
                         <CodeEditorField
+                            className={s.CodeEditorField}
                             disableAttaches
                             name="description"
                             label={tr('Comment')}

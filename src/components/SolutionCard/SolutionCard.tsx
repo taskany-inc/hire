@@ -3,7 +3,8 @@ import { SolutionResult } from '@prisma/client';
 import { Resolver, ResolverError, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { colorPrimary, danger0, gapL, gapM, gapS, gapXs, gray6 } from '@taskany/colors';
-import { Text, Button, Popup } from '@taskany/bricks';
+import { Text, Popup } from '@taskany/bricks';
+import { Button } from '@taskany/bricks/harmony';
 import { IconArrowUpSmallOutline, IconArrowDownSmallOutline } from '@taskany/icons';
 
 import { useSolutionRemoveMutation, useSolutionUpdateMutation } from '../../modules/solutionHooks';
@@ -23,6 +24,7 @@ import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { SwitchSolutionsOrderButton } from '../SwitchSolutionOrderButton';
 
 import { tr } from './SolutionCard.i18n';
+import s from './SolutionCard.module.css';
 
 interface SolutionCardProps {
     solution: SolutionWithRelations;
@@ -251,7 +253,8 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                     ) : (
                         <form id={formId} onSubmit={handleSubmit(onSubmit)}>
                             <CodeEditorField
-                                width="900px"
+                                passedError={errors.answer}
+                                className={s.CodeEditorField}
                                 disableAttaches
                                 name="answer"
                                 control={control}
@@ -300,7 +303,7 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                                 (editOpen ? (
                                     <Button onClick={handleCancelClick} text={tr('Cancel')} />
                                 ) : (
-                                    <Button outline onClick={handleEditClick} view="primary" text={tr('Edit')} />
+                                    <Button onClick={handleEditClick} view="primary" text={tr('Edit')} />
                                 ))}
 
                             <Button view="danger" onClick={onRemoveSolution} text={tr('Delete problem')} />

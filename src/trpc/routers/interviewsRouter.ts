@@ -1,5 +1,3 @@
-import { InterviewStatus } from '@prisma/client';
-
 import { accessMiddlewares } from '../../modules/accessMiddlewares';
 import { analyticsEventMethods } from '../../modules/analyticsEventMethods';
 import { candidateIdQuery } from '../../modules/candidateTypes';
@@ -60,24 +58,8 @@ export const interviewsRouter = router({
         .use(accessMiddlewares.interview.update)
         .mutation(async ({ input, ctx }) => {
             const previousInterview = await interviewMethods.findWithSections(input.data.interviewId);
-            const hireStream = await hireStreamMethods.getById(previousInterview.hireStreamId);
 
             const newInterview = await interviewMethods.update(input.data);
-
-            if (input.metadata?.createFinishInterviewEvent) {
-                await analyticsEventMethods.createEvent(
-                    {
-                        event: 'candidate_finished_interview',
-                        interviewId: input.data.interviewId,
-                        candidateId: previousInterview.candidateId,
-                        hireStream: hireStream.name,
-                        hire: input.data.status === InterviewStatus.HIRED,
-                        rejectReason: input.data.statusComment,
-                    },
-                    ctx.session.user.id,
-                );
-            }
-
             const commonHistoryFields = {
                 userId: ctx.session.user.id,
                 subject: HistorySubject.INTERVIEW,
@@ -97,15 +79,6 @@ export const interviewsRouter = router({
                     after: input.data.candidateSelectedSectionId
                         ? String(input.data.candidateSelectedSectionId)
                         : undefined,
-                });
-            }
-
-            if ('status' in input.data && previousInterview.status !== input.data.status) {
-                await historyEventMethods.create({
-                    ...commonHistoryFields,
-                    action: 'set_status',
-                    before: previousInterview.status,
-                    after: input.data.status,
                 });
             }
 

@@ -49,3 +49,8 @@ export enum SectionStatus {
     NO_HIRE = 'no hire',
     NEW = 'new',
 }
+
+export enum InterviewStatusComment {
+    HIRE = 'hire',
+    NO_HIRE = 'no hire',
+}

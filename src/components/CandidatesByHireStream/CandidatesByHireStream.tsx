@@ -3,10 +3,10 @@ import { Cell, Pie, PieChart, Tooltip } from 'recharts';
 import { backgroundColor } from '@taskany/colors';
 import { Text } from '@taskany/bricks';
 
-import { useAnalyticsFilterContext } from '../../contexts/analyticsFilterContext';
 import { useCandidatesByHireStream } from '../../modules/analyticsQueriesHooks';
 import { getPieChartSliceColor, mapInterval, RADIAN } from '../../utils';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
+import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
 
 import { tr } from './CandidatesByHireStream.i18n';
 
@@ -35,7 +35,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 };
 
 export const CandidatesByHireStream = ({ allStreams }: CandidatesByHireStreamProps) => {
-    const { startDate, endDate, hireStreams: choosenStreams } = useAnalyticsFilterContext();
+    const { startDate, endDate, hireStreams: choosenStreams } = useAnalyticsFilterUrlParams(allStreams);
     const hireStreams = choosenStreams.length === 0 ? allStreams : choosenStreams;
 
     const dataQuery = useCandidatesByHireStream({

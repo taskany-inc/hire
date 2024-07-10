@@ -1,4 +1,4 @@
-import { Comment, Prisma } from '@prisma/client';
+import { Comment, InterviewStatus, Prisma } from '@prisma/client';
 
 import { prisma } from '../utils/prisma';
 import { Paths, generatePath } from '../utils/paths';
@@ -8,6 +8,8 @@ import { ErrorWithStatus, idsToIdObjs } from '../utils';
 import { sendMail } from './nodemailer';
 import { CreateComment, EditComment, DeleteComment } from './commentTypes';
 import { tr } from './modules.i18n';
+import { crewMethods } from './crewMethods';
+import { VacancyStatus } from './crewTypes';
 
 const createComment = async (params: CreateComment): Promise<Comment> => {
     const { text, userId, target, attachIds, ...restData } = params;
@@ -24,7 +26,7 @@ const createComment = async (params: CreateComment): Promise<Comment> => {
     }
 
     if ('interviewId' in target) {
-        data.interview = { connect: { id: target.interviewId } };
+        data.interview = { connect: { id: target.interviewId, status: target.status } };
     }
 
     const comment = await prisma.comment.create({
@@ -37,6 +39,19 @@ const createComment = async (params: CreateComment): Promise<Comment> => {
             reactions: true,
         },
     });
+
+    const { interviewId } = comment;
+
+    if (comment.status === InterviewStatus.HIRED && interviewId) {
+        const interview = await prisma.interview.findFirstOrThrow({
+            where: { id: interviewId },
+            select: { crewVacancyId: true },
+        });
+
+        if (interview.crewVacancyId !== null) {
+            crewMethods.editVacancy({ id: interview.crewVacancyId, status: VacancyStatus.CLOSED });
+        }
+    }
 
     if (comment.user !== comment.problem?.author && comment.problem?.author) {
         await sendMail({
@@ -82,7 +97,7 @@ const getById = async (id: string): Promise<Comment> => {
 const updateComment = async (data: EditComment) => {
     const { id, text, attachIds } = data;
 
-    const comment = prisma.comment.update({
+    const comment = await prisma.comment.update({
         where: { id },
         data: { text, attaches: attachIds ? { connect: idsToIdObjs(attachIds) } : undefined },
     });

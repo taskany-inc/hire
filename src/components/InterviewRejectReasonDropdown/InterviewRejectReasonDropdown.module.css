@@ -1,0 +1,16 @@
+.DropdownRejectStatus {
+    padding-bottom: 30px;
+}
+
+.DropdownPanelRejectStatus {
+    height: 190px;
+    overflow: scroll;
+}
+
+.StandartComment {
+    padding-bottom: 10px;
+}
+
+.RejectInterviewHeaderStats {
+    background-color: '--text-secondary';
+}

@@ -20,9 +20,9 @@ import { MarkdownRenderer } from './MarkdownRenderer/MarkdownRenderer';
 import { getSectionChip } from './helpers';
 
 const SectionStatusColors: Record<SectionStatus, string> = {
-    [SectionStatus.HIRE]: s.CardInfoSectionHire,
-    [SectionStatus.NO_HIRE]: s.CardInfoSectionNoHire,
-    [SectionStatus.NEW]: s.CardInfoSectionNew,
+    [SectionStatus.HIRE]: s.CardInfoHeaderHire,
+    [SectionStatus.NO_HIRE]: s.CardInfoHeaderNoHire,
+    [SectionStatus.NEW]: s.CardInfoHeaderNew,
 };
 
 interface Props extends HTMLAttributes<HTMLDivElement> {

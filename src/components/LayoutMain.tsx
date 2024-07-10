@@ -3,7 +3,6 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/router';
-// import dynamic from 'next/dynamic';
 
 import { trpc } from '../trpc/trpcClient';
 

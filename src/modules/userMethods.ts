@@ -12,7 +12,6 @@ import {
     GetUserByCrewUser,
     GetUserList,
     GetUserSuggestions,
-    WithSettings,
 } from './userTypes';
 import { sectionTypeMethods } from './sectionTypeMethods';
 import { tr } from './modules.i18n';
@@ -21,13 +20,8 @@ const create = async (data: CreateUser) => {
     return prisma.user.create({ data: { ...data } });
 };
 
-const find = async (id: number): Promise<User & WithSettings> => {
-    const user = await prisma.user.findFirst({
-        where: { id },
-        include: {
-            settings: true,
-        },
-    });
+const find = async (id: number): Promise<User> => {
+    const user = await prisma.user.findFirst({ where: { id } });
 
     if (user === null) {
         throw new ErrorWithStatus(tr('User not found'), 404);
@@ -46,8 +40,8 @@ const findIdByEmail = async (email: string): Promise<number | undefined> => {
     return user?.id;
 };
 
-const getByEmail = async (email: string): Promise<User & { settings: UserSettings | null }> => {
-    const user = await prisma.user.findFirst({ where: { email }, include: { settings: true } });
+const getByEmail = async (email: string): Promise<User> => {
+    const user = await prisma.user.findFirst({ where: { email } });
 
     if (user === null) {
         throw new ErrorWithStatus(tr('User not found'), 404);

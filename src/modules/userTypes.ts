@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { UserSettings } from '@prisma/client';
 
 import { themes } from '../utils/theme';
 
@@ -58,7 +57,3 @@ export const getUserByCrewUserSchema = z.object({
 });
 
 export type GetUserByCrewUser = z.infer<typeof getUserByCrewUserSchema>;
-
-export interface WithSettings {
-    settings: UserSettings | null;
-}

@@ -1,8 +1,9 @@
 import { prisma } from '../utils/prisma';
 
-import { CheckWhatsnew, MarkRelease } from './whatsnewTypes';
+import { userMethods } from './userMethods';
+import { CheckRelease, MarkRelease, WithUserId } from './whatsnewTypes';
 
-const check = async ({ locale, userSettingId }: CheckWhatsnew) => {
+const check = async ({ locale, userId }: CheckRelease & WithUserId) => {
     let delayed = false;
     let read = false;
     let createdAt: Date | undefined;
@@ -14,11 +15,13 @@ const check = async ({ locale, userSettingId }: CheckWhatsnew) => {
         (await fetch(`${process.env.PUBLIC_URL}/${locale}/whatsnew/${version}/${locale}`)).status === 200;
 
     if (version && releaseNotesExists) {
+        const userSettings = await userMethods.getSettings(userId);
+
         let release = await prisma.release.findFirst({
             where: { version },
             include: {
-                readers: { where: { id: userSettingId } },
-                delayers: { where: { id: userSettingId } },
+                readers: { where: { id: userSettings.id } },
+                delayers: { where: { id: userSettings.id } },
             },
         });
 
@@ -46,27 +49,31 @@ const check = async ({ locale, userSettingId }: CheckWhatsnew) => {
     };
 };
 
-const markAsRead = ({ userSettingId, version }: MarkRelease) => {
+const markAsRead = async ({ userId, version }: MarkRelease & WithUserId) => {
+    const userSettings = await userMethods.getSettings(userId);
+
     return prisma.release.update({
         where: {
             version,
         },
         data: {
             readers: {
-                connect: [{ id: userSettingId }],
+                connect: [{ id: userSettings.id }],
             },
         },
     });
 };
 
-const markAsDelayed = ({ userSettingId, version }: MarkRelease) => {
+const markAsDelayed = async ({ userId, version }: MarkRelease & WithUserId) => {
+    const userSettings = await userMethods.getSettings(userId);
+
     return prisma.release.update({
         where: {
             version,
         },
         data: {
             delayers: {
-                connect: [{ id: userSettingId }],
+                connect: [{ id: userSettings.id }],
             },
         },
     });

@@ -8,13 +8,12 @@ export const checkReleaseSchema = z.object({
 
 export type CheckRelease = z.infer<typeof checkReleaseSchema>;
 
-export interface CheckWhatsnew extends CheckRelease {
-    userSettingId?: string;
-}
-
 export const markReleaseSchema = z.object({
     version: z.string(),
-    userSettingId: z.string().optional(),
 });
 
 export type MarkRelease = z.infer<typeof markReleaseSchema>;
+
+export interface WithUserId {
+    userId: number;
+}

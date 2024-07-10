@@ -13,9 +13,12 @@ export const WhatsNew = () => {
     const [iframeReady, setIframeReady] = useState(false);
     const [open, setOpen] = useState(false);
 
-    const { data } = trpc.whatsnew.check.useQuery({
-        locale,
-    });
+    const { data } = trpc.whatsnew.check.useQuery(
+        {
+            locale,
+        },
+        { staleTime: Infinity },
+    );
 
     useEffect(() => {
         if (data?.releaseNotesExists && data?.version && !data?.read && !data?.delayed) {

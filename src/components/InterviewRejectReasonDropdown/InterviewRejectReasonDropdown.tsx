@@ -19,7 +19,7 @@ import { tr } from './InterviewRejectReasonDropdown.i18n';
 
 interface RejectInterviewStatusProps {
     rejectReasons: RejectReason[];
-    onChangeRejectReasons?: (selected?: any) => void;
+    onChangeRejectReasons?: (selected: string) => void;
 }
 
 export const InterviewRejectReasonDropdown = ({
@@ -42,7 +42,7 @@ export const InterviewRejectReasonDropdown = ({
             setIsOpen(false);
         },
 
-        [onChangeRejectReasons, selected],
+        [onChangeRejectReasons, selected, standartOptions],
     );
 
     return (

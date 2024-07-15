@@ -44,6 +44,13 @@ export const candidateStatus = {
     [InterviewStatus.REJECTED]: 'No hire',
 };
 
+export const interviewStatus = {
+    [InterviewStatus.NEW]: 'New',
+    [InterviewStatus.IN_PROGRESS]: 'In progress',
+    [InterviewStatus.HIRED]: 'Hire',
+    [InterviewStatus.REJECTED]: 'Reject',
+};
+
 export enum SectionStatus {
     HIRE = 'hire',
     NO_HIRE = 'no hire',

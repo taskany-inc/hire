@@ -18,8 +18,10 @@ import { CommentForm } from '../CommentForm/CommentForm';
 import { ActivityFeedItem } from '../ActivityFeed';
 import { CommentSchema } from '../../modules/commentTypes';
 import { InterviewRejectReasonDropdown } from '../InterviewRejectReasonDropdown/InterviewRejectReasonDropdown';
+import { interviewStatus } from '../../utils/dictionaries';
 
 import { tr } from './CommentCreateForm.i18n';
+import s from './CommentCreateForm.module.css';
 
 interface CommentCreateFormProps extends Omit<React.ComponentProps<typeof CommentForm>, 'actionButton'> {
     onSubmit: (comment: CommentSchema) => void;
@@ -106,7 +108,8 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
             {
                 onClick: () => {
                     setVisibleRejectOption(true);
-                    setText(rejectReasons[0]?.text);
+                    setText(text ?? rejectReasons[0].text);
+
                     setIsOpen(false);
                     setStatusInterview(InterviewStatus.REJECTED);
                 },
@@ -115,7 +118,7 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
         ];
 
         return items;
-    }, [rejectReasons, onRejectReasonsText]);
+    }, [rejectReasons, onRejectReasonsText, text]);
 
     return (
         <ActivityFeedItem>
@@ -138,15 +141,27 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
                 ))}
                 actionButton={
                     <>
-                        <Button view="primary" disabled={busy} type="submit" text={tr('Comment')} />
+                        {!statusInterview && (
+                            <Button view="primary" disabled={busy} type="submit" text={tr('Comment')} />
+                        )}
                         {nullable(isVisibleHireOrRejected, () => (
-                            <>
+                            <div className={s.InterviewStatusWrapper}>
+                                <Button
+                                    disabled={busy}
+                                    type="submit"
+                                    brick="right"
+                                    text={
+                                        statusInterview
+                                            ? interviewStatus[statusInterview as InterviewStatus]
+                                            : 'Status interview'
+                                    }
+                                />
                                 <Dropdown isOpen={isOpen} onClose={() => setIsOpen(false)}>
                                     <DropdownTrigger
                                         renderTrigger={(props) => (
                                             <div ref={props.ref}>
                                                 <Button
-                                                    text={statusInterview}
+                                                    brick="left"
                                                     type="button"
                                                     onClick={() => setIsOpen(!isOpen)}
                                                     iconRight={
@@ -181,7 +196,7 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
                                         </ListView>
                                     </DropdownPanel>
                                 </Dropdown>
-                            </>
+                            </div>
                         ))}
                     </>
                 }

@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.51.0](https://github.com/taskany-inc/hire/compare/v0.50.0...v0.51.0) (2024-07-15)
+
+
+### Features
+
+* add what's new support ([996653a](https://github.com/taskany-inc/hire/commit/996653a63a3f99790baf9950cde73482473f6930))
+* **SectionFeedback:** update from harmony components ([9239e2f](https://github.com/taskany-inc/hire/commit/9239e2fefa948b53b7314c638c8772d9c4857d79))
+
+
+### Bug Fixes
+
+* **InterviewRejectCommentStatus:** correct reject reason when sending a status comment ([256770e](https://github.com/taskany-inc/hire/commit/256770e6ae148e0a9c09ab4c891212284cdfcaa7))
+
 ## [0.50.0](https://github.com/taskany-inc/hire/compare/v0.49.0...v0.50.0) (2024-07-04)
 
 

@@ -33,7 +33,7 @@ export default function SectionCreationPage(props: InferServerSideProps<typeof g
     return (
         <QueryResolver queries={[interviewQuery, hireStreamsQuery]}>
             {([interview, hireStreams]) => (
-                <LayoutMain pageTitle={`"Interview" ${interview.id}`} backlink={pageHrefs.interview(interview.id)}>
+                <LayoutMain pageTitle={`Interview ${interview.id}`} backlink={pageHrefs.interview(interview.id)}>
                     <CandidateInterviewUpdateForm interview={interview} hireStreams={hireStreams} />
                 </LayoutMain>
             )}

@@ -1,60 +1,67 @@
-import { Text, Badge, Table, TableCell, TableRow } from '@taskany/bricks';
+import { Text, Table, TableCell, TableRow, Dot, Checkbox } from '@taskany/bricks/harmony';
+import { FC } from 'react';
 
 import { SectionWithSectionType } from '../../modules/sectionTypes';
 import { generatePath, Paths } from '../../utils/paths';
-import { SectionStatusTagPalette } from '../../utils/tagPalette';
-import { GradeButton } from '../GradeButton';
 import { Link } from '../Link';
-import { getSectionChip } from '../helpers';
+import { Avatar } from '../Avatar/Avatar';
 
 import { tr } from './SectionResults.i18n';
+import s from './SectionResults.module.css';
 
 interface SectionResultsProps {
     passedSections: SectionWithSectionType[];
+    className?: string;
 }
 
-const sectionColumnWidth = '250px';
-const interviewerColumnWidth = '150px';
-
-export const SectionResults = ({ passedSections }: SectionResultsProps): JSX.Element | null => {
+export const SectionResults: FC<SectionResultsProps> = ({ passedSections, className }): JSX.Element | null => {
     if (passedSections.length === 0) {
         return null;
     }
-
     return (
         <>
             <Text size="xl">{tr('Passed sections')}</Text>
 
-            <Table gap={10} width={600}>
-                <TableRow align="center" gap={10}>
-                    <TableCell width={sectionColumnWidth}>{tr('Section')}</TableCell>
-                    <TableCell width={interviewerColumnWidth}>{tr('Interviewer')}</TableCell>
-                    <TableCell justify="center">{tr('Hire')}</TableCell>
-                    <TableCell justify="center">{tr('Grade')}</TableCell>
+            <Table className={className}>
+                <TableRow className={s.Column}>
+                    <TableCell width={300} className={s.Column}>
+                        {tr('Section')}
+                    </TableCell>
+                    <TableCell width={300} className={s.Column}>
+                        {tr('Interviewer')}
+                    </TableCell>
+                    <TableCell width={250} className={s.Column}>
+                        {tr('Grade')}
+                    </TableCell>
                 </TableRow>
                 {passedSections.map((passedSection) => (
-                    <TableRow key={passedSection.id} align="center" gap={10}>
-                        <TableCell width={sectionColumnWidth}>
+                    <TableRow className={s.TableRow} key={passedSection.id}>
+                        <TableCell width={300} className={s.Column}>
                             <Link
                                 href={generatePath(Paths.SECTION, {
                                     interviewId: passedSection.interviewId,
                                     sectionId: passedSection.id,
                                 })}
                             >
-                                {passedSection.sectionType.title}
+                                <Checkbox view="rounded" label={passedSection.sectionType.title} defaultChecked />
                             </Link>
+                            <Dot size="l" />
                         </TableCell>
-                        <TableCell width={interviewerColumnWidth}>{passedSection.interviewer.name}</TableCell>
-                        <TableCell justify="center">
-                            <Badge size="m" color={SectionStatusTagPalette[getSectionChip(passedSection)]}>
-                                {getSectionChip(passedSection)}
-                            </Badge>
+                        <TableCell width={300}>
+                            <Avatar
+                                className={s.Avatar}
+                                short
+                                tooltip={passedSection.interviewer.name}
+                                size="s"
+                                email={passedSection.interviewer.email}
+                                name={passedSection.interviewer.name}
+                            />
                         </TableCell>
-                        <TableCell justify="center">
+                        <TableCell>
                             {passedSection.grade && (
-                                <GradeButton type="button" matching>
+                                <Text className={s.Badge} size="s">
                                     {passedSection.grade}
-                                </GradeButton>
+                                </Text>
                             )}
                         </TableCell>
                     </TableRow>

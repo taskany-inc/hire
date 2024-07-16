@@ -8,11 +8,10 @@ import {
     MenuItem,
     Text,
     Button,
-    Dot,
     ListView,
     ListViewItem,
 } from '@taskany/bricks/harmony';
-import { gray8, link10 } from '@taskany/colors';
+import { gray8 } from '@taskany/colors';
 
 import s from './InterviewRejectReasonDropdown.module.css';
 import { tr } from './InterviewRejectReasonDropdown.i18n';
@@ -21,7 +20,6 @@ interface RejectInterviewStatusProps {
     rejectReasons: RejectReason[];
     onChangeRejectReasons?: (selected: string) => void;
 }
-
 export const InterviewRejectReasonDropdown = ({
     rejectReasons,
     onChangeRejectReasons,
@@ -31,7 +29,6 @@ export const InterviewRejectReasonDropdown = ({
         text: option.text,
         id: index,
     }));
-
     const [selected, setSelected] = useState(standartOptions[0].text);
 
     const onStateClick = useCallback(
@@ -41,10 +38,8 @@ export const InterviewRejectReasonDropdown = ({
             onChangeRejectReasons?.(option.text);
             setIsOpen(false);
         },
-
         [onChangeRejectReasons, selected, standartOptions],
     );
-
     return (
         <div className={s.DropdownRejectStatus}>
             <Dropdown isOpen={isOpen} onClose={() => setIsOpen(false)}>
@@ -82,7 +77,6 @@ export const InterviewRejectReasonDropdown = ({
                                         key={option.id}
                                         {...props}
                                     >
-                                        <Dot color={option.text === selected ? link10 : gray8} size="s"></Dot>
                                         {option.text}
                                     </MenuItem>
                                 )}

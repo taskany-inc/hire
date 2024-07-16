@@ -9,3 +9,14 @@
     gap: var(--gap-xs);
     margin-bottom: var(--gap-xxs);
 }
+
+.SectionResults {
+    max-width: 800px;
+    gap: var(--gap-m);
+    min-height: var(--gap-l);
+    padding: var(--gap-s) var(--gap-sm);
+    border-radius: var(--radius-m);
+    border: 1px solid var(--layer-border);
+    background: var(--layer);
+    transition: var(--transition-time) var(--transition-func);
+}

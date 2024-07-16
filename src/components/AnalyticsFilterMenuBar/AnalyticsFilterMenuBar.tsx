@@ -1,12 +1,27 @@
-import React, { useState } from 'react';
+import React, { ChangeEventHandler, useCallback, useRef, useState } from 'react';
 import { HireStream } from '@prisma/client';
-import { FormTitle, Modal, ModalContent, ModalHeader } from '@taskany/bricks';
+import {
+    FilterPopup,
+    FiltersMenuContainer,
+    FiltersMenuItem,
+    FiltersPanelContainer,
+    FiltersPanelContent,
+    FilterTabLabel,
+    FormTitle,
+    Modal,
+    ModalContent,
+    ModalHeader,
+    nullable,
+    Tab,
+} from '@taskany/bricks';
+import { Button, RadioControl, RadioGroup } from '@taskany/bricks/harmony';
 
-import { FiltersPanel } from '../FiltersPanel/FiltersPanel';
 import { CustomPeriodForm } from '../CustomPeriodForm/CustomPeriodForm';
 import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
+import { Filter } from '../Filter';
+import { AnalyticsFilterApplied } from '../AnalyticsFilterApplied/AnalyticsFilterApplied';
 
-import { tr } from './AnalyticsFilterMenuBar.i18n';
+import { I18nKey, tr } from './AnalyticsFilterMenuBar.i18n';
 
 interface AnalyticsFilterMenuBarPropsType {
     hireStreams?: HireStream[];
@@ -21,13 +36,19 @@ export const AnalyticsFilterMenuBar = ({ hireStreams }: AnalyticsFilterMenuBarPr
         periodTitle,
         hireStreams: selectedHireStreams,
         setHireStreams,
-        clearFilters,
     } = useAnalyticsFilterUrlParams(hireStreams);
 
+    const filterNodeRef = useRef<HTMLSpanElement>(null);
     const [openCustomPeriod, setCustomPeriod] = useState(false);
+    const [filterVisible, setFilterVisible] = useState(false);
+    const [hasPeriodBeenSelected, setHasPeriodBeenSelected] = useState(false);
+    const [periodFilter, setPeriodFFilter] = useState<I18nKey>(periodTitle as I18nKey);
+    const [streamsFilter, setStreamsFilter] = useState(() => selectedHireStreams.map(({ id }) => id.toString()));
+
+    const isFiltersEmpty = !periodFilter && !selectedHireStreams.length;
 
     const onPeriodChange = (periodTitle: string) => {
-        if (periodTitle === 'Custom') setCustomPeriod(true);
+        if (periodTitle === 'Custom period') setCustomPeriod(true);
 
         if (periodTitle === 'Week') return setWeek();
 
@@ -37,15 +58,73 @@ export const AnalyticsFilterMenuBar = ({ hireStreams }: AnalyticsFilterMenuBarPr
         setYear();
     };
 
+    const onApplyClick = useCallback(() => {
+        if (hasPeriodBeenSelected) {
+            onPeriodChange(periodFilter);
+            setHasPeriodBeenSelected(false);
+        }
+        setHireStreams(hireStreams?.filter(({ id }) => streamsFilter.includes(id.toString())) ?? []);
+        setFilterVisible(false);
+    }, [streamsFilter, periodFilter, hasPeriodBeenSelected]);
+
+    const onChangePeriod: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
+        setHasPeriodBeenSelected(true);
+        setPeriodFFilter(e.target.value as I18nKey);
+    }, []);
+
+    const onResetClick = useCallback(() => {
+        setHireStreams([]);
+        setStreamsFilter([]);
+    }, []);
+
+    const period = tr((hasPeriodBeenSelected ? periodFilter : periodTitle) as I18nKey);
+
     return (
-        <FiltersPanel
-            onClearFilters={clearFilters}
-            streams={hireStreams}
-            streamFilter={selectedHireStreams}
-            onStreamChange={setHireStreams}
-            onPeriodChange={onPeriodChange}
-            periodFilter={periodTitle}
-        >
+        <>
+            <FiltersPanelContainer>
+                <FiltersPanelContent>
+                    <FiltersMenuContainer>
+                        <FiltersMenuItem ref={filterNodeRef} onClick={() => setFilterVisible((p) => !p)}>
+                            {tr('Filter')}
+                        </FiltersMenuItem>
+                    </FiltersMenuContainer>
+                    <Button onClick={onResetClick} text={tr('Reset')} />
+                </FiltersPanelContent>
+            </FiltersPanelContainer>
+            {nullable(!isFiltersEmpty, () => (
+                <AnalyticsFilterApplied hireStreams={selectedHireStreams} periodTitle={period} />
+            ))}
+            <FilterPopup
+                applyButtonText={tr('Apply')}
+                cancelButtonText={tr('Cancel')}
+                visible={filterVisible}
+                onApplyClick={onApplyClick}
+                filterRef={filterNodeRef}
+                switchVisible={setFilterVisible}
+                activeTab="state"
+            >
+                {nullable(hireStreams, (st) => (
+                    <Filter
+                        tabName="streams"
+                        label={tr('Streams')}
+                        value={streamsFilter}
+                        items={st.map(({ id, name }) => ({ id: id.toString(), name })) ?? []}
+                        filterCheckboxName="streams"
+                        onChange={setStreamsFilter}
+                        viewMode="union"
+                    />
+                ))}
+
+                <Tab name="period" label={<FilterTabLabel text={tr('Period')} selected={[period]} />}>
+                    <RadioGroup name="period" value={periodFilter} onChange={onChangePeriod}>
+                        <RadioControl value="Weak">{tr('Weak')}</RadioControl>
+                        <RadioControl value="Month">{tr('Month')}</RadioControl>
+                        <RadioControl value="Quarter">{tr('Quarter')}</RadioControl>
+                        <RadioControl value="Year">{tr('Year')}</RadioControl>
+                        <RadioControl value="Custom period">{tr('Custom period')}</RadioControl>
+                    </RadioGroup>
+                </Tab>
+            </FilterPopup>
             <Modal width={500} visible={openCustomPeriod} onClose={() => setCustomPeriod(false)}>
                 <ModalHeader>
                     <FormTitle>{tr('Custom period')}</FormTitle>
@@ -54,6 +133,6 @@ export const AnalyticsFilterMenuBar = ({ hireStreams }: AnalyticsFilterMenuBarPr
                     <CustomPeriodForm close={() => setCustomPeriod(false)} />
                 </ModalContent>
             </Modal>
-        </FiltersPanel>
+        </>
     );
 };

@@ -107,7 +107,7 @@ export function CandidateInterviewCreationForm({ candidate, preparedCvAttach }: 
     const onCvParse = useCallback<ComponentProps<typeof CvAttach>['onParse']>(
         (attach, parsedData) => {
             setCvAttachId(attach.id);
-            const oldDescription = getValues('description');
+            const oldDescription = getValues('description') || '';
             setValue('description', `${oldDescription}${cvParsingResultToDescription(parsedData)}`);
         },
         [getValues, setValue],

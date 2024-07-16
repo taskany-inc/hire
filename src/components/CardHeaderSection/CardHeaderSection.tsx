@@ -44,9 +44,9 @@ export const CardHeaderSection: React.FC<CardHeaderSectionProps> = ({ name, time
                 <Badge size="l" color={SectionStatusTagPalette[sectionChip]}>
                     {sectionChip}
                 </Badge>
+                {isSelected && <CandidateSelectedSectionBadge section={section} interview={interview} />}
             </div>
             <div className={s.CardHeaderSectionSubtitle}>
-                {isSelected && <CandidateSelectedSectionBadge section={section} interview={interview} />}
                 {nullable(section.description, (sectionName) => (
                     <Text size="s">{sectionName}</Text>
                 ))}

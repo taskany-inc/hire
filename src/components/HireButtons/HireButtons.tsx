@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react';
+import { Switch, SwitchControl } from '@taskany/bricks/harmony';
 
 import { SectionWithRelationsAndResults } from '../../modules/sectionTypes';
-import { Stack } from '../Stack';
-import { GradeButton } from '../GradeButton';
 
 import { tr } from './HireButtons.i18n';
+import s from './HireButtons.module.css';
 
 export interface HireButtonsProps {
     section: SectionWithRelationsAndResults;
@@ -53,20 +53,18 @@ export const HireButtons = ({ section, setHire, setGrade }: HireButtonsProps): J
     }, [section.sectionType.gradeOptions, section.grade, setGrade, setHire]);
 
     return (
-        <Stack direction="row" gap={8} justifyContent="flex-start">
-            <>
+        <div className={s.SwitchWrapper}>
+            <Switch value={currentValue?.toString()}>
                 {gradeButtons.map((button) => (
-                    <GradeButton
-                        key={button.title}
+                    <SwitchControl
                         onClick={button.onClick}
-                        matching={button.value === currentValue}
-                        selected={button.value === currentValue}
+                        key={button.title}
+                        value={button.value.toString()}
+                        text={button.title}
                         type="button"
-                    >
-                        {button.title}
-                    </GradeButton>
+                    />
                 ))}
-            </>
-        </Stack>
+            </Switch>
+        </div>
     );
 };

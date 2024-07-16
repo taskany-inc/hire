@@ -153,7 +153,7 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
                                     text={
                                         statusInterview
                                             ? interviewStatus[statusInterview as InterviewStatus]
-                                            : 'Status interview'
+                                            : tr('Status interview')
                                     }
                                 />
                                 <Dropdown isOpen={isOpen} onClose={() => setIsOpen(false)}>

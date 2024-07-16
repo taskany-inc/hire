@@ -16,7 +16,6 @@ import { LocalStorageManager, useSectionFeedbackPersisting } from '../../utils/l
 import { useSession } from '../../contexts/appSettingsContext';
 import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
-import { GradeButton } from '../GradeButton';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { HireButtons } from '../HireButtons/HireButtons';
 import { SectionFeedbackHireBadge } from '../SectionFeedbackHireBadge/SectionFeedbackHireBadge';
@@ -164,10 +163,7 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                             <SectionFeedbackHireBadge hire={section.hire} />
                             {section.grade && (
                                 <>
-                                    {tr('Grade:')}{' '}
-                                    <GradeButton type="button" matching>
-                                        {section.grade}
-                                    </GradeButton>
+                                    {tr('Grade:')} <Text title={section.grade} />
                                 </>
                             )}
                         </div>

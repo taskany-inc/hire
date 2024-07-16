@@ -1,0 +1,15 @@
+.TableRow {
+    gap: var(--gap-m);
+}
+
+.Badge {
+    color: var(--gray-500);
+}
+
+.Checkbox {
+    color: var(--text-secondary);
+}
+
+.Avatar {
+    padding-left: 25px;
+}

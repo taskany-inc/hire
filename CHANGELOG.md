@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.52.0](https://github.com/taskany-inc/hire/compare/v0.51.0...v0.52.0) (2024-07-17)
+
+
+### Features
+
+* use url params for analytics filters ([a621141](https://github.com/taskany-inc/hire/commit/a62114190dc83ee4b04d2be782a279def24ef94a))
+
+
+### Bug Fixes
+
+* add set year as default and remove console.log ([50fab6b](https://github.com/taskany-inc/hire/commit/50fab6bba2c2140f84e704723505b8af9559d27e))
+* correct variable for home url ([b07fd61](https://github.com/taskany-inc/hire/commit/b07fd61e12e5cb1fcc3435038cc43c5717363860))
+* remove search query ([96bc2f6](https://github.com/taskany-inc/hire/commit/96bc2f6cfbbf77e2e102991cf0bc714d149bd503))
+
 ## [0.51.0](https://github.com/taskany-inc/hire/compare/v0.50.0...v0.51.0) (2024-07-15)
 
 

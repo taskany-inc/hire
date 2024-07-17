@@ -1,3 +1,4 @@
+import config from '../config';
 import { prisma } from '../utils/prisma';
 
 import { userMethods } from './userMethods';
@@ -8,11 +9,11 @@ const check = async ({ locale, userId }: CheckRelease & WithUserId) => {
     let read = false;
     let createdAt: Date | undefined;
 
-    const rawReleaseVersion = await fetch(`${process.env.PUBLIC_URL}/version.txt`).then((res) => res.text());
+    const rawReleaseVersion = await fetch(`${config.defaultPageURL}/version.txt`).then((res) => res.text());
     const version = rawReleaseVersion.replace(/\n/g, '');
 
     const releaseNotesExists =
-        (await fetch(`${process.env.PUBLIC_URL}/${locale}/whatsnew/${version}/${locale}`)).status === 200;
+        (await fetch(`${config.defaultPageURL}/${locale}/whatsnew/${version}/${locale}`)).status === 200;
 
     if (version && releaseNotesExists) {
         const userSettings = await userMethods.getSettings(userId);

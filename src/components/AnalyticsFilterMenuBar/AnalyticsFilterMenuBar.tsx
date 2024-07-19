@@ -47,16 +47,19 @@ export const AnalyticsFilterMenuBar = ({ hireStreams }: AnalyticsFilterMenuBarPr
 
     const isFiltersEmpty = !periodFilter && !selectedHireStreams.length;
 
-    const onPeriodChange = (periodTitle: string) => {
-        if (periodTitle === 'Custom period') setCustomPeriod(true);
+    const onPeriodChange = useCallback(
+        (periodTitle: string) => {
+            if (periodTitle === 'Custom period') setCustomPeriod(true);
 
-        if (periodTitle === 'Week') return setWeek();
+            if (periodTitle === 'Week') return setWeek();
 
-        if (periodTitle === 'Month') return setMonth();
+            if (periodTitle === 'Month') return setMonth();
 
-        if (periodTitle === 'Quarter') return setQuarter();
-        setYear();
-    };
+            if (periodTitle === 'Quarter') return setQuarter();
+            setYear();
+        },
+        [setMonth, setQuarter, setWeek, setYear],
+    );
 
     const onApplyClick = useCallback(() => {
         if (hasPeriodBeenSelected) {
@@ -65,7 +68,7 @@ export const AnalyticsFilterMenuBar = ({ hireStreams }: AnalyticsFilterMenuBarPr
         }
         setHireStreams(hireStreams?.filter(({ id }) => streamsFilter.includes(id.toString())) ?? []);
         setFilterVisible(false);
-    }, [streamsFilter, periodFilter, hasPeriodBeenSelected]);
+    }, [hasPeriodBeenSelected, setHireStreams, hireStreams, onPeriodChange, periodFilter, streamsFilter]);
 
     const onChangePeriod: ChangeEventHandler<HTMLInputElement> = useCallback((e) => {
         setHasPeriodBeenSelected(true);
@@ -75,7 +78,7 @@ export const AnalyticsFilterMenuBar = ({ hireStreams }: AnalyticsFilterMenuBarPr
     const onResetClick = useCallback(() => {
         setHireStreams([]);
         setStreamsFilter([]);
-    }, []);
+    }, [setHireStreams]);
 
     const period = tr((hasPeriodBeenSelected ? periodFilter : periodTitle) as I18nKey);
 

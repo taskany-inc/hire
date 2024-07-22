@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.53.0](https://github.com/taskany-inc/hire/compare/v0.52.0...v0.53.0) (2024-07-22)
+
+
+### Features
+
+* **HireButtons:** use switch component for grade buttons ([172f4e6](https://github.com/taskany-inc/hire/commit/172f4e604a4dd8349bd991b2f3e6684a48aca4f6))
+
 ## [0.52.0](https://github.com/taskany-inc/hire/compare/v0.51.0...v0.52.0) (2024-07-17)
 
 

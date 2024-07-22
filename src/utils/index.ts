@@ -141,7 +141,11 @@ export function arrayToAppliedString<T extends TEntity>(
     );
 
     const arrayApplied = ids.reduce((acc, rec, index) => {
-        const name = index === ids.length - 1 ? map[rec].name : `${map[rec].name}, `;
+        if (!map[rec]?.name) {
+            return acc;
+        }
+        const name = index === ids.length - 1 ? map[rec]?.name : `${map[rec].name}, `;
+
         return acc + name;
     }, '');
     return `${title}${arrayApplied}. `;

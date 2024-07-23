@@ -21,7 +21,7 @@ import { Card } from '../Card';
 import { CardHeader } from '../CardHeader';
 import { CardContent } from '../CardContent';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
-import { SwitchSolutionsOrderButton } from '../SwitchSolutionOrderButton';
+import { SwitchSolutionsOrderButton } from '../SwitchSolutionOrderButton/SwitchSolutionOrderButton';
 
 import { tr } from './SolutionCard.i18n';
 import s from './SolutionCard.module.css';

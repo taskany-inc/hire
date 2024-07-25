@@ -7,13 +7,11 @@
 .Main {
     display: flex;
     flex-direction: column;
-    flex:1;
-    overflow: auto;     
+    flex:1;    
 }
 
 .LayoutMainContent {
     padding: 0 var(--gap-l);
     align-items: center;
     flex: 1;
-    overflow: auto;
 }

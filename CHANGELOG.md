@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.53.1](https://github.com/taskany-inc/hire/compare/v0.53.0...v0.53.1) (2024-07-25)
+
+
+### Bug Fixes
+
+* **FormControlEditor:** add a env to an internal cdn link ([e09b1eb](https://github.com/taskany-inc/hire/commit/e09b1eb8bd86f400e3e7aaa0df0cb8a398ec4289))
+* remove double scrollbar ([b1097a9](https://github.com/taskany-inc/hire/commit/b1097a92b0e63dd5690062442d3309e5e14fffe9))
+* solution order buttons visible in both themes ([cf3a4ee](https://github.com/taskany-inc/hire/commit/cf3a4ee42f3d6277baddfba9405bb4b0142c5f64))
+
 ## [0.53.0](https://github.com/taskany-inc/hire/compare/v0.52.0...v0.53.0) (2024-07-23)
 
 

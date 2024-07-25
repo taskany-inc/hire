@@ -6,7 +6,7 @@ import { tr } from './FormControlEditorForm.i18n';
 
 editorLoader.config({
     paths: {
-        vs: process.env.NEXT_PUBLIC_MONACO_CDN || '/monaco',
+        vs: '/monaco',
     },
 });
 

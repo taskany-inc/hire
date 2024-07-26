@@ -27,6 +27,16 @@ interface AnalyticsFilterMenuBarPropsType {
     hireStreams?: HireStream[];
 }
 
+type PeriodMapKey = 'Custom period' | 'Year' | 'Weak' | 'Month' | 'Quarter';
+
+const periodMap: Record<PeriodMapKey, string> = {
+    'Custom period': tr('Custom period'),
+    Year: tr('Year'),
+    Weak: tr('Weak'),
+    Month: tr('Month'),
+    Quarter: tr('Quarter'),
+};
+
 export const AnalyticsFilterMenuBar = ({ hireStreams }: AnalyticsFilterMenuBarPropsType): JSX.Element => {
     const {
         setMonth,
@@ -79,8 +89,9 @@ export const AnalyticsFilterMenuBar = ({ hireStreams }: AnalyticsFilterMenuBarPr
         setHireStreams([]);
         setStreamsFilter([]);
     }, [setHireStreams]);
+    const periodKey = (hasPeriodBeenSelected ? periodFilter : periodTitle) as PeriodMapKey;
 
-    const period = tr((hasPeriodBeenSelected ? periodFilter : periodTitle) as I18nKey);
+    const period = periodMap[periodKey] ?? periodKey;
 
     return (
         <>

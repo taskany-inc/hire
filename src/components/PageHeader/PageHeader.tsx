@@ -1,50 +1,24 @@
-import { ComponentProps, useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import NextLink from 'next/link';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
 import { textColor } from '@taskany/colors';
-import {
-    Button,
-    Dropdown,
-    Header,
-    HeaderContent,
-    HeaderLogo,
-    HeaderNav,
-    HeaderNavLink,
-    MenuItem,
-    HeaderMenu,
-    UserMenu,
-    Popup,
-} from '@taskany/bricks';
+import { UserMenu, Popup, HeaderMenu } from '@taskany/bricks';
 import { UserSettings } from '@prisma/client';
-import { IconUpSmallSolid, IconDownSmallSolid } from '@taskany/icons';
 
 import { Paths } from '../../utils/paths';
 import { useSession } from '../../contexts/appSettingsContext';
 import { roleToLabel, UserRoles } from '../../utils/userRoles';
-import { useHeaderMenu } from '../../hooks/useHeaderMenu';
-import { PageHeaderLogo } from '../PageHeaderLogo';
 
-import { tr } from './PageHeader.i18n';
+import s from './PageHeader.module.css';
 
 const StyledDescription = styled.div`
     color: ${textColor};
     white-space: pre-wrap;
 `;
-
-const StyledHeaderNav = styled(HeaderNav)`
-    display: flex;
-    align-items: center;
-`;
-
 export const PageHeader: React.FC<{
-    logo?: ComponentProps<typeof PageHeaderLogo>['logo'];
     userSettings?: UserSettings;
-}> = ({ logo, userSettings }) => {
-    const { entityListMenuItems, entityCreationMenuItems } = useHeaderMenu(userSettings);
-    const router = useRouter();
+}> = ({ userSettings }) => {
     const session = useSession();
-    const onMenuItemClick = ({ path }: { path: string }) => router.push(path);
     const [popupVisible, setPopupVisibility] = useState(false);
     const popupRef = useRef<HTMLDivElement>(null);
 
@@ -88,82 +62,29 @@ export const PageHeader: React.FC<{
     }, [session, userSettings]);
 
     return (
-        <Header
-            logo={
-                <HeaderLogo>
-                    <PageHeaderLogo logo={logo} />
-                </HeaderLogo>
-            }
-            menu={
-                <>
-                    <HeaderMenu>
-                        <div
-                            ref={popupRef}
-                            onMouseEnter={() => setPopupVisibility(true)}
-                            onMouseLeave={() => setPopupVisibility(false)}
-                        >
-                            <NextLink href={Paths.USERS_SETTINGS}>
-                                <UserMenu email={session?.user.email} name={session?.user.name} />
-                            </NextLink>
-                        </div>
-                    </HeaderMenu>
+        <div className={s.PageHeader}>
+            <HeaderMenu className={s.PageHeaderUserPopup}>
+                <div
+                    ref={popupRef}
+                    onMouseEnter={() => setPopupVisibility(true)}
+                    onMouseLeave={() => setPopupVisibility(false)}
+                >
+                    <NextLink href={Paths.USERS_SETTINGS}>
+                        <UserMenu email={session?.user.email} name={session?.user.name} />
+                    </NextLink>
+                </div>
+            </HeaderMenu>
 
-                    <Popup
-                        tooltip
-                        placement="bottom-end"
-                        maxWidth={300}
-                        arrow={false}
-                        reference={popupRef}
-                        visible={popupVisible}
-                    >
-                        <StyledDescription>{description}</StyledDescription>
-                    </Popup>
-                </>
-            }
-            nav={
-                <StyledHeaderNav>
-                    {entityListMenuItems.map((item, index) => (
-                        <NextLink key={index + item.text} href={item.path} passHref legacyBehavior>
-                            <HeaderNavLink>{item.text}</HeaderNavLink>
-                        </NextLink>
-                    ))}
-                </StyledHeaderNav>
-            }
-        >
-            <HeaderContent>
-                <Button
-                    text={tr('Create')}
-                    view="primary"
-                    outline
-                    brick="right"
-                    onClick={() => router.push(Paths.PROBLEMS_NEW)}
-                />
-                <Dropdown
-                    onChange={onMenuItemClick}
-                    items={entityCreationMenuItems}
-                    renderTrigger={(props) => (
-                        <Button
-                            view="primary"
-                            outline
-                            brick="left"
-                            iconRight={props.visible ? <IconUpSmallSolid size="s" /> : <IconDownSmallSolid size="s" />}
-                            ref={props.ref}
-                            onClick={props.onClick}
-                        />
-                    )}
-                    renderItem={(props) => (
-                        <MenuItem
-                            key={props.item.text}
-                            focused={props.cursor === props.index}
-                            onClick={props.onClick}
-                            view="primary"
-                            ghost
-                        >
-                            {props.item.text}
-                        </MenuItem>
-                    )}
-                />
-            </HeaderContent>
-        </Header>
+            <Popup
+                tooltip
+                placement="bottom-end"
+                maxWidth={300}
+                arrow={false}
+                reference={popupRef}
+                visible={popupVisible}
+            >
+                <StyledDescription>{description}</StyledDescription>
+            </Popup>
+        </div>
     );
 };

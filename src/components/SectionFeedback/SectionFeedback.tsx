@@ -151,44 +151,46 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
         <>
             <form className={s.SectionFeedbackForm}>
                 <div>
-                    {isEditable ? (
-                        <div>
-                            <HireButtons section={section} setHire={setHire} setGrade={setGrade} />
-                            {errors.hire && watch('hire') === null && (
-                                <Text className={s.ErrorText}>{errors.hire.message}</Text>
-                            )}
-                        </div>
-                    ) : (
-                        <div className={s.SectionFeedbackHireBadge}>
-                            <SectionFeedbackHireBadge hire={section.hire} />
-                            {section.grade && (
-                                <>
-                                    {tr('Grade:')} <Text title={section.grade} />
-                                </>
-                            )}
-                        </div>
-                    )}
-
-                    {isEditable && editMode ? (
-                        <CodeEditorField
-                            className={s.CodeEditorField}
-                            passedError={
-                                errors.feedback && !watch('feedback')
-                                    ? { message: tr("Mandatory field, fill in the candidate's impressions") }
-                                    : undefined
-                            }
-                            onUploadSuccess={onUploadSuccess}
-                            onUploadFail={onUploadFail}
-                            name="feedback"
-                            control={control}
-                            uploadLink={pageHrefs.attachSection(section.id)}
-                            placeholder={tr('Describe your impressions of the candidate')}
-                        />
-                    ) : (
-                        <MarkdownRenderer
-                            className={s.MarkdownRenderer}
-                            value={section.feedback || watch('feedback') || ''}
-                        />
+                    {nullable(
+                        isEditable && editMode,
+                        () => (
+                            <>
+                                <div>
+                                    <HireButtons section={section} setHire={setHire} setGrade={setGrade} />
+                                    {errors.hire && watch('hire') === null && (
+                                        <Text className={s.ErrorText}>{errors.hire.message}</Text>
+                                    )}
+                                </div>
+                                <CodeEditorField
+                                    className={s.CodeEditorField}
+                                    passedError={
+                                        errors.feedback && !watch('feedback')
+                                            ? { message: tr("Mandatory field, fill in the candidate's impressions") }
+                                            : undefined
+                                    }
+                                    onUploadSuccess={onUploadSuccess}
+                                    onUploadFail={onUploadFail}
+                                    name="feedback"
+                                    control={control}
+                                    uploadLink={pageHrefs.attachSection(section.id)}
+                                    placeholder={tr('Describe your impressions of the candidate')}
+                                />
+                            </>
+                        ),
+                        <>
+                            <div className={s.SectionFeedbackHireBadge}>
+                                <SectionFeedbackHireBadge hire={section.hire} />
+                                {section.grade && (
+                                    <>
+                                        {tr('Grade:')} <Text>{section.grade}</Text>
+                                    </>
+                                )}
+                            </div>
+                            <MarkdownRenderer
+                                className={s.MarkdownRenderer}
+                                value={section.feedback || watch('feedback') || ''}
+                            />
+                        </>,
                     )}
 
                     <div className={s.Button}>

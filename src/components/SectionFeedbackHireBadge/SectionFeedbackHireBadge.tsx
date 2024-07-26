@@ -1,5 +1,4 @@
 import { VFC } from 'react';
-import styled from 'styled-components';
 import { SectionType } from '@prisma/client';
 import { Badge } from '@taskany/bricks';
 
@@ -8,31 +7,27 @@ import { SectionType as SectionTypeEnum } from '../../utils/dictionaries';
 
 import { tr } from './SectionFeedbackHireBadge.i18n';
 
-const StyledChip = styled(Badge)`
-    margin-left: 1em;
-`;
-
 export const SectionFeedbackHireBadge: VFC<{ hire: boolean | null }> = ({ hire }) => {
     if (hire === null) {
         return (
-            <StyledChip size="l" color={TagPaletteColor.BLUE}>
+            <Badge size="l" color={TagPaletteColor.BLUE}>
                 {tr('New')}
-            </StyledChip>
+            </Badge>
         );
     }
 
     if (hire) {
         return (
-            <StyledChip size="l" color={TagPaletteColor.GREEN}>
+            <Badge size="l" color={TagPaletteColor.GREEN}>
                 {tr('Hire')}
-            </StyledChip>
+            </Badge>
         );
     }
 
     return (
-        <StyledChip size="l" color={TagPaletteColor.RED}>
+        <Badge size="l" color={TagPaletteColor.RED}>
             {tr('No hire')}
-        </StyledChip>
+        </Badge>
     );
 };
 
@@ -40,27 +35,27 @@ export const SectionTypeBadge: VFC<{ sectionType: SectionType }> = ({ sectionTyp
     switch (sectionType.value) {
         case SectionTypeEnum.CODING:
             return (
-                <StyledChip size="l" color={TagPaletteColor.CYAN}>
+                <Badge size="l" color={TagPaletteColor.CYAN}>
                     {sectionType.value}
-                </StyledChip>
+                </Badge>
             );
         case SectionTypeEnum.FINAL:
             return (
-                <StyledChip size="l" color={TagPaletteColor.PURPLE_GREY}>
+                <Badge size="l" color={TagPaletteColor.PURPLE_GREY}>
                     {sectionType.value}
-                </StyledChip>
+                </Badge>
             );
         case SectionTypeEnum.PRODUCT_FINAL:
             return (
-                <StyledChip size="l" color={TagPaletteColor.SOFT_BLUE}>
+                <Badge size="l" color={TagPaletteColor.SOFT_BLUE}>
                     {sectionType.value}
-                </StyledChip>
+                </Badge>
             );
         default:
             return (
-                <StyledChip size="l" color={TagPaletteColor.MAGENTA}>
+                <Badge size="l" color={TagPaletteColor.MAGENTA}>
                     {sectionType.value}
-                </StyledChip>
+                </Badge>
             );
     }
 };

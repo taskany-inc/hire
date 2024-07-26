@@ -13,6 +13,7 @@ import { PageTitle } from '../PageTitle/PageTitle';
 import { GlobalStyle } from '../GlobalStyle';
 import { TitleMenu } from '../TitleMenu/TitleMenu';
 import { WhatsNew } from '../WhatsNew/WhatsNew';
+import { PageNavigation } from '../PageNavigation/PageNavigation';
 
 import s from './LayoutMain.module.css';
 
@@ -67,11 +68,12 @@ export const LayoutMain: FC<LayoutMainProps> = ({
 
             <GlobalStyle />
 
-            <PageHeader logo={config.data?.logo ?? undefined} userSettings={userSettings} />
             <Theme theme={theme} />
 
             <div className={s.LayoutMain}>
+                <PageNavigation userSettings={userSettings} />
                 <main className={s.Main}>
+                    <PageHeader userSettings={userSettings} />
                     {!hidePageHeader && (
                         <PageTitle title={pageTitle} gutter={headerGutter} backlink={backlink}>
                             {titleMenuItems && titleMenuItems.length > 0 && <TitleMenu items={titleMenuItems} />}

@@ -1,0 +1,13 @@
+.PageHeader {
+  background: var(--layer);
+  border-bottom: 1px solid var(--gray-900);
+  padding: var(--gap-sm) var(--gap-l);
+  display: flex;
+  align-items: center;
+  height: 60.5px;
+  box-sizing: border-box;
+}
+
+.PageHeaderUserPopup {
+  margin-left: auto;
+}

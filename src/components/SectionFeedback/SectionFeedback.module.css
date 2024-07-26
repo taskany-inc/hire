@@ -12,10 +12,10 @@
 }
 
 .SectionFeedbackHireBadge {
-    flex-direction: row;
+    display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: var(--gap-xs);
+    gap: var(--gap-s);
 }
 
 .Button {

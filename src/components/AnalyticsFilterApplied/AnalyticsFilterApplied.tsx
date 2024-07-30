@@ -2,18 +2,14 @@ import { FiltersApplied } from '@taskany/bricks';
 import { useMemo } from 'react';
 import { HireStream } from 'prisma/prisma-client';
 import { gray7 } from '@taskany/colors';
-import styled from 'styled-components';
 
+import s from './AnalyticsFilterApplied.module.css';
 import { tr } from './AnalyticsFilterApplied.i18n';
 
 interface AnalyticsFilterAppliedProps {
     hireStreams?: HireStream[];
     periodTitle?: string;
 }
-
-const StyledApplied = styled(FiltersApplied)`
-    position: absolute;
-`;
 
 export const AnalyticsFilterApplied = ({ hireStreams, periodTitle }: AnalyticsFilterAppliedProps) => {
     const filterAppliedString = useMemo(() => {
@@ -31,8 +27,8 @@ export const AnalyticsFilterApplied = ({ hireStreams, periodTitle }: AnalyticsFi
     }, [hireStreams, periodTitle]);
 
     return (
-        <StyledApplied size="s" weight="bold" color={gray7}>
+        <FiltersApplied size="s" weight="bold" color={gray7} className={s.AnalyticsFilterApplied}>
             {filterAppliedString}
-        </StyledApplied>
+        </FiltersApplied>
     );
 };

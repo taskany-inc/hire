@@ -1,6 +1,6 @@
 @use "sass:math";
 
-$accent: #17b978;
+$accent: #{var(--primary9)};
 $gray: #222222;
 $black: #1b1b1c;
 $white: white;
@@ -19,7 +19,7 @@ $time-selection-color: white !default;
 $time-selection-bg-color: rgba(0, 0, 0, 0.5) !default;
 $date-selection-bg-color: rgba(0, 0, 0, 0.1) !default;
 
-$event-bg: $accent !default; // #3174ad !default;
+$event-bg: #{var(--primary7)} !default; // #3174ad !default;
 $event-border: darken(#3174ad, 10%) !default;
 $event-outline: #3b99fc !default;
 $event-color: #fff !default;
@@ -29,7 +29,7 @@ $event-zindex: 4 !default;
 
 $btn-color: var(--btn-color) !default; // #373a3c !default;
 $btn-bg: $accent !default; // #fff !default;
-$btn-border: #333 !default; // #ccc !default;
+$btn-border: #{var(--gray7)} !default; // #ccc !default;
 
 $current-time-color: #74ad31 !default;
 

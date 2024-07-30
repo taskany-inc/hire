@@ -32,7 +32,7 @@
         "@sentry/nextjs": "7.99.0",
         "@tanstack/react-query": "4.29.13",
         "@tanstack/react-query-devtools": "4.29.13",
-        "@taskany/bricks": "5.41.0",
+        "@taskany/bricks": "0.0.0-cc5b551",
         "@taskany/colors": "1.11.0",
         "@taskany/icons": "2.0.5",
         "@trpc/client": "10.1.0",

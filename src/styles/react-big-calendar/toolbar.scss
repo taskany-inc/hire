@@ -1,7 +1,7 @@
 @import './variables';
 
-$active-background: darken($btn-bg, 10%);
-$active-border: darken($btn-border, 12%);
+$active-background: #{var(--primary9)};
+$active-border: #{var(--gray7)};
 
 .rbc-toolbar {
   display: flex;
@@ -18,22 +18,23 @@ $active-border: darken($btn-border, 12%);
   }
 
   & button {
-    color: $btn-color;
+    color: #{var(--gray10)};
     display: inline-block;
     margin: 0;
     text-align: center;
     vertical-align: middle;
-    background: none;
+    background-color: #{var(--gray4)};
     background-image: none;
     border: 1px solid $btn-border;
-    padding: .375rem 1rem;
-    border-radius: 4px;
+    padding: 5px 16px;
+    border-radius: #{var(--radius-m)};
     line-height: normal;
     white-space: nowrap;
+    cursor: pointer;
 
     &:active,
     &.rbc-active {
-      color: $white;
+      color: #{var(--primary1)};
       background-image: none;
       box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
       background-color: $active-background;
@@ -41,9 +42,9 @@ $active-border: darken($btn-border, 12%);
 
       &:hover,
       &:focus {
-        color: $white;
-        background-color: darken($btn-bg, 17%);
-        border-color: darken($btn-border, 25%);
+        color: #{var(--primary1)};
+        background-color: #{var(--primary10)};
+        border-color: #{var(--gray7)};
       }
     }
 
@@ -55,7 +56,7 @@ $active-border: darken($btn-border, 12%);
 
     &:hover {
       color: $white;
-      background-color: $active-background;
+      background-color: #{var(--gray6)};
           border-color: $active-border;
     }
   }

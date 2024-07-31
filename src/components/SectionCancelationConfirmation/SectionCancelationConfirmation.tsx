@@ -1,6 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { Modal, ModalContent, ModalHeader, FormTitle, Button, FormTextarea, ErrorPopup } from '@taskany/bricks';
+import { Modal, ModalContent, ModalHeader, FormTitle, FormTextarea, ErrorPopup } from '@taskany/bricks';
+import { Button } from '@taskany/bricks/harmony';
 
 import { useSectionCancelMutation } from '../../modules/sectionHooks';
 import { pageHrefs } from '../../utils/paths';

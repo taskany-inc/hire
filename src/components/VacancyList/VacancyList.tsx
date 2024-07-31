@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
-import styled from 'styled-components';
-import { Button, Text, nullable } from '@taskany/bricks';
+import { Text, nullable } from '@taskany/bricks';
 import { gapL } from '@taskany/colors';
+import { Button } from '@taskany/bricks/harmony';
 
 import { useVacancies } from '../../modules/crewHooks';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
@@ -11,10 +11,7 @@ import { useVacancyFilterUrlParams, vacancyFilterValuesToRequestData } from '../
 import { Vacancy } from '../../modules/crewTypes';
 
 import { tr } from './VacancyList.i18n';
-
-const StyledLoadMoreButton = styled(Button)`
-    justify-self: flex-start;
-`;
+import s from './VacancyList.module.css';
 
 interface VacancyListProps {
     onSelect?: (vacancy: Vacancy) => void;
@@ -40,7 +37,8 @@ export const VacancyList = ({ onSelect }: VacancyListProps) => {
                         </Fragment>
                     ))}
                     {nullable(hasNextPage, () => (
-                        <StyledLoadMoreButton
+                        <Button
+                            className={s.VacancyListLoadMoreButton}
                             text={tr('Load more')}
                             onClick={() => fetchNextPage()}
                             disabled={isLoading}

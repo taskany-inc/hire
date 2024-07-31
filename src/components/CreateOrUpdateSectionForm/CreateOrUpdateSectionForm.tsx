@@ -9,7 +9,6 @@ import {
     Fieldset,
     FormActions,
     FormAction,
-    Button,
     FormCard,
     FormTextarea,
     FormInput,
@@ -20,6 +19,7 @@ import { useDebounce } from 'use-debounce';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { danger0, gapS } from '@taskany/colors';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from '@taskany/bricks/harmony';
 
 import { useSectionCreateMutation, useSectionUpdateMutation } from '../../modules/sectionHooks';
 import { SectionWithRelationsAndResults, CreateOrUpdateSection } from '../../modules/sectionTypes';
@@ -238,7 +238,7 @@ export const CreateOrUpdateSectionForm = ({
                         <FormActions flat="top">
                             <FormAction left inline></FormAction>
                             <FormAction right inline>
-                                <Button size="m" view="primary" type="submit" text={tr('Save the section')} />
+                                <Button view="primary" type="submit" text={tr('Save the section')} />
                             </FormAction>
                         </FormActions>
                     </Form>

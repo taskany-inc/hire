@@ -1,22 +1,19 @@
 import { useState } from 'react';
 import { User } from '@prisma/client';
-import { Button } from '@taskany/bricks';
 import styled from 'styled-components';
 import { useDebounce } from 'use-debounce';
+import { Button } from '@taskany/bricks/harmony';
 
 import { trpc } from '../../trpc/trpcClient';
 import { Role } from '../../modules/userTypes';
 import { UserComboBox } from '../UserComboBox';
 
 import { tr } from './UserSelector.i18n';
+import s from './UserSelector.module.css';
 
 const StyledWrapper = styled.div`
     display: flex;
     align-items: center;
-`;
-
-const StyledButton = styled(Button)`
-    margin-left: 6px;
 `;
 
 interface UserSelectorProps {
@@ -63,8 +60,8 @@ export const UserSelector = ({ placeholder, onSelect, sectionTypeOrHireStreamId,
                 value={user}
                 placeholder={placeholder}
             />
-            {user && <StyledButton text={tr('Add')} view="primary" onClick={onAddClick} />}
-            {user && <StyledButton text={tr('Cancel')} onClick={onCancelClick} />}
+            {user && <Button className={s.UserSelectorButton} text={tr('Add')} view="primary" onClick={onAddClick} />}
+            {user && <Button className={s.UserSelectorButton} text={tr('Cancel')} onClick={onCancelClick} />}
         </StyledWrapper>
     );
 };

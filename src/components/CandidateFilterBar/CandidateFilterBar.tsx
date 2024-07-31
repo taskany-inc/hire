@@ -9,12 +9,10 @@ import {
     FiltersSearchContainer,
     Input,
     FiltersMenuItem,
-    Button,
     FilterPopup,
     nullable,
 } from '@taskany/bricks';
-import styled from 'styled-components';
-import { gapS } from '@taskany/colors';
+import { Button } from '@taskany/bricks/harmony';
 
 import { mapEnum } from '../../utils';
 import { Filter } from '../Filter';
@@ -31,16 +29,12 @@ import {
 import { useCandidates } from '../../modules/candidateHooks';
 
 import { tr } from './CandidateFilterBar.i18n';
+import s from './CandidateFilterBar.module.css';
 
 interface CandidateFilterBarProps {
     loading?: boolean;
     children?: ReactNode;
 }
-
-const StyledResetButton = styled(Button)`
-    margin-left: auto;
-    margin-right: ${gapS};
-`;
 
 const vacancyToString = (vacancy: Vacancy) => {
     let result = vacancy.name;
@@ -167,7 +161,7 @@ export const CandidateFilterBar = ({ loading, children }: CandidateFilterBarProp
                         </FiltersMenuItem>
                         {children}
                     </FiltersMenuContainer>
-                    <StyledResetButton text="Reset" onClick={onResetFilers} />
+                    <Button className={s.CandidateFilterBarResetButton} text="Reset" onClick={onResetFilers} />
                 </FiltersPanelContent>
             </FiltersPanelContainer>
             {nullable(!isFiltersEmpty, () => (

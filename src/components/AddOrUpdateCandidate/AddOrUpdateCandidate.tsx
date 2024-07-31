@@ -5,7 +5,8 @@ import { useRouter } from 'next/router';
 import { z } from 'zod';
 import styled from 'styled-components';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Fieldset, Form, FormAction, FormActions, FormCard, FormInput } from '@taskany/bricks';
+import { Fieldset, Form, FormAction, FormActions, FormCard, FormInput } from '@taskany/bricks';
+import { Button } from '@taskany/bricks/harmony';
 
 import { UpdateCandidate, CreateCandidate } from '../../modules/candidateTypes';
 import { generatePath, Paths } from '../../utils/paths';
@@ -169,12 +170,10 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
                     <FormAction left inline></FormAction>
                     <FormAction right inline>
                         <Button
-                            size="m"
                             view="primary"
                             type="submit"
                             text={variant === 'new' ? tr('Add candidate') : tr('Save candidate')}
                             disabled={isSubmitting}
-                            outline
                         />
                     </FormAction>
                 </FormActions>

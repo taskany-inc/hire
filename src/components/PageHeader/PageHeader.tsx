@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { textColor } from '@taskany/colors';
 import {
-    Button,
     Dropdown,
     Header,
     HeaderContent,
@@ -18,6 +17,7 @@ import {
 } from '@taskany/bricks';
 import { UserSettings } from '@prisma/client';
 import { IconUpSmallSolid, IconDownSmallSolid } from '@taskany/icons';
+import { Button } from '@taskany/bricks/harmony';
 
 import { Paths } from '../../utils/paths';
 import { useSession } from '../../contexts/appSettingsContext';
@@ -134,7 +134,6 @@ export const PageHeader: React.FC<{
                 <Button
                     text={tr('Create')}
                     view="primary"
-                    outline
                     brick="right"
                     onClick={() => router.push(Paths.PROBLEMS_NEW)}
                 />
@@ -144,7 +143,6 @@ export const PageHeader: React.FC<{
                     renderTrigger={(props) => (
                         <Button
                             view="primary"
-                            outline
                             brick="left"
                             iconRight={props.visible ? <IconUpSmallSolid size="s" /> : <IconDownSmallSolid size="s" />}
                             ref={props.ref}

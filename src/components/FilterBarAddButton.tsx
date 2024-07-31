@@ -1,5 +1,5 @@
 import React, { VFC } from 'react';
-import { Button } from '@taskany/bricks';
+import { Button } from '@taskany/bricks/harmony';
 
 import { Link } from './Link';
 
@@ -11,7 +11,7 @@ interface FilterBarAddButtonProps {
 export const FilterBarAddButton: VFC<FilterBarAddButtonProps> = ({ link, text }) => {
     return (
         <Link href={link}>
-            <Button outline view="primary" text={text} type="button" />
+            <Button view="primary" text={text} type="button" />
         </Link>
     );
 };

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
-import { Badge, Button, Text, nullable } from '@taskany/bricks';
-import { gapS, gray10, textColor } from '@taskany/colors';
-import styled from 'styled-components';
+import { Badge, Text, nullable } from '@taskany/bricks';
+import { gray10, textColor } from '@taskany/colors';
+import { Button } from '@taskany/bricks/harmony';
 
 import { Vacancy, vacancyLabels, vacancyStatusColors } from '../../modules/crewTypes';
 import { Card } from '../Card';
@@ -14,15 +14,12 @@ import { Link } from '../Link';
 import config from '../../config';
 
 import { tr } from './VacancyCard.i18n';
+import s from './VacancyCard.module.css';
 
 interface VacancyCardProps {
     vacancy: Vacancy;
     onSelect?: (vacancy: Vacancy) => void;
 }
-
-const StyledButton = styled(Button)`
-    margin-top: ${gapS};
-`;
 
 export const VacancyCard = ({ vacancy, onSelect }: VacancyCardProps) => {
     const hireStreamsQuery = useHireStreams();
@@ -79,7 +76,7 @@ export const VacancyCard = ({ vacancy, onSelect }: VacancyCardProps) => {
                 </Text>
 
                 {nullable(onSelect, (cb) => (
-                    <StyledButton text={tr('Select')} onClick={() => cb(vacancy)} />
+                    <Button className={s.VacancyCardSelectButton} text={tr('Select')} onClick={() => cb(vacancy)} />
                 ))}
             </CardContent>
         </Card>

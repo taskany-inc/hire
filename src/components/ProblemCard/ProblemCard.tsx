@@ -2,8 +2,8 @@ import { useCallback, useMemo, useState, VFC } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { textColor, link0, gray8 } from '@taskany/colors';
-import { Button } from '@taskany/bricks';
 import { IconStarOutline, IconStarSolid } from '@taskany/icons';
+import { Button } from '@taskany/bricks/harmony';
 
 import { ProblemWithRelationsAndProblemSection } from '../../modules/problemTypes';
 import { generatePath, Paths } from '../../utils/paths';
@@ -27,16 +27,13 @@ import { useDistanceDate } from '../../hooks/useDateFormat';
 import { ProblemDifficultyIcon } from '../ProblemDifficultyIcon/ProblemDifficultyIcon';
 
 import { tr } from './ProblemCard.i18n';
+import s from './ProblemCard.module.css';
 
 const StyledMarkdownRenderer = styled(MarkdownRenderer)<{
     isSmallSize?: boolean;
 }>`
     margin-top: 14px;
     overflow: auto;
-`;
-
-const StyledAddButton = styled(Button)`
-    margin-top: 10px;
 `;
 
 const StyledCardHeader = styled(CardHeader)<{
@@ -175,7 +172,12 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
                     </CardContent>
 
                     {isShowAddButton && (
-                        <StyledAddButton outline view="primary" onClick={addToSection} text={tr('Add')} />
+                        <Button
+                            className={s.ProblemCardAddToSectionButton}
+                            view="primary"
+                            onClick={addToSection}
+                            text={tr('Add')}
+                        />
                     )}
                 </Card>
             </LoadingContainer>

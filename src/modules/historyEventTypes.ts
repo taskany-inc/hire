@@ -47,5 +47,5 @@ export interface HistoryEvent<T extends HistorySubject = HistorySubject> {
     before: string | null;
     after: string | null;
     createdAt: Date;
-    user: { id: number; name: string | null; email: string };
+    user: { name: string | null; email: string };
 }

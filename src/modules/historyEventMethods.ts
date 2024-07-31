@@ -11,7 +11,7 @@ export const historyEventMethods = {
     getHistoryEvents: async (data: GetHistoryEvents): Promise<HistoryEvent[]> => {
         const events = (await prisma.historyEvent.findMany({
             where: { subject: data.subject, subjectId: String(data.subjectId) },
-            include: { user: { select: { id: true, name: true, email: true } } },
+            include: { user: { select: { name: true, email: true } } },
         })) as HistoryEvent[];
         return events;
     },

@@ -13,7 +13,6 @@ import { accessChecks } from '../../modules/accessChecks';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
 import { Stack } from '../Stack';
 import { InlineDot } from '../InlineDot';
-import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import { AssignSectionDropdownButton } from '../AssignSectionDropdownButton/AssignSectionDropdownButton';
 import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { DropdownMenuItem } from '../TagFilterDropdown';
@@ -25,6 +24,7 @@ import { Link } from '../Link';
 import { VacancyInfoById } from '../VacancyInfo/VacancyInfo';
 import { Comment } from '../Comment/Comment';
 import InterviewCommentCreateForm from '../InterviewCommentCreationForm/InterviewCommentCreationForm';
+import Md from '../Md';
 
 import { tr } from './Interview.i18n';
 import s from './Interview.module.css';
@@ -131,7 +131,9 @@ export const Interview: FC<InterviewProps> = ({ interview, sectionTypes, rejectR
                 <Text size="s" as="p" style={{ marginTop: gapS }}>
                     {interview.statusComment}
                 </Text>
-                {interview.description && <MarkdownRenderer value={interview.description} />}
+                {nullable(interview.description, (d) => (
+                    <Md>{d}</Md>
+                ))}
                 {nullable(interview.cv, (cv) => (
                     <Text>
                         {tr('CV:')}{' '}

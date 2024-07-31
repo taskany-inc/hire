@@ -14,7 +14,6 @@ import { generatePath, pageHrefs, Paths } from '../../utils/paths';
 import { accessChecks } from '../../modules/accessChecks';
 import { LocalStorageManager, useSectionFeedbackPersisting } from '../../utils/localStorageManager';
 import { useSession } from '../../contexts/appSettingsContext';
-import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { HireButtons } from '../HireButtons/HireButtons';
@@ -23,6 +22,7 @@ import { SectionAttach } from '../SectionAttach/SectionAttach';
 import { Link } from '../Link';
 import { AddProblemToSection } from '../AddProblemToSection/AddProblemToSection';
 import { useUploadNotifications } from '../../modules/attachHooks';
+import Md from '../Md';
 
 import { tr } from './SectionFeedback.i18n';
 import s from './SectionFeedback.module.css';
@@ -177,7 +177,7 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                                 />
                             </>
                         ),
-                        <>
+                        <div className={s.SectionFeedback}>
                             <div className={s.SectionFeedbackHireBadge}>
                                 <SectionFeedbackHireBadge hire={section.hire} />
                                 {section.grade && (
@@ -186,11 +186,10 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                                     </>
                                 )}
                             </div>
-                            <MarkdownRenderer
-                                className={s.MarkdownRenderer}
-                                value={section.feedback || watch('feedback') || ''}
-                            />
-                        </>,
+                            {nullable(watch('feedback'), (f) => (
+                                <Md className={s.Md}>{f}</Md>
+                            ))}
+                        </div>,
                     )}
 
                     <div className={s.Button}>

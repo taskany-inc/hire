@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState, VFC } from 'react';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import { textColor, link0, gray8 } from '@taskany/colors';
-import { Button } from '@taskany/bricks';
+import { Button, nullable } from '@taskany/bricks';
 import { IconStarOutline, IconStarSolid } from '@taskany/icons';
 
 import { ProblemWithRelationsAndProblemSection } from '../../modules/problemTypes';
@@ -15,25 +15,18 @@ import {
     useFavoriteProblems,
     useRemoveProblemFromFavoritesMutation,
 } from '../../modules/userHooks';
-import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import { LoadingContainer } from '../LoadingContainer';
 import { Card } from '../Card';
-import { CardContent } from '../CardContent';
 import { CardHeader } from '../CardHeader';
 import { Link } from '../Link';
 import { TagChip } from '../TagChip';
 import { UnavailableContainer } from '../UnavailableContainer';
 import { useDistanceDate } from '../../hooks/useDateFormat';
 import { ProblemDifficultyIcon } from '../ProblemDifficultyIcon/ProblemDifficultyIcon';
+import Md from '../Md';
 
 import { tr } from './ProblemCard.i18n';
-
-const StyledMarkdownRenderer = styled(MarkdownRenderer)<{
-    isSmallSize?: boolean;
-}>`
-    margin-top: 14px;
-    overflow: auto;
-`;
+import s from './ProblemCard.module.css';
 
 const StyledAddButton = styled(Button)`
     margin-top: 10px;
@@ -170,9 +163,11 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
                         }
                     />
 
-                    <CardContent>
-                        <StyledMarkdownRenderer isSmallSize={isSmallSize} value={problem.description} />
-                    </CardContent>
+                    <div className={s.Md}>
+                        {nullable(problem.description, (d) => (
+                            <Md>{d}</Md>
+                        ))}
+                    </div>
 
                     {isShowAddButton && (
                         <StyledAddButton outline view="primary" onClick={addToSection} text={tr('Add')} />

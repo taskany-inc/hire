@@ -11,21 +11,26 @@
     color: var(--danger-500);
 }
 
+.SectionFeedback{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: var(--gap-m);
+}
+
 .SectionFeedbackHireBadge {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
     gap: var(--gap-s);
+}
+
+.Md {
+    margin-bottom: var(--gap-m);
+    overflow: auto;
 }
 
 .Button {
     display: flex; 
     gap: var(--gap-s);
-    margin: var(--gap-xs) 0;
+    margin: var(--gap-m) 0;
 }
 
-.MarkdownRenderer {
-    margin-top: var(--gap-m);
-    max-width: 900px;
-    overflow: auto;
-}

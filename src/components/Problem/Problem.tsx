@@ -10,7 +10,6 @@ import { pageHrefs, Paths } from '../../utils/paths';
 import { ProblemWithRelationsAndProblemSection } from '../../modules/problemTypes';
 import { useSession } from '../../contexts/appSettingsContext';
 import { accessChecks } from '../../modules/accessChecks';
-import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import { TagChip } from '../TagChip';
 import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { InlineDot } from '../InlineDot';
@@ -22,6 +21,7 @@ import { useDistanceDate } from '../../hooks/useDateFormat';
 import { ProblemDifficultyIcon } from '../ProblemDifficultyIcon/ProblemDifficultyIcon';
 import { Comment } from '../Comment/Comment';
 import ProblemCommentCreateForm from '../ProblemCommentCreationForm/ProblemCommentCreationForm';
+import Md from '../Md';
 
 import { tr } from './Problem.i18n';
 import s from './Problem.module.css';
@@ -110,15 +110,18 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
             </StyledTagsContainer>
 
             <ProblemStats good={problem.solutionsGood} ok={problem.solutionsOk} bad={problem.solutionsBad} />
-            <MarkdownRenderer value={problem.description} />
+            {nullable(problem.description, (d) => (
+                <Md className={s.ProblemCommentWrapper}>{d}</Md>
+            ))}
 
             <StyledTitle size="xl" onClick={toggleSolutionExpansion}>
                 {tr('Solution')}{' '}
                 {isSolutionExpanded ? <IconArrowUpSmallOutline size="m" /> : <IconArrowDownSmallOutline size="m" />}
             </StyledTitle>
 
-            {isSolutionExpanded && <MarkdownRenderer value={problem.solution} />}
-
+            {nullable(isSolutionExpanded && problem.solution, (d) => (
+                <Md className={s.ProblemCommentWrapper}>{d}</Md>
+            ))}
             <Confirmation {...problemRemoveConfirmation.props} />
             {nullable(problem.problemHistory, () => (
                 <>

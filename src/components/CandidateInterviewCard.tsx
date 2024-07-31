@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { nullable } from '@taskany/bricks';
 
 import { generatePath, Paths } from '../utils/paths';
 import { InterviewWithHireStreamRelation } from '../modules/interviewTypes';
@@ -6,9 +7,9 @@ import { useFormatDateToLocaleString } from '../hooks/useDateFormat';
 
 import { Card } from './Card';
 import { CardHeader } from './CardHeader';
-import { MarkdownRenderer } from './MarkdownRenderer/MarkdownRenderer';
 import { InterviewTags } from './InterviewTags';
 import { CardContent } from './CardContent';
+import Md from './Md';
 
 interface Props {
     interview: InterviewWithHireStreamRelation;
@@ -28,7 +29,9 @@ export const CandidateInterviewCard: FC<Props> = ({ interview }) => {
                 chips={<InterviewTags interview={interview} />}
             />
             <CardContent>
-                <MarkdownRenderer value={interview.description ?? ''} />
+                {nullable(interview.description ?? '', (d) => (
+                    <Md>{d}</Md>
+                ))}
             </CardContent>
         </Card>
     );

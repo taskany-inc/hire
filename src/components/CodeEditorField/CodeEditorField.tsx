@@ -5,7 +5,7 @@ import { nullable } from '@taskany/bricks';
 import { Button, Text, FormEditor, FormControl, FormControlError } from '@taskany/bricks/harmony';
 
 import { FormControlEditor } from '../FormControlEditorForm/FormControlEditorForm';
-import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
+import Md from '../Md';
 
 import { tr } from './CodeEditorField.i18n';
 import s from './CodeEditorField.module.css';
@@ -24,7 +24,6 @@ type CodeEditorFieldProps<T extends FieldValues> = {
 
 export const CodeEditorField = <T extends FieldValues>(props: CodeEditorFieldProps<T>): JSX.Element => {
     const { name, control, options, label, disableAttaches, uploadLink, passedError, ...restProps } = props;
-    const markdownRendererMinHeight = props.height;
     const [preview, setPreview] = useState(false);
     const previewButtonTitle = preview ? tr('Editing') : tr('Preview');
     const { field, fieldState } = useController({
@@ -35,11 +34,12 @@ export const CodeEditorField = <T extends FieldValues>(props: CodeEditorFieldPro
 
     return (
         <div className={s.CommentFormWrapper}>
-            <Text as="label" size="m" className={s.Label} weight="bold">
+            <Text size="m" className={s.Label} weight="bold">
                 {label}
             </Text>
+
             {preview ? (
-                <MarkdownRenderer minHeight={String(markdownRendererMinHeight)} value={control._getWatch(name)} />
+                nullable(control._getWatch(name), (n) => <Md className={s.Md}>{n}</Md>)
             ) : (
                 <>
                     <FormControl>

@@ -1,6 +1,7 @@
-import { ModalContent, ModalHeader, Button, ModalPreview, nullable } from '@taskany/bricks';
+import { ModalContent, ModalHeader, ModalPreview, nullable } from '@taskany/bricks';
 import { useCallback, useEffect, useState } from 'react';
 import cn from 'classnames';
+import { Button } from '@taskany/bricks/harmony';
 
 import { trpc } from '../../trpc/trpcClient';
 import { useLocale } from '../../hooks/useLocale';

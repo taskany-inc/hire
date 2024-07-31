@@ -2,7 +2,8 @@ import { FC, useState } from 'react';
 import { useRouter } from 'next/router';
 import { HireStream } from '@prisma/client';
 import styled from 'styled-components';
-import { Button, Text } from '@taskany/bricks';
+import { Text } from '@taskany/bricks';
+import { Button } from '@taskany/bricks/harmony';
 
 import { Paths } from '../../utils/paths';
 import { ROLE_DEBUG_COOKIE_NAME } from '../../utils/auth';
@@ -10,6 +11,7 @@ import { SectionTypeWithHireStream } from '../../modules/sectionTypeTypes';
 import { yearInSeconds } from '../../utils';
 
 import { tr } from './DebugRoles.i18n';
+import s from './DebugRoles.module.css';
 
 interface DebugRolesProps {
     hireStreams: HireStream[];
@@ -36,10 +38,6 @@ const StyledCheckBox = styled.input`
 
 const StyledText = styled(Text)`
     display: inline-block;
-`;
-
-const StyledButton = styled(Button)`
-    margin-left: 40px;
 `;
 
 export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) => {
@@ -199,9 +197,16 @@ export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) =
                 })}
             </StyledCards>
 
-            <Button view="primary" onClick={onSave} text={tr('Save')} />
+            <div className={s.DebugRolesButtonWrapper}>
+                <Button view="primary" onClick={onSave} text={tr('Save')} />
 
-            <StyledButton view="danger" onClick={onReset} text={tr('Reset debug cookie')} />
+                <Button
+                    className={s.DebugRolesResetButton}
+                    view="danger"
+                    onClick={onReset}
+                    text={tr('Reset debug cookie')}
+                />
+            </div>
         </div>
     );
 };

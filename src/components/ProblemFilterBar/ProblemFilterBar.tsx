@@ -9,12 +9,11 @@ import {
     FiltersSearchContainer,
     Input,
     FiltersMenuItem,
-    Button,
     FilterPopup,
     nullable,
 } from '@taskany/bricks';
 import styled from 'styled-components';
-import { gapS } from '@taskany/colors';
+import { Button } from '@taskany/bricks/harmony';
 
 import { useProblemCount } from '../../modules/problemHooks';
 import { mapEnum } from '../../utils';
@@ -28,6 +27,7 @@ import { Paths } from '../../utils/paths';
 import { useProblemFilterUrlParams } from '../../hooks/useProblemFilterUrlParams';
 
 import { tr } from './ProblemFilterBar.i18n';
+import s from './ProblemFilterBar.module.css';
 
 interface ProblemFilterBarProps {
     embedded?: boolean;
@@ -37,11 +37,6 @@ interface ProblemFilterBarProps {
 
 const StyledFilterBarAddButton = styled(FilterBarAddButton)`
     margin-left: 10px;
-`;
-
-const StyledResetButton = styled(Button)`
-    margin-left: auto;
-    margin-right: ${gapS};
 `;
 
 export const ProblemFilterBar = ({ embedded, loading, children }: ProblemFilterBarProps) => {
@@ -123,7 +118,7 @@ export const ProblemFilterBar = ({ embedded, loading, children }: ProblemFilterB
                         </FiltersMenuItem>
                         {children}
                     </FiltersMenuContainer>
-                    <StyledResetButton text="Reset" onClick={onResetFilers} />
+                    <Button className={s.ProblemFilterBarResetButton} text="Reset" onClick={onResetFilers} />
                     {!embedded && <StyledFilterBarAddButton text={tr('Add problem')} link={Paths.PROBLEMS_NEW} />}
                 </FiltersPanelContent>
             </FiltersPanelContainer>

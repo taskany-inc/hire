@@ -6,7 +6,8 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { danger0, gapS } from '@taskany/colors';
 import styled from 'styled-components';
-import { Button, Fieldset, Form, FormAction, FormActions, FormCard, Text } from '@taskany/bricks';
+import { Fieldset, Form, FormAction, FormActions, FormCard, Text } from '@taskany/bricks';
+import { Button } from '@taskany/bricks/harmony';
 
 import { generatePath, Paths } from '../../utils/paths';
 import { CreateInterview } from '../../modules/interviewTypes';
@@ -154,11 +155,9 @@ export function CandidateInterviewCreationForm({ candidate, preparedCvAttach }: 
                         <FormAction left inline></FormAction>
                         <FormAction right inline>
                             <Button
-                                size="m"
                                 view="primary"
                                 type="submit"
                                 text={tr('Add interview')}
-                                outline
                                 disabled={isSubmitting || isSubmitSuccessful}
                             />
                         </FormAction>

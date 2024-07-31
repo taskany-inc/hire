@@ -1,7 +1,8 @@
 import { ReactNode, useRef, useState, VFC } from 'react';
-import { Button, FormTitle, Modal, ModalContent, ModalCross, ModalHeader } from '@taskany/bricks';
+import { FormTitle, Modal, ModalContent, ModalCross, ModalHeader } from '@taskany/bricks';
 import { gapL, gapM, gapS } from '@taskany/colors';
 import styled from 'styled-components';
+import { Button } from '@taskany/bricks/harmony';
 
 import { AsyncAnyFunction } from '../../utils/types';
 
@@ -52,7 +53,6 @@ export const Confirmation: VFC<ConfirmationProps> = ({
                         onClick={onAgree}
                         view={destructive ? 'danger' : 'primary'}
                         disabled={inProgress}
-                        outline
                         type="submit"
                         text={tr('Ok')}
                     />

@@ -3,8 +3,9 @@ import { useRouter } from 'next/router';
 import { ComponentProps, useCallback, useMemo, useState } from 'react';
 import { HireStream } from '@prisma/client';
 import styled from 'styled-components';
-import { Button, Fieldset, Form, FormAction, FormActions, FormCard } from '@taskany/bricks';
+import { Fieldset, Form, FormAction, FormActions, FormCard } from '@taskany/bricks';
 import { gapS } from '@taskany/colors';
+import { Button } from '@taskany/bricks/harmony';
 
 import { pageHrefs } from '../../utils/paths';
 import { InterviewWithRelations, UpdateInterview } from '../../modules/interviewTypes';
@@ -158,7 +159,6 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
                                 view="primary"
                                 type="submit"
                                 text={tr('Save interview')}
-                                outline
                             />
                         </FormAction>
                     </FormActions>

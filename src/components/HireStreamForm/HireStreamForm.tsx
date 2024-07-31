@@ -2,8 +2,9 @@ import { HireStream } from '@prisma/client';
 import { VFC } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Fieldset, Form, FormAction, FormActions, FormCard, FormInput } from '@taskany/bricks';
+import { Fieldset, Form, FormAction, FormActions, FormCard, FormInput } from '@taskany/bricks';
 import styled from 'styled-components';
+import { Button } from '@taskany/bricks/harmony';
 
 import { CreateHireStream, createHireStreamSchema } from '../../modules/hireStreamTypes';
 import { useCreateHireStreamMutation } from '../../modules/hireStreamsHooks';
@@ -47,11 +48,9 @@ export const HireStreamForm: VFC<HireStreamFormProps> = ({ afterSubmit }) => {
                     <FormAction right inline>
                         <Button
                             disabled={isSubmitting || isSubmitSuccessful}
-                            size="m"
                             view="primary"
                             type="submit"
                             text={tr('Add hire stream')}
-                            outline
                         />
                     </FormAction>
                 </FormActions>

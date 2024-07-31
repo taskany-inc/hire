@@ -30,11 +30,7 @@ export const PageNavigationActionButton: FC<PageNavigationActionButtonProps> = (
             <Select
                 items={entityCreationMenuItems.map(({ path, text }) => ({ id: path, title: text }))}
                 onChange={onMenuItemClick}
-                renderItem={({ item }) => (
-                    <Text size="s" onClick={() => onMenuItemClick(item)}>
-                        {item.title}
-                    </Text>
-                )}
+                renderItem={({ item }) => <Text size="s">{item.title}</Text>}
             >
                 <SelectTrigger
                     renderTrigger={({ isOpen, ref, onClick }) => (

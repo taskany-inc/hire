@@ -164,7 +164,11 @@ export const HistoryRecord = ({ event }: InterviewHistoryCardProps) => {
     }, [event.action, event.subject]);
 
     return (
-        <HistoryRecordBricks authors={[event.user]} title={event.user.name || event.user.email} date={date}>
+        <HistoryRecordBricks
+            authors={[{ ...event.user, id: event.user.id.toString() }]}
+            title={event.user.name || event.user.email}
+            date={date}
+        >
             <EventComponent event={event} />
         </HistoryRecordBricks>
     );

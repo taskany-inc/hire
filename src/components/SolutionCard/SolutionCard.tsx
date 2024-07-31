@@ -3,7 +3,7 @@ import { SolutionResult } from '@prisma/client';
 import { Resolver, ResolverError, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { colorPrimary, danger0, gapL, gapM, gapS, gapXs, gray6 } from '@taskany/colors';
-import { Text, Popup } from '@taskany/bricks';
+import { Text, Popup, nullable } from '@taskany/bricks';
 import { Button } from '@taskany/bricks/harmony';
 import { IconArrowUpSmallOutline, IconArrowDownSmallOutline } from '@taskany/icons';
 
@@ -14,7 +14,6 @@ import { pageHrefs } from '../../utils/paths';
 import { validationRules } from '../../utils/validationRules';
 import { LocalStorageManager, useSectionSolutionAnswerPersisted } from '../../utils/localStorageManager';
 import { trpc } from '../../trpc/trpcClient';
-import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import { LoadingContainer } from '../LoadingContainer';
 import { Stack } from '../Stack';
 import { Card } from '../Card';
@@ -22,6 +21,7 @@ import { CardHeader } from '../CardHeader';
 import { CardContent } from '../CardContent';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { SwitchSolutionsOrderButton } from '../SwitchSolutionOrderButton/SwitchSolutionOrderButton';
+import Md from '../Md';
 
 import { tr } from './SolutionCard.i18n';
 import s from './SolutionCard.module.css';
@@ -80,10 +80,6 @@ const StyledResultErrorText = styled(Text)`
 
 const StyledResultText = styled(Text)`
     margin-top: ${gapM};
-`;
-
-const StyledMarkdownRenderer = styled(MarkdownRenderer)`
-    max-width: 900px;
 `;
 
 const StyledButtonStack = styled(Stack)`
@@ -234,14 +230,16 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                 </div>
             </StyledHeaderWrapper>
             <CardContent>
-                <StyledMarkdownRenderer value={problem.description} />
+                {nullable(problem.description, (d) => (
+                    <Md>{d}</Md>
+                ))}
 
                 <StyledProblemSolution size="s" as="div" onClick={() => setIsExpanded((v) => !v)}>
                     {tr('Possible Solution')}
                     {isExpanded ? <IconArrowUpSmallOutline size="s" /> : <IconArrowDownSmallOutline size="s" />}
                 </StyledProblemSolution>
 
-                {isExpanded && <StyledMarkdownRenderer value={problem.solution} />}
+                {isExpanded && nullable(problem.solution, (s) => <Md>{s}</Md>)}
 
                 <LoadingContainer isSpinnerVisible={isSpinnerVisible}>
                     <StyledCandidatesSolutionText size="l" forwardRef={solutionRef}>
@@ -249,7 +247,7 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                     </StyledCandidatesSolutionText>
 
                     {solution.answer && !editOpen ? (
-                        <StyledMarkdownRenderer value={solution.answer} />
+                        nullable(solution.answer, (a) => <Md>{a}</Md>)
                     ) : (
                         <form id={formId} onSubmit={handleSubmit(onSubmit)}>
                             <CodeEditorField

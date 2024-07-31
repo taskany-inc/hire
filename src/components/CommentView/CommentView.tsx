@@ -28,12 +28,12 @@ import { Link } from '../Link';
 import { accessChecks } from '../../modules/accessChecks';
 import { useSession } from '../../contexts/appSettingsContext';
 import { useDistanceDate } from '../../hooks/useDateFormat';
-import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import ReactionsDropdown from '../ReactionDropdown/ReactionDropdown';
 import { Reactions } from '../Reactions/Reactions';
 import { ReactionsMap } from '../../modules/reactionTypes';
 import { useReactionsResource } from '../../modules/reactionHooks';
 import { InterviewStatusCommentCard } from '../InterviewStatusCommentCard/InterviewStatusCommentCard';
+import Md from '../Md';
 
 import { tr } from './CommentView.i18n';
 import s from './CommentView.module.css';
@@ -214,7 +214,9 @@ export const CommentView: FC<CommentViewProps> = ({
                     )}
 
                     <CardContent view="transparent" className={s.CardComment}>
-                        <MarkdownRenderer className={s.Markdown} value={commentText.text} />
+                        {nullable(commentText.text, (t) => (
+                            <Md className={s.Markdown}>{t}</Md>
+                        ))}
 
                         <Reactions reactions={reactions} onClick={onReactionToggle}>
                             {nullable(!reactionsProps.limited, () => (

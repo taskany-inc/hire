@@ -1,6 +1,7 @@
 import {
     AnchorHTMLAttributes,
     BlockquoteHTMLAttributes,
+    DetailedHTMLProps,
     HTMLAttributes,
     ImgHTMLAttributes,
     LiHTMLAttributes,
@@ -23,4 +24,5 @@ export const markdownComponents = {
     p: (props: HTMLAttributes<HTMLDivElement>) => <Text as="p" {...props} />,
     strong: (props: HTMLAttributes<HTMLDivElement>) => <Text as="strong" {...props} />,
     blockquote: (props: BlockquoteHTMLAttributes<HTMLQuoteElement>) => <Text as="blockquote" {...props} />,
+    code: (props: DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>) => <code {...props} />,
 };

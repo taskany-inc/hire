@@ -1,15 +1,14 @@
 import styled from 'styled-components';
-import { Text } from '@taskany/bricks';
+import { nullable, Text } from '@taskany/bricks';
 import { gapS } from '@taskany/colors';
 
 import { SectionWithInterviewRelation } from '../../modules/interviewTypes';
 import { generatePath, Paths } from '../../utils/paths';
 import { Stack } from '../Stack';
-import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import { Card } from '../Card';
 import { CardHeader } from '../CardHeader';
-import { CardContent } from '../CardContent';
 import { SectionFeedbackHireBadge, SectionTypeBadge } from '../SectionFeedbackHireBadge/SectionFeedbackHireBadge';
+import Md from '../Md';
 
 import { tr } from './SectionList.i18n';
 
@@ -35,10 +34,6 @@ const StyledOpacityCard = styled(Card)<{ completed: boolean }>`
 
 const StyledWrapper = styled.div`
     margin: ${gapS} 0 0 ${gapS};
-`;
-
-const StyledMarkdownRenderer = styled(MarkdownRenderer)`
-    max-width: 600px;
 `;
 
 export const SectionList = ({ sections, header, completed = false }: SectionListProps) => {
@@ -73,11 +68,11 @@ export const SectionList = ({ sections, header, completed = false }: SectionList
                                     ]}
                                 />
 
-                                <CardContent>
-                                    {section.interview.description && (
-                                        <StyledMarkdownRenderer value={section.interview.description} />
-                                    )}
-                                </CardContent>
+                                <div>
+                                    {nullable(section.interview.description, (d) => (
+                                        <Md>{d}</Md>
+                                    ))}
+                                </div>
                             </StyledOpacityCard>
                         );
                     })

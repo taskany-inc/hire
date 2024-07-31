@@ -16,8 +16,8 @@ import s from './CommentView/CommentView.module.css';
 import { Circle } from './Circle';
 import { Link } from './Link';
 import { CardHeaderSection } from './CardHeaderSection/CardHeaderSection';
-import { MarkdownRenderer } from './MarkdownRenderer/MarkdownRenderer';
 import { getSectionChip } from './helpers';
+import Md from './Md';
 
 const SectionStatusColors: Record<SectionStatus, string> = {
     [SectionStatus.HIRE]: s.CardInfoHeaderHire,
@@ -60,7 +60,9 @@ export function InterviewSectionListItem({ section, interview, className, highli
                         ))}
                     </CardInfo>
                     <CardContent view="transparent" className={s.CardComment}>
-                        <MarkdownRenderer value={section.feedback ?? ''} />
+                        {nullable(section.feedback ?? '', (d) => (
+                            <Md>{d}</Md>
+                        ))}
                     </CardContent>
                 </Card>
             </ActivityFeedItem>

@@ -6,7 +6,8 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { danger0, gapS } from '@taskany/colors';
 import styled from 'styled-components';
-import { Button, FormInput, Text, Form, FormCard, FormActions, FormAction } from '@taskany/bricks';
+import { FormInput, Text, Form, FormCard, FormActions, FormAction } from '@taskany/bricks';
+import { Button } from '@taskany/bricks/harmony';
 
 import { useProblemCreateMutation, useProblemUpdateMutation } from '../../modules/problemHooks';
 import { pageHrefs } from '../../utils/paths';
@@ -203,7 +204,7 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                 <FormActions flat="top">
                     <FormAction left inline></FormAction>
                     <FormAction right inline>
-                        <Button type="submit" outline view="primary" disabled={isSubmitting} text={tr('Save')} />
+                        <Button type="submit" view="primary" disabled={isSubmitting} text={tr('Save')} />
                     </FormAction>
                 </FormActions>
             </Form>

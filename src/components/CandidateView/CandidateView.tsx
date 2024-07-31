@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import styled from 'styled-components';
-import { Text, Button } from '@taskany/bricks';
+import { Text } from '@taskany/bricks';
+import { Button } from '@taskany/bricks/harmony';
 
 import { pageHrefs } from '../../utils/paths';
 import { CandidateWithVendorRelation } from '../../modules/candidateTypes';
@@ -36,7 +37,7 @@ export const CandidateView: FC<Props> = ({ candidate, interviews, isShowAddButto
                 <CandidateBIO candidate={candidate} />
                 {isShowAddButton && (
                     <Link href={pageHrefs.candidateInterviewCreate(candidate.id)}>
-                        <Button outline view="primary" text={tr('Add interview')} />
+                        <Button view="primary" text={tr('Add interview')} />
                     </Link>
                 )}
             </Stack>

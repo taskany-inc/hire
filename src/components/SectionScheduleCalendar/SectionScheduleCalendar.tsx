@@ -1,9 +1,10 @@
 import { useState, useCallback, useMemo } from 'react';
 import { View } from 'react-big-calendar';
 import { User } from '@prisma/client';
-import { Text, Button, Modal, ModalHeader, ModalContent, FormInput } from '@taskany/bricks';
+import { Text, Modal, ModalHeader, ModalContent, FormInput } from '@taskany/bricks';
 import styled from 'styled-components';
 import { gapL, gapM, gapS } from '@taskany/colors';
+import { Button } from '@taskany/bricks/harmony';
 
 import { InlineDot } from '../InlineDot';
 import { DateRange, firstVisibleDay, lastVisibleDay } from '../../utils/date';
@@ -126,7 +127,7 @@ export function SectionScheduleCalendar({
                         <Button onClick={closeEventFormModal} text={tr('Cancel')} />
 
                         {!eventDetails?.interviewSection && eventDetails?.eventId && (
-                            <Button onClick={handleSlotSelectClicked} view="primary" outline text={tr('Choose')} />
+                            <Button onClick={handleSlotSelectClicked} view="primary" text={tr('Choose')} />
                         )}
                     </StyledButtonWrapper>
                 </ModalContent>

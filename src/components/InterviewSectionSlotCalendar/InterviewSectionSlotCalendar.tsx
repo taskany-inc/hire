@@ -1,7 +1,8 @@
 import { isSameMinute, differenceInMinutes } from 'date-fns';
 import { useMemo, useState } from 'react';
 import { View } from 'react-big-calendar';
-import { Modal, ModalContent, ModalHeader, FormTitle, Text, Button, ModalCross } from '@taskany/bricks';
+import { Modal, ModalContent, ModalHeader, FormTitle, Text, ModalCross } from '@taskany/bricks';
+import { Button } from '@taskany/bricks/harmony';
 
 import {
     useCalendarEventCreateMutation,

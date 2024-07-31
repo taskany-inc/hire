@@ -2,7 +2,8 @@ import { format } from 'date-fns';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { gapS } from '@taskany/colors';
-import { Button, Fieldset, Form, FormAction, FormActions, FormCard } from '@taskany/bricks';
+import { Fieldset, Form, FormAction, FormActions, FormCard } from '@taskany/bricks';
+import { Button } from '@taskany/bricks/harmony';
 
 import { DatePicker } from '../DatePicker';
 import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
@@ -57,7 +58,6 @@ export const CustomPeriodForm = ({ close }: CustomPeriodFormProps) => {
                             type="submit"
                             text={submitButtonText}
                             disabled={submitButtonDisabled}
-                            outline
                         />
                     </FormAction>
                 </FormActions>

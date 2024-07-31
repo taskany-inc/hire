@@ -3,7 +3,8 @@ import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
 import styled from 'styled-components';
-import { Form, Button, Fieldset, FormAction, FormActions, FormCard } from '@taskany/bricks';
+import { Form, Fieldset, FormAction, FormActions, FormCard } from '@taskany/bricks';
+import { Button } from '@taskany/bricks/harmony';
 
 import { CreateUser } from '../../modules/userTypes';
 import { useExternalUserSearch } from '../../modules/externalUserHooks';
@@ -80,11 +81,10 @@ export const NewUserForm = () => {
                     <FormAction right inline>
                         <Button
                             disabled={isSubmitting || isSubmitSuccessful}
-                            size="m"
+                            size="s"
                             view="primary"
                             type="submit"
                             text={tr('Add user')}
-                            outline
                         />
                     </FormAction>
                 </FormActions>

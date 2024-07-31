@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import styled from 'styled-components';
-import { Button, ModalContent, ModalHeader, ModalPreview, Text } from '@taskany/bricks';
-import { gapS, gray10 } from '@taskany/colors';
+import { ModalContent, ModalHeader, ModalPreview, Text } from '@taskany/bricks';
+import { gray10 } from '@taskany/colors';
+import { Button } from '@taskany/bricks/harmony';
 
 import { VacancyFilterBar } from '../VacancyFilterBar/VacancyFilterBar';
 import { VacancyList } from '../VacancyList/VacancyList';
@@ -9,15 +9,12 @@ import { Vacancy } from '../../modules/crewTypes';
 import { VacancyInfoById } from '../VacancyInfo/VacancyInfo';
 
 import { tr } from './AddVacancyToInterview.i18n';
+import s from './AddVacancyToInterview.module.css';
 
 interface AddVacancyToInterviewProps {
     vacancyId?: string | null;
     onSelect: (vacancy?: Vacancy) => void;
 }
-
-const StyledButton = styled(Button)`
-    margin-top: ${gapS};
-`;
 
 export const AddVacancyToInterview = ({ vacancyId, onSelect }: AddVacancyToInterviewProps) => {
     const [open, setOpen] = useState(false);
@@ -31,7 +28,11 @@ export const AddVacancyToInterview = ({ vacancyId, onSelect }: AddVacancyToInter
         return (
             <>
                 <VacancyInfoById vacancyId={vacancyId} />
-                <StyledButton text={tr('Remove vacancy')} onClick={() => onSelect(undefined)} />
+                <Button
+                    className={s.AddVacancyToInterviewRemoveButton}
+                    text={tr('Remove vacancy')}
+                    onClick={() => onSelect(undefined)}
+                />
             </>
         );
     }

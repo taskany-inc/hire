@@ -3,7 +3,8 @@ import { useRouter } from 'next/router';
 import { User } from '@prisma/client';
 import styled from 'styled-components';
 import { gray1 } from '@taskany/colors';
-import { Button, Text, UserPic } from '@taskany/bricks';
+import { Text, UserPic } from '@taskany/bricks';
+import { Button } from '@taskany/bricks/harmony';
 
 import { Paths } from '../../utils/paths';
 import { AUTH_DEBUG_COOKIE_NAME } from '../../utils/auth';

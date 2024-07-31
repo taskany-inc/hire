@@ -1,7 +1,8 @@
 import { SectionType } from '@prisma/client';
 import { useRouter } from 'next/router';
-import { Dropdown, Button } from '@taskany/bricks';
+import { Dropdown } from '@taskany/bricks';
 import { IconMoreVerticalSolid } from '@taskany/icons';
+import { Button } from '@taskany/bricks/harmony';
 
 import { pageHrefs } from '../../utils/paths';
 import { ColorizedMenuItem } from '../ColorizedMenuItem';
@@ -26,7 +27,6 @@ export function AssignSectionDropdownButton({ interviewId, sectionTypes }: Props
             items={sectionTypes}
             renderTrigger={(props) => (
                 <Button
-                    outline
                     view="primary"
                     iconRight={<IconMoreVerticalSolid size="s" />}
                     onClick={props.onClick}

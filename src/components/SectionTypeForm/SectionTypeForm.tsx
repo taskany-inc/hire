@@ -3,7 +3,6 @@ import { SectionType } from '@prisma/client';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
-    Button,
     Fieldset,
     Form,
     FormAction,
@@ -19,6 +18,7 @@ import {
 import { gapM, gapS, gray8 } from '@taskany/colors';
 import { IconAddOutline } from '@taskany/icons';
 import styled from 'styled-components';
+import { Button } from '@taskany/bricks/harmony';
 
 import {
     CreateSectionType,
@@ -142,14 +142,12 @@ export const SectionTypeForm: VFC<SectionTypeFormProps> = ({ afterSubmit, onCanc
                 <FormActions flat="top">
                     <FormAction left inline></FormAction>
                     <FormAction right inline>
-                        <Button onClick={onCancel} text={tr('Cancel')} size="m" outline type="button" />
+                        <Button onClick={onCancel} text={tr('Cancel')} type="button" />
                         <Button
-                            size="m"
                             view="primary"
                             type="submit"
                             disabled={isSubmitting || isSubmitSuccessful}
                             text={tr('Save')}
-                            outline
                         />
                     </FormAction>
                 </FormActions>

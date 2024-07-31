@@ -1,7 +1,6 @@
 import { ReactNode, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import {
-    Button,
     FilterPopup,
     FiltersCounter,
     FiltersCounterContainer,
@@ -13,7 +12,7 @@ import {
     Input,
     nullable,
 } from '@taskany/bricks';
-import { gapS } from '@taskany/colors';
+import { Button } from '@taskany/bricks/harmony';
 
 import { Filter } from '../Filter';
 import { mapEnum } from '../../utils';
@@ -26,6 +25,7 @@ import { DatesFilter } from '../DateFilter/DatesFilter';
 import { useSession } from '../../contexts/appSettingsContext';
 import { useVacancyFilterUrlParams, vacancyFilterValuesToRequestData } from '../../hooks/useVacancyFilterUrlParams';
 
+import s from './VacancyFilterBar.module.css';
 import { tr } from './VacancyFilterBar.i18n';
 
 interface VacancyFilterBarProps {
@@ -34,11 +34,6 @@ interface VacancyFilterBarProps {
 
 const StyledFiltersSearchContainer = styled(FiltersSearchContainer)`
     width: unset;
-`;
-
-const StyledResetButton = styled(Button)`
-    margin-left: auto;
-    margin-right: ${gapS};
 `;
 
 export const VacancyFilterBar = ({ children }: VacancyFilterBarProps) => {
@@ -191,7 +186,7 @@ export const VacancyFilterBar = ({ children }: VacancyFilterBarProps) => {
                         </FiltersMenuItem>
                         {children}
                     </FiltersMenuContainer>
-                    <StyledResetButton text={tr('Reset')} onClick={onFilterReset} />
+                    <Button className={s.VacancyFilterBarResetButton} text={tr('Reset')} onClick={onFilterReset} />
                 </FiltersPanelContent>
             </FiltersPanelContainer>
 

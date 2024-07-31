@@ -1,6 +1,7 @@
 import { useForm, useWatch } from 'react-hook-form';
 import { toDate } from 'date-fns';
-import { Button, Fieldset, Form, FormAction, FormActions, FormCard, FormInput, nullable } from '@taskany/bricks';
+import { Fieldset, Form, FormAction, FormActions, FormCard, FormInput, nullable } from '@taskany/bricks';
+import { Button } from '@taskany/bricks/harmony';
 
 import { useSession } from '../../contexts/appSettingsContext';
 import { DropdownFieldOption } from '../DropdownField';
@@ -128,7 +129,6 @@ export function CalendarEventForm({
                                     text={deleteButtonText}
                                     view="danger"
                                     size="m"
-                                    outline
                                     disabled={deleteButtonDisabled}
                                 />
                             )}
@@ -138,7 +138,6 @@ export function CalendarEventForm({
                                 view="primary"
                                 type="submit"
                                 text={tr('Save the event')}
-                                outline
                             />
                         </FormAction>
                     </FormActions>

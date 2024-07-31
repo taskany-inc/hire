@@ -2,8 +2,9 @@ import { FC, useState } from 'react';
 import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer-continued';
 import styled from 'styled-components';
 import { gapM, gapSm, gapXs, gray9 } from '@taskany/colors';
-import { Button, Text, nullable } from '@taskany/bricks';
+import { Text, nullable } from '@taskany/bricks';
 import { IconDividerLineOutline } from '@taskany/icons';
+import { Button } from '@taskany/bricks/harmony';
 
 import { UserAvatar } from '../UserAvatar';
 import { ProblemHistoryWithUser } from '../../modules/problemTypes';
@@ -92,8 +93,7 @@ export const ProblemHistoryCard: FC<ProblemHistoryCardProps> = ({ problemHistory
 
                 <VisibleContainer>
                     <Button
-                        ghost={!viewProblemHistoryDescription}
-                        outline={viewProblemHistoryDescription}
+                        view={!viewProblemHistoryDescription ? 'ghost' : 'default'}
                         iconRight={<IconDividerLineOutline size="xs" />}
                         onClick={handlerViewProblemHistoryDescription}
                     />

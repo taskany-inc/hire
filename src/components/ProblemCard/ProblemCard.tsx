@@ -1,8 +1,9 @@
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button, nullable } from '@taskany/bricks';
+import { nullable } from '@taskany/bricks';
 import { IconStarOutline, IconStarSolid } from '@taskany/icons';
 import { gray8, textColor } from '@taskany/colors';
+import { Button } from '@taskany/bricks/harmony';
 
 import { ProblemWithRelationsAndProblemSection } from '../../modules/problemTypes';
 import { generatePath, Paths } from '../../utils/paths';
@@ -127,7 +128,6 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded }) => {
                             </div>
                         }
                     />
-
                     <div className={s.Md}>
                         {nullable(problem.description, (d) => (
                             <Md>{d}</Md>
@@ -135,7 +135,12 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded }) => {
                     </div>
 
                     {isShowAddButton && (
-                        <Button className={s.Button} outline view="primary" onClick={addToSection} text={tr('Add')} />
+                        <Button
+                            className={s.ProblemCardAddToSectionButton}
+                            view="primary"
+                            onClick={addToSection}
+                            text={tr('Add')}
+                        />
                     )}
                 </Card>
             </LoadingContainer>

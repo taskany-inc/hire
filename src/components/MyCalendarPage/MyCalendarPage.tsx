@@ -1,18 +1,14 @@
 import { useCallback, useState } from 'react';
-import styled from 'styled-components';
-import { nullable, Button } from '@taskany/bricks';
-import { gapS } from '@taskany/colors';
+import { nullable } from '@taskany/bricks';
+import { Button } from '@taskany/bricks/harmony';
 
 import { useSession } from '../../contexts/appSettingsContext';
 import { trpc } from '../../trpc/trpcClient';
 import { InterviewSectionSlotCalendar } from '../InterviewSectionSlotCalendar/InterviewSectionSlotCalendar';
 import { LayoutMain } from '../LayoutMain/LayoutMain';
 
+import s from './MyCalendarPage.module.css';
 import { tr } from './MyCalendarPage.i18n';
-
-const StyledButtonWrapper = styled.div`
-    margin-bottom: ${gapS};
-`;
 
 export const MyCalendarPage = () => {
     const [hireStreamId, setHireStreamId] = useState<number | undefined>();
@@ -44,7 +40,7 @@ export const MyCalendarPage = () => {
     return (
         <LayoutMain pageTitle={tr('Calendar')}>
             {nullable(rights, () => (
-                <StyledButtonWrapper>
+                <div className={s.MyCalendarPageButtonWrapper}>
                     <Button
                         brick="right"
                         text={tr('My')}
@@ -60,7 +56,7 @@ export const MyCalendarPage = () => {
                             view={hireStreamId === hireStream.id ? 'primary' : 'default'}
                         />
                     ))}
-                </StyledButtonWrapper>
+                </div>
             ))}
             <InterviewSectionSlotCalendar my={!hireStreamId} interviewerIds={interviwerIds} />
         </LayoutMain>

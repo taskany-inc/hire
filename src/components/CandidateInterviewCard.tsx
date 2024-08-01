@@ -6,7 +6,7 @@ import { InterviewWithHireStreamRelation } from '../modules/interviewTypes';
 import { useFormatDateToLocaleString } from '../hooks/useDateFormat';
 
 import { Card } from './Card';
-import { CardHeader } from './CardHeader';
+import { CardHeader } from './CardHeader/CardHeader';
 import { InterviewTags } from './InterviewTags';
 import { CardContent } from './CardContent';
 import Md from './Md';

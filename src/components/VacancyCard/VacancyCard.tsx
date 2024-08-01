@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import { Vacancy, vacancyLabels, vacancyStatusColors } from '../../modules/crewTypes';
 import { Card } from '../Card';
-import { CardHeader } from '../CardHeader';
+import { CardHeader } from '../CardHeader/CardHeader';
 import { CardContent } from '../CardContent';
 import { InlineDot } from '../InlineDot';
 import { useHireStreams } from '../../modules/hireStreamsHooks';

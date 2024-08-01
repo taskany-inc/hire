@@ -6,7 +6,7 @@ import { SectionWithInterviewRelation } from '../../modules/interviewTypes';
 import { generatePath, Paths } from '../../utils/paths';
 import { Stack } from '../Stack';
 import { Card } from '../Card';
-import { CardHeader } from '../CardHeader';
+import { CardHeader } from '../CardHeader/CardHeader';
 import { SectionFeedbackHireBadge, SectionTypeBadge } from '../SectionFeedbackHireBadge/SectionFeedbackHireBadge';
 import Md from '../Md';
 

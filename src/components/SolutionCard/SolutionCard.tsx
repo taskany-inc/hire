@@ -17,7 +17,7 @@ import { trpc } from '../../trpc/trpcClient';
 import { LoadingContainer } from '../LoadingContainer';
 import { Stack } from '../Stack';
 import { Card } from '../Card';
-import { CardHeader } from '../CardHeader';
+import { CardHeader } from '../CardHeader/CardHeader';
 import { CardContent } from '../CardContent';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { SwitchSolutionsOrderButton } from '../SwitchSolutionOrderButton/SwitchSolutionOrderButton';

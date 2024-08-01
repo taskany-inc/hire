@@ -10,7 +10,7 @@ import { accessChecks } from '../../modules/accessChecks';
 import config from '../../config';
 import { TagChip } from '../TagChip';
 import { InterviewHireBadge } from '../InterviewHireBadge';
-import { CardHeader } from '../CardHeader';
+import { CardHeader } from '../CardHeader/CardHeader';
 import { Card } from '../Card';
 import { Stack } from '../Stack';
 import { CardContent } from '../CardContent';

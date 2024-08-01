@@ -6,7 +6,7 @@ import { IconCircleOutline, IconTickCircleOutline } from '@taskany/icons';
 
 import { useDeleteSectionTypeMutation } from '../../modules/sectionTypeHooks';
 import { Card } from '../Card';
-import { CardHeader } from '../CardHeader';
+import { CardHeader } from '../CardHeader/CardHeader';
 import { CardContent } from '../CardContent';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
 import { DropdownMenuItem } from '../TagFilterDropdown';

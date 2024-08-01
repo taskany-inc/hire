@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.54.0](https://github.com/taskany-inc/hire/compare/v0.53.2...v0.54.0) (2024-08-01)
+
+
+### Features
+
+* **calendar:** harmony style for buttons ([9ad3094](https://github.com/taskany-inc/hire/commit/9ad3094719739d4dd5972271b3d3110d02f196ee))
+* **Markdown:** add md from harmony ([2009f1a](https://github.com/taskany-inc/hire/commit/2009f1a6b374dc0b700e5898e0b3b109ca970830))
+
+
+### Bug Fixes
+
+* **CardHeader:** remove styled-component ([0824121](https://github.com/taskany-inc/hire/commit/08241213b48855276715569e53eb1fda25c31808))
+* **historyEvent:** remove user id ([d46a491](https://github.com/taskany-inc/hire/commit/d46a4911f80b7653d43ca424d812c7d2c0196155))
+* move period map in component ([2a94614](https://github.com/taskany-inc/hire/commit/2a9461409c38ad9b33825d5ea1d0296b48606a79))
+
 ## [0.53.2](https://github.com/taskany-inc/hire/compare/v0.53.1...v0.53.2) (2024-07-29)
 
 

@@ -17,13 +17,13 @@ import {
 } from '../../modules/userHooks';
 import { LoadingContainer } from '../LoadingContainer';
 import { Card } from '../Card';
-import { CardHeader } from '../CardHeader';
 import { Link } from '../Link';
 import { TagChip } from '../TagChip';
 import { UnavailableContainer } from '../UnavailableContainer';
 import { useDistanceDate } from '../../hooks/useDateFormat';
 import { ProblemDifficultyIcon } from '../ProblemDifficultyIcon/ProblemDifficultyIcon';
 import Md from '../Md';
+import { CardHeader } from '../CardHeader/CardHeader';
 
 import { tr } from './ProblemCard.i18n';
 import s from './ProblemCard.module.css';

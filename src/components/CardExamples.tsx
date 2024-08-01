@@ -8,7 +8,7 @@ import { TagChip } from './TagChip';
 import { Stack } from './Stack';
 import { InlineDot } from './InlineDot';
 import { Card } from './Card';
-import { CardHeader } from './CardHeader';
+import { CardHeader } from './CardHeader/CardHeader';
 import { CardFooter } from './CardFooter';
 import { CardContent } from './CardContent';
 

@@ -1,0 +1,20 @@
+.TitleWrapper {
+    display: flex;
+    align-items: baseline;
+    gap: var(--gap-xs);
+}
+
+.Title {
+    line-height: 40px;
+}
+
+.ChipsWrapper {
+    transform: translateY(-5px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-xs);
+}
+
+.SubTitle {
+    color: var(--text-secondary);
+}

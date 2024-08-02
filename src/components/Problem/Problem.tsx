@@ -111,7 +111,7 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
 
             <ProblemStats good={problem.solutionsGood} ok={problem.solutionsOk} bad={problem.solutionsBad} />
             {nullable(problem.description, (d) => (
-                <Md className={s.ProblemCommentWrapper}>{d}</Md>
+                <Md className={s.ProblemMdWrapper}>{d}</Md>
             ))}
 
             <StyledTitle size="xl" onClick={toggleSolutionExpansion}>
@@ -120,7 +120,7 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
             </StyledTitle>
 
             {nullable(isSolutionExpanded && problem.solution, (d) => (
-                <Md className={s.ProblemCommentWrapper}>{d}</Md>
+                <Md className={s.ProblemMdWrapper}>{d}</Md>
             ))}
             <Confirmation {...problemRemoveConfirmation.props} />
             {nullable(problem.problemHistory, () => (

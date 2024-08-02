@@ -1,11 +1,11 @@
 .TitleWrapper {
     display: flex;
     align-items: baseline;
-    gap: var(--gap-xs);
+    gap: var(--gap-s);
 }
 
 .Title {
-    line-height: 40px;
+    line-height: var(--gap-xxs);
 }
 
 .ChipsWrapper {

@@ -1,9 +1,8 @@
-import { useCallback, useMemo, useState, VFC } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
-import { textColor, link0, gray8 } from '@taskany/colors';
 import { Button, nullable } from '@taskany/bricks';
 import { IconStarOutline, IconStarSolid } from '@taskany/icons';
+import { gray8, textColor } from '@taskany/colors';
 
 import { ProblemWithRelationsAndProblemSection } from '../../modules/problemTypes';
 import { generatePath, Paths } from '../../utils/paths';
@@ -28,46 +27,13 @@ import { CardHeader } from '../CardHeader/CardHeader';
 import { tr } from './ProblemCard.i18n';
 import s from './ProblemCard.module.css';
 
-const StyledAddButton = styled(Button)`
-    margin-top: 10px;
-`;
-
-const StyledCardHeader = styled(CardHeader)<{
-    isSmallSize?: boolean;
-}>`
-    max-width: ${({ isSmallSize }) => isSmallSize && '630px'};
-`;
-const StyledAuthor = styled.span`
-    color: ${textColor};
-`;
-
-const StyledLink = styled(Link)`
-    font-size: 24px;
-    color: ${gray8};
-
-    &:hover {
-        color: ${link0};
-    }
-`;
-
-const IconStarWrapper = styled.div`
-    margin-top: -6px;
-`;
-
-const StyledChipWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-`;
-
 export interface ProblemCardProps {
     problem: ProblemWithRelationsAndProblemSection;
     embedded?: boolean;
     isSmallSize?: boolean;
 }
 
-export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallSize }) => {
+export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded }) => {
     const router = useRouter();
     const utils = trpc.useContext();
     const addToFavoritesMutation = useAddProblemToFavoritesMutation();
@@ -101,22 +67,22 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
     }, [sectionId, solutionCreateMutation, problem.id, utils, interviewId, router]);
 
     const favoriteAction = isFavorite ? (
-        <IconStarWrapper>
+        <div className={s.StarWrapper}>
             <IconStarSolid
                 size="m"
                 color="#FF00E5"
                 onClick={() => removeFromFavoritesMutation.mutate({ problemId: problem.id })}
             />
-        </IconStarWrapper>
+        </div>
     ) : (
-        <IconStarWrapper>
+        <div className={s.StarWrapper}>
             <IconStarOutline
                 stroke={0.8}
                 size="m"
                 color="#FF00E5"
                 onClick={() => addToFavoritesMutation.mutate({ problemId: problem.id })}
             />
-        </IconStarWrapper>
+        </div>
     );
 
     const isShowAddButton = !problem.isUsed && embedded;
@@ -132,9 +98,9 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
 
         return (
             pathToSection && (
-                <StyledLink href={pathToSection}>
+                <Link color={gray8} href={pathToSection}>
                     {tr('Asked in the section')} {problem.problemSection?.sectionType.title}
-                </StyledLink>
+                </Link>
             )
         );
     };
@@ -144,22 +110,21 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
             <LoadingContainer isSpinnerVisible={isSpinnerVisible}>
                 <Card action={favoriteAction}>
                     {/* TODO add authorId and tagId to filter onClick */}
-                    <StyledCardHeader
+                    <CardHeader
                         title={problem.name}
-                        isSmallSize={isSmallSize}
                         link={generatePath(Paths.PROBLEM, { problemId: problem.id })}
                         subTitle={
-                            <StyledAuthor>
+                            <span color={textColor}>
                                 {tr('Added by')} {problem.author.name} {date}
-                            </StyledAuthor>
+                            </span>
                         }
                         chips={
-                            <StyledChipWrapper>
+                            <div className={s.ChipWrapper}>
                                 {problem.tags.map((tag) => (
                                     <TagChip tag={tag} key={tag.id} />
                                 ))}
                                 <ProblemDifficultyIcon difficulty={problem.difficulty} />
-                            </StyledChipWrapper>
+                            </div>
                         }
                     />
 
@@ -170,7 +135,7 @@ export const ProblemCard: VFC<ProblemCardProps> = ({ problem, embedded, isSmallS
                     </div>
 
                     {isShowAddButton && (
-                        <StyledAddButton outline view="primary" onClick={addToSection} text={tr('Add')} />
+                        <Button className={s.Button} outline view="primary" onClick={addToSection} text={tr('Add')} />
                     )}
                 </Card>
             </LoadingContainer>

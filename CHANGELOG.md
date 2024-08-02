@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.54.1](https://github.com/taskany-inc/hire/compare/v0.54.0...v0.54.1) (2024-08-02)
+
+
+### Bug Fixes
+
+* **ProblemCard:** corrected layout of problem card and card header ([43658dc](https://github.com/taskany-inc/hire/commit/43658dc7cc557d7c283718dda82c5a12a1cc969b))
+
 ## [0.54.0](https://github.com/taskany-inc/hire/compare/v0.53.2...v0.54.0) (2024-08-01)
 
 

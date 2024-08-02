@@ -1,3 +1,8 @@
 .ProblemCommentWrapper {
     width: 600px;
 }
+
+.ProblemMdWrapper {
+    width: 900px;
+    margin-top: var(--gap-s);
+}

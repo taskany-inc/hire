@@ -6,6 +6,10 @@
   align-items: center;
   height: 60.5px;
   box-sizing: border-box;
+  position: fixed;
+  width: calc(100% - 200px);
+  margin-top: -60.5px;
+  z-index: 1;
 }
 
 .PageHeaderUserPopup {

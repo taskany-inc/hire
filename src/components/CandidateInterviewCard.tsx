@@ -4,7 +4,7 @@ import { generatePath, Paths } from '../utils/paths';
 import { InterviewWithHireStreamRelation } from '../modules/interviewTypes';
 import { useFormatDateToLocaleString } from '../hooks/useDateFormat';
 
-import { Card } from './Card';
+import { Card } from './Card/Card';
 import { CardHeader } from './CardHeader';
 import { MarkdownRenderer } from './MarkdownRenderer/MarkdownRenderer';
 import { InterviewTags } from './InterviewTags';

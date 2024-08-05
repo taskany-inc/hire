@@ -1,3 +1,55 @@
 .CodeEditorField {
     max-width: 900px;
 }
+
+.SolutionCardHeaderWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.SolutionCardProblemSolution {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    margin-top: var(--gap-m);
+    gap: var(--gap-xs);
+}
+
+.SolutionCard {
+    width: 900px;
+}
+
+.SolutionCardCandidatesSolutionText {
+    margin-top: var(--gap-l);
+    margin-bottom: var(--gap-s);
+}
+
+.SolutionCardResultButtonStack {
+    margin-top: var(--gap-m);
+    width: max-content;
+}
+
+.SolutionCardErrorTextWrapper {
+    position: relative;
+}
+
+.SolutionCardResultErrorText {
+    margin-top: var(--gap-xs);
+    position: absolute;
+}
+
+.SolutionCardResultText {
+    margin-top: var(--gap-m);
+}
+
+.SolutionCardMarkdownRenderer {
+    max-width: 900px;
+}
+
+.SolutionCardButtonStack {
+    margin-top: var(--gap-m);
+    margin-left: auto;
+    width: max-content;
+}
+

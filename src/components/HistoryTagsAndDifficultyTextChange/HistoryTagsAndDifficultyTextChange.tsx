@@ -1,19 +1,15 @@
 import { nullable, Text } from '@taskany/bricks';
-import styled from 'styled-components';
 
 import { tr } from './HistoryTagsAndDifficultyTextChange.i18n';
+import s from './HistoryTagsAndDifficultyTextChange.module.css';
 
 interface HistoryChangeProps {
     from?: string | null;
     to?: string | null;
 }
 
-const StyledFlexReset = styled.div`
-    width: 100%;
-`;
-
 export const HistoryTagsAndDifficultyTextChange: React.FC<HistoryChangeProps> = ({ from, to }) => (
-    <StyledFlexReset>
+    <div className={s.HistoryTagsAndDifficultyTextChange}>
         {nullable(from, () => (
             <div>
                 <Text as="span" size="xs" strike>
@@ -28,5 +24,5 @@ export const HistoryTagsAndDifficultyTextChange: React.FC<HistoryChangeProps> = 
                 </Text>
             </div>
         ))}
-    </StyledFlexReset>
+    </div>
 );

@@ -3,3 +3,11 @@
     margin-bottom: var(--gap-xs);
 }
 
+.CandidateInterviewCreationFormFormCard {
+    width: 500px;
+}
+
+.CandidateInterviewCreationFormVacancyWrapper {
+    margin-left: var(--gap-s);
+}
+

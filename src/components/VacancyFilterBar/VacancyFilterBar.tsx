@@ -1,5 +1,4 @@
 import { ReactNode, useMemo, useRef, useState } from 'react';
-import styled from 'styled-components';
 import {
     FilterPopup,
     FiltersCounter,
@@ -31,10 +30,6 @@ import { tr } from './VacancyFilterBar.i18n';
 interface VacancyFilterBarProps {
     children?: ReactNode;
 }
-
-const StyledFiltersSearchContainer = styled(FiltersSearchContainer)`
-    width: unset;
-`;
 
 export const VacancyFilterBar = ({ children }: VacancyFilterBarProps) => {
     const session = useSession();
@@ -164,13 +159,13 @@ export const VacancyFilterBar = ({ children }: VacancyFilterBarProps) => {
         <>
             <FiltersPanelContainer>
                 <FiltersPanelContent>
-                    <StyledFiltersSearchContainer>
+                    <FiltersSearchContainer className={s.VacancyFilterBarFiltersSearchContainer}>
                         <Input
                             placeholder={tr('Search')}
                             defaultValue={values.search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
-                    </StyledFiltersSearchContainer>
+                    </FiltersSearchContainer>
 
                     <FiltersCounterContainer>
                         <FiltersCounter counter={count} total={total} />

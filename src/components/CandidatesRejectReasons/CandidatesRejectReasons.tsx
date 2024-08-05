@@ -1,6 +1,5 @@
 import { HireStream } from '@prisma/client';
 import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts';
-import styled from 'styled-components';
 import { backgroundColor } from '@taskany/colors';
 import { Text } from '@taskany/bricks';
 
@@ -10,6 +9,7 @@ import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
 
 import { tr } from './CandidatesRejectReasons.i18n';
+import s from './CandidatesRejectReasons.module.css';
 
 interface Props {
     allStreams: HireStream[];
@@ -35,19 +35,6 @@ const formatLegend = (_value: any, entry: any) => {
     return `${entry?.payload?.rejectreason}: ${entry?.payload?.candidate} (${percent}%)`;
 };
 
-const StyledChartWrapper = styled.div`
-    /* stylelint-disable-next-line selector-nested-pattern */
-    .recharts-default-legend {
-        width: 0;
-        overflow: visible;
-    }
-
-    /* stylelint-disable-next-line selector-nested-pattern */
-    .recharts-legend-item {
-        width: max-content;
-    }
-`;
-
 export const CandidatesRejectReasons = ({ allStreams }: Props) => {
     const { startDate, endDate, hireStreams: choosenStreams } = useAnalyticsFilterUrlParams(allStreams);
     const hireStreams = choosenStreams.length === 0 ? allStreams : choosenStreams;
@@ -65,7 +52,7 @@ export const CandidatesRejectReasons = ({ allStreams }: Props) => {
             </Text>
             <QueryResolver queries={[dataQuery]}>
                 {([data]) => (
-                    <StyledChartWrapper>
+                    <div className={s.CandidatesRejectReasonsChartWrapper}>
                         <PieChart width={700} height={500}>
                             <Pie
                                 data={data}
@@ -89,7 +76,7 @@ export const CandidatesRejectReasons = ({ allStreams }: Props) => {
                             />
                             <Legend layout="vertical" verticalAlign="middle" align="right" formatter={formatLegend} />
                         </PieChart>
-                    </StyledChartWrapper>
+                    </div>
                 )}
             </QueryResolver>
         </>

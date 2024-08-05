@@ -2,11 +2,11 @@ import { FiltersApplied } from '@taskany/bricks';
 import { useMemo } from 'react';
 import { Tag, User, ProblemDifficulty } from 'prisma/prisma-client';
 import { gray7 } from '@taskany/colors';
-import styled from 'styled-components';
 
 import { arrayToAppliedString } from '../../utils';
 
 import { tr } from './ProblemFilterApplied.i18n';
+import s from './ProblemFilterApplied.module.css';
 
 interface ProblemFilterAppliedProps {
     authors?: User[];
@@ -15,10 +15,6 @@ interface ProblemFilterAppliedProps {
     tags?: Tag[];
     tagIds?: number[];
 }
-
-const StyledApplied = styled(FiltersApplied)`
-    position: absolute;
-`;
 
 export const ProblemFilterApplied = ({ difficulty, tags, tagIds, authorIds, authors }: ProblemFilterAppliedProps) => {
     const filterAppliedString = useMemo(() => {
@@ -39,8 +35,8 @@ export const ProblemFilterApplied = ({ difficulty, tags, tagIds, authorIds, auth
     }, [authors, authorIds, difficulty, tags, tagIds]);
 
     return (
-        <StyledApplied size="s" weight="bold" color={gray7}>
+        <FiltersApplied size="s" weight="bold" color={gray7} className={s.ProblemFilterApplied}>
             {filterAppliedString}
-        </StyledApplied>
+        </FiltersApplied>
     );
 };

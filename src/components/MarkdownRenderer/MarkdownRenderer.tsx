@@ -1,5 +1,4 @@
 import { CSSProperties, useRef, useState, VFC } from 'react';
-import styled from 'styled-components';
 import { Text, Popup } from '@taskany/bricks';
 import { IconFileOutline } from '@taskany/icons';
 import ReactMarkdown from 'react-markdown';
@@ -7,25 +6,14 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import remarkGFM from 'remark-gfm';
 import remarkEmoji from 'remark-emoji';
+import cn from 'classnames';
 
 import { PropsWithClassName } from '../../utils/types';
 import { useAppSettingsContext } from '../../contexts/appSettingsContext';
 import { IconButton } from '../IconButton';
 
 import { tr } from './MarkdownRenderer.i18n';
-
-const StyledRootText = styled(Text)`
-    word-break: break-word;
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: end;
-`;
-
-const StyledReactMarkdown = styled(ReactMarkdown)`
-    display: flex;
-    flex-direction: column;
-`;
+import s from './MarkdownRenderer.module.css';
 
 type MarkdownRendererProps = PropsWithClassName<{
     value: string;
@@ -48,8 +36,8 @@ export const MarkdownRenderer: VFC<MarkdownRendererProps> = ({
 
     return (
         <div style={{ minHeight, ...style }}>
-            <StyledRootText as="div" className={className}>
-                <StyledReactMarkdown
+            <Text as="div" className={cn(className, s.MarkdownRendererRootText)}>
+                <ReactMarkdown
                     remarkPlugins={[remarkGFM, remarkEmoji]}
                     components={{
                         code({ node, inline, className, children, ...props }) {
@@ -71,9 +59,10 @@ export const MarkdownRenderer: VFC<MarkdownRendererProps> = ({
                             );
                         },
                     }}
+                    className={s.MarkdownRendererReactMarkdown}
                 >
                     {value}
-                </StyledReactMarkdown>
+                </ReactMarkdown>
                 {hasCopyButton && (
                     <IconButton
                         ref={popupRef}
@@ -97,7 +86,7 @@ export const MarkdownRenderer: VFC<MarkdownRendererProps> = ({
                         </Popup>
                     </IconButton>
                 )}
-            </StyledRootText>
+            </Text>
         </div>
     );
 };

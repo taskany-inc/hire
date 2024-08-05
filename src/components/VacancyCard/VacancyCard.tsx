@@ -4,7 +4,7 @@ import { gray10, textColor } from '@taskany/colors';
 import { Button } from '@taskany/bricks/harmony';
 
 import { Vacancy, vacancyLabels, vacancyStatusColors } from '../../modules/crewTypes';
-import { Card } from '../Card';
+import { Card } from '../Card/Card';
 import { CardHeader } from '../CardHeader';
 import { CardContent } from '../CardContent';
 import { InlineDot } from '../InlineDot';

@@ -3,17 +3,13 @@ import { VFC } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Fieldset, Form, FormAction, FormActions, FormCard, FormInput } from '@taskany/bricks';
-import styled from 'styled-components';
 import { Button } from '@taskany/bricks/harmony';
 
 import { CreateHireStream, createHireStreamSchema } from '../../modules/hireStreamTypes';
 import { useCreateHireStreamMutation } from '../../modules/hireStreamsHooks';
 
 import { tr } from './HireStreamForm.i18n';
-
-const StyledFormCard = styled(FormCard)`
-    width: 500px;
-`;
+import s from './HireStreamForm.module.css';
 
 interface HireStreamFormProps {
     afterSubmit: (hireStream: HireStream) => void;
@@ -32,7 +28,7 @@ export const HireStreamForm: VFC<HireStreamFormProps> = ({ afterSubmit }) => {
     const onSubmit = handleSubmit((values) => createHireStream.mutateAsync(values).then(afterSubmit));
 
     return (
-        <StyledFormCard>
+        <FormCard className={s.HireStreamFormCard}>
             <Form onSubmit={onSubmit}>
                 <Fieldset>
                     <FormInput
@@ -55,6 +51,6 @@ export const HireStreamForm: VFC<HireStreamFormProps> = ({ afterSubmit }) => {
                     </FormAction>
                 </FormActions>
             </Form>
-        </StyledFormCard>
+        </FormCard>
     );
 };

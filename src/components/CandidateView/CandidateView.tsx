@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import styled from 'styled-components';
 import { Text } from '@taskany/bricks';
 import { Button } from '@taskany/bricks/harmony';
 
@@ -13,11 +12,7 @@ import { useDistanceDate } from '../../hooks/useDateFormat';
 import { CandidateInterviewCard } from '../CandidateInterviewCard';
 
 import { tr } from './CandidateView.i18n';
-
-const StyledTitle = styled(Text)`
-    margin-top: 60px;
-    margin-bottom: 50px;
-`;
+import s from './CandidateView.module.css';
 
 interface Props {
     candidate: CandidateWithVendorRelation;
@@ -44,7 +39,9 @@ export const CandidateView: FC<Props> = ({ candidate, interviews, isShowAddButto
 
             {interviews.length > 0 && (
                 <>
-                    <StyledTitle size="xxl">{tr('Interview Logs')}</StyledTitle>
+                    <Text size="xxl" className={s.CandidateViewTitle}>
+                        {tr('Interview Logs')}
+                    </Text>
                     {interviews.map((interview) => (
                         <CandidateInterviewCard interview={interview} key={interview.id} />
                     ))}

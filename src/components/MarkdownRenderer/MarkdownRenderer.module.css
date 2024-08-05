@@ -1,0 +1,12 @@
+.MarkdownRendererRootText {
+    word-break: break-word;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.MarkdownRendererReactMarkdown {
+    display: flex;
+    flex-direction: column;
+}

@@ -17,7 +17,7 @@ import {
 } from '../../modules/userHooks';
 import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import { LoadingContainer } from '../LoadingContainer';
-import { Card } from '../Card';
+import { Card } from '../Card/Card';
 import { CardContent } from '../CardContent';
 import { CardHeader } from '../CardHeader';
 import { Link } from '../Link';

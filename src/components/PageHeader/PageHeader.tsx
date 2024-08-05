@@ -1,8 +1,6 @@
 import { ComponentProps, useMemo, useRef, useState } from 'react';
 import NextLink from 'next/link';
-import styled from 'styled-components';
 import { useRouter } from 'next/router';
-import { textColor } from '@taskany/colors';
 import {
     Dropdown,
     Header,
@@ -26,16 +24,7 @@ import { useHeaderMenu } from '../../hooks/useHeaderMenu';
 import { PageHeaderLogo } from '../PageHeaderLogo';
 
 import { tr } from './PageHeader.i18n';
-
-const StyledDescription = styled.div`
-    color: ${textColor};
-    white-space: pre-wrap;
-`;
-
-const StyledHeaderNav = styled(HeaderNav)`
-    display: flex;
-    align-items: center;
-`;
+import s from './PageHeader.module.css';
 
 export const PageHeader: React.FC<{
     logo?: ComponentProps<typeof PageHeaderLogo>['logo'];
@@ -116,18 +105,18 @@ export const PageHeader: React.FC<{
                         reference={popupRef}
                         visible={popupVisible}
                     >
-                        <StyledDescription>{description}</StyledDescription>
+                        <div className={s.PageHeaderDescription}>{description}</div>
                     </Popup>
                 </>
             }
             nav={
-                <StyledHeaderNav>
+                <HeaderNav className={s.PageHeaderNav}>
                     {entityListMenuItems.map((item, index) => (
                         <NextLink key={index + item.text} href={item.path} passHref legacyBehavior>
                             <HeaderNavLink>{item.text}</HeaderNavLink>
                         </NextLink>
                     ))}
-                </StyledHeaderNav>
+                </HeaderNav>
             }
         >
             <HeaderContent>

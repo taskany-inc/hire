@@ -2,12 +2,12 @@ import { FiltersApplied } from '@taskany/bricks';
 import { useMemo } from 'react';
 import { User } from 'prisma/prisma-client';
 import { gray7 } from '@taskany/colors';
-import styled from 'styled-components';
 
 import { Vacancy } from '../../modules/crewTypes';
 import { arrayToAppliedString } from '../../utils';
 
 import { tr } from './CandidateFilterApplied.i18n';
+import s from './CandidateFilterApplied.module.css';
 
 interface ProblemFilterAppliedProps {
     hireStreams?: { id: number; name: string }[];
@@ -18,10 +18,6 @@ interface ProblemFilterAppliedProps {
     vacancies?: Vacancy[];
     vacancyIds?: string[];
 }
-
-const StyledApplied = styled(FiltersApplied)`
-    position: absolute;
-`;
 
 export const CandidateFilterApplied = ({
     hireStreams,
@@ -55,8 +51,8 @@ export const CandidateFilterApplied = ({
     }, [hireStreams, hireStreamIds, interviewStatuses, hrs, hrIds, vacancies, vacancyIds]);
 
     return (
-        <StyledApplied size="s" weight="bold" color={gray7}>
+        <FiltersApplied size="s" weight="bold" color={gray7} className={s.CandidateFilterApplied}>
             {filterAppliedString}
-        </StyledApplied>
+        </FiltersApplied>
     );
 };

@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 
 import { useAllowedHireStreams } from '../../modules/hireStreamsHooks';
 import { Paths } from '../../utils/paths';
@@ -7,23 +6,19 @@ import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { CardHeader } from '../CardHeader';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { HireStreamAnalyticsList } from '../HireStreamAnalyticsList';
-import { Card } from '../Card';
+import { Card } from '../Card/Card';
 
 import { tr } from './Analytics.i18n';
-
-const StyledCard = styled(Card)`
-    width: max-content;
-    margin-bottom: 6px;
-`;
+import s from './Analytics.module.css';
 
 export const Analytics = () => {
     const hireStreamsQuery = useAllowedHireStreams();
 
     return (
         <LayoutMain pageTitle={tr('Analytics')}>
-            <StyledCard>
+            <Card className={s.AnalyticsCard}>
                 <CardHeader title={tr('General charts')} link={Paths.ANALYTICS_COMMON} />
-            </StyledCard>
+            </Card>
 
             <QueryResolver queries={[hireStreamsQuery]}>
                 {([hireStreams]) => <HireStreamAnalyticsList hireStreams={hireStreams} />}

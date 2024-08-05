@@ -2,7 +2,6 @@ import { useMemo, FC } from 'react';
 import { useRouter } from 'next/router';
 import { nullable, Text } from '@taskany/bricks';
 import { gapS, gray10 } from '@taskany/colors';
-import styled from 'styled-components';
 import { RejectReason, SectionType } from '@prisma/client';
 
 import { pageHrefs } from '../../utils/paths';
@@ -34,14 +33,6 @@ interface InterviewProps {
     sectionTypes: SectionType[];
     rejectReasons: RejectReason[];
 }
-
-const StyledTitle = styled(Text)`
-    margin-top: 50px;
-    display: flex;
-    margin-bottom: 40px;
-    align-items: center;
-    gap: 5px;
-`;
 
 export const Interview: FC<InterviewProps> = ({ interview, sectionTypes, rejectReasons }) => {
     const router = useRouter();
@@ -150,7 +141,9 @@ export const Interview: FC<InterviewProps> = ({ interview, sectionTypes, rejectR
                 {canCreateSections && (
                     <AssignSectionDropdownButton interviewId={interviewId} sectionTypes={sectionTypes} />
                 )}
-                <StyledTitle size="xl">{tr('Activity Feed')}</StyledTitle>
+                <Text size="xl" className={s.InterviewTitle}>
+                    {tr('Activity Feed')}
+                </Text>
 
                 <div className={s.InterviewCommentWrapper}>
                     {nullable(interview.activityFeed, (activityFeed) =>

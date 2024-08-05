@@ -1,3 +1,13 @@
 .InterviewCommentWrapper {
     max-width: 600px;
 }
+.InterviewTitle {
+
+    margin-top: 50px;
+    display: flex;
+    margin-bottom: 40px;
+    align-items: center;
+    gap: 5px;
+
+}
+

@@ -4,8 +4,7 @@ import { ComponentProps, useCallback, useMemo, useState } from 'react';
 import { Candidate } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { danger0, gapS } from '@taskany/colors';
-import styled from 'styled-components';
+import { danger0 } from '@taskany/colors';
 import { Fieldset, Form, FormAction, FormActions, FormCard, Text } from '@taskany/bricks';
 import { Button } from '@taskany/bricks/harmony';
 
@@ -29,10 +28,6 @@ import { useAllowedHireStreams } from '../../modules/hireStreamsHooks';
 import { tr } from './CandidateInterviewCreationForm.i18n';
 import s from './CandidateInterviewCreationForm.module.css';
 
-const StyledFormCard = styled(FormCard)`
-    width: 500px;
-`;
-
 type InterviewCreationFormData = Omit<CreateInterview, 'candidateId'>;
 
 interface Props {
@@ -47,10 +42,6 @@ const schema = z.object({
     }),
     description: z.string().nullish(),
 });
-
-const VacancyWrapper = styled.div`
-    margin-left: ${gapS};
-`;
 
 export function CandidateInterviewCreationForm({ candidate, preparedCvAttach }: Props) {
     const router = useRouter();
@@ -118,7 +109,7 @@ export function CandidateInterviewCreationForm({ candidate, preparedCvAttach }: 
         <Stack direction="column" gap={14}>
             <CandidateNameSubtitle name={candidate.name} />
 
-            <StyledFormCard>
+            <FormCard className={s.CandidateInterviewCreationFormFormCard}>
                 <Form onSubmit={handleSubmit(createInterview)}>
                     <Fieldset>
                         <CodeEditorField
@@ -147,9 +138,9 @@ export function CandidateInterviewCreationForm({ candidate, preparedCvAttach }: 
                                 {errors.hireStreamId.message}
                             </Text>
                         )}
-                        <VacancyWrapper>
+                        <div className={s.CandidateInterviewCreationFormVacancyWrapper}>
                             <AddVacancyToInterview vacancyId={vacancy?.id} onSelect={setVacancy} />
-                        </VacancyWrapper>
+                        </div>
                     </Fieldset>
                     <FormActions flat="top">
                         <FormAction left inline></FormAction>
@@ -163,7 +154,7 @@ export function CandidateInterviewCreationForm({ candidate, preparedCvAttach }: 
                         </FormAction>
                     </FormActions>
                 </Form>
-            </StyledFormCard>
+            </FormCard>
         </Stack>
     );
 }

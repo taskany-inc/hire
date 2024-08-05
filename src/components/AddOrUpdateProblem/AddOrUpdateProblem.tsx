@@ -4,8 +4,7 @@ import { useRouter } from 'next/router';
 import { Tag, ProblemDifficulty } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { danger0, gapS } from '@taskany/colors';
-import styled from 'styled-components';
+import { danger0 } from '@taskany/colors';
 import { FormInput, Text, Form, FormCard, FormActions, FormAction } from '@taskany/bricks';
 import { Button } from '@taskany/bricks/harmony';
 
@@ -34,14 +33,6 @@ export type AddOrUpdateProblemInitialValues = DefaultValues<FormData> & {
     id: number;
     tags: Tag[];
 };
-
-const StyledFormCard = styled(FormCard)`
-    max-width: 1200px;
-`;
-
-const StyledErrorText = styled(Text)`
-    margin-left: ${gapS};
-`;
 
 interface AddOrUpdateProblemProps {
     variant: 'new' | 'update';
@@ -140,7 +131,7 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
     const onDifficultyChange = (difficulty: ProblemDifficulty) => setValue('difficulty', difficulty);
 
     return (
-        <StyledFormCard>
+        <FormCard className={s.AddOrUpdateProblemFormCard}>
             <Form onSubmit={onSubmit}>
                 <Stack direction="column" gap="12px" justifyItems="flex-start">
                     <FormInput
@@ -196,9 +187,9 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                         text={tr('Problem difficulty')}
                     />
                     {errors.difficulty && !watch('difficulty') && (
-                        <StyledErrorText size="xs" color={danger0}>
+                        <Text size="xs" color={danger0} className={s.AddOrUpdateProblemErrorText}>
                             {errors.difficulty.message}
-                        </StyledErrorText>
+                        </Text>
                     )}
                 </Stack>
                 <FormActions flat="top">
@@ -208,6 +199,6 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                     </FormAction>
                 </FormActions>
             </Form>
-        </StyledFormCard>
+        </FormCard>
     );
 };

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { User } from '@prisma/client';
-import styled from 'styled-components';
 import { useDebounce } from 'use-debounce';
 import { Button } from '@taskany/bricks/harmony';
 
@@ -10,11 +9,6 @@ import { UserComboBox } from '../UserComboBox';
 
 import { tr } from './UserSelector.i18n';
 import s from './UserSelector.module.css';
-
-const StyledWrapper = styled.div`
-    display: flex;
-    align-items: center;
-`;
 
 interface UserSelectorProps {
     onSelect: (user: User) => void;
@@ -52,7 +46,7 @@ export const UserSelector = ({ placeholder, onSelect, sectionTypeOrHireStreamId,
     };
 
     return (
-        <StyledWrapper>
+        <div className={s.UserSelector}>
             <UserComboBox
                 items={usersQuery.data}
                 onChange={onUserSelect}
@@ -62,6 +56,6 @@ export const UserSelector = ({ placeholder, onSelect, sectionTypeOrHireStreamId,
             />
             {user && <Button className={s.UserSelectorButton} text={tr('Add')} view="primary" onClick={onAddClick} />}
             {user && <Button className={s.UserSelectorButton} text={tr('Cancel')} onClick={onCancelClick} />}
-        </StyledWrapper>
+        </div>
     );
 };

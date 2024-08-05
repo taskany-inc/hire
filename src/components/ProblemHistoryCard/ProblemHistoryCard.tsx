@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer-continued';
-import styled from 'styled-components';
-import { gapM, gapSm, gapXs, gray9 } from '@taskany/colors';
+import { gray9 } from '@taskany/colors';
 import { Text, nullable } from '@taskany/bricks';
 import { IconDividerLineOutline } from '@taskany/icons';
 import { Button } from '@taskany/bricks/harmony';
@@ -11,37 +10,11 @@ import { ProblemHistoryWithUser } from '../../modules/problemTypes';
 import { HistoryTagsAndDifficultyTextChange } from '../HistoryTagsAndDifficultyTextChange/HistoryTagsAndDifficultyTextChange';
 import { useDistanceDate } from '../../hooks/useDateFormat';
 
+import s from './ProblemHistoryCard.module.css';
+
 interface ProblemHistoryCardProps {
     problemHistoryChangeEvent: ProblemHistoryWithUser;
 }
-
-const Card = styled.div`
-    display: grid;
-    grid-template-column: 7fr 5fr;
-    gap: ${gapM};
-    flex: 1;
-    line-height: 1.5;
-    align-items: flex-start;
-    flex-wrap: nowrap;
-    max-width: 1000px;
-`;
-
-const CardTitleContainer = styled.div`
-    display: inline-flex;
-    flex-wrap: wrap;
-    align-items: start;
-    margin-top: ${gapSm};
-    gap: 1rem;
-    flex: 1;
-`;
-
-const VisibleContainer = styled.div`
-    cursor: pointer;
-`;
-
-const Content = styled.div`
-    padding-top: ${gapXs};
-`;
 
 const newStyles = {
     variables: {
@@ -81,29 +54,29 @@ export const ProblemHistoryCard: FC<ProblemHistoryCardProps> = ({ problemHistory
     };
 
     return (
-        <Card>
-            <CardTitleContainer>
+        <div className={s.ProblemHistoryCard}>
+            <div className={s.ProblemHistoryCardTitleContainer}>
                 <UserAvatar user={user} />
 
-                <Content>
+                <div className={s.ProblemHistoryCardContent}>
                     <Text size="m" color={gray9}>
                         changed {subject} {date}
                     </Text>
-                </Content>
+                </div>
 
-                <VisibleContainer>
+                <div className={s.ProblemHistoryCardVisibleContainer}>
                     <Button
                         view={!viewProblemHistoryDescription ? 'ghost' : 'default'}
                         iconRight={<IconDividerLineOutline size="xs" />}
                         onClick={handlerViewProblemHistoryDescription}
                     />
-                </VisibleContainer>
-            </CardTitleContainer>
+                </div>
+            </div>
             {nullable(viewProblemHistoryDescription, () =>
                 subject === 'tags' || subject === 'difficulty' ? (
                     <HistoryTagsAndDifficultyTextChange from={beforeData} to={afterData} />
                 ) : (
-                    <Content>
+                    <div className={s.ProblemHistoryCardContent}>
                         <ReactDiffViewer
                             oldValue={beforeData}
                             newValue={afterData}
@@ -114,9 +87,9 @@ export const ProblemHistoryCard: FC<ProblemHistoryCardProps> = ({ problemHistory
                             useDarkTheme
                             styles={newStyles}
                         />
-                    </Content>
+                    </div>
                 ),
             )}
-        </Card>
+        </div>
     );
 };

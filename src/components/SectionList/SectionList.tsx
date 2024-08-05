@@ -5,7 +5,7 @@ import { gapS } from '@taskany/colors';
 import { SectionWithInterviewRelation } from '../../modules/interviewTypes';
 import { generatePath, Paths } from '../../utils/paths';
 import { Stack } from '../Stack';
-import { Card } from '../Card';
+import { Card } from '../Card/Card';
 import { CardHeader } from '../CardHeader/CardHeader';
 import { SectionFeedbackHireBadge, SectionTypeBadge } from '../SectionFeedbackHireBadge/SectionFeedbackHireBadge';
 import Md from '../Md';

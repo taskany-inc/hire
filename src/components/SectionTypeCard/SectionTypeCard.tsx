@@ -1,11 +1,10 @@
 import { useState, VFC } from 'react';
 import { SectionType } from '@prisma/client';
-import styled from 'styled-components';
 import { Text } from '@taskany/bricks';
 import { IconCircleOutline, IconTickCircleOutline } from '@taskany/icons';
 
 import { useDeleteSectionTypeMutation } from '../../modules/sectionTypeHooks';
-import { Card } from '../Card';
+import { Card } from '../Card/Card';
 import { CardHeader } from '../CardHeader/CardHeader';
 import { CardContent } from '../CardContent';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
@@ -14,31 +13,21 @@ import { UpdateSectionTypeModal } from '../SectionTypeForm/SectionTypeForm';
 import config from '../../config';
 
 import { tr } from './SectionTypeCard.i18n';
-
-const IconCircleWrapper = styled.div`
-    margin-top: 2px;
-`;
-
-const CenteredText = styled(Text)`
-    display: flex;
-    align-content: center;
-    gap: 8px;
-    padding: 4px 0;
-`;
+import s from './SectionTypeCard.module.css';
 
 const CheckboxLine = ({ value, text }: { value: boolean; text: string }) => (
-    <CenteredText>
+    <Text className={s.CheckboxLineCenteredText}>
         {value ? (
-            <IconCircleWrapper>
+            <div className={s.CheckboxLineIconCircleWrapper}>
                 <IconTickCircleOutline size="s" />
-            </IconCircleWrapper>
+            </div>
         ) : (
-            <IconCircleWrapper>
+            <div className={s.CheckboxLineIconCircleWrapper}>
                 <IconCircleOutline size="s" />
-            </IconCircleWrapper>
+            </div>
         )}{' '}
         {text}
-    </CenteredText>
+    </Text>
 );
 
 interface SectionTypeCardProps {

@@ -12,7 +12,6 @@ import {
     FilterPopup,
     nullable,
 } from '@taskany/bricks';
-import styled from 'styled-components';
 import { Button } from '@taskany/bricks/harmony';
 
 import { useProblemCount } from '../../modules/problemHooks';
@@ -34,10 +33,6 @@ interface ProblemFilterBarProps {
     loading?: boolean;
     children?: ReactNode;
 }
-
-const StyledFilterBarAddButton = styled(FilterBarAddButton)`
-    margin-left: 10px;
-`;
 
 export const ProblemFilterBar = ({ embedded, loading, children }: ProblemFilterBarProps) => {
     const session = useSession();
@@ -119,7 +114,13 @@ export const ProblemFilterBar = ({ embedded, loading, children }: ProblemFilterB
                         {children}
                     </FiltersMenuContainer>
                     <Button className={s.ProblemFilterBarResetButton} text="Reset" onClick={onResetFilers} />
-                    {!embedded && <StyledFilterBarAddButton text={tr('Add problem')} link={Paths.PROBLEMS_NEW} />}
+                    {!embedded && (
+                        <FilterBarAddButton
+                            text={tr('Add problem')}
+                            link={Paths.PROBLEMS_NEW}
+                            className={s.ProblemFilterBarFilterBarAddButton}
+                        />
+                    )}
                 </FiltersPanelContent>
             </FiltersPanelContainer>
             {nullable(!isFiltersEmpty, () => (

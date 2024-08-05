@@ -3,7 +3,7 @@ import { HireStream } from '@prisma/client';
 import { pageHrefs } from '../utils/paths';
 import { useSession } from '../contexts/appSettingsContext';
 
-import { Card } from './Card';
+import { Card } from './Card/Card';
 import { CardHeader } from './CardHeader/CardHeader';
 import { Stack } from './Stack';
 

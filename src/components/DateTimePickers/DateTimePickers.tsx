@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import styled from 'styled-components';
-import { gapM } from '@taskany/colors';
 import { toDate } from 'date-fns';
 
 import { DatePicker } from '../DatePicker';
@@ -8,6 +6,7 @@ import { TimePicker } from '../TimePicker';
 import { DurationPicker } from '../DurationPicker';
 
 import { tr } from './DateTimePickers.i18n';
+import s from './DateTimePickers.module.css';
 
 export interface DateTimeSelectorProps {
     startDate: Date;
@@ -15,14 +14,6 @@ export interface DateTimeSelectorProps {
     onChange?: (data: Date, duration: number) => void;
     disabled?: boolean;
 }
-
-export const Container = styled.div`
-    display: flex;
-    gap: 46px;
-    width: 100%;
-    max-width: 600px;
-    padding: ${gapM} 0px;
-`;
 
 export function DateTimePickers({
     startDate,
@@ -53,7 +44,7 @@ export function DateTimePickers({
     };
 
     return (
-        <Container>
+        <div className={s.DateTimePickers}>
             <DatePicker disabled={disabled} value={date} label={tr('Start date')} onChange={handleStartDateChange} />
             <TimePicker disabled={disabled} value={date} label={tr('Start time')} onChange={handleStartTimeChange} />
             <DurationPicker
@@ -63,6 +54,6 @@ export function DateTimePickers({
                 onChange={handleDurationChange}
                 disabled={disabled}
             />
-        </Container>
+        </div>
     );
 }

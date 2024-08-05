@@ -1,0 +1,11 @@
+.CheckboxLineIconCircleWrapper {
+    margin-top: 2px;
+}
+
+.CheckboxLineCenteredText {
+    display: flex;
+    align-content: center;
+    gap: 8px;
+    padding: 4px 0;
+}
+

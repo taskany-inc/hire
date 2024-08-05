@@ -1,52 +1,14 @@
 import { User } from '@prisma/client';
 import { CSSProperties, useMemo, useState, VFC, ReactNode } from 'react';
-import styled from 'styled-components';
 import { useDebounce } from 'use-debounce';
-import { gray4, textColor } from '@taskany/colors';
+import { textColor } from '@taskany/colors';
 import { Text, UserPic, Input, nullable } from '@taskany/bricks';
 
 import { ExternalUserLink } from '../ExternalUserLink';
 import { IconButton } from '../IconButton';
 
 import { tr } from './UserList.i18n';
-
-const StyledCardsContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2px;
-    margin: 0 -22px;
-`;
-
-const StyledCard = styled.div`
-    padding: 12px 22px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    width: 300px;
-    gap: 8px;
-
-    &:hover {
-        background-color: ${gray4};
-    }
-`;
-
-const StyledFromInput = styled.div`
-    margin-bottom: 12px;
-`;
-
-const StyledTitleWrapper = styled.div`
-    display: flex;
-    align-items: center;
-`;
-
-const StyledTitle = styled(Text)`
-    margin-bottom: 6px;
-    margin-right: 12px;
-`;
-
-const StyledTextMessage = styled(Text)`
-    margin-left: 22px;
-`;
+import s from './UserList.module.css';
 
 interface UserListProps {
     title?: string;
@@ -79,26 +41,28 @@ export const UserList: VFC<UserListProps> = ({ title, titleFragment, users, acti
     return (
         <div className={className} style={style}>
             {(title || titleFragment) && (
-                <StyledTitleWrapper>
-                    <StyledTitle size="xl">{title}</StyledTitle>
+                <div className={s.UserListTitleWrapper}>
+                    <Text size="xl" className={s.UserListTitle}>
+                        {title}
+                    </Text>
                     {titleFragment}
-                </StyledTitleWrapper>
+                </div>
             )}
             {showFilter && (
-                <StyledFromInput>
+                <div className={s.UserListFromInput}>
                     <Input
                         value={filter}
                         onChange={(e) => setFilter(e.target.value)}
                         placeholder={tr('Filter by name or email')}
                     />
-                </StyledFromInput>
+                </div>
             )}
-            <StyledCardsContainer>
+            <div className={s.UserListCardsContainer}>
                 {nullable(users.length === 0, () => (
-                    <StyledTextMessage>{tr('No users')}</StyledTextMessage>
+                    <Text className={s.UserListTextMessage}>{tr('No users')}</Text>
                 ))}
                 {filteredUsers.map((user) => (
-                    <StyledCard key={user.id}>
+                    <div key={user.id} className={s.UserListCard}>
                         <UserPic name={user.name} email={user.email} />
                         <ExternalUserLink user={user} />
                         {action && (
@@ -110,9 +74,9 @@ export const UserList: VFC<UserListProps> = ({ title, titleFragment, users, acti
                                 {action.icon}
                             </IconButton>
                         )}
-                    </StyledCard>
+                    </div>
                 ))}
-            </StyledCardsContainer>
+            </div>
         </div>
     );
 };

@@ -1,6 +1,5 @@
 import { useTheme } from 'next-themes';
 import { Fieldset, Form, FormRadio, FormRadioInput } from '@taskany/bricks';
-import styled from 'styled-components';
 
 import { Theme, themes } from '../../utils/theme';
 import { trpc } from '../../trpc/trpcClient';
@@ -11,10 +10,7 @@ import { PageSep } from '../PageSep';
 import { languages } from '../../utils/getLang';
 
 import { tr } from './UserSettingsPage.i18n';
-
-const StyledPageSep = styled(PageSep)`
-    margin-left: -40px;
-`;
+import s from './UserSettingsPage.module.css';
 
 interface UserSettingsPageProps {
     userId: number;
@@ -43,7 +39,7 @@ export const UserSettingsPage = ({ userId }: UserSettingsPageProps) => {
 
     return (
         <LayoutMain pageTitle={user.name || user.email}>
-            <StyledPageSep />
+            <PageSep className={s.UserSettingsPageSep} />
 
             <SettingsContainer>
                 <SettingsCard>

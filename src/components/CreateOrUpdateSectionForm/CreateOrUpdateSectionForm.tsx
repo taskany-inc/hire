@@ -13,11 +13,10 @@ import {
     FormTextarea,
     FormInput,
 } from '@taskany/bricks';
-import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { useDebounce } from 'use-debounce';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { danger0, gapS } from '@taskany/colors';
+import { danger0 } from '@taskany/colors';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@taskany/bricks/harmony';
 
@@ -31,6 +30,7 @@ import { UserComboBox } from '../UserComboBox';
 import { pageHrefs } from '../../utils/paths';
 
 import { tr } from './CreateOrUpdateSectionForm.i18n';
+import s from './CreateOrUpdateSectionForm.module.css';
 
 interface CreateOrUpdateSectionFormProps {
     interviewId: number;
@@ -58,15 +58,6 @@ const schema = z.object({
         })
         .optional(),
 });
-
-const StyledFormCard = styled(FormCard)`
-    width: 620px;
-`;
-
-const WrapperCombobox = styled.div`
-    padding-left: ${gapS};
-    height: 50px;
-`;
 
 export const CreateOrUpdateSectionForm = ({
     section,
@@ -199,10 +190,10 @@ export const CreateOrUpdateSectionForm = ({
             )}
 
             {!schedulable && (
-                <StyledFormCard>
+                <FormCard className={s.CreateOrUpdateSectionFormCard}>
                     <Form onSubmit={onSubmit}>
                         <Fieldset>
-                            <WrapperCombobox>
+                            <div className={s.CreateOrUpdateSectionFormWrapperCombobox}>
                                 <UserComboBox
                                     value={interviewer}
                                     items={interviewersQuery.data}
@@ -210,7 +201,7 @@ export const CreateOrUpdateSectionForm = ({
                                     setInputValue={setSearch}
                                     placeholder={tr('Choose an interviewer')}
                                 />
-                            </WrapperCombobox>
+                            </div>
                             {errors.interviewerId && !watch('interviewerId') && (
                                 <Text size="xs" color={danger0}>
                                     {errors.interviewerId.message}
@@ -242,7 +233,7 @@ export const CreateOrUpdateSectionForm = ({
                             </FormAction>
                         </FormActions>
                     </Form>
-                </StyledFormCard>
+                </FormCard>
             )}
         </Stack>
     );

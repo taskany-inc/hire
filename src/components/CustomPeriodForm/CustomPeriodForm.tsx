@@ -1,7 +1,5 @@
 import { format } from 'date-fns';
 import { useState } from 'react';
-import styled from 'styled-components';
-import { gapS } from '@taskany/colors';
 import { Fieldset, Form, FormAction, FormActions, FormCard } from '@taskany/bricks';
 import { Button } from '@taskany/bricks/harmony';
 
@@ -9,19 +7,11 @@ import { DatePicker } from '../DatePicker';
 import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
 
 import { tr } from './CustomPeriodForm.i18n';
-
-const StyledFormCard = styled(FormCard)`
-    width: 300px;
-`;
+import s from './CustomPeriodForm.module.css';
 
 interface CustomPeriodFormProps {
     close: () => void;
 }
-
-const StyledDateContainer = styled.div`
-    display: flex;
-    gap: ${gapS};
-`;
 
 export const CustomPeriodForm = ({ close }: CustomPeriodFormProps) => {
     const { startDate, endDate, setStartDate, setEndDate, setPeriodTitle } = useAnalyticsFilterUrlParams();
@@ -41,13 +31,13 @@ export const CustomPeriodForm = ({ close }: CustomPeriodFormProps) => {
     const submitButtonText = submitButtonDisabled ? tr('Start date later than end date') : tr('Set period');
 
     return (
-        <StyledFormCard>
+        <FormCard className={s.CustomPeriodFormCard}>
             <Form onSubmit={onSubmitButton}>
                 <Fieldset>
-                    <StyledDateContainer>
+                    <div className={s.CustomPeriodFormDateContainer}>
                         <DatePicker value={newStartDate} onChange={setNewStartDate} label={tr('Start of period')} />
                         <DatePicker value={newEndDate} onChange={setNewEndDate} label={tr('End of period')} />
-                    </StyledDateContainer>
+                    </div>
                 </Fieldset>
                 <FormActions flat="top">
                     <FormAction left inline></FormAction>
@@ -62,6 +52,6 @@ export const CustomPeriodForm = ({ close }: CustomPeriodFormProps) => {
                     </FormAction>
                 </FormActions>
             </Form>
-        </StyledFormCard>
+        </FormCard>
     );
 };

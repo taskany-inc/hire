@@ -1,0 +1,27 @@
+.ProblemHistoryCard {
+    display: grid;
+    grid-template-column: 7fr 5fr;
+    gap: var(--gap-m);
+    flex: 1;
+    line-height: 1.5;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    max-width: 1000px;
+}
+
+.ProblemHistoryCardTitleContainer {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: start;
+    margin-top: var(--gap-sm);
+    gap: 1rem;
+    flex: 1;
+}
+
+.ProblemHistoryCardVisibleContainer {
+    cursor: pointer;
+}
+
+.ProblemHistoryCardContent {
+    padding-top: var(p--gap-xs);
+}

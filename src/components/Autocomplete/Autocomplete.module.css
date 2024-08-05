@@ -1,0 +1,21 @@
+.Autocomplete {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.AutocompleteBadgeContainer {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: var(--gap-xs);
+}
+
+.AutocompleteBadge {
+    margin: 2px;
+}
+
+.AutocompletePopupContainer {
+    max-height: 200;
+    overflow-y: auto;
+}
+

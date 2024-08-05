@@ -3,7 +3,7 @@ import { HireStream } from '@prisma/client';
 import { pageHrefs } from '../utils/paths';
 
 import { Card } from './Card/Card';
-import { CardHeader } from './CardHeader';
+import { CardHeader } from './CardHeader/CardHeader';
 import { Stack } from './Stack';
 
 interface HireStreamAnalyticsListProps {

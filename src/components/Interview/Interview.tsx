@@ -17,7 +17,7 @@ import { AssignSectionDropdownButton } from '../AssignSectionDropdownButton/Assi
 import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { DropdownMenuItem } from '../TagFilterDropdown';
 import { InterviewSectionListItem } from '../InterviewSectionListItem';
-import { InterviewTags } from '../InterviewTags';
+import { InterviewTags } from '../InterviewTags/InterviewTags';
 import { ExternalUserLink } from '../ExternalUserLink';
 import { useDistanceDate } from '../../hooks/useDateFormat';
 import { Link } from '../Link';

@@ -15,7 +15,7 @@ import {
 
 import { useSession } from '../../contexts/appSettingsContext';
 import { CommentForm } from '../CommentForm/CommentForm';
-import { ActivityFeedItem } from '../ActivityFeed';
+import { ActivityFeedItem } from '../ActivityFeed/ActivityFeed';
 import { CommentSchema } from '../../modules/commentTypes';
 import { InterviewRejectReasonDropdown } from '../InterviewRejectReasonDropdown/InterviewRejectReasonDropdown';
 import { interviewStatus } from '../../utils/dictionaries';

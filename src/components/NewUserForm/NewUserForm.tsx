@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { useDebounce } from 'use-debounce';
-import styled from 'styled-components';
 import { Form, Fieldset, FormAction, FormActions, FormCard } from '@taskany/bricks';
 import { Button } from '@taskany/bricks/harmony';
 
@@ -13,10 +12,7 @@ import { Autocomplete } from '../Autocomplete/Autocomplete';
 import { useCreateUserMutation } from '../../modules/userHooks';
 
 import { tr } from './NewUserForm.i18n';
-
-const StyledFormCard = styled(FormCard)`
-    width: 500px;
-`;
+import s from './NewUserForm.module.css';
 
 export const NewUserForm = () => {
     const {
@@ -46,7 +42,7 @@ export const NewUserForm = () => {
     );
 
     return (
-        <StyledFormCard>
+        <FormCard className={s.NewUserFormFormCard}>
             <Form onSubmit={onSubmit}>
                 <Fieldset>
                     <Autocomplete
@@ -89,6 +85,6 @@ export const NewUserForm = () => {
                     </FormAction>
                 </FormActions>
             </Form>
-        </StyledFormCard>
+        </FormCard>
     );
 };

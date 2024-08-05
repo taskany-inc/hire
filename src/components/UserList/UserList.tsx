@@ -5,7 +5,7 @@ import { textColor } from '@taskany/colors';
 import { Text, UserPic, Input, nullable } from '@taskany/bricks';
 
 import { ExternalUserLink } from '../ExternalUserLink';
-import { IconButton } from '../IconButton';
+import { IconButton } from '../IconButton/IconButton';
 
 import { tr } from './UserList.i18n';
 import s from './UserList.module.css';

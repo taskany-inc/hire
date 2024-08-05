@@ -1,0 +1,17 @@
+.CardHeaderTitleRow {
+    display: flex;
+    align-items: baseline;
+    gap: 22px;
+}
+
+.CardHeaderTitle {
+    line-height: 40px;
+}
+
+.CardHeaderChips {
+    transform: translateY(-5px);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+

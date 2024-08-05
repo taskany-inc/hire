@@ -1,12 +1,11 @@
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
 import { useKeyboard, KeyCode, Badge, Popup, FormInput } from '@taskany/bricks';
-import { gapXs } from '@taskany/colors';
 
 import { Option } from '../../utils/types';
 import { ColorizedMenuItem } from '../ColorizedMenuItem';
 
 import { tr } from './Autocomplete.i18n';
+import s from './Autocomplete.module.css';
 
 export interface AutocompleteProps<T> {
     options: T[];
@@ -21,27 +20,6 @@ export interface AutocompleteProps<T> {
     placeholder?: string;
     label?: string;
 }
-
-const StyledDropdown = styled.span`
-    position: relative;
-    display: inline-block;
-    width: 100%;
-`;
-
-const StyledBadgeContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    padding-top: ${gapXs};
-`;
-
-const StyledBadge = styled(Badge)`
-    margin: 2px;
-`;
-
-const StyledPopupContainer = styled.div`
-    max-height: 200;
-    overflow-y: auto;
-`;
 
 export function Autocomplete({
     visible = false,
@@ -128,15 +106,15 @@ export function Autocomplete({
     };
 
     return (
-        <StyledDropdown ref={ref}>
+        <span className={s.Autocomplete} ref={ref}>
             <span ref={popupRef} {...onESC}>
-                <StyledBadgeContainer>
+                <div className={s.AutocompleteBadgeContainer}>
                     {added.map((item, index) => (
-                        <StyledBadge size="xl" onClick={() => onItemRemove(item)} key={index}>
+                        <Badge className={s.AutocompleteBadge} size="xl" onClick={() => onItemRemove(item)} key={index}>
                             {item.text}
-                        </StyledBadge>
+                        </Badge>
                     ))}
-                </StyledBadgeContainer>
+                </div>
                 <FormInput
                     label={label}
                     ref={inputRef}
@@ -157,7 +135,7 @@ export function Autocomplete({
                 maxWidth={250}
                 offset={[-4, 8]}
             >
-                <StyledPopupContainer {...onESC}>
+                <div className={s.AutocompletePopupContainer} {...onESC}>
                     {filteredItems.length === 0 ? (
                         <ColorizedMenuItem
                             title={createNewOption ? tr('Add {inputValue}', { inputValue }) : tr('no options')}
@@ -172,8 +150,8 @@ export function Autocomplete({
                             />
                         ))
                     )}
-                </StyledPopupContainer>
+                </div>
             </Popup>
-        </StyledDropdown>
+        </span>
     );
 }

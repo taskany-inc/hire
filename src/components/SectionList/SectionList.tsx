@@ -7,7 +7,7 @@ import { generatePath, Paths } from '../../utils/paths';
 import { Stack } from '../Stack';
 import { MarkdownRenderer } from '../MarkdownRenderer/MarkdownRenderer';
 import { Card } from '../Card/Card';
-import { CardHeader } from '../CardHeader';
+import { CardHeader } from '../CardHeader/CardHeader';
 import { CardContent } from '../CardContent';
 import { SectionFeedbackHireBadge, SectionTypeBadge } from '../SectionFeedbackHireBadge/SectionFeedbackHireBadge';
 

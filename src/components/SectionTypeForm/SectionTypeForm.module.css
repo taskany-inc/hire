@@ -1,0 +1,9 @@
+.SectionTypeFormCheckbox {
+    margin-bottom: var(--gap-s);
+    margin-left: var(--gap-m);
+}
+
+.SectionTypeFormGradesDropdownWrapper {
+    margin-left: var(--gap-m);
+}
+

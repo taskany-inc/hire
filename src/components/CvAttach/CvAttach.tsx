@@ -1,24 +1,13 @@
 import { useEffect, useId, useState } from 'react';
-import styled from 'styled-components';
 import { Input, useUpload, Text, nullable } from '@taskany/bricks';
 import { IconAttachOutline } from '@taskany/icons';
-import { gapS, link10 } from '@taskany/colors';
 
 import { pageHrefs } from '../../utils/paths';
 import { CvParsingResult } from '../../modules/aiAssistantTypes';
 import { getFileIdFromPath } from '../../utils/fileUpload';
 
 import { tr } from './CvAttach.i18n';
-
-const FileInput = styled(Input)`
-    display: none;
-`;
-
-const FileInputText = styled(Text)`
-    cursor: pointer;
-    color: ${link10};
-    margin: ${gapS};
-`;
+import s from './CvAttach.module.css';
 
 interface CvAttachProps {
     candidateId?: number;
@@ -53,9 +42,15 @@ export const CvAttach = ({ candidateId, preparedCvAttach, onParse }: CvAttachPro
 
     return (
         <>
-            <FileInput type="file" id={id} accept="application/msword,application/pdf" onChange={onFileChange} />
+            <Input
+                type="file"
+                id={id}
+                accept="application/msword,application/pdf"
+                onChange={onFileChange}
+                className={s.CvAttachFileInput}
+            />
             <label htmlFor={id}>
-                <FileInputText size="s">
+                <Text size="s" className={s.CvAttachFileInputText}>
                     {nullable(upload.loading, () => tr('Uploading...'))}
                     {nullable(cvAttachFilename, () => `${tr('CV:')} ${cvAttachFilename}`)}
                     {nullable(!upload.loading && !cvAttachFilename, () => (
@@ -63,7 +58,7 @@ export const CvAttach = ({ candidateId, preparedCvAttach, onParse }: CvAttachPro
                             <IconAttachOutline size="xxs" /> {tr('Attach CV')}
                         </>
                     ))}
-                </FileInputText>
+                </Text>
             </label>
         </>
     );

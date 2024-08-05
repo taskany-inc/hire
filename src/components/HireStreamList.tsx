@@ -4,7 +4,7 @@ import { pageHrefs } from '../utils/paths';
 import { useSession } from '../contexts/appSettingsContext';
 
 import { Card } from './Card/Card';
-import { CardHeader } from './CardHeader';
+import { CardHeader } from './CardHeader/CardHeader';
 import { Stack } from './Stack';
 
 interface HireStreamsListProps {

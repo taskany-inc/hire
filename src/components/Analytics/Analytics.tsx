@@ -3,7 +3,7 @@ import React from 'react';
 import { useAllowedHireStreams } from '../../modules/hireStreamsHooks';
 import { Paths } from '../../utils/paths';
 import { LayoutMain } from '../LayoutMain/LayoutMain';
-import { CardHeader } from '../CardHeader';
+import { CardHeader } from '../CardHeader/CardHeader';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { HireStreamAnalyticsList } from '../HireStreamAnalyticsList';
 import { Card } from '../Card/Card';

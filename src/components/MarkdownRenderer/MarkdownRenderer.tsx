@@ -10,7 +10,7 @@ import cn from 'classnames';
 
 import { PropsWithClassName } from '../../utils/types';
 import { useAppSettingsContext } from '../../contexts/appSettingsContext';
-import { IconButton } from '../IconButton';
+import { IconButton } from '../IconButton/IconButton';
 
 import { tr } from './MarkdownRenderer.i18n';
 import s from './MarkdownRenderer.module.css';

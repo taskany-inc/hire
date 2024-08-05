@@ -1,7 +1,8 @@
 import { ComboBox, FiltersMenuItem, Input, UserMenuItem } from '@taskany/bricks';
 import React, { ChangeEvent, Dispatch, SetStateAction, useCallback, useState } from 'react';
 import { User } from '@prisma/client';
-import styled from 'styled-components';
+
+import s from './UserComboBox.module.css';
 
 interface UserComboBoxProps {
     placeholder?: string;
@@ -12,10 +13,6 @@ interface UserComboBoxProps {
     value?: User;
 }
 
-const StyledComboBox = styled(ComboBox)`
-    width: fit-content;
-`;
-
 export const UserComboBox = React.forwardRef<HTMLDivElement, UserComboBoxProps>(
     ({ disabled, placeholder, onChange, setInputValue, items, value }, ref) => {
         const [interviewrsVisibility, setInterviewrsVisibility] = useState(false);
@@ -25,7 +22,7 @@ export const UserComboBox = React.forwardRef<HTMLDivElement, UserComboBoxProps>(
         }, []);
 
         return (
-            <StyledComboBox
+            <ComboBox
                 text={placeholder}
                 ref={ref}
                 onClickOutside={onClickOutside}
@@ -59,6 +56,7 @@ export const UserComboBox = React.forwardRef<HTMLDivElement, UserComboBoxProps>(
                 }}
                 items={items}
                 disabled={disabled}
+                className={s.UserComboBox}
             />
         );
     },

@@ -5,7 +5,7 @@ import { Button } from '@taskany/bricks/harmony';
 
 import { Vacancy, vacancyLabels, vacancyStatusColors } from '../../modules/crewTypes';
 import { Card } from '../Card/Card';
-import { CardHeader } from '../CardHeader';
+import { CardHeader } from '../CardHeader/CardHeader';
 import { CardContent } from '../CardContent';
 import { InlineDot } from '../InlineDot';
 import { useHireStreams } from '../../modules/hireStreamsHooks';

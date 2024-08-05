@@ -1,8 +1,6 @@
 import React, { FC, useState } from 'react';
-import { gapM } from '@taskany/colors';
 import { ModalContent, ModalHeader, ModalPreview } from '@taskany/bricks';
 import { Button, Text } from '@taskany/bricks/harmony';
-import styled from 'styled-components';
 import { IconPlusCircleOutline } from '@taskany/icons';
 
 import { ProblemList } from '../ProblemList/ProblemList';
@@ -10,23 +8,6 @@ import { ProblemFilterBar } from '../ProblemFilterBar/ProblemFilterBar';
 
 import { tr } from './AddProblemToSection.i18n';
 import s from './AddProblemToSection.module.css';
-
-const StyledModalHeader = styled(ModalHeader)`
-    position: sticky;
-    padding-bottom: ${gapM};
-`;
-
-const StyledModalContent = styled(ModalContent)`
-    overflow-y: scroll;
-    overflow-x: hidden;
-    height: 80%;
-
-    padding-top: ${gapM};
-`;
-
-const StyledFiltersPanel = styled.div`
-    margin-left: -20px;
-`;
 
 interface AddProblemToSectionProps {
     interviewId: number;
@@ -45,17 +26,17 @@ export const AddProblemToSection: FC<AddProblemToSectionProps> = ({ interviewId 
                 onClick={() => setOpen(true)}
             />
             <ModalPreview visible={open} onClose={() => setOpen(false)}>
-                <StyledModalHeader>
+                <ModalHeader className={s.AddProblemToSectionModalHeader}>
                     <Text weight="bold" className={s.AddProblemText}>
                         {tr('Add problem')}
                     </Text>
-                    <StyledFiltersPanel>
+                    <div className={s.AddProblemToSectionFiltersPanel}>
                         <ProblemFilterBar embedded />
-                    </StyledFiltersPanel>
-                </StyledModalHeader>
-                <StyledModalContent>
+                    </div>
+                </ModalHeader>
+                <ModalContent className={s.AddProblemToSectionModalContent}>
                     <ProblemList embedded isSmallSize interviewId={interviewId} />
-                </StyledModalContent>
+                </ModalContent>
             </ModalPreview>
         </>
     );

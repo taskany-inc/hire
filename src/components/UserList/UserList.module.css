@@ -1,0 +1,38 @@
+.UserListCardsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    margin: 0 -22px;
+}
+
+.UserListCard {
+    padding: 12px 22px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    width: 300px;
+    gap: 8px;
+}
+
+.UserListCard:hover {
+    background-color: var(--gray4);
+}
+
+.UserListFromInput {
+    margin-bottom: 12px;
+}
+
+.UserListTitleWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.UserListTitle {
+    margin-bottom: 6px;
+    margin-right: 12px;
+}
+
+.UserListTextMessage {
+    margin-left: 22px;
+}
+

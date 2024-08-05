@@ -1,6 +1,5 @@
 import { useState, useMemo, FC } from 'react';
 import { useRouter } from 'next/router';
-import styled from 'styled-components';
 import { gray10 } from '@taskany/colors';
 import { Text, nullable } from '@taskany/bricks';
 import { IconArrowUpSmallOutline, IconArrowDownSmallOutline } from '@taskany/icons';
@@ -29,23 +28,6 @@ import s from './Problem.module.css';
 interface ProblemProps {
     problem: ProblemWithRelationsAndProblemSection;
 }
-
-const StyledTagsContainer = styled.div`
-    margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
-`;
-
-const StyledTitle = styled(Text)`
-    margin-top: 50px;
-    display: flex;
-    margin-bottom: 40px;
-    cursor: pointer;
-    align-items: center;
-    gap: 5px;
-`;
 
 export const Problem: FC<ProblemProps> = ({ problem }) => {
     const session = useSession();
@@ -101,23 +83,23 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
             </Text>
 
             {/* TODO add tagId to filter onClick and push to Paths.PROBLEMS */}
-            <StyledTagsContainer>
+            <div className={s.ProblemTagsContainer}>
                 {problem.tags.map((tag) => (
                     <TagChip tag={tag} key={tag.id} />
                 ))}
 
                 <ProblemDifficultyIcon difficulty={problem.difficulty} />
-            </StyledTagsContainer>
+            </div>
 
             <ProblemStats good={problem.solutionsGood} ok={problem.solutionsOk} bad={problem.solutionsBad} />
             {nullable(problem.description, (d) => (
                 <Md className={s.ProblemMdWrapper}>{d}</Md>
             ))}
 
-            <StyledTitle size="xl" onClick={toggleSolutionExpansion}>
+            <Text size="xl" onClick={toggleSolutionExpansion} className={s.ProblemTitle}>
                 {tr('Solution')}{' '}
                 {isSolutionExpanded ? <IconArrowUpSmallOutline size="m" /> : <IconArrowDownSmallOutline size="m" />}
-            </StyledTitle>
+            </Text>
 
             {nullable(isSolutionExpanded && problem.solution, (d) => (
                 <Md className={s.ProblemMdWrapper}>{d}</Md>
@@ -125,7 +107,7 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
             <Confirmation {...problemRemoveConfirmation.props} />
             {nullable(problem.problemHistory, () => (
                 <>
-                    <StyledTitle size="xl" onClick={toggleProblemHistoryExpansion}>
+                    <Text size="xl" onClick={toggleProblemHistoryExpansion} className={s.ProblemTitle}>
                         {tr('History of changes')}
 
                         {isProblemHistoryExpanded ? (
@@ -133,7 +115,7 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
                         ) : (
                             <IconArrowDownSmallOutline size="m" />
                         )}
-                    </StyledTitle>
+                    </Text>
                     {isProblemHistoryExpanded && (
                         <>
                             {problem.problemHistory.map((history) => (
@@ -144,7 +126,9 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
                 </>
             ))}
 
-            <StyledTitle size="xl">{tr('Comments')}</StyledTitle>
+            <Text size="xl" className={s.ProblemTitle}>
+                {tr('Comments')}
+            </Text>
 
             <div className={s.ProblemCommentWrapper}>
                 {problem.comments?.map((comment) => (

@@ -16,7 +16,7 @@ import {
     useRemoveProblemFromFavoritesMutation,
 } from '../../modules/userHooks';
 import { LoadingContainer } from '../LoadingContainer/LoadingContainer';
-import { Card } from '../Card';
+import { Card } from '../Card/Card';
 import { Link } from '../Link';
 import { TagChip } from '../TagChip';
 import { UnavailableContainer } from '../UnavailableContainer';

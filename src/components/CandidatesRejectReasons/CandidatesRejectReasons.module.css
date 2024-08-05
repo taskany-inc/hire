@@ -1,0 +1,9 @@
+.CandidatesRejectReasonsChartWrapper :global(.recharts-default-legend) {
+    width: 0;
+    overflow: visible;
+}
+
+    
+.CandidatesRejectReasonsChartWrapper :global(.recharts-legend-item) {
+    width: max-content;
+}

@@ -1,0 +1,13 @@
+.CreateOrUpdateSectionFormCard {
+
+    width: 620px;
+
+}
+
+.CreateOrUpdateSectionFormWrapperCombobox {
+
+    padding-left: var(--gap-s);
+    height: 50px;
+
+}
+

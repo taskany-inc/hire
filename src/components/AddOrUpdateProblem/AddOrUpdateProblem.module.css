@@ -2,3 +2,11 @@
     width: 900px;
     margin-bottom: var(--gap-xs);
 }
+
+.AddOrUpdateProblemFormCard {
+    max-width: 1200px;
+}
+
+.AddOrUpdateProblemErrorText {
+    margin-left: var(--gap-s);
+}

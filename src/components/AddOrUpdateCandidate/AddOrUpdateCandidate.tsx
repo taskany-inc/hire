@@ -3,7 +3,6 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Candidate, OutstaffVendor } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { z } from 'zod';
-import styled from 'styled-components';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Fieldset, Form, FormAction, FormActions, FormCard, FormInput } from '@taskany/bricks';
 import { Button } from '@taskany/bricks/harmony';
@@ -21,6 +20,7 @@ import { Select } from '../Select';
 import { PhoneField } from '../PhoneField/PhoneField';
 
 import { tr } from './AddOrUpdateCandidate.i18n';
+import s from './AddOrUpdateCandidate.module.css';
 
 type AddOrUpdateCandidateProps = {
     onSave?: (candidate: Candidate) => void;
@@ -45,10 +45,6 @@ const schema = z.object({
     outstaffVendorId: z.string().nullish(),
     phone: z.string().nullish(),
 });
-
-const StyledFormCard = styled(FormCard)`
-    max-width: 700px;
-`;
 
 export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
     const { variant, onSave, candidate } = props;
@@ -136,7 +132,7 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
     const onOutstaffVendorIdChange = (outstaffVendorId: string) => setValue('outstaffVendorId', outstaffVendorId);
 
     return (
-        <StyledFormCard>
+        <FormCard className={s.AddOrUpdateCandidateFormCard}>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <Fieldset>
                     <FormInput
@@ -178,6 +174,6 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
                     </FormAction>
                 </FormActions>
             </Form>
-        </StyledFormCard>
+        </FormCard>
     );
 };

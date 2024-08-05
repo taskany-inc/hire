@@ -2,3 +2,7 @@
   margin-left: auto;
   margin-right: var(--gap-s);
 }
+
+.VacancyFilterBarFiltersSearchContainer {
+    width: unset;
+}

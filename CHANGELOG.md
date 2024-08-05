@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.55.0](https://github.com/taskany-inc/hire/compare/v0.54.1...v0.55.0) (2024-08-05)
+
+
+### Features
+
+* add harmony sidebar ([5536164](https://github.com/taskany-inc/hire/commit/553616493be2b3dee952f9ce481b5e9e5580ff66))
+
+
+### Bug Fixes
+
+* **MainLayout:** remove window scroll ([9daca7d](https://github.com/taskany-inc/hire/commit/9daca7daab99dc270d689d9dfeeb40641b5eada5))
+* **PageNavigationActionButton:** remove click event on text component ([d7be511](https://github.com/taskany-inc/hire/commit/d7be5113c251d8884f8ed1c9d349c6df5b170f30))
+
 ## [0.54.1](https://github.com/taskany-inc/hire/compare/v0.54.0...v0.54.1) (2024-08-02)
 
 

@@ -15,9 +15,8 @@ import {
     ModalHeader,
     Text,
 } from '@taskany/bricks';
-import { gapM, gapS, gray8 } from '@taskany/colors';
+import { gray8 } from '@taskany/colors';
 import { IconAddOutline } from '@taskany/icons';
-import styled from 'styled-components';
 import { Button } from '@taskany/bricks/harmony';
 
 import {
@@ -29,20 +28,12 @@ import {
 import { useCreateSectionTypeMutation, useUpdateSectionTypeMutation } from '../../modules/sectionTypeHooks';
 import { generateColor } from '../../utils/color';
 import { errorsProvider } from '../../utils/forms';
-import { FormRandomColor } from '../FormRandomColor';
+import { FormRandomColor } from '../FormRandomColor/FormRandomColor';
 import { FormGradeDropdown } from '../FormGradeDropdown/FormGradeDropdown';
 import config from '../../config';
 
 import { tr } from './SectionTypeForm.i18n';
-
-const StyledCheckbox = styled.div`
-    margin-bottom: ${gapS};
-    margin-left: ${gapM};
-`;
-
-const StyledGradesDropdownWrapper = styled.div`
-    margin-left: ${gapM};
-`;
+import s from './SectionTypeForm.module.css';
 
 const checkboxes: {
     label: string;
@@ -117,14 +108,14 @@ export const SectionTypeForm: VFC<SectionTypeFormProps> = ({ afterSubmit, onCanc
 
                     <FormRandomColor label={tr('Section color in the calendar')} name="eventColor" control={control} />
                     {checkboxes.map((checkbox) => (
-                        <StyledCheckbox key={checkbox.name}>
+                        <div key={checkbox.name} className={s.SectionTypeFormCheckbox}>
                             <Text as="label" htmlFor={checkbox.name} color={gray8}>
                                 <input type="checkbox" {...register(checkbox.name)} id={checkbox.name} />
                                 {checkbox.label}
                             </Text>
-                        </StyledCheckbox>
+                        </div>
                     ))}
-                    <StyledGradesDropdownWrapper>
+                    <div className={s.SectionTypeFormGradesDropdownWrapper}>
                         <Controller
                             name="gradeOptions"
                             control={control}
@@ -137,7 +128,7 @@ export const SectionTypeForm: VFC<SectionTypeFormProps> = ({ afterSubmit, onCanc
                                 />
                             )}
                         />
-                    </StyledGradesDropdownWrapper>
+                    </div>
                 </Fieldset>
                 <FormActions flat="top">
                     <FormAction left inline></FormAction>

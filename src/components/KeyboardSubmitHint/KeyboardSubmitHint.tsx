@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { IconBulbOnOutline } from '@taskany/icons';
 import { warn8 } from '@taskany/colors';
 import { Keyboard } from '@taskany/bricks';
@@ -6,21 +5,7 @@ import { Keyboard } from '@taskany/bricks';
 import { Tip } from '../Tip';
 
 import { tr } from './KeyboardSubmitHint.i18n';
-
-const Container = styled.div`
-    display: flex;
-`;
-
-const StyledFormBottom = styled.div`
-    display: flex;
-    align-items: flex-end;
-`;
-
-export const KeyLabel = styled.span`
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 2px;
-    background: rgba(255, 255, 255, 0.05);
-`;
+import s from './KeyboardSubmitHint.module.css';
 
 export interface KeyboardSubmitHintProps {
     actionTitle: string;
@@ -28,15 +13,15 @@ export interface KeyboardSubmitHintProps {
 
 export const KeyboardSubmitHint = ({ actionTitle }: KeyboardSubmitHintProps) => {
     return (
-        <Container>
-            <StyledFormBottom>
+        <div className={s.KeyboardSubmitHint}>
+            <div className={s.KeyboardSubmitHintFormBottom}>
                 <Tip icon={<IconBulbOnOutline size="s" color={warn8} />}>
                     {tr.raw('Take advice! {actionTitle} by pressing {key}', {
                         actionTitle,
                         key: <Keyboard command enter />,
                     })}
                 </Tip>
-            </StyledFormBottom>
-        </Container>
+            </div>
+        </div>
     );
 };

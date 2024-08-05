@@ -1,0 +1,15 @@
+.FormRandomColorContainer {
+    width: 100%;
+    max-width: 500px;
+    padding: var(--gap-s) var(--gap-m);
+    display: flex;
+    align-items: center;
+}
+
+.FormRandomColorColorExample {
+    width: 42px;
+    height: 42px;
+    padding: var(--gap-s);
+    background-clip: content-box;
+    border-radius: 12px;
+}

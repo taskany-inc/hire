@@ -11,9 +11,9 @@ import { useDistanceDate } from '../hooks/useDateFormat';
 import config from '../config';
 import { SectionStatus } from '../utils/dictionaries';
 
-import { ActivityFeedItem } from './ActivityFeed';
+import { ActivityFeedItem } from './ActivityFeed/ActivityFeed';
 import s from './CommentView/CommentView.module.css';
-import { Circle } from './Circle';
+import { Circle } from './Circle/Circle';
 import { Link } from './Link';
 import { CardHeaderSection } from './CardHeaderSection/CardHeaderSection';
 import { getSectionChip } from './helpers';
@@ -41,7 +41,7 @@ export function InterviewSectionListItem({ section, interview, className, highli
     return (
         <>
             <ActivityFeedItem className={cn(s.CommentView, className)} id={`section-${section.id}`}>
-                <Circle size={31}>
+                <Circle>
                     {nullable(userByEmailLink && section.interviewer, ({ email, name }) => (
                         <Link href={userByEmailLink} inline target="_blank">
                             <UserPic size={35} email={email} name={name} />

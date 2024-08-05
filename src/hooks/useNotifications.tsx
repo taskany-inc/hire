@@ -5,7 +5,7 @@ import { typeToFlattenedError } from 'zod';
 import { IconXOutline } from '@taskany/icons';
 
 import { isAxiosError, isObject } from '../utils/typeGuards';
-import { IconButton } from '../components/IconButton';
+import { IconButton } from '../components/IconButton/IconButton';
 
 import { tr } from './hooks.i18n';
 

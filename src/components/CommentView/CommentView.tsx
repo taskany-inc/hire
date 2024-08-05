@@ -17,11 +17,11 @@ import {
 } from '@taskany/bricks/harmony';
 import cn from 'classnames';
 
-import { ActivityFeedItem } from '../ActivityFeed';
+import { ActivityFeedItem } from '../ActivityFeed/ActivityFeed';
 import { CommentForm } from '../CommentForm/CommentForm';
 import { CardHeaderComment } from '../CardHeaderComment/CardHeaderComment';
 import config from '../../config';
-import { Circle } from '../Circle';
+import { Circle } from '../Circle/Circle';
 import { CommentSchema } from '../../modules/commentTypes';
 import { Light } from '../Light';
 import { Link } from '../Link';
@@ -135,7 +135,7 @@ export const CommentView: FC<CommentViewProps> = ({
     return (
         <ActivityFeedItem className={cn(s.CommentView, className)} id={`comment-${comment.id}`}>
             <Card className={cn(s.CommentCard, { [s.CommentCard_highlighted]: highlight })}>
-                <Circle size={31}>
+                <Circle>
                     {nullable(userByEmailLink && author, ({ email, name }) => (
                         <Link href={userByEmailLink} inline target="_blank">
                             <UserPic size={35} email={email} name={name} />

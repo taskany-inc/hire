@@ -1,0 +1,10 @@
+.CvAttachFileInput {
+    display: none;
+}
+
+.CvAttachFileInputText {
+    cursor: pointer;
+    color: var(--link10);
+    margin: var(--gap-s);
+}
+

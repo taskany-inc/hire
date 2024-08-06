@@ -1,3 +1,7 @@
+.PageNavigationBlock {
+  gap: 0;
+}
+
 .PageNavigationItemLink a:hover {
   color: inherit;
 }

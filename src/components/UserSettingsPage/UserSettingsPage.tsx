@@ -4,9 +4,8 @@ import { Fieldset, Form, FormRadio, FormRadioInput } from '@taskany/bricks';
 import { Theme, themes } from '../../utils/theme';
 import { trpc } from '../../trpc/trpcClient';
 import { useEditUserSettings } from '../../modules/userHooks';
-import { SettingsCard, SettingsContainer } from '../Settings';
+import { SettingsCard, SettingsContainer } from '../Settings/Settings';
 import { LayoutMain } from '../LayoutMain/LayoutMain';
-import { PageSep } from '../PageSep';
 import { languages } from '../../utils/getLang';
 
 import { tr } from './UserSettingsPage.i18n';
@@ -39,7 +38,7 @@ export const UserSettingsPage = ({ userId }: UserSettingsPageProps) => {
 
     return (
         <LayoutMain pageTitle={user.name || user.email}>
-            <PageSep className={s.UserSettingsPageSep} />
+            <div className={s.UserSettingsPageSep} />
 
             <SettingsContainer>
                 <SettingsCard>

@@ -1,0 +1,10 @@
+.SectionScheduleCalendarButtonWrapper {
+    display: flex;
+    gap: var(--gap-s);
+    float: right;
+    margin: var(--gap-l) 0 var(--gap-m) 0;
+}
+
+.SectionScheduleCalendarTextWrapper {
+    margin-top: var(--gap-s);
+}

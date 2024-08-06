@@ -1,8 +1,6 @@
 import { FC } from 'react';
 import { useRouter } from 'next/router';
 import { User } from '@prisma/client';
-import styled from 'styled-components';
-import { gray1 } from '@taskany/colors';
 import { Text, UserPic } from '@taskany/bricks';
 import { Button } from '@taskany/bricks/harmony';
 
@@ -12,29 +10,11 @@ import { readBooleanFromMetaTag } from '../../utils/frontend';
 import { yearInSeconds } from '../../utils';
 
 import { tr } from './DebugAuth.i18n';
+import s from './DebugAuth.module.css';
 
 interface DebugAuthProps {
     users: User[];
 }
-
-const StyledUserCards = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2px;
-    margin: 0 -22px;
-`;
-
-const StyledCard = styled.div`
-    padding: 12px 22px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    &:hover {
-        background-color: ${gray1};
-    }
-`;
 
 export const DebugAuth: FC<DebugAuthProps> = ({ users }) => {
     const router = useRouter();
@@ -65,22 +45,23 @@ export const DebugAuth: FC<DebugAuthProps> = ({ users }) => {
                 {tr('Select the user under which you want to log in')}
             </Text>
 
-            <StyledUserCards>
+            <div className={s.DebugAuthUserCards}>
                 {users.map((user) => {
                     const { email } = user;
 
                     return (
-                        <StyledCard
+                        <div
                             style={{ cursor: email ? 'pointer' : 'disabled' }}
                             key={user.id}
                             onClick={email ? () => onUserSelect(email) : undefined}
+                            className={s.DebugAuthCard}
                         >
                             <UserPic email={email} />
                             <Text>{user.name}</Text>
-                        </StyledCard>
+                        </div>
                     );
                 })}
-            </StyledUserCards>
+            </div>
         </div>
     );
 };

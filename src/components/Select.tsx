@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { gray8 } from '@taskany/colors';
 import { Dropdown, FiltersMenuItem, Text } from '@taskany/bricks';
 
-import { ColorizedMenuItem } from './ColorizedMenuItem';
+import { ColorizedMenuItem } from './ColorizedMenuItem/ColorizedMenuItem';
 import { Stack } from './Stack';
 
 interface DropdownOption {
@@ -63,7 +63,7 @@ export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
                             <ColorizedMenuItem
                                 key={props.item.value}
                                 title={props.item.text}
-                                hoverColor="#565589"
+                                hoverColor
                                 checked={selected === props.item}
                                 onClick={props.onClick}
                                 stateDotColor={props.item.stateDotColor}

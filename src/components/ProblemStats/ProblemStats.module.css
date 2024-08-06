@@ -1,0 +1,21 @@
+.ProblemStatsContainer {
+    width: 200px;
+    height: 8px;
+    display: flex;
+    margin-bottom: 50px;
+}
+
+.ProblemStatsRateBarBad {
+    height: 6px;
+    background-color:#f85149;
+}
+
+.ProblemStatsRateBarOk {
+    height: 6px;
+    background-color:#fac905;
+}
+
+.ProblemStatsRateBarGood {
+    height: 6px;
+    background-color:#18e022;
+}

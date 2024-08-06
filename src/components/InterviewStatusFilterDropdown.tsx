@@ -4,8 +4,8 @@ import { Dropdown } from '@taskany/bricks';
 
 import { interviewStatusLabels } from '../utils/dictionaries';
 
-import { ColorizedMenuItem } from './ColorizedMenuItem';
-import { FiltersMenuItem } from './FiltersMenuItem';
+import { ColorizedMenuItem } from './ColorizedMenuItem/ColorizedMenuItem';
+import { FiltersMenuItem } from './FiltersMenuItem/FiltersMenuItem';
 
 interface InterviewStatusFilterDropdownProps {
     text: React.ComponentProps<typeof Dropdown>['text'];
@@ -54,7 +54,7 @@ export const InterviewStatusFilterDropdown = React.forwardRef<HTMLDivElement, In
                     <ColorizedMenuItem
                         key={interviewStatusLabels[props.item as InterviewStatus]}
                         title={interviewStatusLabels[props.item as InterviewStatus]}
-                        hoverColor="#565589"
+                        hoverColor
                         checked={selected?.has(props.item)}
                         onClick={props.onClick}
                     />

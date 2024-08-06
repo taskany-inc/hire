@@ -1,0 +1,18 @@
+.DebugAuthUserCards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    margin: 0 -22px;
+}
+
+.DebugAuthCard {
+    padding: 12px 22px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.DebugAuthCard:hover {
+    background-color: var(--gray1);
+}

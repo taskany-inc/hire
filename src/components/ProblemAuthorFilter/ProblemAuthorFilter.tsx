@@ -2,7 +2,7 @@ import React from 'react';
 import { User } from '@prisma/client';
 
 import { useSession } from '../../contexts/appSettingsContext';
-import { FiltersMenuItem } from '../FiltersMenuItem';
+import { FiltersMenuItem } from '../FiltersMenuItem/FiltersMenuItem';
 
 import { tr } from './ProblemAuthorFilter.i18n';
 

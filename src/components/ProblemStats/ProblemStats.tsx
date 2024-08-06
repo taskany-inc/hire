@@ -1,8 +1,9 @@
 import { CSSProperties, memo, useRef, useState } from 'react';
-import styled from 'styled-components';
 import { Popup, Text } from '@taskany/bricks';
+import cn from 'classnames';
 
 import { tr } from './ProblemStats.i18n';
+import s from './ProblemStats.module.css';
 
 interface Stats {
     good: number;
@@ -14,25 +15,6 @@ type ProblemStatsProps = Stats & {
     className?: string;
     style?: CSSProperties;
 };
-
-const rateToColor: Record<keyof Stats, string> = {
-    bad: '#f85149',
-    ok: '#fac905',
-    good: '#18e022',
-};
-
-const StyledContainer = styled.div`
-    width: 200px;
-    height: 8px;
-    display: flex;
-    margin-bottom: 50px;
-`;
-
-const RateBar = styled.div<{ ratio: number; rate: keyof Stats }>`
-    height: 6px;
-    width: ${({ ratio }) => `${ratio}%`};
-    background-color: ${({ rate }) => rateToColor[rate]};
-`;
 
 export const ProblemStats = memo(({ good, ok, bad, className, style }: ProblemStatsProps) => {
     const total = good + ok + bad;
@@ -53,35 +35,35 @@ export const ProblemStats = memo(({ good, ok, bad, className, style }: ProblemSt
     }
 
     return (
-        <StyledContainer className={className} style={style}>
-            <RateBar
+        <div style={style} className={cn(s.ProblemStatsContainer, className)}>
+            <div
                 ref={popupRefGood}
                 onMouseEnter={() => setPopupVisibilityGood(true)}
                 onMouseLeave={() => setPopupVisibilityGood(false)}
-                ratio={(good / total) * 100}
-                rate="good"
+                style={{ width: `${(good / total) * 100}%` }}
+                className={s.ProblemStatsRateBarGood}
             />
             <Popup tooltip placement="bottom-start" reference={popupRefGood} visible={popupVisibleGood}>
                 <Text size="s">👍 {tr('Good solutions: {good} from {total}', { good, total })}</Text>
             </Popup>
 
-            <RateBar
+            <div
                 ref={popupRefOk}
                 onMouseEnter={() => setPopupVisibilityOk(true)}
                 onMouseLeave={() => setPopupVisibilityOk(false)}
-                ratio={(ok / total) * 100}
-                rate="ok"
+                style={{ width: `${(ok / total) * 100}%` }}
+                className={s.ProblemStatsRateBarGood}
             />
             <Popup tooltip placement="bottom-start" reference={popupRefOk} visible={popupVisibleOk}>
                 <Text size="s">👌 {tr('Ok solutions: {ok} from {total}', { ok, total })}</Text>
             </Popup>
 
-            <RateBar
+            <div
                 ref={popupRefBad}
                 onMouseEnter={() => setPopupVisibilityBad(true)}
                 onMouseLeave={() => setPopupVisibilityBad(false)}
-                ratio={(bad / total) * 100}
-                rate="bad"
+                style={{ width: `${(bad / total) * 100}%` }}
+                className={s.ProblemStatsRateBarGood}
             />
             <Popup tooltip placement="bottom-start" reference={popupRefBad} visible={popupVisibleBad}>
                 <Text size="s">
@@ -92,6 +74,6 @@ export const ProblemStats = memo(({ good, ok, bad, className, style }: ProblemSt
                     })}
                 </Text>
             </Popup>
-        </StyledContainer>
+        </div>
     );
 });

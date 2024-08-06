@@ -1,12 +1,11 @@
 import { ReactNode, useRef, useState, VFC } from 'react';
 import { FormTitle, Modal, ModalContent, ModalCross, ModalHeader } from '@taskany/bricks';
-import { gapL, gapM, gapS } from '@taskany/colors';
-import styled from 'styled-components';
 import { Button } from '@taskany/bricks/harmony';
 
 import { AsyncAnyFunction } from '../../utils/types';
 
 import { tr } from './Confirmation.i18n';
+import s from './Confirmation.module.css';
 
 interface ConfirmationProps {
     open: boolean;
@@ -17,13 +16,6 @@ interface ConfirmationProps {
     inProgress?: boolean;
     destructive?: boolean;
 }
-
-const StyledWrapper = styled.div`
-    display: flex;
-    gap: ${gapS};
-    float: right;
-    margin: ${gapL} 0 ${gapM} 0;
-`;
 
 export const Confirmation: VFC<ConfirmationProps> = ({
     message,
@@ -47,7 +39,7 @@ export const Confirmation: VFC<ConfirmationProps> = ({
             </ModalHeader>
             <ModalContent>
                 {description}
-                <StyledWrapper>
+                <div className={s.ConfirmationWrapper}>
                     <Button
                         ref={ref}
                         onClick={onAgree}
@@ -57,7 +49,7 @@ export const Confirmation: VFC<ConfirmationProps> = ({
                         text={tr('Ok')}
                     />
                     <Button onClick={onClose} text={tr('Cancel')} />
-                </StyledWrapper>
+                </div>
             </ModalContent>
         </Modal>
     );

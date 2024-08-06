@@ -2,7 +2,7 @@ import { IconBulbOnOutline } from '@taskany/icons';
 import { warn8 } from '@taskany/colors';
 import { Keyboard } from '@taskany/bricks';
 
-import { Tip } from '../Tip';
+import { Tip } from '../Tip/Tip';
 
 import { tr } from './KeyboardSubmitHint.i18n';
 import s from './KeyboardSubmitHint.module.css';

@@ -2,7 +2,7 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useKeyboard, KeyCode, Badge, Popup, FormInput } from '@taskany/bricks';
 
 import { Option } from '../../utils/types';
-import { ColorizedMenuItem } from '../ColorizedMenuItem';
+import { ColorizedMenuItem } from '../ColorizedMenuItem/ColorizedMenuItem';
 
 import { tr } from './Autocomplete.i18n';
 import s from './Autocomplete.module.css';

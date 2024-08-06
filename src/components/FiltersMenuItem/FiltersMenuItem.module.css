@@ -1,0 +1,25 @@
+.FilterMenuItem {
+    display: inline-block;
+    padding: var(--gap-s);
+
+    cursor: pointer;
+
+    user-select: none;
+
+    border-radius: var(--radius-s);
+
+    font-weight: 600;
+
+    color: var(--gray9);
+
+    transition: 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+    transition-property: color;
+}
+
+.FilterMenuItem:hover {
+  color: var(--text-color);
+}
+
+.FilterMenuItemActive {
+  color: var(--text-color);
+}

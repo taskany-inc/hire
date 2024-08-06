@@ -1,5 +1,4 @@
 import React, { FC, useCallback, useMemo, useState } from 'react';
-import { textColor } from '@taskany/colors';
 import { UserPic, nullable } from '@taskany/bricks';
 import { IconBinOutline, IconEditOutline, IconMoreVerticalOutline } from '@taskany/icons';
 import { Comment, InterviewStatus } from '@prisma/client';
@@ -23,7 +22,7 @@ import { CardHeaderComment } from '../CardHeaderComment/CardHeaderComment';
 import config from '../../config';
 import { Circle } from '../Circle/Circle';
 import { CommentSchema } from '../../modules/commentTypes';
-import { Light } from '../Light';
+import { Light } from '../Light/Light';
 import { Link } from '../Link';
 import { accessChecks } from '../../modules/accessChecks';
 import { useSession } from '../../contexts/appSettingsContext';
@@ -183,7 +182,7 @@ export const CommentView: FC<CommentViewProps> = ({
                                 <Dropdown isOpen={isOpen} onClose={() => setIsOpen(false)}>
                                     <DropdownTrigger
                                         renderTrigger={(props) => (
-                                            <Light color={textColor} ref={props.ref} onClick={() => setIsOpen(!isOpen)}>
+                                            <Light ref={props.ref} onClick={() => setIsOpen(!isOpen)}>
                                                 <IconMoreVerticalOutline size="xs" className={s.DropdownTrigger} />
                                             </Light>
                                         )}

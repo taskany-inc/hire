@@ -1,8 +1,8 @@
 import { TaskanyLogo } from '@taskany/bricks';
 import {
+    ListView,
     Navigation,
     NavigationItem,
-    NavigationSection,
     NavigationSidebar,
     NavigationSidebarContent,
     NavigationSidebarHeader,
@@ -39,8 +39,8 @@ export const PageNavigation: FC<PageNavigationProps> = ({ userSettings }) => {
             </NavigationSidebarHeader>
             <NavigationSidebarContent>
                 <PageNavigationActionButton />
-                <Navigation>
-                    <NavigationSection title="">
+                <Navigation className={s.PageNavigationBlock}>
+                    <ListView>
                         {entityListMenuItems.map(({ text, path }) => (
                             <div key={path} className={s.PageNavigationItemLink}>
                                 <NextLink href={path} legacyBehavior>
@@ -50,7 +50,7 @@ export const PageNavigation: FC<PageNavigationProps> = ({ userSettings }) => {
                                 </NextLink>
                             </div>
                         ))}
-                    </NavigationSection>
+                    </ListView>
                 </Navigation>
             </NavigationSidebarContent>
         </NavigationSidebar>

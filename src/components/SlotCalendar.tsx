@@ -15,7 +15,7 @@ import { CalendarEventInstance } from '../modules/calendarTypes';
 import { BigCalendarEvent } from '../utils/calendar';
 
 import { SlotCalendarEvent } from './SlotCalendarEvent';
-import { LoadingContainer } from './LoadingContainer';
+import { LoadingContainer } from './LoadingContainer/LoadingContainer';
 import { QueryResolver } from './QueryResolver/QueryResolver';
 import { SlotCalendarEventWrapper } from './SlotCalendarEventWrapper';
 

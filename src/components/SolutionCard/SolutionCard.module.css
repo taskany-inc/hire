@@ -1,3 +1,56 @@
+.Card {
+    max-width: 900px;
+}
+
+.CardInfo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.CardContent { 
+    border: 1px solid var(--card-background);
+}
+
+.ProblemSolutionText {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    margin-top: var(--gap-m);
+    gap: var(--gap-xs);
+}
+
+.CandidatesSolutionText {
+    margin-top: var(--gap-l);
+    margin-bottom: var(--gap-s);
+}
+
 .CodeEditorField {
     max-width: 900px;
+}
+
+.Switch {
+    display: flex;
+    margin-top: var(--gap-m);
+    width: 150px;
+}
+
+.ErrorTextWrapper {
+    position: relative;
+}
+
+.ResultText {
+    margin-top: var(--gap-m);
+}
+
+.ResultErrorText {
+    margin-top: var(--gap-xs);
+    position: absolute;
+}
+
+.ButtonStack {
+    display: flex;
+    gap: var(--gap-s);
+    margin-left: auto;
+    width: max-content;
 }

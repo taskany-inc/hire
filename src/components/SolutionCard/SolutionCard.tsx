@@ -1,11 +1,11 @@
 import { CSSProperties, FC, useCallback, useRef, useState } from 'react';
 import { SolutionResult } from '@prisma/client';
 import { Resolver, ResolverError, useForm } from 'react-hook-form';
-import styled from 'styled-components';
-import { colorPrimary, danger0, gapL, gapM, gapS, gapXs, gray6 } from '@taskany/colors';
-import { Text, Popup, nullable } from '@taskany/bricks';
-import { Button } from '@taskany/bricks/harmony';
+import { danger0 } from '@taskany/colors';
+import { nullable } from '@taskany/bricks';
+import { Button, CardContent, Card, CardInfo, SwitchControl, Switch, Text, Popup } from '@taskany/bricks/harmony';
 import { IconArrowUpSmallOutline, IconArrowDownSmallOutline } from '@taskany/icons';
+import cn from 'classnames';
 
 import { useSolutionRemoveMutation, useSolutionUpdateMutation } from '../../modules/solutionHooks';
 import { UpdateSolution, SolutionWithRelations } from '../../modules/solutionTypes';
@@ -14,11 +14,8 @@ import { pageHrefs } from '../../utils/paths';
 import { validationRules } from '../../utils/validationRules';
 import { LocalStorageManager, useSectionSolutionAnswerPersisted } from '../../utils/localStorageManager';
 import { trpc } from '../../trpc/trpcClient';
-import { LoadingContainer } from '../LoadingContainer';
-import { Stack } from '../Stack';
-import { Card } from '../Card';
+import { LoadingContainer } from '../LoadingContainer/LoadingContainer';
 import { CardHeader } from '../CardHeader/CardHeader';
-import { CardContent } from '../CardContent';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { SwitchSolutionsOrderButton } from '../SwitchSolutionOrderButton/SwitchSolutionOrderButton';
 import Md from '../Md';
@@ -41,54 +38,7 @@ interface ResultButtonProps {
     style?: CSSProperties;
 }
 
-const StyledHeaderWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-`;
-
-const StyledProblemSolution = styled(Text)`
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-    margin-top: ${gapM};
-    gap: ${gapXs};
-`;
-
-const StyledCard = styled(Card)`
-    width: 900px;
-`;
-
-const StyledCandidatesSolutionText = styled(Text)`
-    margin-top: ${gapL};
-    margin-bottom: ${gapS};
-`;
-
-const StyledResultButtonStack = styled(Stack)`
-    margin-top: ${gapM};
-    width: max-content;
-`;
-
-const StyledErrorTextWrapper = styled.div`
-    position: relative;
-`;
-
-const StyledResultErrorText = styled(Text)`
-    margin-top: ${gapXs};
-    position: absolute;
-`;
-
-const StyledResultText = styled(Text)`
-    margin-top: ${gapM};
-`;
-
-const StyledButtonStack = styled(Stack)`
-    margin-top: ${gapM};
-    margin-left: auto;
-    width: max-content;
-`;
-
-export const ResultButton = ({ result, onClick, style }: ResultButtonProps): JSX.Element => {
+export const ResultButton = ({ result, onClick }: ResultButtonProps): JSX.Element => {
     const [popupVisible, setPopupVisibility] = useState(false);
     const popupRef = useRef<HTMLDivElement>(null);
 
@@ -99,9 +49,16 @@ export const ResultButton = ({ result, onClick, style }: ResultButtonProps): JSX
                 onMouseEnter={() => setPopupVisibility(true)}
                 onMouseLeave={() => setPopupVisibility(false)}
             >
-                <Button type="button" onClick={onClick} text={solutionResultEmoji[result]} style={style} />
+                <SwitchControl
+                    className=""
+                    type="button"
+                    value={solutionResultEmoji[result]}
+                    text={solutionResultEmoji[result]}
+                    onClick={onClick}
+                    size="s"
+                />
             </div>
-            <Popup tooltip placement="bottom-start" arrow={false} reference={popupRef} visible={popupVisible}>
+            <Popup placement="top" arrow={false} reference={popupRef} visible={popupVisible}>
                 <Text size="xs">{solutionResultText[result]}</Text>
             </Popup>
         </>
@@ -157,8 +114,8 @@ export const SolutionCard: FC<SolutionCardProps> = ({
         control,
         getValues,
         setValue,
-        watch,
         trigger,
+        watch,
         formState: { errors },
     } = useForm<UpdateSolution>({
         resolver,
@@ -209,42 +166,35 @@ export const SolutionCard: FC<SolutionCardProps> = ({
     };
 
     return (
-        <StyledCard>
-            <StyledHeaderWrapper>
+        <Card className={s.Card}>
+            <CardInfo className={cn(s.CardInfo)}>
                 <CardHeader
                     title={problem.name}
                     subTitle={`${tr('Difficulty:')} ${problemDifficultyLabels[problem.difficulty]}`}
                     link={pageHrefs.problem(problem.id)}
                 />
-                <div>
-                    {goUp && (
-                        <SwitchSolutionsOrderButton direction="up" onClick={goUp} disabled={isSwitchOrderDisabled} />
-                    )}
-                    {goDown && (
-                        <SwitchSolutionsOrderButton
-                            direction="down"
-                            onClick={goDown}
-                            disabled={isSwitchOrderDisabled}
-                        />
-                    )}
-                </div>
-            </StyledHeaderWrapper>
-            <CardContent>
+
+                {goUp && <SwitchSolutionsOrderButton direction="up" onClick={goUp} disabled={isSwitchOrderDisabled} />}
+                {goDown && (
+                    <SwitchSolutionsOrderButton direction="down" onClick={goDown} disabled={isSwitchOrderDisabled} />
+                )}
+            </CardInfo>
+            <CardContent className={s.CardContent}>
                 {nullable(problem.description, (d) => (
                     <Md>{d}</Md>
                 ))}
 
-                <StyledProblemSolution size="s" as="div" onClick={() => setIsExpanded((v) => !v)}>
+                <Text className={s.ProblemSolutionText} size="s" as="div" onClick={() => setIsExpanded((v) => !v)}>
                     {tr('Possible Solution')}
                     {isExpanded ? <IconArrowUpSmallOutline size="s" /> : <IconArrowDownSmallOutline size="s" />}
-                </StyledProblemSolution>
+                </Text>
 
                 {isExpanded && nullable(problem.solution, (s) => <Md>{s}</Md>)}
 
                 <LoadingContainer isSpinnerVisible={isSpinnerVisible}>
-                    <StyledCandidatesSolutionText size="l" forwardRef={solutionRef}>
+                    <Text className={s.CandidatesSolutionText} size="l" ref={solutionRef}>
                         {tr("Candidate's solution")}
-                    </StyledCandidatesSolutionText>
+                    </Text>
 
                     {solution.answer && !editOpen ? (
                         nullable(solution.answer, (a) => <Md>{a}</Md>)
@@ -261,39 +211,36 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                                 options={validationRules.nonEmptyString}
                             />
 
-                            <StyledResultButtonStack direction="row">
-                                {solutionSubmitButtons.map((result) => {
-                                    const isCurrentResult = result && result === currentResult;
-
-                                    return (
-                                        <ResultButton
-                                            result={result}
-                                            onClick={handleResultClick(result)}
-                                            style={{
-                                                backgroundColor: isCurrentResult ? colorPrimary : `${gray6}`,
-                                            }}
-                                            key={solutionResultText[result]}
-                                        />
-                                    );
-                                })}
-                            </StyledResultButtonStack>
+                            <div className={s.Switch}>
+                                <Switch value={currentResult ? solutionResultEmoji[currentResult] : undefined}>
+                                    {solutionSubmitButtons.map((result) => {
+                                        return (
+                                            <ResultButton
+                                                result={result}
+                                                onClick={handleResultClick(result)}
+                                                key={solutionResultText[result]}
+                                            />
+                                        );
+                                    })}
+                                </Switch>
+                            </div>
                             {errors.result && (
-                                <StyledErrorTextWrapper>
-                                    <StyledResultErrorText as="p" size="s" color={danger0}>
+                                <div className={s.ErrorTextWrapper}>
+                                    <Text as="p" size="s" color={danger0}>
                                         {errors.result.message}
-                                    </StyledResultErrorText>
-                                </StyledErrorTextWrapper>
+                                    </Text>
+                                </div>
                             )}
                         </form>
                     )}
                     {!editOpen && solution.answer && (
-                        <StyledResultText weight="bold" size="l">
+                        <Text className={s.ResultText} weight="bold" size="l">
                             {tr('Result:')} {solutionResultEmoji[solution.result]} {solutionResultText[solution.result]}
-                        </StyledResultText>
+                        </Text>
                     )}
 
                     {isEditable && (
-                        <StyledButtonStack direction="row" gap={12}>
+                        <div className={s.ButtonStack}>
                             {!(solution.answer && !editOpen) && (
                                 <Button view="primary" type="submit" form={formId} text={tr('Save')} />
                             )}
@@ -305,10 +252,10 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                                 ))}
 
                             <Button view="danger" onClick={onRemoveSolution} text={tr('Delete problem')} />
-                        </StyledButtonStack>
+                        </div>
                     )}
                 </LoadingContainer>
             </CardContent>
-        </StyledCard>
+        </Card>
     );
 };

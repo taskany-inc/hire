@@ -20,7 +20,7 @@ import {
     CalendarEventForm,
     CalendarEventFormValues,
 } from '../CalendarEventForm/CalendarEventForm';
-import { SlotCalendar, EventDropHandler, SlotInfo, stringOrDate } from '../SlotCalendar';
+import { SlotCalendar, EventDropHandler, SlotInfo, stringOrDate } from '../SlotCalendar/SlotCalendar';
 import {
     CalendarEventLinkedSection,
     CalendarEventLinkedSectionProps,

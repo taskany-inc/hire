@@ -4,8 +4,8 @@ import { Dropdown } from '@taskany/bricks';
 
 import { problemDifficultyLabels } from '../utils/dictionaries';
 
-import { ColorizedMenuItem } from './ColorizedMenuItem';
-import { FiltersMenuItem } from './FiltersMenuItem';
+import { ColorizedMenuItem } from './ColorizedMenuItem/ColorizedMenuItem';
+import { FiltersMenuItem } from './FiltersMenuItem/FiltersMenuItem';
 
 interface DifficultyFilterDropdownProps {
     text: React.ComponentProps<typeof Dropdown>['text'];
@@ -46,7 +46,7 @@ export const DifficultyFilterDropdown = React.forwardRef<HTMLDivElement, Difficu
                     <ColorizedMenuItem
                         key={problemDifficultyLabels[props.item as ProblemDifficulty]}
                         title={problemDifficultyLabels[props.item as ProblemDifficulty]}
-                        hoverColor="#565589"
+                        hoverColor
                         checked={selected === props.item}
                         onClick={props.onClick}
                     />

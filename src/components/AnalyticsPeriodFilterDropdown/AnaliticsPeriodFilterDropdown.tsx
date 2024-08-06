@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { Dropdown } from '@taskany/bricks';
 
-import { ColorizedMenuItem } from '../ColorizedMenuItem';
-import { FiltersMenuItem } from '../FiltersMenuItem';
+import { ColorizedMenuItem } from '../ColorizedMenuItem/ColorizedMenuItem';
+import { FiltersMenuItem } from '../FiltersMenuItem/FiltersMenuItem';
 
 import { tr } from './AnalyticsPeriodFilterDropdown.i18n';
 
@@ -54,7 +54,7 @@ export const AnaliticsPeriodFilterDropdown = React.forwardRef<HTMLDivElement, An
                     <ColorizedMenuItem
                         key={props.item.value}
                         title={props.item.title}
-                        hoverColor="#565589"
+                        hoverColor
                         checked={selected === props.item.value}
                         onClick={props.onClick}
                     />

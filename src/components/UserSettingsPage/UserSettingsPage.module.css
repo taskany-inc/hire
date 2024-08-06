@@ -1,3 +1,6 @@
 .UserSettingsPageSep {
     margin-left: -40px;
+    border-top: 1px solid var(--gray4);
+    margin: var(--gap-m) 0;
+    width: auto;
 }

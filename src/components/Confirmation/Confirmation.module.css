@@ -1,0 +1,6 @@
+.ConfirmationWrapper {
+    display: flex;
+    gap: var(--gap-s);
+    float: right;
+    margin: var(--gap-l) 0 var(--gap-m) 0;
+}

@@ -5,7 +5,7 @@ import { IconMoreVerticalSolid } from '@taskany/icons';
 import { Button } from '@taskany/bricks/harmony';
 
 import { pageHrefs } from '../../utils/paths';
-import { ColorizedMenuItem } from '../ColorizedMenuItem';
+import { ColorizedMenuItem } from '../ColorizedMenuItem/ColorizedMenuItem';
 
 import { tr } from './AssignSectionDropdownButton.i18n';
 
@@ -34,12 +34,7 @@ export function AssignSectionDropdownButton({ interviewId, sectionTypes }: Props
                 />
             )}
             renderItem={(props) => (
-                <ColorizedMenuItem
-                    key={props.item.id}
-                    title={props.item.title}
-                    onClick={props.onClick}
-                    hoverColor="#565589"
-                />
+                <ColorizedMenuItem key={props.item.id} title={props.item.title} onClick={props.onClick} hoverColor />
             )}
         />
     );

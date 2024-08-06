@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Spinner } from '../Spinner';
+import { Spinner } from '../Spinner/Spinner';
 
 import s from './LoadingContainer.module.css';
 
@@ -9,9 +9,9 @@ export const LoadingContainer: FC<{ isSpinnerVisible: boolean; children: React.R
     children,
 }) => {
     return (
-        <div className={s.Container}>
+        <div className={s.LoadingContainerContainer}>
             {isSpinnerVisible && (
-                <div className={s.LoadingContainer}>
+                <div className={s.LoadingContainerSpinnerWrapper}>
                     <Spinner />
                 </div>
             )}

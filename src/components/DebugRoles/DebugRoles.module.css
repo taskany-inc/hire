@@ -5,3 +5,34 @@
 .DebugRolesButtonWrapper{
   display: flex;
 }
+
+.DebugRolesTitle {
+
+    margin-top: 50px;
+
+}
+
+.DebugRolesCards {
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    margin: 0 -20px 30px;
+    max-width: 70%;
+
+}
+
+.DebugRolesCheckBox {
+
+    width: 20px;
+    margin-left: 20px;
+    margin-top: 12px;
+
+}
+
+.DebugRolesText {
+
+    display: inline-block;
+
+}
+

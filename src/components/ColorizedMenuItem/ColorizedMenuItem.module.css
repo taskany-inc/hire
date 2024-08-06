@@ -1,0 +1,46 @@
+.ColorizedMenuItem {
+    display: flex;
+    align-items: center;
+
+    box-sizing: border-box;
+    padding: var(--gap-xs) var(--gap-s);
+    margin-bottom: var(--gap-s);
+    min-width: 150px;
+
+    border-radius: var(--radius-m);
+
+    cursor: pointer;
+}
+
+.ColorizedMenuItem:hover {
+    background-color: var(--gray3);
+}
+
+.ColorizedMenuItem:last-child {
+    margin-bottom: 0;
+}
+
+.ColorizedMenuItemFocused:not(.ColorizedMenuItemHoverColor) {
+    background-color: var(--gray3);
+}
+
+.ColorizedMenuItemChecked {
+    background-color:#565589;
+}
+
+.ColorizedMenuItemHoverColor:hover {
+    background-color: #565589;
+}
+
+.ColorizedMenuItemNoWrap {
+
+    white-space: nowrap;
+
+}
+
+.ColorizedMenuItemItemInfo {
+
+    padding-left: var(--gap-s);
+
+}
+

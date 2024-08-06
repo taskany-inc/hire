@@ -1,6 +1,5 @@
-import styled from 'styled-components';
 import { nullable, Text } from '@taskany/bricks';
-import { gapS } from '@taskany/colors';
+import cn from 'classnames';
 
 import { SectionWithInterviewRelation } from '../../modules/interviewTypes';
 import { generatePath, Paths } from '../../utils/paths';
@@ -11,6 +10,7 @@ import { SectionFeedbackHireBadge, SectionTypeBadge } from '../SectionFeedbackHi
 import Md from '../Md';
 
 import { tr } from './SectionList.i18n';
+import s from './SectionList.module.css';
 
 interface SectionListProps {
     sections: SectionWithInterviewRelation[];
@@ -18,42 +18,29 @@ interface SectionListProps {
     completed?: boolean;
 }
 
-const StyledTitle = styled(Text)<{ completed: boolean }>`
-    margin-left: ${gapS};
-    margin-top: ${({ completed }) => (completed ? 60 : 0)};
-    opacity: ${({ completed }) => (completed ? 0.6 : 1)};
-`;
-
-const StyledOpacityCard = styled(Card)<{ completed: boolean }>`
-    opacity: ${({ completed }) => (completed ? 0.6 : 1)};
-
-    &:hover {
-        opacity: 1;
-    }
-`;
-
-const StyledWrapper = styled.div`
-    margin: ${gapS} 0 0 ${gapS};
-`;
-
 export const SectionList = ({ sections, header, completed = false }: SectionListProps) => {
     return (
         <div>
             {header && (
-                <StyledTitle size="l" completed={completed}>
+                <Text size="l" className={cn(s.SectionListTitle, { [s.SectionListTitleCompleted]: completed })}>
                     {header}
-                </StyledTitle>
+                </Text>
             )}
 
             <Stack direction="column" gap={7}>
                 {sections.length === 0 ? (
-                    <StyledWrapper>
+                    <div className={s.SectionListWrapper}>
                         <Text>{tr('No sections yet')} 😴</Text>
-                    </StyledWrapper>
+                    </div>
                 ) : (
                     sections.map((section: SectionWithInterviewRelation) => {
                         return (
-                            <StyledOpacityCard key={section.id} completed={completed}>
+                            <Card
+                                key={section.id}
+                                className={cn(s.SectionListOpacityCard, {
+                                    [s.SectionListOpacityCardCompleted]: completed,
+                                })}
+                            >
                                 <CardHeader
                                     title={section.interview.candidate.name}
                                     link={generatePath(Paths.SECTION, {
@@ -73,7 +60,7 @@ export const SectionList = ({ sections, header, completed = false }: SectionList
                                         <Md>{d}</Md>
                                     ))}
                                 </div>
-                            </StyledOpacityCard>
+                            </Card>
                         );
                     })
                 )}

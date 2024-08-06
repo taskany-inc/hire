@@ -2,9 +2,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { ComponentProps, useCallback, useMemo, useState } from 'react';
 import { HireStream } from '@prisma/client';
-import styled from 'styled-components';
 import { Fieldset, Form, FormAction, FormActions, FormCard } from '@taskany/bricks';
-import { gapS } from '@taskany/colors';
 import { Button } from '@taskany/bricks/harmony';
 
 import { pageHrefs } from '../../utils/paths';
@@ -24,10 +22,6 @@ import { cvParsingResultToDescription } from '../../utils/aiAssistantUtils';
 import { tr } from './CandidateInterviewUpdateForm.i18n';
 import s from './CandidateInterviewUpdateForm.module.css';
 
-const StyledFormCard = styled(FormCard)`
-    width: 500px;
-`;
-
 type InterviewUpdateFormData = Omit<UpdateInterview, 'candidateId' | 'candidateSelectedSectionId' | 'hireStreamId'> & {
     candidate: Option;
     candidateSelectedSectionId: number | -1;
@@ -38,10 +32,6 @@ interface Props {
     interview: InterviewWithRelations;
     hireStreams: HireStream[];
 }
-
-const VacancyWrapper = styled.div`
-    margin-left: ${gapS};
-`;
 
 // TODO: disable return value linting
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -114,7 +104,7 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
         <Stack direction="column" gap={14}>
             <CandidateNameSubtitle name={candidate.name} id={candidate.id} />
 
-            <StyledFormCard>
+            <FormCard className={s.CandidateInterviewUpdateFormFormCard}>
                 <Form onSubmit={handleSubmit(updateInterview)}>
                     <Fieldset>
                         <CodeEditorField
@@ -136,12 +126,12 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
                             onChange={onHireStreamIdChange}
                         />
 
-                        <VacancyWrapper>
+                        <div className={s.CandidateInterviewUpdateFormVacancyWrapper}>
                             <AddVacancyToInterview
                                 vacancyId={vacancyId}
                                 onSelect={(vacancy) => setVacancyId(vacancy?.id ?? null)}
                             />
-                        </VacancyWrapper>
+                        </div>
 
                         <Select
                             value={watch('candidateSelectedSectionId')}
@@ -163,7 +153,7 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
                         </FormAction>
                     </FormActions>
                 </Form>
-            </StyledFormCard>
+            </FormCard>
         </Stack>
     );
 }

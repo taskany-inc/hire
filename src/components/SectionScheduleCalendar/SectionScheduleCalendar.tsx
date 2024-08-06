@@ -2,13 +2,11 @@ import { useState, useCallback, useMemo } from 'react';
 import { View } from 'react-big-calendar';
 import { User } from '@prisma/client';
 import { Text, Modal, ModalHeader, ModalContent, FormInput } from '@taskany/bricks';
-import styled from 'styled-components';
-import { gapL, gapM, gapS } from '@taskany/colors';
 import { Button } from '@taskany/bricks/harmony';
 
 import { InlineDot } from '../InlineDot';
 import { DateRange, firstVisibleDay, lastVisibleDay } from '../../utils/date';
-import { SlotCalendar } from '../SlotCalendar';
+import { SlotCalendar } from '../SlotCalendar/SlotCalendar';
 import {
     CalendarEventLinkedSection,
     CalendarEventLinkedSectionProps,
@@ -16,6 +14,7 @@ import {
 import { BigCalendarEvent } from '../../utils/calendar';
 
 import { tr } from './SectionScheduleCalendar.i18n';
+import s from './SectionScheduleCalendar.module.css';
 
 export interface CalendarEventDetails extends CalendarEventLinkedSectionProps {
     eventId: string;
@@ -31,17 +30,6 @@ interface SectionScheduleCalendarProps {
     isSectionSubmitting: boolean;
     setVideoCallLink: (arg: string) => void;
 }
-
-const StyledButtonWrapper = styled.div`
-    display: flex;
-    gap: ${gapS};
-    float: right;
-    margin: ${gapL} 0 ${gapM} 0;
-`;
-
-const StyledTextWrapper = styled.div`
-    margin-top: ${gapS};
-`;
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function SectionScheduleCalendar({
@@ -109,7 +97,7 @@ export function SectionScheduleCalendar({
                 <ModalContent>
                     <Text size="m">{eventDetails?.interviewer?.name}</Text>
 
-                    <StyledTextWrapper>
+                    <div className={s.SectionScheduleCalendarTextWrapper}>
                         {' '}
                         <InlineDot />
                         <Text as="span" size="s">
@@ -122,14 +110,14 @@ export function SectionScheduleCalendar({
                             autoComplete="off"
                             flat="bottom"
                         />
-                    </StyledTextWrapper>
-                    <StyledButtonWrapper>
+                    </div>
+                    <div className={s.SectionScheduleCalendarButtonWrapper}>
                         <Button onClick={closeEventFormModal} text={tr('Cancel')} />
 
                         {!eventDetails?.interviewSection && eventDetails?.eventId && (
                             <Button onClick={handleSlotSelectClicked} view="primary" text={tr('Choose')} />
                         )}
-                    </StyledButtonWrapper>
+                    </div>
                 </ModalContent>
             </Modal>
         </>

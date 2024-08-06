@@ -1,0 +1,18 @@
+.SettingsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-l);
+    max-width: 850px;
+}
+
+.SettingsCard-default {
+    border-color: var(--gray4);
+}
+
+.SettingsCard-warning {
+    border-color: var(--warn0);
+}
+
+.SettingsCard-danger {
+    border-color: var(--danger0);
+}

@@ -2,3 +2,12 @@
     width: 500px;
     margin-top: var(--gap-sm);
 }
+
+.CandidateInterviewUpdateFormFormCard {
+    width: 500px;
+}
+
+.CandidateInterviewUpdateFormVacancyWrapper {
+    margin-left: var(--gap-s);
+}
+

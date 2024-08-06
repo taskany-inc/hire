@@ -1,0 +1,34 @@
+.SectionListWrapper {
+    margin: var(--gap-s) 0 0 var(--gap-s);
+}
+
+.SectionListMarkdownRenderer {
+    max-width: 600px;
+}
+
+.SectionListTitle {
+    margin-left: var(--gap-s);
+    margin-top: 0;
+    opacity: 1;
+}
+
+.SectionListTitleCompleted {
+    margin-top: 60px;
+    opacity: 0.6;
+}
+
+.SectionListOpacityCard {
+    opacity: 1;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.SectionListOpacityCard:hover {
+    opacity: 1;
+}
+
+.SectionListOpacityCardCompleted {
+    opacity: 0.6;
+}

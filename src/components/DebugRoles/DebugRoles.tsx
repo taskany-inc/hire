@@ -1,7 +1,6 @@
 import { FC, useState } from 'react';
 import { useRouter } from 'next/router';
 import { HireStream } from '@prisma/client';
-import styled from 'styled-components';
 import { Text } from '@taskany/bricks';
 import { Button } from '@taskany/bricks/harmony';
 
@@ -17,28 +16,6 @@ interface DebugRolesProps {
     hireStreams: HireStream[];
     sectionTypes: SectionTypeWithHireStream[];
 }
-
-const StyledTitle = styled(Text)`
-    margin-top: 50px;
-`;
-
-const StyledCards = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2px;
-    margin: 0 -20px 30px;
-    max-width: 70%;
-`;
-
-const StyledCheckBox = styled.input`
-    width: 20px;
-    margin-left: 20px;
-    margin-top: 12px;
-`;
-
-const StyledText = styled(Text)`
-    display: inline-block;
-`;
 
 export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) => {
     const router = useRouter();
@@ -72,24 +49,31 @@ export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) =
 
     return (
         <div>
-            <StyledCards>
+            <div className={s.DebugRolesCards}>
                 {/* Everything seems to be correct, but here it still throws an error */}
                 {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label htmlFor="administrator">
-                    <StyledCheckBox id="administrator" type="checkbox" onChange={() => setAdmin((prev) => !prev)} />
-                    <StyledText>{tr('Admin')}</StyledText>
+                    <input
+                        id="administrator"
+                        type="checkbox"
+                        onChange={() => setAdmin((prev) => !prev)}
+                        className={s.DebugRolesCheckBox}
+                    />
+                    <Text className={s.DebugRolesText}>{tr('Admin')}</Text>
                 </label>
-            </StyledCards>
+            </div>
 
-            <StyledTitle size="xl">{tr('Hire streams manager')}</StyledTitle>
-            <StyledCards>
+            <Text size="xl" className={s.DebugRolesTitle}>
+                {tr('Hire streams manager')}
+            </Text>
+            <div className={s.DebugRolesCards}>
                 {hireStreams.map((hireStream) => {
                     return (
                         <label
                             key={`${hireStream.id}${hireStream.name}Hire streams manager`}
                             htmlFor={`${hireStream.id}${hireStream.name}Hire streams manager`}
                         >
-                            <StyledCheckBox
+                            <input
                                 type="checkbox"
                                 key={hireStream.id}
                                 id={`${hireStream.id}${hireStream.name}Hire streams manager`}
@@ -102,23 +86,26 @@ export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) =
                                         return [...prev, hireStream.id];
                                     })
                                 }
+                                className={s.DebugRolesCheckBox}
                             />
 
-                            <StyledText>{hireStream.name}</StyledText>
+                            <Text className={s.DebugRolesText}>{hireStream.name}</Text>
                         </label>
                     );
                 })}
-            </StyledCards>
+            </div>
 
-            <StyledTitle size="xl">{tr('Hire lead')}</StyledTitle>
-            <StyledCards>
+            <Text size="xl" className={s.DebugRolesTitle}>
+                {tr('Hire lead')}
+            </Text>
+            <div className={s.DebugRolesCards}>
                 {hireStreams.map((hireStream) => {
                     return (
                         <label
                             key={`${hireStream.id}${hireStream.name}Hire lead`}
                             htmlFor={`${hireStream.id}${hireStream.name}Hire lead`}
                         >
-                            <StyledCheckBox
+                            <input
                                 type="checkbox"
                                 key={hireStream.id}
                                 id={`${hireStream.id}${hireStream.name}Hire lead`}
@@ -131,22 +118,25 @@ export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) =
                                         return [...prev, hireStream.id];
                                     })
                                 }
+                                className={s.DebugRolesCheckBox}
                             />
-                            <StyledText>{hireStream.name}</StyledText>
+                            <Text className={s.DebugRolesText}>{hireStream.name}</Text>
                         </label>
                     );
                 })}
-            </StyledCards>
+            </div>
 
-            <StyledTitle size="xl">{tr('Recruter')}</StyledTitle>
-            <StyledCards>
+            <Text size="xl" className={s.DebugRolesTitle}>
+                {tr('Recruter')}
+            </Text>
+            <div className={s.DebugRolesCards}>
                 {hireStreams.map((hireStream) => {
                     return (
                         <label
                             key={`${hireStream.id}${hireStream.name}Recruter`}
                             htmlFor={`${hireStream.id}${hireStream.name}Recruter`}
                         >
-                            <StyledCheckBox
+                            <input
                                 type="checkbox"
                                 key={hireStream.id}
                                 id={`${hireStream.id}${hireStream.name}Recruter`}
@@ -159,22 +149,25 @@ export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) =
                                         return [...prev, hireStream.id];
                                     })
                                 }
+                                className={s.DebugRolesCheckBox}
                             />
-                            <StyledText>{hireStream.name}</StyledText>
+                            <Text className={s.DebugRolesText}>{hireStream.name}</Text>
                         </label>
                     );
                 })}
-            </StyledCards>
+            </div>
 
-            <StyledTitle size="xl">{tr('Interviewer')}</StyledTitle>
-            <StyledCards>
+            <Text size="xl" className={s.DebugRolesTitle}>
+                {tr('Interviewer')}
+            </Text>
+            <div className={s.DebugRolesCards}>
                 {sectionTypes.map((sectionType) => {
                     return (
                         <label
                             key={`${sectionType.id}${sectionType.title}${sectionType.hireStream.name}Interviewer`}
                             htmlFor={`${sectionType.id}${sectionType.title}${sectionType.hireStream.name}Interviewer`}
                         >
-                            <StyledCheckBox
+                            <input
                                 type="checkbox"
                                 key={sectionType.id}
                                 id={`${sectionType.id}${sectionType.title}${sectionType.hireStream.name}Interviewer`}
@@ -187,15 +180,16 @@ export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) =
                                         return [...prev, sectionType.id];
                                     })
                                 }
+                                className={s.DebugRolesCheckBox}
                             />
 
-                            <StyledText>
+                            <Text className={s.DebugRolesText}>
                                 {sectionType.title} ({sectionType.hireStream.name})
-                            </StyledText>
+                            </Text>
                         </label>
                     );
                 })}
-            </StyledCards>
+            </div>
 
             <div className={s.DebugRolesButtonWrapper}>
                 <Button view="primary" onClick={onSave} text={tr('Save')} />

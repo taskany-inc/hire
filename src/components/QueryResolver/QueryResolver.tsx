@@ -2,7 +2,7 @@ import { ReactElement } from 'react';
 import { UseQueryResult } from '@tanstack/react-query';
 import { Text } from '@taskany/bricks';
 
-import { Spinner } from '../Spinner';
+import { Spinner } from '../Spinner/Spinner';
 
 import { tr } from './QueryResolver.i18n';
 

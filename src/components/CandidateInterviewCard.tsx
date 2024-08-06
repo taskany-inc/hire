@@ -7,7 +7,7 @@ import { useFormatDateToLocaleString } from '../hooks/useDateFormat';
 
 import { Card } from './Card/Card';
 import { CardHeader } from './CardHeader/CardHeader';
-import { InterviewTags } from './InterviewTags';
+import { InterviewTags } from './InterviewTags/InterviewTags';
 import { CardContent } from './CardContent';
 import Md from './Md';
 

@@ -7,17 +7,17 @@ import { enGB } from 'date-fns/locale';
 import { Calendar, CalendarProps, Components, dateFnsLocalizer, NavigateAction, View } from 'react-big-calendar';
 import withDragAndDrop, { withDragAndDropProps } from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
-import styled from 'styled-components';
 
-import { useCalendarEvents } from '../modules/calendarEventsHooks';
-import { DateRange, formatLocalized, weekOptions } from '../utils/date';
-import { CalendarEventInstance } from '../modules/calendarTypes';
-import { BigCalendarEvent } from '../utils/calendar';
+import { useCalendarEvents } from '../../modules/calendarEventsHooks';
+import { DateRange, formatLocalized, weekOptions } from '../../utils/date';
+import { CalendarEventInstance } from '../../modules/calendarTypes';
+import { BigCalendarEvent } from '../../utils/calendar';
+import { SlotCalendarEvent } from '../SlotCalendarEvent/SlotCalendarEvent';
+import { LoadingContainer } from '../LoadingContainer/LoadingContainer';
+import { QueryResolver } from '../QueryResolver/QueryResolver';
+import { SlotCalendarEventWrapper } from '../SlotCalendarEventWrapper';
 
-import { SlotCalendarEvent } from './SlotCalendarEvent';
-import { LoadingContainer } from './LoadingContainer/LoadingContainer';
-import { QueryResolver } from './QueryResolver/QueryResolver';
-import { SlotCalendarEventWrapper } from './SlotCalendarEventWrapper';
+import s from './SlotCalendar.module.css';
 
 export type { stringOrDate, SlotInfo } from 'react-big-calendar';
 
@@ -44,11 +44,6 @@ export const components: Components<BigCalendarEvent, never> = {
 const ReactBigDragAndDropCalendar = withDragAndDrop(
     Calendar as React.ComponentType<CalendarProps<BigCalendarEvent, never>>,
 );
-
-const StyledWrapper = styled.div`
-    min-height: 80vh;
-    margin-right: 40px;
-`;
 
 const transformApiToBigCalendarEvents = ({
     date,
@@ -126,7 +121,7 @@ export function SlotCalendar({
 
                 return (
                     <LoadingContainer isSpinnerVisible={isLoading}>
-                        <StyledWrapper>
+                        <div className={s.SlotCalendarWrapper}>
                             <ReactBigDragAndDropCalendar
                                 localizer={localizer}
                                 events={events.map(transformApiToBigCalendarEvents)}
@@ -140,7 +135,7 @@ export function SlotCalendar({
                                 culture="en-GB"
                                 {...bigCalendarProps}
                             />
-                        </StyledWrapper>
+                        </div>
                     </LoadingContainer>
                 );
             }}

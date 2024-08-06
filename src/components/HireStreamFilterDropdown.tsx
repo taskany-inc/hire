@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { HireStream } from '@prisma/client';
 import { Dropdown } from '@taskany/bricks';
 
-import { ColorizedMenuItem } from './ColorizedMenuItem';
-import { FiltersMenuItem } from './FiltersMenuItem';
+import { ColorizedMenuItem } from './ColorizedMenuItem/ColorizedMenuItem';
+import { FiltersMenuItem } from './FiltersMenuItem/FiltersMenuItem';
 
 interface HireStreamFilterDropdownProps {
     text: React.ComponentProps<typeof Dropdown>['text'];
@@ -53,7 +53,7 @@ export const HireStreamFilterDropdown = React.forwardRef<HTMLDivElement, HireStr
                     <ColorizedMenuItem
                         key={props.item.name}
                         title={props.item.name}
-                        hoverColor="#565589"
+                        hoverColor
                         checked={selected?.has(props.item)}
                         onClick={props.onClick}
                     />

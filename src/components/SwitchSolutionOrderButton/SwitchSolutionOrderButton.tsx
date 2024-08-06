@@ -1,4 +1,6 @@
 import cn from 'classnames';
+import { IconDownOutline, IconUpOutline } from '@taskany/icons';
+import { Button } from '@taskany/bricks/harmony';
 
 import s from './SwitchSolutionOrderButton.module.css';
 
@@ -12,16 +14,15 @@ export const SwitchSolutionsOrderButton = ({ direction, onClick, disabled }: Swi
     const ariaLabel = `go ${direction === 'up' ? 'up' : 'down'}`;
 
     return (
-        <>
-            <button
-                className={cn(s.OrderButton, direction === 'up' ? s.OrderButtonUp : s.OrderButtonDown, {
-                    [s.OrderButtonDisabled]: disabled,
-                })}
-                disabled={disabled}
-                type="button"
-                aria-label={ariaLabel}
-                onClick={onClick}
-            />
-        </>
+        <Button
+            className={cn(s.OrderButton, {
+                [s.OrderButtonDisabled]: disabled,
+            })}
+            aria-label={ariaLabel}
+            type="button"
+            onClick={onClick}
+            disabled={disabled}
+            iconRight={direction === 'up' ? <IconUpOutline size="s" /> : <IconDownOutline size="s" />}
+        />
     );
 };

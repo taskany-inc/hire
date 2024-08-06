@@ -14,7 +14,7 @@ import {
     useFavoriteProblems,
     useRemoveProblemFromFavoritesMutation,
 } from '../../modules/userHooks';
-import { LoadingContainer } from '../LoadingContainer';
+import { LoadingContainer } from '../LoadingContainer/LoadingContainer';
 import { Card } from '../Card';
 import { Link } from '../Link';
 import { TagChip } from '../TagChip';

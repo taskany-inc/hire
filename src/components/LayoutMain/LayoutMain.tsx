@@ -23,7 +23,6 @@ interface LayoutMainProps {
     headerGutter?: string;
     titleMenuItems?: DropdownMenuItem[];
     backlink?: string;
-    hidePageHeader?: boolean;
     children?: ReactNode;
 }
 
@@ -33,7 +32,6 @@ export const LayoutMain: FC<LayoutMainProps> = ({
     headerGutter,
     titleMenuItems,
     backlink,
-    hidePageHeader,
     children,
 }) => {
     const { data: userSettings } = trpc.users.getSettings.useQuery();
@@ -74,11 +72,10 @@ export const LayoutMain: FC<LayoutMainProps> = ({
                 <PageNavigation userSettings={userSettings} />
                 <main className={s.Main}>
                     <PageHeader userSettings={userSettings} />
-                    {!hidePageHeader && (
-                        <PageTitle title={pageTitle} gutter={headerGutter} backlink={backlink}>
-                            {titleMenuItems && titleMenuItems.length > 0 && <TitleMenu items={titleMenuItems} />}
-                        </PageTitle>
-                    )}
+
+                    <PageTitle title={pageTitle} gutter={headerGutter} backlink={backlink}>
+                        {titleMenuItems && titleMenuItems.length > 0 && <TitleMenu items={titleMenuItems} />}
+                    </PageTitle>
 
                     {aboveContainer}
 

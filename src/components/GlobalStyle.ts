@@ -1,6 +1,6 @@
 /* stylelint-disable */
 import { createGlobalStyle } from 'styled-components';
-import { backgroundColor, fontDisplay, textColor } from '@taskany/colors';
+import { fontDisplay, textColor } from '@taskany/colors';
 
 export const GlobalStyle = createGlobalStyle`
     html, body {
@@ -15,7 +15,6 @@ export const GlobalStyle = createGlobalStyle`
         width: 100%;
         height: 100%;
 
-        background-color: ${backgroundColor};
-        --background-color-context: ${backgroundColor};
+        background-color: var(--background);
     }
 `;

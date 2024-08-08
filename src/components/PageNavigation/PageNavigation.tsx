@@ -1,4 +1,3 @@
-import { TaskanyLogo } from '@taskany/bricks';
 import {
     ListView,
     Navigation,
@@ -7,6 +6,7 @@ import {
     NavigationSidebarContent,
     NavigationSidebarHeader,
     NavigationSidebarTitle,
+    TaskanyLogo,
 } from '@taskany/bricks/harmony';
 import { IconBellOutline } from '@taskany/icons';
 import NextLink from 'next/link';
@@ -17,6 +17,7 @@ import { useRouter } from 'next/router';
 import { useHeaderMenu } from '../../hooks/useHeaderMenu';
 import { Paths } from '../../utils/paths';
 import { PageNavigationActionButton } from '../PageNavigationActionButton/PageNavigationActionButton';
+import { trpc } from '../../trpc/trpcClient';
 
 import s from './PageNavigation.module.css';
 
@@ -27,12 +28,15 @@ interface PageNavigationProps {
 export const PageNavigation: FC<PageNavigationProps> = ({ userSettings }) => {
     const { asPath } = useRouter();
     const { entityListMenuItems } = useHeaderMenu(userSettings);
+    const config = trpc.appConfig.get.useQuery(undefined, {
+        staleTime: Infinity,
+    });
 
     return (
-        <NavigationSidebar style={{ width: 200 }}>
+        <NavigationSidebar className={s.PageNavigationRoot}>
             <NavigationSidebarHeader>
                 <NextLink href={Paths.HOME}>
-                    <TaskanyLogo size="m" />
+                    <TaskanyLogo src={config.data?.favicon || undefined} size="m" />
                 </NextLink>
                 <NavigationSidebarTitle>Hire</NavigationSidebarTitle>
                 <IconBellOutline size="s" />

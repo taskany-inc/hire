@@ -163,7 +163,7 @@ const problemsData = [
     { name: 'Promise.all', description: promiseAllDescription, solution: promiseAllSolution },
     { name: 'Linked list', description: linkedListDescription, solution: linkedListSolution },
     { name: 'Quick sort', description: quickSortDescription, solution: quickSortSolution },
-    { name: 'Foreach thef', description: stringForEachDescription, solution: stringForEachSolution },
+    { name: 'Foreach theft', description: stringForEachDescription, solution: stringForEachSolution },
 ];
 
 const usersData = [

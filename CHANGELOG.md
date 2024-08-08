@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.55.1](https://github.com/taskany-inc/hire/compare/v0.55.0...v0.55.1) (2024-08-08)
+
+
+### Bug Fixes
+
+* **layout:** scroll on body, sticky panels ([bfc3700](https://github.com/taskany-inc/hire/commit/bfc3700d2f9dc37cc752a0583af6e7e0bb009c32))
+* remove unnecessary dropdown as sidebar ([5ee2bba](https://github.com/taskany-inc/hire/commit/5ee2bba5cdbe22b2979dfaa8c2ab11eceaec555b))
+* **SolutionCard:** card from harmony ([1d642be](https://github.com/taskany-inc/hire/commit/1d642bec4482a12997a2df2fa2e86f1dcea17e6c))
+
 ## [0.55.0](https://github.com/taskany-inc/hire/compare/v0.54.1...v0.55.0) (2024-08-05)
 
 

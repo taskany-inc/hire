@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.55.2](https://github.com/taskany-inc/hire/compare/v0.55.1...v0.55.2) (2024-08-08)
+
+
+### Bug Fixes
+
+* **SectionList:** remove nesting from section list css file ([05f26c2](https://github.com/taskany-inc/hire/commit/05f26c2cdeab7cc8283f5715beb6b3ef06bee872))
+
 ## [0.55.1](https://github.com/taskany-inc/hire/compare/v0.55.0...v0.55.1) (2024-08-08)
 
 

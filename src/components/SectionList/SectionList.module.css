@@ -19,10 +19,10 @@
 
 .SectionListOpacityCard {
     opacity: 1;
+}
 
-    &:hover {
-        opacity: 1;
-    }
+.SectionListOpacityCard:hover {
+    opacity: 1;
 }
 
 .SectionListOpacityCard:hover {

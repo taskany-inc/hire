@@ -15,9 +15,12 @@ const StyledDescription = styled.div`
     color: ${textColor};
     white-space: pre-wrap;
 `;
-export const PageHeader: React.FC<{
+
+interface PageHeaderProps {
     userSettings?: UserSettings;
-}> = ({ userSettings }) => {
+}
+
+export const PageHeader = ({ userSettings }: PageHeaderProps) => {
     const session = useSession();
     const [popupVisible, setPopupVisibility] = useState(false);
     const popupRef = useRef<HTMLDivElement>(null);

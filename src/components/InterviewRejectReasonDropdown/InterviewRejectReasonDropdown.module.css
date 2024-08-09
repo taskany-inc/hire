@@ -3,7 +3,8 @@
 }
 
 .DropdownPanelRejectStatus {
-    height: 190px;
+    width: 500px;
+    max-height: 200px;
     overflow: scroll;
 }
 
@@ -12,5 +13,10 @@
 }
 
 .RejectInterviewHeaderStats {
+    display: flex;
     background-color: '--text-secondary';
+}
+
+.Input{
+    width: 600px;
 }

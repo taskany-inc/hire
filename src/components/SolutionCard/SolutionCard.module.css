@@ -8,6 +8,12 @@
     justify-content: space-between;
 }
 
+.SwitchSolutionsOrderButton {
+    display: flex;
+    margin-left: auto;
+    gap: var(--gap-xs);;
+}
+
 .CardContent { 
     border: 1px solid var(--card-background);
 }

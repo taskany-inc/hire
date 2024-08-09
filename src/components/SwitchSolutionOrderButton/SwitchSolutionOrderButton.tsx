@@ -18,6 +18,7 @@ export const SwitchSolutionsOrderButton = ({ direction, onClick, disabled }: Swi
             className={cn(s.OrderButton, {
                 [s.OrderButtonDisabled]: disabled,
             })}
+            size="xs"
             aria-label={ariaLabel}
             type="button"
             onClick={onClick}

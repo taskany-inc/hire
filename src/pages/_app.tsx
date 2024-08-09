@@ -19,6 +19,8 @@ import '../../react-big-calendar.css';
 
 import Error, { ErrorProps } from './_error';
 
+import '@taskany/icons/style.css';
+
 interface TaskanyHireAppProps {
     session: Session;
     browser: Browser;

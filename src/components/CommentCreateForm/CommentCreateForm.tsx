@@ -47,6 +47,7 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
     const session = useSession();
     const [text, setText] = useState(currentText);
     const [statusInterview, setStatusInterview] = useState<InterviewStatus | undefined>(status);
+
     const [focused, setFocused] = useState(Boolean(currentText));
     const [busy, setBusy] = useState(false);
     const [visibleRejectOption, setVisibleRejectOption] = useState(false);
@@ -135,8 +136,9 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
                 onFocus={onCommentFocus}
                 interviewRejectReason={nullable(visibleRejectOption, () => (
                     <InterviewRejectReasonDropdown
+                        value={text}
                         rejectReasons={rejectReasons}
-                        onChangeRejectReasons={onRejectReasonsText}
+                        onChange={onRejectReasonsText}
                     />
                 ))}
                 actionButton={

@@ -174,10 +174,14 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                     link={pageHrefs.problem(problem.id)}
                 />
 
-                {goUp && <SwitchSolutionsOrderButton direction="up" onClick={goUp} disabled={isSwitchOrderDisabled} />}
-                {goDown && (
-                    <SwitchSolutionsOrderButton direction="down" onClick={goDown} disabled={isSwitchOrderDisabled} />
-                )}
+                <div className={s.SwitchSolutionsOrderButton}>
+                    {nullable(goUp, (up) => (
+                        <SwitchSolutionsOrderButton direction="up" onClick={up} disabled={isSwitchOrderDisabled} />
+                    ))}
+                    {nullable(goDown, (down) => (
+                        <SwitchSolutionsOrderButton direction="down" onClick={down} disabled={isSwitchOrderDisabled} />
+                    ))}
+                </div>
             </CardInfo>
             <CardContent className={s.CardContent}>
                 {nullable(problem.description, (d) => (

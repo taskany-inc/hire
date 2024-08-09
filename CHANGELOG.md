@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.55.3](https://github.com/taskany-inc/hire/compare/v0.55.2...v0.55.3) (2024-08-09)
+
+
+### Bug Fixes
+
+* **SolutionCard:** alignment switch button ([1716dbf](https://github.com/taskany-inc/hire/commit/1716dbf42755d63aeac4f52c4086d71108642ac9))
+
 ## [0.55.2](https://github.com/taskany-inc/hire/compare/v0.55.1...v0.55.2) (2024-08-08)
 
 

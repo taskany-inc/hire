@@ -1,6 +1,5 @@
 import { ReactNode, useRef, useState, VFC } from 'react';
-import { FormTitle, Modal, ModalContent, ModalCross, ModalHeader } from '@taskany/bricks';
-import { Button } from '@taskany/bricks/harmony';
+import { Button, Modal, ModalHeader, ModalContent, ModalCross } from '@taskany/bricks/harmony';
 
 import { AsyncAnyFunction } from '../../utils/types';
 
@@ -32,14 +31,21 @@ export const Confirmation: VFC<ConfirmationProps> = ({
     const onShow = () => setTimeout(() => ref.current?.focus(), 0);
 
     return (
-        <Modal onShow={onShow} width={500} onClose={onClose} visible={open} {...modalProps}>
+        <Modal
+            onShow={onShow}
+            width={500}
+            onClose={onClose}
+            visible={open}
+            className={s.ConfirmationModal}
+            {...modalProps}
+        >
             <ModalHeader>
                 <ModalCross onClick={onClose} />
-                <FormTitle>{message}</FormTitle>
+                {message}
             </ModalHeader>
-            <ModalContent>
+            <ModalContent className={s.ConfirmationModalContent}>
                 {description}
-                <div className={s.ConfirmationWrapper}>
+                <div className={s.ConfirmationButtons}>
                     <Button
                         ref={ref}
                         onClick={onAgree}

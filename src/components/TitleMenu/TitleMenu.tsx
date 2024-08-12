@@ -32,7 +32,7 @@ export const TitleMenu = ({ items }: TitleMenuProps) => {
             <Dropdown isOpen={isOpen} onClose={() => setIsOpen(false)}>
                 <DropdownTrigger
                     renderTrigger={(props) => (
-                        <div ref={props.ref} className={s.TitleButton}>
+                        <div ref={props.ref}>
                             <Button
                                 size="s"
                                 view="ghost"
@@ -50,7 +50,14 @@ export const TitleMenu = ({ items }: TitleMenuProps) => {
                                 key={item.text}
                                 value={item}
                                 renderItem={({ active, hovered, ...props }) => (
-                                    <MenuItem onClick={item.onClick} key={item.text} {...props}>
+                                    <MenuItem
+                                        onClick={() => {
+                                            setIsOpen(false);
+                                            item.onClick();
+                                        }}
+                                        key={item.text}
+                                        {...props}
+                                    >
                                         {item.text}
                                     </MenuItem>
                                 )}

@@ -1,6 +1,14 @@
-.ConfirmationWrapper {
+.ConfirmationModal {
+    min-height: auto;
+}
+
+.ConfirmationModalContent {
+    display: flex;
+    flex-direction: column;
+    align-content: space-between;
+}
+
+.ConfirmationButtons {
     display: flex;
     gap: var(--gap-s);
-    float: right;
-    margin: var(--gap-l) 0 var(--gap-m) 0;
 }

@@ -1,6 +1,5 @@
 import { Interview } from '../../../components/Interview/Interview';
 import { InferServerSideProps } from '../../../utils/types';
-import { rejectReasonMethods } from '../../../modules/rejectReasonMethods';
 import { accessChecks } from '../../../modules/accessChecks';
 import { createGetServerSideProps } from '../../../utils/createGetSSRProps';
 import { useInterview } from '../../../modules/interviewHooks';
@@ -17,23 +16,19 @@ export const getServerSideProps = createGetServerSideProps({
         }
         await ssg.sectionTypes.getByHireStreamId.fetch({ hireStreamId: interview.hireStreamId });
 
-        const rejectReasons = await rejectReasonMethods.findAll();
-
         await handleAccessChecks(() => accessChecks.interview.readOne(session, interview));
 
-        return { rejectReasons, hireStreamId: interview.hireStreamId };
+        return { hireStreamId: interview.hireStreamId };
     },
 });
 
-const InterviewPage = ({ numberIds, rejectReasons, hireStreamId }: InferServerSideProps<typeof getServerSideProps>) => {
+const InterviewPage = ({ numberIds, hireStreamId }: InferServerSideProps<typeof getServerSideProps>) => {
     const interviewQuery = useInterview(numberIds.interviewId);
     const sectionTypesQuery = useSectionTypes(hireStreamId);
 
     return (
         <QueryResolver queries={[interviewQuery, sectionTypesQuery]}>
-            {([interview, sectionTypes]) => (
-                <Interview interview={interview} sectionTypes={sectionTypes} rejectReasons={rejectReasons} />
-            )}
+            {([interview, sectionTypes]) => <Interview interview={interview} sectionTypes={sectionTypes} />}
         </QueryResolver>
     );
 };

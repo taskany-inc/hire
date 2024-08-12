@@ -21,6 +21,7 @@ import { appConfigRouter } from './appConfigRouter';
 import { historyEventsRouter } from './historyEventsRouter';
 import { reactionRouter } from './reactionRouter';
 import { whatsnewRouter } from './whatsnewRouter';
+import { rejectReasonRouter } from './rejectReasonQuery';
 
 export const trpcRouter = router({
     analyticsQueries: analyticsQueriesRouter,
@@ -44,6 +45,7 @@ export const trpcRouter = router({
     historyEvents: historyEventsRouter,
     reaction: reactionRouter,
     whatsnew: whatsnewRouter,
+    rejectReason: rejectReasonRouter,
 });
 
 export type TrpcRouter = typeof trpcRouter;

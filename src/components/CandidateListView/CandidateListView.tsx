@@ -36,7 +36,7 @@ export const CandidateListView: FC = () => {
     );
 
     return (
-        <Stack direction="column" gap={6} style={{ marginTop: 40 }}>
+        <Stack direction="column" gap={6}>
             <QueryResolver queries={[candidatesQuery]}>
                 {([candidates]) => {
                     return (

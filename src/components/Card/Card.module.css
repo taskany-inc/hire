@@ -1,5 +1,5 @@
 .Card {
-    padding: 20px 40px 20px 5px;
+    padding: 10px 40px 20px 5px;
     display: grid;
     grid-template-columns: auto 1fr;
     border-radius: 6px;

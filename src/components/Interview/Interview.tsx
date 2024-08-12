@@ -2,7 +2,7 @@ import { useMemo, FC } from 'react';
 import { useRouter } from 'next/router';
 import { nullable, Text } from '@taskany/bricks';
 import { gapS, gray10 } from '@taskany/colors';
-import { RejectReason, SectionType } from '@prisma/client';
+import { SectionType } from '@prisma/client';
 
 import { pageHrefs } from '../../utils/paths';
 import { InterviewWithRelations } from '../../modules/interviewTypes';
@@ -15,26 +15,22 @@ import { InlineDot } from '../InlineDot';
 import { AssignSectionDropdownButton } from '../AssignSectionDropdownButton/AssignSectionDropdownButton';
 import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { DropdownMenuItem } from '../TagFilterDropdown';
-import { InterviewSectionListItem } from '../InterviewSectionListItem';
 import { InterviewTags } from '../InterviewTags/InterviewTags';
 import { ExternalUserLink } from '../ExternalUserLink';
 import { useDistanceDate } from '../../hooks/useDateFormat';
 import { Link } from '../Link';
 import { VacancyInfoById } from '../VacancyInfo/VacancyInfo';
-import { Comment } from '../Comment/Comment';
-import InterviewCommentCreateForm from '../InterviewCommentCreationForm/InterviewCommentCreationForm';
 import Md from '../Md';
+import { InterviewActivity } from '../InterviewActivity/InterviewActivity';
 
 import { tr } from './Interview.i18n';
-import s from './Interview.module.css';
 
 interface InterviewProps {
     interview: InterviewWithRelations;
     sectionTypes: SectionType[];
-    rejectReasons: RejectReason[];
 }
 
-export const Interview: FC<InterviewProps> = ({ interview, sectionTypes, rejectReasons }) => {
+export const Interview: FC<InterviewProps> = ({ interview, sectionTypes }) => {
     const router = useRouter();
     const session = useSession();
     const interviewId = Number(router.query.interviewId);
@@ -57,17 +53,9 @@ export const Interview: FC<InterviewProps> = ({ interview, sectionTypes, rejectR
     const titleMenuItems = useMemo<DropdownMenuItem[]>(() => {
         const canEditInterviews = session && accessChecks.interview.update(session, interview.hireStreamId).allowed;
         const canDeleteInterviews = session && accessChecks.interview.delete(session).allowed;
-        const canReadInterviewHistory = session && accessChecks.interview.readOne(session, interview).allowed;
         const hasSections = interview.sections.length > 0;
 
         const items: DropdownMenuItem[] = [];
-
-        if (canReadInterviewHistory) {
-            items.push({
-                onClick: () => router.push(pageHrefs.interviewHistory(interview.id)),
-                text: tr('History of changes'),
-            });
-        }
 
         if (canEditInterviews) {
             items.push(
@@ -141,30 +129,7 @@ export const Interview: FC<InterviewProps> = ({ interview, sectionTypes, rejectR
                 {canCreateSections && (
                     <AssignSectionDropdownButton interviewId={interviewId} sectionTypes={sectionTypes} />
                 )}
-                <Text size="xl" className={s.InterviewTitle}>
-                    {tr('Activity Feed')}
-                </Text>
-
-                <div className={s.InterviewCommentWrapper}>
-                    {nullable(interview.activityFeed, (activityFeed) =>
-                        activityFeed.map((item) =>
-                            item.type === 'comment' ? (
-                                <Comment
-                                    key={`comment - ${item.value.id}`}
-                                    comment={item.value}
-                                    status={item.value.status ?? undefined}
-                                />
-                            ) : (
-                                <InterviewSectionListItem
-                                    key={`section-${item.value.id}`}
-                                    section={item.value}
-                                    interview={interview}
-                                />
-                            ),
-                        ),
-                    )}
-                    <InterviewCommentCreateForm interview={interview} rejectReasons={rejectReasons} />
-                </div>
+                <InterviewActivity interview={interview} />
             </Stack>
 
             <Confirmation {...interviewRemoveConfirmation.props} />

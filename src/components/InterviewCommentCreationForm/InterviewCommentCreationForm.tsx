@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { InterviewStatus, RejectReason } from '@prisma/client';
+import { InterviewStatus } from '@prisma/client';
 
 import { Paths } from '../../utils/paths';
 import { useUploadNotifications } from '../../modules/attachHooks';
@@ -11,20 +11,18 @@ import { InterviewWithRelations } from '../../modules/interviewTypes';
 import { getFileIdFromPath } from '../../utils/fileUpload';
 import { defaultAttachFormatter, File } from '../../utils/attachFormatter';
 import { accessChecks } from '../../modules/accessChecks';
+import { trpc } from '../../trpc/trpcClient';
 
 interface InterviewCommentCreateFormProps {
     interview: InterviewWithRelations;
-    rejectReasons: RejectReason[];
     status?: InterviewStatus;
 }
 
-const InterviewCommentCreateForm: React.FC<InterviewCommentCreateFormProps> = ({
-    interview,
-    rejectReasons,
-    status,
-}) => {
+const InterviewCommentCreateForm: React.FC<InterviewCommentCreateFormProps> = ({ interview, status }) => {
     const session = useSession();
     const commentCreateMutation = useCommentCreateMutation();
+    const rejectReasonsQuery = trpc.rejectReason.findAll.useQuery();
+    const rejectReasons = rejectReasonsQuery.data || [];
 
     const { onUploadSuccess, onUploadFail } = useUploadNotifications();
 

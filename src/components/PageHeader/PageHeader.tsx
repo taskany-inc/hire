@@ -1,6 +1,5 @@
-import { useMemo, useRef, useState } from 'react';
+import { ReactNode, useMemo, useRef, useState } from 'react';
 import NextLink from 'next/link';
-import styled from 'styled-components';
 import { textColor } from '@taskany/colors';
 import { UserMenu, Popup, HeaderMenu } from '@taskany/bricks';
 import { UserSettings } from '@prisma/client';
@@ -11,16 +10,12 @@ import { roleToLabel, UserRoles } from '../../utils/userRoles';
 
 import s from './PageHeader.module.css';
 
-const StyledDescription = styled.div`
-    color: ${textColor};
-    white-space: pre-wrap;
-`;
-
 interface PageHeaderProps {
     userSettings?: UserSettings;
+    children?: ReactNode;
 }
 
-export const PageHeader = ({ userSettings }: PageHeaderProps) => {
+export const PageHeader = ({ userSettings, children }: PageHeaderProps) => {
     const session = useSession();
     const [popupVisible, setPopupVisibility] = useState(false);
     const popupRef = useRef<HTMLDivElement>(null);
@@ -66,6 +61,7 @@ export const PageHeader = ({ userSettings }: PageHeaderProps) => {
 
     return (
         <div className={s.PageHeader}>
+            {children}
             <HeaderMenu className={s.PageHeaderUserPopup}>
                 <div
                     ref={popupRef}
@@ -86,7 +82,9 @@ export const PageHeader = ({ userSettings }: PageHeaderProps) => {
                 reference={popupRef}
                 visible={popupVisible}
             >
-                <StyledDescription>{description}</StyledDescription>
+                <div color={textColor} className={s.PageHeader}>
+                    {description}
+                </div>
             </Popup>
         </div>
     );

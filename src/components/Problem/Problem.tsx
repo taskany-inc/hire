@@ -70,7 +70,7 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
     }, [session, problem, problemRemoveConfirmation.show, router]);
 
     return (
-        <LayoutMain pageTitle={problem.name} headerGutter="0px" titleMenuItems={titleMenuItems}>
+        <LayoutMain pageTitle={problem.name} titleMenuItems={titleMenuItems}>
             <Text size="s" as="div" style={{ marginBottom: 20 }}>
                 #{problem.id}
                 <Text size="s" as="span" color="textSecondary">

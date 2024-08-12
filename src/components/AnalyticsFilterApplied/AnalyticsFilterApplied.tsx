@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import { HireStream } from 'prisma/prisma-client';
 import { gray7 } from '@taskany/colors';
 
-import s from './AnalyticsFilterApplied.module.css';
 import { tr } from './AnalyticsFilterApplied.i18n';
 
 interface AnalyticsFilterAppliedProps {
@@ -27,7 +26,7 @@ export const AnalyticsFilterApplied = ({ hireStreams, periodTitle }: AnalyticsFi
     }, [hireStreams, periodTitle]);
 
     return (
-        <FiltersApplied size="s" weight="bold" color={gray7} className={s.AnalyticsFilterApplied}>
+        <FiltersApplied size="s" weight="bold" color={gray7}>
             {filterAppliedString}
         </FiltersApplied>
     );

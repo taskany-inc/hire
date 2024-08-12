@@ -15,7 +15,7 @@ interface PageTitleProps {
 export const PageTitle: FC<PageTitleProps> = ({ title, backlink, children }) => {
     return (
         <div>
-            <Text className={s.PageTitleWrapperText} size="xl" weight="bolder">
+            <Text className={s.PageTitleWrapperText} size="l" weight="bolder">
                 {backlink ? <Link href={backlink}>{title}</Link> : title}
             </Text>
             {children}

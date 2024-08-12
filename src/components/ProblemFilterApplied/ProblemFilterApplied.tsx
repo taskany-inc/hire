@@ -6,7 +6,6 @@ import { gray7 } from '@taskany/colors';
 import { arrayToAppliedString } from '../../utils';
 
 import { tr } from './ProblemFilterApplied.i18n';
-import s from './ProblemFilterApplied.module.css';
 
 interface ProblemFilterAppliedProps {
     authors?: User[];
@@ -35,7 +34,7 @@ export const ProblemFilterApplied = ({ difficulty, tags, tagIds, authorIds, auth
     }, [authors, authorIds, difficulty, tags, tagIds]);
 
     return (
-        <FiltersApplied size="s" weight="bold" color={gray7} className={s.ProblemFilterApplied}>
+        <FiltersApplied size="s" weight="bold" color={gray7}>
             {filterAppliedString}
         </FiltersApplied>
     );

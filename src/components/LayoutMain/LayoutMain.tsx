@@ -2,6 +2,7 @@ import { FC, ReactNode, useEffect } from 'react';
 import Head from 'next/head';
 import { useTheme } from 'next-themes';
 import { useRouter } from 'next/router';
+import { nullable } from '@taskany/bricks';
 
 import { trpc } from '../../trpc/trpcClient';
 import { OfflineBanner } from '../OfflineBanner/OfflineBanner';
@@ -9,11 +10,11 @@ import { Theme } from '../Theme';
 import { DropdownMenuItem } from '../TagFilterDropdown';
 import { PageHeader } from '../PageHeader/PageHeader';
 import { PageFooter } from '../PageFooter/PageFooter';
-import { PageTitle } from '../PageTitle/PageTitle';
 import { GlobalStyle } from '../GlobalStyle';
-import { TitleMenu } from '../TitleMenu/TitleMenu';
 import { WhatsNew } from '../WhatsNew/WhatsNew';
 import { PageNavigation } from '../PageNavigation/PageNavigation';
+import { TitleMenu } from '../TitleMenu/TitleMenu';
+import { PageTitle } from '../PageTitle/PageTitle';
 
 import s from './LayoutMain.module.css';
 
@@ -26,14 +27,7 @@ interface LayoutMainProps {
     children?: ReactNode;
 }
 
-export const LayoutMain: FC<LayoutMainProps> = ({
-    pageTitle,
-    aboveContainer,
-    headerGutter,
-    titleMenuItems,
-    backlink,
-    children,
-}) => {
+export const LayoutMain: FC<LayoutMainProps> = ({ pageTitle, aboveContainer, titleMenuItems, backlink, children }) => {
     const { data: userSettings } = trpc.users.getSettings.useQuery();
     const config = trpc.appConfig.get.useQuery(undefined, {
         staleTime: Infinity,
@@ -71,12 +65,13 @@ export const LayoutMain: FC<LayoutMainProps> = ({
             <div className={s.LayoutMain}>
                 <PageNavigation userSettings={userSettings} />
                 <main className={s.Main}>
-                    <PageHeader userSettings={userSettings} />
-
-                    <PageTitle title={pageTitle} gutter={headerGutter} backlink={backlink}>
-                        {titleMenuItems && titleMenuItems.length > 0 && <TitleMenu items={titleMenuItems} />}
-                    </PageTitle>
-
+                    <PageHeader userSettings={userSettings}>
+                        <PageTitle title={pageTitle} backlink={backlink}>
+                            {nullable(titleMenuItems, (i) => (
+                                <TitleMenu items={i} />
+                            ))}
+                        </PageTitle>
+                    </PageHeader>
                     {aboveContainer}
 
                     <div className={s.LayoutMainContent}>{children}</div>

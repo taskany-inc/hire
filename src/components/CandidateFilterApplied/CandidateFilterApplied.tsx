@@ -7,7 +7,6 @@ import { Vacancy } from '../../modules/crewTypes';
 import { arrayToAppliedString } from '../../utils';
 
 import { tr } from './CandidateFilterApplied.i18n';
-import s from './CandidateFilterApplied.module.css';
 
 interface ProblemFilterAppliedProps {
     hireStreams?: { id: number; name: string }[];
@@ -51,7 +50,7 @@ export const CandidateFilterApplied = ({
     }, [hireStreams, hireStreamIds, interviewStatuses, hrs, hrIds, vacancies, vacancyIds]);
 
     return (
-        <FiltersApplied size="s" weight="bold" color={gray7} className={s.CandidateFilterApplied}>
+        <FiltersApplied size="s" weight="bold" color={gray7}>
             {filterAppliedString}
         </FiltersApplied>
     );

@@ -19,6 +19,7 @@ import { CardHeader } from '../CardHeader/CardHeader';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { SwitchSolutionsOrderButton } from '../SwitchSolutionOrderButton/SwitchSolutionOrderButton';
 import Md from '../Md';
+import { Link } from '../Link';
 
 import { tr } from './SolutionCard.i18n';
 import s from './SolutionCard.module.css';
@@ -169,9 +170,8 @@ export const SolutionCard: FC<SolutionCardProps> = ({
         <Card className={s.Card}>
             <CardInfo className={cn(s.CardInfo)}>
                 <CardHeader
-                    title={problem.name}
+                    title={<Link href={pageHrefs.problem(problem.id)}>{problem.name}</Link>}
                     subTitle={`${tr('Difficulty:')} ${problemDifficultyLabels[problem.difficulty]}`}
-                    link={pageHrefs.problem(problem.id)}
                 />
 
                 <div className={s.SwitchSolutionsOrderButton}>

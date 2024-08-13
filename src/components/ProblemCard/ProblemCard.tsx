@@ -1,7 +1,6 @@
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { nullable } from '@taskany/bricks';
-import { IconStarOutline, IconStarSolid } from '@taskany/icons';
 import { gray8, textColor } from '@taskany/colors';
 import { Button } from '@taskany/bricks/harmony';
 
@@ -10,11 +9,7 @@ import { generatePath, Paths } from '../../utils/paths';
 import { useSolutionCreateMutation } from '../../modules/solutionHooks';
 import { parseNumber } from '../../utils/paramParsers';
 import { trpc } from '../../trpc/trpcClient';
-import {
-    useAddProblemToFavoritesMutation,
-    useFavoriteProblems,
-    useRemoveProblemFromFavoritesMutation,
-} from '../../modules/userHooks';
+import { useFavoriteProblems } from '../../modules/userHooks';
 import { LoadingContainer } from '../LoadingContainer/LoadingContainer';
 import { Card } from '../Card/Card';
 import { Link } from '../Link';
@@ -24,6 +19,7 @@ import { useDistanceDate } from '../../hooks/useDateFormat';
 import { ProblemDifficultyIcon } from '../ProblemDifficultyIcon/ProblemDifficultyIcon';
 import Md from '../Md';
 import { CardHeader } from '../CardHeader/CardHeader';
+import { ProblemFavoriteStar } from '../ProblemFavoriteStar/ProblemFavoriteStar';
 
 import { tr } from './ProblemCard.i18n';
 import s from './ProblemCard.module.css';
@@ -37,13 +33,11 @@ export interface ProblemCardProps {
 export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded }) => {
     const router = useRouter();
     const utils = trpc.useContext();
-    const addToFavoritesMutation = useAddProblemToFavoritesMutation();
-    const removeFromFavoritesMutation = useRemoveProblemFromFavoritesMutation();
     const solutionCreateMutation = useSolutionCreateMutation();
     const { data: favoriteProblems } = useFavoriteProblems();
     const [isSpinnerVisible, setIsSpinnerVisible] = useState(false);
     const isFavorite = useMemo(
-        () => favoriteProblems && !!favoriteProblems.find((item) => item.id === problem.id),
+        () => !!favoriteProblems && !!favoriteProblems.find((item) => item.id === problem.id),
         [favoriteProblems, problem.id],
     );
     const interviewId = parseNumber(router.query.interviewId);
@@ -66,25 +60,6 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded }) => {
             }
         }
     }, [sectionId, solutionCreateMutation, problem.id, utils, interviewId, router]);
-
-    const favoriteAction = isFavorite ? (
-        <div className={s.StarWrapper}>
-            <IconStarSolid
-                size="m"
-                color="#FF00E5"
-                onClick={() => removeFromFavoritesMutation.mutate({ problemId: problem.id })}
-            />
-        </div>
-    ) : (
-        <div className={s.StarWrapper}>
-            <IconStarOutline
-                stroke={0.8}
-                size="m"
-                color="#FF00E5"
-                onClick={() => addToFavoritesMutation.mutate({ problemId: problem.id })}
-            />
-        </div>
-    );
 
     const isShowAddButton = !problem.isUsed && embedded;
 
@@ -109,23 +84,29 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded }) => {
     return (
         <UnavailableContainer isUnavailable={problem.isUsed} link={renderLinkToSection()}>
             <LoadingContainer isSpinnerVisible={isSpinnerVisible}>
-                <Card action={favoriteAction}>
+                <Card>
                     {/* TODO add authorId and tagId to filter onClick */}
                     <CardHeader
-                        title={problem.name}
-                        link={generatePath(Paths.PROBLEM, { problemId: problem.id })}
+                        title={
+                            <>
+                                <Link href={generatePath(Paths.PROBLEM, { problemId: problem.id })}>
+                                    {problem.name}
+                                </Link>
+                                <ProblemFavoriteStar isFavorite={isFavorite} problemId={problem.id} />
+                            </>
+                        }
                         subTitle={
                             <span color={textColor}>
                                 {tr('Added by')} {problem.author.name} {date}
                             </span>
                         }
                         chips={
-                            <div className={s.ChipWrapper}>
+                            <>
+                                <ProblemDifficultyIcon difficulty={problem.difficulty} />
                                 {problem.tags.map((tag) => (
                                     <TagChip tag={tag} key={tag.id} />
                                 ))}
-                                <ProblemDifficultyIcon difficulty={problem.difficulty} />
-                            </div>
+                            </>
                         }
                     />
                     <div className={s.Md}>

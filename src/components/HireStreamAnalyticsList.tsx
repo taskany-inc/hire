@@ -5,6 +5,7 @@ import { pageHrefs } from '../utils/paths';
 import { Card } from './Card/Card';
 import { CardHeader } from './CardHeader/CardHeader';
 import { Stack } from './Stack';
+import { Link } from './Link';
 
 interface HireStreamAnalyticsListProps {
     hireStreams: HireStream[];
@@ -16,9 +17,8 @@ export const HireStreamAnalyticsList = ({ hireStreams }: HireStreamAnalyticsList
             {hireStreams.map((hireStream) => (
                 <Card key={hireStream.id}>
                     <CardHeader
-                        title={hireStream.name}
+                        title={<Link href={pageHrefs.analyticsHireStream(hireStream.name)}>{hireStream.name}</Link>}
                         subTitle={`#${hireStream.id}`}
-                        link={pageHrefs.analyticsHireStream(hireStream.name)}
                     />
                 </Card>
             ))}

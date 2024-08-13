@@ -8,6 +8,7 @@ import { Card } from '../Card/Card';
 import { CardHeader } from '../CardHeader/CardHeader';
 import { SectionFeedbackHireBadge, SectionTypeBadge } from '../SectionFeedbackHireBadge/SectionFeedbackHireBadge';
 import Md from '../Md';
+import { Link } from '../Link';
 
 import { tr } from './SectionList.i18n';
 import s from './SectionList.module.css';
@@ -42,11 +43,16 @@ export const SectionList = ({ sections, header, completed = false }: SectionList
                                 })}
                             >
                                 <CardHeader
-                                    title={section.interview.candidate.name}
-                                    link={generatePath(Paths.SECTION, {
-                                        interviewId: section.interviewId,
-                                        sectionId: section.id,
-                                    })}
+                                    title={
+                                        <Link
+                                            href={generatePath(Paths.SECTION, {
+                                                interviewId: section.interviewId,
+                                                sectionId: section.id,
+                                            })}
+                                        >
+                                            {section.interview.candidate.name}
+                                        </Link>
+                                    }
                                     chips={[
                                         <SectionFeedbackHireBadge hire={section.hire} key="hire" />,
                                         section.sectionType && (

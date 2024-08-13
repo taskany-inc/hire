@@ -3,25 +3,6 @@
     padding-top: var(--gap-m);
 }
 
-.ChipWrapper {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: var(--gap-s);
-}
-
-.StarWrapper {
-    margin-top: -6px;
-}
-
-.Link {
-    font-size: 24px;
-}
-
-.Link:hover {
-    color: var(link0);
-}
-
 .ProblemCardAddToSectionButton {
     margin-top:  var(--gap-s);
 }

@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import { nullable } from '@taskany/bricks';
 import { gray8, textColor } from '@taskany/colors';
 import { Button, Card, CardContent, CardInfo } from '@taskany/bricks/harmony';
+import cn from 'classnames';
+import { IconBinOutline } from '@taskany/icons';
 
 import { ProblemWithRelationsAndProblemSection } from '../../modules/problemTypes';
 import { generatePath, Paths } from '../../utils/paths';
@@ -86,7 +88,7 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded }) => {
     return (
         <UnavailableContainer isUnavailable={problem.isUsed} link={renderLinkToSection()}>
             <LoadingContainer isSpinnerVisible={isSpinnerVisible}>
-                <Card className={s.ProblemCard}>
+                <Card className={cn(s.ProblemCard, { [s.ProblemCard_archived]: problem.archived })}>
                     <CardInfo>
                         <CardHeader
                             title={
@@ -94,7 +96,13 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded }) => {
                                     <Link href={generatePath(Paths.PROBLEM, { problemId: problem.id })}>
                                         {problem.name}
                                     </Link>
-                                    <ProblemFavoriteStar isFavorite={isFavorite} problemId={problem.id} />
+                                    {nullable(
+                                        problem.archived,
+                                        () => (
+                                            <IconBinOutline size="s" />
+                                        ),
+                                        <ProblemFavoriteStar isFavorite={isFavorite} problemId={problem.id} />,
+                                    )}
                                 </>
                             }
                             subTitle={

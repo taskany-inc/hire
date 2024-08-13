@@ -19,12 +19,14 @@ import {
 import { SectionWithSolutionsAndSectionType } from './sectionTypes';
 import { sectionMethods } from './sectionMethods';
 import { tr } from './modules.i18n';
+import { userMethods } from './userMethods';
 
 const constructFindAllProblemsWhereFilter = async (
     userId: number,
     data: GetProblemList,
 ): Promise<Prisma.ProblemWhereInput> => {
     const where = {} as Prisma.ProblemWhereInput;
+    const { admin } = await userMethods.find(userId);
 
     if (data.search) {
         where.OR = [
@@ -57,6 +59,16 @@ const constructFindAllProblemsWhereFilter = async (
 
     if (data.excludeProblemIds && data.excludeProblemIds.length) {
         where.id.notIn = data.excludeProblemIds;
+    }
+
+    if (!admin) {
+        if (where.AND && Array.isArray(where.AND)) {
+            where.AND.push({ OR: [{ authorId: userId }, { archived: false }] });
+        } else if (where.AND) {
+            where.AND.OR = [{ authorId: userId }, { archived: false }];
+        } else {
+            where.AND = { OR: [{ authorId: userId }, { archived: false }] };
+        }
     }
 
     return where;
@@ -365,6 +377,20 @@ const update = async (data: UpdateProblem, authorId: number): Promise<Problem> =
                     problem: { connect: { id: data.problemId } },
                     previousValue: problem.solution,
                     nextValue: data.solution,
+                },
+            }),
+        );
+    }
+
+    if (data.archived !== problem.archived) {
+        transactionOperations.push(
+            prisma.problemHistory.create({
+                data: {
+                    subject: 'archived',
+                    user: { connect: { id: authorId } },
+                    problem: { connect: { id: data.problemId } },
+                    previousValue: problem.archived ? 'in archive' : 'not in archive',
+                    nextValue: data.archived ? 'in archive' : 'not in archive',
                 },
             }),
         );

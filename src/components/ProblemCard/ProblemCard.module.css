@@ -13,3 +13,7 @@
 .ProblemCardAddToSectionButton {
     margin-top:  var(--gap-s);
 }
+
+.ProblemCard_archived {
+    filter: grayscale(100%);
+}

@@ -4,7 +4,7 @@ import { nullable } from '@taskany/bricks';
 import { Text } from '@taskany/bricks/harmony';
 import { IconArrowUpSmallOutline, IconArrowDownSmallOutline } from '@taskany/icons';
 
-import { useProblemRemoveMutation } from '../../modules/problemHooks';
+import { useProblemRemoveMutation, useProblemUpdateMutation } from '../../modules/problemHooks';
 import { pageHrefs, Paths } from '../../utils/paths';
 import { ProblemWithRelationsAndProblemSection } from '../../modules/problemTypes';
 import { useSession } from '../../contexts/appSettingsContext';
@@ -41,6 +41,7 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
     const toggleProblemHistoryExpansion = () => setIsProblemHistoryExpanded((value) => !value);
 
     const problemRemoveMutation = useProblemRemoveMutation();
+    const problemUpdateMutation = useProblemUpdateMutation();
 
     const problemRemoveConfirmation = useConfirmation({
         message: tr('Delete problem?'),
@@ -48,6 +49,25 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
             problemRemoveMutation.mutateAsync({ problemId: problem.id }).then(() => {
                 router.push(Paths.PROBLEMS);
             }),
+        destructive: true,
+    });
+
+    const problemArchiveConfirmation = useConfirmation({
+        message: problem.archived ? tr('Remove problem from archive?') : tr('Archive problem?'),
+        onAgree: () =>
+            problemUpdateMutation
+                .mutateAsync({
+                    problemId: problem.id,
+                    archived: !problem.archived,
+                    name: problem.name,
+                    solution: problem.solution,
+                    description: problem.description,
+                    difficulty: problem.difficulty,
+                    tagIds: problem.tags.map(({ id }) => id),
+                })
+                .then(() => {
+                    router.push(Paths.PROBLEMS);
+                }),
         destructive: true,
     });
 
@@ -61,13 +81,17 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
                 text: tr('Edit'),
             });
             items.push({
+                onClick: problemArchiveConfirmation.show,
+                text: problem.archived ? tr('Remove from archive') : tr('Archive'),
+            });
+            items.push({
                 onClick: problemRemoveConfirmation.show,
                 text: tr('Delete'),
             });
         }
 
         return items;
-    }, [session, problem, problemRemoveConfirmation.show, router]);
+    }, [session, problem, problemRemoveConfirmation.show, router, problemArchiveConfirmation.show]);
 
     return (
         <LayoutMain pageTitle={problem.name} titleMenuItems={titleMenuItems}>
@@ -99,6 +123,7 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
                 <Md className={s.ProblemMdWrapper}>{d}</Md>
             ))}
             <Confirmation {...problemRemoveConfirmation.props} />
+            <Confirmation {...problemArchiveConfirmation.props} />
             {nullable(problem.problemHistory, () => (
                 <>
                     <Text size="xl" onClick={toggleProblemHistoryExpansion} className={s.ProblemTitle}>

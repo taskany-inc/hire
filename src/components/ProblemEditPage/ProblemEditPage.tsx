@@ -2,7 +2,7 @@ import { Problem } from '@prisma/client';
 
 import { useProblem } from '../../modules/problemHooks';
 import { LayoutMain } from '../LayoutMain/LayoutMain';
-import { AddOrUpdateProblem } from '../AddOrUpdateProblem/AddOrUpdateProblem';
+import { AddOrUpdateProblem, AddOrUpdateProblemInitialValues } from '../AddOrUpdateProblem/AddOrUpdateProblem';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 
 import { tr } from './ProblemEditPage.i18n';
@@ -19,7 +19,7 @@ const ProblemEditPage = ({ numberIds }: ProblemEditPageProps) => {
         <QueryResolver queries={[problemQuery]}>
             {([problem]) => (
                 <LayoutMain pageTitle={`${problem.name} - ${tr('edit')}`}>
-                    <AddOrUpdateProblem initialValues={problem} variant="update" />
+                    <AddOrUpdateProblem initialValues={problem as AddOrUpdateProblemInitialValues} variant="update" />
                 </LayoutMain>
             )}
         </QueryResolver>

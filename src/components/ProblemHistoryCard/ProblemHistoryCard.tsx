@@ -73,7 +73,7 @@ export const ProblemHistoryCard: FC<ProblemHistoryCardProps> = ({ problemHistory
                 </div>
             </div>
             {nullable(viewProblemHistoryDescription, () =>
-                subject === 'tags' || subject === 'difficulty' ? (
+                subject === 'tags' || subject === 'difficulty' || subject === 'archived' ? (
                     <HistoryTagsAndDifficultyTextChange from={beforeData} to={afterData} />
                 ) : (
                     <div className={s.ProblemHistoryCardContent}>

@@ -23,5 +23,5 @@
 }
 
 .ProblemHistoryCardContent {
-    padding-top: var(p--gap-xs);
+    padding-top: var(--gap-xs);
 }

@@ -12,6 +12,7 @@ export const createProblemSchema = z.object({
     solution: z.string(),
     difficulty: z.nativeEnum(ProblemDifficulty),
     tagIds: z.number().array(),
+    archived: z.boolean().optional(),
 });
 export type CreateProblem = z.infer<typeof createProblemSchema>;
 
@@ -46,6 +47,7 @@ export const getProblemListSchema = z
         orderDirection: z.enum(['asc', 'desc']),
         statuses: z.nativeEnum(InterviewStatus).array(),
         hireStreamIds: z.number().array(),
+        archived: z.boolean().optional(),
     })
     .partial();
 export type GetProblemList = z.infer<typeof getProblemListSchema>;

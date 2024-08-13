@@ -122,6 +122,7 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                       solution,
                       tagIds: tags.map((tag) => tag.value),
                       difficulty,
+                      archived: initialValues.archived,
                   });
                   router.push(pageHrefs.problem(result.id));
               });

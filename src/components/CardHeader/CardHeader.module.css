@@ -1,18 +1,11 @@
 .TitleWrapper {
     display: flex;
-    align-items: baseline;
-    gap: var(--gap-s);
-}
-
-.Title {
-    line-height: var(--gap-xxs);
-}
-
-.ChipsWrapper {
-    transform: translateY(-5px);
-    display: flex;
+    align-items: center;
     flex-wrap: wrap;
-    gap: var(--gap-xs);
+}
+
+.TitleWrapper * + * {
+    margin-left: var(--gap-s);
 }
 
 .SubTitle {

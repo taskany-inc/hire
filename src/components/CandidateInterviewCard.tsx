@@ -10,6 +10,7 @@ import { CardHeader } from './CardHeader/CardHeader';
 import { InterviewTags } from './InterviewTags/InterviewTags';
 import { CardContent } from './CardContent';
 import Md from './Md';
+import { Link } from './Link';
 
 interface Props {
     interview: InterviewWithHireStreamRelation;
@@ -21,11 +22,14 @@ export const CandidateInterviewCard: FC<Props> = ({ interview }) => {
     return (
         <Card>
             <CardHeader
-                title={`#${interview.id}`}
+                title={
+                    <Link
+                        href={generatePath(Paths.INTERVIEW, {
+                            interviewId: interview.id,
+                        })}
+                    >{`#${interview.id}`}</Link>
+                }
                 subTitle={date}
-                link={generatePath(Paths.INTERVIEW, {
-                    interviewId: interview.id,
-                })}
                 chips={<InterviewTags interview={interview} />}
             />
             <CardContent>

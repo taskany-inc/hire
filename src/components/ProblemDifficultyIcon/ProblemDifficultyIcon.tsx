@@ -21,7 +21,7 @@ export const ProblemDifficultyIcon = ({ difficulty }: Props) => {
                 onMouseEnter={() => setPopupVisibility(true)}
                 onMouseLeave={() => setPopupVisibility(false)}
                 ref={popupRef}
-                size="s"
+                size="xs"
                 color={difficultyToColor[difficulty]}
             />
             <Popup tooltip arrow={false} reference={popupRef} visible={popupVisible} placement="bottom-end">

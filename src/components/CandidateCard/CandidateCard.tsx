@@ -15,6 +15,7 @@ import { Card } from '../Card/Card';
 import { Stack } from '../Stack';
 import { CardContent } from '../CardContent';
 import { useCandidateFilterUrlParams } from '../../hooks/useCandidateFilterUrlParams';
+import { Link } from '../Link';
 
 import { tr } from './CandidateCard.i18n';
 
@@ -40,8 +41,7 @@ export const CandidateCard: React.FC<Props> = ({ candidate }) => {
     return (
         <Card>
             <CardHeader
-                title={candidate.name}
-                link={candidateLink}
+                title={<Link href={candidateLink}>{candidate.name}</Link>}
                 chips={
                     <>
                         <InterviewHireBadge

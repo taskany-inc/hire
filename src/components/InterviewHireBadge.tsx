@@ -1,6 +1,6 @@
 import { VFC } from 'react';
 import { InterviewStatus } from '@prisma/client';
-import { Badge } from '@taskany/bricks';
+import { Badge } from '@taskany/bricks/harmony';
 
 import { TagPaletteColor } from '../utils/tagPalette';
 import { interviewStatusLabels } from '../utils/dictionaries';
@@ -17,32 +17,12 @@ export const InterviewHireBadge: VFC<InterviewHireBadgeProps> = ({ status, onCli
 
     const label = interviewStatusLabels[status];
 
-    switch (status) {
-        case InterviewStatus.NEW:
-            return (
-                <Badge size="l" color={TagPaletteColor.BLUE} onClick={onClick}>
-                    {label}
-                </Badge>
-            );
-        case InterviewStatus.HIRED:
-            return (
-                <Badge size="l" color={TagPaletteColor.GREEN} onClick={onClick}>
-                    {label}
-                </Badge>
-            );
-        case InterviewStatus.REJECTED:
-            return (
-                <Badge size="l" color={TagPaletteColor.MAGENTA} onClick={onClick}>
-                    {label}
-                </Badge>
-            );
-        case InterviewStatus.IN_PROGRESS:
-            return (
-                <Badge size="l" color={TagPaletteColor.CYAN} onClick={onClick}>
-                    {label}
-                </Badge>
-            );
-        default:
-            return null;
-    }
+    const color = {
+        [InterviewStatus.NEW]: TagPaletteColor.BLUE,
+        [InterviewStatus.HIRED]: TagPaletteColor.GREEN,
+        [InterviewStatus.REJECTED]: TagPaletteColor.MAGENTA,
+        [InterviewStatus.IN_PROGRESS]: TagPaletteColor.CYAN,
+    }[status];
+
+    return <Badge color={color} size="s" weight="regular" view="outline" onClick={onClick} text={label} />;
 };

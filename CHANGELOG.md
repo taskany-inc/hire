@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.56.0](https://github.com/taskany-inc/hire/compare/v0.55.3...v0.56.0) (2024-08-13)
+
+
+### Features
+
+* **Confirmation:** use harmony modal components ([dc7a213](https://github.com/taskany-inc/hire/commit/dc7a213b47134cba1ee209c4e72aca6e78d50d12))
+* **InterviewRejectReasons:** rewrite reject reasons to select and add a new reason ([6048148](https://github.com/taskany-inc/hire/commit/60481485f0f4e9837ea0ca5b6d52261601744e8e))
+
+
+### Bug Fixes
+
+* **PageHeader:** move header ([b9c0678](https://github.com/taskany-inc/hire/commit/b9c0678ad8ff64e524c907b8a6c7e698d85c83ca))
+
 ## [0.55.3](https://github.com/taskany-inc/hire/compare/v0.55.2...v0.55.3) (2024-08-09)
 
 

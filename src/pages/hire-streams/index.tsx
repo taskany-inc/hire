@@ -5,7 +5,7 @@ import { createGetServerSideProps } from '../../utils/createGetSSRProps';
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
     action: async ({ session, ssg, handleAccessChecks }) => {
-        await ssg.hireStreams.getAll.fetch();
+        await ssg.hireStreams.getManaged.fetch();
 
         await handleAccessChecks(() => accessChecks.hireStream.read(session));
     },

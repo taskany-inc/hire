@@ -29,9 +29,9 @@ export const candidateFilterValuesToRequestData = (
     values: ReturnType<typeof useCandidateFilterUrlParams>['values'],
 ): GetCandidateList => ({
     search: values.search,
-    statuses: values.statuses as InterviewStatus[],
-    hireStreamIds: values.hireStreamIds,
-    hrIds: values.hrIds,
-    vacancyIds: values.vacancyIds,
+    hireStreamIds: values.hireStreamIds && values.hireStreamIds.length > 0 ? values.hireStreamIds : undefined,
+    statuses: (values.statuses && values.statuses.length > 0 ? values.statuses : undefined) as InterviewStatus[],
+    hrIds: values.hrIds && values.hrIds.length > 0 ? values.hrIds : undefined,
+    vacancyIds: values.vacancyIds && values.vacancyIds.length > 0 ? values.vacancyIds : undefined,
     limit: 20,
 });

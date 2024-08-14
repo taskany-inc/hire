@@ -26,6 +26,7 @@ export enum Paths {
     SECTION_TYPE_EDIT = '/section-types/{sectionTypeId}/edit',
 
     CANDIDATES = '/candidates',
+    CANDIDATES_DASHBOARD = '/candidates-dashboard',
     CANDIDATES_NEW = '/candidates/new',
     CANDIDATE = '/candidates/{candidateId}',
     CANDIDATE_INTERVIEW_CREATE = '/candidates/{candidateId}/interviews/new',

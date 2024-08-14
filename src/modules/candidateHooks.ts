@@ -12,15 +12,8 @@ export const useCandidate = (candidateId: number) => {
 
 export const useCandidates = (params: GetCandidateList) => {
     const { enqueueErrorNotification } = useNotifications();
-    const preparedParams: GetCandidateList = {
-        ...params,
-        hireStreamIds: params.hireStreamIds && params.hireStreamIds.length > 0 ? params.hireStreamIds : undefined,
-        statuses: params.statuses && params.statuses.length > 0 ? params.statuses : undefined,
-        hrIds: params.hrIds && params.hrIds.length > 0 ? params.hrIds : undefined,
-        vacancyIds: params.vacancyIds && params.vacancyIds.length > 0 ? params.vacancyIds : undefined,
-    };
 
-    return trpc.candidates.getList.useInfiniteQuery(preparedParams, {
+    return trpc.candidates.getList.useInfiniteQuery(params, {
         keepPreviousData: true,
         onError: enqueueErrorNotification,
         getNextPageParam: (lastPage) => lastPage.nextCursor,

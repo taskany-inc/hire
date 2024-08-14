@@ -1,0 +1,8 @@
+.KanbanColumnTitle {
+    display: flex;
+    padding-bottom: var(--gap-m);
+}
+
+.KanbanContainer {
+    padding: var(--gap-m) 0;
+}

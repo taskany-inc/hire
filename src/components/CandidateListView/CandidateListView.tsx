@@ -1,14 +1,16 @@
-import { FC, useCallback, useRef } from 'react';
+import { FC } from 'react';
 import { Text } from '@taskany/bricks';
 
 import { useCandidates } from '../../modules/candidateHooks';
-import { Stack } from '../Stack';
-import { QueryResolver } from '../QueryResolver/QueryResolver';
-import { CandidateCard } from '../CandidateCard/CandidateCard';
 import {
     candidateFilterValuesToRequestData,
     useCandidateFilterUrlParams,
 } from '../../hooks/useCandidateFilterUrlParams';
+import { useIntersectionLoader } from '../../hooks/useIntersectionLoader';
+import { CandidatesLoader } from '../CandidatesLoader/CandidatesLoader';
+import { QueryResolver } from '../QueryResolver/QueryResolver';
+import { CandidateCard } from '../CandidateCard/CandidateCard';
+import { Stack } from '../Stack';
 
 import { tr } from './CandidateListView.i18n';
 
@@ -18,22 +20,7 @@ export const CandidateListView: FC = () => {
 
     const { isFetching, hasNextPage, fetchNextPage } = candidatesQuery;
 
-    const observer = useRef<IntersectionObserver | null>(null);
-    const ref = useCallback(
-        (node: HTMLDivElement) => {
-            if (isFetching) return;
-
-            if (observer.current) observer.current.disconnect();
-            observer.current = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting && hasNextPage) {
-                    fetchNextPage();
-                }
-            });
-
-            if (node) observer.current.observe(node);
-        },
-        [hasNextPage, fetchNextPage, isFetching],
-    );
+    const ref = useIntersectionLoader<HTMLDivElement>(() => fetchNextPage(), Boolean(!isFetching && hasNextPage));
 
     return (
         <Stack direction="column" gap={6}>
@@ -52,7 +39,7 @@ export const CandidateListView: FC = () => {
                                     )}
                                 </div>
                             ))}
-                            <div ref={ref}>{isFetching && <Text>{tr('Loading candidates')} ⏳</Text>}</div>
+                            <div ref={ref}>{isFetching && <CandidatesLoader />}</div>
                         </>
                     );
                 }}

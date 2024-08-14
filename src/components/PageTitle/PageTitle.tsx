@@ -3,22 +3,16 @@ import { Text } from '@taskany/bricks/harmony';
 
 import { Link } from '../Link';
 
-import s from './PageTitle.module.css';
-
 interface PageTitleProps {
-    title: string;
     gutter?: string;
     backlink?: string;
     children?: ReactNode;
 }
 
-export const PageTitle: FC<PageTitleProps> = ({ title, backlink, children }) => {
+export const PageTitle: FC<PageTitleProps> = ({ backlink, children }) => {
     return (
-        <div>
-            <Text className={s.PageTitleWrapperText} size="l" weight="bolder">
-                {backlink ? <Link href={backlink}>{title}</Link> : title}
-            </Text>
-            {children}
-        </div>
+        <Text size="l" weight="bolder">
+            {backlink ? <Link href={backlink}>{children}</Link> : children}
+        </Text>
     );
 };

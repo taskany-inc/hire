@@ -1,0 +1,16 @@
+.CandidateKanbanCardInfo {
+    align-items: center;
+}
+
+.CandidateKanbanCardDot.CandidateKanbanCardDot {
+    margin: 0 var(--gap-s);
+    color: inherit;
+}
+
+.CandidateKanbanCardContentRow {
+    color: var(--text-ghost);
+}
+
+.CandidateKanbanCardText_highlighted {
+    color: var(--text-color)
+}

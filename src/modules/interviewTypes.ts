@@ -96,6 +96,10 @@ export type InterviewWithSectionsAndSpecialAccessUsers = InterviewWithSections &
 export type InterviewWithHireStreamAndSectionsRelation = InterviewWithSections & {
     hireStream: HireStream | null;
 };
+export type InterviewWithHireStreamAndSectionsAndCreatorRelation = InterviewWithSections & {
+    hireStream: HireStream | null;
+    creator: User;
+};
 
 export type InterviewWithHireStreamRelation = Interview & {
     hireStream: HireStream | null;

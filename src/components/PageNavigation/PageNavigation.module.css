@@ -9,6 +9,6 @@
   gap: 0;
 }
 
-.PageNavigationItemLink a:hover {
+.PageNavigationItemLink.PageNavigationItemLink:hover {
   color: inherit;
 }

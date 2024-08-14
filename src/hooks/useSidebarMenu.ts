@@ -30,6 +30,7 @@ export const useSidebarMenu = (): UseSidebarMenuResult => {
 
         if (canReadCandidates) {
             items.push({ path: Paths.CANDIDATES, text: tr('Candidates') });
+            items.unshift({ path: Paths.CANDIDATES_DASHBOARD, text: tr('Dashboard') });
         }
 
         const canReadSections =

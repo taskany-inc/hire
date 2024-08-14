@@ -1,0 +1,19 @@
+.HireStreamCollapsableItem:not(:last-child) {
+    margin-bottom: var(--gap-xs);
+}
+
+.HireStreamCollapsableItemLink {
+    width: 100%;
+}
+
+.HireStreamCollapsableItemTitle {
+    gap: var(--gap-s);
+    color: var(--text-color);
+    padding: var(--gap-s);
+    border-radius: var(--radius-m);
+    cursor: pointer;
+}
+
+.HireStreamCollapsableItemTitle:hover {
+    background-color: var(--layer-hover);
+}

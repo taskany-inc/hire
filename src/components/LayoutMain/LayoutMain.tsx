@@ -8,6 +8,7 @@ import { trpc } from '../../trpc/trpcClient';
 import { OfflineBanner } from '../OfflineBanner/OfflineBanner';
 import { Theme } from '../Theme';
 import { DropdownMenuItem } from '../TagFilterDropdown';
+import { HeaderLoader } from '../HeaderLoader/HeaderLoader';
 import { PageHeader } from '../PageHeader/PageHeader';
 import { PageFooter } from '../PageFooter/PageFooter';
 import { GlobalStyle } from '../GlobalStyle';
@@ -23,11 +24,19 @@ interface LayoutMainProps {
     aboveContainer?: JSX.Element;
     headerGutter?: string;
     titleMenuItems?: DropdownMenuItem[];
+    loading?: boolean;
     backlink?: string;
     children?: ReactNode;
 }
 
-export const LayoutMain: FC<LayoutMainProps> = ({ pageTitle, aboveContainer, titleMenuItems, backlink, children }) => {
+export const LayoutMain: FC<LayoutMainProps> = ({
+    pageTitle,
+    aboveContainer,
+    titleMenuItems,
+    backlink,
+    children,
+    loading,
+}) => {
     const { data: userSettings } = trpc.users.getSettings.useQuery();
     const config = trpc.appConfig.get.useQuery(undefined, {
         staleTime: Infinity,
@@ -69,11 +78,13 @@ export const LayoutMain: FC<LayoutMainProps> = ({ pageTitle, aboveContainer, tit
 
                 <main className={s.Main}>
                     <PageHeader>
-                        <PageTitle title={pageTitle} backlink={backlink}>
-                            {nullable(titleMenuItems, (i) => (
-                                <TitleMenu items={i} />
-                            ))}
-                        </PageTitle>
+                        <PageTitle backlink={backlink}>{pageTitle}</PageTitle>
+                        {nullable(titleMenuItems, (i) => (
+                            <TitleMenu items={i} />
+                        ))}
+                        {nullable(loading, () => (
+                            <HeaderLoader />
+                        ))}
                     </PageHeader>
 
                     <div className={s.LayoutMainContent}>

@@ -1,7 +1,11 @@
 import { Candidate, InterviewStatus, OutstaffVendor } from '@prisma/client';
 import { z } from 'zod';
 
-import { InterviewWithHireStreamAndSectionsRelation, InterviewWithHireStreamRelation } from './interviewTypes';
+import {
+    InterviewWithHireStreamAndSectionsRelation,
+    InterviewWithHireStreamAndSectionsAndCreatorRelation,
+    InterviewWithHireStreamRelation,
+} from './interviewTypes';
 
 export const candidateIdQuery = z.object({
     candidateId: z.number(),
@@ -46,7 +50,7 @@ export type CandidateWithVendorRelation = Candidate & {
 
 export type CandidateWithVendorAndInterviewWithSectionsRelations = Candidate & {
     outstaffVendor: OutstaffVendor | null;
-    interviews: InterviewWithHireStreamAndSectionsRelation[];
+    interviews: InterviewWithHireStreamAndSectionsAndCreatorRelation[];
 };
 
 export type CandidateWithVendorAndInterviewRelations = Candidate & {

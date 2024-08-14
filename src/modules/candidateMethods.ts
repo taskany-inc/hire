@@ -160,6 +160,7 @@ const getList = async (
                 include: {
                     hireStream: true,
                     sections: true,
+                    creator: true,
                 },
                 orderBy: { createdAt: 'asc' },
             },
@@ -205,7 +206,7 @@ const getByIdWithRelations = async (
         include: {
             outstaffVendor: true,
             interviews: {
-                include: { hireStream: true, sections: true },
+                include: { hireStream: true, sections: true, creator: true },
                 where: interviewAccessFilter,
             },
         },

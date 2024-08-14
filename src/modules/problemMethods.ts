@@ -26,7 +26,7 @@ const constructFindAllProblemsWhereFilter = async (
     data: GetProblemList,
 ): Promise<Prisma.ProblemWhereInput> => {
     const where = {} as Prisma.ProblemWhereInput;
-    const { admin } = await userMethods.find(userId);
+    const { admin, problemEditor } = await userMethods.find(userId);
 
     if (data.search) {
         where.OR = [
@@ -61,7 +61,7 @@ const constructFindAllProblemsWhereFilter = async (
         where.id.notIn = data.excludeProblemIds;
     }
 
-    if (!admin) {
+    if (!admin && !problemEditor) {
         if (where.AND && Array.isArray(where.AND)) {
             where.AND.push({ OR: [{ authorId: userId }, { archived: false }] });
         } else if (where.AND) {

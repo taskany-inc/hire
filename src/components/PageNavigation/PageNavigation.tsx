@@ -9,11 +9,11 @@ import {
     TaskanyLogo,
 } from '@taskany/bricks/harmony';
 import { IconBellOutline } from '@taskany/icons';
-import NextLink from 'next/link';
 import { UserSettings } from '@prisma/client';
 import { FC } from 'react';
 import { useRouter } from 'next/router';
 
+import { Link } from '../Link';
 import { useHeaderMenu } from '../../hooks/useHeaderMenu';
 import { Paths } from '../../utils/paths';
 import { PageNavigationActionButton } from '../PageNavigationActionButton/PageNavigationActionButton';
@@ -35,9 +35,9 @@ export const PageNavigation: FC<PageNavigationProps> = ({ userSettings }) => {
     return (
         <NavigationSidebar className={s.PageNavigationRoot}>
             <NavigationSidebarHeader>
-                <NextLink href={Paths.HOME}>
+                <Link href={Paths.HOME}>
                     <TaskanyLogo src={config.data?.favicon || undefined} size="m" />
-                </NextLink>
+                </Link>
                 <NavigationSidebarTitle>Hire</NavigationSidebarTitle>
                 <IconBellOutline size="s" />
             </NavigationSidebarHeader>
@@ -46,13 +46,11 @@ export const PageNavigation: FC<PageNavigationProps> = ({ userSettings }) => {
                 <Navigation className={s.PageNavigationBlock}>
                     <ListView>
                         {entityListMenuItems.map(({ text, path }) => (
-                            <div key={path} className={s.PageNavigationItemLink}>
-                                <NextLink href={path} legacyBehavior>
-                                    <NavigationItem selected={asPath === path} href={path}>
-                                        {text}
-                                    </NavigationItem>
-                                </NextLink>
-                            </div>
+                            <Link key={path} href={path} className={s.PageNavigationItemLink}>
+                                <NavigationItem selected={asPath === path} value={path}>
+                                    {text}
+                                </NavigationItem>
+                            </Link>
                         ))}
                     </ListView>
                 </Navigation>

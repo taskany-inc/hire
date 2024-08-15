@@ -37,13 +37,13 @@ $active-border: #{var(--gray7)};
       color: #{var(--primary1)};
       background-image: none;
       box-shadow: inset 0 3px 5px rgba(0,0,0,.125);
-      background-color: $active-background;
+      background-color: #{var(--button-primary)};
       border-color: $active-border;
 
       &:hover,
       &:focus {
         color: #{var(--primary1)};
-        background-color: #{var(--primary10)};
+        background-color: #{var(--button-primary-hover)};
         border-color: #{var(--gray7)};
       }
     }

@@ -1,4 +1,17 @@
 .MyCalendarPageButtonWrapper {
-  margin-bottom: var(--gap-s);
-  display: flex;
+    margin: 0 var(--gap-m) var(--gap-m) 0;
+    display: flex;
+    overflow: auto;
+    scrollbar-width: thin;
+    margin-right: 40px;
 }
+
+.Button {
+    min-width: auto;
+}
+
+.ButtonWrapper {
+    display: flex;
+    max-width: 1000px;
+}
+ 

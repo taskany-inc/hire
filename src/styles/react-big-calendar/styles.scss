@@ -64,15 +64,15 @@
   font-weight: bold;
   font-size: 90%;
   min-height: 0;
-  border-bottom: 1px solid $cell-border;
+  border-bottom: 1px solid $gray;
 
   & + & {
-    border-left: 1px solid $cell-border;
+    border-left: 1px solid $gray;
   }
 
   .rbc-rtl & + & {
     border-left-width: 0;
-    border-right: 1px solid $cell-border;
+    border-right: 1px solid $gray;
   }
 
   & > a {

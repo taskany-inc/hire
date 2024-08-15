@@ -1,6 +1,7 @@
 import { ComponentType, useRef, useState } from 'react';
 import { EventProps } from 'react-big-calendar';
-import { Popup, Text } from '@taskany/bricks';
+import { Popup } from '@taskany/bricks';
+import { Text } from '@taskany/bricks/harmony';
 
 import { BigCalendarEvent } from '../../utils/calendar';
 import { formatTime } from '../../utils/date';
@@ -19,7 +20,9 @@ export const SlotCalendarEvent: ComponentType<SlotCalendarEventProps> = ({ event
 
     const content = (
         <div>
-            <Text size="xs">{creator?.name}</Text>
+            <Text size="xs" className={s.CreatorName}>
+                {creator?.name}
+            </Text>
 
             <Text color="textSecondary" size="xs">
                 {title}

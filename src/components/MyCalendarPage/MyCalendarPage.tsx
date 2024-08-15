@@ -42,20 +42,26 @@ export const MyCalendarPage = () => {
             {nullable(rights, () => (
                 <div className={s.MyCalendarPageButtonWrapper}>
                     <Button
+                        className={s.Button}
+                        size="s"
                         brick="right"
                         text={tr('My')}
                         onClick={onMyClick}
                         view={hireStreamId === undefined ? 'primary' : 'default'}
                     />
-                    {hireStreamsQuery.data?.map((hireStream, index) => (
-                        <Button
-                            brick={index === hireStreamsQuery.data.length - 1 ? 'left' : 'center'}
-                            text={hireStream.name}
-                            key={hireStream.name}
-                            onClick={() => onHireStreamChange(hireStream.id)}
-                            view={hireStreamId === hireStream.id ? 'primary' : 'default'}
-                        />
-                    ))}
+                    <div className={s.ButtonWrapper}>
+                        {hireStreamsQuery.data?.map((hireStream, index) => (
+                            <Button
+                                className={s.Button}
+                                size="s"
+                                brick={index === hireStreamsQuery.data.length - 1 ? 'left' : 'center'}
+                                text={hireStream.name}
+                                key={hireStream.name}
+                                onClick={() => onHireStreamChange(hireStream.id)}
+                                view={hireStreamId === hireStream.id ? 'primary' : 'default'}
+                            />
+                        ))}
+                    </div>
                 </div>
             ))}
             <InterviewSectionSlotCalendar my={!hireStreamId} interviewerIds={interviwerIds} />

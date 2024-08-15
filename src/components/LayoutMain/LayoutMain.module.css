@@ -1,6 +1,7 @@
 .LayoutMain {
     width: 100%;
     display: flex;
+    overflow: auto;
 }
 
 .Main {
@@ -14,4 +15,9 @@
     padding: var(--gap-m) var(--gap-l);
     align-items: center;
     flex: 1;
+}
+
+.PageAside {
+    width: 230px; 
+    flex-shrink: 0;
 }

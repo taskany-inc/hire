@@ -57,7 +57,7 @@
   height: 100%; // ie-fix
 
   & + & {
-    border-top: 1px solid $cell-border;
+    border-top: 1px solid $gray;
   }
 }
 
@@ -91,12 +91,12 @@
   flex: 1 0 0%;
 
   & + & {
-    border-left: 1px solid $cell-border;
+    border-left: 1px solid $gray;
   }
 
   .rbc-rtl & + & {
     border-left-width: 0;
-    border-right: 1px solid $cell-border;
+    border-right: 1px solid $gray;
   }
 }
 

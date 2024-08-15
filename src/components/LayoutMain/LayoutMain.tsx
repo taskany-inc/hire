@@ -63,7 +63,10 @@ export const LayoutMain: FC<LayoutMainProps> = ({ pageTitle, aboveContainer, tit
             <Theme theme={theme} />
 
             <div className={s.LayoutMain}>
-                <PageNavigation userSettings={userSettings} />
+                <aside className={s.PageAside}>
+                    <PageNavigation userSettings={userSettings} />
+                </aside>
+
                 <main className={s.Main}>
                     <PageHeader userSettings={userSettings}>
                         <PageTitle title={pageTitle} backlink={backlink}>

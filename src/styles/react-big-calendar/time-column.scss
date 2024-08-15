@@ -12,10 +12,14 @@
 
 
 .rbc-timeslot-group {
-  border-bottom: 1px solid $cell-border;
+  border-bottom: 1px solid $gray;
   min-height: 40px;
   display: flex;
   flex-flow: column nowrap;
+}
+
+.rbc-timeslot-group:last-child {
+  border-bottom: none;
 }
 
 .rbc-time-gutter,
@@ -58,6 +62,8 @@
   .rbc-background-event {
     @extend .rbc-event;
     opacity: 0.75;
+    background-color: #{var(--button-primary)};
+    color: #{var(--text-primary)};
   }
 
   .rbc-event-label {
@@ -74,10 +80,6 @@
     height: 100%;
     min-height: 1em;
   }
-
-  .rbc-time-slot {
-    border-top: 1px solid lighten($cell-border, 10%);
-  }
 }
 
 .rbc-time-view-resources {
@@ -86,7 +88,7 @@
     position: sticky;
     left: 0;
     background-color: white;
-    border-right: 1px solid $cell-border;
+    border-right: 1px solid $gray;
     z-index: 10;
     margin-right: -1px;
   }

@@ -82,7 +82,7 @@ export const PageHeader = ({ userSettings, children }: PageHeaderProps) => {
                 reference={popupRef}
                 visible={popupVisible}
             >
-                <div color={textColor} className={s.PageHeader}>
+                <div color={textColor} className={s.Description}>
                     {description}
                 </div>
             </Popup>

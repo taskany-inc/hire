@@ -2,10 +2,7 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-}
-
-.TitleWrapper * + * {
-    margin-left: var(--gap-s);
+    gap: var(--gap-s);
 }
 
 .SubTitle {

@@ -18,15 +18,16 @@ type CardHeaderProps = PropsWithClassName<{
 export const CardHeader: FC<CardHeaderProps> = ({ title, subTitle, chips, menu, className }) => {
     return (
         <div className={className}>
-            <Text size="l" weight="bold">
-                <div className={s.TitleWrapper}>
+            <div className={s.TitleWrapper}>
+                <Text className={s.TitleWrapper} size="l" weight="bold">
                     {title}
-                    {nullable(menu, (m) => (
-                        <TitleMenu items={m} />
-                    ))}
-                    {nullable(chips, (c) => c)}
-                </div>
-            </Text>
+                </Text>
+                {nullable(chips, (c) => c)}
+
+                {nullable(menu, (m) => (
+                    <TitleMenu items={m} />
+                ))}
+            </div>
             {nullable(subTitle, () => (
                 <Text className={s.SubTitle} size="s">
                     {subTitle}

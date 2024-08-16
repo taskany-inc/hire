@@ -2,7 +2,7 @@ import { FC, useCallback, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { nullable } from '@taskany/bricks';
 import { gray8, textColor } from '@taskany/colors';
-import { Button } from '@taskany/bricks/harmony';
+import { Button, Card, CardContent, CardInfo } from '@taskany/bricks/harmony';
 
 import { ProblemWithRelationsAndProblemSection } from '../../modules/problemTypes';
 import { generatePath, Paths } from '../../utils/paths';
@@ -11,7 +11,6 @@ import { parseNumber } from '../../utils/paramParsers';
 import { trpc } from '../../trpc/trpcClient';
 import { useFavoriteProblems } from '../../modules/userHooks';
 import { LoadingContainer } from '../LoadingContainer/LoadingContainer';
-import { Card } from '../Card/Card';
 import { Link } from '../Link';
 import { TagChip } from '../TagChip';
 import { UnavailableContainer } from '../UnavailableContainer';
@@ -20,6 +19,8 @@ import { ProblemDifficultyIcon } from '../ProblemDifficultyIcon/ProblemDifficult
 import Md from '../Md';
 import { CardHeader } from '../CardHeader/CardHeader';
 import { ProblemFavoriteStar } from '../ProblemFavoriteStar/ProblemFavoriteStar';
+import { useProblemFilterUrlParams } from '../../hooks/useProblemFilterUrlParams';
+import { ExpandableContainer } from '../ExpandableContainer/ExpandableContainer';
 
 import { tr } from './ProblemCard.i18n';
 import s from './ProblemCard.module.css';
@@ -42,6 +43,7 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded }) => {
     );
     const interviewId = parseNumber(router.query.interviewId);
     const sectionId = parseNumber(router.query.sectionId);
+    const problemFilter = useProblemFilterUrlParams();
 
     const date = useDistanceDate(problem.createdAt);
 
@@ -84,45 +86,56 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded }) => {
     return (
         <UnavailableContainer isUnavailable={problem.isUsed} link={renderLinkToSection()}>
             <LoadingContainer isSpinnerVisible={isSpinnerVisible}>
-                <Card>
-                    {/* TODO add authorId and tagId to filter onClick */}
-                    <CardHeader
-                        title={
-                            <>
-                                <Link href={generatePath(Paths.PROBLEM, { problemId: problem.id })}>
-                                    {problem.name}
-                                </Link>
-                                <ProblemFavoriteStar isFavorite={isFavorite} problemId={problem.id} />
-                            </>
-                        }
-                        subTitle={
-                            <span color={textColor}>
-                                {tr('Added by')} {problem.author.name} {date}
-                            </span>
-                        }
-                        chips={
-                            <>
-                                <ProblemDifficultyIcon difficulty={problem.difficulty} />
-                                {problem.tags.map((tag) => (
-                                    <TagChip tag={tag} key={tag.id} />
-                                ))}
-                            </>
-                        }
-                    />
-                    <div className={s.Md}>
-                        {nullable(problem.description, (d) => (
-                            <Md>{d}</Md>
-                        ))}
-                    </div>
-
-                    {isShowAddButton && (
-                        <Button
-                            className={s.ProblemCardAddToSectionButton}
-                            view="primary"
-                            onClick={addToSection}
-                            text={tr('Add')}
+                <Card className={s.ProblemCard}>
+                    <CardInfo>
+                        <CardHeader
+                            title={
+                                <>
+                                    <Link href={generatePath(Paths.PROBLEM, { problemId: problem.id })}>
+                                        {problem.name}
+                                    </Link>
+                                    <ProblemFavoriteStar isFavorite={isFavorite} problemId={problem.id} />
+                                </>
+                            }
+                            subTitle={
+                                <span color={textColor}>
+                                    {tr('Added by')}{' '}
+                                    <Link onClick={() => problemFilter.setter('author', [problem.authorId])}>
+                                        {problem.author.name}
+                                    </Link>{' '}
+                                    {date}
+                                </span>
+                            }
+                            chips={
+                                <>
+                                    <ProblemDifficultyIcon difficulty={problem.difficulty} />
+                                    {problem.tags.map((tag) => (
+                                        <Link key={tag.id} onClick={() => problemFilter.setter('tag', [tag.id])}>
+                                            <TagChip tag={tag} />
+                                        </Link>
+                                    ))}
+                                </>
+                            }
+                            className={s.ProblemCardHeader}
                         />
-                    )}
+                    </CardInfo>
+
+                    <CardContent className={s.ProblemCardContent}>
+                        <ExpandableContainer>
+                            {nullable(problem.description, (d) => (
+                                <Md>{d}</Md>
+                            ))}
+
+                            {isShowAddButton && (
+                                <Button
+                                    className={s.ProblemCardAddToSectionButton}
+                                    view="primary"
+                                    onClick={addToSection}
+                                    text={tr('Add')}
+                                />
+                            )}
+                        </ExpandableContainer>
+                    </CardContent>
                 </Card>
             </LoadingContainer>
         </UnavailableContainer>

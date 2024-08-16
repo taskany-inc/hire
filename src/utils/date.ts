@@ -1,10 +1,11 @@
 import { endOfMonth, endOfWeek, format, formatDistance, formatISO, startOfMonth, startOfWeek } from 'date-fns';
-import { enGB } from 'date-fns/locale';
+import { enGB, ru } from 'date-fns/locale';
 import type { View } from 'react-big-calendar';
 
 import { TLocale } from './getLang';
 
-export const distanceDate = (date: Date): string => formatDistance(date, new Date(), { locale: enGB, addSuffix: true });
+export const distanceDate = (date: Date, locale: string): string =>
+    formatDistance(date, new Date(), { locale: locale.includes('ru') ? ru : enGB, addSuffix: true });
 
 /**
  * @example "14.10.2021"

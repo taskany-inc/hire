@@ -5,7 +5,7 @@ import { onlyUnique } from '../utils';
 
 import { CandidateWithInterviewWithSectionsRelations } from './candidateTypes';
 import { InterviewWithSections, InterviewWithSectionsAndSpecialAccessUsers } from './interviewTypes';
-import { SectionWithInterviewRelation } from './sectionTypes';
+import { SectionWithInterviewRelation, SectionWithRelationsAndResults } from './sectionTypes';
 import { tr } from './modules.i18n';
 
 export type AccessOptions = Partial<{
@@ -279,8 +279,18 @@ export const accessChecks = {
             return notAllowed(tr('No access to recruitment stream'));
         },
 
-        readOne: (session: Session, section: SectionWithInterviewRelation): AccessCheckResult => {
+        readOne: (session: Session, section: SectionWithRelationsAndResults): AccessCheckResult => {
             if (session.userRoles.admin) {
+                return allowed();
+            }
+
+            const restrictedUserIds = section.interview.restrictedUsers?.map((u) => u.id);
+            if (restrictedUserIds?.length && restrictedUserIds.includes(session.user.id)) {
+                return notAllowed(tr("You don't have access to this section"));
+            }
+
+            const allowedUserIds = section.interview.allowedUsers?.map((u) => u.id);
+            if (allowedUserIds?.length && allowedUserIds.includes(session.user.id)) {
                 return allowed();
             }
 
@@ -295,12 +305,6 @@ export const accessChecks = {
 
             if (session.user.id === section.interviewerId) {
                 return allowed();
-            }
-
-            const interviewAccessCheck = accessChecks.interview.readOne(session, section.interview);
-
-            if (interviewAccessCheck.allowed) {
-                return allowed({ hideSectionGradesBySectionIds: [section.id] });
             }
 
             return notAllowed(tr('No access to hire stream or section type'));

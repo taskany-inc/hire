@@ -1,0 +1,25 @@
+.ExpandableContainer {
+    overflow: hidden;
+    position: relative;
+}
+
+.ExpandableContainerExpander {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--gap-s);
+    padding: var(--gap-s) 0;
+    margin-bottom: calc(var(--gap-s) * -1);
+    background: linear-gradient(to top, var(--layer-hover), transparent);
+    cursor: pointer;
+}
+
+.ExpandableContainerExpanderOnTop {
+    position: absolute;
+    bottom: 0;
+}
+
+.ExpandableContainerExpander:hover {
+    color: var(--link10)
+}

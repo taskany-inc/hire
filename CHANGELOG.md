@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.57.0](https://github.com/taskany-inc/hire/compare/v0.56.0...v0.57.0) (2024-08-19)
+
+
+### Features
+
+* switch action feed and history on interview page ([2de050d](https://github.com/taskany-inc/hire/commit/2de050d0823a4f90e8756a1e621d7c1d2a562d18))
+* **telemetry:** add middleware ([d96abc7](https://github.com/taskany-inc/hire/commit/d96abc751a875e7c04ce6862e67b6f0e0b96ba54))
+
+
+### Bug Fixes
+
+* allowed interview access give access to it sections ([becd87a](https://github.com/taskany-inc/hire/commit/becd87ab5865df4e513b77a7e5f3c27d72927abe))
+* update link ([e80dd7a](https://github.com/taskany-inc/hire/commit/e80dd7a496c5e19d22dd0157576023c963a5e030))
+
 ## [0.56.0](https://github.com/taskany-inc/hire/compare/v0.55.3...v0.56.0) (2024-08-13)
 
 

@@ -10,6 +10,7 @@ import { ProblemHistoryWithUser } from '../../modules/problemTypes';
 import { HistoryTagsAndDifficultyTextChange } from '../HistoryTagsAndDifficultyTextChange/HistoryTagsAndDifficultyTextChange';
 import { useDistanceDate } from '../../hooks/useDateFormat';
 
+import { tr } from './ProblemHistoryCard.i18n';
 import s from './ProblemHistoryCard.module.css';
 
 interface ProblemHistoryCardProps {
@@ -46,8 +47,13 @@ export const ProblemHistoryCard: FC<ProblemHistoryCardProps> = ({ problemHistory
     const [viewProblemHistoryDescription, setViewProblemHistoryDescription] = useState(false);
     const date = useDistanceDate(createdAt);
 
-    const beforeData = JSON.parse(JSON.stringify(previousValue, null, 4));
-    const afterData = JSON.parse(JSON.stringify(nextValue, null, 4));
+    let beforeData = JSON.parse(JSON.stringify(previousValue, null, 4));
+    let afterData = JSON.parse(JSON.stringify(nextValue, null, 4));
+
+    if (subject === 'archived') {
+        beforeData = previousValue === 'true' ? tr('in archive') : tr('not in archive');
+        afterData = nextValue === 'true' ? tr('in archive') : tr('not in archive');
+    }
 
     const handlerViewProblemHistoryDescription = () => {
         setViewProblemHistoryDescription(!viewProblemHistoryDescription);

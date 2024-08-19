@@ -97,7 +97,7 @@ model Problem {
 
   tags           Tag[]
   solutions      Solution[]
-  difficulty      ProblemDifficulty
+  difficulty     ProblemDifficulty
   favoritedBy    User[]            @relation("FavoriteProblems")
   problemHistory ProblemHistory[]
   comments       Comment[]
@@ -106,7 +106,7 @@ model Problem {
   solutionsGood  Int               @default(0)
   solutionsOk    Int               @default(0)
   solutionsBad   Int               @default(0)
-  archived       Boolean?           @default(false)
+  archived       Boolean?          @default(false)
 
   createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
   updatedAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt

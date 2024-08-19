@@ -389,8 +389,8 @@ const update = async (data: UpdateProblem, authorId: number): Promise<Problem> =
                     subject: 'archived',
                     user: { connect: { id: authorId } },
                     problem: { connect: { id: data.problemId } },
-                    previousValue: problem.archived ? 'in archive' : 'not in archive',
-                    nextValue: data.archived ? 'in archive' : 'not in archive',
+                    previousValue: problem.archived?.toString(),
+                    nextValue: data.archived?.toString(),
                 },
             }),
         );

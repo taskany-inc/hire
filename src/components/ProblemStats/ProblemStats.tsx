@@ -52,7 +52,7 @@ export const ProblemStats = memo(({ good, ok, bad, className, style }: ProblemSt
                 onMouseEnter={() => setPopupVisibilityOk(true)}
                 onMouseLeave={() => setPopupVisibilityOk(false)}
                 style={{ width: `${(ok / total) * 100}%` }}
-                className={s.ProblemStatsRateBarGood}
+                className={s.ProblemStatsRateBarOk}
             />
             <Popup tooltip placement="bottom-start" reference={popupRefOk} visible={popupVisibleOk}>
                 <Text size="s">👌 {tr('Ok solutions: {ok} from {total}', { ok, total })}</Text>
@@ -63,7 +63,7 @@ export const ProblemStats = memo(({ good, ok, bad, className, style }: ProblemSt
                 onMouseEnter={() => setPopupVisibilityBad(true)}
                 onMouseLeave={() => setPopupVisibilityBad(false)}
                 style={{ width: `${(bad / total) * 100}%` }}
-                className={s.ProblemStatsRateBarGood}
+                className={s.ProblemStatsRateBarBad}
             />
             <Popup tooltip placement="bottom-start" reference={popupRefBad} visible={popupVisibleBad}>
                 <Text size="s">

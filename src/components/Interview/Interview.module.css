@@ -1,0 +1,10 @@
+.InterviewCard {
+    max-width: 900px;
+}
+
+.InterviewCardContent {
+    border: 1px solid var(--card-background);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-m);
+}

@@ -7,6 +7,7 @@ import { Button } from '@taskany/bricks/harmony';
 import { pageHrefs } from '../../utils/paths';
 import { ColorizedMenuItem } from '../ColorizedMenuItem/ColorizedMenuItem';
 
+import s from './AssignSectionDropdownButton.module.css';
 import { tr } from './AssignSectionDropdownButton.i18n';
 
 interface Props {
@@ -36,6 +37,7 @@ export function AssignSectionDropdownButton({ interviewId, sectionTypes }: Props
             renderItem={(props) => (
                 <ColorizedMenuItem key={props.item.id} title={props.item.title} onClick={props.onClick} hoverColor />
             )}
+            className={s.AssignSectionDropdownButton}
         />
     );
 }

@@ -34,13 +34,13 @@ export const VacancyCard = ({ vacancy, onSelect }: VacancyCardProps) => {
             <CardHeader
                 title={<Link href={`${Paths.CANDIDATES}?vacancyId=${vacancy.id}`}>{vacancy.name}</Link>}
                 subTitle={
-                    <>
+                    <div className={s.VacancyCardInfoLine}>
                         {tr('Hiring manager')}: {vacancy.hiringManager.name}
                         <InlineDot />
                         {tr('HR')}: {vacancy.hr.name}
                         <InlineDot />
                         {stream?.name}
-                    </>
+                    </div>
                 }
                 chips={
                     <Badge size="l" color={vacancyStatusColors[vacancy.status]}>

@@ -1,7 +1,7 @@
 import { useState, useMemo, FC } from 'react';
 import { useRouter } from 'next/router';
-import { gray10 } from '@taskany/colors';
-import { Text, nullable } from '@taskany/bricks';
+import { nullable } from '@taskany/bricks';
+import { Text } from '@taskany/bricks/harmony';
 import { IconArrowUpSmallOutline, IconArrowDownSmallOutline } from '@taskany/icons';
 
 import { useProblemRemoveMutation } from '../../modules/problemHooks';
@@ -71,27 +71,21 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
 
     return (
         <LayoutMain pageTitle={problem.name} titleMenuItems={titleMenuItems}>
-            <Text size="s" as="div" style={{ marginBottom: 20 }}>
-                #{problem.id}
-                <Text size="s" as="span" color="textSecondary">
-                    <InlineDot />
-                    {/* TODO add authorId to filter onClick and push to Paths.PROBLEMS */}
-                    <Text as="span" color={gray10}>
-                        {tr('Created by:')} {problem.author.name} {date}
-                    </Text>
+            <div className={s.ProblemInfoLine}>
+                <Text size="s">#{problem.id}</Text>
+                <InlineDot />
+                {/* TODO add authorId to filter onClick and push to Paths.PROBLEMS */}
+                <Text>
+                    {tr('Created by:')} {problem.author.name} {date}
                 </Text>
-            </Text>
-
-            {/* TODO add tagId to filter onClick and push to Paths.PROBLEMS */}
-            <div className={s.ProblemTagsContainer}>
+                <ProblemDifficultyIcon difficulty={problem.difficulty} />
                 {problem.tags.map((tag) => (
                     <TagChip tag={tag} key={tag.id} />
                 ))}
-
-                <ProblemDifficultyIcon difficulty={problem.difficulty} />
             </div>
 
             <ProblemStats good={problem.solutionsGood} ok={problem.solutionsOk} bad={problem.solutionsBad} />
+
             {nullable(problem.description, (d) => (
                 <Md className={s.ProblemMdWrapper}>{d}</Md>
             ))}

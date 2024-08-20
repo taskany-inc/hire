@@ -1,18 +1,16 @@
+.ProblemInfoLine {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--gap-s);
+}
+
 .ProblemCommentWrapper {
     width: 600px;
 }
 
 .ProblemMdWrapper {
     width: 900px;
-    margin-top: var(--gap-s);
-}
-
-.ProblemTagsContainer {
-    margin-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
 }
 
 .ProblemTitle {

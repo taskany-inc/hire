@@ -1,10 +1,9 @@
 import { useState, useCallback, useMemo } from 'react';
 import { View } from 'react-big-calendar';
 import { User } from '@prisma/client';
-import { Text, Modal, ModalHeader, ModalContent, FormInput } from '@taskany/bricks';
+import { Text, Modal, ModalHeader, ModalContent, FormInput, nullable } from '@taskany/bricks';
 import { Button } from '@taskany/bricks/harmony';
 
-import { InlineDot } from '../InlineDot';
 import { DateRange, firstVisibleDay, lastVisibleDay } from '../../utils/date';
 import { SlotCalendar } from '../SlotCalendar/SlotCalendar';
 import {
@@ -95,14 +94,18 @@ export function SectionScheduleCalendar({
                     <CalendarEventLinkedSection interviewSection={eventDetails?.interviewSection} />
                 </ModalHeader>
                 <ModalContent>
-                    <Text size="m">{eventDetails?.interviewer?.name}</Text>
+                    {nullable(eventDetails?.interviewer?.name, (n) => (
+                        <Text size="m">
+                            {tr('Interviewer')}: {n}
+                        </Text>
+                    ))}
 
                     <div className={s.SectionScheduleCalendarTextWrapper}>
-                        {' '}
-                        <InlineDot />
-                        <Text as="span" size="s">
-                            {eventDetails?.title}
-                        </Text>
+                        {nullable(eventDetails?.title, (t) => (
+                            <Text as="span" size="s">
+                                {t}
+                            </Text>
+                        ))}
                         <FormInput
                             defaultValue={videoCallLink}
                             label={tr('Meeting link')}

@@ -1,3 +1,10 @@
+.VacancyCardInfoLine {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-s);
+  align-items: center;
+}
+
 .VacancyCardSelectButton {
   margin-top: (--gap-s);
 }

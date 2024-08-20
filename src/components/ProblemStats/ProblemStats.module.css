@@ -2,7 +2,7 @@
     width: 200px;
     height: 8px;
     display: flex;
-    margin-bottom: 50px;
+    margin: var(--gap-m) 0;
 }
 
 .ProblemStatsRateBarBad {

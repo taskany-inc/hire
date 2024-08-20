@@ -1,7 +1,8 @@
 import { useMemo, FC } from 'react';
 import { useRouter } from 'next/router';
 import { nullable, Text } from '@taskany/bricks';
-import { gapS, gray10 } from '@taskany/colors';
+import { Card, CardContent, CardInfo } from '@taskany/bricks/harmony';
+import { gray10 } from '@taskany/colors';
 import { SectionType } from '@prisma/client';
 
 import { pageHrefs } from '../../utils/paths';
@@ -10,7 +11,6 @@ import { useInterviewRemoveMutation } from '../../modules/interviewHooks';
 import { useSession } from '../../contexts/appSettingsContext';
 import { accessChecks } from '../../modules/accessChecks';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
-import { Stack } from '../Stack';
 import { InlineDot } from '../InlineDot';
 import { AssignSectionDropdownButton } from '../AssignSectionDropdownButton/AssignSectionDropdownButton';
 import { LayoutMain } from '../LayoutMain/LayoutMain';
@@ -22,7 +22,9 @@ import { Link } from '../Link';
 import { VacancyInfoById } from '../VacancyInfo/VacancyInfo';
 import Md from '../Md';
 import { InterviewActivity } from '../InterviewActivity/InterviewActivity';
+import { CardHeader } from '../CardHeader/CardHeader';
 
+import s from './Interview.module.css';
 import { tr } from './Interview.i18n';
 
 interface InterviewProps {
@@ -96,41 +98,53 @@ export const Interview: FC<InterviewProps> = ({ interview, sectionTypes }) => {
             headerGutter="0px"
             backlink={pageHrefs.candidate(interview.candidate.id)}
         >
-            <Text size="s" as="div" style={{ paddingTop: gapS, paddingBottom: gapS }}>
-                #{interview.id}
-                <Text size="m" as="span" color={gray10}>
-                    <InlineDot />
-                    {tr('HR')} <ExternalUserLink user={interview.creator} />
-                </Text>
-                <Text size="s" as="span" color={gray10}>
-                    <InlineDot />
-                    {tr('Created at')} {date}
-                </Text>
-                <InterviewTags interview={interview} />
-                <Text size="s" as="p" style={{ marginTop: gapS }}>
-                    {interview.statusComment}
-                </Text>
-                {nullable(interview.description, (d) => (
-                    <Md>{d}</Md>
-                ))}
-                {nullable(interview.cv, (cv) => (
-                    <Text>
-                        {tr('CV:')}{' '}
-                        <Link target="_blank" href={pageHrefs.attach(cv.id)}>
-                            {cv.filename}
-                        </Link>
-                    </Text>
-                ))}
-            </Text>
-            <Stack direction="column" gap={gapS}>
-                {nullable(interview.crewVacancyId, (vacancyId) => (
-                    <VacancyInfoById vacancyId={vacancyId} />
-                ))}
-                {canCreateSections && (
-                    <AssignSectionDropdownButton interviewId={interviewId} sectionTypes={sectionTypes} />
-                )}
-                <InterviewActivity interview={interview} />
-            </Stack>
+            <Card className={s.InterviewCard}>
+                <CardInfo>
+                    <CardHeader
+                        title={
+                            <>
+                                <Text>#{interview.id}</Text>
+                                <InlineDot />
+                                <Text size="m" color={gray10}>
+                                    {tr('HR')} <ExternalUserLink user={interview.creator} />
+                                </Text>
+                                <InlineDot />
+                                <Text size="s" color={gray10}>
+                                    {tr('Created at')} {date}
+                                </Text>
+                            </>
+                        }
+                        chips={<InterviewTags interview={interview} />}
+                    />
+                </CardInfo>
+
+                <CardContent className={s.InterviewCardContent}>
+                    {nullable(interview.statusComment, (c) => (
+                        <Text size="s">{c}</Text>
+                    ))}
+
+                    {nullable(interview.description, (d) => (
+                        <Md>{d}</Md>
+                    ))}
+
+                    {nullable(interview.cv, (cv) => (
+                        <Text>
+                            {tr('CV:')}{' '}
+                            <Link target="_blank" href={pageHrefs.attach(cv.id)}>
+                                {cv.filename}
+                            </Link>
+                        </Text>
+                    ))}
+
+                    {nullable(interview.crewVacancyId, (vacancyId) => (
+                        <VacancyInfoById vacancyId={vacancyId} />
+                    ))}
+                </CardContent>
+            </Card>
+
+            {canCreateSections && <AssignSectionDropdownButton interviewId={interviewId} sectionTypes={sectionTypes} />}
+
+            <InterviewActivity interview={interview} />
 
             <Confirmation {...interviewRemoveConfirmation.props} />
         </LayoutMain>

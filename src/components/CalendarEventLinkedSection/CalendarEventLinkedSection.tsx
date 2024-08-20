@@ -24,11 +24,14 @@ export function CalendarEventLinkedSection({ interviewSection, sectionTitleOnly 
 
     return (
         <>
-            <Text size="l">{tr('Section:')}</Text>
-
-            <Link href={pageHrefs.interviewSectionView(interviewSection.interviewId, interviewSection.id)}>
-                {getFullSectionTitle(interviewSection)}
-            </Link>
+            <Text size="l">
+                {tr('Linked section')}:{' '}
+                <Text size="s" as="span">
+                    <Link href={pageHrefs.interviewSectionView(interviewSection.interviewId, interviewSection.id)}>
+                        {getFullSectionTitle(interviewSection)}
+                    </Link>
+                </Text>
+            </Text>
         </>
     );
 }

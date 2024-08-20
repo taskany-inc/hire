@@ -43,7 +43,7 @@ export const CandidateFilterApplied = ({
         }
 
         if (vacancies?.length && vacancyIds?.length) {
-            result += arrayToAppliedString(vacancies, vacancyIds, tr('Vacancies'), 'id');
+            result += arrayToAppliedString(vacancies, vacancyIds, tr('Vacancies: '), 'id');
         }
 
         return result;

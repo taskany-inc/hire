@@ -1,5 +1,5 @@
 import { FC, useCallback, useState } from 'react';
-import { Footer, FooterItem, Modal } from '@taskany/bricks';
+import { FooterCopyright, FooterMenu, Footer, FooterItem, Modal } from '@taskany/bricks/harmony';
 import { useRouter } from 'next/router';
 
 import FeedbackCreateForm from '../FeedbackCreateForm/FeedbackCreateForm';
@@ -33,22 +33,27 @@ export const PageFooter: FC = () => {
 
     return (
         <Footer>
-            <Modal visible={openFeedbackForm} onClose={() => setOpenFeedbackForm(false)}>
-                <FeedbackCreateForm onClose={() => setOpenFeedbackForm(false)} />
-            </Modal>
-            <Link>
-                <FooterItem onClick={() => setOpenFeedbackForm(true)}>{tr('Feedback')}</FooterItem>
-            </Link>
+            <FooterCopyright />
+            <FooterMenu>
+                <Modal visible={openFeedbackForm} onClose={() => setOpenFeedbackForm(false)}>
+                    <FeedbackCreateForm onClose={() => setOpenFeedbackForm(false)} />
+                </Modal>
+                <FooterItem>
+                    <Link>
+                        <FooterItem onClick={() => setOpenFeedbackForm(true)}>{tr('Feedback')}</FooterItem>
+                    </Link>
+                </FooterItem>
 
-            {menuItems.map(({ title, url }) => (
-                <Link key={url} href={url}>
-                    <FooterItem>{title}</FooterItem>
+                {menuItems.map(({ title, url }) => (
+                    <Link key={url} href={url}>
+                        <FooterItem>{title}</FooterItem>
+                    </Link>
+                ))}
+
+                <Link>
+                    <FooterItem onClick={onLocaleChange}>{tr('Locale change title')}</FooterItem>
                 </Link>
-            ))}
-
-            <Link>
-                <FooterItem onClick={onLocaleChange}>{tr('Locale change title')}</FooterItem>
-            </Link>
+            </FooterMenu>
         </Footer>
     );
 };

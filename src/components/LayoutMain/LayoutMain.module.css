@@ -1,20 +1,21 @@
 .LayoutMain {
+    height: 100vh;
     width: 100%;
     display: flex;
-    overflow: auto;
 }
 
 .Main {
     display: flex;
     flex-direction: column;
     flex:1;
-    padding-top: 60.5px;
+    overflow: auto;
 }
 
 .LayoutMainContent {
-    padding: var(--gap-m) var(--gap-l);
-    align-items: center;
+    overflow: auto;
     flex: 1;
+    margin: var(--gap-xs) var(--gap-sm) 0;
+    padding: var(--gap-m) var(--gap-s);
 }
 
 .PageAside {

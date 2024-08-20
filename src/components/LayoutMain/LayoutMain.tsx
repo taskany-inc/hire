@@ -75,10 +75,11 @@ export const LayoutMain: FC<LayoutMainProps> = ({ pageTitle, aboveContainer, tit
                             ))}
                         </PageTitle>
                     </PageHeader>
-                    {aboveContainer}
 
-                    <div className={s.LayoutMainContent}>{children}</div>
-
+                    <div className={s.LayoutMainContent}>
+                        {aboveContainer}
+                        {children}
+                    </div>
                     <PageFooter />
                     <WhatsNew />
                 </main>

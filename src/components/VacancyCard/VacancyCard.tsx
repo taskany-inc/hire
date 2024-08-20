@@ -32,7 +32,7 @@ export const VacancyCard = ({ vacancy, onSelect }: VacancyCardProps) => {
     return (
         <Card>
             <CardHeader
-                title={<Link href={`${Paths.CANDIDATES}?vacancyId=${vacancy.id}`}>{vacancy.name}</Link>}
+                title={<Link href={`${Paths.CANDIDATES}?vacancyIds=${vacancy.id}`}>{vacancy.name}</Link>}
                 subTitle={
                     <div className={s.VacancyCardInfoLine}>
                         {tr('Hiring manager')}: {vacancy.hiringManager.name}

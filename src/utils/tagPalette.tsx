@@ -18,6 +18,13 @@ export enum TagPaletteColor {
     PINK_RASPBERRY = '#9C27B0',
 }
 
+export const InterviewStatusTagHarmonyPalette: Record<InterviewStatus, string> = {
+    [InterviewStatus.HIRED]: 'var(--status-finished)',
+    [InterviewStatus.NEW]: 'var(--status-draft)',
+    [InterviewStatus.IN_PROGRESS]: 'var(--status-in-progress)',
+    [InterviewStatus.REJECTED]: 'var(--status-failed)',
+};
+
 export const InterviewStatusTagPalette: Record<InterviewStatus, TagPaletteColor> = {
     [InterviewStatus.HIRED]: TagPaletteColor.GREEN,
     [InterviewStatus.NEW]: TagPaletteColor.SOFT_BLUE,

@@ -14,7 +14,7 @@ import { trpc } from '../../trpc/trpcClient';
 import config from '../../config';
 import { CandidateKanbanCard } from '../CandidateKanbanCard/CandidateKanbanCard';
 import { HireStreamCollapsableItem } from '../HireStreamCollapsableItem/HireStreamCollapsableItem';
-import { InterviewHireBadge } from '../InterviewHireBadge';
+import { InterviewHireState } from '../InterviewHireState';
 
 import s from './CandidatesKanban.module.css';
 
@@ -86,7 +86,7 @@ export const CandidatesKanbanColumn: FC<{
     return (
         <KanbanColumn>
             <div className={s.KanbanColumnTitle}>
-                <InterviewHireBadge status={status} />
+                <InterviewHireState status={status} />
             </div>
             {items.map((candidate) => {
                 const interview = candidate.interviews.find(

@@ -5,13 +5,14 @@ import {
     InterviewWithRelations,
     SectionWithSectionTypeAndInterviewerAndSolutionsRelations,
 } from '../../modules/interviewTypes';
-import { interviewStatusLabels, SectionStatus } from '../../utils/dictionaries';
+import { interviewStatusLabels, sectionStatusToCommentStatus } from '../../utils/dictionaries';
 import { SectionStatusTagPalette } from '../../utils/tagPalette';
 import { CommentView } from '../CommentView/CommentView';
 import { CommentViewHeader } from '../CommentViewHeader/CommentViewHeader';
 import { CommentViewHeaderTitle } from '../CommentViewHeader/CommentViewHeaderTitle';
 import { CandidateSelectedSectionBadge } from '../CandidateSelectedSectionBadge/CandidateSelectedSectionBadge';
 import { generatePath, Paths } from '../../utils/paths';
+import { usePreviewContext } from '../../contexts/previewContext';
 
 import { tr } from './InterviewSectionListItem.i18n';
 
@@ -20,7 +21,7 @@ interface InterviewSectionListItemProps extends HTMLAttributes<HTMLDivElement> {
     interview: InterviewWithRelations;
 }
 
-const getCommentStatus = (
+export const getCommentStatus = (
     section: SectionWithSectionTypeAndInterviewerAndSolutionsRelations,
 ): NonNullable<ComponentProps<typeof CommentView>['status']> => {
     if (section.feedback) {
@@ -30,14 +31,9 @@ const getCommentStatus = (
     return 'NEW';
 };
 
-const sectionStatusToCommentStatus = {
-    HIRED: SectionStatus.HIRE,
-    NEW: SectionStatus.NEW,
-    REJECTED: SectionStatus.NO_HIRE,
-};
-
 export const InterviewSectionListItem: FC<InterviewSectionListItemProps> = ({ section, interview }) => {
     const status = getCommentStatus(section);
+    const { showSectionPreview } = usePreviewContext();
     const sectionStatus = sectionStatusToCommentStatus[status];
     const isSelected = true; // section.id === interview.candidateSelectedSectionId;
     const headerLink = generatePath(Paths.SECTION, {
@@ -60,7 +56,9 @@ export const InterviewSectionListItem: FC<InterviewSectionListItemProps> = ({ se
                     subtitle={section.description ?? ''}
                     dot
                 >
-                    <CommentViewHeaderTitle link={headerLink}>{section.sectionType.title}</CommentViewHeaderTitle>
+                    <CommentViewHeaderTitle onClick={() => showSectionPreview(section.id)} link={headerLink}>
+                        {section.sectionType.title}
+                    </CommentViewHeaderTitle>
                     <Badge
                         size="s"
                         view="outline"

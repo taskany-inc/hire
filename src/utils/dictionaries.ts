@@ -61,3 +61,9 @@ export enum InterviewStatusComment {
     HIRE = 'hire',
     NO_HIRE = 'no hire',
 }
+
+export const sectionStatusToCommentStatus = {
+    HIRED: SectionStatus.HIRE,
+    NEW: SectionStatus.NEW,
+    REJECTED: SectionStatus.NO_HIRE,
+};

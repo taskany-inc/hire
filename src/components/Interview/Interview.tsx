@@ -36,11 +36,7 @@ export const Interview: FC<InterviewProps> = ({ interview, sectionTypes }) => {
     const canCreateSections = session && accessChecks.section.create(session, interview.hireStreamId).allowed;
 
     return (
-        <LayoutMain
-            pageTitle={interview.candidate.name}
-            headerGutter="0px"
-            backlink={pageHrefs.candidate(interview.candidate.id)}
-        >
+        <LayoutMain pageTitle={interview.candidate.name} backlink={pageHrefs.candidate(interview.candidate.id)}>
             <div className={s.InterviewColumns}>
                 <div className={s.InterviewMainColumn}>
                     <Card className={s.InterviewCard}>

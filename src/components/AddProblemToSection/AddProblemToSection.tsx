@@ -10,9 +10,10 @@ import s from './AddProblemToSection.module.css';
 
 interface AddProblemToSectionProps {
     interviewId: number;
+    sectionId: number;
 }
 
-export const AddProblemToSection: FC<AddProblemToSectionProps> = ({ interviewId }) => {
+export const AddProblemToSection: FC<AddProblemToSectionProps> = ({ interviewId, sectionId }) => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -34,7 +35,7 @@ export const AddProblemToSection: FC<AddProblemToSectionProps> = ({ interviewId 
                     </div>
                 </ModalHeader>
                 <ModalContent className={s.AddProblemToSectionModalContent}>
-                    <ProblemList embedded isSmallSize interviewId={interviewId} />
+                    <ProblemList embedded isSmallSize interviewId={interviewId} sectionId={sectionId} />
                 </ModalContent>
             </ModalPreview>
         </>

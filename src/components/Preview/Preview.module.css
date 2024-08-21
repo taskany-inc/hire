@@ -1,0 +1,26 @@
+.ModalHeader {
+    top: 0;
+    position: sticky;
+
+    background-color: var(--dropdown);
+    border-bottom: 1px solid var(--layer-above);
+
+    /* modal header must be higher than content */
+    z-index: 3;
+}
+
+.ModalWrapper {
+    display: grid;
+    overflow: auto;
+}
+
+.ModalContent{
+    z-index: auto;
+}
+
+.ModalPreview {
+    width: 700px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--layer);
+}

@@ -1,4 +1,4 @@
-import { VFC } from 'react';
+import { FC } from 'react';
 import { Text } from '@taskany/bricks/harmony';
 
 import { SolutionWithRelations } from '../../modules/solutionTypes';
@@ -15,7 +15,7 @@ interface SectionProblemSolutionsProps {
     isEditable: boolean;
 }
 
-export const SectionProblemSolutions: VFC<SectionProblemSolutionsProps> = ({
+export const SectionProblemSolutions: FC<SectionProblemSolutionsProps> = ({
     sectionId,
     solutions,
     interviewId,

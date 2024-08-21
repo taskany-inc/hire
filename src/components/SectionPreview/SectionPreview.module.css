@@ -1,0 +1,4 @@
+.SectionProfilePreview {
+    display: flex;
+    flex-direction: column;
+}

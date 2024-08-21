@@ -1,4 +1,5 @@
 import { FC, ReactNode } from 'react';
+import { nullable } from '@taskany/bricks';
 
 import s from './UnavailableContainer.module.css';
 
@@ -9,10 +10,14 @@ interface isUnavailableContaineProps {
 }
 
 export const UnavailableContainer: FC<isUnavailableContaineProps> = ({ isUnavailable = false, link, children }) => {
-    return (
-        <div className={s.UnavailableContainer}>
-            {isUnavailable && <div className={s.UnavailableContainerVeil}>{link}</div>}
-            {children}
-        </div>
+    return nullable(
+        isUnavailable,
+        () => (
+            <div className={s.UnavailableContainer}>
+                <div className={s.UnavailableContainerVeil}>{link}</div>
+                {children}
+            </div>
+        ),
+        children,
     );
 };

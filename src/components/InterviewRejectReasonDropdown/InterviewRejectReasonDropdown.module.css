@@ -5,7 +5,7 @@
 .DropdownPanelRejectStatus {
     width: 500px;
     max-height: 200px;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .StandartComment {

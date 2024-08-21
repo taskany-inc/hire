@@ -39,7 +39,7 @@ export const commentRouter = router({
                     });
                 }
 
-                if (input.target.status === 'HIRED' || 'REJECT') {
+                if (input.target.status === 'HIRED' || input.target.status === 'REJECTED') {
                     await analyticsEventMethods.createEvent(
                         {
                             event: 'candidate_finished_interview',

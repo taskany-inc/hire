@@ -1,4 +1,4 @@
-import { Problems } from '../../components/Problems/Problems';
+import { ProblemsPage } from '../../components/ProblemsPage/ProblemsPage';
 import { createGetServerSideProps } from '../../utils/createGetSSRProps';
 
 export const getServerSideProps = createGetServerSideProps({
@@ -10,4 +10,4 @@ export const getServerSideProps = createGetServerSideProps({
     },
 });
 
-export default Problems;
+export default ProblemsPage;

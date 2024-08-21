@@ -17,6 +17,7 @@ interface ProblemListProps {
     style?: CSSProperties;
     isSmallSize?: boolean;
     interviewId?: number;
+    sectionId?: number;
 }
 
 export const ProblemList = ({
@@ -24,6 +25,7 @@ export const ProblemList = ({
     style,
     embedded,
     isSmallSize,
+    sectionId,
     interviewId,
 }: ProblemListProps): JSX.Element => {
     const { values } = useProblemFilterUrlParams();
@@ -34,10 +36,9 @@ export const ProblemList = ({
         difficulty: values.difficulty as ProblemDifficulty[],
         tagIds: values.tag,
         authorIds: values.author,
-        sectionId: values.sectionId,
+        sectionId,
         limit: 20,
     });
-
     const { isLoading, hasNextPage, fetchNextPage } = problemsQuery;
 
     return (
@@ -56,6 +57,8 @@ export const ProblemList = ({
                                             problem={problem}
                                             embedded={embedded}
                                             isSmallSize={isSmallSize}
+                                            interviewId={interviewId}
+                                            sectionId={sectionId}
                                         />
                                     ))
                                 ),

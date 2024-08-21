@@ -1,4 +1,4 @@
-import { Section } from '../../../../../components/Section/Section';
+import { SectionPage as Section } from '../../../../../components/SectionPage/SectionPage';
 import { sectionMethods } from '../../../../../modules/sectionMethods';
 import { InferServerSideProps } from '../../../../../utils/types';
 import { accessChecks } from '../../../../../modules/accessChecks';

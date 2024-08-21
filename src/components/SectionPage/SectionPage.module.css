@@ -1,0 +1,5 @@
+.SectionTitle {
+    display: flex;
+    gap: var(--gap-xs);
+    margin-bottom: var(--gap-xxs);
+}

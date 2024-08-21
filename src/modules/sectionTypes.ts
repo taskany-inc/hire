@@ -77,7 +77,11 @@ export type SectionWithRelationsAndResults = Section & {
     interviewer: User;
     solutions: Array<Solution & SolutionProblem>;
     sectionType: SectionType;
-    interview: InterviewWithSections & { candidate: Candidate; restrictedUsers?: User[]; allowedUsers?: User[] };
+    interview: InterviewWithSections & {
+        candidate: Candidate;
+        restrictedUsers?: User[];
+        allowedUsers?: User[];
+    };
     passedSections: SectionWithSectionType[];
     attaches: Attach[];
 };

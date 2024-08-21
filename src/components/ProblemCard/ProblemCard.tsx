@@ -9,7 +9,6 @@ import { IconBinOutline } from '@taskany/icons';
 import { ProblemWithRelationsAndProblemSection } from '../../modules/problemTypes';
 import { generatePath, Paths } from '../../utils/paths';
 import { useSolutionCreateMutation } from '../../modules/solutionHooks';
-import { parseNumber } from '../../utils/paramParsers';
 import { trpc } from '../../trpc/trpcClient';
 import { useFavoriteProblems } from '../../modules/userHooks';
 import { LoadingContainer } from '../LoadingContainer/LoadingContainer';
@@ -29,11 +28,13 @@ import s from './ProblemCard.module.css';
 
 export interface ProblemCardProps {
     problem: ProblemWithRelationsAndProblemSection;
+    interviewId?: number;
+    sectionId?: number;
     embedded?: boolean;
     isSmallSize?: boolean;
 }
 
-export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded }) => {
+export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded, interviewId, sectionId }) => {
     const router = useRouter();
     const utils = trpc.useContext();
     const solutionCreateMutation = useSolutionCreateMutation();
@@ -43,8 +44,6 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded }) => {
         () => !!favoriteProblems && !!favoriteProblems.find((item) => item.id === problem.id),
         [favoriteProblems, problem.id],
     );
-    const interviewId = parseNumber(router.query.interviewId);
-    const sectionId = parseNumber(router.query.sectionId);
     const problemFilter = useProblemFilterUrlParams();
 
     const date = useDistanceDate(problem.createdAt);
@@ -64,7 +63,6 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded }) => {
             }
         }
     }, [sectionId, solutionCreateMutation, problem.id, utils, interviewId, router]);
-
     const isShowAddButton = !problem.isUsed && embedded;
 
     const renderLinkToSection = () => {

@@ -204,7 +204,7 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                             />
                         ))}
                         {nullable(editMode && isProblemCreationAvailable, () => (
-                            <AddProblemToSection interviewId={interviewId} />
+                            <AddProblemToSection interviewId={interviewId} sectionId={section.id} />
                         ))}
                         {nullable(editMode && section.videoCallLink, (videoCallLink) => (
                             <Link href={videoCallLink} target="_blank">

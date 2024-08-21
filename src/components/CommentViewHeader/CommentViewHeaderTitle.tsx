@@ -7,14 +7,17 @@ import { Link } from '../Link';
 interface CommentViewHeaderTitleProps {
     children?: ReactNode;
     link?: string;
+    onClick?: () => void;
 }
 
-export const CommentViewHeaderTitle: FC<CommentViewHeaderTitleProps> = ({ children, link }) => (
+export const CommentViewHeaderTitle: FC<CommentViewHeaderTitleProps> = ({ children, link, onClick }) => (
     <Text size="l" weight="bold">
         {nullable(
             link,
             (l) => (
-                <Link href={l}>{children}</Link>
+                <Link onClick={onClick} href={l}>
+                    {children}
+                </Link>
             ),
             children,
         )}

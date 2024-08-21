@@ -1,0 +1,74 @@
+.HeaderTitle {
+    display: flex;
+    gap: 0.3rem;
+    margin: 0  0 var(--gap-sm) var(--gap-sm);
+}
+
+.Header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) max-content;
+}
+
+.HeaderStats {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+
+.HeaderInfo_align_left {
+    justify-self: left;
+}
+
+.HeaderInfo_align_right {
+    display: grid;
+    align-content: space-between;
+}
+
+.PreviewTimeWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: var(--gap-xs);
+}
+
+.UpdatedTime {
+    color: var(--text-ghost);
+}
+
+.CandidateName {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap-xs);
+}
+
+.Wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.Wrapper_default {
+    padding-left: var(--gap-xs);
+}
+
+.Separator {
+    background-color: var(--gray-900);
+    width: 1px;
+    height: calc(var(--gap-m) + var(--gap-s));
+    margin: 0 var(--gap-xs);
+}
+
+.Interviewer {
+    display: flex;
+    color: var(--text-ghost);
+}
+
+.Candidate {
+    color: var(--text-ghost);
+}
+
+.InterviewerWrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-s);
+}

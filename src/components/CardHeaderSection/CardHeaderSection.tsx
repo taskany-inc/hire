@@ -3,6 +3,7 @@ import { Text, Dot } from '@taskany/bricks/harmony';
 
 import { SectionStatusTagPalette } from '../../utils/tagPalette';
 import { generatePath, Paths } from '../../utils/paths';
+import { usePreviewContext } from '../../contexts/previewContext';
 import {
     InterviewWithRelations,
     SectionWithSectionTypeAndInterviewerAndSolutionsRelations,
@@ -27,6 +28,8 @@ interface CardHeaderSectionProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const CardHeaderSection: React.FC<CardHeaderSectionProps> = ({ name, timeAgo, section, interview, menu }) => {
     const sectionChip = getSectionChip(section);
+    const { showSectionPreview } = usePreviewContext();
+
     const isSelected = section.id === interview.candidateSelectedSectionId;
     const link = generatePath(Paths.SECTION, {
         interviewId: interview.id,
@@ -38,7 +41,13 @@ export const CardHeaderSection: React.FC<CardHeaderSectionProps> = ({ name, time
         <div className={s.CardHeaderSection}>
             <div className={s.CardHeaderSectionSubtitle}>
                 <Text size="l" weight="bold" className={s.CardHeaderSectionName}>
-                    {link ? <Link href={link}>{section.sectionType.title}</Link> : section.sectionType.title}
+                    {link ? (
+                        <Link onClick={() => showSectionPreview(section.id)} href={link}>
+                            {section.sectionType.title}
+                        </Link>
+                    ) : (
+                        section.sectionType.title
+                    )}
                     {menu && <TitleMenu items={menu} />}
                 </Text>
                 <Badge size="l" color={SectionStatusTagPalette[sectionChip]}>

@@ -16,6 +16,8 @@ import { Browser } from '../utils';
 import { trpc } from '../trpc/trpcClient';
 import { TLocale, setSSRLocale } from '../utils/getLang';
 import '../../react-big-calendar.css';
+import { PreviewContextProvider } from '../contexts/previewContext';
+import { Previews } from '../components/Previews/Previews';
 
 import Error, { ErrorProps } from './_error';
 
@@ -52,8 +54,15 @@ const TaskanyHireApp: FC<AppProps<TaskanyHireAppProps>> = ({ Component, pageProp
                     <SessionProvider session={session} refetchOnWindowFocus>
                         <AppSettingsContextProvider session={session} browserServerSide={browser}>
                             <ThemeProvider themes={['light', 'dark']}>
-                                <ReactQueryDevtools />
-                                {error ? <Error {...error} /> : <Component {...restPageProps} />}
+                                {error ? (
+                                    <Error {...error} />
+                                ) : (
+                                    <PreviewContextProvider>
+                                        <Component {...restPageProps} />
+                                        <Previews />
+                                        <ReactQueryDevtools />
+                                    </PreviewContextProvider>
+                                )}
                             </ThemeProvider>
                         </AppSettingsContextProvider>
                     </SessionProvider>

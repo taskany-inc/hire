@@ -1,0 +1,15 @@
+.SectionProfilePreview {
+    display: flex;
+    flex-direction: column;
+}
+
+.ModalHeader {
+    top: 0;
+    position: sticky;
+
+    background-color: var(--dropdown);
+    border-bottom: 1px solid var(--layer-above);
+
+    /* modal header must be higher than content */
+    z-index: 3;
+}

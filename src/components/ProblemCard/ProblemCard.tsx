@@ -125,16 +125,16 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded }) => {
                             {nullable(problem.description, (d) => (
                                 <Md>{d}</Md>
                             ))}
-
-                            {isShowAddButton && (
-                                <Button
-                                    className={s.ProblemCardAddToSectionButton}
-                                    view="primary"
-                                    onClick={addToSection}
-                                    text={tr('Add')}
-                                />
-                            )}
                         </ExpandableContainer>
+
+                        {nullable(isShowAddButton, () => (
+                            <Button
+                                className={s.ProblemCardAddToSectionButton}
+                                view="default"
+                                onClick={addToSection}
+                                text={tr('Add')}
+                            />
+                        ))}
                     </CardContent>
                 </Card>
             </LoadingContainer>

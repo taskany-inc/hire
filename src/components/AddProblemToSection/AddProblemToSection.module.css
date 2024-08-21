@@ -3,24 +3,17 @@
 }
 
 .AddProblemToSectionModalHeader {
-
     position: sticky;
     padding-bottom: var(--gap-m);
-
 }
 
 .AddProblemToSectionModalContent {
-
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     height: 80%;
-
     padding-top: var(--gap-m);
-
 }
 
 .AddProblemToSectionFiltersPanel {
-
     margin-left: -20px;
-
 }

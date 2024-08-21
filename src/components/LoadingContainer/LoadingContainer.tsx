@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { nullable } from '@taskany/bricks';
 
 import { Spinner } from '../Spinner/Spinner';
 
@@ -8,14 +9,16 @@ export const LoadingContainer: FC<{ isSpinnerVisible: boolean; children: React.R
     isSpinnerVisible,
     children,
 }) => {
-    return (
-        <div className={s.LoadingContainerContainer}>
-            {isSpinnerVisible && (
+    return nullable(
+        isSpinnerVisible,
+        () => (
+            <div className={s.LoadingContainerContainer}>
                 <div className={s.LoadingContainerSpinnerWrapper}>
                     <Spinner />
                 </div>
-            )}
-            {children}
-        </div>
+                {children}
+            </div>
+        ),
+        children,
     );
 };

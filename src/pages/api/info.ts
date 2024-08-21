@@ -7,17 +7,17 @@ import { getServerSession } from '../../utils/auth';
 const handler = getApiHandler().get(async (req: NextApiRequest, res: NextApiResponse) => {
     const session = await getServerSession(req, res);
     const info = {
-        workflowName: process.env.WORKFLOW_NAME,
-        serviceEnvironment: process.env.SERVICE_ENVIRONMENT,
         session,
         defaultPageURL: config.defaultPageURL,
+        defaultCandidateVendor: config.defaultCandidateVendor,
         jwtPublicKey: config.jwtPublicKey,
         gravatar: config.gravatar,
         mattermost: config.mattermost,
+        pluginMenuItems: config.pluginMenuItems,
         debugCookieEnabled: config.debugCookieEnabled,
-        nextAuthEnabled: config.nextAuthEnabled,
         logToFileEnabled: config.logToFileEnabled,
         mailEnabled: config.nodemailer.enabled,
+        crewUrl: config.crew.url,
     };
     res.status(200).json(info);
 });

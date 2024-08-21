@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.58.0](https://github.com/taskany-inc/hire/compare/v0.57.0...v0.58.0) (2024-08-21)
+
+
+### Features
+
+* harmony modal for adding problem to section ([3d232eb](https://github.com/taskany-inc/hire/commit/3d232eb542ab42a5182bcf8aa609b07348abe190))
+
+
+### Bug Fixes
+
+* **Header:** fix page layout ([b7b7e00](https://github.com/taskany-inc/hire/commit/b7b7e00d0aeb3bef02340f3bb3c11f49852afa4e))
+* **interview card:** badge gaps ([def46dc](https://github.com/taskany-inc/hire/commit/def46dc7574f106042af1fa91c02b063e9232c70))
+* interviewId for rejectReasonRouter for accessCheck ([6c71064](https://github.com/taskany-inc/hire/commit/6c710649f91ebf035d5283e98126a99ea9cdafe7))
+* **ProblemStats:** colors for different solutions ([4e49124](https://github.com/taskany-inc/hire/commit/4e49124ee83cd81a7fa51cc5e021211ca71fd12f))
+* vacancy card header link fixed ([ce362a5](https://github.com/taskany-inc/hire/commit/ce362a5bba3cd8dc5f572b663fffa0b68a55080c))
+
 ## [0.57.0](https://github.com/taskany-inc/hire/compare/v0.56.0...v0.57.0) (2024-08-19)
 
 

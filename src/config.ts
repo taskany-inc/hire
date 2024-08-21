@@ -60,8 +60,7 @@ export default {
         enabled: process.env.MAIL_ENABLE,
     },
     pluginMenuItems: parsePluginMenuItems(process.env.NEXT_PUBLIC_PLUGIN_MENU_ITEMS),
-    debugCookieEnabled: process.env.DEBUG_COOKIE_ENABLE,
-    nextAuthEnabled: process.env.NEXT_AUTH_ENABLE,
+    debugCookieEnabled: process.env.NEXT_PUBLIC_DEBUG_COOKIE_ENABLE,
     logToFileEnabled: process.env.LOG_TO_FILE_ENABLE,
     crew: {
         url: process.env.NEXT_PUBLIC_CREW_URL,

@@ -3,9 +3,8 @@ import { httpBatchLink, TRPCClientError } from '@trpc/client';
 import { createTRPCNext } from '@trpc/next';
 import superjson from 'superjson';
 
-import { readBooleanFromMetaTag } from '../utils/frontend';
 import { Paths } from '../utils/paths';
-import { tr } from '../utils/utils.i18n';
+import config from '../config';
 
 import type { TrpcRouter } from './routers';
 
@@ -19,17 +18,12 @@ const handleUnauthorizedErrorOnClient = (error: unknown): boolean => {
 
     if (error.data?.code !== 'UNAUTHORIZED') return false;
 
-    const isNextAuthEnabled = readBooleanFromMetaTag('isNextAuthEnabled');
-    const isDebugCookieAllowed = readBooleanFromMetaTag('isDebugCookieAllowed');
-
-    if (isDebugCookieAllowed) {
-        if (document.location.pathname !== Paths.DEBUG_AUTH) {
+    if (document.location.pathname !== Paths.DEBUG_AUTH) {
+        if (config.debugCookieEnabled) {
             document.location.href = Paths.DEBUG_AUTH;
+        } else {
+            document.location.href = Paths.AUTH_SIGNIN;
         }
-    } else if (isNextAuthEnabled) {
-        document.location.href = Paths.AUTH_SIGNIN;
-    } else {
-        throw new Error(tr('No auth options available!'));
     }
 
     return true;

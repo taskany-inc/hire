@@ -3,8 +3,6 @@ import React from 'react';
 import Document, { Head, Html, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
-import { standConfig } from '../utils';
-
 class TaskanyHireDocument extends Document {
     static async getInitialProps(ctx: any) {
         const sheet = new ServerStyleSheet();
@@ -32,9 +30,6 @@ class TaskanyHireDocument extends Document {
             <Html>
                 <Head>
                     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.css" />
-                    {Object.entries(standConfig).map(([k, v]) => (
-                        <meta key={k} property={k} content={String(v)} />
-                    ))}
                 </Head>
                 <body>
                     <Main />

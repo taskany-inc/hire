@@ -88,14 +88,10 @@ export const createGetServerSideProps =
                     };
                 }
 
-                if (config.nextAuthEnabled) {
-                    return {
-                        redirect: { destination: Paths.AUTH_SIGNIN },
-                        props: { session, browser },
-                    };
-                }
-
-                throw new ErrorWithStatus(tr('No auth options available'), 500);
+                return {
+                    redirect: { destination: Paths.AUTH_SIGNIN },
+                    props: { session, browser },
+                };
             }
             props.session = session;
         }

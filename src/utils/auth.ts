@@ -11,9 +11,6 @@ import config from '../config';
 
 import { UserRolesInfo } from './userRoles';
 import { prisma } from './prisma';
-import { tr } from './utils.i18n';
-
-import { ErrorWithStatus } from '.';
 
 export const AUTH_DEBUG_COOKIE_NAME = 'interview-auth-debug';
 export const ROLE_DEBUG_COOKIE_NAME = 'interview-role-debug';
@@ -46,11 +43,7 @@ const getUser = async (id: number, req: GetServerSidePropsContext['req']): Promi
         return authDebugUser;
     }
 
-    if (config.nextAuthEnabled) {
-        return userMethods.find(id);
-    }
-
-    throw new ErrorWithStatus(tr('No auth option is available'), 400);
+    return userMethods.find(id);
 };
 
 const getUserRoles = async (id: number, req: GetServerSidePropsContext['req']): Promise<UserRolesInfo> => {

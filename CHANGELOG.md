@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.58.1](https://github.com/taskany-inc/hire/compare/v0.58.0...v0.58.1) (2024-08-22)
+
+
+### Bug Fixes
+
+* candidate_finished_interview event error ([1f6225b](https://github.com/taskany-inc/hire/commit/1f6225b83a34a0422aeeac0261574feeeee5aed0))
+
 ## [0.58.0](https://github.com/taskany-inc/hire/compare/v0.57.0...v0.58.0) (2024-08-21)
 
 

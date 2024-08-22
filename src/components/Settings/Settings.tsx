@@ -1,4 +1,4 @@
-import { FormCard } from '@taskany/bricks';
+import { Card } from '@taskany/bricks/harmony';
 import { ComponentProps, ComponentPropsWithoutRef, FC } from 'react';
 import cn from 'classnames';
 
@@ -10,10 +10,10 @@ export const SettingsContainer: FC<ComponentPropsWithoutRef<'div'>> = ({ classNa
     return <div className={cn(s.SettingsContainer, className)} {...rest} />;
 };
 
-export const SettingsCard: FC<ComponentProps<typeof FormCard> & { view?: SettingsCardViewType }> = ({
+export const SettingsCard: FC<ComponentProps<typeof Card> & { view?: SettingsCardViewType }> = ({
     className,
     view,
     ...rest
 }) => {
-    return <FormCard className={cn(s[`SettingsCard-${view}`], className)} {...rest} />;
+    return <Card className={cn(s[`SettingsCard-${view}`], className)} {...rest} />;
 };

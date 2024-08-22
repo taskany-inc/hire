@@ -1,5 +1,5 @@
 import { useTheme } from 'next-themes';
-import { Fieldset, Form, FormRadio, FormRadioInput } from '@taskany/bricks';
+import { Fieldset, RadioControl, RadioGroup, RadioGroupLabel, CardContent } from '@taskany/bricks/harmony';
 
 import { Theme, themes } from '../../utils/theme';
 import { trpc } from '../../trpc/trpcClient';
@@ -38,35 +38,47 @@ export const UserSettingsPage = ({ userId }: UserSettingsPageProps) => {
 
     return (
         <LayoutMain pageTitle={user.name || user.email}>
-            <div className={s.UserSettingsPageSep} />
-
             <SettingsContainer>
                 <SettingsCard>
-                    <Form>
-                        <Fieldset title={tr('Appearance')}>
-                            <FormRadio
-                                label={tr('Theme')}
-                                name="theme"
-                                value={settings.theme}
-                                onChange={(v) => onThemeChange(v as Theme)}
-                            >
-                                {themes.map((t) => (
-                                    <FormRadioInput key={t} value={t} label={t} />
-                                ))}
-                            </FormRadio>
+                    <CardContent view="transparent">
+                        <form>
+                            <Fieldset title={tr('Appearance')}>
+                                <RadioGroup
+                                    name="theme"
+                                    className={s.FormControl}
+                                    value={settings.theme}
+                                    onChange={(e) => onThemeChange(e.target.value as Theme)}
+                                >
+                                    <RadioGroupLabel className={s.FormControlLabel}>{tr('Theme')}</RadioGroupLabel>
+                                    {themes.map((t) => (
+                                        <RadioControl key={t} value={t} name={t}>
+                                            {t}
+                                        </RadioControl>
+                                    ))}
+                                </RadioGroup>
+                            </Fieldset>
+                        </form>
+                    </CardContent>
+                </SettingsCard>
 
-                            <FormRadio
-                                label={tr('Locale')}
+                <SettingsCard>
+                    <CardContent view="transparent">
+                        <Fieldset title={tr('Locale')}>
+                            <RadioGroup
+                                className={s.FormControl}
                                 name="locale"
                                 value={settings.locale}
-                                onChange={(v) => onLocaleChange(v)}
+                                onChange={(e) => onLocaleChange(e.target.value)}
                             >
+                                <RadioGroupLabel className={s.FormControlLabel}>{tr('Locale')}</RadioGroupLabel>
                                 {languages.map((language) => (
-                                    <FormRadioInput key={language} value={language} label={language} />
+                                    <RadioControl value={language} key={language}>
+                                        {language}
+                                    </RadioControl>
                                 ))}
-                            </FormRadio>
+                            </RadioGroup>
                         </Fieldset>
-                    </Form>
+                    </CardContent>
                 </SettingsCard>
             </SettingsContainer>
         </LayoutMain>

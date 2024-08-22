@@ -32,7 +32,7 @@ export const CardHeaderSection: React.FC<CardHeaderSectionProps> = ({ name, time
         interviewId: interview.id,
         sectionId: section.id,
     });
-    const userByEmailLink = `${config.sourceUsers.userByEmailLink}/${section.interviewer.email}`;
+    const userByEmailLink = `${config.crew.userByEmailLink}/${section.interviewer.email}`;
 
     return (
         <div className={s.CardHeaderSection}>

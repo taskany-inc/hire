@@ -77,7 +77,7 @@ export const CommentView: FC<CommentViewProps> = ({
     const session = useSession();
     const date = useDistanceDate(comment.createdAt);
     const { reactionsProps } = useReactionsResource(reactions);
-    const userByEmailLink = `${config.sourceUsers.userByEmailLink}/${author?.email}`;
+    const userByEmailLink = `${config.crew.userByEmailLink}/${author?.email}`;
 
     const onCommentSubmit = useCallback(
         async (form: CommentSchema) => {

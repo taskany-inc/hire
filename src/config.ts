@@ -21,13 +21,6 @@ export default {
     gravatar: {
         url: process.env.GRAVATAR_URL,
     },
-    sourceUsers: {
-        sourceOfUsersUrl: process.env.NEXT_PUBLIC_SOURCE_OF_USERS_URL,
-        sourceOfUsersByEmail: process.env.SOURCE_OF_USERS_BY_EMAIL,
-        searchUsersList: process.env.SEARCHE_USERS_LIST,
-        sourceOffUsersAccessToken: process.env.SOURCE_OF_USERS_ACCESS_TOKEN,
-        userByEmailLink: process.env.NEXT_PUBLIC_LINK_TO_USER_BY_EMAIL,
-    },
     nextAuth: {
         secret: process.env.NEXTAUTH_SECRET,
         keycloak: {
@@ -69,6 +62,7 @@ export default {
         sectionAchiementId: process.env.CREW_SECTIONS_ACHIEVEMENT,
         techUserEmail: process.env.CREW_TECHNICAL_USER_EMAIL,
         sectionAmountForAchievement: Number(process.env.SECTION_AMOUNT_FOR_ACHIEVEMENT) || 5,
+        userByEmailLink: process.env.NEXT_PUBLIC_LINK_TO_USER_BY_EMAIL,
     },
     aiAssistant: {
         apiUrl: process.env.AI_ASSISTANT_API_URL,

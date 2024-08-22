@@ -13,7 +13,6 @@ const handler = getApiHandler().get(async (req: NextApiRequest, res: NextApiResp
         defaultPageURL: config.defaultPageURL,
         jwtPublicKey: config.jwtPublicKey,
         gravatar: config.gravatar,
-        sourceUsers: config.sourceUsers,
         mattermost: config.mattermost,
         debugCookieEnabled: config.debugCookieEnabled,
         nextAuthEnabled: config.nextAuthEnabled,

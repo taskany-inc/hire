@@ -34,7 +34,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 // TODO: disable return value linting
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function InterviewSectionListItem({ section, interview, className, highlight }: Props) {
-    const userByEmailLink = `${config.sourceUsers.userByEmailLink}/${section.interviewer.email}`;
+    const userByEmailLink = `${config.crew.userByEmailLink}/${section.interviewer.email}`;
     const date = useDistanceDate(section.updatedAt);
     const sectionChip = getSectionChip(section);
 

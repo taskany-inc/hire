@@ -12,7 +12,7 @@ interface ExternalUserLinkProps {
 }
 
 export const ExternalUserLink = ({ user, style }: ExternalUserLinkProps) => {
-    const userByEmailLink = `${config.sourceUsers.userByEmailLink}/${user.email}`;
+    const userByEmailLink = `${config.crew.userByEmailLink}/${user.email}`;
 
     return (
         <Text size="m" style={style} as="span">

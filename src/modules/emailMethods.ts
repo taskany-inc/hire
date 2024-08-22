@@ -190,7 +190,7 @@ export const assignSectionEmail = async (data: AssignSectionEmailData) => {
             sectionId: data.sectionId,
         })}
 
-${data.creator.name || ''} ${config.sourceUsers.userByEmailLink}/${encodeURIComponent(data.creator.email)}
+${data.creator.name || ''} ${config.crew.userByEmailLink}/${encodeURIComponent(data.creator.email)}
         
 ${data.location || ''}`,
         icalEvent: calendarEvents({

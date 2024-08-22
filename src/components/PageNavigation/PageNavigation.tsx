@@ -9,25 +9,20 @@ import {
     TaskanyLogo,
 } from '@taskany/bricks/harmony';
 import { IconBellOutline } from '@taskany/icons';
-import { UserSettings } from '@prisma/client';
 import { FC } from 'react';
 import { useRouter } from 'next/router';
 
 import { Link } from '../Link';
-import { useHeaderMenu } from '../../hooks/useHeaderMenu';
+import { useSidebarMenu } from '../../hooks/useHeaderMenu';
 import { Paths } from '../../utils/paths';
 import { PageNavigationActionButton } from '../PageNavigationActionButton/PageNavigationActionButton';
 import { trpc } from '../../trpc/trpcClient';
 
 import s from './PageNavigation.module.css';
 
-interface PageNavigationProps {
-    userSettings?: UserSettings;
-}
-
-export const PageNavigation: FC<PageNavigationProps> = ({ userSettings }) => {
+export const PageNavigation: FC = () => {
     const { asPath } = useRouter();
-    const { entityListMenuItems } = useHeaderMenu(userSettings);
+    const { entityListMenuItems } = useSidebarMenu();
     const config = trpc.appConfig.get.useQuery(undefined, {
         staleTime: Infinity,
     });

@@ -64,11 +64,11 @@ export const LayoutMain: FC<LayoutMainProps> = ({ pageTitle, aboveContainer, tit
 
             <div className={s.LayoutMain}>
                 <aside className={s.PageAside}>
-                    <PageNavigation userSettings={userSettings} />
+                    <PageNavigation />
                 </aside>
 
                 <main className={s.Main}>
-                    <PageHeader userSettings={userSettings}>
+                    <PageHeader>
                         <PageTitle title={pageTitle} backlink={backlink}>
                             {nullable(titleMenuItems, (i) => (
                                 <TitleMenu items={i} />

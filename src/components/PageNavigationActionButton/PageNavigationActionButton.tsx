@@ -2,21 +2,16 @@ import { FC } from 'react';
 import { IconUpSmallSolid, IconDownSmallSolid } from '@taskany/icons';
 import { useRouter } from 'next/router';
 import { Button, Text, Select, SelectPanel, SelectTrigger } from '@taskany/bricks/harmony';
-import { UserSettings } from '@prisma/client';
 
 import { Paths } from '../../utils/paths';
-import { useHeaderMenu } from '../../hooks/useHeaderMenu';
+import { useSidebarMenu } from '../../hooks/useHeaderMenu';
 
 import s from './PageNavigationActionButton.module.css';
 import { tr } from './PageNavigationActionButton.i18n';
 
-interface PageNavigationActionButtonProps {
-    userSettings?: UserSettings;
-}
-
-export const PageNavigationActionButton: FC<PageNavigationActionButtonProps> = ({ userSettings }) => {
+export const PageNavigationActionButton: FC = () => {
     const router = useRouter();
-    const { entityCreationMenuItems } = useHeaderMenu(userSettings);
+    const { entityCreationMenuItems } = useSidebarMenu();
     const onMenuItemClick = (param: { id: string }[]) => router.push(param[0].id);
 
     return (

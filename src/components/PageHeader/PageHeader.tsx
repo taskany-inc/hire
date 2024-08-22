@@ -2,7 +2,6 @@ import { ReactNode, useMemo, useRef, useState } from 'react';
 import NextLink from 'next/link';
 import { textColor } from '@taskany/colors';
 import { UserMenu, Popup, HeaderMenu } from '@taskany/bricks';
-import { UserSettings } from '@prisma/client';
 
 import { Paths } from '../../utils/paths';
 import { useSession } from '../../contexts/appSettingsContext';
@@ -11,11 +10,10 @@ import { roleToLabel, UserRoles } from '../../utils/userRoles';
 import s from './PageHeader.module.css';
 
 interface PageHeaderProps {
-    userSettings?: UserSettings;
     children?: ReactNode;
 }
 
-export const PageHeader = ({ userSettings, children }: PageHeaderProps) => {
+export const PageHeader = ({ children }: PageHeaderProps) => {
     const session = useSession();
     const [popupVisible, setPopupVisibility] = useState(false);
     const popupRef = useRef<HTMLDivElement>(null);
@@ -57,7 +55,7 @@ export const PageHeader = ({ userSettings, children }: PageHeaderProps) => {
         }
 
         return `${user.name}\n${roles.join('\n')}`;
-    }, [session, userSettings]);
+    }, [session]);
 
     return (
         <div className={s.PageHeader}>

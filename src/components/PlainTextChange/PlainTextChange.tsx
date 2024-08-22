@@ -8,33 +8,21 @@ interface HistoryChangeProps {
     to?: string | null;
 }
 
-export const PlainTextChange: React.FC<HistoryChangeProps> = ({ from, to }) => {
-    const getTextContent = (text: string) => {
-        if (text === 'true') {
-            return tr('in archive');
-        }
-        if (text === 'false') {
-            return tr('not in archive');
-        }
-        return text;
-    };
-
-    return (
-        <div className={s.PlainTextChange}>
-            {nullable(from, (f) => (
-                <div>
-                    <Text as="span" size="xs" strike>
-                        {tr('from')}: {getTextContent(f)}
-                    </Text>
-                </div>
-            ))}
-            {nullable(to, (t) => (
-                <div>
-                    <Text as="span" size="xs">
-                        {tr('to')}: {getTextContent(t)}
-                    </Text>
-                </div>
-            ))}
-        </div>
-    );
-};
+export const PlainTextChange: React.FC<HistoryChangeProps> = ({ from, to }) => (
+    <div className={s.PlainTextChange}>
+        {nullable(from, () => (
+            <div>
+                <Text as="span" size="xs" strike>
+                    {tr('from')}: {from}
+                </Text>
+            </div>
+        ))}
+        {nullable(to, () => (
+            <div>
+                <Text as="span" size="xs">
+                    {tr('to')}: {to}
+                </Text>
+            </div>
+        ))}
+    </div>
+);

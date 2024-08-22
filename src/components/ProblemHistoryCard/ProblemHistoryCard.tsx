@@ -7,8 +7,9 @@ import { Button } from '@taskany/bricks/harmony';
 
 import { UserAvatar } from '../UserAvatar';
 import { ProblemHistoryWithUser } from '../../modules/problemTypes';
-import { PlainTextChange } from '../PlainTextChange/PlainTextChange';
 import { useDistanceDate } from '../../hooks/useDateFormat';
+import { ArchivedChange } from '../ArchivedChange/ArchivedChange';
+import { PlainTextChange } from '../PlainTextChange/PlainTextChange';
 
 import s from './ProblemHistoryCard.module.css';
 
@@ -72,10 +73,16 @@ export const ProblemHistoryCard: FC<ProblemHistoryCardProps> = ({ problemHistory
                     />
                 </div>
             </div>
-            {nullable(viewProblemHistoryDescription, () =>
-                subject === 'tags' || subject === 'difficulty' || subject === 'archived' ? (
-                    <PlainTextChange from={beforeData} to={afterData} />
-                ) : (
+            {nullable(viewProblemHistoryDescription && (subject === 'tags' || subject === 'difficulty'), () => (
+                <PlainTextChange from={beforeData} to={afterData} />
+            ))}
+            {nullable(viewProblemHistoryDescription && subject === 'archived', () => (
+                <ArchivedChange from={beforeData} to={afterData} />
+            ))}
+            {nullable(
+                viewProblemHistoryDescription &&
+                    !(subject === 'tags' || subject === 'difficulty' || subject === 'archived'),
+                () => (
                     <div className={s.ProblemHistoryCardContent}>
                         <ReactDiffViewer
                             oldValue={beforeData}

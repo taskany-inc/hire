@@ -59,11 +59,6 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
                 .mutateAsync({
                     problemId: problem.id,
                     archived: !problem.archived,
-                    name: problem.name,
-                    solution: problem.solution,
-                    description: problem.description,
-                    difficulty: problem.difficulty,
-                    tagIds: problem.tags.map(({ id }) => id),
                 })
                 .then(() => {
                     router.push(Paths.PROBLEMS);

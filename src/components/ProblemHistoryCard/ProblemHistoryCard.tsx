@@ -7,9 +7,8 @@ import { Button } from '@taskany/bricks/harmony';
 
 import { UserAvatar } from '../UserAvatar';
 import { ProblemHistoryWithUser } from '../../modules/problemTypes';
-import { HistoryTagsAndDifficultyTextChange } from '../HistoryTagsAndDifficultyTextChange/HistoryTagsAndDifficultyTextChange';
+import { PlainTextChange } from '../PlainTextChange/PlainTextChange';
 import { useDistanceDate } from '../../hooks/useDateFormat';
-import { HistoryArchivedTextChange } from '../HistoryArchivedTextChange/HistoryArchivedTextChange';
 
 import s from './ProblemHistoryCard.module.css';
 
@@ -73,17 +72,10 @@ export const ProblemHistoryCard: FC<ProblemHistoryCardProps> = ({ problemHistory
                     />
                 </div>
             </div>
-
-            {nullable(viewProblemHistoryDescription && (subject === 'tags' || subject === 'difficulty'), () => (
-                <HistoryTagsAndDifficultyTextChange from={beforeData} to={afterData} />
-            ))}
-            {nullable(viewProblemHistoryDescription && subject === 'archived', () => (
-                <HistoryArchivedTextChange from={beforeData} to={afterData} />
-            ))}
-            {nullable(
-                viewProblemHistoryDescription &&
-                    !(subject === 'tags' || subject === 'difficulty' || subject === 'archived'),
-                () => (
+            {nullable(viewProblemHistoryDescription, () =>
+                subject === 'tags' || subject === 'difficulty' || subject === 'archived' ? (
+                    <PlainTextChange from={beforeData} to={afterData} />
+                ) : (
                     <div className={s.ProblemHistoryCardContent}>
                         <ReactDiffViewer
                             oldValue={beforeData}

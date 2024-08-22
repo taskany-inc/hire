@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.59.0](https://github.com/taskany-inc/hire/compare/v0.58.0...v0.59.0) (2024-08-22)
+
+
+### Features
+
+* add the ability to archive a problem ([b423935](https://github.com/taskany-inc/hire/commit/b4239351d89483d2e019b4d7bb565ec702be57d8))
+* **Settings:** add components from harmony ([17d8a2f](https://github.com/taskany-inc/hire/commit/17d8a2fbf9b8e827973124056df4a82ea9070f2d))
+
+
+### Bug Fixes
+
+* candidate_finished_interview event error ([1f6225b](https://github.com/taskany-inc/hire/commit/1f6225b83a34a0422aeeac0261574feeeee5aed0))
+* problem in archive is shown to the problem editor ([b3e799e](https://github.com/taskany-inc/hire/commit/b3e799ec39b6504173c997c94f7473129ac73ecb))
+* remove old auth logic ([17544a6](https://github.com/taskany-inc/hire/commit/17544a690e313eb911a3ad4c35318814d8394a6b))
+* remove unnecessary card wrapper margins ([5ce7751](https://github.com/taskany-inc/hire/commit/5ce7751bbea32d2bb0af7b974e12e4ea2793b251))
+
 ## [0.58.0](https://github.com/taskany-inc/hire/compare/v0.57.0...v0.58.0) (2024-08-21)
 
 

@@ -311,7 +311,7 @@ const update = async (data: UpdateProblem, authorId: number): Promise<Problem> =
         prisma.problem.update({ data: updateData, where: { id: problemId } }),
     ];
 
-    if (data.difficulty !== problem.difficulty) {
+    if (data.difficulty !== undefined && data.difficulty !== problem.difficulty) {
         transactionOperations.push(
             prisma.problemHistory.create({
                 data: {
@@ -328,7 +328,7 @@ const update = async (data: UpdateProblem, authorId: number): Promise<Problem> =
     const sortPreviousTaIds = previousTagIds?.sort((a, b) => a - b);
     const sortTaIds = tagIds?.sort((a, b) => a - b);
 
-    if (sortTaIds?.join(',') !== sortPreviousTaIds.join(',')) {
+    if (sortTaIds !== undefined && sortTaIds?.join(',') !== sortPreviousTaIds.join(',')) {
         const tags = await prisma.tag.findMany({
             where: { id: { in: tagIds } },
         });
@@ -349,7 +349,7 @@ const update = async (data: UpdateProblem, authorId: number): Promise<Problem> =
         );
     }
 
-    if (data.description !== problem.description) {
+    if (data.description !== undefined && data.description !== problem.description) {
         transactionOperations.push(
             prisma.problemHistory.create({
                 data: {
@@ -363,7 +363,7 @@ const update = async (data: UpdateProblem, authorId: number): Promise<Problem> =
         );
     }
 
-    if (data.solution !== problem.solution) {
+    if (data.solution !== undefined && data.solution !== problem.solution) {
         transactionOperations.push(
             prisma.problemHistory.create({
                 data: {
@@ -377,7 +377,7 @@ const update = async (data: UpdateProblem, authorId: number): Promise<Problem> =
         );
     }
 
-    if (data.archived !== problem.archived) {
+    if (data.archived !== undefined && data.archived !== problem.archived) {
         transactionOperations.push(
             prisma.problemHistory.create({
                 data: {

@@ -1,20 +1,26 @@
-import { nullable } from '@taskany/bricks';
-import { Text } from '@taskany/bricks/harmony';
+import { nullable, Text } from '@taskany/bricks';
 
-import { tr } from './HistoryArchivedTextChange.i18n';
-import s from './HistoryArchivedTextChange.module.css';
+import { tr } from './PlainTextChange.i18n';
+import s from './PlainTextChange.module.css';
 
 interface HistoryChangeProps {
     from?: string | null;
     to?: string | null;
 }
 
-export const HistoryArchivedTextChange: React.FC<HistoryChangeProps> = ({ from, to }) => {
+export const PlainTextChange: React.FC<HistoryChangeProps> = ({ from, to }) => {
     const getTextContent = (text: string) => {
-        return text === 'true' ? tr('in archive') : tr('not in archive');
+        if (text === 'true') {
+            return tr('in archive');
+        }
+        if (text === 'false') {
+            return tr('not in archive');
+        }
+        return text;
     };
+
     return (
-        <div className={s.HistoryArchivedTextChange}>
+        <div className={s.PlainTextChange}>
             {nullable(from, (f) => (
                 <div>
                     <Text as="span" size="xs" strike>

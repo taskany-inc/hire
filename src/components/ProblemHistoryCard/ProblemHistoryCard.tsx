@@ -9,8 +9,8 @@ import { UserAvatar } from '../UserAvatar';
 import { ProblemHistoryWithUser } from '../../modules/problemTypes';
 import { HistoryTagsAndDifficultyTextChange } from '../HistoryTagsAndDifficultyTextChange/HistoryTagsAndDifficultyTextChange';
 import { useDistanceDate } from '../../hooks/useDateFormat';
+import { HistoryArchivedTextChange } from '../HistoryArchivedTextChange/HistoryArchivedTextChange';
 
-import { tr } from './ProblemHistoryCard.i18n';
 import s from './ProblemHistoryCard.module.css';
 
 interface ProblemHistoryCardProps {
@@ -47,13 +47,8 @@ export const ProblemHistoryCard: FC<ProblemHistoryCardProps> = ({ problemHistory
     const [viewProblemHistoryDescription, setViewProblemHistoryDescription] = useState(false);
     const date = useDistanceDate(createdAt);
 
-    let beforeData = JSON.parse(JSON.stringify(previousValue, null, 4));
-    let afterData = JSON.parse(JSON.stringify(nextValue, null, 4));
-
-    if (subject === 'archived') {
-        beforeData = previousValue === 'true' ? tr('in archive') : tr('not in archive');
-        afterData = nextValue === 'true' ? tr('in archive') : tr('not in archive');
-    }
+    const beforeData = JSON.parse(JSON.stringify(previousValue, null, 4));
+    const afterData = JSON.parse(JSON.stringify(nextValue, null, 4));
 
     const handlerViewProblemHistoryDescription = () => {
         setViewProblemHistoryDescription(!viewProblemHistoryDescription);
@@ -78,10 +73,17 @@ export const ProblemHistoryCard: FC<ProblemHistoryCardProps> = ({ problemHistory
                     />
                 </div>
             </div>
-            {nullable(viewProblemHistoryDescription, () =>
-                subject === 'tags' || subject === 'difficulty' || subject === 'archived' ? (
-                    <HistoryTagsAndDifficultyTextChange from={beforeData} to={afterData} />
-                ) : (
+
+            {nullable(viewProblemHistoryDescription && (subject === 'tags' || subject === 'difficulty'), () => (
+                <HistoryTagsAndDifficultyTextChange from={beforeData} to={afterData} />
+            ))}
+            {nullable(viewProblemHistoryDescription && subject === 'archived', () => (
+                <HistoryArchivedTextChange from={beforeData} to={afterData} />
+            ))}
+            {nullable(
+                viewProblemHistoryDescription &&
+                    !(subject === 'tags' || subject === 'difficulty' || subject === 'archived'),
+                () => (
                     <div className={s.ProblemHistoryCardContent}>
                         <ReactDiffViewer
                             oldValue={beforeData}

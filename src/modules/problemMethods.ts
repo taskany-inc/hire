@@ -27,6 +27,7 @@ const constructFindAllProblemsWhereFilter = async (
 ): Promise<Prisma.ProblemWhereInput> => {
     const where = {} as Prisma.ProblemWhereInput;
     const { admin, problemEditor } = await userMethods.find(userId);
+    where.AND = [];
 
     if (data.search) {
         where.OR = [
@@ -36,8 +37,8 @@ const constructFindAllProblemsWhereFilter = async (
     }
 
     data.tagIds?.length === 1
-        ? (where.AND = { tags: { some: { id: data.tagIds[0] } } })
-        : (where.AND = data.tagIds?.map((id) => ({ tags: { some: { id } } })));
+        ? where.AND.push({ tags: { some: { id: data.tagIds[0] } } })
+        : (where.AND = data.tagIds?.map((id) => ({ tags: { some: { id } } })) ?? []);
 
     if (data.difficulty) {
         where.difficulty = { in: data.difficulty };
@@ -62,13 +63,7 @@ const constructFindAllProblemsWhereFilter = async (
     }
 
     if (!admin && !problemEditor) {
-        if (where.AND && Array.isArray(where.AND)) {
-            where.AND.push({ OR: [{ authorId: userId }, { archived: false }] });
-        } else if (where.AND) {
-            where.AND.OR = [{ authorId: userId }, { archived: false }];
-        } else {
-            where.AND = { OR: [{ authorId: userId }, { archived: false }] };
-        }
+        where.AND.push({ OR: [{ authorId: userId }, { archived: false }] });
     }
 
     return where;

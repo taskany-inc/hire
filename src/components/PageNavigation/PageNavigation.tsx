@@ -13,7 +13,7 @@ import { FC } from 'react';
 import { useRouter } from 'next/router';
 
 import { Link } from '../Link';
-import { useSidebarMenu } from '../../hooks/useHeaderMenu';
+import { useSidebarMenu } from '../../hooks/useSidebarMenu';
 import { Paths } from '../../utils/paths';
 import { PageNavigationActionButton } from '../PageNavigationActionButton/PageNavigationActionButton';
 import { trpc } from '../../trpc/trpcClient';

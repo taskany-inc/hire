@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Button, Text, Select, SelectPanel, SelectTrigger } from '@taskany/bricks/harmony';
 
 import { Paths } from '../../utils/paths';
-import { useSidebarMenu } from '../../hooks/useHeaderMenu';
+import { useSidebarMenu } from '../../hooks/useSidebarMenu';
 
 import s from './PageNavigationActionButton.module.css';
 import { tr } from './PageNavigationActionButton.i18n';

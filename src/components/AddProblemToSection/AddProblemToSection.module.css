@@ -3,7 +3,6 @@
 }
 
 .AddProblemToSectionModalHeader {
-    position: sticky;
     padding-bottom: var(--gap-m);
 }
 

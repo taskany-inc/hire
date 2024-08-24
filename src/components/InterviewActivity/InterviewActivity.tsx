@@ -4,7 +4,7 @@ import { nullable } from '@taskany/bricks';
 
 import { HistorySubject } from '../../modules/historyEventTypes';
 import { trpc } from '../../trpc/trpcClient';
-import { InterviewSectionListItem } from '../InterviewSectionListItem';
+import { InterviewSectionListItem } from '../InterviewSectionListItem/InterviewSectionListItem';
 import { Comment } from '../Comment/Comment';
 import InterviewCommentCreateForm from '../InterviewCommentCreationForm/InterviewCommentCreationForm';
 import { InterviewWithRelations } from '../../modules/interviewTypes';

@@ -3,18 +3,21 @@ import { Popup, nullable } from '@taskany/bricks';
 
 import { ReactionsMap } from '../../modules/reactionTypes';
 import { ReactionsButton } from '../ReactionsButton';
+import ReactionsDropdown from '../ReactionDropdown/ReactionDropdown';
+import { useReactionsResource } from '../../modules/reactionHooks';
 
 import { tr } from './Reactions.i18n';
 import s from './Reactions.module.css';
 
 interface ReactionsProps {
     reactions?: ReactionsMap;
-    children?: React.ReactNode;
 
     onClick?: React.ComponentProps<typeof ReactionsButton>['onClick'];
 }
 
-export const Reactions = React.memo(({ reactions, children, onClick }: ReactionsProps) => {
+export const Reactions = React.memo(({ reactions, onClick }: ReactionsProps) => {
+    const { reactionsProps } = useReactionsResource(reactions);
+
     return (
         <div className={s.Reactions}>
             {nullable(reactions, (reactionsMap) =>
@@ -35,7 +38,9 @@ export const Reactions = React.memo(({ reactions, children, onClick }: Reactions
                 }),
             )}
 
-            {children}
+            {nullable(!reactionsProps.limited, () => (
+                <ReactionsDropdown view="button" onClick={onClick} />
+            ))}
         </div>
     );
 });

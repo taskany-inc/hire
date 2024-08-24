@@ -1,15 +1,3 @@
-.DropdownTriggerButton:hover {
-    background-color: transparent;
-}
-
-.DropdownTrigger {
-    transition: color var(--transition-time) var(--transition-func);
-}
-
-.DropdownTrigger:hover {
-    color: var(--text-color);
-}
-
 .CommentView {
     padding-bottom: var(--gap-sm);
 }
@@ -18,101 +6,74 @@
     padding-bottom: 0;
 }
 
-.CommentActions {
-    display: flex;
-    align-items: center;
-    gap: var(--gap-s);
-    margin-right: -10px;
+.CommentViewAvatar {
+    position: relative;
+    z-index: 1;
 }
 
-.CardInfo {
+.CommentViewCardInfo {
     display: flex;
     justify-content: space-between;
 }
 
-.CardHeaderInterviewStatus {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-xs);
-
+.CommentViewCardInfo:before {
+    top: var(--gap-sm);
 }
 
-.CardHeaderInterviewStatusSubtitle {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: var(--gap-s);
-}
-
-.CardInfoHeaderHire {
-    background-color: var(--primary-900);;
-    color:var(--primary-500);
-}
-
-.CardInfoHeaderNoHire {
-    background-color: var(--danger-900);
-    color:  var(--danger-500);
-}
-
-.CardInfoHeaderNew {
-    background-color: var(--blue-900);;
-    color:var(--blue-500);
-}
-
-.CardComment {
+.CommentViewContent {
     display: flex;
     flex-direction: column;
     gap: var(--gap-sm);
     word-break: keep-all;
 }
 
-.CommentTimestamp {
-    display: flex;
-    align-items: center;
-    gap: var(--gap-s);
-    color: var(--text-secondary);
-}
-
-.Markdown {
+.CommentViewMarkdown {
     overflow-x: auto;
 }
 
-.StateDot {
-    position: absolute;
-    bottom: -50%;
-    right: -50%;
-    transform: translate(-50%, -50%);
-    width: 12px;
-    height: 12px;
-    border: 4px solid var(--layer);
+.CommentViewMetaInfo {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: var(--gap-s);
 }
 
-.CommentCard {
-    position: relative;
-    min-height: 60px;
-    transition: border var(--transition-time) var(--transition-func);
-}
-
-.CommentTime {
-    color: inherit;
-    font-weight: 600;
-}
-
-.CommentCard_highlighted {
-    border: 1px solid var(--brand-color);
-}
-
-.CommentCard_highlighted::before {
-    border: 1px solid var(--brand-color);
-}
-
-.CommentActionsItem {
+.CommentViewActionsItem {
     color: var(--text-secondary);
     display: flex;
     align-items: baseline;
     gap: var(--gap-s);
 }
 
-.CommentActionsItem_danger {
+.CommentViewActionsItem_danger {
     color: var(--danger-500);
+}
+
+.CommentViewActions {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-s);
+    margin-right: -10px;
+}
+
+.CommentViewHeader {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+}
+
+.CommentViewHeaderContent {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: var(--gap-s);
+}
+
+.CommentViewHeaderDot { 
+    --dot-background: var(--card-foreground);
+} 
+
+.CommentViewPlaceholder {
+    color: var(--text-ghost);
+    font-style: italic;
 }

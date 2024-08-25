@@ -8,7 +8,6 @@ import {
     cancelSectionSchema,
     createSectionSchema,
     deleteSectionSchema,
-    getInterviewSectionsSchema,
     getSectionSchema,
     updateSectionWithMetadataSchema,
 } from '../../modules/sectionTypes';
@@ -45,13 +44,6 @@ const giveSectionAchievement = async (interviewerId: number) => {
 };
 
 export const sectionsRouter = router({
-    getInterviewSections: protectedProcedure
-        .input(getInterviewSectionsSchema)
-        .use(accessMiddlewares.section.readMany)
-        .query(({ input }) => {
-            return sectionMethods.getInterviewSections(input);
-        }),
-
     getById: protectedProcedure
         .input(getSectionSchema)
         .use(accessMiddlewares.section.readOne)

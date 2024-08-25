@@ -1,16 +1,7 @@
 import { trpc } from '../trpc/trpcClient';
 import { useNotifications } from '../hooks/useNotifications';
 
-import { GetInterviewSections } from './sectionTypes';
 import { tr } from './modules.i18n';
-
-export const useInterviewSections = (params: GetInterviewSections) => {
-    const { enqueueErrorNotification } = useNotifications();
-
-    return trpc.sections.getInterviewSections.useQuery(params, {
-        onError: enqueueErrorNotification,
-    });
-};
 
 export const useSection = (sectionId: number) => {
     const { enqueueErrorNotification } = useNotifications();

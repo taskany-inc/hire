@@ -4,7 +4,7 @@ import { Session } from 'next-auth';
 import { onlyUnique } from '../utils';
 
 import { CandidateWithInterviewWithSectionsRelations } from './candidateTypes';
-import { InterviewWithSections, InterviewWithSectionsAndSpecialAccessUsers } from './interviewTypes';
+import { InterviewWithSectionsAndSpecialAccessUsers } from './interviewTypes';
 import { SectionWithInterviewRelation, SectionWithRelationsAndResults } from './sectionTypes';
 import { tr } from './modules.i18n';
 
@@ -294,7 +294,8 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const { hiringLeadInHireStreams, recruiterInHireStreams } = getUserRoleIds(session);
+            const { hiringLeadInHireStreams, recruiterInHireStreams, interviewerInSectionTypes } =
+                getUserRoleIds(session);
 
             if (
                 hiringLeadInHireStreams.includes(section.interview.hireStreamId) ||
@@ -307,32 +308,12 @@ export const accessChecks = {
                 return allowed();
             }
 
-            return notAllowed(tr('No access to hire stream or section type'));
-        },
-
-        readMany: (session: Session, interview: InterviewWithSections): AccessCheckResult => {
-            if (session.userRoles.admin) {
-                return allowed();
-            }
-
-            const { hiringLeadInHireStreams, recruiterInHireStreams, interviewerInSectionTypes } =
-                getUserRoleIds(session);
-
-            if (
-                hiringLeadInHireStreams.includes(interview.hireStreamId) ||
-                recruiterInHireStreams.includes(interview.hireStreamId)
-            ) {
-                return allowed();
-            }
-
-            const interviewSectionTypes = interview.sections.map((section) => section.sectionTypeId);
-
-            const userHasRelevantInterviewerRoles = interviewerInSectionTypes.some((id) =>
-                interviewSectionTypes.includes(id),
+            const userHasSectionInInterview = section.interview.sections.some(
+                (section) => section.interviewerId === session.user.id,
             );
 
-            if (userHasRelevantInterviewerRoles) {
-                const nonOwnedSections = interview.sections
+            if (userHasSectionInInterview) {
+                const nonOwnedSections = section.interview.sections
                     .filter((section) => section.interviewerId !== session.user.id)
                     .map((section) => section.id);
 
@@ -342,7 +323,7 @@ export const accessChecks = {
                 });
             }
 
-            return notAllowed(tr('No access to hire stream or section types'));
+            return notAllowed(tr('No access to hire stream or section type'));
         },
 
         update: (session: Session, section: SectionWithInterviewRelation): AccessCheckResult => {

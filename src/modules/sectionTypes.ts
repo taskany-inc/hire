@@ -21,11 +21,6 @@ export const createSectionSchema = z.object({
 });
 export type CreateSection = z.infer<typeof createSectionSchema>;
 
-export const getInterviewSectionsSchema = z.object({
-    interviewId: z.number(),
-});
-export type GetInterviewSections = z.infer<typeof getInterviewSectionsSchema>;
-
 export const getSectionSchema = z.object({
     sectionId: z.number(),
 });

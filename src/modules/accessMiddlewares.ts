@@ -10,13 +10,7 @@ import { problemMethods } from './problemMethods';
 import { HireStreamIdAndUserId } from './rolesTypes';
 import { sectionTypeMethods } from './sectionTypeMethods';
 import { sectionMethods } from './sectionMethods';
-import {
-    CreateSection,
-    DeleteSection,
-    GetInterviewSections,
-    GetSection,
-    UpdateSectionWithMetadata,
-} from './sectionTypes';
+import { CreateSection, DeleteSection, GetSection, UpdateSectionWithMetadata } from './sectionTypes';
 import { hireStreamMethods } from './hireStreamMethods';
 import { EditInterviewAccessList, UpdateInterview } from './interviewTypes';
 import { AccessCheckResult, accessChecks } from './accessChecks';
@@ -96,11 +90,6 @@ export const accessMiddlewares = {
             (input: GetSection) => input.sectionId,
             sectionMethods.getById,
             accessChecks.section.readOne,
-        ),
-        readMany: createEntityCheckMiddleware(
-            (input: GetInterviewSections) => input.interviewId,
-            interviewMethods.getById,
-            accessChecks.section.readMany,
         ),
         update: createEntityCheckMiddleware(
             (input: UpdateSectionWithMetadata) => input.data.sectionId,

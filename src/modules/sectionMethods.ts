@@ -7,7 +7,6 @@ import { ErrorWithStatus, idsToIdObjs } from '../utils';
 import {
     CreateSection,
     UpdateSection,
-    GetInterviewSections,
     SectionCalendarSlotBooking,
     SectionWithSectionType,
     SectionWithRelationsAndResults,
@@ -167,7 +166,7 @@ const getById = async (id: number, accessOptions: AccessOptions = {}): Promise<S
     return { ...section, passedSections };
 };
 
-const getInterviewSections = (data: GetInterviewSections) => {
+const getInterviewSections = (data: { interviewId: number }) => {
     return prisma.section.findMany({
         where: { interviewId: data.interviewId, isCanceled: false },
         include: { solutions: true, sectionType: true },

@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.59.1](https://github.com/taskany-inc/hire/compare/v0.59.0...v0.59.1) (2024-08-26)
+
+
+### Bug Fixes
+
+* filter not visible in add problem to section ([74ff1a7](https://github.com/taskany-inc/hire/commit/74ff1a7997c770b3051a9f6f9f51c8429a76389c))
+* interviewer has access to passed interview section ([bbbfee2](https://github.com/taskany-inc/hire/commit/bbbfee2a2dece29268b779461cd5c306043dd0cc))
+* remove unnecessary deps from page header and sidebar menu ([1579336](https://github.com/taskany-inc/hire/commit/157933627f5fa29ece901881a25966c6bb6a97e9))
+
 ## [0.59.0](https://github.com/taskany-inc/hire/compare/v0.58.0...v0.59.0) (2024-08-22)
 
 

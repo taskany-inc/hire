@@ -14,7 +14,7 @@ import { z } from 'zod';
 
 import { SectionWithInterviewerRelation } from './sectionTypes';
 import { AccessOptions } from './accessChecks';
-import { CommentWithUserAndReaction } from './commentTypes';
+import { CommentWithUser, CommentWithUserAndReaction } from './commentTypes';
 
 export const interviewIdQuerySchema = z.object({
     interviewId: z.number(),
@@ -96,10 +96,11 @@ export type InterviewWithSectionsAndSpecialAccessUsers = InterviewWithSections &
 export type InterviewWithHireStreamAndSectionsRelation = InterviewWithSections & {
     hireStream: HireStream | null;
 };
-export type InterviewWithHireStreamAndSectionsAndCreatorRelation = InterviewWithSections & {
-    hireStream: HireStream | null;
-    creator: User;
-};
+export type InterviewWithHireStreamAndSectionsAndCreatorAndCommentsRelation =
+    InterviewWithHireStreamAndSectionsRelation & {
+        comments: CommentWithUser[] | null;
+        creator: User;
+    };
 
 export type InterviewWithHireStreamRelation = Interview & {
     hireStream: HireStream | null;

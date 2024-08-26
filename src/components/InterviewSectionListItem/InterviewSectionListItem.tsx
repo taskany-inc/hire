@@ -7,7 +7,9 @@ import {
 } from '../../modules/interviewTypes';
 import { interviewStatusLabels, SectionStatus } from '../../utils/dictionaries';
 import { SectionStatusTagPalette } from '../../utils/tagPalette';
-import { CommentStatus, CommentView, CommentViewHeader, CommentViewHeaderTitle } from '../CommentView/CommentView';
+import { CommentStatus, CommentView } from '../CommentView/CommentView';
+import { CommentViewHeader } from '../CommentViewHeader/CommentViewHeader';
+import { CommentViewHeaderTitle } from '../CommentViewHeader/CommentViewHeaderTitle';
 import { CandidateSelectedSectionBadge } from '../CandidateSelectedSectionBadge';
 import { generatePath, Paths } from '../../utils/paths';
 
@@ -43,6 +45,7 @@ export const InterviewSectionListItem: FC<InterviewSectionListItemProps> = ({ se
 
     return (
         <CommentView
+            view="transparent"
             author={section.interviewer}
             text={section.feedback ?? undefined}
             placeholder={tr('No provided feedback')}

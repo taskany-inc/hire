@@ -10,6 +10,7 @@ import config from '../config';
 import { AccessOptions } from './accessChecks';
 import {
     CandidateWithVendorAndInterviewWithSectionsRelations,
+    CandidateWithVendorAndInterviewWithSectionsWithCommentsWithCreatorRelations,
     CandidateWithVendorRelation,
     CreateCandidate,
     GetCandidateList,
@@ -48,7 +49,7 @@ const searchSettings: SearchSettings = {
 const getList = async (
     params: GetCandidateList = {},
     accessOptions: AccessOptions = {},
-): Promise<ApiEntityListResult<CandidateWithVendorAndInterviewWithSectionsRelations>> => {
+): Promise<ApiEntityListResult<CandidateWithVendorAndInterviewWithSectionsWithCommentsWithCreatorRelations>> => {
     const { statuses, search, hireStreamIds, cursor, hrIds, vacancyIds } = params;
     const limit = params.limit ?? 50;
     const { filterInterviewsByHireStreamIds, filterCandidatesBySectionTypeIds } = accessOptions;
@@ -161,6 +162,11 @@ const getList = async (
                     hireStream: true,
                     sections: true,
                     creator: true,
+                    comments: {
+                        include: {
+                            user: true,
+                        },
+                    },
                 },
                 orderBy: { createdAt: 'asc' },
             },
@@ -206,7 +212,10 @@ const getByIdWithRelations = async (
         include: {
             outstaffVendor: true,
             interviews: {
-                include: { hireStream: true, sections: true, creator: true },
+                include: {
+                    hireStream: true,
+                    sections: true,
+                },
                 where: interviewAccessFilter,
             },
         },

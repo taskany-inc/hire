@@ -31,13 +31,6 @@
     overflow-x: auto;
 }
 
-.CommentViewMetaInfo {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: var(--gap-s);
-}
-
 .CommentViewActionsItem {
     color: var(--text-secondary);
     display: flex;
@@ -55,23 +48,6 @@
     gap: var(--gap-s);
     margin-right: -10px;
 }
-
-.CommentViewHeader {
-    display: flex;
-    flex-direction: column;
-    gap: var(--gap-xs);
-}
-
-.CommentViewHeaderContent {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: var(--gap-s);
-}
-
-.CommentViewHeaderDot { 
-    --dot-background: var(--card-foreground);
-} 
 
 .CommentViewPlaceholder {
     color: var(--text-ghost);

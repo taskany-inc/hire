@@ -1,4 +1,4 @@
-import { FC, ReactNode, useCallback, useMemo, useState } from 'react';
+import { ComponentProps, FC, ReactNode, useCallback, useMemo, useState } from 'react';
 import cn from 'classnames';
 import { nullable } from '@taskany/bricks';
 import { IconBinOutline, IconEditOutline, IconMoreVerticalOutline } from '@taskany/icons';
@@ -15,26 +15,19 @@ import {
     ListViewItem,
     MenuItem,
     Button,
-    Dot,
 } from '@taskany/bricks/harmony';
 
-import config from '../../config';
 import { ReactionsMap } from '../../modules/reactionTypes';
-import { useDistanceDate } from '../../hooks/useDateFormat';
+import { Author, getAuthorLink } from '../../utils/user';
 import { CommentForm } from '../CommentForm/CommentForm';
 import { Reactions } from '../Reactions/Reactions';
 import { Light } from '../Light/Light';
-import { ActivityFeedItem } from '../ActivityFeed/ActivityFeed';
+import { ActivityFeedItem, ActivityFeedItemContent } from '../ActivityFeed/ActivityFeed';
 import { Link } from '../Link';
 import Md from '../Md';
 
 import { tr } from './CommentView.i18n';
 import s from './CommentView.module.css';
-
-interface Author {
-    name: string | null;
-    email: string;
-}
 
 export type CommentStatus = 'NEW' | 'HIRED' | 'REJECTED';
 
@@ -53,12 +46,14 @@ const statusColors = {
     },
 };
 
-const getAuthorLink = (author: Author) =>
-    config.crew.userByEmailLink ? `${config.crew.userByEmailLink}/${author?.email}` : null;
+interface CommentAvatarProps {
+    author: Author;
+    size?: ComponentProps<typeof Avatar>['size'];
+}
 
-export const CommentAvatar: FC<{ author: Author }> = ({ author }) => {
+const CommentAvatar: FC<CommentAvatarProps> = ({ author, size = 'm' }) => {
     const authorLink = getAuthorLink(author);
-    const avatar = <Avatar className={s.CommentViewAvatar} size="m" email={author.email} name={author.name} />;
+    const avatar = <Avatar className={s.CommentViewAvatar} size={size} email={author.email} name={author.name} />;
 
     return nullable(
         authorLink,
@@ -68,73 +63,6 @@ export const CommentAvatar: FC<{ author: Author }> = ({ author }) => {
             </Link>
         ),
         avatar,
-    );
-};
-
-interface CommentViewHeaderTitleProps {
-    children?: ReactNode;
-    link?: string;
-}
-
-export const CommentViewHeaderTitle: FC<CommentViewHeaderTitleProps> = ({ children, link }) => (
-    <Text size="l" weight="bold">
-        {nullable(
-            link,
-            (l) => (
-                <Link href={l}>{children}</Link>
-            ),
-            children,
-        )}
-    </Text>
-);
-
-interface CommentViewHeaderProp {
-    subtitle?: string;
-    dot?: boolean;
-    children?: ReactNode;
-    authorRole?: string;
-    author: Author;
-    date: Date;
-}
-
-export const CommentViewHeader: FC<CommentViewHeaderProp> = ({ children, author, authorRole, date, subtitle, dot }) => {
-    const authorLink = getAuthorLink(author);
-    const authorName = author.name ?? author.email;
-    const timeAgo = useDistanceDate(date);
-
-    return (
-        <div className={s.CommentViewHeader}>
-            {nullable(children, (ch) => (
-                <div className={s.CommentViewHeaderContent}>{ch}</div>
-            ))}
-
-            <div className={s.CommentViewMetaInfo}>
-                {nullable(subtitle, (s) => (
-                    <Text size="s" weight="bold">
-                        {s}
-                    </Text>
-                ))}
-
-                {nullable(dot, () => (
-                    <Dot size="s" className={s.CommentViewHeaderDot} />
-                ))}
-
-                <Text size="xs" weight="bold">
-                    {nullable(authorRole, (role) => `${role} `)}
-                    {nullable(
-                        authorLink,
-                        (link) => (
-                            <Link href={link} inline target="_blank">
-                                {authorName}
-                            </Link>
-                        ),
-                        authorName,
-                    )}
-                </Text>
-                <span>—</span>
-                <Text size="xs">{timeAgo}</Text>
-            </div>
-        </div>
     );
 };
 
@@ -149,6 +77,8 @@ interface CommentViewProp {
     onEdit?: (text: string) => void;
     onDelete?: () => void;
     onReactionToggle?: (emoji?: string) => void;
+    view?: ComponentProps<typeof CardContent>['view'];
+    avatarSize?: ComponentProps<typeof CommentAvatar>['size'];
 }
 
 export const CommentView: FC<CommentViewProp> = ({
@@ -160,8 +90,10 @@ export const CommentView: FC<CommentViewProp> = ({
     placeholder,
     onReactionToggle,
     status,
+    view,
     onDelete,
     onEdit,
+    avatarSize,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [editMode, setEditMode] = useState(false);
@@ -223,94 +155,99 @@ export const CommentView: FC<CommentViewProp> = ({
         setEditMode(false);
         setFocused(false);
         setFormValue(text);
-    }, []);
+    }, [text]);
 
     const headerColors = status ? statusColors[status] : {};
 
     return (
         <ActivityFeedItem className={cn(s.CommentView, className)}>
-            <CommentAvatar author={author} />
+            <CommentAvatar author={author} size={avatarSize} />
 
-            {editMode ? (
-                <CommentForm
-                    text={formValue}
-                    focused={focused}
-                    busy={busy}
-                    autoFocus
-                    onChange={onChange}
-                    onSubmit={onSubmit}
-                    onCancel={onCancel}
-                    actionButton={
-                        <Button
-                            size="s"
-                            view="primary"
-                            disabled={text === formValue || busy}
-                            type="submit"
-                            text={tr('Save')}
-                        />
-                    }
-                />
-            ) : (
-                <Card {...headerColors}>
-                    <CardInfo className={s.CommentViewCardInfo} corner>
-                        {header}
-                        {nullable(dropdownItems, (items) => (
-                            <div className={s.CommentViewActions}>
-                                <Dropdown isOpen={isOpen} onClose={() => setIsOpen(false)}>
-                                    <DropdownTrigger
-                                        renderTrigger={(props) => (
-                                            <Light ref={props.ref} onClick={() => setIsOpen(!isOpen)}>
-                                                <IconMoreVerticalOutline size="xs" />
-                                            </Light>
-                                        )}
-                                    />
-                                    <DropdownPanel placement="right-start">
-                                        <ListView>
-                                            {items.map((item) => (
-                                                <ListViewItem
-                                                    key={item.label}
-                                                    value={item}
-                                                    renderItem={({ active, hovered, ...props }) => (
-                                                        <MenuItem
-                                                            hovered={active || hovered}
-                                                            onClick={item.onClick}
-                                                            key={item.label}
-                                                            {...props}
-                                                        >
-                                                            <Text
-                                                                className={cn(s.CommentViewActionsItem, item.className)}
-                                                                size="xs"
+            <ActivityFeedItemContent>
+                {editMode ? (
+                    <CommentForm
+                        text={formValue}
+                        focused={focused}
+                        busy={busy}
+                        autoFocus
+                        onChange={onChange}
+                        onSubmit={onSubmit}
+                        onCancel={onCancel}
+                        actionButton={
+                            <Button
+                                size="s"
+                                view="primary"
+                                disabled={text === formValue || busy}
+                                type="submit"
+                                text={tr('Save')}
+                            />
+                        }
+                    />
+                ) : (
+                    <Card {...headerColors}>
+                        <CardInfo className={s.CommentViewCardInfo} corner>
+                            {header}
+                            {nullable(dropdownItems, (items) => (
+                                <div className={s.CommentViewActions}>
+                                    <Dropdown isOpen={isOpen} onClose={() => setIsOpen(false)}>
+                                        <DropdownTrigger
+                                            renderTrigger={(props) => (
+                                                <Light ref={props.ref} onClick={() => setIsOpen(!isOpen)}>
+                                                    <IconMoreVerticalOutline size="xs" />
+                                                </Light>
+                                            )}
+                                        />
+                                        <DropdownPanel placement="right-start">
+                                            <ListView>
+                                                {items.map((item) => (
+                                                    <ListViewItem
+                                                        key={item.label}
+                                                        value={item}
+                                                        renderItem={({ active, hovered, ...props }) => (
+                                                            <MenuItem
+                                                                hovered={active || hovered}
+                                                                onClick={item.onClick}
+                                                                key={item.label}
+                                                                {...props}
                                                             >
-                                                                {item.icon}
-                                                                {item.label}
-                                                            </Text>
-                                                        </MenuItem>
-                                                    )}
-                                                />
-                                            ))}
-                                        </ListView>
-                                    </DropdownPanel>
-                                </Dropdown>
-                            </div>
-                        ))}
-                    </CardInfo>
-                    <CardContent view="transparent" className={s.CommentViewContent}>
-                        {nullable(
-                            text,
-                            (t) => (
-                                <Md className={s.CommentViewMarkdown}>{t}</Md>
-                            ),
-                            <Text size="s" className={s.CommentViewPlaceholder}>
-                                {placeholder}
-                            </Text>,
-                        )}
+                                                                <Text
+                                                                    className={cn(
+                                                                        s.CommentViewActionsItem,
+                                                                        item.className,
+                                                                    )}
+                                                                    size="xs"
+                                                                >
+                                                                    {item.icon}
+                                                                    {item.label}
+                                                                </Text>
+                                                            </MenuItem>
+                                                        )}
+                                                    />
+                                                ))}
+                                            </ListView>
+                                        </DropdownPanel>
+                                    </Dropdown>
+                                </div>
+                            ))}
+                        </CardInfo>
+                        <CardContent view={view} className={s.CommentViewContent}>
+                            {nullable(
+                                text,
+                                (t) => (
+                                    <Md className={s.CommentViewMarkdown}>{t}</Md>
+                                ),
+                                <Text size="s" className={s.CommentViewPlaceholder}>
+                                    {placeholder}
+                                </Text>,
+                            )}
 
-                        {nullable(reactions, () => (
-                            <Reactions reactions={reactions} onClick={onReactionToggle} />
-                        ))}
-                    </CardContent>
-                </Card>
-            )}
+                            {nullable(reactions, () => (
+                                <Reactions reactions={reactions} onClick={onReactionToggle} />
+                            ))}
+                        </CardContent>
+                    </Card>
+                )}
+            </ActivityFeedItemContent>
         </ActivityFeedItem>
     );
 };

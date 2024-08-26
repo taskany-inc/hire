@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.60.0](https://github.com/taskany-inc/hire/compare/v0.59.1...v0.60.0) (2024-08-26)
+
+
+### Features
+
+* dashboard page ([0012bd5](https://github.com/taskany-inc/hire/commit/0012bd5046530a846b89a07a8c9f9f7a76b420be))
+* support InterviewHireState ([a835fd4](https://github.com/taskany-inc/hire/commit/a835fd408f42209ef5e3894488101245c5196854))
+
+
+### Bug Fixes
+
+* remove dead code ([c4efca2](https://github.com/taskany-inc/hire/commit/c4efca22b0e32c053b0d1d8dcfa6611ab5c16c3f))
+* **SettingsPage:** fix theme switch ([48f647e](https://github.com/taskany-inc/hire/commit/48f647edf2651c562883ec94c89cf21855d37480))
+
 ## [0.59.1](https://github.com/taskany-inc/hire/compare/v0.59.0...v0.59.1) (2024-08-26)
 
 

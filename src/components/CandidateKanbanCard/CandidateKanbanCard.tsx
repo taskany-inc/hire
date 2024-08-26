@@ -1,3 +1,4 @@
+import { ComponentProps, FC, HTMLAttributes, ReactNode } from 'react';
 import {
     KanbanCard,
     KanbanCardContent,
@@ -8,25 +9,46 @@ import {
     Text,
 } from '@taskany/bricks/harmony';
 import { nullable } from '@taskany/bricks';
-import { ComponentProps, FC, HTMLAttributes } from 'react';
 
 import { useDistanceDate } from '../../hooks/useDateFormat';
+import { interviewStatusLabels } from '../../utils/dictionaries';
 import { pageHrefs } from '../../utils/paths';
 import { InlineDot } from '../InlineDot';
 import { ExternalUserLink } from '../ExternalUserLink';
+import { CommentView } from '../CommentView/CommentView';
+import { CommentViewHeaderMini } from '../CommentViewHeader/CommentViewHeaderMini';
 
-import s from './CandidateKanbanCard.module.css';
 import { tr } from './CandidateKanbanCard.i18n';
+import s from './CandidateKanbanCard.module.css';
+
+interface CandidateKanbanCardCommentProps
+    extends Pick<ComponentProps<typeof CommentView>, 'author' | 'status' | 'text'> {}
+
+export const CandidateKanbanCardComment: FC<CandidateKanbanCardCommentProps> = ({ author, text, status }) => {
+    return (
+        <CommentView
+            avatarSize="s"
+            author={author}
+            status={status}
+            text={text}
+            header={
+                <CommentViewHeaderMini dot author={author} status={status}>
+                    {nullable(status, (s) => (
+                        <Text weight="bold">{interviewStatusLabels[s]}</Text>
+                    ))}
+                </CommentViewHeaderMini>
+            }
+        />
+    );
+};
 
 interface CandidateKanbanCard extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
     title: string;
     id: number;
     interviewId: number;
     createdAt: Date;
-    phone?: string | null;
-    email?: string | null;
-    employment?: string | null;
     hr: ComponentProps<typeof ExternalUserLink>['user'];
+    comment?: ReactNode;
 }
 
 export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
@@ -35,9 +57,7 @@ export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
     interviewId,
     hr,
     createdAt,
-    phone,
-    email,
-    employment,
+    comment,
     ...rest
 }) => {
     const date = useDistanceDate(createdAt);
@@ -59,34 +79,9 @@ export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
                     </Text>
                 </KanbanCardContentItem>
             </KanbanCardContent>
-            {nullable(employment, (emp) => (
-                <KanbanCardContent className={s.CandidateKanbanCardContentRow}>
-                    <KanbanCardContentItem>
-                        {tr('Employment:')}{' '}
-                        <Text as="span" size="m" className={s.CandidateKanbanCardText_highlighted}>
-                            {emp}
-                        </Text>
-                    </KanbanCardContentItem>
-                </KanbanCardContent>
-            ))}
-            {nullable(email, (e) => (
-                <KanbanCardContent className={s.CandidateKanbanCardContentRow}>
-                    <KanbanCardContentItem>
-                        {tr('Email:')}{' '}
-                        <Text as="span" size="m" className={s.CandidateKanbanCardText_highlighted}>
-                            {e}
-                        </Text>
-                    </KanbanCardContentItem>
-                </KanbanCardContent>
-            ))}
-            {nullable(phone, (p) => (
-                <KanbanCardContent className={s.CandidateKanbanCardContentRow}>
-                    <KanbanCardContentItem>
-                        {tr('Tel:')}{' '}
-                        <Text as="span" size="m" className={s.CandidateKanbanCardText_highlighted}>
-                            {p}
-                        </Text>
-                    </KanbanCardContentItem>
+            {nullable(comment, (commentNode) => (
+                <KanbanCardContent className={s.CandidateKanbanCardComment}>
+                    <KanbanCardContentItem>{commentNode}</KanbanCardContentItem>
                 </KanbanCardContent>
             ))}
         </KanbanCard>

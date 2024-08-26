@@ -6,10 +6,14 @@
 }
 
 .ActivityFeedItem {
-    display: grid;
-    grid-template-columns: 32px minmax(0, 1fr);
+    width: 100%;
+    display: flex;
     column-gap: var(--gap-m);
     position: relative;
+}
+
+.ActivityFeedContent {
+    flex: 1;
 }
 
 .ActivityFeedItem:first-child {

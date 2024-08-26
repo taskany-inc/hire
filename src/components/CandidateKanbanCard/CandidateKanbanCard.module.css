@@ -14,3 +14,7 @@
 .CandidateKanbanCardText_highlighted {
     color: var(--text-color)
 }
+
+.CandidateKanbanCardComment {
+    margin-top: var(--gap-s);
+}

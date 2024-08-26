@@ -7,7 +7,9 @@ import { InterviewStatusTagPalette } from '../../utils/tagPalette';
 import { interviewStatusLabels } from '../../utils/dictionaries';
 import { CommentWithUserAndReaction } from '../../modules/commentTypes';
 import { useReactionsResource } from '../../modules/reactionHooks';
-import { CommentView, CommentViewHeader, CommentViewHeaderTitle } from '../CommentView/CommentView';
+import { CommentView } from '../CommentView/CommentView';
+import { CommentViewHeader } from '../CommentViewHeader/CommentViewHeader';
+import { CommentViewHeaderTitle } from '../CommentViewHeader/CommentViewHeaderTitle';
 import { useSession } from '../../contexts/appSettingsContext';
 import { accessChecks } from '../../modules/accessChecks';
 
@@ -57,6 +59,7 @@ export const Comment = ({ comment, status }: CommentProps) => {
 
     return (
         <CommentView
+            view="transparent"
             author={user}
             text={comment.text}
             reactions={reactions}

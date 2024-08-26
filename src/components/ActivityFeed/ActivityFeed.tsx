@@ -11,3 +11,7 @@ export const ActivityFeed: FC<DivAttributes> = ({ className, ...rest }) => {
 export const ActivityFeedItem: FC<DivAttributes> = ({ className, ...rest }) => {
     return <div className={cn(s.ActivityFeedItem, className)} {...rest} />;
 };
+
+export const ActivityFeedItemContent: FC<DivAttributes> = ({ className, ...rest }) => {
+    return <div className={cn(s.ActivityFeedContent, className)} {...rest} />;
+};

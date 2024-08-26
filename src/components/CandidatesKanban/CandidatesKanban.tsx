@@ -11,8 +11,7 @@ import { useOnChangeRef } from '../../hooks/useOnChangeRef';
 import { useCandidates } from '../../modules/candidateHooks';
 import { statuses } from '../../utils/statuses';
 import { trpc } from '../../trpc/trpcClient';
-import config from '../../config';
-import { CandidateKanbanCard } from '../CandidateKanbanCard/CandidateKanbanCard';
+import { CandidateKanbanCard, CandidateKanbanCardComment } from '../CandidateKanbanCard/CandidateKanbanCard';
 import { HireStreamCollapsableItem } from '../HireStreamCollapsableItem/HireStreamCollapsableItem';
 import { InterviewHireState } from '../InterviewHireState';
 
@@ -97,6 +96,16 @@ export const CandidatesKanbanColumn: FC<{
                     return null;
                 }
 
+                const statusComment = interview.comments?.findLast((comment) => comment.status === status);
+                const statusCommentNode =
+                    statusComment?.status === 'HIRED' || statusComment?.status === 'REJECTED' ? (
+                        <CandidateKanbanCardComment
+                            status={statusComment.status}
+                            author={statusComment.user}
+                            text={statusComment.text}
+                        />
+                    ) : undefined;
+
                 return (
                     <CandidateKanbanCard
                         key={candidate.id}
@@ -105,9 +114,7 @@ export const CandidatesKanbanColumn: FC<{
                         interviewId={interview.id}
                         createdAt={interview.createdAt}
                         hr={interview.creator}
-                        email={candidate.email}
-                        phone={candidate.phone}
-                        employment={candidate.outstaffVendor?.title ?? config.defaultCandidateVendor}
+                        comment={statusCommentNode}
                     />
                 );
             })}

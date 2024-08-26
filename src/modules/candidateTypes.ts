@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import {
     InterviewWithHireStreamAndSectionsRelation,
-    InterviewWithHireStreamAndSectionsAndCreatorRelation,
+    InterviewWithHireStreamAndSectionsAndCreatorAndCommentsRelation,
     InterviewWithHireStreamRelation,
 } from './interviewTypes';
 
@@ -48,12 +48,15 @@ export type CandidateWithVendorRelation = Candidate & {
     outstaffVendor: OutstaffVendor | null;
 };
 
-export type CandidateWithVendorAndInterviewWithSectionsRelations = Candidate & {
-    outstaffVendor: OutstaffVendor | null;
-    interviews: InterviewWithHireStreamAndSectionsAndCreatorRelation[];
+export type CandidateWithVendorAndInterviewWithSectionsWithCommentsWithCreatorRelations =
+    CandidateWithVendorRelation & {
+        interviews: InterviewWithHireStreamAndSectionsAndCreatorAndCommentsRelation[];
+    };
+
+export type CandidateWithVendorAndInterviewWithSectionsRelations = CandidateWithVendorRelation & {
+    interviews: InterviewWithHireStreamAndSectionsRelation[];
 };
 
-export type CandidateWithVendorAndInterviewRelations = Candidate & {
-    outstaffVendor: OutstaffVendor | null;
+export type CandidateWithVendorAndInterviewRelations = InterviewWithHireStreamAndSectionsRelation & {
     interviews: InterviewWithHireStreamRelation[];
 };

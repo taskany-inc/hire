@@ -15,7 +15,7 @@ import {
 
 import { useSession } from '../../contexts/appSettingsContext';
 import { CommentForm } from '../CommentForm/CommentForm';
-import { ActivityFeedItem } from '../ActivityFeed/ActivityFeed';
+import { ActivityFeedItem, ActivityFeedItemContent } from '../ActivityFeed/ActivityFeed';
 import { CommentSchema } from '../../modules/commentTypes';
 import { InterviewRejectReasonDropdown } from '../InterviewRejectReasonDropdown/InterviewRejectReasonDropdown';
 import { interviewStatus } from '../../utils/dictionaries';
@@ -125,85 +125,87 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
         <ActivityFeedItem>
             <UserPic size={32} email={session?.user?.email} name={session?.user?.name} />
 
-            <CommentForm
-                text={text}
-                focused={focused}
-                busy={busy}
-                status={statusInterview}
-                onChange={onCommentChange}
-                onSubmit={onCommentSubmit}
-                onCancel={onCancelCreate}
-                onFocus={onCommentFocus}
-                interviewRejectReason={nullable(visibleRejectOption, () => (
-                    <InterviewRejectReasonDropdown
-                        value={text}
-                        rejectReasons={rejectReasons}
-                        onChange={onRejectReasonsText}
-                    />
-                ))}
-                actionButton={
-                    <>
-                        {!statusInterview && (
-                            <Button view="primary" disabled={busy} type="submit" text={tr('Comment')} />
-                        )}
-                        {nullable(isVisibleHireOrRejected, () => (
-                            <div className={s.InterviewStatusWrapper}>
-                                <Button
-                                    disabled={busy}
-                                    type="submit"
-                                    brick="right"
-                                    text={
-                                        statusInterview
-                                            ? interviewStatus[statusInterview as InterviewStatus]
-                                            : tr('Status interview')
-                                    }
-                                />
-                                <Dropdown isOpen={isOpen} onClose={() => setIsOpen(false)}>
-                                    <DropdownTrigger
-                                        renderTrigger={(props) => (
-                                            <div ref={props.ref}>
-                                                <Button
-                                                    brick="left"
-                                                    type="button"
-                                                    onClick={() => setIsOpen(!isOpen)}
-                                                    iconRight={
-                                                        props.isOpen ? (
-                                                            <IconUpSmallSolid size="s" />
-                                                        ) : (
-                                                            <IconDownSmallSolid size="s" />
-                                                        )
-                                                    }
-                                                />
-                                            </div>
-                                        )}
+            <ActivityFeedItemContent>
+                <CommentForm
+                    text={text}
+                    focused={focused}
+                    busy={busy}
+                    status={statusInterview}
+                    onChange={onCommentChange}
+                    onSubmit={onCommentSubmit}
+                    onCancel={onCancelCreate}
+                    onFocus={onCommentFocus}
+                    interviewRejectReason={nullable(visibleRejectOption, () => (
+                        <InterviewRejectReasonDropdown
+                            value={text}
+                            rejectReasons={rejectReasons}
+                            onChange={onRejectReasonsText}
+                        />
+                    ))}
+                    actionButton={
+                        <>
+                            {!statusInterview && (
+                                <Button view="primary" disabled={busy} type="submit" text={tr('Comment')} />
+                            )}
+                            {nullable(isVisibleHireOrRejected, () => (
+                                <div className={s.InterviewStatusWrapper}>
+                                    <Button
+                                        disabled={busy}
+                                        type="submit"
+                                        brick="right"
+                                        text={
+                                            statusInterview
+                                                ? interviewStatus[statusInterview as InterviewStatus]
+                                                : tr('Status interview')
+                                        }
                                     />
-                                    <DropdownPanel placement="top-end">
-                                        <ListView>
-                                            {statusInterviewMenuItems?.map((status) => (
-                                                <ListViewItem
-                                                    key={status.text}
-                                                    value={status}
-                                                    renderItem={({ active, hovered, ...props }) => (
-                                                        <MenuItem
-                                                            hovered={active || hovered}
-                                                            onClick={status.onClick}
-                                                            key={status.text}
-                                                            {...props}
-                                                        >
-                                                            {status.text}
-                                                        </MenuItem>
-                                                    )}
-                                                />
-                                            ))}
-                                        </ListView>
-                                    </DropdownPanel>
-                                </Dropdown>
-                            </div>
-                        ))}
-                    </>
-                }
-                uploadLink={uploadLink}
-            />
+                                    <Dropdown isOpen={isOpen} onClose={() => setIsOpen(false)}>
+                                        <DropdownTrigger
+                                            renderTrigger={(props) => (
+                                                <div ref={props.ref}>
+                                                    <Button
+                                                        brick="left"
+                                                        type="button"
+                                                        onClick={() => setIsOpen(!isOpen)}
+                                                        iconRight={
+                                                            props.isOpen ? (
+                                                                <IconUpSmallSolid size="s" />
+                                                            ) : (
+                                                                <IconDownSmallSolid size="s" />
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+                                            )}
+                                        />
+                                        <DropdownPanel placement="top-end">
+                                            <ListView>
+                                                {statusInterviewMenuItems?.map((status) => (
+                                                    <ListViewItem
+                                                        key={status.text}
+                                                        value={status}
+                                                        renderItem={({ active, hovered, ...props }) => (
+                                                            <MenuItem
+                                                                hovered={active || hovered}
+                                                                onClick={status.onClick}
+                                                                key={status.text}
+                                                                {...props}
+                                                            >
+                                                                {status.text}
+                                                            </MenuItem>
+                                                        )}
+                                                    />
+                                                ))}
+                                            </ListView>
+                                        </DropdownPanel>
+                                    </Dropdown>
+                                </div>
+                            ))}
+                        </>
+                    }
+                    uploadLink={uploadLink}
+                />
+            </ActivityFeedItemContent>
         </ActivityFeedItem>
     );
 };

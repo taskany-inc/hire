@@ -1,0 +1,23 @@
+.CommentViewHeaderContainer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+}
+
+.CommentViewHeaderContent {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: var(--gap-s);
+}
+
+.CommentViewHeaderDot { 
+    --dot-background: var(--card-foreground);
+} 
+
+.CommentViewHeaderMetaInfo {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: var(--gap-s);
+}

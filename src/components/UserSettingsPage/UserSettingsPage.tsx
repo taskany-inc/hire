@@ -51,7 +51,7 @@ export const UserSettingsPage = ({ userId }: UserSettingsPageProps) => {
                                 >
                                     <RadioGroupLabel className={s.FormControlLabel}>{tr('Theme')}</RadioGroupLabel>
                                     {themes.map((t) => (
-                                        <RadioControl key={t} value={t} name={t}>
+                                        <RadioControl key={t} value={t}>
                                             {t}
                                         </RadioControl>
                                     ))}

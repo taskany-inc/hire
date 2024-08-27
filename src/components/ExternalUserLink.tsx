@@ -1,25 +1,29 @@
-import { User } from '@prisma/client';
-import { CSSProperties } from 'react';
-import { Text } from '@taskany/bricks/harmony';
+import { nullable } from '@taskany/bricks';
 
-import config from '../config';
+import { getAuthorLink } from '../utils/user';
 
 import { Link } from './Link';
 
-interface ExternalUserLinkProps {
-    user: User;
-    style?: CSSProperties;
-    className?: string;
+interface User {
+    email: string;
+    name?: string | null;
 }
 
-export const ExternalUserLink = ({ user, style, className }: ExternalUserLinkProps) => {
-    const userByEmailLink = `${config.crew.userByEmailLink}/${user.email}`;
+interface ExternalUserLinkProps {
+    user: User;
+}
 
-    return (
-        <Text size="m" className={className} style={style} as="span">
-            <Link href={userByEmailLink} target="_blank">
-                {user.name}
+export const ExternalUserLink = ({ user }: ExternalUserLinkProps) => {
+    const userByEmailLink = getAuthorLink(user.email);
+    const authorName = user.name ?? user.email;
+
+    return nullable(
+        userByEmailLink,
+        (link) => (
+            <Link href={link} target="_blank">
+                {authorName}
             </Link>
-        </Text>
+        ),
+        authorName,
     );
 };

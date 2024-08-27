@@ -64,7 +64,9 @@ export const UserList: VFC<UserListProps> = ({ title, titleFragment, users, acti
                 {filteredUsers.map((user) => (
                     <div key={user.id} className={s.UserListCard}>
                         <UserPic name={user.name} email={user.email} />
-                        <ExternalUserLink user={user} />
+                        <Text size="m">
+                            <ExternalUserLink user={user} />
+                        </Text>
                         {action && (
                             <IconButton
                                 disabled={action.disabled}

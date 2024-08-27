@@ -21,26 +21,19 @@ import { CommentViewHeaderMini } from '../CommentViewHeader/CommentViewHeaderMin
 import { tr } from './CandidateKanbanCard.i18n';
 import s from './CandidateKanbanCard.module.css';
 
-interface CandidateKanbanCardCommentProps
-    extends Pick<ComponentProps<typeof CommentView>, 'author' | 'status' | 'text'> {}
-
-export const CandidateKanbanCardComment: FC<CandidateKanbanCardCommentProps> = ({ author, text, status }) => {
-    return (
-        <CommentView
-            avatarSize="s"
-            author={author}
-            status={status}
-            text={text}
-            header={
-                <CommentViewHeaderMini dot author={author} status={status}>
-                    {nullable(status, (s) => (
-                        <Text weight="bold">{interviewStatusLabels[s]}</Text>
-                    ))}
-                </CommentViewHeaderMini>
-            }
-        />
-    );
-};
+export const CandidateKanbanCardComment: FC<ComponentProps<typeof CommentView>> = (props) => (
+    <CommentView
+        avatarSize="s"
+        header={
+            <CommentViewHeaderMini dot author={props.author}>
+                {nullable(props.status, (s) => (
+                    <Text weight="bold">{interviewStatusLabels[s]}</Text>
+                ))}
+            </CommentViewHeaderMini>
+        }
+        {...props}
+    />
+);
 
 interface CandidateKanbanCard extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
     title: string;
@@ -74,8 +67,9 @@ export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
             </KanbanCardInfo>
             <KanbanCardContent className={s.CandidateKanbanCardContentRow}>
                 <KanbanCardContentItem>
-                    <Text as="span">
-                        {tr('HR:')} <ExternalUserLink className={s.CandidateKanbanCardText_highlighted} user={hr} />
+                    <Text as="span">{tr('HR:')} </Text>
+                    <Text size="m" as="span" className={s.CandidateKanbanCardText_highlighted}>
+                        <ExternalUserLink user={hr} />
                     </Text>
                 </KanbanCardContentItem>
             </KanbanCardContent>

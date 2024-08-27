@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.61.0](https://github.com/taskany-inc/hire/compare/v0.60.0...v0.61.0) (2024-08-27)
+
+
+### Features
+
+* reject reason comments ([6e9f63c](https://github.com/taskany-inc/hire/commit/6e9f63c6f61980eac9368e67c35c712cb1009717))
+* **telemetry:** use env to provide host ([c8119da](https://github.com/taskany-inc/hire/commit/c8119da29483c8d3f27d26df62356064e0a06272))
+
+
+### Bug Fixes
+
+* interviewer has access to interviews and candidates with assigned sections ([c5c276e](https://github.com/taskany-inc/hire/commit/c5c276ea7737456ded7b43005099e932f7ba241a))
+
 ## [0.60.0](https://github.com/taskany-inc/hire/compare/v0.59.1...v0.60.0) (2024-08-26)
 
 

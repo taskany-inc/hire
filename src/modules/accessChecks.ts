@@ -10,10 +10,9 @@ import { tr } from './modules.i18n';
 
 export type AccessOptions = Partial<{
     filterInterviewsByHireStreamIds: number[];
-    filterInterviewsBySectionTypeIds: number[];
+    filterByInterviewerId: number;
     addInterviewsByUserAccessPermission: number;
     filterInterviewsByUserAccessRestriction: number;
-    filterCandidatesBySectionTypeIds: number[];
     filterSectionsBySectionTypeIds: number[];
     hideSectionGradesBySectionIds: number[];
 }>;
@@ -85,22 +84,18 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const { combinedHireStreams, interviewerInSectionTypes } = getUserRoleIds(session);
+            const { combinedHireStreams } = getUserRoleIds(session);
 
             if (session.userRoles.hasHiringLeadRoles || session.userRoles.hasRecruiterRoles) {
                 return allowed({ filterInterviewsByHireStreamIds: combinedHireStreams });
             }
 
-            const candidateSectionTypeIds = candidate.interviews
-                .flatMap((interview) => interview.sections)
-                .map((section) => section.sectionTypeId);
-
-            const userHasRelevantInterviewerRoles = interviewerInSectionTypes.some((id) =>
-                candidateSectionTypeIds.includes(id),
+            const userHasSectionsWithCandidate = candidate.interviews.some(({ sections }) =>
+                sections.some(({ interviewerId }) => interviewerId === session.user.id),
             );
 
-            if (userHasRelevantInterviewerRoles) {
-                return allowed({ filterInterviewsBySectionTypeIds: interviewerInSectionTypes });
+            if (userHasSectionsWithCandidate) {
+                return allowed();
             }
 
             return notAllowed(tr('No access to this candidates section types'));
@@ -111,14 +106,14 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const { combinedHireStreams, interviewerInSectionTypes } = getUserRoleIds(session);
+            const { combinedHireStreams } = getUserRoleIds(session);
 
             if (session.userRoles.hasHiringLeadRoles || session.userRoles.hasRecruiterRoles) {
                 return allowed({ filterInterviewsByHireStreamIds: combinedHireStreams });
             }
 
             if (session.userRoles.hasInterviewerRoles) {
-                return allowed({ filterCandidatesBySectionTypeIds: interviewerInSectionTypes });
+                return allowed({ filterByInterviewerId: session.user.id });
             }
 
             return notAllowed(tr('No access to hire streams or section types'));
@@ -198,8 +193,7 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const { hiringLeadInHireStreams, recruiterInHireStreams, interviewerInSectionTypes } =
-                getUserRoleIds(session);
+            const { hiringLeadInHireStreams, recruiterInHireStreams } = getUserRoleIds(session);
 
             if (
                 hiringLeadInHireStreams.includes(interview.hireStreamId) ||
@@ -208,14 +202,12 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const interviewSectionTypes = interview.sections.map((section) => section.sectionTypeId);
-
-            const userHasRelevantInterviewerRoles = interviewerInSectionTypes.some((id) =>
-                interviewSectionTypes.includes(id),
+            const userHasSectionInInterview = interview.sections.some(
+                ({ interviewerId }) => interviewerId === session.user.id,
             );
 
-            if (userHasRelevantInterviewerRoles) {
-                return allowed({ filterSectionsBySectionTypeIds: interviewerInSectionTypes });
+            if (userHasSectionInInterview) {
+                return allowed();
             }
 
             return notAllowed(tr('No access to recruitment streams or section types for this interview'));
@@ -231,7 +223,7 @@ export const accessChecks = {
                 filterInterviewsByUserAccessRestriction: session.user.id,
             };
 
-            const { combinedHireStreams, interviewerInSectionTypes } = getUserRoleIds(session);
+            const { combinedHireStreams } = getUserRoleIds(session);
 
             if (session.userRoles.hasRecruiterRoles || session.userRoles.hasHiringLeadRoles) {
                 accessOptions.filterInterviewsByHireStreamIds = combinedHireStreams;
@@ -239,7 +231,7 @@ export const accessChecks = {
             }
 
             if (session.userRoles.hasInterviewerRoles) {
-                accessOptions.filterSectionsBySectionTypeIds = interviewerInSectionTypes;
+                accessOptions.filterByInterviewerId = session.user.id;
                 return allowed(accessOptions);
             }
 

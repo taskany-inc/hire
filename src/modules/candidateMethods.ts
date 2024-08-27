@@ -51,7 +51,7 @@ const getList = async (
 ): Promise<ApiEntityListResult<CandidateWithVendorAndInterviewWithSectionsRelations>> => {
     const { statuses, search, hireStreamIds, cursor, hrIds, vacancyIds } = params;
     const limit = params.limit ?? 50;
-    const { filterInterviewsByHireStreamIds, filterCandidatesBySectionTypeIds } = accessOptions;
+    const { filterInterviewsByHireStreamIds, filterByInterviewerId } = accessOptions;
     const interviewIdsGroupByCandidates = await prisma.interview.groupBy({ by: ['candidateId'], _max: { id: true } });
     // eslint-disable-next-line no-underscore-dangle
     const interviewIds = interviewIdsGroupByCandidates.map((item) => item._max.id);
@@ -126,8 +126,9 @@ const getList = async (
         interviewAccessFilter.hireStreamId = { in: filterInterviewsByHireStreamIds };
     }
 
-    if (filterCandidatesBySectionTypeIds) {
-        interviewAccessFilter.sections = { some: { sectionTypeId: { in: filterCandidatesBySectionTypeIds } } };
+    if (filterByInterviewerId) {
+        interviewAccessFilter.sections = { some: { interviewerId: filterByInterviewerId } };
+        where.interviews = { some: { sections: { some: { interviewerId: filterByInterviewerId } } } };
     }
 
     if (vacancyIds) {
@@ -189,15 +190,15 @@ const getByIdWithRelations = async (
     id: number,
     options: AccessOptions = {},
 ): Promise<CandidateWithVendorAndInterviewWithSectionsRelations> => {
-    const { filterInterviewsByHireStreamIds, filterInterviewsBySectionTypeIds } = options;
+    const { filterInterviewsByHireStreamIds, filterByInterviewerId } = options;
     const interviewAccessFilter: Prisma.InterviewWhereInput = {};
 
     if (filterInterviewsByHireStreamIds) {
         interviewAccessFilter.hireStreamId = { in: filterInterviewsByHireStreamIds };
     }
 
-    if (filterInterviewsBySectionTypeIds) {
-        interviewAccessFilter.sections = { some: { sectionTypeId: { in: filterInterviewsBySectionTypeIds } } };
+    if (filterByInterviewerId) {
+        interviewAccessFilter.sections = { some: { interviewerId: filterByInterviewerId } };
     }
 
     const candidate = await prisma.candidate.findFirst({

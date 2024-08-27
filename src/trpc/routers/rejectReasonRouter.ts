@@ -6,7 +6,7 @@ import { rejectReasonMethods } from '../../modules/rejectReasonMethods';
 
 export const rejectReasonRouter = router({
     findAll: protectedProcedure
-        .input(z.object({ data: z.object({ iterviewId: z.number() }) }))
+        .input(z.object({ data: z.object({ interviewId: z.number() }) }))
         .use(accessMiddlewares.interview.update)
         .query(() => rejectReasonMethods.findAll()),
 });

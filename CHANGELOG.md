@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.61.1](https://github.com/taskany-inc/hire/compare/v0.61.0...v0.61.1) (2024-08-27)
+
+
+### Bug Fixes
+
+* typo in interviewId in reject reasons ([aabfa2c](https://github.com/taskany-inc/hire/commit/aabfa2c2601e3138220ebce2d36da3471b91e77d))
+
 ## [0.61.0](https://github.com/taskany-inc/hire/compare/v0.60.0...v0.61.0) (2024-08-27)
 
 

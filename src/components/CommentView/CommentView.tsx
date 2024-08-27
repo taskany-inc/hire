@@ -18,7 +18,7 @@ import {
 } from '@taskany/bricks/harmony';
 
 import { ReactionsMap } from '../../modules/reactionTypes';
-import { Author, getAuthorLink } from '../../utils/user';
+import { getAuthorLink } from '../../utils/user';
 import { CommentForm } from '../CommentForm/CommentForm';
 import { Reactions } from '../Reactions/Reactions';
 import { Light } from '../Light/Light';
@@ -29,7 +29,12 @@ import Md from '../Md';
 import { tr } from './CommentView.i18n';
 import s from './CommentView.module.css';
 
-export type CommentStatus = 'NEW' | 'HIRED' | 'REJECTED';
+type CommentStatus = 'NEW' | 'HIRED' | 'REJECTED';
+
+interface User {
+    email: string;
+    name?: string | null;
+}
 
 const statusColors = {
     NEW: {
@@ -47,13 +52,14 @@ const statusColors = {
 };
 
 interface CommentAvatarProps {
-    author: Author;
-    size?: ComponentProps<typeof Avatar>['size'];
+    author: User;
 }
 
-const CommentAvatar: FC<CommentAvatarProps> = ({ author, size = 'm' }) => {
-    const authorLink = getAuthorLink(author);
-    const avatar = <Avatar className={s.CommentViewAvatar} size={size} email={author.email} name={author.name} />;
+const CommentAvatar: FC<CommentAvatarProps & ComponentProps<typeof Avatar>> = ({ author, size = 'm', ...props }) => {
+    const authorLink = getAuthorLink(author.email);
+    const avatar = (
+        <Avatar className={s.CommentViewAvatar} size={size} email={author.email} name={author.name} {...props} />
+    );
 
     return nullable(
         authorLink,
@@ -68,7 +74,7 @@ const CommentAvatar: FC<CommentAvatarProps> = ({ author, size = 'm' }) => {
 
 interface CommentViewProp {
     className?: string;
-    author: Author;
+    author: ComponentProps<typeof CommentAvatar>['author'];
     reactions?: ReactionsMap;
     header?: ReactNode;
     text?: string;

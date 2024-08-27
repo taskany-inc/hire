@@ -1,15 +1,17 @@
-import { FC } from 'react';
-import { User } from '@prisma/client';
+import { ComponentProps, FC } from 'react';
 import { UserPic } from '@taskany/bricks';
+import { Text } from '@taskany/bricks/harmony';
 
 import { ExternalUserLink } from './ExternalUserLink';
 
-export const UserAvatar: FC<{ user: User }> = ({ user }) => {
+export const UserAvatar: FC<{ user: ComponentProps<typeof ExternalUserLink>['user'] }> = ({ user }) => {
     return (
         <div style={{ display: 'flex', alignItems: 'center' }}>
             <UserPic name={user.name} email={user.email} />
 
-            <ExternalUserLink style={{ marginLeft: '8px' }} user={user} />
+            <Text size="m" as="span" style={{ marginLeft: '8px' }}>
+                <ExternalUserLink user={user} />
+            </Text>
         </div>
     );
 };

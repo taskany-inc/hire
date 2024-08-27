@@ -1,9 +1,4 @@
 import config from '../config';
 
-export interface Author {
-    name: string | null;
-    email: string;
-}
-
-export const getAuthorLink = (author: Author) =>
-    config.crew.userByEmailLink ? `${config.crew.userByEmailLink}/${author?.email}` : null;
+export const getAuthorLink = (email: string) =>
+    config.crew.userByEmailLink ? `${config.crew.userByEmailLink}/${email}` : null;

@@ -1,10 +1,9 @@
-import { FC, ReactNode } from 'react';
+import { ComponentProps, FC, ReactNode } from 'react';
 import { nullable } from '@taskany/bricks';
 import { Text } from '@taskany/bricks/harmony';
 
 import { useDistanceDate } from '../../hooks/useDateFormat';
-import { Author, getAuthorLink } from '../../utils/user';
-import { Link } from '../Link';
+import { ExternalUserLink } from '../ExternalUserLink';
 
 import { CommentViewHeaderContainer } from './CommentViewHeaderContainer';
 import { CommentViewHeaderMetaInfo } from './CommentViewHeaderMetaInfo';
@@ -16,13 +15,11 @@ interface CommentViewHeaderProp {
     dot?: boolean;
     children?: ReactNode;
     authorRole?: string;
-    author: Author;
+    author: ComponentProps<typeof ExternalUserLink>['user'];
     date: Date;
 }
 
 export const CommentViewHeader: FC<CommentViewHeaderProp> = ({ children, author, authorRole, date, subtitle, dot }) => {
-    const authorLink = getAuthorLink(author);
-    const authorName = author.name ?? author.email;
     const timeAgo = useDistanceDate(date);
 
     return (
@@ -44,15 +41,7 @@ export const CommentViewHeader: FC<CommentViewHeaderProp> = ({ children, author,
 
                 <Text size="xs" weight="bold">
                     {nullable(authorRole, (role) => `${role} `)}
-                    {nullable(
-                        authorLink,
-                        (link) => (
-                            <Link href={link} inline target="_blank">
-                                {authorName}
-                            </Link>
-                        ),
-                        authorName,
-                    )}
+                    <ExternalUserLink user={author} />
                 </Text>
                 <span>—</span>
                 <Text size="xs">{timeAgo}</Text>

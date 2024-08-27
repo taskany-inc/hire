@@ -1,5 +1,5 @@
 import { Badge } from '@taskany/bricks';
-import { FC, HTMLAttributes } from 'react';
+import { ComponentProps, FC, HTMLAttributes } from 'react';
 
 import {
     InterviewWithRelations,
@@ -7,7 +7,7 @@ import {
 } from '../../modules/interviewTypes';
 import { interviewStatusLabels, SectionStatus } from '../../utils/dictionaries';
 import { SectionStatusTagPalette } from '../../utils/tagPalette';
-import { CommentStatus, CommentView } from '../CommentView/CommentView';
+import { CommentView } from '../CommentView/CommentView';
 import { CommentViewHeader } from '../CommentViewHeader/CommentViewHeader';
 import { CommentViewHeaderTitle } from '../CommentViewHeader/CommentViewHeaderTitle';
 import { CandidateSelectedSectionBadge } from '../CandidateSelectedSectionBadge';
@@ -20,7 +20,9 @@ interface InterviewSectionListItemProps extends HTMLAttributes<HTMLDivElement> {
     interview: InterviewWithRelations;
 }
 
-const getCommentStatus = (section: SectionWithSectionTypeAndInterviewerAndSolutionsRelations): CommentStatus => {
+const getCommentStatus = (
+    section: SectionWithSectionTypeAndInterviewerAndSolutionsRelations,
+): NonNullable<ComponentProps<typeof CommentView>['status']> => {
     if (section.feedback) {
         return section.hire ? 'HIRED' : 'REJECTED';
     }

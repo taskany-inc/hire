@@ -20,7 +20,7 @@ import { appConfigRouter } from './appConfigRouter';
 import { historyEventsRouter } from './historyEventsRouter';
 import { reactionRouter } from './reactionRouter';
 import { whatsnewRouter } from './whatsnewRouter';
-import { rejectReasonRouter } from './rejectReasonQuery';
+import { rejectReasonRouter } from './rejectReasonRouter';
 
 export const trpcRouter = router({
     analyticsQueries: analyticsQueriesRouter,

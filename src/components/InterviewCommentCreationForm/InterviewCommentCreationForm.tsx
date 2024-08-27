@@ -21,7 +21,7 @@ interface InterviewCommentCreateFormProps {
 const InterviewCommentCreateForm: React.FC<InterviewCommentCreateFormProps> = ({ interview, status }) => {
     const session = useSession();
     const commentCreateMutation = useCommentCreateMutation();
-    const rejectReasonsQuery = trpc.rejectReason.findAll.useQuery({ data: { iterviewId: interview.id } });
+    const rejectReasonsQuery = trpc.rejectReason.findAll.useQuery({ data: { interviewId: interview.id } });
     const rejectReasons = rejectReasonsQuery.data || [];
 
     const { onUploadSuccess, onUploadFail } = useUploadNotifications();

@@ -132,7 +132,7 @@ const getListByCandidateId = async ({
 }: CandidateInterviewsFetchParams): Promise<InterviewWithHireStreamAndSectionsRelation[]> => {
     const {
         filterInterviewsByHireStreamIds,
-        filterInterviewsBySectionTypeIds,
+        filterByInterviewerId,
         addInterviewsByUserAccessPermission,
         filterInterviewsByUserAccessRestriction,
     } = accessOptions;
@@ -142,8 +142,8 @@ const getListByCandidateId = async ({
         interviewAccessFilter.hireStreamId = { in: filterInterviewsByHireStreamIds };
     }
 
-    if (filterInterviewsBySectionTypeIds) {
-        interviewAccessFilter.sections = { some: { sectionTypeId: { in: filterInterviewsBySectionTypeIds } } };
+    if (filterByInterviewerId) {
+        interviewAccessFilter.sections = { some: { interviewerId: filterByInterviewerId } };
     }
 
     if (filterInterviewsByUserAccessRestriction) {

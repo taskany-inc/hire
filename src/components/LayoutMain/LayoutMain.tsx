@@ -27,6 +27,7 @@ interface LayoutMainProps {
     loading?: boolean;
     backlink?: string;
     children?: ReactNode;
+    filterBar?: ReactNode;
 }
 
 export const LayoutMain: FC<LayoutMainProps> = ({
@@ -35,6 +36,7 @@ export const LayoutMain: FC<LayoutMainProps> = ({
     titleMenuItems,
     backlink,
     children,
+    filterBar,
     loading,
 }) => {
     const { data: userSettings } = trpc.users.getSettings.useQuery();
@@ -77,16 +79,20 @@ export const LayoutMain: FC<LayoutMainProps> = ({
                 </aside>
 
                 <main className={s.Main}>
-                    <PageHeader>
-                        <PageTitle backlink={backlink}>{pageTitle}</PageTitle>
-                        {nullable(titleMenuItems, (i) => (
-                            <TitleMenu items={i} />
-                        ))}
-                        {nullable(loading, () => (
-                            <HeaderLoader />
-                        ))}
-                    </PageHeader>
-
+                    {nullable(
+                        filterBar,
+                        (f) => f,
+                        <PageHeader>
+                            <PageTitle backlink={backlink}>{pageTitle}</PageTitle>
+                            {filterBar}
+                            {nullable(titleMenuItems, (i) => (
+                                <TitleMenu items={i} />
+                            ))}
+                            {nullable(loading, () => (
+                                <HeaderLoader />
+                            ))}
+                        </PageHeader>,
+                    )}
                     <div className={s.LayoutMainContent}>
                         {aboveContainer}
                         {children}

@@ -1,29 +1,24 @@
 import { ProblemDifficulty } from '@prisma/client';
-import React, { ReactNode, useCallback, useRef, useState } from 'react';
+import React, { ReactNode, useCallback, useMemo, useState } from 'react';
+import { nullable } from '@taskany/bricks';
 import {
-    FiltersMenuContainer,
-    FiltersCounter,
-    FiltersCounterContainer,
-    FiltersPanelContainer,
-    FiltersPanelContent,
-    FiltersSearchContainer,
+    Button,
+    FiltersBar,
+    FiltersBarItem,
+    AddFilterDropdown,
+    FiltersBarControlGroup,
     Input,
-    FiltersMenuItem,
-    FilterPopup,
-    nullable,
-} from '@taskany/bricks';
-import { Button } from '@taskany/bricks/harmony';
+    FiltersBarCounter,
+    FiltersBarTitle,
+    Separator,
+} from '@taskany/bricks/harmony';
 
 import { useProblemCount } from '../../modules/problemHooks';
-import { mapEnum } from '../../utils';
-import { Filter } from '../Filter';
-import { trpc } from '../../trpc/trpcClient';
-import { ProblemFilterApplied } from '../ProblemFilterApplied/ProblemFilterApplied';
-import { suggestionsTake, useQueryOptions } from '../../utils/suggestions';
-import { useSession } from '../../contexts/appSettingsContext';
-import { FilterBarAddButton } from '../FilterBarAddButton';
-import { Paths } from '../../utils/paths';
 import { useProblemFilterUrlParams } from '../../hooks/useProblemFilterUrlParams';
+import { AppliedProblemAuthorsFilter } from '../AppliedProblemAuthorsFilter/AppliedProblemAuthorsFilter';
+import { AppliedProblemTagsFilter } from '../AppliedProblemTagsFilter/AppliedProblemTagsFilter';
+import { AppliedProblemDifficultyFilter } from '../AppliedProblemDifficultyFilter/AppliedProblemDifficultyFilter';
+import { HeaderUserMenu } from '../HeaderUserMenu/HeaderUserMenu';
 
 import { tr } from './ProblemFilterBar.i18n';
 import s from './ProblemFilterBar.module.css';
@@ -32,20 +27,49 @@ interface ProblemFilterBarProps {
     embedded?: boolean;
     loading?: boolean;
     children?: ReactNode;
+    title?: string;
 }
 
-export const ProblemFilterBar = ({ embedded, loading, children }: ProblemFilterBarProps) => {
-    const session = useSession();
-    const filterNodeRef = useRef<HTMLSpanElement>(null);
-    const [filterVisible, setFilterVisible] = useState(false);
+export const ProblemFilterBar = ({ title }: ProblemFilterBarProps) => {
     const { values, setter, setSearch, clearParams } = useProblemFilterUrlParams();
 
-    const [difficultyFilter, setDifficultyFilter] = useState(values.difficulty);
-    const [tagFilter, setTagFilter] = useState(values.tag);
-    const [authorFilter, setAuthorFilter] = useState(values.author ?? []);
+    const filterItems = useMemo<{ id: keyof typeof values; title: string }[]>(() => {
+        return [
+            { id: 'difficulty', title: tr('Difficulty') },
+            { id: 'tag', title: tr('Tags') },
+            { id: 'author', title: tr('Author') },
+        ];
+    }, []);
 
-    const [tagQuery, setTagQuery] = useState<string>('');
-    const [authorQuery, setAuthorQuery] = useState<string>('');
+    const [filtersState, setFiltersState] = useState<Partial<typeof values> | undefined>(values);
+
+    const restFilterItems = useMemo(() => {
+        return filterItems.filter((item) => !filtersState?.[item.id]);
+    }, [filterItems, filtersState]);
+
+    const setPartialQueryByKey = useCallback(<K extends keyof typeof values>(key: K) => {
+        return (value?: (typeof values)[K]) => {
+            setFiltersState((prev) => {
+                return {
+                    ...prev,
+                    [key]: value,
+                };
+            });
+        };
+    }, []);
+    // console.log(filtersState);
+
+    const handleChange = useCallback(
+        <T extends { id: string }>(key: keyof typeof values) =>
+            (values?: T[]) => {
+                if (key === 'author' || key === 'tag') {
+                    setPartialQueryByKey(key)(values?.map(({ id }) => +id));
+                } else {
+                    setPartialQueryByKey(key)(values?.map(({ id }) => id));
+                }
+            },
+        [setPartialQueryByKey],
+    );
 
     const problemCountQuery = useProblemCount({
         search: values.search,
@@ -54,131 +78,104 @@ export const ProblemFilterBar = ({ embedded, loading, children }: ProblemFilterB
         authorIds: values.author,
     });
 
-    const difficulties = mapEnum(ProblemDifficulty, (key) => key);
-
-    const isFiltersEmpty = !difficultyFilter && !tagFilter && !authorFilter.length;
-
-    const onApplyClick = useCallback(() => {
-        setter('author', authorFilter);
-        setter('difficulty', difficultyFilter);
-        setter('tag', tagFilter);
-        setFilterVisible(false);
-        setTagQuery('');
-        setAuthorQuery('');
-    }, [setter, authorFilter, difficultyFilter, tagFilter]);
-
-    const { data: tags = [] } = trpc.tags.suggestions.useQuery(
-        { query: tagQuery, take: suggestionsTake, include: tagFilter },
-        useQueryOptions,
+    const isFiltersEmpty = useMemo(
+        () => Object.values(filtersState || {}).filter(Boolean).length === 0,
+        [filtersState],
     );
-    const { data: authors = [] } = trpc.users.suggestions.useQuery(
-        {
-            query: authorQuery,
-            take: suggestionsTake - 1,
-            include: session ? [session.user.id, ...authorFilter] : authorFilter,
+
+    const onApply = useCallback(() => {
+        setter('author', filtersState?.author);
+        setter('difficulty', filtersState?.difficulty);
+        setter('tag', filtersState?.tag);
+    }, [setter, filtersState?.author, filtersState?.difficulty, filtersState?.tag]);
+
+    const onCleanFilter = useCallback(
+        (key: keyof typeof values) => () => {
+            setPartialQueryByKey(key)(undefined);
+            setter(key, undefined);
         },
-        useQueryOptions,
+        [setPartialQueryByKey, setter],
     );
 
     const onResetFilers = () => {
-        setTagQuery('');
-        setAuthorQuery('');
         clearParams();
+        setFiltersState(undefined);
     };
 
     return (
         <>
-            <FiltersPanelContainer loading={loading}>
-                <FiltersPanelContent>
-                    <FiltersSearchContainer>
-                        <Input
-                            placeholder={tr('Search')}
-                            defaultValue={values.search}
-                            onChange={(e) => setSearch(e.target.value)}
-                        />
-                    </FiltersSearchContainer>
-                    <FiltersCounterContainer>
-                        <FiltersCounter
-                            total={problemCountQuery.data?.total || 0}
+            <FiltersBar>
+                {nullable(title, () => (
+                    <>
+                        <FiltersBarItem>
+                            <FiltersBarTitle>{title}</FiltersBarTitle>
+                        </FiltersBarItem>
+                        <Separator />
+                    </>
+                ))}
+                <FiltersBarItem>
+                    <Input
+                        placeholder={tr('Search')}
+                        defaultValue={values.search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </FiltersBarItem>
+                <FiltersBarItem>
+                    <FiltersBarControlGroup>
+                        {nullable(
+                            isFiltersEmpty,
+                            () => (
+                                <AddFilterDropdown
+                                    title={tr('Filter')}
+                                    items={restFilterItems}
+                                    onChange={([item]) => setPartialQueryByKey(item.id)([])}
+                                />
+                            ),
+                            <Button text={tr('Reset')} onClick={onResetFilers} />,
+                        )}
+                        <FiltersBarCounter
+                            total={problemCountQuery.data?.total}
                             counter={problemCountQuery.data?.count}
                         />
-                    </FiltersCounterContainer>
-                    <FiltersMenuContainer>
-                        <FiltersMenuItem
-                            ref={filterNodeRef}
-                            active={!isFiltersEmpty}
-                            onClick={() => setFilterVisible((p) => !p)}
-                        >
-                            {tr('Filter')}
-                        </FiltersMenuItem>
-                        {children}
-                    </FiltersMenuContainer>
-                    <Button className={s.ProblemFilterBarResetButton} text="Reset" onClick={onResetFilers} />
-                    {!embedded && (
-                        <FilterBarAddButton
-                            text={tr('Add problem')}
-                            link={Paths.PROBLEMS_NEW}
-                            className={s.ProblemFilterBarFilterBarAddButton}
-                        />
-                    )}
-                </FiltersPanelContent>
-            </FiltersPanelContainer>
+                    </FiltersBarControlGroup>
+                </FiltersBarItem>
+                <FiltersBarItem className={s.ProblemFilterUserMenu}>
+                    <HeaderUserMenu />
+                </FiltersBarItem>
+            </FiltersBar>
             {nullable(!isFiltersEmpty, () => (
-                <ProblemFilterApplied
-                    tags={tags}
-                    tagIds={values.tag}
-                    difficulty={values.difficulty as ProblemDifficulty[]}
-                    authors={authors}
-                    authorIds={values.author}
-                />
+                <FiltersBar className={s.ProblemFilterBarApplied}>
+                    {nullable(Boolean(filtersState?.difficulty), () => (
+                        <AppliedProblemDifficultyFilter
+                            onChange={handleChange('difficulty')}
+                            onClose={onApply}
+                            onCleanFilter={onCleanFilter('difficulty')}
+                            selectedDifficulties={filtersState?.difficulty}
+                        />
+                    ))}
+                    {nullable(Boolean(filtersState?.author), () => (
+                        <AppliedProblemAuthorsFilter
+                            selectedAuthors={filtersState?.author}
+                            onChange={handleChange('author')}
+                            onClose={onApply}
+                            onCleanFilter={onCleanFilter('author')}
+                        />
+                    ))}
+                    {nullable(Boolean(filtersState?.tag), () => (
+                        <AppliedProblemTagsFilter
+                            onCleanFilter={onCleanFilter('tag')}
+                            selectedTags={filtersState?.tag}
+                            onChange={handleChange('tag')}
+                            onClose={onApply}
+                        />
+                    ))}
+                    <AddFilterDropdown
+                        title={tr('Filter')}
+                        items={restFilterItems}
+                        onChange={([item]) => setPartialQueryByKey(item.id)([])}
+                    />
+                </FiltersBar>
             ))}
-            <FilterPopup
-                applyButtonText={tr('Apply')}
-                cancelButtonText={tr('Cancel')}
-                visible={filterVisible}
-                onApplyClick={onApplyClick}
-                filterRef={filterNodeRef}
-                switchVisible={setFilterVisible}
-                activeTab="state"
-            >
-                <Filter
-                    tabName="difficulty"
-                    label={tr('Dificulty')}
-                    value={difficultyFilter}
-                    items={difficulties.map((dif) => ({ id: dif, name: dif }))}
-                    filterCheckboxName="difficulty"
-                    onChange={setDifficultyFilter}
-                    viewMode="union"
-                />
-                <Filter
-                    title={tr('Suggestions')}
-                    tabName="tags"
-                    label={tr('Tags')}
-                    placeholder={tr('Search')}
-                    value={tagFilter?.map(String)}
-                    items={tags.map((tag) => ({ id: String(tag.id), name: tag.name }))}
-                    filterCheckboxName="difficulty"
-                    onChange={(v) => setTagFilter(v.map(Number))}
-                    onSearchChange={setTagQuery}
-                    viewMode="split"
-                />
-                <Filter
-                    title={tr('Suggestions')}
-                    tabName="author"
-                    label={tr('Author')}
-                    placeholder={tr('Search')}
-                    value={authorFilter?.map(String)}
-                    items={authors.map((author) => ({
-                        id: String(author.id),
-                        name: `${author.name || author.email} ${author.id === session?.user.id ? tr('(You)') : ''}`,
-                        email: author.email,
-                    }))}
-                    filterCheckboxName="author"
-                    onChange={(v) => setAuthorFilter(v.map(Number))}
-                    onSearchChange={setAuthorQuery}
-                    viewMode="split"
-                />
-            </FilterPopup>
         </>
     );
 };

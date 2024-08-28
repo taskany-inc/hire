@@ -1,8 +1,7 @@
-.ProblemFilterBarResetButton {
-    margin-left: auto;
-    margin-right: var(--gap-s);
+.ProblemFilterBarApplied {
+    gap: var(--gap-s);
 }
 
-.ProblemFilterBarFilterBarAddButton {
-    margin-left: 10px;
+.ProblemFilterUserMenu {
+    margin-left: auto;
 }

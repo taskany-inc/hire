@@ -7,7 +7,7 @@ import { ProblemFilterBar } from '../ProblemFilterBar/ProblemFilterBar';
 import { tr } from './Problems.i18n';
 
 export const Problems = () => (
-    <LayoutMain pageTitle={tr('Problems')} aboveContainer={<ProblemFilterBar />}>
+    <LayoutMain pageTitle={tr('Problems')} filterBar={<ProblemFilterBar title={tr('Problems')} />}>
         <ProblemList />
     </LayoutMain>
 );

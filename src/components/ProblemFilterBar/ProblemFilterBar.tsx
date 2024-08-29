@@ -57,7 +57,6 @@ export const ProblemFilterBar = ({ title }: ProblemFilterBarProps) => {
             });
         };
     }, []);
-    // console.log(filtersState);
 
     const handleChange = useCallback(
         <T extends { id: string }>(key: keyof typeof values) =>
@@ -104,7 +103,7 @@ export const ProblemFilterBar = ({ title }: ProblemFilterBarProps) => {
 
     return (
         <>
-            <FiltersBar>
+            <FiltersBar className={s.ProblemFilterBar}>
                 {nullable(title, () => (
                     <>
                         <FiltersBarItem>

@@ -1,3 +1,8 @@
+.ProblemFilterBar {
+    box-sizing: border-box;
+    height: 60.5px;
+}
+
 .ProblemFilterBarApplied {
     gap: var(--gap-s);
 }

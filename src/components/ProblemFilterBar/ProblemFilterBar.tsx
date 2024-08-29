@@ -5,7 +5,6 @@ import {
     Button,
     FiltersBar,
     FiltersBarItem,
-    AddFilterDropdown,
     FiltersBarControlGroup,
     Input,
     FiltersBarCounter,
@@ -19,6 +18,7 @@ import { AppliedProblemAuthorsFilter } from '../AppliedProblemAuthorsFilter/Appl
 import { AppliedProblemTagsFilter } from '../AppliedProblemTagsFilter/AppliedProblemTagsFilter';
 import { AppliedProblemDifficultyFilter } from '../AppliedProblemDifficultyFilter/AppliedProblemDifficultyFilter';
 import { HeaderUserMenu } from '../HeaderUserMenu/HeaderUserMenu';
+import { AddFilterDropdown } from '../AddFilterDropdown';
 
 import { tr } from './ProblemFilterBar.i18n';
 import s from './ProblemFilterBar.module.css';

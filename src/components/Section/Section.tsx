@@ -105,7 +105,10 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
                         </div>
 
                         {nullable(showOtherGrades, () => (
-                            <SectionResults className={s.SectionResults} passedSections={passedSections} />
+                            <>
+                                <Text size="xl">{tr('Passed sections')}</Text>
+                                <SectionResults className={s.SectionResults} passedSections={passedSections} />
+                            </>
                         ))}
                         <SectionFeedback
                             section={section}

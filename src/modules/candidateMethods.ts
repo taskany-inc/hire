@@ -161,7 +161,12 @@ const getList = async (
                 where: interviewAccessFilter,
                 include: {
                     hireStream: true,
-                    sections: true,
+                    sections: {
+                        include: {
+                            sectionType: true,
+                            interviewer: true,
+                        },
+                    },
                     creator: true,
                     comments: {
                         include: {

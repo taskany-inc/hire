@@ -1,4 +1,4 @@
-import { ComponentProps, FC, HTMLAttributes, ReactNode } from 'react';
+import { ComponentProps, FC, HTMLAttributes } from 'react';
 import {
     KanbanCard,
     KanbanCardContent,
@@ -11,29 +11,14 @@ import {
 import { nullable } from '@taskany/bricks';
 
 import { useDistanceDate } from '../../hooks/useDateFormat';
-import { interviewStatusLabels } from '../../utils/dictionaries';
 import { pageHrefs } from '../../utils/paths';
 import { InlineDot } from '../InlineDot';
 import { ExternalUserLink } from '../ExternalUserLink';
-import { CommentView } from '../CommentView/CommentView';
-import { CommentViewHeaderMini } from '../CommentViewHeader/CommentViewHeaderMini';
+import { SectionsProgress } from '../SectionsProgress/SectionsProgress';
 
+import { CandidateKanbanCardComment } from './CandidateKanbanCardComment';
 import { tr } from './CandidateKanbanCard.i18n';
 import s from './CandidateKanbanCard.module.css';
-
-export const CandidateKanbanCardComment: FC<ComponentProps<typeof CommentView>> = (props) => (
-    <CommentView
-        avatarSize="s"
-        header={
-            <CommentViewHeaderMini dot author={props.author}>
-                {nullable(props.status, (s) => (
-                    <Text weight="bold">{interviewStatusLabels[s]}</Text>
-                ))}
-            </CommentViewHeaderMini>
-        }
-        {...props}
-    />
-);
 
 interface CandidateKanbanCard extends Omit<HTMLAttributes<HTMLDivElement>, 'id'> {
     title: string;
@@ -41,7 +26,8 @@ interface CandidateKanbanCard extends Omit<HTMLAttributes<HTMLDivElement>, 'id'>
     interviewId: number;
     createdAt: Date;
     hr: ComponentProps<typeof ExternalUserLink>['user'];
-    comment?: ReactNode;
+    comment?: ComponentProps<typeof CandidateKanbanCardComment>;
+    sections?: ComponentProps<typeof SectionsProgress>['sections'];
 }
 
 export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
@@ -51,6 +37,7 @@ export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
     hr,
     createdAt,
     comment,
+    sections,
     ...rest
 }) => {
     const date = useDistanceDate(createdAt);
@@ -73,9 +60,18 @@ export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
                     </Text>
                 </KanbanCardContentItem>
             </KanbanCardContent>
-            {nullable(comment, (commentNode) => (
+            {nullable(sections, (sct) => (
                 <KanbanCardContent className={s.CandidateKanbanCardComment}>
-                    <KanbanCardContentItem>{commentNode}</KanbanCardContentItem>
+                    <KanbanCardContentItem>
+                        <SectionsProgress sections={sct} />
+                    </KanbanCardContentItem>
+                </KanbanCardContent>
+            ))}
+            {nullable(comment, (props) => (
+                <KanbanCardContent className={s.CandidateKanbanCardComment}>
+                    <KanbanCardContentItem>
+                        <CandidateKanbanCardComment {...props} />
+                    </KanbanCardContentItem>
                 </KanbanCardContent>
             ))}
         </KanbanCard>

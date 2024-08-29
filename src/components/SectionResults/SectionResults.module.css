@@ -10,6 +10,18 @@
     color: var(--text-secondary);
 }
 
-.Avatar {
-    padding-left: 25px;
+.Column {
+    flex: 1;
+}
+
+.Column:last-child {
+    justify-content: end;
+}
+
+.Column_center {
+    justify-content: center;
+}
+
+.SectionResults {
+    gap: var(--gap-m);
 }

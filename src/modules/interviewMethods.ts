@@ -11,7 +11,6 @@ import {
     CandidateInterviewsFetchParams,
     CreateInterview,
     EditInterviewAccessList,
-    GetInterviewByIdOptions,
     InterviewByInterviewer,
     InterviewWithCandidateRelation,
     InterviewWithHireStreamAndSectionsRelation,
@@ -22,6 +21,7 @@ import {
 import { tr } from './modules.i18n';
 import { crewMethods } from './crewMethods';
 import { VacancyStatus } from './crewTypes';
+import { AccessOptions } from './accessChecks';
 
 const create = async (creatorId: number, data: CreateInterview): Promise<Interview> => {
     const { candidateId, hireStreamId, attachIds, cvAttachId, ...restData } = data;
@@ -39,8 +39,8 @@ const create = async (creatorId: number, data: CreateInterview): Promise<Intervi
     return prisma.interview.create({ data: createData });
 };
 
-const getById = async (id: number, options?: GetInterviewByIdOptions): Promise<InterviewWithRelations> => {
-    const showGradeForOwnSectionOnly = options?.showGradeForOwnSectionOnly;
+const getById = async (id: number, accessOptions: AccessOptions = {}): Promise<InterviewWithRelations> => {
+    const { filterSectionGradeByInterviewer } = accessOptions;
 
     const interview = await prisma.interview.findFirst({
         where: { id },
@@ -87,9 +87,9 @@ const getById = async (id: number, options?: GetInterviewByIdOptions): Promise<I
         throw new ErrorWithStatus(tr('Interview not found'), 404);
     }
 
-    if (showGradeForOwnSectionOnly) {
+    if (filterSectionGradeByInterviewer) {
         interview.sections.forEach((section) => {
-            if (section.interviewerId !== showGradeForOwnSectionOnly.interviewerId) {
+            if (section.interviewerId !== filterSectionGradeByInterviewer) {
                 section.grade = null;
             }
         });
@@ -113,17 +113,16 @@ const findWithSections = async (id: number): Promise<InterviewWithSections> => {
     return interview;
 };
 
-const getByIdWithFilteredSections = async (session: Session | null, id: number): Promise<InterviewWithRelations> => {
+const getByIdWithFilteredSections = async (
+    session: Session | null,
+    id: number,
+    accessOptions: AccessOptions,
+): Promise<InterviewWithRelations> => {
     if (!session) {
         throw new ErrorWithStatus(tr('No session'), 401);
     }
-    const shouldHideSectionGrade = !session.userRoles.admin && session.userRoles.interviewer;
 
-    if (shouldHideSectionGrade) {
-        return getById(id, { showGradeForOwnSectionOnly: { interviewerId: session.user.id } });
-    }
-
-    return getById(id);
+    return getById(id, accessOptions);
 };
 
 const getListByCandidateId = async ({

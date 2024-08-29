@@ -8,17 +8,17 @@ import { SectionResults } from '../SectionResults/SectionResults';
 import s from './SectionsProgress.module.css';
 
 interface SectionsProgressProps extends HTMLAttributes<HTMLDivElement> {
-    className?: string;
     sections: SectionWithSectionType[];
+    gradeVisibility?: boolean;
     view?: 'flat' | 'circle';
 }
 
-export const SectionsProgress: FC<SectionsProgressProps> = ({ sections, view = 'flat', ...rest }) => {
+export const SectionsProgress: FC<SectionsProgressProps> = ({ sections, view = 'flat', gradeVisibility, ...rest }) => {
     const [popupVisible, setPopupVisible] = useState(false);
     const triggerRef = useRef<HTMLDivElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
 
-    const finished = useMemo(() => sections.filter((section) => section.hire), [sections]);
+    const finished = useMemo(() => sections.filter((section) => section.hire !== null), [sections]);
 
     useClickOutside(wrapperRef, ({ target }) => {
         if (!popupVisible) {
@@ -47,7 +47,7 @@ export const SectionsProgress: FC<SectionsProgressProps> = ({ sections, view = '
             </div>
             <Popup reference={triggerRef} visible={popupVisible} placement="top-end" offset={[10, 10]}>
                 <div className={s.CandidateKanbanSectionProgress} ref={wrapperRef}>
-                    <SectionResults passedSections={sections} />
+                    <SectionResults passedSections={sections} gradeVisibility={gradeVisibility} />
                 </div>
             </Popup>
         </>

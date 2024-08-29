@@ -6,22 +6,33 @@
     color: var(--gray-500);
 }
 
-.Checkbox {
-    color: var(--text-secondary);
-}
-
 .Column {
-    flex: 1;
-}
-
-.Column:last-child {
-    justify-content: end;
-}
-
-.Column_center {
     justify-content: center;
 }
 
+.Column:first-child {
+    flex: 1;
+    justify-content: start;
+}
+
+.Column:last-child {
+    flex: 1;
+    justify-content: end;
+}
+
+
 .SectionResults {
     gap: var(--gap-m);
+}
+
+.SectionResultsStatus {
+    color: var(--text-secondary);
+}
+
+.SectionResultsStatus__hired {
+    color: var(--status-finished);
+}
+
+.SectionResultsStatus__failed {
+    color: var(--status-failed);
 }

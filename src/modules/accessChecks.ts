@@ -14,7 +14,7 @@ export type AccessOptions = Partial<{
     addInterviewsByUserAccessPermission: number;
     filterInterviewsByUserAccessRestriction: number;
     filterSectionsBySectionTypeIds: number[];
-    hideSectionGradesBySectionIds: number[];
+    filterSectionGradeByInterviewer: number;
 }>;
 
 export type AccessCheckResult = Readonly<
@@ -113,7 +113,10 @@ export const accessChecks = {
             }
 
             if (session.userRoles.hasInterviewerRoles) {
-                return allowed({ filterByInterviewerId: session.user.id });
+                return allowed({
+                    filterByInterviewerId: session.user.id,
+                    filterSectionGradeByInterviewer: session.user.id,
+                });
             }
 
             return notAllowed(tr('No access to hire streams or section types'));
@@ -207,7 +210,9 @@ export const accessChecks = {
             );
 
             if (userHasSectionInInterview) {
-                return allowed();
+                return allowed({
+                    filterSectionGradeByInterviewer: session.user.id,
+                });
             }
 
             return notAllowed(tr('No access to recruitment streams or section types for this interview'));
@@ -305,13 +310,9 @@ export const accessChecks = {
             );
 
             if (userHasSectionInInterview) {
-                const nonOwnedSections = section.interview.sections
-                    .filter((section) => section.interviewerId !== session.user.id)
-                    .map((section) => section.id);
-
                 return allowed({
                     filterSectionsBySectionTypeIds: interviewerInSectionTypes,
-                    hideSectionGradesBySectionIds: nonOwnedSections,
+                    filterSectionGradeByInterviewer: session.user.id,
                 });
             }
 

@@ -19,7 +19,7 @@ export const interviewsRouter = router({
         .input(interviewIdQuerySchema)
         .use(accessMiddlewares.interview.readOne)
         .query(({ input, ctx }) => {
-            return interviewMethods.getByIdWithFilteredSections(ctx.session, input.interviewId);
+            return interviewMethods.getByIdWithFilteredSections(ctx.session, input.interviewId, ctx.accessOptions);
         }),
 
     getListByCandidateId: protectedProcedure

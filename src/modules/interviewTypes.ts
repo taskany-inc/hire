@@ -23,11 +23,9 @@ export type InterviewIdQuery = z.infer<typeof interviewIdQuerySchema>;
 
 export const getInterviewByIdSchema = z.object({
     interviewId: z.number(),
-    showGradeForOwnSectionOnly: z.object({ interviewerId: z.number() }).optional(),
 });
 
 export type GetInterviewById = z.infer<typeof getInterviewByIdSchema>;
-export type GetInterviewByIdOptions = Omit<GetInterviewById, 'interviewId'>;
 
 export const createInterviewSchema = z.object({
     candidateId: z.number(),

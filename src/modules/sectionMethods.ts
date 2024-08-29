@@ -108,7 +108,7 @@ const create = async (data: CreateSection, user: User): Promise<Section> => {
 };
 
 const getById = async (id: number, accessOptions: AccessOptions = {}): Promise<SectionWithRelationsAndResults> => {
-    const { hideSectionGradesBySectionIds } = accessOptions;
+    const { filterSectionGradeByInterviewer } = accessOptions;
     const section = await prisma.section.findFirst({
         where: { id },
         orderBy: {
@@ -151,13 +151,13 @@ const getById = async (id: number, accessOptions: AccessOptions = {}): Promise<S
             include: { sectionType: true, interviewer: true },
         });
         passedSections.forEach((s) => {
-            if (hideSectionGradesBySectionIds?.includes(s.id)) {
+            if (filterSectionGradeByInterviewer && filterSectionGradeByInterviewer !== s.interviewerId) {
                 s.grade = null;
             }
         });
     }
 
-    if (hideSectionGradesBySectionIds?.includes(id)) {
+    if (filterSectionGradeByInterviewer && filterSectionGradeByInterviewer !== section.interviewerId) {
         section.grade = null;
     }
 

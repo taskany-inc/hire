@@ -52,7 +52,7 @@ const getList = async (
 ): Promise<ApiEntityListResult<CandidateWithVendorAndInterviewWithSectionsWithCommentsWithCreatorRelations>> => {
     const { statuses, search, hireStreamIds, cursor, hrIds, vacancyIds } = params;
     const limit = params.limit ?? 50;
-    const { filterInterviewsByHireStreamIds, filterByInterviewerId } = accessOptions;
+    const { filterInterviewsByHireStreamIds, filterByInterviewerId, filterSectionGradeByInterviewer } = accessOptions;
     const interviewIdsGroupByCandidates = await prisma.interview.groupBy({ by: ['candidateId'], _max: { id: true } });
     // eslint-disable-next-line no-underscore-dangle
     const interviewIds = interviewIdsGroupByCandidates.map((item) => item._max.id);
@@ -178,6 +178,17 @@ const getList = async (
             },
         },
     });
+
+    items.forEach((candidate) =>
+        candidate.interviews.forEach((interview) =>
+            interview.sections.forEach((section) => {
+                if (filterSectionGradeByInterviewer) {
+                    section.grade = null;
+                }
+            }),
+        ),
+    );
+
     let nextCursor: typeof cursor | undefined;
 
     if (items.length > limit) {

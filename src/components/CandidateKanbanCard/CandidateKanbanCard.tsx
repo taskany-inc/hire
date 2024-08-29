@@ -28,6 +28,7 @@ interface CandidateKanbanCard extends Omit<HTMLAttributes<HTMLDivElement>, 'id'>
     hr: ComponentProps<typeof ExternalUserLink>['user'];
     comment?: ComponentProps<typeof CandidateKanbanCardComment>;
     sections?: ComponentProps<typeof SectionsProgress>['sections'];
+    gradeVisibility?: boolean;
 }
 
 export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
@@ -38,6 +39,7 @@ export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
     createdAt,
     comment,
     sections,
+    gradeVisibility,
     ...rest
 }) => {
     const date = useDistanceDate(createdAt);
@@ -63,7 +65,7 @@ export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
             {nullable(sections, (sct) => (
                 <KanbanCardContent className={s.CandidateKanbanCardComment}>
                     <KanbanCardContentItem>
-                        <SectionsProgress sections={sct} />
+                        <SectionsProgress sections={sct} gradeVisibility={gradeVisibility} />
                     </KanbanCardContentItem>
                 </KanbanCardContent>
             ))}

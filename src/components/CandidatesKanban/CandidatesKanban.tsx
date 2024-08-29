@@ -9,6 +9,7 @@ import {
 import { useIntersectionLoader } from '../../hooks/useIntersectionLoader';
 import { useOnChangeRef } from '../../hooks/useOnChangeRef';
 import { useCandidates } from '../../modules/candidateHooks';
+import { useSession } from '../../contexts/appSettingsContext';
 import { statuses } from '../../utils/statuses';
 import { trpc } from '../../trpc/trpcClient';
 import { CandidateKanbanCard } from '../CandidateKanbanCard/CandidateKanbanCard';
@@ -44,6 +45,7 @@ export const CandidatesKanbanColumn: FC<{
     hireStreamId: number;
     onLoadingStateChange: onLoadingStateChange;
 }> = ({ status, hireStreamId, onLoadingStateChange }) => {
+    const session = useSession();
     const { values } = useCandidateFilterUrlParams();
 
     const { isFetching, hasNextPage, fetchNextPage, data } = useCandidates({
@@ -82,6 +84,9 @@ export const CandidatesKanbanColumn: FC<{
         intersectionOptions,
     );
 
+    const gradeVisibility =
+        session?.userRoles.admin || session?.userRoles.hiringLead.some((hs) => hs.id === hireStreamId);
+
     return (
         <KanbanColumn>
             <div className={s.KanbanColumnTitle}>
@@ -116,6 +121,7 @@ export const CandidatesKanbanColumn: FC<{
                         hr={interview.creator}
                         comment={comment}
                         sections={interview.sections}
+                        gradeVisibility={gradeVisibility}
                     />
                 );
             })}

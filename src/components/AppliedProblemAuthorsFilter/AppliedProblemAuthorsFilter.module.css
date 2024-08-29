@@ -1,0 +1,9 @@
+.AppliedProblemAuthorsFilterCheckbox {
+  display: flex;
+  align-items: center;
+}
+
+.AppliedProblemAuthorsFilterUser {
+  align-self: end;
+  margin-top: var(--gap-xs);
+}

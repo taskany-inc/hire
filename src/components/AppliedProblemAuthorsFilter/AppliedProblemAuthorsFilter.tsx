@@ -17,6 +17,7 @@ import { suggestionsTake, useQueryOptions } from '../../utils/suggestions';
 import { useSession } from '../../contexts/appSettingsContext';
 
 import { tr } from './AppliedProblemAuthorsFilter.i18n';
+import s from './AppliedProblemAuthorsFilter.module.css';
 
 interface AppliedProblemAuthorsFilterProps {
     onCleanFilter: () => void;
@@ -63,7 +64,15 @@ export const AppliedProblemAuthorsFilter: FC<AppliedProblemAuthorsFilterProps> =
                 onClose={onClose}
                 onChange={onChange}
                 mode="multiple"
-                renderItem={({ item }) => <Checkbox label={item.name} checked={selectedAuthors?.includes(+item.id)} />}
+                renderItem={({ item }) => (
+                    <Checkbox
+                        label={
+                            <User name={item.name} email={item.email} className={s.AppliedProblemAuthorsFilterUser} />
+                        }
+                        checked={selectedAuthors?.includes(+item.id)}
+                        className={s.AppliedProblemAuthorsFilterCheckbox}
+                    />
+                )}
             >
                 <SelectTrigger>
                     {nullable(

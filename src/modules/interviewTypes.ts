@@ -12,7 +12,7 @@ import {
 } from '@prisma/client';
 import { z } from 'zod';
 
-import { SectionWithInterviewerRelation } from './sectionTypes';
+import { SectionWithInterviewerRelation, SectionWithSectionType } from './sectionTypes';
 import { AccessOptions } from './accessChecks';
 import { CommentWithUser, CommentWithUserAndReaction } from './commentTypes';
 
@@ -98,6 +98,7 @@ export type InterviewWithHireStreamAndSectionsRelation = InterviewWithSections &
 };
 export type InterviewWithHireStreamAndSectionsAndCreatorAndCommentsRelation =
     InterviewWithHireStreamAndSectionsRelation & {
+        sections: SectionWithSectionType[];
         comments: CommentWithUser[] | null;
         creator: User;
     };

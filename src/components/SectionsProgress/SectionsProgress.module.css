@@ -1,0 +1,7 @@
+.CandidateKanbanSectionProgress {
+    width: 350px;
+}
+
+.CandidateKanbanSectionProgressTrigger_circle {
+    display: flex;
+}

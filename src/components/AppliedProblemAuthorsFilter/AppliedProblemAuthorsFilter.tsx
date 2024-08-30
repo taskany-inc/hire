@@ -22,7 +22,7 @@ import s from './AppliedProblemAuthorsFilter.module.css';
 interface AppliedProblemAuthorsFilterProps {
     onCleanFilter: () => void;
     selectedAuthors: number[] | undefined;
-    onChange: (authors: { id: string; name: string; email: string }[]) => void;
+    onChange: (authors: { id: number; name: string; email: string }[]) => void;
     onClose: () => void;
 }
 
@@ -47,7 +47,6 @@ export const AppliedProblemAuthorsFilter: FC<AppliedProblemAuthorsFilterProps> =
         .filter((author) => selectedAuthors?.includes(author.id))
         .map((author) => ({
             ...author,
-            id: author.id.toString(),
             name: `${author.name || author.email} ${author.id === session?.user.id ? tr('(You)') : ''}`,
         }));
 
@@ -57,7 +56,7 @@ export const AppliedProblemAuthorsFilter: FC<AppliedProblemAuthorsFilterProps> =
                 arrow
                 value={authorValue}
                 items={authors.map((author) => ({
-                    id: String(author.id),
+                    ...author,
                     name: `${author.name || author.email} ${author.id === session?.user.id ? tr('(You)') : ''}`,
                     email: author.email,
                 }))}

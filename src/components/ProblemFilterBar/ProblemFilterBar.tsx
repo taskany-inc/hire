@@ -59,14 +59,9 @@ export const ProblemFilterBar = ({ title }: ProblemFilterBarProps) => {
     }, []);
 
     const handleChange = useCallback(
-        <T extends { id: string }>(key: keyof typeof values) =>
-            (values?: T[]) => {
-                if (key === 'author' || key === 'tag') {
-                    setPartialQueryByKey(key)(values?.map(({ id }) => +id));
-                } else {
-                    setPartialQueryByKey(key)(values?.map(({ id }) => id));
-                }
-            },
+        (key: keyof typeof values) => (values?: { id: number | string }[]) => {
+            setPartialQueryByKey(key)(values?.map(({ id }) => id) as string[] | number[]);
+        },
         [setPartialQueryByKey],
     );
 

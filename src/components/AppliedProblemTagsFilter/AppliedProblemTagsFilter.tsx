@@ -20,7 +20,7 @@ import { tr } from './AppliedProblemTagsFilter.i18n';
 interface AppliedProblemTagsFilterProps {
     onCleanFilter: () => void;
     selectedTags: number[] | undefined;
-    onChange: (tags: { id: string }[]) => void;
+    onChange: (tags: { id: number }[]) => void;
     onClose: () => void;
 }
 
@@ -36,32 +36,24 @@ export const AppliedProblemTagsFilter: FC<AppliedProblemTagsFilterProps> = ({
         useQueryOptions,
     );
 
-    const tagsValue = tags
-        .filter((tag) => selectedTags?.includes(tag.id))
-        .map((tag) => ({
-            ...tag,
-            id: tag.id.toString(),
-        }));
+    const tagsValue = tags.filter((tag) => selectedTags?.includes(tag.id));
 
     return (
         <AppliedFilter label={tr('Tags')} action={<TagCleanButton size="s" onClick={onCleanFilter} />}>
             <Select
                 arrow
                 value={tagsValue}
-                items={tags.map((tag) => ({
-                    ...tag,
-                    id: String(tag.id),
-                }))}
+                items={tags}
                 onClose={onClose}
                 onChange={onChange}
                 mode="multiple"
-                renderItem={({ item }) => <Checkbox label={item.name} checked={selectedTags?.includes(+item.id)} />}
+                renderItem={({ item }) => <Checkbox label={item.name} checked={selectedTags?.includes(item.id)} />}
             >
                 <SelectTrigger>
                     {nullable(
-                        selectedTags && selectedTags?.length > 1,
-                        () => (
-                            <Counter count={selectedTags!.length} />
+                        Number(selectedTags?.length) > 1 && selectedTags,
+                        (t) => (
+                            <Counter count={t.length} />
                         ),
                         nullable(tagsValue[0], (tag) => <Text ellipsis>{tag.name}</Text>),
                     )}

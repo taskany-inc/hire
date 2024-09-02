@@ -1,15 +1,23 @@
-import { ChangeEvent, useState } from 'react';
-import { User } from '@prisma/client';
-import { ComboBox, FiltersMenuItem, Input, UserMenuItem } from '@taskany/bricks';
-import { Button } from '@taskany/bricks/harmony';
+import { ChangeEvent, useCallback, useState } from 'react';
+import {
+    Dropdown,
+    DropdownPanel,
+    DropdownTrigger,
+    ListView,
+    ListViewItem,
+    User as HarmonyUser,
+    Input,
+} from '@taskany/bricks/harmony';
 import { useDebounce } from 'use-debounce';
+import { User } from '@prisma/client';
+import { IconSearchOutline } from '@taskany/icons';
 
 import { trpc } from '../../trpc/trpcClient';
 import { CrewUserShort } from '../../modules/crewTypes';
+import { AddInlineTrigger } from '../AddInlineTrigger/AddInlineTrigger';
 import { useGetUserByCrewUserMutation } from '../../modules/userHooks';
 
 import s from './CrewUserSelector.module.css';
-import { tr } from './CrewUserSelector.i18n';
 
 interface CrewUserSelectorProps {
     onSelect: (user: User) => void;
@@ -19,8 +27,6 @@ interface CrewUserSelectorProps {
 export const CrewUserSelector = ({ onSelect, placeholder }: CrewUserSelectorProps) => {
     const [search, setSearch] = useState('');
     const [debouncedSearch] = useDebounce(search, 300);
-    const [crewUser, setCrewUser] = useState<CrewUserShort | undefined>(undefined);
-    const [user, setUser] = useState<User | undefined>(undefined);
     const [visibility, setVisibility] = useState(false);
     const getUserByCrewUser = useGetUserByCrewUserMutation();
 
@@ -29,65 +35,69 @@ export const CrewUserSelector = ({ onSelect, placeholder }: CrewUserSelectorProp
     });
 
     const reset = () => {
-        setCrewUser(undefined);
-        setUser(undefined);
         setSearch('');
         setVisibility(false);
     };
 
-    const onUserSelect = async (crewUser: CrewUserShort) => {
-        setCrewUser(crewUser);
-        const user = await getUserByCrewUser.mutateAsync(crewUser);
-        onSelect(user);
-        reset();
-    };
-
-    const onAddClick = () => {
-        user && onSelect(user);
-        reset();
-    };
+    const onUserSelect = useCallback(
+        async (crewUser: CrewUserShort) => {
+            const user = await getUserByCrewUser.mutateAsync(crewUser);
+            onSelect(user);
+            reset();
+        },
+        [onSelect, reset, getUserByCrewUser],
+    );
 
     return (
         <div className={s.CrewUserSelector}>
-            <ComboBox
-                text={placeholder}
-                onClickOutside={(cb) => cb()}
-                renderInput={(props) => (
+            <Dropdown
+                isOpen={visibility}
+                onClose={() => {
+                    setVisibility(false);
+                    reset();
+                }}
+            >
+                <DropdownTrigger
+                    renderTrigger={(props) => (
+                        <div ref={props.ref}>
+                            <AddInlineTrigger text={placeholder} onClick={() => setVisibility(true)} ref={props.ref} />
+                        </div>
+                    )}
+                />
+                <DropdownPanel placement="bottom-start">
                     <Input
-                        autoFocus
                         placeholder={placeholder}
+                        outline
+                        value={search}
+                        autoFocus
                         onChange={(e: ChangeEvent<HTMLInputElement>) => {
                             setSearch(e.currentTarget.value);
                             setVisibility(true);
                         }}
-                        {...props}
+                        iconLeft={<IconSearchOutline size="s" />}
                     />
-                )}
-                visible={visibility}
-                onChange={onUserSelect}
-                renderItem={(props) => (
-                    <UserMenuItem
-                        key={props.item.id}
-                        name={props.item.name}
-                        email={props.item.email}
-                        onClick={props.onClick}
-                    />
-                )}
-                renderTrigger={(props) => {
-                    return crewUser ? (
-                        <UserMenuItem
-                            name={crewUser.name || crewUser.email}
-                            email={crewUser.email}
-                            onClick={props.onClick}
-                        />
-                    ) : (
-                        <FiltersMenuItem {...props}>{props.text}</FiltersMenuItem>
-                    );
-                }}
-                items={crewUsersQuery.data}
-            />
-            {crewUser && <Button text={tr('Add')} view="primary" onClick={onAddClick} />}
-            {crewUser && <Button text={tr('Cancel')} onClick={reset} />}
+                    <ListView>
+                        {crewUsersQuery?.data?.map((user) => (
+                            <ListViewItem
+                                key={user.id}
+                                renderItem={(props) => (
+                                    <HarmonyUser
+                                        className={s.ListItem}
+                                        onClick={() => {
+                                            onUserSelect(user);
+                                        }}
+                                        name={user.name}
+                                        email={user.email}
+                                        {...props}
+                                    >
+                                        {user.name || user.email}
+                                    </HarmonyUser>
+                                )}
+                            />
+                        ))}
+                    </ListView>
+                </DropdownPanel>
+            </Dropdown>
         </div>
     );
 };

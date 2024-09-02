@@ -7,14 +7,13 @@ import { nullable } from '@taskany/bricks';
 import { trpc } from '../../trpc/trpcClient';
 import { OfflineBanner } from '../OfflineBanner/OfflineBanner';
 import { Theme } from '../Theme';
-import { DropdownMenuItem } from '../TagFilterDropdown';
+import { TitleMenuItem, TitleMenu } from '../TitleMenu/TitleMenu';
 import { HeaderLoader } from '../HeaderLoader/HeaderLoader';
 import { PageHeader } from '../PageHeader/PageHeader';
 import { PageFooter } from '../PageFooter/PageFooter';
 import { GlobalStyle } from '../GlobalStyle';
 import { WhatsNew } from '../WhatsNew/WhatsNew';
 import { PageNavigation } from '../PageNavigation/PageNavigation';
-import { TitleMenu } from '../TitleMenu/TitleMenu';
 import { PageTitle } from '../PageTitle/PageTitle';
 
 import s from './LayoutMain.module.css';
@@ -23,7 +22,7 @@ interface LayoutMainProps {
     pageTitle: string;
     aboveContainer?: JSX.Element;
     headerGutter?: string;
-    titleMenuItems?: DropdownMenuItem[];
+    titleMenuItems?: TitleMenuItem[];
     loading?: boolean;
     backlink?: string;
     children?: ReactNode;

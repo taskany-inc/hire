@@ -42,6 +42,7 @@ export const difficultyToColor: Record<ProblemDifficulty, string> = {
 
 export const difficultyOption = createSelectOption(ProblemDifficulty, problemDifficultyLabels).map((option) => ({
     ...option,
+    id: option.value,
     stateDotColor: difficultyToColor[option.value as ProblemDifficulty],
 }));
 

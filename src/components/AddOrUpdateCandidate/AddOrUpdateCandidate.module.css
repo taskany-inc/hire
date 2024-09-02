@@ -4,3 +4,10 @@
 
 }
 
+.SelectVendor {
+    padding-left: var(--gap-m);
+    display: flex;
+    background-color: var(--gray3);
+    gap:  var(--gap-m);
+    align-items: center;
+}

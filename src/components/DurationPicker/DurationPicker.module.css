@@ -1,0 +1,8 @@
+.SelectPanelWrapper {
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+.Label {
+    margin-left: var(--gap-s);
+}

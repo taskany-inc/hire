@@ -11,3 +11,9 @@
     margin-left: var(--gap-s);
 }
 
+.SelectWrapper {
+    margin-left: var(--gap-m);
+    display: flex;
+    gap:  var(--gap-m);
+    align-items: center;
+}

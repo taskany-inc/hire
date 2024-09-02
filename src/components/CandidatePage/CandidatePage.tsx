@@ -5,7 +5,7 @@ import { useCandidate, useCandidateDeleteMutation } from '../../modules/candidat
 import { useCandidateInterviews } from '../../modules/interviewHooks';
 import { Paths, generatePath } from '../../utils/paths';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
-import { DropdownMenuItem } from '../TagFilterDropdown';
+import { TitleMenuItem } from '../TitleMenu/TitleMenu';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { CandidateView } from '../CandidateView/CandidateView';
@@ -37,8 +37,8 @@ const CandidatePage = ({ numberIds, isShowAddButton, canEditCandidate, hasAccess
         destructive: true,
     });
 
-    const titleMenuItems = useMemo<DropdownMenuItem[]>(() => {
-        const items: DropdownMenuItem[] = [];
+    const titleMenuItems = useMemo<TitleMenuItem[]>(() => {
+        const items: TitleMenuItem[] = [];
 
         if (canEditCandidate) {
             items.push({

@@ -1,11 +1,12 @@
 import { VFC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Candidate, OutstaffVendor } from '@prisma/client';
+import { Candidate } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Fieldset, Form, FormAction, FormActions, FormCard, FormInput } from '@taskany/bricks';
-import { Button } from '@taskany/bricks/harmony';
+import { gray8 } from '@taskany/colors';
+import { Fieldset, Form, FormAction, FormActions, FormCard, FormInput, nullable } from '@taskany/bricks';
+import { Button, Badge, Text } from '@taskany/bricks/harmony';
 
 import { UpdateCandidate, CreateCandidate } from '../../modules/candidateTypes';
 import { generatePath, Paths } from '../../utils/paths';
@@ -14,10 +15,9 @@ import {
     useCandidateUpdateMutation,
     useOutstaffVendors,
 } from '../../modules/candidateHooks';
-import config from '../../config';
-import { useNullableDropdownFieldOptions } from '../DropdownField';
-import { Select } from '../Select';
 import { PhoneField } from '../PhoneField/PhoneField';
+import { AddInlineTrigger } from '../AddInlineTrigger/AddInlineTrigger';
+import { Select } from '../Select';
 
 import { tr } from './AddOrUpdateCandidate.i18n';
 import s from './AddOrUpdateCandidate.module.css';
@@ -57,17 +57,6 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
     const candidateCreateMutation = useCandidateCreateMutation();
     const candidateUpdateMutation = useCandidateUpdateMutation();
 
-    const { options, encodeInitialValue, prepareValueForSubmit } = useNullableDropdownFieldOptions<
-        string,
-        OutstaffVendor
-    >(outstaffVendors, {
-        dataItemToOption: ({ id, title }: OutstaffVendor) => ({
-            text: title,
-            value: id,
-        }),
-        additionalNullOptionTitle: config.defaultCandidateVendor,
-    });
-
     const { outstaffVendorId, ...initialValues } = candidate ?? {};
     const {
         handleSubmit,
@@ -79,8 +68,7 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
     } = useForm<Candidate>({
         defaultValues: {
             ...initialValues,
-            outstaffVendorId:
-                typeof outstaffVendorId !== 'undefined' ? encodeInitialValue(outstaffVendorId) : undefined,
+            outstaffVendorId: outstaffVendorId || undefined,
         },
         resolver: zodResolver(schema),
     });
@@ -95,7 +83,7 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
             name: values.name,
             email: values.email?.toLowerCase().trim(),
             phone: values.phone,
-            outstaffVendorId: values.outstaffVendorId && prepareValueForSubmit(values.outstaffVendorId),
+            outstaffVendorId: values.outstaffVendorId,
         };
 
         const result = await candidateUpdateMutation.mutateAsync(data);
@@ -115,7 +103,7 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
 
         const data: CreateCandidate = {
             ...values,
-            outstaffVendorId: values.outstaffVendorId && prepareValueForSubmit(values.outstaffVendorId),
+            outstaffVendorId: values.outstaffVendorId,
         };
 
         const result = await candidateCreateMutation.mutateAsync(data);
@@ -130,7 +118,6 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
 
     const onSubmit: SubmitHandler<FormValues> = variant === 'new' ? create : update;
     const onOutstaffVendorIdChange = (outstaffVendorId: string) => setValue('outstaffVendorId', outstaffVendorId);
-
     return (
         <FormCard className={s.AddOrUpdateCandidateFormCard}>
             <Form onSubmit={handleSubmit(onSubmit)}>
@@ -155,12 +142,22 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
                         defaultValue={candidate?.phone || ''}
                         options={{ required: false }}
                     />
-                    <Select
-                        options={options}
-                        value={watch('outstaffVendorId')}
-                        onChange={onOutstaffVendorIdChange}
-                        text={tr('Employment')}
-                    />
+                    <div className={s.SelectVendor}>
+                        <Text weight="bold" color={gray8} as="label">
+                            {tr('Employment:')}
+                        </Text>
+                        <Select
+                            items={outstaffVendors.map((v) => ({ ...v, text: v.title }))}
+                            onChange={onOutstaffVendorIdChange}
+                            renderTrigger={({ ref, onClick }) =>
+                                nullable(
+                                    outstaffVendors?.find(({ id }) => id === watch('outstaffVendorId'))?.title,
+                                    (title) => <Badge onClick={onClick} ref={ref} text={title} />,
+                                    <AddInlineTrigger onClick={onClick} ref={ref} text="Choose vendor" />,
+                                )
+                            }
+                        />
+                    </div>
                 </Fieldset>
                 <FormActions flat="top">
                     <FormAction left inline></FormAction>

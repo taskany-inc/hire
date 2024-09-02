@@ -1,77 +1,27 @@
-import React, { useCallback, useState } from 'react';
-import { gray8 } from '@taskany/colors';
-import { Dropdown, FiltersMenuItem, Text } from '@taskany/bricks';
-
-import { ColorizedMenuItem } from './ColorizedMenuItem/ColorizedMenuItem';
-import { Stack } from './Stack';
-
-interface DropdownOption {
-    value: string | number;
-    text: string;
-    stateDotColor?: string;
-}
+import React from 'react';
+import { Select as HarmonySelect, SelectPanel, SelectTrigger, Text } from '@taskany/bricks/harmony';
 
 interface SelectProps {
-    text: React.ComponentProps<typeof Dropdown>['text'];
-    value?: string | number | null;
-    disabled?: React.ComponentProps<typeof Dropdown>['disabled'];
-    options?: Array<DropdownOption>;
-    label?: string;
+    items: { id: string; text: string }[];
+    renderTrigger: React.ComponentProps<typeof SelectTrigger>['renderTrigger'];
+    selectPanelClassName?: string;
+    placement?: React.ComponentProps<typeof SelectPanel>['placement'];
+    disabled?: boolean;
 
-    onChange?: (selected?: any) => void;
+    onChange?: (selected: string) => void;
 }
 
-export const Select = React.forwardRef<HTMLDivElement, SelectProps>(
-    ({ text, value, disabled, onChange, options, label }, ref) => {
-        const [selected, setSelected] = useState<DropdownOption | undefined>(
-            options?.find((option) => option.value === value),
-        );
-
-        const onStateClick = useCallback(
-            (option: DropdownOption) => {
-                selected === option ? setSelected(undefined) : setSelected(option);
-
-                onChange?.(option.value);
-            },
-            [onChange, selected],
-        );
-
-        return (
-            <Stack direction="column">
-                {label && (
-                    <Text as="label" size="m" color={gray8} weight="bold">
-                        {label}
-                    </Text>
-                )}
-                {disabled ? (
-                    <FiltersMenuItem disabled={disabled}>{selected?.text || text}</FiltersMenuItem>
-                ) : (
-                    <Dropdown
-                        ref={ref}
-                        text={selected?.text || text}
-                        value={value}
-                        onChange={onStateClick}
-                        items={options}
-                        disabled={disabled}
-                        maxHeight={300}
-                        renderTrigger={(props) => (
-                            <FiltersMenuItem ref={props.ref} disabled={props.disabled} onClick={props.onClick}>
-                                {props.text}
-                            </FiltersMenuItem>
-                        )}
-                        renderItem={(props) => (
-                            <ColorizedMenuItem
-                                key={props.item.value}
-                                title={props.item.text}
-                                hoverColor
-                                checked={selected === props.item}
-                                onClick={props.onClick}
-                                stateDotColor={props.item.stateDotColor}
-                            />
-                        )}
-                    />
-                )}
-            </Stack>
-        );
-    },
-);
+export const Select = ({ selectPanelClassName, disabled, onChange, items, renderTrigger, placement }: SelectProps) => {
+    return (
+        <HarmonySelect
+            items={items.map((item) => ({ ...item, id: String(item.id) }))}
+            onChange={(item) => {
+                !disabled && onChange && onChange(item[0].id);
+            }}
+            renderItem={({ item }) => <Text size="s">{item.text}</Text>}
+        >
+            <SelectTrigger renderTrigger={renderTrigger} />
+            <SelectPanel className={selectPanelClassName} placement={placement} />
+        </HarmonySelect>
+    );
+};

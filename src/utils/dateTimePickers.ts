@@ -14,7 +14,7 @@ export const getDurationString = (duration: number): string => {
     return `${hours}h.`;
 };
 
-export const getOptionsWithDuration = (startTime: Date): { value: number; text: string }[] => {
+export const getOptionsWithDuration = (startTime: Date): { id: number; text: string }[] => {
     const options = [];
     let duration = 0;
 
@@ -22,7 +22,7 @@ export const getOptionsWithDuration = (startTime: Date): { value: number; text: 
         const newDate = add(startTime, { minutes: duration });
 
         options.push({
-            value: duration,
+            id: duration,
             text: `${format(newDate, 'H:mm')} (${getDurationString(duration)})`,
         });
         duration = index <= 3 ? (duration += 15) : (duration += 30);
@@ -40,12 +40,12 @@ export const getStringTime = (hours: number, minutes: number): string => {
 
 const STEP = 15;
 
-export const getOptions = (step = STEP): { text: string; value: string }[] => {
+export const getOptions = (step = STEP): { text: string; id: string }[] => {
     const options = [];
 
     for (let hours = 0; hours < 24; hours++) {
         for (let minutes = 0; minutes < 60; minutes += step) {
-            options.push({ text: getStringTime(hours, minutes), value: getStringTime(hours, minutes) });
+            options.push({ text: getStringTime(hours, minutes), id: getStringTime(hours, minutes) });
         }
     }
 

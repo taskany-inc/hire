@@ -1,11 +1,13 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { ComponentProps, useCallback, useMemo, useState } from 'react';
+import { ComponentProps, useCallback, useState } from 'react';
 import { HireStream } from '@prisma/client';
-import { Fieldset, Form, FormAction, FormActions, FormCard } from '@taskany/bricks';
-import { Button } from '@taskany/bricks/harmony';
+import { gray9 } from '@taskany/colors';
+import { nullable, Form, FormAction, FormActions, FormCard } from '@taskany/bricks';
+import { Fieldset, Badge, Button, Text } from '@taskany/bricks/harmony';
 
 import { pageHrefs } from '../../utils/paths';
+import { AddInlineTrigger } from '../AddInlineTrigger/AddInlineTrigger';
 import { InterviewWithRelations, UpdateInterview } from '../../modules/interviewTypes';
 import { useInterviewUpdateMutation } from '../../modules/interviewHooks';
 import { Option } from '../../utils/types';
@@ -13,7 +15,6 @@ import { useProductFinalSectionDropdownOptions } from '../../modules/candidateSe
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { CandidateNameSubtitle } from '../CandidateNameSubtitle/CandidateNameSubtitle';
 import { Stack } from '../Stack';
-import { DropdownFieldOption } from '../DropdownField';
 import { Select } from '../Select';
 import { AddVacancyToInterview } from '../AddVacancyToInterview/AddVacancyToInterview';
 import { CvAttach } from '../CvAttach/CvAttach';
@@ -41,15 +42,6 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
 
     const [cvAttachId, setCvAttachId] = useState<string>();
     const [vacancyId, setVacancyId] = useState(interview.crewVacancyId);
-
-    const hireStreamOptions = useMemo<DropdownFieldOption<number>[]>(
-        () =>
-            hireStreams.map(({ id, name }) => ({
-                text: name,
-                value: id,
-            })),
-        [hireStreams],
-    );
 
     const { candidate } = interview;
 
@@ -107,38 +99,64 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) 
             <FormCard className={s.CandidateInterviewUpdateFormFormCard}>
                 <Form onSubmit={handleSubmit(updateInterview)}>
                     <Fieldset>
+                        <div className={s.SelectWrapper}>
+                            <Text weight="bold" color={gray9} as="label">
+                                {tr('Hire stream')}
+                            </Text>
+
+                            <Select
+                                items={hireStreams.map((stream) => ({ text: stream.name, id: String(stream.id) }))}
+                                onChange={(id) => onHireStreamIdChange(Number(id))}
+                                renderTrigger={({ ref, onClick }) =>
+                                    nullable(
+                                        hireStreams?.find(({ id }) => Number(id) === watch('hireStreamId'))?.name,
+                                        (title) => <Badge onClick={onClick} ref={ref} text={title} />,
+                                        <AddInlineTrigger onClick={onClick} ref={ref} text="Choose hire stream" />,
+                                    )
+                                }
+                            />
+                        </div>
+                        <div className={s.SelectWrapper}>
+                            <Text weight="bold" color={gray9} as="label">
+                                {tr("Candidate's Chosen Product Final")}
+                            </Text>
+
+                            <Select
+                                items={productFinalSectionOptions.map((option) => ({
+                                    ...option,
+                                    id: String(option.id),
+                                }))}
+                                onChange={(id) => onProductFinalSectionChange(Number(id))}
+                                renderTrigger={({ ref, onClick }) => (
+                                    <Badge
+                                        onClick={onClick}
+                                        ref={ref}
+                                        text={
+                                            productFinalSectionOptions.find(
+                                                ({ id }) => Number(id) === watch('candidateSelectedSectionId'),
+                                            )?.text
+                                        }
+                                    />
+                                )}
+                            />
+                        </div>
+
+                        <div>
+                            <AddVacancyToInterview
+                                vacancyId={vacancyId}
+                                onSelect={(vacancy) => setVacancyId(vacancy?.id ?? null)}
+                            />
+                        </div>
                         <CodeEditorField
                             className={s.CodeEditorField}
                             disableAttaches
                             name="description"
-                            label={tr('Comment')}
                             control={control}
                             placeholder={tr('Think carefully and write a couple of notes about this interview.')}
                             height={130}
                         />
 
                         <CvAttach candidateId={candidate.id} onParse={onCvParse} />
-
-                        <Select
-                            value={watch('hireStreamId')}
-                            text={tr('Hire stream')}
-                            options={hireStreamOptions}
-                            onChange={onHireStreamIdChange}
-                        />
-
-                        <div className={s.CandidateInterviewUpdateFormVacancyWrapper}>
-                            <AddVacancyToInterview
-                                vacancyId={vacancyId}
-                                onSelect={(vacancy) => setVacancyId(vacancy?.id ?? null)}
-                            />
-                        </div>
-
-                        <Select
-                            value={watch('candidateSelectedSectionId')}
-                            text={tr("Candidate's Chosen Product Final")}
-                            options={productFinalSectionOptions}
-                            onChange={onProductFinalSectionChange}
-                        />
                     </Fieldset>
                     <FormActions flat="top">
                         <FormAction left inline></FormAction>

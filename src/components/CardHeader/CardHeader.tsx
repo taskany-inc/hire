@@ -3,8 +3,7 @@ import { Text } from '@taskany/bricks/harmony';
 import { nullable } from '@taskany/bricks';
 
 import { PropsWithClassName } from '../../utils/types';
-import { DropdownMenuItem } from '../TagFilterDropdown';
-import { TitleMenu } from '../TitleMenu/TitleMenu';
+import { TitleMenuItem, TitleMenu } from '../TitleMenu/TitleMenu';
 
 import s from './CardHeader.module.css';
 
@@ -12,7 +11,7 @@ type CardHeaderProps = PropsWithClassName<{
     title: ReactNode;
     subTitle?: ReactNode;
     chips?: ReactNode;
-    menu?: DropdownMenuItem[];
+    menu?: TitleMenuItem[];
 }>;
 
 export const CardHeader: FC<CardHeaderProps> = ({ title, subTitle, chips, menu, className }) => {

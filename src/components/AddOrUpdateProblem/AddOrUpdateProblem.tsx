@@ -4,9 +4,9 @@ import { useRouter } from 'next/router';
 import { Tag, ProblemDifficulty } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { danger0 } from '@taskany/colors';
-import { FormInput, Text, Form, FormCard, FormActions, FormAction } from '@taskany/bricks';
-import { Button } from '@taskany/bricks/harmony';
+import { danger0, gray8 } from '@taskany/colors';
+import { FormInput, Form, FormCard, FormActions, FormAction } from '@taskany/bricks';
+import { Button, Badge, Text } from '@taskany/bricks/harmony';
 
 import { useProblemCreateMutation, useProblemUpdateMutation } from '../../modules/problemHooks';
 import { pageHrefs } from '../../utils/paths';
@@ -181,12 +181,22 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                         options={validationRules.nonEmptyString}
                         placeholder={solutionPlaceholder}
                     />
-                    <Select
-                        options={difficultyOption}
-                        value={watch('difficulty')}
-                        onChange={onDifficultyChange}
-                        text={tr('Problem difficulty')}
-                    />
+                    <Text as="label" weight="bold">
+                        <Select
+                            items={difficultyOption}
+                            onChange={(id) => onDifficultyChange(id as ProblemDifficulty)}
+                            renderTrigger={({ ref, onClick }) => (
+                                <Badge
+                                    color={gray8}
+                                    onClick={() => onClick()}
+                                    size="m"
+                                    ref={ref}
+                                    text={tr('Problem difficulty')}
+                                />
+                            )}
+                        />
+                        {watch('difficulty')}
+                    </Text>
                     {errors.difficulty && !watch('difficulty') && (
                         <Text size="xs" color={danger0} className={s.AddOrUpdateProblemErrorText}>
                             {errors.difficulty.message}

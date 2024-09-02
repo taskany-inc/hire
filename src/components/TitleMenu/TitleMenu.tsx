@@ -12,7 +12,7 @@ import { IconMoreVerticalSolid } from '@taskany/icons';
 
 import s from './TitleMenu.module.css';
 
-export interface DropdownMenuItem {
+export interface TitleMenuItem {
     onClick: VoidFunction;
     hint?: string;
     disabled?: boolean;
@@ -21,7 +21,7 @@ export interface DropdownMenuItem {
 }
 
 export interface TitleMenuProps {
-    items: DropdownMenuItem[];
+    items: TitleMenuItem[];
 }
 
 export const TitleMenu = ({ items }: TitleMenuProps) => {
@@ -56,6 +56,7 @@ export const TitleMenu = ({ items }: TitleMenuProps) => {
                                             item.onClick();
                                         }}
                                         key={item.text}
+                                        hovered={active || hovered}
                                         {...props}
                                     >
                                         {item.text}

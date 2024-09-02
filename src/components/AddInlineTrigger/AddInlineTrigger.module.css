@@ -1,0 +1,9 @@
+.InlineTrigger {
+    align-items: center;
+    height: 26px; /* height of input (28px) - badge's padding (2px) */
+}
+
+.InlineTrigger_centered {
+    /* 24 / 2 - 7 center of UserPic and center of PlusIcon */
+    margin-left: 5px;
+}

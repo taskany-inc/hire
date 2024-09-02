@@ -12,7 +12,7 @@ import { accessChecks } from '../../modules/accessChecks';
 import { TagChip } from '../TagChip';
 import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { InlineDot } from '../InlineDot';
-import { DropdownMenuItem } from '../TagFilterDropdown';
+import { TitleMenuItem } from '../TitleMenu/TitleMenu';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
 import { ProblemStats } from '../ProblemStats/ProblemStats';
 import { ProblemHistoryCard } from '../ProblemHistoryCard/ProblemHistoryCard';
@@ -68,7 +68,7 @@ export const Problem: FC<ProblemProps> = ({ problem }) => {
 
     const titleMenuItems = useMemo(() => {
         const canUpdateOrDelete = session && accessChecks.problem.updateOrDelete(session, problem).allowed;
-        const items: DropdownMenuItem[] = [];
+        const items: TitleMenuItem[] = [];
 
         if (canUpdateOrDelete) {
             items.push({

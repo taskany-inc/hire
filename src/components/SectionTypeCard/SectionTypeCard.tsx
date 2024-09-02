@@ -8,7 +8,7 @@ import { Card } from '../Card/Card';
 import { CardHeader } from '../CardHeader/CardHeader';
 import { CardContent } from '../CardContent';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
-import { DropdownMenuItem } from '../TagFilterDropdown';
+import { TitleMenuItem } from '../TitleMenu/TitleMenu';
 import { UpdateSectionTypeModal } from '../SectionTypeForm/SectionTypeForm';
 import config from '../../config';
 
@@ -44,7 +44,7 @@ export const SectionTypeCard: VFC<SectionTypeCardProps> = ({ sectionType }) => {
 
     const [updateModalOpen, setUpdateModalOpen] = useState(false);
 
-    const menu: DropdownMenuItem[] = [
+    const menu: TitleMenuItem[] = [
         { onClick: () => setUpdateModalOpen(true), text: tr('Edit') },
         { onClick: deleteConfirmation.show, text: tr('Delete') },
     ];

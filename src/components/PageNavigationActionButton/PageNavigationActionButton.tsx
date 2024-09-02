@@ -1,10 +1,11 @@
 import { FC } from 'react';
 import { IconUpSmallSolid, IconDownSmallSolid } from '@taskany/icons';
 import { useRouter } from 'next/router';
-import { Button, Text, Select, SelectPanel, SelectTrigger } from '@taskany/bricks/harmony';
+import { Button } from '@taskany/bricks/harmony';
 
 import { Paths } from '../../utils/paths';
 import { useSidebarMenu } from '../../hooks/useSidebarMenu';
+import { Select } from '../Select';
 
 import s from './PageNavigationActionButton.module.css';
 import { tr } from './PageNavigationActionButton.i18n';
@@ -12,7 +13,7 @@ import { tr } from './PageNavigationActionButton.i18n';
 export const PageNavigationActionButton: FC = () => {
     const router = useRouter();
     const { entityCreationMenuItems } = useSidebarMenu();
-    const onMenuItemClick = (param: { id: string }[]) => router.push(param[0].id);
+    const onMenuItemClick = (id: string) => router.push(id);
 
     return (
         <div className={s.NavigationSidebarActionButton}>
@@ -23,22 +24,18 @@ export const PageNavigationActionButton: FC = () => {
                 onClick={() => router.push(Paths.PROBLEMS_NEW)}
             />
             <Select
-                items={entityCreationMenuItems.map(({ path, text }) => ({ id: path, title: text }))}
+                items={entityCreationMenuItems.map(({ path, text }) => ({ id: path, text }))}
                 onChange={onMenuItemClick}
-                renderItem={({ item }) => <Text size="s">{item.title}</Text>}
-            >
-                <SelectTrigger
-                    renderTrigger={({ isOpen, ref, onClick }) => (
-                        <Button
-                            brick="left"
-                            iconRight={isOpen ? <IconUpSmallSolid size="s" /> : <IconDownSmallSolid size="s" />}
-                            ref={ref}
-                            onClick={onClick}
-                        />
-                    )}
-                />
-                <SelectPanel placement="bottom-end" />
-            </Select>
+                renderTrigger={({ isOpen, ref, onClick }) => (
+                    <Button
+                        brick="left"
+                        iconRight={isOpen ? <IconUpSmallSolid size="s" /> : <IconDownSmallSolid size="s" />}
+                        ref={ref}
+                        onClick={onClick}
+                    />
+                )}
+                placement="bottom-end"
+            />
         </div>
     );
 };

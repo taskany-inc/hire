@@ -83,12 +83,6 @@ export const useSidebarMenu = (): UseSidebarMenuResult => {
             items.push({ path: Paths.HIRE_STREAM_NEW, text: tr('New hire stream') });
         }
 
-        const canCreateUsers = session && accessChecks.user.create(session);
-
-        if (canCreateUsers) {
-            items.push({ path: Paths.USERS_NEW, text: tr('New user') });
-        }
-
         return items;
     }, [session]);
 

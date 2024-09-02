@@ -16,7 +16,7 @@ import { SectionSubtitle } from '../SectionSubtitle/SectionSubtitle';
 import { SectionResults } from '../SectionResults/SectionResults';
 import { getSectionTitle } from '../helpers';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
-import { DropdownMenuItem } from '../TagFilterDropdown';
+import { TitleMenuItem } from '../TitleMenu/TitleMenu';
 import { SectionFeedback } from '../SectionFeedback/SectionFeedback';
 import { SectionCancelationConfirmation } from '../SectionCancelationConfirmation/SectionCancelationConfirmation';
 import { Link } from '../Link';
@@ -47,8 +47,8 @@ export const Section = ({ section }: SectionProps): JSX.Element => {
           })
         : getSectionTitle(section);
 
-    const titleMenuItems = useMemo<DropdownMenuItem[]>(() => {
-        const items: DropdownMenuItem[] = [
+    const titleMenuItems = useMemo<TitleMenuItem[]>(() => {
+        const items: TitleMenuItem[] = [
             {
                 onClick: () => router.push(pageHrefs.interviewSectionHistory(interviewId, sectionId)),
                 text: tr('History of changes'),

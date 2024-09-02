@@ -1,12 +1,12 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { ComponentProps, useCallback, useMemo, useState } from 'react';
+import { ComponentProps, useCallback, useState } from 'react';
 import { Candidate } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { danger0 } from '@taskany/colors';
-import { Fieldset, Form, FormAction, FormActions, FormCard, Text } from '@taskany/bricks';
-import { Button } from '@taskany/bricks/harmony';
+import { danger0, gray9 } from '@taskany/colors';
+import { Fieldset, Form, FormAction, FormActions, FormCard, nullable, Text } from '@taskany/bricks';
+import { Badge, Button } from '@taskany/bricks/harmony';
 
 import { generatePath, Paths } from '../../utils/paths';
 import { CreateInterview } from '../../modules/interviewTypes';
@@ -14,8 +14,7 @@ import { useInterviewCreateMutation } from '../../modules/interviewHooks';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { CandidateNameSubtitle } from '../CandidateNameSubtitle/CandidateNameSubtitle';
 import { Stack } from '../Stack';
-import { DropdownFieldOption } from '../DropdownField';
-import { Select } from '../Select';
+import { AddInlineTrigger } from '../AddInlineTrigger/AddInlineTrigger';
 import { useUploadNotifications } from '../../modules/attachHooks';
 import { defaultAttachFormatter, File } from '../../utils/attachFormatter';
 import { getFileIdFromPath } from '../../utils/fileUpload';
@@ -24,6 +23,7 @@ import { Vacancy } from '../../modules/crewTypes';
 import { CvAttach } from '../CvAttach/CvAttach';
 import { cvParsingResultToDescription } from '../../utils/aiAssistantUtils';
 import { useAllowedHireStreams } from '../../modules/hireStreamsHooks';
+import { Select } from '../Select';
 
 import { tr } from './CandidateInterviewCreationForm.i18n';
 import s from './CandidateInterviewCreationForm.module.css';
@@ -53,14 +53,6 @@ export function CandidateInterviewCreationForm({ candidate, preparedCvAttach }: 
     const { onUploadSuccess, onUploadFail } = useUploadNotifications();
 
     const hireStreamsQuery = useAllowedHireStreams();
-    const hireStreamOptions = useMemo<DropdownFieldOption<number>[]>(
-        () =>
-            (hireStreamsQuery.data ?? []).map(({ id, name }) => ({
-                text: name,
-                value: id,
-            })),
-        [hireStreamsQuery],
-    );
 
     const createInterview: SubmitHandler<InterviewCreationFormData> = useCallback(
         async ({ description, hireStreamId }) => {
@@ -127,12 +119,29 @@ export function CandidateInterviewCreationForm({ candidate, preparedCvAttach }: 
 
                         <CvAttach candidateId={candidate.id} preparedCvAttach={preparedCvAttach} onParse={onCvParse} />
 
-                        <Select
-                            options={hireStreamOptions}
-                            value={watch('hireStreamId')}
-                            onChange={onHireStreamIdChange}
-                            text={tr('Hire stream')}
-                        />
+                        <div className={s.SelectWrapper}>
+                            <Text weight="bold" color={gray9} as="label">
+                                {tr('Hire stream')}
+                            </Text>
+
+                            <Select
+                                items={
+                                    hireStreamsQuery.data?.map((stream) => ({
+                                        text: stream.name,
+                                        id: String(stream.id),
+                                    })) || []
+                                }
+                                onChange={(id) => onHireStreamIdChange(Number(id))}
+                                renderTrigger={({ ref, onClick }) =>
+                                    nullable(
+                                        hireStreamsQuery.data?.find(({ id }) => Number(id) === watch('hireStreamId'))
+                                            ?.name,
+                                        (title) => <Badge onClick={onClick} ref={ref} text={title} />,
+                                        <AddInlineTrigger onClick={onClick} ref={ref} text="Choose hire stream" />,
+                                    )
+                                }
+                            />
+                        </div>
                         {errors.hireStreamId && !watch('hireStreamId') && (
                             <Text size="xs" color={danger0}>
                                 {errors.hireStreamId.message}

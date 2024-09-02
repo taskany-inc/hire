@@ -1,10 +1,10 @@
 import { useForm, useWatch } from 'react-hook-form';
 import { toDate } from 'date-fns';
+import { gray8 } from '@taskany/colors';
 import { Fieldset, Form, FormAction, FormActions, FormCard, FormInput, nullable } from '@taskany/bricks';
-import { Button } from '@taskany/bricks/harmony';
+import { Button, Text, Badge } from '@taskany/bricks/harmony';
 
 import { useSession } from '../../contexts/appSettingsContext';
-import { DropdownFieldOption } from '../DropdownField';
 import { CalendarEventInstance, EventRecurrence, EventRepeatMode } from '../../modules/calendarTypes';
 import { Select } from '../Select';
 import { DateTimePickers } from '../DateTimePickers/DateTimePickers';
@@ -33,11 +33,11 @@ interface CalendarEventFormProps {
     creatorId?: number;
 }
 
-const repeatOptions: DropdownFieldOption<EventRepeatMode>[] = [
-    { text: tr('Never'), value: 'never' },
-    { text: tr('Daily'), value: 'daily' },
-    { text: tr('Weekly'), value: 'weekly' },
-    { text: tr('Monthly'), value: 'monthly' },
+const repeatOptions: { id: EventRepeatMode; text: string }[] = [
+    { text: tr('Never'), id: 'never' },
+    { text: tr('Daily'), id: 'daily' },
+    { text: tr('Weekly'), id: 'weekly' },
+    { text: tr('Monthly'), id: 'monthly' },
 ];
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -108,15 +108,24 @@ export function CalendarEventForm({
                         onChange={handleDateTimeAndDurationChange}
                         disabled={!canEdit}
                     />
-
-                    {isNew && (
-                        <Select
-                            text={tr('Repetition')}
-                            options={repeatOptions}
-                            onChange={onRepeatChange}
-                            value={watch('recurrence.repeat')}
-                        />
-                    )}
+                    {nullable(isNew, () => (
+                        <Text weight="bold" color={gray8}>
+                            {tr('Repetition')}
+                            <Select
+                                items={repeatOptions}
+                                onChange={(id) => onRepeatChange(id as EventRepeatMode)}
+                                renderTrigger={({ ref, onClick }) => (
+                                    <Badge
+                                        color={gray8}
+                                        onClick={() => onClick()}
+                                        size="m"
+                                        ref={ref}
+                                        text={repeatOptions.find(({ id }) => id === watch('recurrence.repeat'))?.text}
+                                    />
+                                )}
+                            />
+                        </Text>
+                    ))}
                 </Fieldset>
                 {nullable(canEdit, () => (
                     <FormActions flat="top">

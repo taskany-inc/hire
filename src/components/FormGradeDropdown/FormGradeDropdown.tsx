@@ -1,48 +1,80 @@
-import React from 'react';
-import { Dropdown, FiltersMenuItem, MenuItem } from '@taskany/bricks';
-import { Grades } from '@prisma/client';
+import React, { useState } from 'react';
+import {
+    Dropdown,
+    DropdownPanel,
+    DropdownTrigger,
+    ListView,
+    ListViewItem,
+    MenuItem,
+    Badge,
+    Text,
+} from '@taskany/bricks/harmony';
+import { danger0 } from '@taskany/colors';
+import { nullable } from '@taskany/bricks';
 
 import { useGradeOptions } from '../../modules/gradesHooks';
 
 import { tr } from './FormGradeDropdown.i18n';
 
 interface FormGradeDropdownProps {
-    text: React.ComponentProps<typeof Dropdown>['text'];
+    text: string;
     value?: string[] | null;
-    disabled?: React.ComponentProps<typeof Dropdown>['disabled'];
-    error?: React.ComponentProps<typeof Dropdown>['error'];
     className?: string;
+    error?: { message?: string };
 
-    onChange?: (priority: Grades) => void;
+    onChange?: (priority: string[]) => void;
 }
 
 const separator = ', ';
 
-export const FormGradeDropdown = React.forwardRef<HTMLDivElement, FormGradeDropdownProps>(
-    ({ text, value, disabled, error, onChange }, ref) => {
-        const gradeOptions = useGradeOptions().data ?? [];
-        const dropdownText = gradeOptions.length === 0 ? tr('No grade options in database') : text;
+export const FormGradeDropdown = ({ text, value, onChange, error }: FormGradeDropdownProps) => {
+    const [isOpen, setIsOpen] = useState(false);
 
-        return (
-            <Dropdown
-                ref={ref}
-                error={error}
-                text={dropdownText}
-                value={value && value.length !== 0 ? value.join(separator) : dropdownText}
-                onChange={onChange}
-                items={gradeOptions}
-                disabled={disabled || gradeOptions.length === 0}
-                renderTrigger={(props) => (
-                    <FiltersMenuItem ref={props.ref} onClick={props.onClick} disabled={props.disabled}>
-                        {props.value}
-                    </FiltersMenuItem>
-                )}
-                renderItem={(props) => (
-                    <MenuItem ghost key={props.item} focused={props.cursor === props.index} onClick={props.onClick}>
-                        {props.item.join(separator)}
-                    </MenuItem>
-                )}
-            />
-        );
-    },
-);
+    const gradeOptions = useGradeOptions().data ?? [];
+    const dropdownText = gradeOptions.length === 0 ? tr('No grade options in database') : text;
+
+    return (
+        <Dropdown isOpen={isOpen} onClose={() => setIsOpen(false)}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <DropdownTrigger
+                    renderTrigger={(props) => (
+                        <div ref={props.ref}>
+                            <Badge
+                                onClick={() => setIsOpen(!isOpen)}
+                                text={value ? value.join(separator) : dropdownText}
+                            />
+                        </div>
+                    )}
+                />
+                {nullable(error?.message, (m) => (
+                    <Text size="s" color={danger0}>
+                        {m}
+                    </Text>
+                ))}
+            </div>
+            <DropdownPanel placement="bottom-start">
+                <ListView>
+                    {gradeOptions.map((item, index) => (
+                        <ListViewItem
+                            key={index}
+                            value={item}
+                            renderItem={({ active, hovered, ...props }) => (
+                                <MenuItem
+                                    onClick={() => {
+                                        setIsOpen(false);
+                                        onChange && onChange(item);
+                                    }}
+                                    hovered={active || hovered}
+                                    key={item.join(separator)}
+                                    {...props}
+                                >
+                                    {item.join(separator)}
+                                </MenuItem>
+                            )}
+                        />
+                    ))}
+                </ListView>
+            </DropdownPanel>
+        </Dropdown>
+    );
+};

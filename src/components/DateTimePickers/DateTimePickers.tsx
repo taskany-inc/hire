@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { toDate } from 'date-fns';
 
 import { DatePicker } from '../DatePicker';
-import { TimePicker } from '../TimePicker';
-import { DurationPicker } from '../DurationPicker';
+import { TimePicker } from '../TimePicker/TimePicker';
+import { DurationPicker } from '../DurationPicker/DurationPicker';
 
 import { tr } from './DateTimePickers.i18n';
 import s from './DateTimePickers.module.css';

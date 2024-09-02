@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import { ModalContent, ModalHeader, ModalPreview, Text } from '@taskany/bricks';
 import { gray10 } from '@taskany/colors';
-import { Button } from '@taskany/bricks/harmony';
 
 import { VacancyFilterBar } from '../VacancyFilterBar/VacancyFilterBar';
 import { VacancyList } from '../VacancyList/VacancyList';
+import { AddInlineTrigger } from '../AddInlineTrigger/AddInlineTrigger';
 import { Vacancy } from '../../modules/crewTypes';
 import { VacancyInfoById } from '../VacancyInfo/VacancyInfo';
 
 import { tr } from './AddVacancyToInterview.i18n';
-import s from './AddVacancyToInterview.module.css';
 
 interface AddVacancyToInterviewProps {
     vacancyId?: string | null;
@@ -25,21 +24,12 @@ export const AddVacancyToInterview = ({ vacancyId, onSelect }: AddVacancyToInter
     };
 
     if (vacancyId) {
-        return (
-            <>
-                <VacancyInfoById vacancyId={vacancyId} />
-                <Button
-                    className={s.AddVacancyToInterviewRemoveButton}
-                    text={tr('Remove vacancy')}
-                    onClick={() => onSelect(undefined)}
-                />
-            </>
-        );
+        return <VacancyInfoById vacancyId={vacancyId} onClick={() => onSelect(undefined)} />;
     }
 
     return (
         <>
-            <Button text={tr('Add vacancy')} onClick={() => setOpen(true)} />
+            <AddInlineTrigger text={tr('Add vacancy')} onClick={() => setOpen(true)} centered={false} />
             <ModalPreview visible={open} onClose={() => setOpen(false)}>
                 <ModalHeader>
                     <Text weight="bold" color={gray10}>

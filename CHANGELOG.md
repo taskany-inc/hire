@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.62.0](https://github.com/taskany-inc/hire/compare/v0.61.1...v0.62.0) (2024-09-02)
+
+
+### Features
+
+* add section progress ([de8166d](https://github.com/taskany-inc/hire/commit/de8166de4b43f506915220d16eaa5810d0edbcdd))
+* bring harmony filters bar from goals to problem page ([87dd2a1](https://github.com/taskany-inc/hire/commit/87dd2a13c973fccae4338139126b09910ebc20bf))
+* **interview page:** sidebar with info and actions ([9c124c9](https://github.com/taskany-inc/hire/commit/9c124c949cdbc36b4399e542327fd5a28eeb3de3))
+* section grade access ([9660ac0](https://github.com/taskany-inc/hire/commit/9660ac01f92335f34062f8adc6e032ad1dc60fc2))
+
+
+### Bug Fixes
+
+* filter bar height, remove console.log ([e62eaf7](https://github.com/taskany-inc/hire/commit/e62eaf7d4aeaa371f42eecc023cb8a566635ba9f))
+
 ## [0.61.1](https://github.com/taskany-inc/hire/compare/v0.61.0...v0.61.1) (2024-08-27)
 
 

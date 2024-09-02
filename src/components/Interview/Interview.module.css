@@ -1,3 +1,9 @@
+.InterviewContainer {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: var(--gap-m);
+}
+
 .InterviewCard {
     max-width: 900px;
 }

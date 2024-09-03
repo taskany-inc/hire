@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.62.1](https://github.com/taskany-inc/hire/compare/v0.62.0...v0.62.1) (2024-09-03)
+
+
+### Bug Fixes
+
+* add thanslate to choose hire stream ([24c3142](https://github.com/taskany-inc/hire/commit/24c3142860c976a4a93788370f7e367afeddacc0))
+* **AddOrUpdateCandidate:** choose vendor in dropdown ([05023e2](https://github.com/taskany-inc/hire/commit/05023e218f105a60b3c7cd0663b95a4a5d6e8796))
+
 ## [0.62.0](https://github.com/taskany-inc/hire/compare/v0.61.1...v0.62.0) (2024-09-02)
 
 

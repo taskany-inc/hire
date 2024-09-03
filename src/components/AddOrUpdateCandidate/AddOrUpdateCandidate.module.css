@@ -11,3 +11,8 @@
     gap:  var(--gap-m);
     align-items: center;
 }
+
+.VendorsDropdown {
+    max-height: 300px;
+    overflow-y: auto;
+}

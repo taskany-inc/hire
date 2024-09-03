@@ -4,5 +4,6 @@
     "Employment:": "Трудоустройство:",
     "Email": "Email",
     "Full name": "ФИО",
-    "Name cannot be less than 3 characters": "Имя не может содержать менее 3 символов"
+    "Name cannot be less than 3 characters": "Имя не может содержать менее 3 символов",
+    "Choose vendor": "Выберите вендора"
 }

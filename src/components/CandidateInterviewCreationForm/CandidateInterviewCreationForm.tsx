@@ -137,7 +137,11 @@ export function CandidateInterviewCreationForm({ candidate, preparedCvAttach }: 
                                         hireStreamsQuery.data?.find(({ id }) => Number(id) === watch('hireStreamId'))
                                             ?.name,
                                         (title) => <Badge onClick={onClick} ref={ref} text={title} />,
-                                        <AddInlineTrigger onClick={onClick} ref={ref} text="Choose hire stream" />,
+                                        <AddInlineTrigger
+                                            onClick={onClick}
+                                            ref={ref}
+                                            text={tr('Choose hire stream')}
+                                        />,
                                     )
                                 }
                             />

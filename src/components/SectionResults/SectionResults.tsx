@@ -7,7 +7,7 @@ import { IconCircleOutline, IconMinusCircleOutline, IconTickCircleOutline } from
 import { SectionWithSectionType } from '../../modules/sectionTypes';
 import { generatePath, Paths } from '../../utils/paths';
 import { Link } from '../Link';
-import { Avatar } from '../Avatar/Avatar';
+import { Avatar } from '../Avatar';
 
 import { tr } from './SectionResults.i18n';
 import s from './SectionResults.module.css';
@@ -38,7 +38,7 @@ export const SectionResults: FC<SectionResultsProps> = ({
         <Table className={cn(className, s.SectionResults)}>
             <TableRow className={s.TableRow}>
                 <TableCell className={s.Column}>{tr('Section')}</TableCell>
-                <TableCell className={s.Column_center}>{tr('Interviewer')}</TableCell>
+                <TableCell>{tr('Interviewer')}</TableCell>
                 {nullable(gradeVisibility, () => (
                     <TableCell className={s.Column}>{tr('Grade')}</TableCell>
                 ))}

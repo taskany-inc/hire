@@ -1,6 +1,12 @@
-.InterviewContainer {
+.InterviewColumns {
     display: grid;
     grid-template-columns: 7fr 5fr;
+    gap: var(--gap-m);
+}
+
+.InterviewMainColumn {
+    display: flex;
+    flex-direction: column;
     gap: var(--gap-m);
 }
 

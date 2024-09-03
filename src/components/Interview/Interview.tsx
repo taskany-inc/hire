@@ -41,8 +41,8 @@ export const Interview: FC<InterviewProps> = ({ interview, sectionTypes }) => {
             headerGutter="0px"
             backlink={pageHrefs.candidate(interview.candidate.id)}
         >
-            <div className={s.InterviewContainer}>
-                <div>
+            <div className={s.InterviewColumns}>
+                <div className={s.InterviewMainColumn}>
                     <Card className={s.InterviewCard}>
                         <CardInfo>
                             <CardHeader

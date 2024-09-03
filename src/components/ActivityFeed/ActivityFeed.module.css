@@ -8,6 +8,7 @@
 .ActivityFeedItem {
     width: 100%;
     display: flex;
+    align-items: flex-start;
     column-gap: var(--gap-m);
     position: relative;
 }

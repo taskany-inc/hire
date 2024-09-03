@@ -19,7 +19,7 @@ export default {
     jwtPublicKey: process.env.JWT_PUBLIC_KEY,
     defaultCandidateVendor: process.env.NEXT_PUBLIC_DEFAULT_CANDIDATE_VENDOR,
     gravatar: {
-        url: process.env.GRAVATAR_URL,
+        host: process.env.NEXT_PUBLIC_GRAVATAR_HOST,
     },
     nextAuth: {
         secret: process.env.NEXTAUTH_SECRET,

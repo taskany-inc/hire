@@ -1,12 +1,8 @@
 import { ComponentProps, FC, useRef } from 'react';
-import { Tooltip } from '@taskany/bricks/harmony';
+import { Tooltip, User } from '@taskany/bricks/harmony';
 import { nullable } from '@taskany/bricks';
 
-import { UserBadge } from '../UserBadge/UserBadge';
-
-import s from './Avatar.module.css';
-
-interface AvatarProps extends ComponentProps<typeof UserBadge> {
+interface AvatarProps extends ComponentProps<typeof User> {
     tooltip?: string | null;
 }
 
@@ -15,7 +11,7 @@ export const Avatar: FC<AvatarProps> = ({ tooltip, ...props }) => {
 
     return (
         <>
-            <UserBadge ref={badgeRef} className={s.Avatar} as="span" {...props} />
+            <User ref={badgeRef} {...props} />
             {nullable(tooltip, (t) => (
                 <Tooltip arrow reference={badgeRef} placement="top">
                     {t}

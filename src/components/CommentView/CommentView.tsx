@@ -64,7 +64,7 @@ const CommentAvatar: FC<CommentAvatarProps & ComponentProps<typeof Avatar>> = ({
     return nullable(
         authorLink,
         (link) => (
-            <Link href={link} inline target="_blank">
+            <Link href={link} inline target="_blank" className={s.CommentViewAvatar}>
                 {avatar}
             </Link>
         ),

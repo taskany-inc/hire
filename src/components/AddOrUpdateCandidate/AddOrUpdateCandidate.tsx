@@ -1,4 +1,4 @@
-import { VFC } from 'react';
+import { ChangeEvent, useState, VFC } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Candidate } from '@prisma/client';
 import { useRouter } from 'next/router';
@@ -6,7 +6,19 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { gray8 } from '@taskany/colors';
 import { Fieldset, Form, FormAction, FormActions, FormCard, FormInput, nullable } from '@taskany/bricks';
-import { Button, Badge, Text } from '@taskany/bricks/harmony';
+import {
+    Button,
+    Badge,
+    Text,
+    Dropdown,
+    DropdownTrigger,
+    DropdownPanel,
+    Input,
+    ListView,
+    ListViewItem,
+    MenuItem,
+} from '@taskany/bricks/harmony';
+import { IconSearchOutline } from '@taskany/icons';
 
 import { UpdateCandidate, CreateCandidate } from '../../modules/candidateTypes';
 import { generatePath, Paths } from '../../utils/paths';
@@ -17,7 +29,6 @@ import {
 } from '../../modules/candidateHooks';
 import { PhoneField } from '../PhoneField/PhoneField';
 import { AddInlineTrigger } from '../AddInlineTrigger/AddInlineTrigger';
-import { Select } from '../Select';
 
 import { tr } from './AddOrUpdateCandidate.i18n';
 import s from './AddOrUpdateCandidate.module.css';
@@ -116,8 +127,15 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
         }
     };
 
+    const [vendorsVisible, setVendorsVisible] = useState(false);
+    const [vendorSearch, setVendorSearch] = useState('');
+
     const onSubmit: SubmitHandler<FormValues> = variant === 'new' ? create : update;
-    const onOutstaffVendorIdChange = (outstaffVendorId: string) => setValue('outstaffVendorId', outstaffVendorId);
+    const onOutstaffVendorIdChange = (outstaffVendorId: string) => {
+        setValue('outstaffVendorId', outstaffVendorId);
+        setVendorSearch('');
+        setVendorsVisible(false);
+    };
     return (
         <FormCard className={s.AddOrUpdateCandidateFormCard}>
             <Form onSubmit={handleSubmit(onSubmit)}>
@@ -146,17 +164,61 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
                         <Text weight="bold" color={gray8} as="label">
                             {tr('Employment:')}
                         </Text>
-                        <Select
-                            items={outstaffVendors.map((v) => ({ ...v, text: v.title }))}
-                            onChange={onOutstaffVendorIdChange}
-                            renderTrigger={({ ref, onClick }) =>
-                                nullable(
-                                    outstaffVendors?.find(({ id }) => id === watch('outstaffVendorId'))?.title,
-                                    (title) => <Badge onClick={onClick} ref={ref} text={title} />,
-                                    <AddInlineTrigger onClick={onClick} ref={ref} text="Choose vendor" />,
-                                )
-                            }
-                        />
+                        <Dropdown
+                            isOpen={vendorsVisible}
+                            onClose={() => {
+                                setVendorsVisible(false);
+                            }}
+                        >
+                            <DropdownTrigger
+                                renderTrigger={(props) => (
+                                    <div ref={props.ref}>
+                                        {nullable(
+                                            outstaffVendors?.find(({ id }) => id === watch('outstaffVendorId'))?.title,
+                                            (title) => (
+                                                <Badge text={title} onClick={() => setVendorsVisible(true)} />
+                                            ),
+                                            <AddInlineTrigger
+                                                text={tr('Choose vendor')}
+                                                onClick={() => setVendorsVisible(true)}
+                                                ref={props.ref}
+                                            />,
+                                        )}
+                                    </div>
+                                )}
+                            />
+                            <DropdownPanel placement="bottom-start" className={s.VendorsDropdown}>
+                                <Input
+                                    placeholder={tr('Choose vendor')}
+                                    outline
+                                    value={vendorSearch}
+                                    autoFocus
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                        setVendorSearch(e.currentTarget.value);
+                                        setVendorsVisible(true);
+                                    }}
+                                    iconLeft={<IconSearchOutline size="s" />}
+                                />
+                                <ListView>
+                                    {outstaffVendors
+                                        .filter(({ title }) => title.toLowerCase().includes(vendorSearch.toLowerCase()))
+                                        ?.map((vendor) => (
+                                            <ListViewItem
+                                                key={vendor.id}
+                                                renderItem={({ active, hovered, ...props }) => (
+                                                    <MenuItem
+                                                        onClick={() => onOutstaffVendorIdChange(vendor.id)}
+                                                        hovered={active || hovered}
+                                                        {...props}
+                                                    >
+                                                        {vendor.title}
+                                                    </MenuItem>
+                                                )}
+                                            />
+                                        ))}
+                                </ListView>
+                            </DropdownPanel>
+                        </Dropdown>
                     </div>
                 </Fieldset>
                 <FormActions flat="top">

@@ -83,7 +83,6 @@ export const LayoutMain: FC<LayoutMainProps> = ({
                         (f) => f,
                         <PageHeader>
                             <PageTitle backlink={backlink}>{pageTitle}</PageTitle>
-                            {filterBar}
                             {nullable(titleMenuItems, (i) => (
                                 <TitleMenu items={i} />
                             ))}

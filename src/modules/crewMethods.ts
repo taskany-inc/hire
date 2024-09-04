@@ -65,9 +65,19 @@ export const crewMethods = {
     },
 
     getVacancyList: async ({ cursor, take = vacancyListTake, ...data }: Omit<GetVacancyList, 'skip'>) => {
-        const response = await fetchPost('api/rest/vacancies/list', JSON.stringify({ ...data, take, skip: cursor }));
-
-        return getDataFromResponse<{ vacancies: Vacancy[]; count: number; total: number }>(response);
+        try {
+            const response = await fetchPost(
+                'api/rest/vacancies/list',
+                JSON.stringify({ ...data, take, skip: cursor }),
+            );
+            return getDataFromResponse<{ vacancies: Vacancy[]; count: number; total: number }>(response);
+        } catch (e) {
+            return {
+                vacancies: [],
+                count: 0,
+                total: 0,
+            };
+        }
     },
 
     editVacancy: async (data: EditVacancy) => {

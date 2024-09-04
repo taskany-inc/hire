@@ -1,12 +1,10 @@
 import { useMemo } from 'react';
-import { Badge, Text, nullable } from '@taskany/bricks';
+import { nullable } from '@taskany/bricks';
 import { gray10, textColor } from '@taskany/colors';
-import { Button } from '@taskany/bricks/harmony';
+import { Button, Card, CardContent, CardInfo, Text, Badge } from '@taskany/bricks/harmony';
 
 import { Vacancy, vacancyLabels, vacancyStatusColors } from '../../modules/crewTypes';
-import { Card } from '../Card/Card';
 import { CardHeader } from '../CardHeader/CardHeader';
-import { CardContent } from '../CardContent';
 import { InlineDot } from '../InlineDot';
 import { useHireStreams } from '../../modules/hireStreamsHooks';
 import { Paths } from '../../utils/paths';
@@ -31,23 +29,34 @@ export const VacancyCard = ({ vacancy, onSelect }: VacancyCardProps) => {
 
     return (
         <Card>
-            <CardHeader
-                title={<Link href={`${Paths.CANDIDATES}?vacancyIds=${vacancy.id}`}>{vacancy.name}</Link>}
-                subTitle={
-                    <div className={s.VacancyCardInfoLine}>
-                        {tr('Hiring manager')}: {vacancy.hiringManager.name}
-                        <InlineDot />
-                        {tr('HR')}: {vacancy.hr.name}
-                        <InlineDot />
-                        {stream?.name}
-                    </div>
-                }
-                chips={
-                    <Badge size="l" color={vacancyStatusColors[vacancy.status]}>
-                        {vacancyLabels[vacancy.status]}
-                    </Badge>
-                }
-            />
+            <CardInfo>
+                <CardHeader
+                    title={<Link href={`${Paths.CANDIDATES_DASHBOARD}?vacancyIds=${vacancy.id}`}>{vacancy.name}</Link>}
+                    subTitle={
+                        <div className={s.VacancyCardInfoLine}>
+                            {tr('Hiring manager')}: {vacancy.hiringManager.name}
+                            <InlineDot />
+                            {tr('HR')}: {vacancy.hr.name}
+                            {nullable(stream?.name, (s) => (
+                                <>
+                                    <InlineDot />
+                                    {s}
+                                </>
+                            ))}
+                        </div>
+                    }
+                    chips={
+                        <Badge
+                            size="s"
+                            view="outline"
+                            color={vacancyStatusColors[vacancy.status]}
+                            text={vacancyLabels[vacancy.status]}
+                        />
+                    }
+                    className={s.VacancyCardHeader}
+                />
+            </CardInfo>
+
             <CardContent>
                 {nullable(vacancy.unit, (unit) => (
                     <Text color={gray10}>

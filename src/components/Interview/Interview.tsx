@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { nullable, Text } from '@taskany/bricks';
-import { Card, CardContent, CardInfo } from '@taskany/bricks/harmony';
+import { nullable } from '@taskany/bricks';
+import { Card, CardContent, CardInfo, Text } from '@taskany/bricks/harmony';
 import { gray10 } from '@taskany/colors';
 import { SectionType } from '@prisma/client';
 
@@ -68,9 +68,15 @@ export const Interview: FC<InterviewProps> = ({ interview, sectionTypes }) => {
                                 <Text size="s">{c}</Text>
                             ))}
 
-                            {nullable(interview.description, (d) => (
-                                <Md>{d}</Md>
-                            ))}
+                            {nullable(
+                                interview.description,
+                                (d) => (
+                                    <Md>{d}</Md>
+                                ),
+                                <Text size="s" className={s.InterviewCardNoDescription}>
+                                    {tr('No description')}
+                                </Text>,
+                            )}
 
                             {nullable(interview.cv, (cv) => (
                                 <Text>

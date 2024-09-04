@@ -1,3 +1,7 @@
+.VacancyCardHeader {
+  color: var(--text-color);
+}
+
 .VacancyCardInfoLine {
   display: flex;
   flex-wrap: wrap;
@@ -6,5 +10,5 @@
 }
 
 .VacancyCardSelectButton {
-  margin-top: (--gap-s);
+  margin-top: var(--gap-s);
 }

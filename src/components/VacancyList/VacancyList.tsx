@@ -25,7 +25,7 @@ export const VacancyList = ({ onSelect }: VacancyListProps) => {
     return (
         <QueryResolver queries={[vacanciesQuery]}>
             {([{ pages }]) => (
-                <Stack direction="column" gap={gapL}>
+                <Stack direction="column" gap={gapL} className={s.VacancyListCards}>
                     {pages.map((page, i) => (
                         <Fragment key={i}>
                             {nullable(page.count === 0, () => (

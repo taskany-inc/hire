@@ -1,3 +1,7 @@
 .VacancyListLoadMoreButton {
   justify-self: flex-start;
 }
+
+.VacancyListCards {
+  max-width: 900px;
+}

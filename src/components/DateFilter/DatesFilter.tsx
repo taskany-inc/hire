@@ -1,7 +1,7 @@
 import { FilterTabLabel, Tab, nullable, Text } from '@taskany/bricks';
 import { danger0 } from '@taskany/colors';
 
-import { DatePicker } from '../DatePicker';
+import { DatePicker } from '../DatePicker/DatePicker';
 import { formatDateToLocaleString } from '../../utils/date';
 
 import { tr } from './DateFilter.i18n';

@@ -1,5 +1,5 @@
 import { ProblemDifficulty } from '@prisma/client';
-import React, { ReactNode, useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { nullable } from '@taskany/bricks';
 import {
     Button,
@@ -24,9 +24,6 @@ import { tr } from './ProblemFilterBar.i18n';
 import s from './ProblemFilterBar.module.css';
 
 interface ProblemFilterBarProps {
-    embedded?: boolean;
-    loading?: boolean;
-    children?: ReactNode;
     title?: string;
 }
 

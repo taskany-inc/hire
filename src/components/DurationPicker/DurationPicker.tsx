@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Badge, Text } from '@taskany/bricks/harmony';
-import { gray8 } from '@taskany/colors';
+import { Badge, FormControl, FormControlLabel } from '@taskany/bricks/harmony';
 
 import { getOptionsWithDuration } from '../../utils/dateTimePickers';
 import { Select } from '../Select';
@@ -34,24 +33,21 @@ export const DurationPicker = ({
     };
 
     return (
-        <div>
-            <Text weight="bold" color={gray8} className={s.Label}>
-                {label}
-            </Text>
+        <FormControl className={s.DurationPicker}>
+            <FormControlLabel className={s.DurationPickerLabel}>{label}</FormControlLabel>
             <Select
                 items={options.map((item) => ({ ...item, id: String(item.id) }))}
                 onChange={(id) => handleChange(Number(id))}
                 renderTrigger={({ ref, onClick }) => (
                     <Badge
-                        color={gray8}
                         size="m"
                         onClick={() => !disabled && onClick()}
                         ref={ref}
                         text={options.find(({ id }) => id === duration)?.text}
                     />
                 )}
-                selectPanelClassName={s.SelectPanelWrapper}
+                selectPanelClassName={s.DurationPickerSelectPanelWrapper}
             />
-        </div>
+        </FormControl>
     );
 };

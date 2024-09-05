@@ -1,8 +1,15 @@
+import { useMemo } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { toDate } from 'date-fns';
-import { gray8 } from '@taskany/colors';
-import { Fieldset, Form, FormAction, FormActions, FormCard, FormInput, nullable } from '@taskany/bricks';
-import { Button, Text, Badge } from '@taskany/bricks/harmony';
+import { nullable } from '@taskany/bricks';
+import {
+    Button,
+    Text,
+    FormControl,
+    FormControlInput,
+    FormControlLabel,
+    FormControlError,
+} from '@taskany/bricks/harmony';
 
 import { useSession } from '../../contexts/appSettingsContext';
 import { CalendarEventInstance, EventRecurrence, EventRepeatMode } from '../../modules/calendarTypes';
@@ -11,6 +18,7 @@ import { DateTimePickers } from '../DateTimePickers/DateTimePickers';
 import { defaultEventLengthInMinutes } from '../../utils/calendar';
 
 import { tr } from './CalendarEventForm.i18n';
+import s from './CalendarEventForm.module.css';
 
 export type CalendarEventFormValues = Pick<CalendarEventInstance, 'title' | 'date' | 'description' | 'duration'> & {
     recurrence: {
@@ -33,14 +41,6 @@ interface CalendarEventFormProps {
     creatorId?: number;
 }
 
-const repeatOptions: { id: EventRepeatMode; text: string }[] = [
-    { text: tr('Never'), id: 'never' },
-    { text: tr('Daily'), id: 'daily' },
-    { text: tr('Weekly'), id: 'weekly' },
-    { text: tr('Monthly'), id: 'monthly' },
-];
-
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function CalendarEventForm({
     initialValues,
     onSave,
@@ -69,6 +69,16 @@ export function CalendarEventForm({
         },
     });
 
+    const repeatOptions = useMemo<{ id: EventRepeatMode; text: string }[]>(
+        () => [
+            { text: tr('Never'), id: 'never' },
+            { text: tr('Daily'), id: 'daily' },
+            { text: tr('Weekly'), id: 'weekly' },
+            { text: tr('Monthly'), id: 'monthly' },
+        ],
+        [],
+    );
+
     const startDate = useWatch({ control, name: 'date' });
     const duration = useWatch({ control, name: 'duration' });
 
@@ -90,68 +100,61 @@ export function CalendarEventForm({
     const canEdit = isNew || creatorId === session.user.id || session.user.admin;
 
     return (
-        <FormCard>
-            <Form onSubmit={handleSubmit(onSave)}>
-                <Fieldset>
-                    <FormInput
-                        {...register('title')}
-                        label={tr('Name')}
-                        autoComplete="off"
-                        flat="bottom"
-                        error={errors.title}
-                        disabled={!canEdit}
-                    />
-
-                    <DateTimePickers
-                        startDate={startDate}
-                        duration={duration}
-                        onChange={handleDateTimeAndDurationChange}
-                        disabled={!canEdit}
-                    />
-                    {nullable(isNew, () => (
-                        <Text weight="bold" color={gray8}>
-                            {tr('Repetition')}
-                            <Select
-                                items={repeatOptions}
-                                onChange={(id) => onRepeatChange(id as EventRepeatMode)}
-                                renderTrigger={({ ref, onClick }) => (
-                                    <Badge
-                                        color={gray8}
-                                        onClick={() => onClick()}
-                                        size="m"
-                                        ref={ref}
-                                        text={repeatOptions.find(({ id }) => id === watch('recurrence.repeat'))?.text}
-                                    />
-                                )}
-                            />
-                        </Text>
-                    ))}
-                </Fieldset>
-                {nullable(canEdit, () => (
-                    <FormActions flat="top">
-                        <FormAction left inline></FormAction>
-                        <FormAction right inline>
-                            {deleteButtonText && (
-                                <Button
-                                    type="button"
-                                    onClick={onDeleteButton}
-                                    text={deleteButtonText}
-                                    view="danger"
-                                    size="m"
-                                    disabled={deleteButtonDisabled}
-                                />
-                            )}
-                            <Button
-                                disabled={submitButtonDisabled}
-                                size="m"
-                                view="primary"
-                                type="submit"
-                                text={tr('Save the event')}
-                            />
-                        </FormAction>
-                    </FormActions>
+        <form onSubmit={handleSubmit(onSave)} className={s.CalendarEventForm}>
+            <FormControl className={s.CalendarEventFormInput}>
+                <FormControlLabel>{tr('Name')}</FormControlLabel>
+                <FormControlInput {...register('title')} autoComplete="off" disabled={!canEdit} />
+                {nullable(errors.title, (e) => (
+                    <FormControlError error={e} />
                 ))}
-            </Form>
-        </FormCard>
+            </FormControl>
+
+            <DateTimePickers
+                startDate={startDate}
+                duration={duration}
+                onChange={handleDateTimeAndDurationChange}
+                disabled={!canEdit}
+            />
+
+            {nullable(isNew, () => (
+                <Text weight="bold" className={s.CalendarEventFormRepetition}>
+                    {tr('Repetition')}
+                    <Select
+                        items={repeatOptions}
+                        onChange={(id) => onRepeatChange(id as EventRepeatMode)}
+                        renderTrigger={({ ref, onClick }) => (
+                            <Button
+                                onClick={onClick}
+                                size="s"
+                                ref={ref}
+                                text={repeatOptions.find(({ id }) => id === watch('recurrence.repeat'))?.text}
+                            />
+                        )}
+                    />
+                </Text>
+            ))}
+
+            {nullable(canEdit, () => (
+                <div className={s.CalendarEventFormActions}>
+                    {deleteButtonText && (
+                        <Button
+                            type="button"
+                            onClick={onDeleteButton}
+                            text={deleteButtonText}
+                            view="danger"
+                            size="m"
+                            disabled={deleteButtonDisabled}
+                        />
+                    )}
+                    <Button
+                        disabled={submitButtonDisabled}
+                        size="m"
+                        view="primary"
+                        type="submit"
+                        text={tr('Save the event')}
+                    />
+                </div>
+            ))}
+        </form>
     );
 }

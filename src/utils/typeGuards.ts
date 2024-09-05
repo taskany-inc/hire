@@ -2,7 +2,6 @@ import { ProblemDifficulty } from '@prisma/client';
 import { AxiosError } from 'axios';
 
 // TODO: change any to unknown
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export const isBoolean = (value: any): value is boolean => typeof value === 'boolean';

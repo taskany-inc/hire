@@ -87,7 +87,6 @@ export interface SlotCalendarProps
     my?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function SlotCalendar({
     creatorIds,
     isLoading,

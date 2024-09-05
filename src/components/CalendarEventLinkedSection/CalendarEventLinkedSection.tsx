@@ -1,4 +1,4 @@
-import { Text } from '@taskany/bricks';
+import { Text } from '@taskany/bricks/harmony';
 
 import { SectionWithInterviewRelation } from '../../modules/interviewTypes';
 import { pageHrefs } from '../../utils/paths';
@@ -12,7 +12,6 @@ export interface CalendarEventLinkedSectionProps {
     sectionTitleOnly?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function CalendarEventLinkedSection({ interviewSection, sectionTitleOnly }: CalendarEventLinkedSectionProps) {
     if (!interviewSection) {
         return <Text size="l">{tr('Free slot')}</Text>;

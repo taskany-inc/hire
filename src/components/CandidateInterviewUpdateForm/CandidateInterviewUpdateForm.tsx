@@ -35,7 +35,6 @@ interface Props {
 }
 
 // TODO: disable return value linting
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function CandidateInterviewUpdateForm({ interview, hireStreams }: Props) {
     const router = useRouter();
     const interviewUpdateMutation = useInterviewUpdateMutation();

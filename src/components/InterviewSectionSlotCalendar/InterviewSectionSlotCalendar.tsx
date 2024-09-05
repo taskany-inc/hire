@@ -1,8 +1,7 @@
 import { isSameMinute, differenceInMinutes } from 'date-fns';
 import { useMemo, useState } from 'react';
 import { View } from 'react-big-calendar';
-import { Modal, ModalContent, ModalHeader, FormTitle, Text, ModalCross } from '@taskany/bricks';
-import { Button } from '@taskany/bricks/harmony';
+import { Button, Modal, ModalContent, ModalCross, ModalHeader, Text } from '@taskany/bricks/harmony';
 
 import {
     useCalendarEventCreateMutation,
@@ -27,6 +26,7 @@ import {
 } from '../CalendarEventLinkedSection/CalendarEventLinkedSection';
 
 import { tr } from './InterviewSectionSlotCalendar.i18n';
+import s from './InterviewSectionSlotCalendar.module.css';
 
 interface SerialEventUpdateParams extends Partial<CalendarEventFormValues> {
     operation: 'update';
@@ -55,7 +55,6 @@ interface InterviewSectionSlotCalendarProps {
     my?: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function InterviewSectionSlotCalendar(props: InterviewSectionSlotCalendarProps) {
     const [calendarDate, setCalendarDate] = useState(() => new Date());
     const [calendarView, setCalendarView] = useState<View>('work_week');
@@ -420,9 +419,16 @@ export function InterviewSectionSlotCalendar(props: InterviewSectionSlotCalendar
                 my={props.my}
             />
 
-            <Modal width={500} visible={!!seriesUpdatePartDialog} onClose={closeUpdatePartDialog}>
+            <Modal
+                width={500}
+                visible={!!seriesUpdatePartDialog}
+                onClose={closeUpdatePartDialog}
+                className={s.InterviewSectionSlotCalendarModal}
+            >
                 <ModalHeader>
-                    <FormTitle size="m">{tr('Edit a recurring event')}</FormTitle>
+                    <Text size="l" weight="bold">
+                        {tr('Edit a recurring event')}
+                    </Text>
                 </ModalHeader>
                 <ModalContent>
                     <Text>{tr('What part of the event series do you want to change?')}</Text>

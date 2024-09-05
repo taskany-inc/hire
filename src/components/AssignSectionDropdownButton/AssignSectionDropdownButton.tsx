@@ -22,7 +22,6 @@ interface Props {
 }
 
 // TODO: disable return value linting
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function AssignSectionDropdownButton({ interviewId, sectionTypes }: Props) {
     const [isOpen, setIsOpen] = useState(false);
     const router = useRouter();

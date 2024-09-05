@@ -1,0 +1,8 @@
+.DatePicker {
+    display: flex;
+    flex-direction: column;
+}
+
+.DatePickerLabel {
+    color: var(--text-secondary);
+}

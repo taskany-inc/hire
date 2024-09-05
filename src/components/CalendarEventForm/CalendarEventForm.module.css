@@ -1,0 +1,24 @@
+.CalendarEventForm {
+    display: flex;
+    gap: var(--gap-m);
+    flex-direction: column;
+}
+
+.CalendarEventFormInput {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+}
+
+.CalendarEventFormRepetition {
+    color: var(--text-secondary);
+    display: flex;
+    gap: var(--gap-s);
+    align-items: center;
+}
+
+.CalendarEventFormActions {
+    display: flex;
+    gap: var(--gap-s);
+    justify-content: flex-end;
+}

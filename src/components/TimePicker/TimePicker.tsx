@@ -1,6 +1,5 @@
-import { Badge, Text } from '@taskany/bricks/harmony';
+import { Badge, FormControl, FormControlLabel } from '@taskany/bricks/harmony';
 import { useMemo, useState } from 'react';
-import { gray8 } from '@taskany/colors';
 
 import { getOptions, getStringTime, splitDateValue, SplitDateValueResult } from '../../utils/dateTimePickers';
 import { Select } from '../Select';
@@ -27,25 +26,22 @@ export const TimePicker = ({
     };
 
     return (
-        <div>
-            <Text weight="bold" color={gray8} className={s.Label}>
-                {label}
-            </Text>
+        <FormControl className={s.TimePicker}>
+            <FormControlLabel className={s.TimePickerLabel}>{label}</FormControlLabel>
             <Select
                 items={options.map((item) => ({ ...item, id: String(item.id) }))}
                 onChange={(id) => id && handleChange(id)}
                 renderTrigger={({ ref, onClick }) => (
                     <Badge
-                        color={gray8}
                         size="m"
                         onClick={() => !disabled && onClick()}
                         ref={ref}
                         text={options.find(({ id }) => id === value)?.text}
                     />
                 )}
-                selectPanelClassName={s.SelectPanelWrapper}
+                selectPanelClassName={s.TimePickerSelectPanelWrapper}
                 placement="bottom-start"
             />
-        </div>
+        </FormControl>
     );
 };

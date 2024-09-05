@@ -30,7 +30,7 @@ export const AddProblemToSection: FC<AddProblemToSectionProps> = ({ interviewId 
                         {tr('Add problem')}
                     </Text>
                     <div className={s.AddProblemToSectionFiltersPanel}>
-                        <ProblemFilterBar embedded />
+                        <ProblemFilterBar />
                     </div>
                 </ModalHeader>
                 <ModalContent className={s.AddProblemToSectionModalContent}>

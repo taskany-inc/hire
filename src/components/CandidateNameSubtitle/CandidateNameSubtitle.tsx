@@ -13,7 +13,6 @@ interface Props {
 }
 
 // TODO: disable return value linting
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function CandidateNameSubtitle({ id, name }: Props) {
     return (
         <Text weight="bold" size="l" className={s.CandidateName}>

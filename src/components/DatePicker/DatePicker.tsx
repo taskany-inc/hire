@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { format, parse } from 'date-fns';
-import { Input, Text } from '@taskany/bricks';
-import { gray8 } from '@taskany/colors';
+import { FormControl, FormControlLabel, FormControlInput } from '@taskany/bricks/harmony';
 
-import { Stack } from './Stack';
+import s from './DatePicker.module.css';
 
 interface DatePickerProps {
     value?: Date;
@@ -25,11 +24,9 @@ export const DatePicker = ({ label, disabled, value, onChange = () => {} }: Date
     };
 
     return (
-        <Stack direction="column">
-            <Text as="label" size="m" color={gray8} weight="bold">
-                {label}
-            </Text>
-            <Input disabled={disabled} type="date" defaultValue={date} onChange={handleChange} />
-        </Stack>
+        <FormControl className={s.DatePicker}>
+            <FormControlLabel className={s.DatePickerLabel}>{label}</FormControlLabel>
+            <FormControlInput disabled={disabled} type="date" defaultValue={date} onChange={handleChange} />
+        </FormControl>
     );
 };

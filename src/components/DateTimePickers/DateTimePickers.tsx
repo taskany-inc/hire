@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { toDate } from 'date-fns';
 
-import { DatePicker } from '../DatePicker';
+import { DatePicker } from '../DatePicker/DatePicker';
 import { TimePicker } from '../TimePicker/TimePicker';
 import { DurationPicker } from '../DurationPicker/DurationPicker';
 

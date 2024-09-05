@@ -1,7 +1,4 @@
 .DateTimePickers {
     display: flex;
-    gap: 46px;
-    width: 100%;
-    max-width: 600px;
-    padding: var(--gap-m) 0px;
+    gap: var(--gap-l);
 }

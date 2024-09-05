@@ -1,8 +1,14 @@
-.SelectPanelWrapper {
-    overflow-y: auto;
-    max-height: 300px;
+.DurationPicker {
+    display: flex;
+    flex-direction: column;
 }
 
-.Label {
+.DurationPickerLabel {
     margin-left: var(--gap-s);
+    color: var(--text-secondary);
+}
+
+.DurationPickerSelectPanelWrapper {
+    overflow-y: auto;
+    max-height: 300px;
 }

@@ -30,7 +30,6 @@ interface SectionScheduleCalendarProps {
     setVideoCallLink: (arg: string) => void;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function SectionScheduleCalendar({
     interviewerIds,
     onSlotSelected,

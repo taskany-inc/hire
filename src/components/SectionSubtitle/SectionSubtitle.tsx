@@ -9,7 +9,6 @@ import { tr } from './SectionSubtitle.i18n';
 import s from './SectionSubtitle.module.css';
 
 // TODO: find out return type
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function SectionSubtitle({ section }: { section: SectionWithInterviewerRelation }) {
     const sectionName: string = section.description ?? '';
     const date = useFormatDateToLocaleString(section.createdAt);

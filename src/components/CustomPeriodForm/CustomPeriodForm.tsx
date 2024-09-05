@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Fieldset, Form, FormAction, FormActions, FormCard } from '@taskany/bricks';
 import { Button } from '@taskany/bricks/harmony';
 
-import { DatePicker } from '../DatePicker';
+import { DatePicker } from '../DatePicker/DatePicker';
 import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
 
 import { tr } from './CustomPeriodForm.i18n';

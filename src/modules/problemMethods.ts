@@ -171,7 +171,6 @@ const getCount = async (userId: number, data: GetProblemList): Promise<ProblemCo
 };
 
 // TODO: specify the type when we write the ProblemWithRelation type explicitly
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const getList = async (
     userId: number,
     params: GetProblemList = {},

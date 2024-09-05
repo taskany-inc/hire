@@ -1,8 +1,14 @@
-.SelectPanelWrapper {
+.TimePicker {
+    display: flex;
+    flex-direction: column;
+}
+
+.TimePickerSelectPanelWrapper {
     overflow-y: auto;
     max-height: 300px;
 }
 
-.Label {
+.TimePickerLabel {
     margin-left: var(--gap-s);
+    color: var(--text-secondary);
 }

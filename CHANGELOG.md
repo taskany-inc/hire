@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.63.0](https://github.com/taskany-inc/hire/compare/v0.62.1...v0.63.0) (2024-09-09)
+
+
+### Features
+
+* **vacancies page:** harmony cards ([1f80f95](https://github.com/taskany-inc/hire/commit/1f80f95a8a0009a2d6ba97b8703b2190329b988b))
+
+
+### Bug Fixes
+
+* avatar issues ([9a2ce7e](https://github.com/taskany-inc/hire/commit/9a2ce7e6db4769fb18bad9f2d1677530a329de67))
+
 ## [0.62.1](https://github.com/taskany-inc/hire/compare/v0.62.0...v0.62.1) (2024-09-03)
 
 

@@ -1,19 +1,9 @@
-.CodeEditorField {
-    width: 500px;
-    margin-bottom: var(--gap-xs);
+.CandidateInterviewCreationForm {
+    max-width: 600px;
 }
 
-.CandidateInterviewCreationFormFormCard {
-    width: 500px;
-}
-
-.CandidateInterviewCreationFormVacancyWrapper {
-    margin-left: var(--gap-s);
-}
-
-.SelectWrapper {
-    margin-left: var(--gap-s);
+.CandidateInterviewCreationFormCardContent {
     display: flex;
-    gap:  var(--gap-m);
-    align-items: center;
+    flex-direction: column;
+    gap: var(--gap-s);
 }

@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
-import { Text, nullable } from '@taskany/bricks';
+import { nullable } from '@taskany/bricks';
 import { gapL } from '@taskany/colors';
-import { Button } from '@taskany/bricks/harmony';
+import { Button, Text } from '@taskany/bricks/harmony';
 
 import { useVacancies } from '../../modules/crewHooks';
 import { QueryResolver } from '../QueryResolver/QueryResolver';

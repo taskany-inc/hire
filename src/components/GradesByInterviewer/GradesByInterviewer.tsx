@@ -1,6 +1,6 @@
 import { Bar, BarChart, CartesianGrid, LabelList, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { backgroundColor, gray6 } from '@taskany/colors';
-import { Text } from '@taskany/bricks';
+import { Text } from '@taskany/bricks/harmony';
 
 import { useSectionTypeToGradesByInterviewer } from '../../modules/analyticsQueriesHooks';
 import { getPieChartSliceColor, mapInterval } from '../../utils';

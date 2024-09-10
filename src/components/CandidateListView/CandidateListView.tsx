@@ -1,5 +1,5 @@
-import { FC } from 'react';
-import { Text } from '@taskany/bricks';
+import { FC, Fragment } from 'react';
+import { Text } from '@taskany/bricks/harmony';
 
 import { useCandidates } from '../../modules/candidateHooks';
 import {
@@ -23,13 +23,13 @@ export const CandidateListView: FC = () => {
     const ref = useIntersectionLoader<HTMLDivElement>(() => fetchNextPage(), Boolean(!isFetching && hasNextPage));
 
     return (
-        <Stack direction="column" gap={6}>
+        <Stack direction="column" gap={24}>
             <QueryResolver queries={[candidatesQuery]}>
                 {([candidates]) => {
                     return (
                         <>
                             {candidates.pages.map((page, index) => (
-                                <div key={`page-${index}`}>
+                                <Fragment key={`page-${index}`}>
                                     {page.total === 0 ? (
                                         <Text>{tr('Nothing found')} 😔</Text>
                                     ) : (
@@ -37,7 +37,7 @@ export const CandidateListView: FC = () => {
                                             <CandidateCard candidate={candidate} key={candidate.id} />
                                         ))
                                     )}
-                                </div>
+                                </Fragment>
                             ))}
                             <div ref={ref}>{isFetching && <CandidatesLoader />}</div>
                         </>

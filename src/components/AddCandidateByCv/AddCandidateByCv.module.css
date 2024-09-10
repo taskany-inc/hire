@@ -1,3 +1,7 @@
+.AddCandidateByCv {
+    max-width: 700px;
+}
+
 .Heading {
     margin: var(--gap-m) 0;
 }

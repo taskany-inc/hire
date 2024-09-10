@@ -1,8 +1,17 @@
 import { useState, useCallback, useMemo } from 'react';
 import { View } from 'react-big-calendar';
 import { User } from '@prisma/client';
-import { Text, Modal, ModalHeader, ModalContent, FormInput, nullable } from '@taskany/bricks';
-import { Button } from '@taskany/bricks/harmony';
+import { nullable } from '@taskany/bricks';
+import {
+    Text,
+    FormControl,
+    Modal,
+    ModalHeader,
+    ModalContent,
+    Button,
+    FormControlInput,
+    FormControlLabel,
+} from '@taskany/bricks/harmony';
 
 import { DateRange, firstVisibleDay, lastVisibleDay } from '../../utils/date';
 import { SlotCalendar } from '../SlotCalendar/SlotCalendar';
@@ -11,6 +20,7 @@ import {
     CalendarEventLinkedSectionProps,
 } from '../CalendarEventLinkedSection/CalendarEventLinkedSection';
 import { BigCalendarEvent } from '../../utils/calendar';
+import { FormActions } from '../FormActions/FormActions';
 
 import { tr } from './SectionScheduleCalendar.i18n';
 import s from './SectionScheduleCalendar.module.css';
@@ -92,34 +102,35 @@ export function SectionScheduleCalendar({
                 <ModalHeader>
                     <CalendarEventLinkedSection interviewSection={eventDetails?.interviewSection} />
                 </ModalHeader>
-                <ModalContent>
+                <ModalContent className={s.SectionScheduleCalendar}>
                     {nullable(eventDetails?.interviewer?.name, (n) => (
                         <Text size="m">
                             {tr('Interviewer')}: {n}
                         </Text>
                     ))}
 
-                    <div className={s.SectionScheduleCalendarTextWrapper}>
-                        {nullable(eventDetails?.title, (t) => (
-                            <Text as="span" size="s">
-                                {t}
-                            </Text>
-                        ))}
-                        <FormInput
+                    {nullable(eventDetails?.title, (t) => (
+                        <Text as="span" size="s">
+                            {t}
+                        </Text>
+                    ))}
+
+                    <FormControl>
+                        <FormControlLabel>{tr('Meeting link')}</FormControlLabel>
+                        <FormControlInput
                             defaultValue={videoCallLink}
-                            label={tr('Meeting link')}
                             onChange={(e) => setVideoCallLink(e.target.value)}
                             autoComplete="off"
-                            flat="bottom"
                         />
-                    </div>
-                    <div className={s.SectionScheduleCalendarButtonWrapper}>
+                    </FormControl>
+
+                    <FormActions>
                         <Button onClick={closeEventFormModal} text={tr('Cancel')} />
 
                         {!eventDetails?.interviewSection && eventDetails?.eventId && (
                             <Button onClick={handleSlotSelectClicked} view="primary" text={tr('Choose')} />
                         )}
-                    </div>
+                    </FormActions>
                 </ModalContent>
             </Modal>
         </>

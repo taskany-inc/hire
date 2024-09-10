@@ -1,6 +1,7 @@
-import { useEffect, useId, useState } from 'react';
-import { Input, useUpload, Text, nullable } from '@taskany/bricks';
-import { IconAttachOutline } from '@taskany/icons';
+import { useEffect, useId, useMemo, useState } from 'react';
+import { useUpload } from '@taskany/bricks';
+import { Badge, Input } from '@taskany/bricks/harmony';
+import { IconAttachOutline, IconPlusCircleOutline } from '@taskany/icons';
 
 import { pageHrefs } from '../../utils/paths';
 import { CvParsingResult } from '../../modules/aiAssistantTypes';
@@ -40,6 +41,12 @@ export const CvAttach = ({ candidateId, preparedCvAttach, onParse }: CvAttachPro
         await upload.uploadFiles(Array.from(e.target.files));
     };
 
+    const badgeText = useMemo(() => {
+        if (upload.loading) return tr('Uploading...');
+        if (cvAttachFilename) return `${tr('CV:')} ${cvAttachFilename}`;
+        return tr('Attach CV');
+    }, [upload.loading, cvAttachFilename]);
+
     return (
         <>
             <Input
@@ -50,15 +57,17 @@ export const CvAttach = ({ candidateId, preparedCvAttach, onParse }: CvAttachPro
                 className={s.CvAttachFileInput}
             />
             <label htmlFor={id}>
-                <Text size="s" className={s.CvAttachFileInputText}>
-                    {nullable(upload.loading, () => tr('Uploading...'))}
-                    {nullable(cvAttachFilename, () => `${tr('CV:')} ${cvAttachFilename}`)}
-                    {nullable(!upload.loading && !cvAttachFilename, () => (
-                        <>
-                            <IconAttachOutline size="xxs" /> {tr('Attach CV')}
-                        </>
-                    ))}
-                </Text>
+                <Badge
+                    iconLeft={
+                        cvAttachFilename ? (
+                            <IconAttachOutline size="xs" className={s.CvAttachFileInputIcon} />
+                        ) : (
+                            <IconPlusCircleOutline size="xs" className={s.CvAttachFileInputIcon} />
+                        )
+                    }
+                    text={badgeText}
+                    className={s.CvAttachFileInputText}
+                />
             </label>
         </>
     );

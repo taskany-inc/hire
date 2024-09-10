@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import { Text } from '@taskany/bricks';
-import { gray10 } from '@taskany/colors';
+import { Card, CardContent, CardInfo, Text } from '@taskany/bricks/harmony';
+import { nullable } from '@taskany/bricks';
 
 import { generatePath, Paths } from '../../utils/paths';
 import { CandidateWithVendorAndInterviewWithSectionsWithCommentsWithCreatorRelations } from '../../modules/candidateTypes';
@@ -10,9 +10,7 @@ import config from '../../config';
 import { TagChip } from '../TagChip';
 import { InterviewHireBadge } from '../InterviewHireBadge';
 import { CardHeader } from '../CardHeader/CardHeader';
-import { Card } from '../Card/Card';
 import { Stack } from '../Stack';
-import { CardContent } from '../CardContent';
 import { SectionsProgress } from '../SectionsProgress/SectionsProgress';
 import { useCandidateFilterUrlParams } from '../../hooks/useCandidateFilterUrlParams';
 import { Link } from '../Link';
@@ -40,50 +38,62 @@ export const CandidateCard: React.FC<Props> = ({ candidate }) => {
     }, [candidate]);
 
     return (
-        <Card>
-            <CardHeader
-                title={<Link href={candidateLink}>{candidate.name}</Link>}
-                chips={
-                    <>
-                        <SectionsProgress
-                            className={s.CandidateCardChips}
-                            view="circle"
-                            sections={lastInterview?.sections || []}
-                        />
-
-                        <InterviewHireBadge
-                            status={lastInterview?.status}
-                            onClick={() => lastInterview?.status && setter('statuses', [lastInterview?.status])}
-                        />
-
-                        {lastInterview?.hireStream?.name && (
-                            <TagChip
-                                tag={lastInterview?.hireStream}
-                                onClick={() =>
-                                    lastInterview.hireStream && setter('hireStreamIds', [lastInterview.hireStream.id])
-                                }
+        <Card className={s.CandidateCard}>
+            <CardInfo>
+                <CardHeader
+                    title={<Link href={candidateLink}>{candidate.name}</Link>}
+                    chips={
+                        <>
+                            <SectionsProgress
+                                className={s.CandidateCardChips}
+                                view="circle"
+                                sections={lastInterview?.sections || []}
                             />
-                        )}
-                    </>
-                }
-            />
-            <CardContent>
+
+                            <InterviewHireBadge
+                                status={lastInterview?.status}
+                                onClick={() => lastInterview?.status && setter('statuses', [lastInterview?.status])}
+                            />
+
+                            {lastInterview?.hireStream?.name && (
+                                <TagChip
+                                    tag={lastInterview?.hireStream}
+                                    onClick={() =>
+                                        lastInterview.hireStream &&
+                                        setter('hireStreamIds', [lastInterview.hireStream.id])
+                                    }
+                                />
+                            )}
+                        </>
+                    }
+                    className={s.CandidateCardHeader}
+                />
+            </CardInfo>
+
+            <CardContent className={s.CandidateCardContent}>
                 <Stack direction="column" gap={15}>
-                    <Text color={gray10}>
+                    <Text>
                         {tr('Employment:')}{' '}
-                        <Text as="span">{candidate.outstaffVendor?.title ?? config.defaultCandidateVendor}</Text>
+                        <Text as="span" className={s.CandidateCardValue}>
+                            {candidate.outstaffVendor?.title ?? config.defaultCandidateVendor}
+                        </Text>
                     </Text>
-                    {candidate.email && (
-                        <Text color={gray10}>
+                    {nullable(candidate.email, (e) => (
+                        <Text>
                             {tr('Email: ')}
-                            <Text as="span">{candidate.email}</Text>
+                            <Text as="span" className={s.CandidateCardValue}>
+                                {e}
+                            </Text>
                         </Text>
-                    )}
-                    {candidate.phone && (
-                        <Text color={gray10}>
-                            {tr('Tel: ')} <Text as="span"> {candidate.phone}</Text>
+                    ))}
+                    {nullable(candidate.phone, (p) => (
+                        <Text>
+                            {tr('Tel: ')}{' '}
+                            <Text as="span" className={s.CandidateCardValue}>
+                                {p}
+                            </Text>
                         </Text>
-                    )}
+                    ))}
                 </Stack>
             </CardContent>
         </Card>

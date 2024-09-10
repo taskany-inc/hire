@@ -1,4 +1,4 @@
-import { Badge } from '@taskany/bricks';
+import { Badge } from '@taskany/bricks/harmony';
 import { ComponentProps, FC, HTMLAttributes } from 'react';
 
 import {
@@ -10,7 +10,7 @@ import { SectionStatusTagPalette } from '../../utils/tagPalette';
 import { CommentView } from '../CommentView/CommentView';
 import { CommentViewHeader } from '../CommentViewHeader/CommentViewHeader';
 import { CommentViewHeaderTitle } from '../CommentViewHeader/CommentViewHeaderTitle';
-import { CandidateSelectedSectionBadge } from '../CandidateSelectedSectionBadge';
+import { CandidateSelectedSectionBadge } from '../CandidateSelectedSectionBadge/CandidateSelectedSectionBadge';
 import { generatePath, Paths } from '../../utils/paths';
 
 import { tr } from './InterviewSectionListItem.i18n';
@@ -39,7 +39,7 @@ const sectionStatusToCommentStatus = {
 export const InterviewSectionListItem: FC<InterviewSectionListItemProps> = ({ section, interview }) => {
     const status = getCommentStatus(section);
     const sectionStatus = sectionStatusToCommentStatus[status];
-    const isSelected = section.id === interview.candidateSelectedSectionId;
+    const isSelected = true; // section.id === interview.candidateSelectedSectionId;
     const headerLink = generatePath(Paths.SECTION, {
         interviewId: interview.id,
         sectionId: section.id,
@@ -61,9 +61,13 @@ export const InterviewSectionListItem: FC<InterviewSectionListItemProps> = ({ se
                     dot
                 >
                     <CommentViewHeaderTitle link={headerLink}>{section.sectionType.title}</CommentViewHeaderTitle>
-                    <Badge size="l" color={SectionStatusTagPalette[sectionStatus]}>
-                        {interviewStatusLabels[status]}
-                    </Badge>
+                    <Badge
+                        size="s"
+                        view="outline"
+                        weight="regular"
+                        color={SectionStatusTagPalette[sectionStatus]}
+                        text={interviewStatusLabels[status]}
+                    />
                     {isSelected && <CandidateSelectedSectionBadge section={section} interview={interview} />}
                 </CommentViewHeader>
             }

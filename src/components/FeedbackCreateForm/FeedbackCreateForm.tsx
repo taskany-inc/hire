@@ -1,15 +1,24 @@
 import React, { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormActions, FormAction, FormTextarea, FormInput, ModalContent } from '@taskany/bricks';
+import { nullable } from '@taskany/bricks';
 import * as Sentry from '@sentry/nextjs';
-import { Button } from '@taskany/bricks/harmony';
+import {
+    Button,
+    FormControl,
+    FormControlError,
+    FormControlInput,
+    FormControlLabel,
+    ModalContent,
+    Textarea,
+} from '@taskany/bricks/harmony';
 
-import { errorsProvider } from '../../utils/forms';
 import { createFeedbackSchema, CreateFeedback } from '../../modules/feedbackTypes';
 import { trpc } from '../../trpc/trpcClient';
+import { FormActions } from '../FormActions/FormActions';
 
 import { tr } from './FeedbackCreateForm.i18n';
+import s from './FeedbackCreateForm.module.css';
 
 interface FeedbackCreateFormProps {
     onClose: () => void;
@@ -22,12 +31,10 @@ const FeedbackCreateForm = ({ onClose }: FeedbackCreateFormProps) => {
     const {
         register,
         handleSubmit,
-        formState: { errors, isSubmitted },
+        formState: { errors },
     } = useForm<CreateFeedback>({
         resolver: zodResolver(createFeedbackSchema),
     });
-
-    const errorsResolver = errorsProvider(errors, isSubmitted);
 
     const onPending = useCallback(
         async (form: CreateFeedback) => {
@@ -54,30 +61,26 @@ const FeedbackCreateForm = ({ onClose }: FeedbackCreateFormProps) => {
 
     return (
         <ModalContent>
-            <Form disabled={formBusy} onSubmit={handleSubmit(onPending, onError)}>
-                <FormInput
-                    {...register('title')}
-                    placeholder={tr('Feedback title')}
-                    flat="bottom"
-                    brick="right"
-                    error={errorsResolver('title')}
-                />
+            <form onSubmit={handleSubmit(onPending, onError)} className={s.FeedbackCreateForm}>
+                <FormControl>
+                    <FormControlLabel>{tr('Feedback title')}</FormControlLabel>
+                    <FormControlInput {...register('title')} />
+                    {nullable(errors.title, (e) => (
+                        <FormControlError error={e} />
+                    ))}
+                </FormControl>
 
-                <FormTextarea
+                <Textarea
                     {...register('description')}
-                    minHeight={100}
+                    height={100}
                     placeholder={tr("Feedback description. Say anything what's on your mind")}
-                    flat="both"
                 />
 
-                <FormActions flat="top">
-                    <FormAction left inline />
-                    <FormAction right inline>
-                        <Button text={tr('Cancel')} onClick={onClose} />
-                        <Button view="primary" type="submit" text={tr('Send feedback')} />
-                    </FormAction>
+                <FormActions>
+                    <Button text={tr('Cancel')} onClick={onClose} />
+                    <Button view="primary" type="submit" text={tr('Send feedback')} disabled={formBusy} />
                 </FormActions>
-            </Form>
+            </form>
         </ModalContent>
     );
 };

@@ -1,7 +1,7 @@
 import { HireStream } from '@prisma/client';
 import { Cell, Pie, PieChart, Tooltip } from 'recharts';
 import { backgroundColor } from '@taskany/colors';
-import { Text } from '@taskany/bricks';
+import { Text } from '@taskany/bricks/harmony';
 
 import { useCandidatesByHireStream } from '../../modules/analyticsQueriesHooks';
 import { getPieChartSliceColor, mapInterval, RADIAN } from '../../utils';

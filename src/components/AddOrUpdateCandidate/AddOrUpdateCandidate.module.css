@@ -1,18 +1,18 @@
 .AddOrUpdateCandidateFormCard {
-
     max-width: 700px;
-
 }
 
-.SelectVendor {
-    padding-left: var(--gap-m);
+.AddOrUpdateCandidateFormCardFields {
     display: flex;
-    background-color: var(--gray3);
-    gap:  var(--gap-m);
-    align-items: center;
+    flex-direction: column;
+    gap: var(--gap-m);
 }
 
 .VendorsDropdown {
     max-height: 300px;
     overflow-y: auto;
+}
+
+.AddOrUpdateCandidateFormCardActions {
+    margin-top: var(--gap-m);
 }

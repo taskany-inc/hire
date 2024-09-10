@@ -1,13 +1,23 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { Modal, ModalContent, ModalHeader, FormTitle, FormTextarea, ErrorPopup } from '@taskany/bricks';
-import { Button } from '@taskany/bricks/harmony';
+import {
+    Button,
+    Modal,
+    ModalContent,
+    ModalHeader,
+    Text,
+    Textarea,
+    FormControlError,
+    FormControl,
+} from '@taskany/bricks/harmony';
+import { nullable } from '@taskany/bricks';
 
 import { useSectionCancelMutation } from '../../modules/sectionHooks';
 import { pageHrefs } from '../../utils/paths';
-import { Stack } from '../Stack';
+import { FormActions } from '../FormActions/FormActions';
 
 import { tr } from './SectionCancelationConfirmation.i18n';
+import s from './SectionCancelationConfirmation.module.css';
 
 interface SectionCancelationConfirmationProps {
     isOpen: boolean;
@@ -44,24 +54,32 @@ export const SectionCancelationConfirmation = ({
     } = useForm<{ cancelComment: string }>();
 
     return (
-        <Modal visible={isOpen} onClose={onClose}>
+        <Modal visible={isOpen} onClose={onClose} width={600}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <ModalHeader>
-                    <FormTitle>{tr('Commentary on section cancellation')}</FormTitle>
+                    <Text size="l" weight="bold">
+                        {tr('Commentary on section cancellation')}
+                    </Text>
                 </ModalHeader>
-                <ModalContent>
-                    <Stack direction="column" gap={24} justifyItems="start">
-                        <FormTextarea
+                <ModalContent className={s.SectionCancelationConfirmationContent}>
+                    <FormControl>
+                        <Textarea
                             placeholder={tr('Commentary on section cancellation')}
-                            {...register('cancelComment', { required: { value: true, message: tr('Required field') } })}
+                            {...register('cancelComment', {
+                                required: { value: true, message: tr('Required field') },
+                            })}
+                            height={150}
                         />
-                        {errors.cancelComment && <ErrorPopup>{errors.cancelComment.message}</ErrorPopup>}
-                    </Stack>
+                        {nullable(errors.cancelComment, (e) => (
+                            <FormControlError error={e} />
+                        ))}
+                    </FormControl>
+
+                    <FormActions>
+                        <Button onClick={onClose} text={tr('Cancel')} />
+                        <Button type="submit" view="primary" disabled={isSubmitting} text={tr('Save')} />
+                    </FormActions>
                 </ModalContent>
-                <Stack direction="row" gap={10} justifyContent="flex-start" style={{ margin: 12 }}>
-                    <Button onClick={onClose} text={tr('Cancel')} />
-                    <Button type="submit" view="primary" disabled={isSubmitting} text={tr('Save')} />
-                </Stack>
             </form>
         </Modal>
     );

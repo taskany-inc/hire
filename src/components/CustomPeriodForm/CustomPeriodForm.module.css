@@ -1,7 +1,3 @@
-.CustomPeriodFormCard {
-    width: 300px;
-}
-
 .CustomPeriodFormDateContainer {
     display: flex;
     gap: var(--gap-s);

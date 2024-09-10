@@ -1,3 +1,19 @@
+.CandidateCard {
+    max-width: 900px;
+}
+
+.CandidateCardHeader {
+    color: var(--text-color);
+}
+
+.CandidateCardContent {
+    color: var(--text-secondary);
+}
+
+.CandidateCardValue {
+    color: var(--text-color);
+}
+
 .CandidateCardChips {
     display: inline-flex;
 }

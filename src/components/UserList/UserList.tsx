@@ -1,10 +1,10 @@
-import { User } from '@prisma/client';
-import { CSSProperties, useMemo, useState, VFC, ReactNode } from 'react';
+import { User as UserType } from '@prisma/client';
+import { CSSProperties, useMemo, useState, ReactNode } from 'react';
 import { useDebounce } from 'use-debounce';
 import { textColor } from '@taskany/colors';
-import { Text, UserPic, Input, nullable } from '@taskany/bricks';
+import { nullable } from '@taskany/bricks';
+import { Text, Input, User } from '@taskany/bricks/harmony';
 
-import { ExternalUserLink } from '../ExternalUserLink';
 import { IconButton } from '../IconButton/IconButton';
 
 import { tr } from './UserList.i18n';
@@ -13,10 +13,10 @@ import s from './UserList.module.css';
 interface UserListProps {
     title?: string;
     titleFragment?: ReactNode;
-    users: User[];
+    users: UserType[];
     action?: {
         icon: ReactNode;
-        handler: (user: User) => void;
+        handler: (user: UserType) => void;
         disabled?: boolean;
     };
     showFilter?: boolean;
@@ -24,7 +24,7 @@ interface UserListProps {
     style?: CSSProperties;
 }
 
-export const UserList: VFC<UserListProps> = ({ title, titleFragment, users, action, showFilter, className, style }) => {
+export const UserList = ({ title, titleFragment, users, action, showFilter, className, style }: UserListProps) => {
     const [filter, setFilter] = useState('');
     const [debouncedFilter] = useDebounce(filter, 300);
 
@@ -63,10 +63,7 @@ export const UserList: VFC<UserListProps> = ({ title, titleFragment, users, acti
                 ))}
                 {filteredUsers.map((user) => (
                     <div key={user.id} className={s.UserListCard}>
-                        <UserPic name={user.name} email={user.email} />
-                        <Text size="m">
-                            <ExternalUserLink user={user} />
-                        </Text>
+                        <User name={user.name} email={user.email} />
                         {action && (
                             <IconButton
                                 disabled={action.disabled}

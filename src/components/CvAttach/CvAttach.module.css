@@ -2,9 +2,15 @@
     display: none;
 }
 
-.CvAttachFileInputText {
-    cursor: pointer;
-    color: var(--link10);
-    margin: var(--gap-s);
+.CvAttachFileInputIcon {
+    color: var(--text-color);
 }
 
+.CvAttachFileInputText {
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+.CvAttachFileInputText:hover {
+    color: var(--text-color);
+}

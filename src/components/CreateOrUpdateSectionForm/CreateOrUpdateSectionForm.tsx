@@ -1,33 +1,34 @@
 import { useCallback, useState } from 'react';
 import { Candidate, Interview, SectionType, User } from '@prisma/client';
 import { z } from 'zod';
-import {
-    Form,
-    TabsMenu,
-    TabsMenuItem,
-    Text,
-    Fieldset,
-    FormActions,
-    FormAction,
-    FormCard,
-    FormTextarea,
-    FormInput,
-} from '@taskany/bricks';
+import { nullable } from '@taskany/bricks';
 import { useRouter } from 'next/router';
 import { useDebounce } from 'use-debounce';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { danger0 } from '@taskany/colors';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@taskany/bricks/harmony';
+import {
+    Button,
+    Card,
+    CardContent,
+    FormControl,
+    FormControlError,
+    FormControlInput,
+    FormControlLabel,
+    Textarea,
+    Text,
+    Switch,
+    SwitchControl,
+} from '@taskany/bricks/harmony';
 
 import { useSectionCreateMutation, useSectionUpdateMutation } from '../../modules/sectionHooks';
 import { SectionWithRelationsAndResults, CreateOrUpdateSection } from '../../modules/sectionTypes';
 import { trpc } from '../../trpc/trpcClient';
-import { Stack } from '../Stack';
 import { CandidateNameSubtitle } from '../CandidateNameSubtitle/CandidateNameSubtitle';
 import { SectionScheduleCalendar, CalendarEventDetails } from '../SectionScheduleCalendar/SectionScheduleCalendar';
 import { UserComboBox } from '../UserComboBox';
 import { pageHrefs } from '../../utils/paths';
+import { FormActions } from '../FormActions/FormActions';
 
 import { tr } from './CreateOrUpdateSectionForm.i18n';
 import s from './CreateOrUpdateSectionForm.module.css';
@@ -168,16 +169,17 @@ export const CreateOrUpdateSectionForm = ({
     const { videoCallLink } = getValues();
 
     return (
-        <Stack direction="column" gap={14}>
+        <div className={s.CreateOrUpdateSectionForm}>
             <CandidateNameSubtitle name={candidate.name} id={candidate.id} />
-            <TabsMenu>
-                <TabsMenuItem active={!schedulable} onClick={() => onSchedulableToggle(false)}>
-                    {tr('Choice of interviewers')}
-                </TabsMenuItem>
-                <TabsMenuItem active={schedulable} onClick={() => onSchedulableToggle(true)}>
-                    {tr('Calendar')}
-                </TabsMenuItem>
-            </TabsMenu>
+
+            <Switch value={schedulable ? 'calendar' : 'manual'} className={s.CreateOrUpdateSectionFormSwitch}>
+                <SwitchControl
+                    text={tr('Choice of interviewers')}
+                    value="manual"
+                    onClick={() => onSchedulableToggle(false)}
+                />
+                <SwitchControl text={tr('Calendar')} value="calendar" onClick={() => onSchedulableToggle(true)} />
+            </Switch>
 
             {schedulable && (
                 <SectionScheduleCalendar
@@ -190,51 +192,51 @@ export const CreateOrUpdateSectionForm = ({
             )}
 
             {!schedulable && (
-                <FormCard className={s.CreateOrUpdateSectionFormCard}>
-                    <Form onSubmit={onSubmit}>
-                        <Fieldset>
-                            <div className={s.CreateOrUpdateSectionFormWrapperCombobox}>
-                                <UserComboBox
-                                    value={interviewer}
-                                    items={interviewersQuery.data}
-                                    onChange={onInterviewerSelect}
-                                    setInputValue={setSearch}
-                                    placeholder={tr('Choose an interviewer')}
-                                />
-                            </div>
+                <form onSubmit={onSubmit}>
+                    <Card className={s.CreateOrUpdateSectionFormCard}>
+                        <CardContent className={s.CreateOrUpdateSectionFormCardContent}>
+                            <UserComboBox
+                                value={interviewer}
+                                items={interviewersQuery.data}
+                                onChange={onInterviewerSelect}
+                                setInputValue={setSearch}
+                                placeholder={tr('Choose an interviewer')}
+                            />
                             {errors.interviewerId && !watch('interviewerId') && (
                                 <Text size="xs" color={danger0}>
                                     {errors.interviewerId.message}
                                 </Text>
                             )}
-                            <FormTextarea
+
+                            <Textarea
                                 {...register('description')}
-                                error={errors.description}
+                                className={s.CreateOrUpdateSectionFormTextArea}
                                 placeholder={
                                     sectionType.userSelect
                                         ? tr('In which team is the product final held?')
                                         : tr('Write a couple of notes')
                                 }
                                 autoComplete="off"
-                                flat="bottom"
                             />
-                            <FormInput
-                                label={tr('Meeting link')}
-                                error={errors.videoCallLink}
-                                {...register('videoCallLink')}
-                                autoComplete="off"
-                                flat="bottom"
-                            />
-                        </Fieldset>
-                        <FormActions flat="top">
-                            <FormAction left inline></FormAction>
-                            <FormAction right inline>
+                            {nullable(errors.description, (e) => (
+                                <FormControlError error={e} />
+                            ))}
+
+                            <FormControl>
+                                <FormControlLabel>{tr('Meeting link')}</FormControlLabel>
+                                <FormControlInput {...register('videoCallLink')} autoComplete="off" />
+                                {nullable(errors.videoCallLink, (e) => (
+                                    <FormControlError error={e} />
+                                ))}
+                            </FormControl>
+
+                            <FormActions>
                                 <Button view="primary" type="submit" text={tr('Save the section')} />
-                            </FormAction>
-                        </FormActions>
-                    </Form>
-                </FormCard>
+                            </FormActions>
+                        </CardContent>
+                    </Card>
+                </form>
             )}
-        </Stack>
+        </div>
     );
 };

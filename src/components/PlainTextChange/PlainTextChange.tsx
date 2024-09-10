@@ -1,4 +1,5 @@
-import { nullable, Text } from '@taskany/bricks';
+import { Text } from '@taskany/bricks/harmony';
+import { nullable } from '@taskany/bricks';
 
 import { tr } from './PlainTextChange.i18n';
 import s from './PlainTextChange.module.css';

@@ -3,9 +3,8 @@ import ReactDiffViewer, { DiffMethod } from 'react-diff-viewer-continued';
 import { gray9 } from '@taskany/colors';
 import { Text, nullable } from '@taskany/bricks';
 import { IconDividerLineOutline } from '@taskany/icons';
-import { Button } from '@taskany/bricks/harmony';
+import { Button, User } from '@taskany/bricks/harmony';
 
-import { UserAvatar } from '../UserAvatar';
 import { ProblemHistoryWithUser } from '../../modules/problemTypes';
 import { useDistanceDate } from '../../hooks/useDateFormat';
 import { ArchivedChange } from '../ArchivedChange/ArchivedChange';
@@ -57,7 +56,7 @@ export const ProblemHistoryCard: FC<ProblemHistoryCardProps> = ({ problemHistory
     return (
         <div className={s.ProblemHistoryCard}>
             <div className={s.ProblemHistoryCardTitleContainer}>
-                <UserAvatar user={user} />
+                <User name={user.name} email={user.email} />
 
                 <div className={s.ProblemHistoryCardContent}>
                     <Text size="m" color={gray9}>

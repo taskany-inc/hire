@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { InterviewStatus } from '@prisma/client';
-import { Badge, nullable } from '@taskany/bricks';
+import { nullable } from '@taskany/bricks';
+import { Badge } from '@taskany/bricks/harmony';
 
 import { useCommentDeleteMutation, useCommentEditMutation } from '../../modules/commentHooks';
 import { InterviewStatusTagPalette } from '../../utils/tagPalette';
@@ -72,9 +73,13 @@ export const Comment = ({ comment, status }: CommentProps) => {
                     {nullable(validatedStatus, (status) => (
                         <>
                             <CommentViewHeaderTitle>{tr('Interview status:')}</CommentViewHeaderTitle>
-                            <Badge size="l" color={InterviewStatusTagPalette[status]}>
-                                {interviewStatusLabels[status]}
-                            </Badge>
+                            <Badge
+                                size="s"
+                                view="outline"
+                                weight="bold"
+                                color={InterviewStatusTagPalette[status]}
+                                text={interviewStatusLabels[status]}
+                            />
                         </>
                     ))}
                 </CommentViewHeader>

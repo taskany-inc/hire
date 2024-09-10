@@ -1,4 +1,5 @@
-import { nullable, Text } from '@taskany/bricks';
+import { nullable } from '@taskany/bricks';
+import { Text } from '@taskany/bricks/harmony';
 import cn from 'classnames';
 
 import { SectionWithInterviewRelation } from '../../modules/interviewTypes';

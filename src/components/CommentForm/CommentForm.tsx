@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 import { InterviewStatus } from '@prisma/client';
-import { Form, FormAction, nullable, useClickOutside } from '@taskany/bricks';
+import { nullable, useClickOutside } from '@taskany/bricks';
 import { FormControl, Button } from '@taskany/bricks/harmony';
 import cn from 'classnames';
 
@@ -70,13 +70,13 @@ export const CommentForm: React.FC<CommentFormProps> = ({
 
     return (
         <div
-            className={cn(!interviewRejectReason ? s.CommentFormWrapper : s.CommentFormRejectInterviewStatusWrapper, {
+            className={cn(!interviewRejectReason ? s.CommentFormWrapper : undefined, {
                 [s.CommentFormWrapper_focused]: focused,
             })}
             ref={ref}
             tabIndex={0}
         >
-            <Form onSubmit={onCommentSubmit}>
+            <form onSubmit={onCommentSubmit}>
                 {status === InterviewStatus.REJECTED ? (
                     <>
                         {interviewRejectReason}
@@ -84,12 +84,10 @@ export const CommentForm: React.FC<CommentFormProps> = ({
                             <div className={s.FormHelpButton}>
                                 <HelpButton />
                             </div>
-                            <FormAction right inline>
-                                {nullable(!busy, () => (
-                                    <Button text={tr('Cancel')} onClick={onCommentCancel} />
-                                ))}
-                                {actionButton}
-                            </FormAction>
+                            {nullable(!busy, () => (
+                                <Button text={tr('Cancel')} onClick={onCommentCancel} />
+                            ))}
+                            {actionButton}
                         </FormActions>
                     </>
                 ) : (
@@ -114,19 +112,17 @@ export const CommentForm: React.FC<CommentFormProps> = ({
                                     <div className={s.FormHelpButton}>
                                         <HelpButton />
                                     </div>
-                                    <FormAction right inline>
-                                        {nullable(!busy, () => (
-                                            <Button text={tr('Cancel')} onClick={onCommentCancel} />
-                                        ))}
+                                    {nullable(!busy, () => (
+                                        <Button text={tr('Cancel')} onClick={onCommentCancel} />
+                                    ))}
 
-                                        {actionButton}
-                                    </FormAction>
+                                    {actionButton}
                                 </FormActions>
                             </>
                         ))}
                     </>
                 )}
-            </Form>
+            </form>
         </div>
     );
 };

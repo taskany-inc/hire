@@ -1,5 +1,5 @@
 import { VFC } from 'react';
-import { Text } from '@taskany/bricks';
+import { Text } from '@taskany/bricks/harmony';
 
 import { SolutionWithRelations } from '../../modules/solutionTypes';
 import { useSwitchSolutionsOrder } from '../../modules/solutionHooks';

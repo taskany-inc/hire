@@ -1,13 +1,23 @@
+.CreateOrUpdateSectionForm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-m);
+}
+
+.CreateOrUpdateSectionFormSwitch {
+    align-self: flex-start;
+}
+
 .CreateOrUpdateSectionFormCard {
-
-    width: 620px;
-
+    max-width: 620px;
 }
 
-.CreateOrUpdateSectionFormWrapperCombobox {
-
-    padding-left: var(--gap-s);
-    height: 50px;
-
+.CreateOrUpdateSectionFormCardContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-m);
 }
 
+.CreateOrUpdateSectionFormTextArea {
+    height: 300px;
+}

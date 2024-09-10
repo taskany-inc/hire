@@ -1,12 +1,10 @@
 import { useState, VFC } from 'react';
 import { SectionType } from '@prisma/client';
-import { Text } from '@taskany/bricks';
+import { Card, CardInfo, CardContent, Text } from '@taskany/bricks/harmony';
 import { IconCircleOutline, IconTickCircleOutline } from '@taskany/icons';
 
 import { useDeleteSectionTypeMutation } from '../../modules/sectionTypeHooks';
-import { Card } from '../Card/Card';
 import { CardHeader } from '../CardHeader/CardHeader';
-import { CardContent } from '../CardContent';
 import { Confirmation, useConfirmation } from '../Confirmation/Confirmation';
 import { TitleMenuItem } from '../TitleMenu/TitleMenu';
 import { UpdateSectionTypeModal } from '../SectionTypeForm/SectionTypeForm';
@@ -52,11 +50,15 @@ export const SectionTypeCard: VFC<SectionTypeCardProps> = ({ sectionType }) => {
     return (
         <>
             <Card>
-                <CardHeader
-                    title={sectionType.title}
-                    subTitle={<span style={{ color: sectionType.eventColor ?? undefined }}>{sectionType.value}</span>}
-                    menu={menu}
-                />
+                <CardInfo>
+                    <CardHeader
+                        title={sectionType.title}
+                        subTitle={
+                            <span style={{ color: sectionType.eventColor ?? undefined }}>{sectionType.value}</span>
+                        }
+                        menu={menu}
+                    />
+                </CardInfo>
                 <CardContent>
                     <CheckboxLine value={sectionType.hasTasks} text={tr('Contains problems')} />
                     <CheckboxLine value={sectionType.userSelect} text={tr('Team selection')} />

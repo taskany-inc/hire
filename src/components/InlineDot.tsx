@@ -1,9 +1,12 @@
-import { VFC } from 'react';
-import { Text } from '@taskany/bricks';
+import { Text } from '@taskany/bricks/harmony';
 
 import { symbols } from '../utils/symbols';
 
-export const InlineDot: VFC<{ className?: string }> = ({ className }) => (
+interface InlineDotProps {
+    className?: string;
+}
+
+export const InlineDot = ({ className }: InlineDotProps) => (
     <Text className={className} size="xxs" as="span">
         {symbols.blackCircle}
     </Text>

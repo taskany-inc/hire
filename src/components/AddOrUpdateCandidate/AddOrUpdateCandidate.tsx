@@ -4,19 +4,23 @@ import { Candidate } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { gray8 } from '@taskany/colors';
-import { Fieldset, Form, FormAction, FormActions, FormCard, FormInput, nullable } from '@taskany/bricks';
+import { nullable } from '@taskany/bricks';
 import {
     Button,
-    Badge,
-    Text,
     Dropdown,
     DropdownTrigger,
     DropdownPanel,
+    Fieldset,
+    FormControl,
+    FormControlInput,
+    FormControlLabel,
+    FormControlError,
     Input,
     ListView,
     ListViewItem,
     MenuItem,
+    Card,
+    CardContent,
 } from '@taskany/bricks/harmony';
 import { IconSearchOutline } from '@taskany/icons';
 
@@ -28,6 +32,7 @@ import {
     useOutstaffVendors,
 } from '../../modules/candidateHooks';
 import { PhoneField } from '../PhoneField/PhoneField';
+import { FormActions } from '../FormActions/FormActions';
 import { AddInlineTrigger } from '../AddInlineTrigger/AddInlineTrigger';
 
 import { tr } from './AddOrUpdateCandidate.i18n';
@@ -137,102 +142,106 @@ export const AddOrUpdateCandidate: VFC<AddOrUpdateCandidateProps> = (props) => {
         setVendorsVisible(false);
     };
     return (
-        <FormCard className={s.AddOrUpdateCandidateFormCard}>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-                <Fieldset>
-                    <FormInput
-                        {...register('name')}
-                        label={tr('Full name')}
-                        autoComplete="off"
-                        flat="bottom"
-                        error={errors.name}
-                    />
-                    <FormInput
-                        label={tr('Email')}
-                        error={errors.email}
-                        {...register('email')}
-                        autoComplete="off"
-                        flat="bottom"
-                    />
-                    <PhoneField
-                        name="phone"
-                        control={control}
-                        defaultValue={candidate?.phone || ''}
-                        options={{ required: false }}
-                    />
-                    <div className={s.SelectVendor}>
-                        <Text weight="bold" color={gray8} as="label">
-                            {tr('Employment:')}
-                        </Text>
-                        <Dropdown
-                            isOpen={vendorsVisible}
-                            onClose={() => {
-                                setVendorsVisible(false);
-                            }}
-                        >
-                            <DropdownTrigger
-                                renderTrigger={(props) => (
-                                    <div ref={props.ref}>
-                                        {nullable(
-                                            outstaffVendors?.find(({ id }) => id === watch('outstaffVendorId'))?.title,
-                                            (title) => (
-                                                <Badge text={title} onClick={() => setVendorsVisible(true)} />
-                                            ),
-                                            <AddInlineTrigger
-                                                text={tr('Choose vendor')}
-                                                onClick={() => setVendorsVisible(true)}
-                                                ref={props.ref}
-                                            />,
-                                        )}
-                                    </div>
-                                )}
-                            />
-                            <DropdownPanel placement="bottom-start" className={s.VendorsDropdown}>
-                                <Input
-                                    placeholder={tr('Choose vendor')}
-                                    outline
-                                    value={vendorSearch}
-                                    autoFocus
-                                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                                        setVendorSearch(e.currentTarget.value);
-                                        setVendorsVisible(true);
-                                    }}
-                                    iconLeft={<IconSearchOutline size="s" />}
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <Card className={s.AddOrUpdateCandidateFormCard}>
+                <CardContent>
+                    <Fieldset title={tr('Candidate data')} className={s.AddOrUpdateCandidateFormCardFields}>
+                        <FormControl>
+                            <FormControlLabel>{tr('Full name')}</FormControlLabel>
+                            <FormControlInput {...register('name')} autoComplete="off" />
+                            {nullable(errors.name, (e) => (
+                                <FormControlError error={e} />
+                            ))}
+                        </FormControl>
+
+                        <FormControl>
+                            <FormControlLabel>{tr('Email')}</FormControlLabel>
+                            <FormControlInput {...register('email')} autoComplete="off" />
+                            {nullable(errors.email, (e) => (
+                                <FormControlError error={e} />
+                            ))}
+                        </FormControl>
+
+                        <PhoneField
+                            name="phone"
+                            control={control}
+                            defaultValue={candidate?.phone || ''}
+                            options={{ required: false }}
+                        />
+
+                        <FormControl>
+                            <FormControlLabel>{tr('Employment')}</FormControlLabel>
+                            <Dropdown
+                                isOpen={vendorsVisible}
+                                onClose={() => {
+                                    setVendorsVisible(false);
+                                }}
+                            >
+                                <DropdownTrigger
+                                    renderTrigger={(props) => (
+                                        <div ref={props.ref}>
+                                            {nullable(
+                                                outstaffVendors?.find(({ id }) => id === watch('outstaffVendorId'))
+                                                    ?.title,
+                                                (title) => (
+                                                    <Button text={title} onClick={() => setVendorsVisible(true)} />
+                                                ),
+                                                <AddInlineTrigger
+                                                    text={tr('Choose vendor')}
+                                                    onClick={() => setVendorsVisible(true)}
+                                                    ref={props.ref}
+                                                />,
+                                            )}
+                                        </div>
+                                    )}
                                 />
-                                <ListView>
-                                    {outstaffVendors
-                                        .filter(({ title }) => title.toLowerCase().includes(vendorSearch.toLowerCase()))
-                                        ?.map((vendor) => (
-                                            <ListViewItem
-                                                key={vendor.id}
-                                                renderItem={({ active, hovered, ...props }) => (
-                                                    <MenuItem
-                                                        onClick={() => onOutstaffVendorIdChange(vendor.id)}
-                                                        hovered={active || hovered}
-                                                        {...props}
-                                                    >
-                                                        {vendor.title}
-                                                    </MenuItem>
-                                                )}
-                                            />
-                                        ))}
-                                </ListView>
-                            </DropdownPanel>
-                        </Dropdown>
-                    </div>
-                </Fieldset>
-                <FormActions flat="top">
-                    <FormAction left inline></FormAction>
-                    <FormAction right inline>
+                                <DropdownPanel placement="bottom-start" className={s.VendorsDropdown}>
+                                    <Input
+                                        placeholder={tr('Choose vendor')}
+                                        outline
+                                        value={vendorSearch}
+                                        autoFocus
+                                        onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                                            setVendorSearch(e.currentTarget.value);
+                                            setVendorsVisible(true);
+                                        }}
+                                        iconLeft={<IconSearchOutline size="s" />}
+                                    />
+                                    <ListView>
+                                        {outstaffVendors
+                                            .filter(({ title }) =>
+                                                title.toLowerCase().includes(vendorSearch.toLowerCase()),
+                                            )
+                                            ?.map((vendor) => (
+                                                <ListViewItem
+                                                    key={vendor.id}
+                                                    renderItem={({ active, hovered, ...props }) => (
+                                                        <MenuItem
+                                                            onClick={() => onOutstaffVendorIdChange(vendor.id)}
+                                                            hovered={active || hovered}
+                                                            {...props}
+                                                        >
+                                                            {vendor.title}
+                                                        </MenuItem>
+                                                    )}
+                                                />
+                                            ))}
+                                    </ListView>
+                                </DropdownPanel>
+                            </Dropdown>
+                        </FormControl>
+                    </Fieldset>
+
+                    <FormActions className={s.AddOrUpdateCandidateFormCardActions}>
                         <Button
                             view="primary"
                             type="submit"
                             text={variant === 'new' ? tr('Add candidate') : tr('Save candidate')}
                             disabled={isSubmitting}
                         />
-                    </FormAction>
-                </FormActions>
-            </Form>
-        </FormCard>
+                    </FormActions>
+                </CardContent>
+            </Card>
+        </form>
     );
 };

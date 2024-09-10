@@ -1,6 +1,6 @@
 import { InterviewStatus, RejectReason } from '@prisma/client';
 import React, { useState, useCallback, ComponentProps, useMemo } from 'react';
-import { UserPic, nullable } from '@taskany/bricks';
+import { nullable } from '@taskany/bricks';
 import { IconDownSmallSolid, IconUpSmallSolid } from '@taskany/icons';
 import {
     FormEditor,
@@ -11,6 +11,7 @@ import {
     MenuItem,
     ListView,
     ListViewItem,
+    Avatar,
 } from '@taskany/bricks/harmony';
 
 import { useSession } from '../../contexts/appSettingsContext';
@@ -123,7 +124,7 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
 
     return (
         <ActivityFeedItem>
-            <UserPic size={32} email={session?.user?.email} name={session?.user?.name} />
+            <Avatar size="m" email={session?.user?.email} name={session?.user?.name} />
 
             <ActivityFeedItemContent>
                 <CommentForm

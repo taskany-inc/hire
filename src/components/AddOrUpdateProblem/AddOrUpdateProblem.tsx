@@ -5,8 +5,18 @@ import { Tag, ProblemDifficulty } from '@prisma/client';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { danger0, gray8 } from '@taskany/colors';
-import { FormInput, Form, FormCard, FormActions, FormAction } from '@taskany/bricks';
-import { Button, Badge, Text } from '@taskany/bricks/harmony';
+import {
+    Button,
+    Badge,
+    Text,
+    FormControl,
+    FormControlInput,
+    FormControlLabel,
+    FormControlError,
+    Card,
+    CardContent,
+} from '@taskany/bricks/harmony';
+import { nullable } from '@taskany/bricks';
 
 import { useProblemCreateMutation, useProblemUpdateMutation } from '../../modules/problemHooks';
 import { pageHrefs } from '../../utils/paths';
@@ -18,9 +28,9 @@ import { CreateProblem } from '../../modules/problemTypes';
 import { validationRules } from '../../utils/validationRules';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
-import { Stack } from '../Stack';
 import { Select } from '../Select';
 import { Autocomplete } from '../Autocomplete/Autocomplete';
+import { FormActions } from '../FormActions/FormActions';
 
 import { tr } from './AddOrUpdateProblem.i18n';
 import s from './AddOrUpdateProblem.module.css';
@@ -132,16 +142,16 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
     const onDifficultyChange = (difficulty: ProblemDifficulty) => setValue('difficulty', difficulty);
 
     return (
-        <FormCard className={s.AddOrUpdateProblemFormCard}>
-            <Form onSubmit={onSubmit}>
-                <Stack direction="column" gap="12px" justifyItems="flex-start">
-                    <FormInput
-                        {...register('name')}
-                        label={tr('Name')}
-                        autoComplete="off"
-                        flat="bottom"
-                        error={errors.name}
-                    />
+        <form onSubmit={onSubmit}>
+            <Card>
+                <CardContent className={s.AddOrUpdateProblemFormCard}>
+                    <FormControl style={{ width: '100%' }}>
+                        <FormControlLabel>{tr('Name')}</FormControlLabel>
+                        <FormControlInput {...register('name')} autoComplete="off" />
+                        {nullable(errors.name, (e) => (
+                            <FormControlError error={e} />
+                        ))}
+                    </FormControl>
 
                     <QueryResolver queries={[tagQuery]}>
                         {([tags]) => (
@@ -162,7 +172,6 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                         )}
                     </QueryResolver>
                     <CodeEditorField
-                        className={s.CodeEditorField}
                         passedError={errors.description}
                         disableAttaches
                         name="description"
@@ -172,7 +181,6 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                         placeholder={descriptionPlaceholder}
                     />
                     <CodeEditorField
-                        className={s.CodeEditorField}
                         passedError={errors.solution}
                         disableAttaches
                         name="solution"
@@ -202,14 +210,12 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                             {errors.difficulty.message}
                         </Text>
                     )}
-                </Stack>
-                <FormActions flat="top">
-                    <FormAction left inline></FormAction>
-                    <FormAction right inline>
+
+                    <FormActions>
                         <Button type="submit" view="primary" disabled={isSubmitting} text={tr('Save')} />
-                    </FormAction>
-                </FormActions>
-            </Form>
-        </FormCard>
+                    </FormActions>
+                </CardContent>
+            </Card>
+        </form>
     );
 };

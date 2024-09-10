@@ -1,6 +1,7 @@
 import { ComponentProps, useCallback, useState } from 'react';
 import { Candidate } from '@prisma/client';
-import { nullable, Text } from '@taskany/bricks';
+import { nullable } from '@taskany/bricks';
+import { Text } from '@taskany/bricks/harmony';
 
 import { CvAttach } from '../CvAttach/CvAttach';
 import { CvParsingResult } from '../../modules/aiAssistantTypes';
@@ -21,7 +22,7 @@ export const AddCandidateByCv = () => {
     }, []);
 
     return (
-        <>
+        <div className={s.AddCandidateByCv}>
             {nullable(!(candidate || cvParsingResult), () => (
                 <CvAttach onParse={onCvParse} />
             ))}
@@ -47,6 +48,6 @@ export const AddCandidateByCv = () => {
                     <CandidateInterviewCreationForm candidate={c} preparedCvAttach={cvAttach} />
                 </>
             ))}
-        </>
+        </div>
     );
 };

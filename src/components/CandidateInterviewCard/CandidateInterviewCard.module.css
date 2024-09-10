@@ -1,0 +1,12 @@
+.CandidateInterviewCard {
+    max-width: 900px;
+}
+
+.CandidateInterviewCardHeader {
+    color: var(--text-color);
+}
+
+.CandidateInterviewCardNoDescription {
+    font-style: italic;
+    color: var(--text-secondary);
+}

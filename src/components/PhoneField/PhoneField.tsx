@@ -1,11 +1,12 @@
 import { SyntheticEvent } from 'react';
 import { useRifm } from 'rifm';
 import { Control, FieldPath, FieldValues, RegisterOptions, useController } from 'react-hook-form';
-import { FormInput } from '@taskany/bricks';
+import { FormControl, FormControlInput, FormControlLabel, FormControlError } from '@taskany/bricks/harmony';
+import { nullable } from '@taskany/bricks';
 
 import { tr } from './PhoneField.i18n';
 
-type InputProps = JSX.LibraryManagedAttributes<typeof FormInput, React.ComponentProps<typeof FormInput>>;
+type InputProps = JSX.LibraryManagedAttributes<typeof FormControlInput, React.ComponentProps<typeof FormControlInput>>;
 
 const stripPhone = (str: string) => str.slice(3).replace(/[^\d]/g, '');
 
@@ -56,7 +57,7 @@ export const PhoneField = <T extends FieldValues>({
     defaultValue,
     ...restProps
 }: PhoneFieldProps<T>): JSX.Element => {
-    const { field } = useController({
+    const { field, fieldState } = useController({
         name,
         control,
         rules: {
@@ -75,14 +76,19 @@ export const PhoneField = <T extends FieldValues>({
     });
 
     return (
-        <FormInput
-            label={tr('Phone number')}
-            {...restProps}
-            {...rifm}
-            defaultValue={String(defaultValue)}
-            onFocus={tweakSelection}
-            onClick={tweakSelection}
-            onKeyUp={tweakSelection}
-        />
+        <FormControl>
+            <FormControlLabel>{tr('Phone number')}</FormControlLabel>
+            <FormControlInput
+                {...restProps}
+                {...rifm}
+                defaultValue={String(defaultValue)}
+                onFocus={tweakSelection}
+                onClick={tweakSelection}
+                onKeyUp={tweakSelection}
+            />
+            {nullable(fieldState.error, (e) => (
+                <FormControlError error={e} />
+            ))}
+        </FormControl>
     );
 };

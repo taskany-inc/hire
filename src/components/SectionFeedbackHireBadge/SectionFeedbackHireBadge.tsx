@@ -1,61 +1,41 @@
-import { VFC } from 'react';
+import { useMemo } from 'react';
 import { SectionType } from '@prisma/client';
-import { Badge } from '@taskany/bricks';
+import { Badge } from '@taskany/bricks/harmony';
 
 import { TagPaletteColor } from '../../utils/tagPalette';
 import { SectionType as SectionTypeEnum } from '../../utils/dictionaries';
 
 import { tr } from './SectionFeedbackHireBadge.i18n';
 
-export const SectionFeedbackHireBadge: VFC<{ hire: boolean | null }> = ({ hire }) => {
-    if (hire === null) {
-        return (
-            <Badge size="l" color={TagPaletteColor.BLUE}>
-                {tr('New')}
-            </Badge>
-        );
-    }
+export const SectionFeedbackHireBadge = ({ hire }: { hire: boolean | null }) => {
+    const text = useMemo(() => {
+        if (hire === null) return tr('New');
+        if (hire) return tr('Hire');
+        return tr('No hire');
+    }, [hire]);
 
-    if (hire) {
-        return (
-            <Badge size="l" color={TagPaletteColor.GREEN}>
-                {tr('Hire')}
-            </Badge>
-        );
-    }
+    const color = useMemo(() => {
+        if (hire === null) return TagPaletteColor.BLUE;
+        if (hire) return TagPaletteColor.GREEN;
+        return TagPaletteColor.RED;
+    }, [hire]);
 
-    return (
-        <Badge size="l" color={TagPaletteColor.RED}>
-            {tr('No hire')}
-        </Badge>
-    );
+    return <Badge color={color} text={text} size="s" weight="regular" view="outline" />;
 };
 
-export const SectionTypeBadge: VFC<{ sectionType: SectionType }> = ({ sectionType }) => {
-    switch (sectionType.value) {
-        case SectionTypeEnum.CODING:
-            return (
-                <Badge size="l" color={TagPaletteColor.CYAN}>
-                    {sectionType.value}
-                </Badge>
-            );
-        case SectionTypeEnum.FINAL:
-            return (
-                <Badge size="l" color={TagPaletteColor.PURPLE_GREY}>
-                    {sectionType.value}
-                </Badge>
-            );
-        case SectionTypeEnum.PRODUCT_FINAL:
-            return (
-                <Badge size="l" color={TagPaletteColor.SOFT_BLUE}>
-                    {sectionType.value}
-                </Badge>
-            );
-        default:
-            return (
-                <Badge size="l" color={TagPaletteColor.MAGENTA}>
-                    {sectionType.value}
-                </Badge>
-            );
-    }
+export const SectionTypeBadge = ({ sectionType }: { sectionType: SectionType }) => {
+    const color = useMemo(() => {
+        switch (sectionType.value) {
+            case SectionTypeEnum.CODING:
+                return TagPaletteColor.CYAN;
+            case SectionTypeEnum.FINAL:
+                return TagPaletteColor.PURPLE_GREY;
+            case SectionTypeEnum.PRODUCT_FINAL:
+                return TagPaletteColor.SOFT_BLUE;
+            default:
+                return TagPaletteColor.MAGENTA;
+        }
+    }, [sectionType]);
+
+    return <Badge color={color} text={sectionType.value} size="s" weight="regular" view="outline" />;
 };

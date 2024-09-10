@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ModalContent, ModalHeader, ModalPreview, Text } from '@taskany/bricks';
+import { ModalContent, ModalHeader, ModalPreview, Text } from '@taskany/bricks/harmony';
 import { gray10 } from '@taskany/colors';
 
 import { VacancyFilterBar } from '../VacancyFilterBar/VacancyFilterBar';

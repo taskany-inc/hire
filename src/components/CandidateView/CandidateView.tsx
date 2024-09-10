@@ -1,6 +1,5 @@
 import { FC } from 'react';
-import { Text } from '@taskany/bricks';
-import { Button } from '@taskany/bricks/harmony';
+import { Button, Text } from '@taskany/bricks/harmony';
 
 import { pageHrefs } from '../../utils/paths';
 import { CandidateWithVendorRelation } from '../../modules/candidateTypes';
@@ -9,7 +8,7 @@ import { Stack } from '../Stack';
 import { Link } from '../Link';
 import { CandidateBIO } from '../CandidateBIO/CandidateBIO';
 import { useDistanceDate } from '../../hooks/useDateFormat';
-import { CandidateInterviewCard } from '../CandidateInterviewCard';
+import { CandidateInterviewCard } from '../CandidateInterviewCard/CandidateInterviewCard';
 
 import { tr } from './CandidateView.i18n';
 import s from './CandidateView.module.css';
@@ -25,8 +24,8 @@ export const CandidateView: FC<Props> = ({ candidate, interviews, isShowAddButto
 
     return (
         <>
-            <Stack direction="column">
-                <Text size="s" color="textSecondary" as="p" style={{ marginBottom: 10 }}>
+            <Stack direction="column" justifyContent="flex-start">
+                <Text size="s" as="p" style={{ marginBottom: 10 }}>
                     {tr('Added')} {date}
                 </Text>
                 <CandidateBIO candidate={candidate} />

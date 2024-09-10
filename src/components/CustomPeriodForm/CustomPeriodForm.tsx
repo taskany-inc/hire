@@ -1,10 +1,10 @@
 import { format } from 'date-fns';
 import { useState } from 'react';
-import { Fieldset, Form, FormAction, FormActions, FormCard } from '@taskany/bricks';
 import { Button } from '@taskany/bricks/harmony';
 
 import { DatePicker } from '../DatePicker/DatePicker';
 import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
+import { FormActions } from '../FormActions/FormActions';
 
 import { tr } from './CustomPeriodForm.i18n';
 import s from './CustomPeriodForm.module.css';
@@ -31,27 +31,15 @@ export const CustomPeriodForm = ({ close }: CustomPeriodFormProps) => {
     const submitButtonText = submitButtonDisabled ? tr('Start date later than end date') : tr('Set period');
 
     return (
-        <FormCard className={s.CustomPeriodFormCard}>
-            <Form onSubmit={onSubmitButton}>
-                <Fieldset>
-                    <div className={s.CustomPeriodFormDateContainer}>
-                        <DatePicker value={newStartDate} onChange={setNewStartDate} label={tr('Start of period')} />
-                        <DatePicker value={newEndDate} onChange={setNewEndDate} label={tr('End of period')} />
-                    </div>
-                </Fieldset>
-                <FormActions flat="top">
-                    <FormAction left inline></FormAction>
-                    <FormAction right inline>
-                        <Button
-                            size="m"
-                            view="primary"
-                            type="submit"
-                            text={submitButtonText}
-                            disabled={submitButtonDisabled}
-                        />
-                    </FormAction>
-                </FormActions>
-            </Form>
-        </FormCard>
+        <form onSubmit={onSubmitButton}>
+            <div className={s.CustomPeriodFormDateContainer}>
+                <DatePicker value={newStartDate} onChange={setNewStartDate} label={tr('Start of period')} />
+                <DatePicker value={newEndDate} onChange={setNewEndDate} label={tr('End of period')} />
+            </div>
+
+            <FormActions>
+                <Button size="s" view="primary" type="submit" text={submitButtonText} disabled={submitButtonDisabled} />
+            </FormActions>
+        </form>
     );
 };

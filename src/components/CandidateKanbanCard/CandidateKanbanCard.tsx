@@ -1,11 +1,12 @@
-import { ComponentProps, FC, HTMLAttributes } from 'react';
+import { ComponentProps, FC, HTMLAttributes, ReactNode } from 'react';
 import {
+    Dropdown,
+    DropdownTrigger,
     KanbanCard,
     KanbanCardContent,
     KanbanCardContentItem,
     KanbanCardInfo,
     KanbanCardTitle,
-    Link,
     Text,
 } from '@taskany/bricks/harmony';
 import { nullable } from '@taskany/bricks';
@@ -15,6 +16,9 @@ import { pageHrefs } from '../../utils/paths';
 import { InlineDot } from '../InlineDot';
 import { ExternalUserLink } from '../ExternalUserLink';
 import { SectionsProgress } from '../SectionsProgress/SectionsProgress';
+import { Link } from '../Link';
+import { Avatar } from '../Avatar';
+import { getAuthorLink } from '../../utils/user';
 
 import { CandidateKanbanCardComment } from './CandidateKanbanCardComment';
 import { tr } from './CandidateKanbanCard.i18n';
@@ -31,6 +35,16 @@ interface CandidateKanbanCard extends Omit<HTMLAttributes<HTMLDivElement>, 'id'>
     gradeVisibility?: boolean;
 }
 
+const ReadOnlyDropdown = ({ children, label }: { children: ReactNode; label: string }) => {
+    return (
+        <Dropdown isOpen={false} arrow>
+            <DropdownTrigger view="outline" label={label} readOnly>
+                {children}
+            </DropdownTrigger>
+        </Dropdown>
+    );
+};
+
 export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
     id,
     title,
@@ -42,6 +56,7 @@ export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
     gradeVisibility,
     ...rest
 }) => {
+    const hrLink = getAuthorLink(hr.email);
     const date = useDistanceDate(createdAt);
 
     return (
@@ -50,16 +65,21 @@ export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
                 <Link href={pageHrefs.candidate(id)}>{title}</Link>
             </KanbanCardTitle>
             <KanbanCardInfo className={s.CandidateKanbanCardInfo}>
-                <Link href={pageHrefs.interview(interviewId)}>#{interviewId}</Link>
+                <Text size="s">
+                    <Link href={pageHrefs.interview(interviewId)}>#{interviewId}</Link>
+                </Text>
                 <InlineDot className={s.CandidateKanbanCardDot} />
-                {tr('Created at')} {date}
+                <Text size="s">
+                    {tr('Created at')} {date}
+                </Text>
             </KanbanCardInfo>
             <KanbanCardContent className={s.CandidateKanbanCardContentRow}>
                 <KanbanCardContentItem>
-                    <Text as="span">{tr('HR:')} </Text>
-                    <Text size="m" as="span" className={s.CandidateKanbanCardText_highlighted}>
-                        <ExternalUserLink user={hr} />
-                    </Text>
+                    <ReadOnlyDropdown label={tr('HR')}>
+                        <Link href={hrLink} inline target="_blank">
+                            <Avatar email={hr.email} name={hr.name} tooltip={hr.name || hr.email} />
+                        </Link>
+                    </ReadOnlyDropdown>
                 </KanbanCardContentItem>
             </KanbanCardContent>
             {nullable(sections, (sct) => (

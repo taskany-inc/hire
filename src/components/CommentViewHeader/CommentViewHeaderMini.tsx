@@ -7,6 +7,7 @@ import { ExternalUserLink } from '../ExternalUserLink';
 import { CommentViewHeaderContainer } from './CommentViewHeaderContainer';
 import { CommentViewHeaderMetaInfo } from './CommentViewHeaderMetaInfo';
 import { CommentViewHeaderDot } from './CommentViewHeaderDot';
+import s from './CommentViewHeader.module.css';
 
 interface CommentViewHeaderMiniProps {
     children?: ReactNode;
@@ -18,7 +19,7 @@ export const CommentViewHeaderMini: FC<CommentViewHeaderMiniProps> = ({ author, 
     return (
         <CommentViewHeaderContainer>
             <CommentViewHeaderMetaInfo>
-                <Text size="s" weight="bold">
+                <Text size="s" weight="bold" className={s.CommentViewHeaderMiniAuthor}>
                     <ExternalUserLink user={author} />
                 </Text>
 
@@ -26,7 +27,7 @@ export const CommentViewHeaderMini: FC<CommentViewHeaderMiniProps> = ({ author, 
                     <CommentViewHeaderDot />
                 ))}
 
-                {children}
+                <div className={s.CommentViewHeaderMiniChildren}>{children}</div>
             </CommentViewHeaderMetaInfo>
         </CommentViewHeaderContainer>
     );

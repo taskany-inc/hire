@@ -3,7 +3,6 @@
 }
 
 .CandidateKanbanCardDot.CandidateKanbanCardDot {
-    margin: 0 var(--gap-s);
     color: inherit;
 }
 

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.64.0](https://github.com/taskany-inc/hire/compare/v0.63.0...v0.64.0) (2024-09-12)
+
+
+### Features
+
+* **calendar page:** harmony components ([6c8b654](https://github.com/taskany-inc/hire/commit/6c8b6546066f0db16fce351a83a0c9585c515038))
+* harmony forms ([abf3c54](https://github.com/taskany-inc/hire/commit/abf3c54177f32b806162e99ef1d6a3f3b5e33ef9))
+
 ## [0.63.0](https://github.com/taskany-inc/hire/compare/v0.62.1...v0.63.0) (2024-09-09)
 
 

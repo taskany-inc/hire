@@ -9,6 +9,7 @@ import { CandidatesRejectReasons } from '../CandidatesRejectReasons/CandidatesRe
 import { Paths } from '../../utils/paths';
 
 import { tr } from './AnalyticsCommonPage.i18n';
+import s from './AnalyticsCommonPage.module.css';
 
 export const AnalyticsCommonPage = () => {
     const hireStreamsQuery = useHireStreams();
@@ -21,10 +22,12 @@ export const AnalyticsCommonPage = () => {
                     aboveContainer={<AnalyticsFilterMenuBar hireStreams={hireStreams} />}
                     backlink={Paths.ANALYTICS}
                 >
-                    <HiringFunnel allStreams={hireStreams} />
-                    <FinishedSectionsByInterviewer allStreams={hireStreams} />
-                    <CandidatesByHireStream allStreams={hireStreams} />
-                    <CandidatesRejectReasons allStreams={hireStreams} />
+                    <div className={s.AnalyticsCommonPage}>
+                        <HiringFunnel allStreams={hireStreams} />
+                        <FinishedSectionsByInterviewer allStreams={hireStreams} />
+                        <CandidatesByHireStream allStreams={hireStreams} />
+                        <CandidatesRejectReasons allStreams={hireStreams} />
+                    </div>
                 </LayoutMain>
             )}
         </QueryResolver>

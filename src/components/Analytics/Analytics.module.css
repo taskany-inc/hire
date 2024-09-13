@@ -1,5 +1,5 @@
 .AnalyticsCard {
-    width: max-content;
-    margin-bottom: 6px;
+    width: 500px;
+    margin-bottom: var(--gap-m);
 }
 

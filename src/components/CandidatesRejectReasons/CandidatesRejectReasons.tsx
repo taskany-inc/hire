@@ -1,12 +1,12 @@
 import { HireStream } from '@prisma/client';
 import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts';
-import { backgroundColor } from '@taskany/colors';
-import { Text } from '@taskany/bricks/harmony';
+import { Card, CardContent, CardInfo, Text } from '@taskany/bricks/harmony';
 
 import { useCandidatesRejectReasons } from '../../modules/analyticsQueriesHooks';
 import { getPieChartSliceColor, mapInterval, RADIAN } from '../../utils';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
+import { analyticsPalette } from '../../utils/analyticsPalette';
 
 import { tr } from './CandidatesRejectReasons.i18n';
 import s from './CandidatesRejectReasons.module.css';
@@ -23,7 +23,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
     const percentRounded = Math.round(percent * 100);
 
     return (
-        <text x={x} y={y} textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central" fill="white">
+        <text x={x} y={y} textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central" fill={analyticsPalette.text}>
             {`${value} (${percentRounded}%)`}
         </text>
     );
@@ -46,39 +46,45 @@ export const CandidatesRejectReasons = ({ allStreams }: Props) => {
     });
 
     return (
-        <>
-            <Text size="xl" style={{ marginTop: 10, marginLeft: 30 }}>
-                {tr('Reasons for not hiring')}
-            </Text>
-            <QueryResolver queries={[dataQuery]}>
-                {([data]) => (
-                    <div className={s.CandidatesRejectReasonsChartWrapper}>
-                        <PieChart width={700} height={500}>
-                            <Pie
-                                data={data}
-                                dataKey="candidate"
-                                label={renderCustomizedLabel}
-                                labelLine={false}
-                                innerRadius={100}
-                            >
-                                {data.map((item, i) => (
-                                    <Cell
-                                        key={item.rejectreason}
-                                        fill={getPieChartSliceColor(mapInterval(0, data.length, 3, 5, i))}
-                                    />
-                                ))}
-                            </Pie>
-                            <Tooltip
-                                formatter={(value, _name, props) => [value, props.payload.payload.rejectreason]}
-                                itemStyle={{ color: 'white' }}
-                                wrapperStyle={{ border: 'none', outline: 'none' }}
-                                contentStyle={{ backgroundColor }}
-                            />
-                            <Legend layout="vertical" verticalAlign="middle" align="right" formatter={formatLegend} />
-                        </PieChart>
-                    </div>
-                )}
-            </QueryResolver>
-        </>
+        <Card>
+            <CardInfo>
+                <Text size="xl">{tr('Reasons for not hiring')}</Text>
+            </CardInfo>
+            <CardContent>
+                <QueryResolver queries={[dataQuery]}>
+                    {([data]) => (
+                        <div className={s.CandidatesRejectReasonsChartWrapper}>
+                            <PieChart width={700} height={500}>
+                                <Pie
+                                    data={data}
+                                    dataKey="candidate"
+                                    label={renderCustomizedLabel}
+                                    labelLine={false}
+                                    innerRadius={100}
+                                >
+                                    {data.map((item, i) => (
+                                        <Cell
+                                            key={item.rejectreason}
+                                            fill={getPieChartSliceColor(mapInterval(0, data.length, 3, 5, i))}
+                                        />
+                                    ))}
+                                </Pie>
+                                <Tooltip
+                                    formatter={(value, _name, props) => [value, props.payload.payload.rejectreason]}
+                                    itemStyle={{ color: analyticsPalette.text }}
+                                    contentStyle={{ backgroundColor: analyticsPalette.tooltipBg }}
+                                />
+                                <Legend
+                                    layout="vertical"
+                                    verticalAlign="middle"
+                                    align="right"
+                                    formatter={formatLegend}
+                                />
+                            </PieChart>
+                        </div>
+                    )}
+                </QueryResolver>
+            </CardContent>
+        </Card>
     );
 };

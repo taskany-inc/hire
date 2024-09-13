@@ -1,7 +1,8 @@
 import { trpc } from '../../trpc/trpcClient';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
-import { HireStreamList } from '../HireStreamList';
+import { HireStreamList } from '../HireStreamList/HireStreamList';
 import { LayoutMain } from '../LayoutMain/LayoutMain';
+import { pageHrefs } from '../../utils/paths';
 
 import { tr } from './HireStreamsPages.i18n';
 
@@ -11,7 +12,9 @@ const HireStreamsPages = () => {
     return (
         <LayoutMain pageTitle={tr('Hire streams')}>
             <QueryResolver queries={[hireStreamsQuery]}>
-                {([hireStreams]) => <HireStreamList hireStreams={hireStreams} />}
+                {([hireStreams]) => (
+                    <HireStreamList hireStreams={hireStreams} getLink={(stream) => pageHrefs.hireStream(stream.id)} />
+                )}
             </QueryResolver>
         </LayoutMain>
     );

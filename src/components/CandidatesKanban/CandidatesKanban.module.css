@@ -1,8 +1,13 @@
 .KanbanColumnTitle {
     display: flex;
-    padding-bottom: var(--gap-m);
+    padding: var(--gap-m);
+    position: sticky;
+    top: var(--gap-m);
+    background: var(--background);
+    background: linear-gradient(var(--background) 70%, rgba(0, 0, 0, 0) 100%);
+    z-index: 1;
 }
 
 .KanbanContainer {
-    padding: var(--gap-m) 0;
+    padding-bottom: var(--gap-m);
 }

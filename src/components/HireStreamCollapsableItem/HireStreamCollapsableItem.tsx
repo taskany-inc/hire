@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 import NextLink from 'next/link';
-import { Text, TreeView, TreeViewNode, TreeViewElement, Link } from '@taskany/bricks/harmony';
+import { Text, TreeView, TreeViewNode, TreeViewElement, TreeViewTitle, Link } from '@taskany/bricks/harmony';
 
 import { pageHrefs } from '../../utils/paths';
 
@@ -19,13 +19,15 @@ export const HireStreamCollapsableItem: FC<{
                 visible={visible}
                 interactive={!disable}
                 title={
-                    <NextLink href={pageHrefs.hireStream(id)} passHref legacyBehavior>
-                        <Link className={s.HireStreamCollapsableItemLink}>
-                            <Text weight="bold" size="l" className={s.HireStreamCollapsableItemTitle}>
-                                {name}
-                            </Text>
-                        </Link>
-                    </NextLink>
+                    <TreeViewTitle className={s.HireStreamCollapsableItemHeader}>
+                        <NextLink href={pageHrefs.hireStream(id)} passHref legacyBehavior>
+                            <Link className={s.HireStreamCollapsableItemLink}>
+                                <Text weight="bold" size="l" className={s.HireStreamCollapsableItemTitle}>
+                                    {name}
+                                </Text>
+                            </Link>
+                        </NextLink>
+                    </TreeViewTitle>
                 }
             >
                 <TreeViewElement>{children}</TreeViewElement>

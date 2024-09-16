@@ -1,12 +1,12 @@
 import { FC, useMemo, useState } from 'react';
 import { KanbanColumn, KanbanContainer } from '@taskany/bricks/harmony';
+import { useIntersectionLoader } from '@taskany/bricks';
 import { InterviewStatus } from '@prisma/client';
 
 import {
     useCandidateFilterUrlParams,
     candidateFilterValuesToRequestData,
 } from '../../hooks/useCandidateFilterUrlParams';
-import { useIntersectionLoader } from '../../hooks/useIntersectionLoader';
 import { useOnChangeRef } from '../../hooks/useOnChangeRef';
 import { useCandidates } from '../../modules/candidateHooks';
 import { useSession } from '../../contexts/appSettingsContext';

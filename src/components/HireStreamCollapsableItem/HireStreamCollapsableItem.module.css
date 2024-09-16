@@ -17,3 +17,10 @@
 .HireStreamCollapsableItemTitle:hover {
     background-color: var(--layer-hover);
 }
+
+.HireStreamCollapsableItemHeader {
+    position: sticky;
+    top: calc(-1 * var(--gap-m));
+    background: var(--background);
+    z-index: 2;
+}

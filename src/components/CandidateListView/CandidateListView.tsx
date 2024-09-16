@@ -1,12 +1,12 @@
 import { FC, Fragment } from 'react';
 import { Text } from '@taskany/bricks/harmony';
+import { useIntersectionLoader } from '@taskany/bricks';
 
 import { useCandidates } from '../../modules/candidateHooks';
 import {
     candidateFilterValuesToRequestData,
     useCandidateFilterUrlParams,
 } from '../../hooks/useCandidateFilterUrlParams';
-import { useIntersectionLoader } from '../../hooks/useIntersectionLoader';
 import { CandidatesLoader } from '../CandidatesLoader/CandidatesLoader';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { CandidateCard } from '../CandidateCard/CandidateCard';

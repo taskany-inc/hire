@@ -75,7 +75,7 @@ export const HireStreamUsers: VFC<HireStreamUsersProps> = ({ hireStream }) => {
     const addInterviewerMutation = useAddInterviewerToSectionTypeMutation(hireStream.name);
     const removeInterviewerMutation = useRemoveInterviewerFromSectionTypeMutation(hireStream.name);
     const removeInterviewerConfirmation = useConfirmation({
-        message: `${tr('Take over the role of the interviewer')}${userName}?`,
+        message: `${tr('Take over the role of the interviewer')} ${userName}?`,
         onAgree: async () =>
             userId &&
             sectionTypeId &&

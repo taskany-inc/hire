@@ -17,3 +17,26 @@
 .ProblemCard_archived {
     filter: grayscale(100%);
 }
+
+.Link {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--gap-sm);
+}
+
+.HeaderInfo_align_right {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.UpdatedTime {
+    color: var(--text-ghost);
+}
+
+.TagWrapper {
+    display: flex;
+    gap: var(--gap-s);
+    align-items: center;
+}
+

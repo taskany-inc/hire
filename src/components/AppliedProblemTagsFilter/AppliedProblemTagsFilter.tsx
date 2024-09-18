@@ -1,6 +1,5 @@
 import {
     AppliedFilter,
-    Checkbox,
     Counter,
     Input,
     Select,
@@ -47,7 +46,12 @@ export const AppliedProblemTagsFilter: FC<AppliedProblemTagsFilterProps> = ({
                 onClose={onClose}
                 onChange={onChange}
                 mode="multiple"
-                renderItem={({ item }) => <Checkbox label={item.name} checked={selectedTags?.includes(item.id)} />}
+                selectable
+                renderItem={({ item }) => (
+                    <Text size="s" weight="bold" as="span">
+                        {item.name}
+                    </Text>
+                )}
             >
                 <SelectTrigger>
                     {nullable(

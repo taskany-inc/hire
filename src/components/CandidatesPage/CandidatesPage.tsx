@@ -6,7 +6,7 @@ import { tr } from './CandidatesPage.i18n';
 
 const CandidatesPage = () => {
     return (
-        <LayoutMain pageTitle={tr('Candidates')} aboveContainer={<CandidateFilterBar />}>
+        <LayoutMain pageTitle={tr('Candidates')} filterBar={<CandidateFilterBar title={tr('Candidates')} />}>
             <CandidateListView />
         </LayoutMain>
     );

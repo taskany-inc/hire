@@ -63,6 +63,7 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded, interview
             }
         }
     }, [sectionId, solutionCreateMutation, problem.id, utils, interviewId, router]);
+
     const isShowAddButton = !problem.isUsed && embedded;
 
     const renderLinkToSection = () => {
@@ -90,10 +91,8 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded, interview
                     <CardInfo>
                         <CardHeader
                             title={
-                                <>
-                                    <Link href={generatePath(Paths.PROBLEM, { problemId: problem.id })}>
-                                        {problem.name}
-                                    </Link>
+                                <Link className={s.Link} href={generatePath(Paths.PROBLEM, { problemId: problem.id })}>
+                                    {problem.name}
                                     {nullable(
                                         problem.archived,
                                         () => (
@@ -101,26 +100,26 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded, interview
                                         ),
                                         <ProblemFavoriteStar isFavorite={isFavorite} problemId={problem.id} />,
                                     )}
-                                </>
+                                </Link>
                             }
                             subTitle={
-                                <span color={textColor}>
-                                    {tr('Added by')}{' '}
-                                    <Link onClick={() => problemFilter.setter('author', [problem.authorId])}>
-                                        {problem.author.name}
-                                    </Link>{' '}
-                                    {date}
-                                </span>
-                            }
-                            chips={
-                                <>
-                                    <ProblemDifficultyIcon difficulty={problem.difficulty} />
-                                    {problem.tags.map((tag) => (
-                                        <Link key={tag.id} onClick={() => problemFilter.setter('tag', [tag.id])}>
-                                            <TagChip tag={tag} />
-                                        </Link>
-                                    ))}
-                                </>
+                                <div className={s.HeaderInfo_align_right}>
+                                    <div className={s.TagWrapper}>
+                                        <ProblemDifficultyIcon difficulty={problem.difficulty} />
+                                        {problem.tags.map((tag) => (
+                                            <Link key={tag.id} onClick={() => problemFilter.setter('tag', [tag.id])}>
+                                                <TagChip tag={tag} />
+                                            </Link>
+                                        ))}
+                                    </div>
+                                    <div color={textColor}>
+                                        {tr('Added by')}{' '}
+                                        <Link onClick={() => problemFilter.setter('author', [problem.authorId])}>
+                                            {problem.author.name}{' '}
+                                        </Link>{' '}
+                                        {date}
+                                    </div>
+                                </div>
                             }
                             className={s.ProblemCardHeader}
                         />

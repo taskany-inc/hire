@@ -1,12 +1,12 @@
-.ProblemFilterBar {
+.FilterBar {
     box-sizing: border-box;
     height: 60.5px;
 }
 
-.ProblemFilterBarApplied {
+.FilterBarApplied {
     gap: var(--gap-s);
 }
 
-.ProblemFilterUserMenu {
+.FilterUserMenu {
     margin-left: auto;
 }

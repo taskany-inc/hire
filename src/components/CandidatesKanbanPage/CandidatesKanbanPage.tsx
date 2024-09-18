@@ -10,7 +10,11 @@ const CandidatesKanbanPage = () => {
     const [loadingState, setLoadingState] = useState<boolean>();
 
     return (
-        <LayoutMain pageTitle={tr('Dashboard')} aboveContainer={<CandidateFilterBar />} loading={loadingState}>
+        <LayoutMain
+            pageTitle={tr('Dashboard')}
+            filterBar={<CandidateFilterBar title={tr('Dashboard')} />}
+            loading={loadingState}
+        >
             <CandidatesKanbanList onLoadingStateChange={(state) => setLoadingState(state === 'loading')} />
         </LayoutMain>
     );

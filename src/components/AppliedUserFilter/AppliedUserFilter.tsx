@@ -1,6 +1,5 @@
 import {
     AppliedFilter,
-    Checkbox,
     Input,
     Select,
     SelectPanel,
@@ -16,19 +15,22 @@ import { trpc } from '../../trpc/trpcClient';
 import { suggestionsTake, useQueryOptions } from '../../utils/suggestions';
 import { useSession } from '../../contexts/appSettingsContext';
 
-import { tr } from './AppliedProblemAuthorsFilter.i18n';
-import s from './AppliedProblemAuthorsFilter.module.css';
+import { tr } from './AppliedUserFilter.i18n';
 
-interface AppliedProblemAuthorsFilterProps {
+interface AppliedUserFilterProps {
+    label: string;
+    hr?: boolean;
     onCleanFilter: () => void;
-    selectedAuthors: number[] | undefined;
+    selectedUsers: number[] | undefined;
     onChange: (authors: { id: number; name: string; email: string }[]) => void;
     onClose: () => void;
 }
 
-export const AppliedProblemAuthorsFilter: FC<AppliedProblemAuthorsFilterProps> = ({
+export const AppliedUserFilter: FC<AppliedUserFilterProps> = ({
+    label,
+    hr,
     onCleanFilter,
-    selectedAuthors,
+    selectedUsers,
     onChange,
     onClose,
 }) => {
@@ -36,22 +38,23 @@ export const AppliedProblemAuthorsFilter: FC<AppliedProblemAuthorsFilterProps> =
     const session = useSession();
     const { data: authors = [] } = trpc.users.suggestions.useQuery(
         {
+            hr,
             query: authorQuery,
             take: suggestionsTake - 1,
-            include: session ? [session.user.id, ...(selectedAuthors ?? [])] : selectedAuthors,
+            include: session ? [session.user.id, ...(selectedUsers ?? [])] : selectedUsers,
         },
         useQueryOptions,
     );
 
     const authorValue = authors
-        .filter((author) => selectedAuthors?.includes(author.id))
+        .filter((author) => selectedUsers?.includes(author.id))
         .map((author) => ({
             ...author,
             name: `${author.name || author.email} ${author.id === session?.user.id ? tr('(You)') : ''}`,
         }));
 
     return (
-        <AppliedFilter label={tr('Author')} action={<TagCleanButton size="s" onClick={onCleanFilter} />}>
+        <AppliedFilter label={label} action={<TagCleanButton size="s" onClick={onCleanFilter} />}>
             <Select
                 arrow
                 value={authorValue}
@@ -62,27 +65,20 @@ export const AppliedProblemAuthorsFilter: FC<AppliedProblemAuthorsFilterProps> =
                 }))}
                 onClose={onClose}
                 onChange={onChange}
+                selectable
                 mode="multiple"
-                renderItem={({ item }) => (
-                    <Checkbox
-                        label={
-                            <User name={item.name} email={item.email} className={s.AppliedProblemAuthorsFilterUser} />
-                        }
-                        checked={selectedAuthors?.includes(+item.id)}
-                        className={s.AppliedProblemAuthorsFilterCheckbox}
-                    />
-                )}
+                renderItem={({ item }) => <User name={item.name} email={item.email} />}
             >
                 <SelectTrigger>
                     {nullable(
-                        selectedAuthors && selectedAuthors?.length > 1,
+                        selectedUsers && selectedUsers?.length > 1,
                         () => (
                             <UserGroup users={authorValue} />
                         ),
                         nullable(authorValue[0], (user) => <User name={user.name} email={user.email} />),
                     )}
                 </SelectTrigger>
-                <SelectPanel placement="bottom">
+                <SelectPanel placement="bottom" title={tr('Suggestions')}>
                     <Input placeholder={tr('Search')} onChange={(e) => setAuthorQuery(e.target.value)} />
                 </SelectPanel>
             </Select>

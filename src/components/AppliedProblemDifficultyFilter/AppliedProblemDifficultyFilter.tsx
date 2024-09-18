@@ -1,8 +1,18 @@
-import { AppliedFilter, Checkbox, Select, SelectPanel, SelectTrigger, TagCleanButton } from '@taskany/bricks/harmony';
+import {
+    AppliedFilter,
+    Select,
+    SelectPanel,
+    SelectTrigger,
+    State,
+    StateGroup,
+    TagCleanButton,
+} from '@taskany/bricks/harmony';
+import { nullable } from '@taskany/bricks';
 import React, { FC } from 'react';
 import { ProblemDifficulty } from '@prisma/client';
 
-import { mapEnum } from '../../utils';
+import { problemDifficultyLabels } from '../../utils/dictionaries';
+import { difficultyToColor, mapEnum } from '../../utils';
 
 import { tr } from './AppliedProblemDifficultyFilter.i18n';
 
@@ -23,20 +33,43 @@ export const AppliedProblemDifficultyFilter: FC<AppliedProblemDifficultyFilterPr
     onCleanFilter,
     selectedDifficulties,
 }) => {
+    const value = selectedDifficulties?.map((id) => ({ id })) || [];
     return (
         <AppliedFilter label={tr('Difficulty')} action={<TagCleanButton size="s" onClick={onCleanFilter} />}>
             <Select
                 arrow
-                value={selectedDifficulties?.map((id) => ({ id }))}
+                value={value}
                 items={difficulties}
                 onClose={onClose}
                 onChange={onChange}
                 mode="multiple"
+                selectable
                 renderItem={({ item }) => (
-                    <Checkbox label={item.id} checked={selectedDifficulties?.includes(item.id)} />
+                    <State
+                        title={problemDifficultyLabels[item.id as ProblemDifficulty]}
+                        color={difficultyToColor[item.id as ProblemDifficulty]}
+                    />
                 )}
             >
-                <SelectTrigger />
+                <SelectTrigger>
+                    {nullable(
+                        value.length > 1,
+                        () => (
+                            <StateGroup
+                                items={value.map((item) => ({
+                                    title: problemDifficultyLabels[item.id as ProblemDifficulty],
+                                    color: difficultyToColor[item.id as ProblemDifficulty],
+                                }))}
+                            />
+                        ),
+                        nullable(value[0], (item) => (
+                            <State
+                                title={problemDifficultyLabels[item.id as ProblemDifficulty]}
+                                color={difficultyToColor[item.id as ProblemDifficulty]}
+                            />
+                        )),
+                    )}
+                </SelectTrigger>
                 <SelectPanel placement="bottom" />
             </Select>
         </AppliedFilter>

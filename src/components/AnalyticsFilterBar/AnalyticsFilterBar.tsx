@@ -20,7 +20,7 @@ import s from './AnalyticsFilterBar.module.css';
 
 interface AnalyticsFilterBarProps {
     title?: string;
-    hireStreams: HireStream[];
+    hireStreams?: HireStream[];
 }
 
 export const AnalyticsFilterBar = ({ title, hireStreams }: AnalyticsFilterBarProps): JSX.Element => {
@@ -31,14 +31,14 @@ export const AnalyticsFilterBar = ({ title, hireStreams }: AnalyticsFilterBarPro
 
     const unusedFilterItems = useMemo(() => {
         const items = [];
-        if (!values.streams && !showStreamsDropdown) items.push({ id: 'streams', title: tr('Streams') });
+        if (!values.streams && !showStreamsDropdown && hireStreams) items.push({ id: 'streams', title: tr('Streams') });
         if (!values.period && !showPeriodDropdown) items.push({ id: 'period', title: tr('Period') });
         return items;
-    }, [values, showStreamsDropdown, showPeriodDropdown]);
+    }, [values, showStreamsDropdown, showPeriodDropdown, hireStreams]);
 
     const resetFilters = useCallback(() => {
         setShowStreamsDropdown(false);
-        setShowStreamsDropdown(false);
+        setShowPeriodDropdown(false);
         clearParams();
     }, [clearParams]);
 
@@ -87,9 +87,9 @@ export const AnalyticsFilterBar = ({ title, hireStreams }: AnalyticsFilterBarPro
                             }}
                         />
                     ))}
-                    {nullable(showStreamsDropdown, () => (
+                    {nullable(showStreamsDropdown && hireStreams, (streams) => (
                         <AppliedAnalyticsStreamsFilter
-                            hireStreams={hireStreams}
+                            hireStreams={streams}
                             selected={values.streams}
                             setStreams={(streams) => {
                                 setter(

@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.65.0](https://github.com/taskany-inc/hire/compare/v0.64.0...v0.65.0) (2024-09-19)
+
+
+### Features
+
+* collapse author name ([b37d7f5](https://github.com/taskany-inc/hire/commit/b37d7f57f26aa4c9f7b481261d1be9c048d6a979))
+* **SectionPreview:** add preview for section feedback ([63f68a2](https://github.com/taskany-inc/hire/commit/63f68a212a5ce9b51dade9e26a44b015a7e18171))
+* sticky list item ([dd30c19](https://github.com/taskany-inc/hire/commit/dd30c194e6473225c052e7d944824a310fed9f5c))
+
+
+### Bug Fixes
+
+* **Md:** fix md after saving problem ([12457a5](https://github.com/taskany-inc/hire/commit/12457a5d650c5ed2647a713f29aa26ce14ab72b7))
+
 ## [0.64.0](https://github.com/taskany-inc/hire/compare/v0.63.0...v0.64.0) (2024-09-12)
 
 

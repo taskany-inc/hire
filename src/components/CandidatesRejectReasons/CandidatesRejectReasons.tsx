@@ -36,8 +36,10 @@ const formatLegend = (_value: any, entry: any) => {
 };
 
 export const CandidatesRejectReasons = ({ allStreams }: Props) => {
-    const { startDate, endDate, hireStreams: choosenStreams } = useAnalyticsFilterUrlParams(allStreams);
-    const hireStreams = choosenStreams.length === 0 ? allStreams : choosenStreams;
+    const {
+        values: { startDate, endDate, streams },
+    } = useAnalyticsFilterUrlParams(allStreams);
+    const hireStreams = streams ?? allStreams;
 
     const dataQuery = useCandidatesRejectReasons({
         from: startDate,

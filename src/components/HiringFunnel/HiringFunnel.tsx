@@ -14,9 +14,11 @@ interface HiringFunnelProps {
 }
 
 export const HiringFunnel = ({ allStreams }: HiringFunnelProps) => {
-    const { startDate, endDate, hireStreams: choosenStreams } = useAnalyticsFilterUrlParams(allStreams);
+    const {
+        values: { startDate, endDate, streams },
+    } = useAnalyticsFilterUrlParams(allStreams);
 
-    const hireStreams = choosenStreams.length === 0 ? allStreams : choosenStreams;
+    const hireStreams = streams ?? allStreams;
     const hiringFunnelQuery = useHiringFunnel({
         from: startDate,
         to: endDate,

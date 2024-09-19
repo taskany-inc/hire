@@ -15,7 +15,9 @@ interface Props {
 }
 
 export const GradesByInterviewer = ({ hireStreamName }: Props) => {
-    const { startDate, endDate } = useAnalyticsFilterUrlParams();
+    const {
+        values: { startDate, endDate },
+    } = useAnalyticsFilterUrlParams();
     const grades = (useGradeOptions().data ?? []).flat();
     const lastGrade = grades.at(-1);
 

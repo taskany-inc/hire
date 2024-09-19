@@ -77,7 +77,7 @@ export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
                 <KanbanCardContentItem>
                     <ReadOnlyDropdown label={tr('HR')}>
                         <Link href={hrLink} inline target="_blank">
-                            <Avatar email={hr.email} name={hr.name} tooltip={hr.name || hr.email} />
+                            <Avatar email={hr.email} name={hr.name} tooltip={hr.name || hr.email} ellipsis />
                         </Link>
                     </ReadOnlyDropdown>
                 </KanbanCardContentItem>

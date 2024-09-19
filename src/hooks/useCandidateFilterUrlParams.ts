@@ -16,6 +16,7 @@ export const useCandidateFilterUrlParams = () => {
             hrIds: 'numberArray',
             hireStreamIds: 'numberArray',
             vacancyIds: 'stringArray',
+            createdAt: 'stringArray',
         },
         router.query,
         pushUrl,

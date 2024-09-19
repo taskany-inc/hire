@@ -1,0 +1,8 @@
+.AnalyticsFilterBar {
+    box-sizing: border-box;
+    height: 60.5px;
+}
+
+.AnalyticsFilterBarApplied {
+    gap: var(--gap-s);
+}

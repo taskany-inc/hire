@@ -1,4 +1,3 @@
-import { format } from 'date-fns';
 import { useState } from 'react';
 import { Button } from '@taskany/bricks/harmony';
 
@@ -14,15 +13,17 @@ interface CustomPeriodFormProps {
 }
 
 export const CustomPeriodForm = ({ close }: CustomPeriodFormProps) => {
-    const { startDate, endDate, setStartDate, setEndDate, setPeriodTitle } = useAnalyticsFilterUrlParams();
+    const {
+        values: { startDate, endDate },
+        setter,
+    } = useAnalyticsFilterUrlParams();
 
     const [newStartDate, setNewStartDate] = useState<Date>(startDate);
     const [newEndDate, setNewEndDate] = useState<Date>(endDate);
 
     const onSubmitButton = () => {
-        setStartDate(newStartDate);
-        setEndDate(newEndDate);
-        setPeriodTitle(`${format(newStartDate, 'd.M.YYY')} - ${format(newEndDate, 'd.M.YYY')}`);
+        setter('startDate', newStartDate.getTime());
+        setter('endDate', newEndDate.getTime());
         close();
     };
 

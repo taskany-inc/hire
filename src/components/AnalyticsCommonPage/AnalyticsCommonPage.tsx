@@ -1,7 +1,7 @@
 import { useHireStreams } from '../../modules/hireStreamsHooks';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { LayoutMain } from '../LayoutMain/LayoutMain';
-import { AnalyticsFilterMenuBar } from '../AnalyticsFilterMenuBar/AnalyticsFilterMenuBar';
+import { AnalyticsFilterBar } from '../AnalyticsFilterBar/AnalyticsFilterBar';
 import { HiringFunnel } from '../HiringFunnel/HiringFunnel';
 import { FinishedSectionsByInterviewer } from '../FinishedSectionsByInterviewer/FinishedSectionsByInterviewer';
 import { CandidatesByHireStream } from '../CandidatesByHireStream/CandidatesByHireStream';
@@ -19,7 +19,7 @@ export const AnalyticsCommonPage = () => {
             {([hireStreams]) => (
                 <LayoutMain
                     pageTitle={tr('General charts')}
-                    aboveContainer={<AnalyticsFilterMenuBar hireStreams={hireStreams} />}
+                    filterBar={<AnalyticsFilterBar hireStreams={hireStreams} title={tr('General charts')} />}
                     backlink={Paths.ANALYTICS}
                 >
                     <div className={s.AnalyticsCommonPage}>

@@ -41,8 +41,10 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 };
 
 export const CandidatesByHireStream = ({ allStreams }: CandidatesByHireStreamProps) => {
-    const { startDate, endDate, hireStreams: choosenStreams } = useAnalyticsFilterUrlParams(allStreams);
-    const hireStreams = choosenStreams.length === 0 ? allStreams : choosenStreams;
+    const {
+        values: { startDate, endDate, streams },
+    } = useAnalyticsFilterUrlParams(allStreams);
+    const hireStreams = streams ?? allStreams;
 
     const dataQuery = useCandidatesByHireStream({
         from: startDate,

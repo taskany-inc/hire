@@ -32,9 +32,11 @@ const Chart = ({ data }: { data: FinishedSectionsByInterviewerOutput }) => {
 };
 
 export const FinishedSectionsByInterviewer = ({ allStreams }: FinishedSectionsByInterviewerProps) => {
-    const { startDate, endDate, hireStreams: choosenStreams } = useAnalyticsFilterUrlParams(allStreams);
+    const {
+        values: { startDate, endDate, streams },
+    } = useAnalyticsFilterUrlParams(allStreams);
 
-    const hireStreams = choosenStreams.length === 0 ? allStreams : choosenStreams;
+    const hireStreams = streams ?? allStreams;
 
     const dataWithTasksQuery = useFinishedSectionsByInterviewer({
         from: startDate,

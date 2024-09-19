@@ -16,6 +16,7 @@ import { AppliedProblemTagsFilter } from '../AppliedProblemTagsFilter/AppliedPro
 import { AppliedProblemDifficultyFilter } from '../AppliedProblemDifficultyFilter/AppliedProblemDifficultyFilter';
 import { AppliedStatusFilter } from '../AppliedStatusFilter/AppliedStatusFilter';
 import { AppliedHireStreamFilter } from '../AppliedHireStreamFilter/AppliedHireStreamFilter';
+import { AppliedDateFilter } from '../AppliedDateFilter/AppliedDateFilter';
 import { HeaderUserMenu } from '../HeaderUserMenu/HeaderUserMenu';
 import { AddFilterDropdown } from '../AddFilterDropdown';
 import { AppliedVacanciesFilter } from '../AppliedVacanciesFilter/AppliedVacanciesFilter';
@@ -31,6 +32,7 @@ interface FiltersValues {
     statuses: ComponentProps<typeof AppliedStatusFilter>['selectedStatuses'];
     hireStreamIds: ComponentProps<typeof AppliedHireStreamFilter>['selectedHireStreams'];
     vacancyIds: ComponentProps<typeof AppliedVacanciesFilter>['selectedVancies'];
+    createdAt: ComponentProps<typeof AppliedDateFilter>['value'];
 }
 
 type AvaliableKeys = keyof FiltersValues;
@@ -67,6 +69,7 @@ export const FilterBar = <K extends AvaliableKeys>({
             { id: 'hireStreamIds', title: tr('Hire streams') },
             { id: 'hrIds', title: tr("HR's") },
             { id: 'vacancyIds', title: tr('Vacancies') },
+            { id: 'createdAt', title: tr('Created аt') },
         ];
         return items.filter(({ id }) => id in values) as { id: K; title: string }[];
     }, [values]);
@@ -243,6 +246,19 @@ export const FilterBar = <K extends AvaliableKeys>({
                                     onClose={onApply}
                                     onCleanFilter={onCleanFilter(key)}
                                     selectedVancies={filtersState?.vacancyIds}
+                                />
+                            ));
+                        }
+
+                        if (key === 'createdAt') {
+                            return nullable(Boolean(filtersState?.createdAt), () => (
+                                <AppliedDateFilter
+                                    title={tr('Created аt')}
+                                    key={key}
+                                    onChange={handleChange(key)}
+                                    onClose={onApply}
+                                    onCleanFilter={onCleanFilter(key)}
+                                    value={filtersState?.createdAt}
                                 />
                             ));
                         }

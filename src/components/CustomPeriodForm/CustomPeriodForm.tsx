@@ -22,6 +22,7 @@ export const CustomPeriodForm = ({ close }: CustomPeriodFormProps) => {
     const [newEndDate, setNewEndDate] = useState<Date>(endDate);
 
     const onSubmitButton = () => {
+        setter('period', undefined);
         setter('startDate', newStartDate.getTime());
         setter('endDate', newEndDate.getTime());
         close();

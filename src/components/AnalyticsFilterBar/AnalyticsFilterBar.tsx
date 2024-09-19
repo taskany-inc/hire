@@ -8,13 +8,8 @@ import {
     FiltersBarControlGroup,
     FiltersBarTitle,
     Separator,
-    Modal,
-    ModalHeader,
-    ModalContent,
-    Text,
 } from '@taskany/bricks/harmony';
 
-import { CustomPeriodForm } from '../CustomPeriodForm/CustomPeriodForm';
 import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
 import { AddFilterDropdown } from '../AddFilterDropdown';
 import { AppliedAnalyticsPeriodFilter } from '../AppliedAnalyticsPeriodFilter/AppliedAnalyticsPeriodFilter';
@@ -31,7 +26,6 @@ interface AnalyticsFilterBarProps {
 export const AnalyticsFilterBar = ({ title, hireStreams }: AnalyticsFilterBarProps): JSX.Element => {
     const { values, setter, clearParams, setPeriod, isFiltersEmpty } = useAnalyticsFilterUrlParams(hireStreams);
 
-    const [openCustomPeriod, setCustomPeriod] = useState(false);
     const [showStreamsDropdown, setShowStreamsDropdown] = useState(Boolean(values.streams));
     const [showPeriodDropdown, setShowPeriodDropdown] = useState(Boolean(values.period));
 
@@ -85,7 +79,7 @@ export const AnalyticsFilterBar = ({ title, hireStreams }: AnalyticsFilterBarPro
                 <FiltersBar className={s.AnalyticsFilterBarApplied}>
                     {nullable(showPeriodDropdown, () => (
                         <AppliedAnalyticsPeriodFilter
-                            period={values.period}
+                            period={values.period || (values.startDate && 'custom')}
                             setPeriod={(period) => setPeriod(period)}
                             onClearFilter={() => {
                                 setShowPeriodDropdown(false);
@@ -112,15 +106,6 @@ export const AnalyticsFilterBar = ({ title, hireStreams }: AnalyticsFilterBarPro
                     <AddFilterDropdown title={tr('Filter')} items={unusedFilterItems} onChange={onAddFilter} />
                 </FiltersBar>
             ))}
-
-            <Modal width={500} visible={openCustomPeriod} onClose={() => setCustomPeriod(false)}>
-                <ModalHeader>
-                    <Text size="l">{tr('Custom period')}</Text>
-                </ModalHeader>
-                <ModalContent>
-                    <CustomPeriodForm close={() => setCustomPeriod(false)} />
-                </ModalContent>
-            </Modal>
         </>
     );
 };

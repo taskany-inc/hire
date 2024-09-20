@@ -11,3 +11,9 @@
 .KanbanContainer {
     padding-bottom: var(--gap-m);
 }
+
+.CandidatesKanbanScroller {
+    padding: 0 var(--gap-s);
+    padding-top: calc(var(--gap-m) + var(--gap-xs));
+    box-sizing: border-box;
+}

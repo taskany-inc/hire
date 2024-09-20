@@ -79,7 +79,7 @@ export const CreateOrUpdateSectionForm = ({
     );
 
     const interviewersQuery = trpc.users.getUserList.useQuery(
-        { sectionTypeId: sectionType.id, search: debouncedSearch, limit: schedulable ? undefined : 20 },
+        { sectionTypeId: sectionType.id, search: debouncedSearch, limit: schedulable ? undefined : 20, active: true },
         {
             cacheTime: 0,
             staleTime: 0,

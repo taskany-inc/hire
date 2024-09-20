@@ -20,7 +20,7 @@ import { tr } from './modules.i18n';
 import { calendarRecurrenceMethods } from './calendarRecurrenceMethods';
 
 const getAllEvents = (creatorIds?: number[]): Promise<CalendarEventWithRelations[]> => {
-    const where: Prisma.CalendarEventWhereInput = {};
+    const where: Prisma.CalendarEventWhereInput = { creator: { active: true } };
 
     if (creatorIds) {
         where.creatorId = {

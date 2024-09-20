@@ -57,6 +57,7 @@ model User {
   id                        Int              @id @default(autoincrement())
   name                      String?
   email                     String           @unique
+  active                    Boolean          @default(true)
   emailVerified             DateTime?
   admin                     Boolean          @default(false)
   problemEditor             Boolean          @default(false)
@@ -534,8 +535,8 @@ model Reaction {
 }
 
 model Release {
-  id       String     @id @default(cuid())
-  version  String     @unique
+  id       String         @id @default(cuid())
+  version  String         @unique
   readers  UserSettings[] @relation("releasesRead")
   delayers UserSettings[] @relation("releasesDelayed")
 

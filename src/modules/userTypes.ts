@@ -29,6 +29,7 @@ export const getUserListSchema = z.object({
     role: roleSchema.optional(),
     sectionTypeOrHireStreamId: z.number().optional(),
     interviewerInHireStreamId: z.number().optional(),
+    active: z.boolean().optional(),
 });
 
 export type GetUserList = z.infer<typeof getUserListSchema>;

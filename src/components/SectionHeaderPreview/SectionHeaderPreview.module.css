@@ -19,10 +19,6 @@
     justify-self: left;
 }
 
-.HeaderInfo_align_right {
-    display: grid;
-    align-content: space-between;
-}
 
 .PreviewTimeWrapper {
     display: flex;
@@ -35,22 +31,6 @@
     color: var(--text-ghost);
 }
 
-.CandidateName {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--gap-xs);
-}
-
-.Wrapper {
-    display: flex;
-    align-items: center;
-}
-
-.Wrapper_default {
-    padding-left: var(--gap-xs);
-}
-
 .Separator {
     background-color: var(--gray-900);
     width: 1px;
@@ -58,17 +38,10 @@
     margin: 0 var(--gap-xs);
 }
 
-.Interviewer {
+.NameWrapper {
     display: flex;
-    color: var(--text-ghost);
 }
 
-.Candidate {
+.NameTitle {
     color: var(--text-ghost);
-}
-
-.InterviewerWrapper {
-    display: flex;
-    align-items: center;
-    gap: var(--gap-s);
 }

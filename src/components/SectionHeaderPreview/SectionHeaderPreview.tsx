@@ -50,31 +50,31 @@ export const SectionHeaderPreview: FC<SectionHeaderPreviewProps> = ({ pageTitle,
                     </div>
 
                     <div className={s.HeaderStats}>
-                        <Dropdown>
-                            <DropdownTrigger readOnly={readOnly}>
-                                <Text className={s.Interviewer} size="xs" weight="bold">
-                                    {tr('Interviewer')}
-                                </Text>
+                        <div className={s.NameWrapper}>
+                            <Dropdown>
+                                <DropdownTrigger readOnly={readOnly}>
+                                    <Text className={s.NameTitle} size="xs" weight="bold">
+                                        {tr('Interviewer')}
+                                    </Text>
 
-                                <User
-                                    className={s.Avatar}
-                                    size="s"
-                                    email={section.interviewer.email}
-                                    name={section.interviewer.name}
-                                />
-                            </DropdownTrigger>
-                        </Dropdown>
-
+                                    <User
+                                        className={s.Avatar}
+                                        size="s"
+                                        email={section.interviewer.email}
+                                        name={section.interviewer.name}
+                                    />
+                                </DropdownTrigger>
+                            </Dropdown>
+                        </div>
+                        <Separator />
                         {nullable(interview, (i) => (
-                            <div className={s.Wrapper}>
-                                <Separator />
+                            <div className={s.NameWrapper}>
                                 <Dropdown>
                                     <DropdownTrigger readOnly={readOnly}>
-                                        <Text size="xs" weight="bold" className={s.Candidate}>
+                                        <Text size="xs" weight="bold" className={s.NameTitle}>
                                             {tr('Candidate')}
                                         </Text>
                                         <User
-                                            className={s.Avatar}
                                             size="s"
                                             email={i.candidate.email || i.candidate.name}
                                             name={i.candidate.name}

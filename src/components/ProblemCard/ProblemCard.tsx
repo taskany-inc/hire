@@ -91,35 +91,47 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded, interview
                     <CardInfo>
                         <CardHeader
                             title={
-                                <Link className={s.Link} href={generatePath(Paths.PROBLEM, { problemId: problem.id })}>
-                                    {problem.name}
-                                    {nullable(
-                                        problem.archived,
-                                        () => (
+                                <div className={s.CardHeaderWrapper}>
+                                    <Link
+                                        className={s.Link}
+                                        href={generatePath(Paths.PROBLEM, { problemId: problem.id })}
+                                    >
+                                        {problem.name}
+                                        {nullable(problem.archived, () => (
                                             <IconBinOutline size="s" />
-                                        ),
-                                        <ProblemFavoriteStar isFavorite={isFavorite} problemId={problem.id} />,
-                                    )}
-                                </Link>
+                                        ))}
+                                    </Link>
+                                    <span className={s.ProblemFavoriteStar}>
+                                        <ProblemFavoriteStar isFavorite={isFavorite} problemId={problem.id} />
+                                    </span>
+                                </div>
                             }
                             subTitle={
-                                <div className={s.HeaderInfo_align_right}>
-                                    <div className={s.TagWrapper}>
-                                        <ProblemDifficultyIcon difficulty={problem.difficulty} />
-                                        {problem.tags.map((tag) => (
-                                            <Link key={tag.id} onClick={() => problemFilter.setter('tag', [tag.id])}>
-                                                <TagChip tag={tag} />
-                                            </Link>
-                                        ))}
+                                <>
+                                    <div className={s.HeaderInfo_align_right}>
+                                        <div className={s.TagWrapper}>
+                                            <ProblemDifficultyIcon difficulty={problem.difficulty} />
+
+                                            {problem.tags.map((tag) => (
+                                                <Link
+                                                    key={tag.id}
+                                                    onClick={() => problemFilter.setter('tag', [tag.id])}
+                                                >
+                                                    <TagChip tag={tag} />
+                                                </Link>
+                                            ))}
+                                        </div>
                                     </div>
                                     <div color={textColor}>
-                                        {tr('Added by')}{' '}
-                                        <Link onClick={() => problemFilter.setter('author', [problem.authorId])}>
-                                            {problem.author.name}{' '}
-                                        </Link>{' '}
-                                        {date}
+                                        <div>
+                                            {tr('Added by')}{' '}
+                                            <Link onClick={() => problemFilter.setter('author', [problem.authorId])}>
+                                                {problem.author.name}{' '}
+                                            </Link>{' '}
+                                            {date}
+                                        </div>
                                     </div>
-                                </div>
+                                </>
                             }
                             className={s.ProblemCardHeader}
                         />

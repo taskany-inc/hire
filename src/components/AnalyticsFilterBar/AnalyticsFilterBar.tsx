@@ -13,7 +13,7 @@ import {
 import { useAnalyticsFilterUrlParams } from '../../hooks/useAnalyticsFilterUrlParams';
 import { AddFilterDropdown } from '../AddFilterDropdown';
 import { AppliedAnalyticsPeriodFilter } from '../AppliedAnalyticsPeriodFilter/AppliedAnalyticsPeriodFilter';
-import { AppliedAnalyticsStreamsFilter } from '../AppliedAnalyticsStreamsFilter/AppliedAnalyticsStreamsFilter';
+import { AppliedHireStreamFilter } from '../AppliedHireStreamFilter/AppliedHireStreamFilter';
 
 import { tr } from './AnalyticsFilterBar.i18n';
 import s from './AnalyticsFilterBar.module.css';
@@ -87,20 +87,20 @@ export const AnalyticsFilterBar = ({ title, hireStreams }: AnalyticsFilterBarPro
                             }}
                         />
                     ))}
-                    {nullable(showStreamsDropdown && hireStreams, (streams) => (
-                        <AppliedAnalyticsStreamsFilter
-                            hireStreams={streams}
-                            selected={values.streams}
-                            setStreams={(streams) => {
+                    {nullable(showStreamsDropdown, () => (
+                        <AppliedHireStreamFilter
+                            selectedHireStreams={values.streams?.map((s) => s.id)}
+                            onChange={(streams) => {
                                 setter(
                                     'streams',
                                     streams?.map((s) => s.id),
                                 );
                             }}
-                            onClearFilter={() => {
+                            onCleanFilter={() => {
                                 setShowStreamsDropdown(false);
                                 setter('streams', undefined);
                             }}
+                            onClose={() => {}}
                         />
                     ))}
                     <AddFilterDropdown title={tr('Filter')} items={unusedFilterItems} onChange={onAddFilter} />

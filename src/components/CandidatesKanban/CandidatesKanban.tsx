@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import { KanbanColumn, KanbanContainer } from '@taskany/bricks/harmony';
 import { useIntersectionLoader } from '@taskany/bricks';
 import { InterviewStatus } from '@prisma/client';
@@ -15,6 +15,7 @@ import { trpc } from '../../trpc/trpcClient';
 import { CandidateKanbanCard } from '../CandidateKanbanCard/CandidateKanbanCard';
 import { HireStreamCollapsableItem } from '../HireStreamCollapsableItem/HireStreamCollapsableItem';
 import { InterviewHireState } from '../InterviewHireState';
+import { KanbanScroller } from '../KanbanScroller/KanbanScroller';
 
 import s from './CandidatesKanban.module.css';
 
@@ -188,7 +189,7 @@ export const CandidatesKanbanList: FC<{ onLoadingStateChange?: onLoadingStateCha
     );
 
     return (
-        <>
+        <KanbanScroller shadow={40}>
             {rows.map((stream, i) => (
                 <HireStreamCollapsableItem key={stream.id} id={stream.id} name={stream.name} visible={i === 0}>
                     <CandidatesKanban
@@ -204,6 +205,6 @@ export const CandidatesKanbanList: FC<{ onLoadingStateChange?: onLoadingStateCha
                     />
                 </HireStreamCollapsableItem>
             ))}
-        </>
+        </KanbanScroller>
     );
 };

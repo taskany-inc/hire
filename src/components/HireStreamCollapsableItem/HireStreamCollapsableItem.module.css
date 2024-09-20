@@ -22,5 +22,5 @@
     position: sticky;
     top: calc(-1 * var(--gap-m));
     background: var(--background);
-    z-index: 2;
+    z-index: 3;
 }

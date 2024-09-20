@@ -27,7 +27,6 @@
 .HeaderInfo_align_right {
     display: flex;
     align-items: center;
-    justify-content: space-between;
 }
 
 .UpdatedTime {
@@ -38,5 +37,15 @@
     display: flex;
     gap: var(--gap-s);
     align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: var(--gap-sm);
 }
 
+.CardHeaderWrapper {
+    display: flex;
+    align-items: center;
+}
+
+.ProblemFavoriteStar {
+    margin-bottom: var(--gap-sm);
+}

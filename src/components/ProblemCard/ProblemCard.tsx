@@ -97,12 +97,15 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded, interview
                                         href={generatePath(Paths.PROBLEM, { problemId: problem.id })}
                                     >
                                         {problem.name}
-                                        {nullable(problem.archived, () => (
-                                            <IconBinOutline size="s" />
-                                        ))}
                                     </Link>
                                     <span className={s.ProblemFavoriteStar}>
-                                        <ProblemFavoriteStar isFavorite={isFavorite} problemId={problem.id} />
+                                        {nullable(
+                                            problem.archived,
+                                            () => (
+                                                <Button view="clear" iconLeft={<IconBinOutline size="s" />} />
+                                            ),
+                                            <ProblemFavoriteStar isFavorite={isFavorite} problemId={problem.id} />,
+                                        )}
                                     </span>
                                 </div>
                             }

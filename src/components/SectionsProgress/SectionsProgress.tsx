@@ -45,7 +45,13 @@ export const SectionsProgress: FC<SectionsProgressProps> = ({ sections, view = '
                     <CircleProgressBar className={s.CandidateKanbanSectionProgressTrigger_circle} value={value} />,
                 )}
             </div>
-            <Popup reference={triggerRef} visible={popupVisible} placement="top-end" offset={[10, 10]}>
+            <Popup
+                reference={triggerRef}
+                className={s.CandidateKanbanSectionProgressPopup}
+                visible={popupVisible}
+                placement="top-end"
+                offset={[10, 10]}
+            >
                 <div className={s.CandidateKanbanSectionProgress} ref={wrapperRef}>
                     <SectionResults passedSections={sections} gradeVisibility={gradeVisibility} />
                 </div>

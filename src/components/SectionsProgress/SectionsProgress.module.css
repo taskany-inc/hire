@@ -5,3 +5,7 @@
 .CandidateKanbanSectionProgressTrigger_circle {
     display: flex;
 }
+
+.CandidateKanbanSectionProgressPopup {
+    pointer-events: initial;
+}

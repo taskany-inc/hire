@@ -1,4 +1,5 @@
 import { Candidate, OutstaffVendor, Prisma } from '@prisma/client';
+import { decodeUrlDateRange, getDateString } from '@taskany/bricks';
 
 import { prisma } from '../utils/prisma';
 import { ErrorWithStatus } from '../utils';
@@ -50,7 +51,7 @@ const getList = async (
     params: GetCandidateList = {},
     accessOptions: AccessOptions = {},
 ): Promise<ApiEntityListResult<CandidateWithVendorAndInterviewWithSectionsWithCommentsWithCreatorRelations>> => {
-    const { statuses, search, hireStreamIds, cursor, hrIds, vacancyIds } = params;
+    const { statuses, search, hireStreamIds, cursor, hrIds, vacancyIds, createdAt } = params;
     const limit = params.limit ?? 50;
     const { filterInterviewsByHireStreamIds, filterByInterviewerId, filterSectionGradeByInterviewer } = accessOptions;
     const interviewIdsGroupByCandidates = await prisma.interview.groupBy({ by: ['candidateId'], _max: { id: true } });
@@ -78,7 +79,7 @@ const getList = async (
 
     const where: Prisma.CandidateWhereInput = {};
 
-    const whereAnd: Prisma.CandidateWhereInput[] = [];
+    const whereAnd: Prisma.CandidateWhereInput[] = [{}];
 
     if (search && search.length >= searchSettings.minSearchLength) {
         const whereSearchCondition: Prisma.StringFilter = {
@@ -92,6 +93,47 @@ const getList = async (
             }
 
             return wrapValueInObjPath(whereSearchCondition, field) as Prisma.CandidateWhereInput;
+        });
+    }
+
+    if (createdAt) {
+        whereAnd.push({
+            interviews: {
+                some: {
+                    OR: createdAt.reduce<
+                        {
+                            createdAt:
+                                | {
+                                      lte: Date | undefined;
+                                      gte: Date | undefined;
+                                  }
+                                | {
+                                      in: Date[];
+                                  };
+                        }[]
+                    >((acum, item) => {
+                        const dateRange = decodeUrlDateRange(item);
+
+                        if (dateRange) {
+                            const end = new Date(getDateString(dateRange.end));
+                            const start = dateRange.start ? new Date(getDateString(dateRange.start)) : null;
+
+                            acum.push({
+                                createdAt: start
+                                    ? {
+                                          gte: start,
+                                          lte: end,
+                                      }
+                                    : {
+                                          in: [end],
+                                      },
+                            });
+                        }
+
+                        return acum;
+                    }, []),
+                },
+            },
         });
     }
 

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.65.1](https://github.com/taskany-inc/hire/compare/v0.65.0...v0.65.1) (2024-09-23)
+
+
+### Bug Fixes
+
+* **ProblemCard&SectionHeaderPreview:** fix layout ([1f3f262](https://github.com/taskany-inc/hire/commit/1f3f262603aedf9beb11d2b5e793ad557ecf1731))
+* sticky layout error ([a0632e5](https://github.com/taskany-inc/hire/commit/a0632e5fca9f2a0e87e681a067c7c418afd31b37))
+
 ## [0.65.0](https://github.com/taskany-inc/hire/compare/v0.64.0...v0.65.0) (2024-09-19)
 
 

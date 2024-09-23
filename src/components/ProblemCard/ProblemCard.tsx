@@ -10,7 +10,7 @@ import { ProblemWithRelationsAndProblemSection } from '../../modules/problemType
 import { generatePath, Paths } from '../../utils/paths';
 import { useSolutionCreateMutation } from '../../modules/solutionHooks';
 import { trpc } from '../../trpc/trpcClient';
-import { useFavoriteProblems } from '../../modules/userHooks';
+import { useFavoriteProblems, useRemoveProblemFromFavoritesMutation } from '../../modules/userHooks';
 import { LoadingContainer } from '../LoadingContainer/LoadingContainer';
 import { Link } from '../Link';
 import { TagChip } from '../TagChip';
@@ -39,6 +39,8 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded, interview
     const utils = trpc.useContext();
     const solutionCreateMutation = useSolutionCreateMutation();
     const { data: favoriteProblems } = useFavoriteProblems();
+    const removeFromFavoritesMutation = useRemoveProblemFromFavoritesMutation();
+
     const [isSpinnerVisible, setIsSpinnerVisible] = useState(false);
     const isFavorite = useMemo(
         () => !!favoriteProblems && !!favoriteProblems.find((item) => item.id === problem.id),
@@ -84,6 +86,13 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded, interview
         );
     };
 
+    const onBinIconClick = useCallback(async () => {
+        if (isFavorite) {
+            await removeFromFavoritesMutation.mutateAsync({ problemId: problem.id });
+            utils.problems.getList.invalidate({ excludeInterviewId: interviewId });
+        }
+    }, [isFavorite, problem.id, removeFromFavoritesMutation, utils, interviewId]);
+
     return (
         <UnavailableContainer isUnavailable={problem.isUsed} link={renderLinkToSection()}>
             <LoadingContainer isSpinnerVisible={isSpinnerVisible}>
@@ -102,7 +111,11 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded, interview
                                         {nullable(
                                             problem.archived,
                                             () => (
-                                                <Button view="clear" iconLeft={<IconBinOutline size="s" />} />
+                                                <Button
+                                                    view="clear"
+                                                    iconLeft={<IconBinOutline size="s" />}
+                                                    onClick={onBinIconClick}
+                                                />
                                             ),
                                             <ProblemFavoriteStar isFavorite={isFavorite} problemId={problem.id} />,
                                         )}

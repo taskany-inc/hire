@@ -34,5 +34,6 @@ export const candidateFilterValuesToRequestData = (
     statuses: (values.statuses && values.statuses.length > 0 ? values.statuses : undefined) as InterviewStatus[],
     hrIds: values.hrIds && values.hrIds.length > 0 ? values.hrIds : undefined,
     vacancyIds: values.vacancyIds && values.vacancyIds.length > 0 ? values.vacancyIds : undefined,
+    createdAt: values.createdAt && values.createdAt.length > 0 ? values.createdAt : undefined,
     limit: 20,
 });

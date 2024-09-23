@@ -21,6 +21,7 @@ export const getCandidateListSchema = z
         offset: z.number(),
         orderBy: z.string(),
         orderDirection: z.enum(['asc', 'desc']),
+        createdAt: z.string().array(),
         cursor: z.number().nullish(),
         hrIds: z.number().array(),
         vacancyIds: z.string().array(),

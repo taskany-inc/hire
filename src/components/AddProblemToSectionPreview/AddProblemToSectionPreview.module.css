@@ -1,0 +1,7 @@
+.AddProblemText {
+    color: var( --text-secondary);
+}
+
+.AddProblemToSectionFiltersPanel {
+    margin-left: -20px;
+}

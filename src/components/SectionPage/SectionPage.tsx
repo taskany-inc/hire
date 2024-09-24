@@ -67,6 +67,7 @@ export const SectionPage = ({ section }: SectionPageProps): JSX.Element => {
     return (
         <LayoutMain pageTitle={pageTitle} titleMenuItems={titleMenuItems} backlink={pageHrefs.interview(interviewId)}>
             <Section
+                showAddProblemButton
                 section={section}
                 title={
                     <>

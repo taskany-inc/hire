@@ -29,7 +29,7 @@ export const SectionPreview: FC<SectionProps> = ({ sectionId }: SectionProps) =>
                         readOnly={true}
                     />
                 }
-                content={<Section section={section} />}
+                content={<Section showAddProblemButton={false} section={section} />}
             />
         );
     });

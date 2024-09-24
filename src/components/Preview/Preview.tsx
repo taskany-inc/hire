@@ -17,7 +17,7 @@ export const Preview = ({ header, content }: ModalPreviewProps): JSX.Element => 
         <ModalPreview visible onClose={hidePreview} className={s.ModalPreview}>
             <ModalHeader className={s.ModalHeader}>{header}</ModalHeader>
             <div className={s.ModalWrapper}>
-                <ModalContent className={s.ModalContent}>{content} </ModalContent>
+                <ModalContent className={s.ModalContent}>{content}</ModalContent>
             </div>
         </ModalPreview>
     );

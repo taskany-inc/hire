@@ -2,9 +2,6 @@
     max-width: 900px;
 }
 
-.ProblemCardHeader {
-    color: var(--text-color);
-}
 
 .ProblemCardContent {
     border: 1px solid var(--card-background);

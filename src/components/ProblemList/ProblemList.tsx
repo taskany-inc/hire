@@ -25,8 +25,8 @@ export const ProblemList = ({
     style,
     embedded,
     isSmallSize,
-    sectionId,
     interviewId,
+    sectionId,
 }: ProblemListProps): JSX.Element => {
     const { values } = useProblemFilterUrlParams();
 

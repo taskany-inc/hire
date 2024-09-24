@@ -6,8 +6,15 @@ import z from 'zod';
 import { nullable } from '@taskany/bricks';
 import { Text, Button } from '@taskany/bricks/harmony';
 import { Attach } from '@prisma/client';
-import { IconPhonecallOutline, IconSendOutline, IconEditOutline, IconXCircleOutline } from '@taskany/icons';
+import {
+    IconPhonecallOutline,
+    IconSendOutline,
+    IconEditOutline,
+    IconXCircleOutline,
+    IconPlusCircleOutline,
+} from '@taskany/icons';
 
+import { usePreviewContext } from '../../contexts/previewContext';
 import { useSectionUpdateMutation } from '../../modules/sectionHooks';
 import { SectionWithRelationsAndResults, UpdateSection } from '../../modules/sectionTypes';
 import { generatePath, pageHrefs, Paths } from '../../utils/paths';
@@ -20,7 +27,6 @@ import { HireButtons } from '../HireButtons/HireButtons';
 import { SectionFeedbackHireBadge } from '../SectionFeedbackHireBadge/SectionFeedbackHireBadge';
 import { SectionAttach } from '../SectionAttach/SectionAttach';
 import { Link } from '../Link';
-import { AddProblemToSection } from '../AddProblemToSection/AddProblemToSection';
 import { useUploadNotifications } from '../../modules/attachHooks';
 import Md from '../Md';
 
@@ -32,6 +38,7 @@ interface SectionFeedbackProps {
     isEditable: boolean;
     candidateId: number;
     hasTasks: boolean;
+    showAddProblemButton?: boolean;
 }
 
 const schema = z.object({
@@ -43,9 +50,15 @@ const schema = z.object({
     feedback: z.string().min(1, { message: tr("Mandatory field, fill in the candidate's impressions") }),
 });
 
-export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedbackProps): JSX.Element => {
+export const SectionFeedback = ({
+    section,
+    isEditable,
+    hasTasks,
+    showAddProblemButton,
+}: SectionFeedbackProps): JSX.Element => {
     const [editMode, setEditMode] = useState<boolean>(section.hire === null);
     const { onUploadSuccess, onUploadFail } = useUploadNotifications();
+    const { showAddProblemToSectionPreview } = usePreviewContext();
 
     const router = useRouter();
     const { interviewId } = section;
@@ -203,8 +216,15 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                                 text={section.feedback ? tr('Save') : tr('Send feedback')}
                             />
                         ))}
-                        {nullable(editMode && isProblemCreationAvailable, () => (
-                            <AddProblemToSection interviewId={interviewId} sectionId={section.id} />
+
+                        {nullable(editMode && isProblemCreationAvailable && showAddProblemButton, () => (
+                            <Button
+                                iconRight={<IconPlusCircleOutline size="s" />}
+                                view="default"
+                                type="button"
+                                text={tr('Add problem')}
+                                onClick={() => showAddProblemToSectionPreview({ interviewId, sectionId: section.id })}
+                            />
                         ))}
                         {nullable(editMode && section.videoCallLink, (videoCallLink) => (
                             <Link href={videoCallLink} target="_blank">

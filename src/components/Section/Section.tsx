@@ -20,9 +20,10 @@ import s from './Section.module.css';
 interface SectionProps {
     section: SectionWithRelationsAndResults;
     title?: ReactNode;
+    showAddProblemButton?: boolean;
 }
 
-export const Section = ({ section, title }: SectionProps): JSX.Element => {
+export const Section = ({ section, title, showAddProblemButton }: SectionProps): JSX.Element => {
     const session = useSession();
     const isEditable = session ? accessChecks.section.update(session, section).allowed : false;
 
@@ -52,7 +53,9 @@ export const Section = ({ section, title }: SectionProps): JSX.Element => {
                     {nullable(showOtherGrades, () => (
                         <SectionResults className={s.SectionResults} passedSections={passedSections} />
                     ))}
+
                     <SectionFeedback
+                        showAddProblemButton={showAddProblemButton}
                         section={section}
                         isEditable={isEditable}
                         candidateId={interview.candidateId}

@@ -137,7 +137,7 @@ export function CandidateInterviewCreationForm({ candidate, preparedCvAttach }: 
                         ))}
                     </FormControl>
 
-                    <AddVacancyToInterview vacancyId={vacancy?.id} onSelect={setVacancy} />
+                    <AddVacancyToInterview onSelect={setVacancy} />
 
                     <CvAttach candidateId={candidate.id} preparedCvAttach={preparedCvAttach} onParse={onCvParse} />
 

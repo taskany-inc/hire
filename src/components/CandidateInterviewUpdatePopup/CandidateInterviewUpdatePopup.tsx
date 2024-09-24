@@ -1,11 +1,16 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
-import { ComponentProps, useCallback, useState } from 'react';
-import { HireStream } from '@prisma/client';
+import { useCallback } from 'react';
 import { nullable } from '@taskany/bricks';
-import { Button, Card, CardContent, FormControl, FormControlLabel } from '@taskany/bricks/harmony';
+import {
+    Button,
+    FormControl,
+    FormControlLabel,
+    Modal,
+    ModalContent,
+    ModalCross,
+    ModalHeader,
+} from '@taskany/bricks/harmony';
 
-import { pageHrefs } from '../../utils/paths';
 import { AddInlineTrigger } from '../AddInlineTrigger/AddInlineTrigger';
 import { InterviewWithRelations, UpdateInterview } from '../../modules/interviewTypes';
 import { useInterviewUpdateMutation } from '../../modules/interviewHooks';
@@ -14,13 +19,11 @@ import { useProductFinalSectionDropdownOptions } from '../../modules/candidateSe
 import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { CandidateNameSubtitle } from '../CandidateNameSubtitle/CandidateNameSubtitle';
 import { Select } from '../Select';
-import { AddVacancyToInterview } from '../AddVacancyToInterview/AddVacancyToInterview';
-import { CvAttach } from '../CvAttach/CvAttach';
-import { cvParsingResultToDescription } from '../../utils/aiAssistantUtils';
 import { FormActions } from '../FormActions/FormActions';
+import { useHireStreams } from '../../modules/hireStreamsHooks';
 
-import { tr } from './CandidateInterviewUpdateForm.i18n';
-import s from './CandidateInterviewUpdateForm.module.css';
+import { tr } from './CandidateInterviewUpdatePopup.i18n';
+import s from './CandidateInterviewUpdatePopup.module.css';
 
 type InterviewUpdateFormData = Omit<UpdateInterview, 'candidateId' | 'candidateSelectedSectionId' | 'hireStreamId'> & {
     candidate: Option;
@@ -28,17 +31,14 @@ type InterviewUpdateFormData = Omit<UpdateInterview, 'candidateId' | 'candidateS
     hireStreamId: number | -1;
 };
 
-interface CandidateInterviewUpdateFormProps {
+interface CandidateInterviewUpdatePopupProps {
+    visible: boolean;
+    onClose: VoidFunction;
     interview: InterviewWithRelations;
-    hireStreams: HireStream[];
 }
 
-export function CandidateInterviewUpdateForm({ interview, hireStreams }: CandidateInterviewUpdateFormProps) {
-    const router = useRouter();
+export function CandidateInterviewUpdatePopup({ visible, onClose, interview }: CandidateInterviewUpdatePopupProps) {
     const interviewUpdateMutation = useInterviewUpdateMutation();
-
-    const [cvAttachId, setCvAttachId] = useState<string>();
-    const [vacancyId, setVacancyId] = useState(interview.crewVacancyId);
 
     const { candidate } = interview;
 
@@ -49,15 +49,13 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Candida
                     interviewId: interview.id,
                     description,
                     candidateSelectedSectionId: candidateSelectedSectionId < 0 ? null : candidateSelectedSectionId,
-                    cvAttachId,
                     hireStreamId,
-                    crewVacancyId: vacancyId,
                 },
             });
 
-            router.push(pageHrefs.interview(interview.id));
+            onClose();
         },
-        [interview.id, interviewUpdateMutation, router, vacancyId, cvAttachId],
+        [interview.id, interviewUpdateMutation, onClose],
     );
 
     const {
@@ -65,7 +63,6 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Candida
         handleSubmit,
         watch,
         setValue,
-        getValues,
         formState: { isSubmitting },
     } = useForm<InterviewUpdateFormData>({
         defaultValues: {
@@ -75,29 +72,31 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Candida
         },
     });
 
+    const hireStreamsQuery = useHireStreams();
+    const hireStreams = hireStreamsQuery.data ?? [];
+
     const productFinalSectionOptions = useProductFinalSectionDropdownOptions(interview.sections);
 
     const onHireStreamIdChange = (hireStreamId: number) => setValue('hireStreamId', hireStreamId);
     const onProductFinalSectionChange = (sectionId: number) => setValue('candidateSelectedSectionId', sectionId);
 
-    const onCvParse = useCallback<ComponentProps<typeof CvAttach>['onParse']>(
-        (attach, parsedData) => {
-            setCvAttachId(attach.id);
-            const oldDescription = getValues('description');
-            setValue('description', `${oldDescription}${cvParsingResultToDescription(parsedData)}`);
-        },
-        [getValues, setValue],
-    );
-
     return (
-        <form onSubmit={handleSubmit(updateInterview)}>
-            <Card className={s.CandidateInterviewUpdateForm}>
-                <CardContent className={s.CandidateInterviewUpdateFormCardContent}>
+        <Modal onClose={onClose} visible={visible}>
+            <ModalHeader>
+                <ModalCross onClick={onClose} />
+                {tr('Edit interview')}
+            </ModalHeader>
+            <ModalContent>
+                <form onSubmit={handleSubmit(updateInterview)} className={s.CandidateInterviewUpdateForm}>
                     <CandidateNameSubtitle name={candidate.name} id={candidate.id} />
 
                     <FormControl>
-                        <FormControlLabel>{tr('Hire stream')}</FormControlLabel>
+                        <FormControlLabel className={s.CandidateInterviewUpdateFormLabel}>
+                            {tr('Hire stream')}
+                        </FormControlLabel>
                         <Select
+                            placement="bottom-start"
+                            selectPanelClassName={s.CandidateInterviewUpdateFormSelectDropdown}
                             items={hireStreams.map((stream) => ({ text: stream.name, id: String(stream.id) }))}
                             onChange={(id) => onHireStreamIdChange(Number(id))}
                             renderTrigger={({ ref, onClick }) =>
@@ -111,8 +110,12 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Candida
                     </FormControl>
 
                     <FormControl>
-                        <FormControlLabel>{tr("Candidate's Chosen Product Final")}</FormControlLabel>
+                        <FormControlLabel className={s.CandidateInterviewUpdateFormLabel}>
+                            {tr("Candidate's Chosen Product Final")}
+                        </FormControlLabel>
                         <Select
+                            placement="bottom-start"
+                            selectPanelClassName={s.CandidateInterviewUpdateFormSelectDropdown}
                             items={productFinalSectionOptions.map((option) => ({
                                 ...option,
                                 id: String(option.id),
@@ -132,13 +135,6 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Candida
                         />
                     </FormControl>
 
-                    <AddVacancyToInterview
-                        vacancyId={vacancyId}
-                        onSelect={(vacancy) => setVacancyId(vacancy?.id ?? null)}
-                    />
-
-                    <CvAttach candidateId={candidate.id} onParse={onCvParse} />
-
                     <CodeEditorField
                         disableAttaches
                         name="description"
@@ -156,8 +152,8 @@ export function CandidateInterviewUpdateForm({ interview, hireStreams }: Candida
                             text={tr('Save interview')}
                         />
                     </FormActions>
-                </CardContent>
-            </Card>
-        </form>
+                </form>
+            </ModalContent>
+        </Modal>
     );
 }

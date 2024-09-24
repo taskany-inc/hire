@@ -6,26 +6,20 @@ import { VacancyFilterBar } from '../VacancyFilterBar/VacancyFilterBar';
 import { VacancyList } from '../VacancyList/VacancyList';
 import { AddInlineTrigger } from '../AddInlineTrigger/AddInlineTrigger';
 import { Vacancy } from '../../modules/crewTypes';
-import { VacancyInfoById } from '../VacancyInfo/VacancyInfo';
 
 import { tr } from './AddVacancyToInterview.i18n';
 
 interface AddVacancyToInterviewProps {
-    vacancyId?: string | null;
-    onSelect: (vacancy?: Vacancy) => void;
+    onSelect: (vacancy: Vacancy) => void;
 }
 
-export const AddVacancyToInterview = ({ vacancyId, onSelect }: AddVacancyToInterviewProps) => {
+export const AddVacancyToInterview = ({ onSelect }: AddVacancyToInterviewProps) => {
     const [open, setOpen] = useState(false);
 
     const selectAndClose = (vacancy: Vacancy) => {
         onSelect(vacancy);
         setOpen(false);
     };
-
-    if (vacancyId) {
-        return <VacancyInfoById vacancyId={vacancyId} onClick={() => onSelect(undefined)} />;
-    }
 
     return (
         <>

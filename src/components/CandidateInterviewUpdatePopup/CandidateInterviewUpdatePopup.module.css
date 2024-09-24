@@ -1,0 +1,15 @@
+.CandidateInterviewUpdateForm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-m);
+}
+
+.CandidateInterviewUpdateFormLabel {
+    display: block;
+    margin-bottom: var(--gap-xs);
+}
+
+.CandidateInterviewUpdateFormSelectDropdown {
+    max-height: 300px;
+    overflow: auto;
+}

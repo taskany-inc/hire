@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.66.0](https://github.com/taskany-inc/hire/compare/v0.65.0...v0.66.0) (2024-09-24)
+
+
+### Features
+
+* active field in user model ([e427c18](https://github.com/taskany-inc/hire/commit/e427c18b4d8d34e46ae0e68cc2fcc23d629d3c38))
+* createdAt filter ([3399de2](https://github.com/taskany-inc/hire/commit/3399de2097aa171ccbc14d2a2768383ae074be45))
+* remove from favorite archived problem on bin icon click ([070ec7c](https://github.com/taskany-inc/hire/commit/070ec7ca15ded07bafae968fb4ffc21548960edf))
+* support date-picker ([990d696](https://github.com/taskany-inc/hire/commit/990d69663caeb04a1631691a2b10a40baf79177c))
+
+
+### Bug Fixes
+
+* **ProblemCard&SectionHeaderPreview:** fix layout ([1f3f262](https://github.com/taskany-inc/hire/commit/1f3f262603aedf9beb11d2b5e793ad557ecf1731))
+* section progress popup not interactive ([bd30fbc](https://github.com/taskany-inc/hire/commit/bd30fbc83f0511036c5cc6430c4143ce681e6602))
+* star is visible when problem is archived ([63ed677](https://github.com/taskany-inc/hire/commit/63ed677c62cf34f58fc799558d7afd1770d595d7))
+* sticky layout error ([a0632e5](https://github.com/taskany-inc/hire/commit/a0632e5fca9f2a0e87e681a067c7c418afd31b37))
+* tag color generator doesn't respect light theme ([a310118](https://github.com/taskany-inc/hire/commit/a310118081c98f476e2496470d5d76c347211c46))
+
 ## [0.65.0](https://github.com/taskany-inc/hire/compare/v0.64.0...v0.65.0) (2024-09-19)
 
 

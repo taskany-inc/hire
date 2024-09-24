@@ -14,22 +14,20 @@ import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { InterviewTags } from '../InterviewTags/InterviewTags';
 import { ExternalUserLink } from '../ExternalUserLink';
 import { useDistanceDate } from '../../hooks/useDateFormat';
-import { Link } from '../Link';
-import { VacancyInfoById } from '../VacancyInfo/VacancyInfo';
 import Md from '../Md';
 import { InterviewActivity } from '../InterviewActivity/InterviewActivity';
 import { CardHeader } from '../CardHeader/CardHeader';
 import { InterviewSidebar } from '../InterviewSidebar/InterviewSidebar';
 
-import s from './Interview.module.css';
-import { tr } from './Interview.i18n';
+import s from './InterviewPage.module.css';
+import { tr } from './InterviewPage.i18n';
 
 interface InterviewProps {
     interview: InterviewWithRelations;
     sectionTypes: SectionType[];
 }
 
-export const Interview: FC<InterviewProps> = ({ interview, sectionTypes }) => {
+export const InterviewPage: FC<InterviewProps> = ({ interview, sectionTypes }) => {
     const session = useSession();
     const date = useDistanceDate(interview.createdAt);
 
@@ -73,19 +71,6 @@ export const Interview: FC<InterviewProps> = ({ interview, sectionTypes }) => {
                                     {tr('No description')}
                                 </Text>,
                             )}
-
-                            {nullable(interview.cv, (cv) => (
-                                <Text>
-                                    {tr('CV:')}{' '}
-                                    <Link target="_blank" href={pageHrefs.attach(cv.id)}>
-                                        {cv.filename}
-                                    </Link>
-                                </Text>
-                            ))}
-
-                            {nullable(interview.crewVacancyId, (vacancyId) => (
-                                <VacancyInfoById vacancyId={vacancyId} />
-                            ))}
                         </CardContent>
                     </Card>
 

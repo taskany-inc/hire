@@ -30,7 +30,6 @@ export enum Paths {
     CANDIDATES_NEW = '/candidates/new',
     CANDIDATE = '/candidates/{candidateId}',
     CANDIDATE_INTERVIEW_CREATE = '/candidates/{candidateId}/interviews/new',
-    CANDIDATE_INTERVIEW_UPDATE = '/candidates/{candidateId}/interviews/{interviewId}/edit',
     CANDIDATE_EDIT = '/candidates/{candidateId}/edit',
 
     USERS_NEW = '/users/new',
@@ -84,8 +83,6 @@ export const pageHrefs = {
     candidate: (candidateId: number): string => generatePath(Paths.CANDIDATE, { candidateId }),
     candidateInterviewCreate: (candidateId: number): string =>
         generatePath(Paths.CANDIDATE_INTERVIEW_CREATE, { candidateId }),
-    candidateInterviewUpdate: (candidateId: number, interviewId: number): string =>
-        generatePath(Paths.CANDIDATE_INTERVIEW_UPDATE, { candidateId, interviewId }),
 
     interview: (interviewId: number): string => generatePath(Paths.INTERVIEW, { interviewId }),
     interviewHistory: (interviewId: number): string => generatePath(Paths.INTERVIEW_HISTORY, { interviewId }),

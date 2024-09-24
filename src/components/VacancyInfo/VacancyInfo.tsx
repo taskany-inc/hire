@@ -1,54 +1,64 @@
-import { nullable, Text } from '@taskany/bricks';
-import { gray9, textColor } from '@taskany/colors';
-import { Badge } from '@taskany/bricks/harmony';
-import { IconXCircleOutline } from '@taskany/icons';
+import { useRef, useState } from 'react';
+import { nullable } from '@taskany/bricks';
+import { Badge, Popup, Text } from '@taskany/bricks/harmony';
+import { IconXCircleOutline, IconUserSquareOutline } from '@taskany/icons';
 
 import { Vacancy } from '../../modules/crewTypes';
 import { useVacancy } from '../../modules/crewHooks';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
+import { useInterviewUpdateMutation } from '../../modules/interviewHooks';
 
 import { tr } from './VacancyInfo.i18n';
 
 interface VacancyInfoProps {
     vacancy: Vacancy;
-    onClick?: () => void;
+    interviewId?: number;
+    isEditable?: boolean;
 }
 
-export const VacancyInfo = ({ vacancy, onClick }: VacancyInfoProps) => {
+export const VacancyInfo = ({ vacancy, interviewId, isEditable }: VacancyInfoProps) => {
+    const popupRef = useRef<HTMLDivElement>(null);
+    const [popupVisible, setPopupVisibility] = useState(false);
+    const interviewUpdateMutation = useInterviewUpdateMutation();
+    const onDelete = (id: number) => {
+        interviewUpdateMutation.mutate({ data: { interviewId: id, crewVacancyId: null } });
+    };
+
     return (
-        <div>
-            <Text color={gray9} weight="bold">
-                {tr('Vacancy')}:{' '}
-                <Badge
-                    color={textColor}
-                    text={vacancy.name}
-                    iconRight={nullable(onClick, () => (
-                        <IconXCircleOutline size="xs" onClick={onClick} />
-                    ))}
-                />
-            </Text>
-            <Text color={gray9}>
-                {tr('Grade')}:{' '}
-                <Text as="span" color={textColor}>
-                    {vacancy.grade}
+        <>
+            <Badge
+                iconLeft={<IconUserSquareOutline size="xs" />}
+                iconRight={nullable(isEditable && interviewId, (id) => (
+                    <IconXCircleOutline size="xs" onClick={() => onDelete(id)} />
+                ))}
+                action="dynamic"
+                text={vacancy.name}
+                ref={popupRef}
+                onMouseEnter={() => setPopupVisibility(true)}
+                onMouseLeave={() => setPopupVisibility(false)}
+            />
+            <Popup arrow={true} reference={popupRef} visible={popupVisible} placement="bottom-start">
+                <Text>
+                    {tr('Grade')}: {vacancy.grade}
                 </Text>
-            </Text>
-            <Text color={gray9}>
-                {tr('Unit')}:{' '}
-                <Text as="span" color={textColor}>
-                    {vacancy.unit}
+                <Text>
+                    {tr('Unit')}: {vacancy.unit}
                 </Text>
-            </Text>
-        </div>
+            </Popup>
+        </>
     );
 };
 
-export const VacancyInfoById = ({ vacancyId, onClick }: { vacancyId: string; onClick?: () => void }) => {
+type VacancyInfoByIdProps = Omit<VacancyInfoProps, 'vacancy'> & {
+    vacancyId: string;
+};
+
+export const VacancyInfoById = ({ vacancyId, ...restProps }: VacancyInfoByIdProps) => {
     const vacancyQuery = useVacancy(vacancyId);
 
     return (
         <QueryResolver queries={[vacancyQuery]}>
-            {([vacancy]) => <VacancyInfo vacancy={vacancy} onClick={onClick} />}
+            {([vacancy]) => <VacancyInfo vacancy={vacancy} {...restProps} />}
         </QueryResolver>
     );
 };

@@ -1,4 +1,4 @@
-import { Interview } from '../../../components/Interview/Interview';
+import { InterviewPage } from '../../../components/InterviewPage/InterviewPage';
 import { InferServerSideProps } from '../../../utils/types';
 import { accessChecks } from '../../../modules/accessChecks';
 import { createGetServerSideProps } from '../../../utils/createGetSSRProps';
@@ -22,15 +22,13 @@ export const getServerSideProps = createGetServerSideProps({
     },
 });
 
-const InterviewPage = ({ numberIds, hireStreamId }: InferServerSideProps<typeof getServerSideProps>) => {
+export default ({ numberIds, hireStreamId }: InferServerSideProps<typeof getServerSideProps>) => {
     const interviewQuery = useInterview(numberIds.interviewId);
     const sectionTypesQuery = useSectionTypes(hireStreamId);
 
     return (
         <QueryResolver queries={[interviewQuery, sectionTypesQuery]}>
-            {([interview, sectionTypes]) => <Interview interview={interview} sectionTypes={sectionTypes} />}
+            {([interview, sectionTypes]) => <InterviewPage interview={interview} sectionTypes={sectionTypes} />}
         </QueryResolver>
     );
 };
-
-export default InterviewPage;

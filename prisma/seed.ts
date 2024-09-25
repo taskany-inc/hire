@@ -279,6 +279,14 @@ const main = async () => {
 
     await prisma.appConfig.create({ data: {} });
 
+    await prisma.filter.create({
+        data: {
+            entity: 'Candidate',
+            params: 'createdAt=@current',
+            default: true,
+        },
+    });
+
     const problems = await Promise.all(
         problemsData.map((data) =>
             prisma.problem.create({

@@ -13,6 +13,7 @@ import { link0 } from '@taskany/colors';
 import { nullable } from '@taskany/bricks';
 
 import { AppSettingsContextProvider } from '../contexts/appSettingsContext';
+import { FiltersContextProvider, FiltersContext } from '../contexts/filtersContext';
 import { Browser } from '../utils';
 import { trpc } from '../trpc/trpcClient';
 import { TLocale, setSSRLocale } from '../utils/getLang';
@@ -25,6 +26,7 @@ import Error, { ErrorProps } from './_error';
 import '@taskany/icons/style.css';
 
 interface TaskanyHireAppProps {
+    filters?: FiltersContext;
     session: Session;
     browser: Browser;
     error?: ErrorProps;
@@ -32,7 +34,7 @@ interface TaskanyHireAppProps {
 
 const TaskanyHireApp: FC<AppProps<TaskanyHireAppProps>> = ({ Component, pageProps, router }) => {
     setSSRLocale(router.locale as TLocale);
-    const { session, browser, error, ...restPageProps } = pageProps;
+    const { session, browser, error, filters, ...restPageProps } = pageProps;
 
     useEffect(() => {
         SentryBrowser.setUser({
@@ -54,19 +56,21 @@ const TaskanyHireApp: FC<AppProps<TaskanyHireAppProps>> = ({ Component, pageProp
                 >
                     <SessionProvider session={session} refetchOnWindowFocus>
                         <AppSettingsContextProvider session={session} browserServerSide={browser}>
-                            <ThemeProvider themes={['light', 'dark']}>
-                                {nullable(
-                                    error,
-                                    (e) => (
-                                        <Error {...e} />
-                                    ),
-                                    <PreviewContextProvider>
-                                        <Component {...restPageProps} />
-                                        <Previews />
-                                        <ReactQueryDevtools />
-                                    </PreviewContextProvider>,
-                                )}
-                            </ThemeProvider>
+                            <FiltersContextProvider value={filters}>
+                                <ThemeProvider themes={['light', 'dark']}>
+                                    {nullable(
+                                        error,
+                                        (e) => (
+                                            <Error {...e} />
+                                        ),
+                                        <PreviewContextProvider>
+                                            <Component {...restPageProps} />
+                                            <Previews />
+                                            <ReactQueryDevtools />
+                                        </PreviewContextProvider>,
+                                    )}
+                                </ThemeProvider>
+                            </FiltersContextProvider>
                         </AppSettingsContextProvider>
                     </SessionProvider>
                 </SnackbarProvider>

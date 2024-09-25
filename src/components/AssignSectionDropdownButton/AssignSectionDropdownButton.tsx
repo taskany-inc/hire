@@ -14,6 +14,7 @@ import { useState } from 'react';
 
 import { pageHrefs } from '../../utils/paths';
 
+import s from './AssignSectionDropdownButton.module.css';
 import { tr } from './AssignSectionDropdownButton.i18n';
 
 interface Props {
@@ -32,7 +33,7 @@ export function AssignSectionDropdownButton({ interviewId, sectionTypes }: Props
         <Dropdown isOpen={isOpen} onClose={() => setIsOpen(false)}>
             <DropdownTrigger
                 renderTrigger={(props) => (
-                    <div ref={props.ref}>
+                    <div ref={props.ref} className={s.AssignSectionDropdownButton}>
                         <Button
                             text={tr('Assign section')}
                             view="primary"

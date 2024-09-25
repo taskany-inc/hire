@@ -1,3 +1,4 @@
 .AssignSectionDropdownButton {
     margin: var(--gap-m) 0;
+    width: fit-content;
 }

@@ -7,6 +7,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum FilterEntity {
+  Candidate
+}
+
+model Filter {
+  id      String       @id @default(cuid())
+  entity  FilterEntity
+  params  String
+  default Boolean      @default(false)
+  userId  Int?
+  user    User?        @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
+}
+
 model Account {
   id                 String   @id @default(cuid())
   type               String
@@ -83,6 +99,7 @@ model User {
   restrictedInterviews      Interview[]      @relation("InterviewAccessRestriction")
   allowedInterviews         Interview[]      @relation("InterviewAccessPermission")
   reactions                 Reaction[]
+  filters                   Filter[]
 
   @@index([email])
 }

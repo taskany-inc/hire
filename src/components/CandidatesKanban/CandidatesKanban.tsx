@@ -27,6 +27,20 @@ const intersectionOptions = {
 type LoadingState = 'loading' | 'ready' | 'loaded';
 type onLoadingStateChange = (state: LoadingState) => void;
 
+interface KanbanBaseProps {
+    onLoadingStateChange?: onLoadingStateChange;
+}
+
+interface KanbanProps extends KanbanBaseProps {
+    streamId: number;
+    statuses: InterviewStatus[];
+}
+
+interface KanbanColumnsProps extends KanbanBaseProps {
+    status: InterviewStatus;
+    hireStreamId: number;
+}
+
 const calculateCommonLoadingState = (map: Map<unknown, LoadingState>): LoadingState => {
     const loadingStates = new Set(map.values());
 
@@ -40,11 +54,7 @@ const calculateCommonLoadingState = (map: Map<unknown, LoadingState>): LoadingSt
     return 'ready';
 };
 
-export const CandidatesKanbanColumn: FC<{
-    status: InterviewStatus;
-    hireStreamId: number;
-    onLoadingStateChange: onLoadingStateChange;
-}> = ({ status, hireStreamId, onLoadingStateChange }) => {
+export const CandidatesKanbanColumn: FC<KanbanColumnsProps> = ({ status, hireStreamId, onLoadingStateChange }) => {
     const session = useSession();
     const { values } = useCandidateFilterUrlParams();
 
@@ -130,11 +140,7 @@ export const CandidatesKanbanColumn: FC<{
     );
 };
 
-const CandidatesKanban: FC<{
-    streamId: number;
-    statuses: InterviewStatus[];
-    onLoadingStateChange?: onLoadingStateChange;
-}> = ({ streamId, statuses, onLoadingStateChange }) => {
+const CandidatesKanban: FC<KanbanProps> = ({ streamId, statuses, onLoadingStateChange }) => {
     const [loaders, setLoaders] = useState(
         () => new Map<InterviewStatus, LoadingState>(statuses.map((status) => [status, 'ready'])),
     );
@@ -163,7 +169,7 @@ const CandidatesKanban: FC<{
     );
 };
 
-export const CandidatesKanbanList: FC<{ onLoadingStateChange?: onLoadingStateChange }> = ({ onLoadingStateChange }) => {
+export const CandidatesKanbanList: FC<KanbanBaseProps> = ({ onLoadingStateChange }) => {
     const { values } = useCandidateFilterUrlParams();
     const { data = [] } = trpc.hireStreams.getManaged.useQuery();
 

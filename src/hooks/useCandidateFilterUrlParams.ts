@@ -1,14 +1,55 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { InterviewStatus } from '@prisma/client';
 import { debounce } from 'throttle-debounce';
 import { useRouter } from 'next/router';
-import { useUrlParams } from '@taskany/bricks';
+import { deleteCookie, setCookie, useUrlParams } from '@taskany/bricks';
 
+import { trpc } from '../trpc/trpcClient';
+import { filtersNoSearchPresetCookie } from '../utils/filters';
 import { GetCandidateList } from '../modules/candidateTypes';
+import { useFiltersContext } from '../contexts/filtersContext';
 
 export const useCandidateFilterUrlParams = () => {
+    const { defaultFilterFallback } = useFiltersContext();
+
     const router = useRouter();
-    const pushUrl = useCallback((url: string) => router.push(url), [router]);
+    const pushUrl = useCallback(
+        (url: string) => {
+            const query = url.split('?')[1];
+
+            if (!query) {
+                setCookie(filtersNoSearchPresetCookie, true, {
+                    'max-age': 30,
+                });
+            }
+
+            router.push(url);
+        },
+        [router],
+    );
+
+    const { data = [] } = trpc.filter.getDefaultFilter.useQuery(
+        {
+            entity: 'Candidate',
+        },
+        {
+            enabled: defaultFilterFallback,
+        },
+    );
+
+    const preset = defaultFilterFallback ? data[0] : null;
+
+    useEffect(() => {
+        if (!defaultFilterFallback) {
+            deleteCookie(filtersNoSearchPresetCookie);
+        }
+    }, [defaultFilterFallback]);
+
+    const query = useMemo(
+        () => (preset ? Object.fromEntries(new URLSearchParams(preset.params)) : router.query),
+        [preset, router.query],
+    );
+
     const { values, setter, clearParams } = useUrlParams(
         {
             search: 'string',
@@ -18,7 +59,7 @@ export const useCandidateFilterUrlParams = () => {
             vacancyIds: 'stringArray',
             createdAt: 'stringArray',
         },
-        router.query,
+        query,
         pushUrl,
     );
     const setSearch = debounce(300, (s) => setter('search', s));

@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.67.0](https://github.com/taskany-inc/hire/compare/v0.66.0...v0.67.0) (2024-09-26)
+
+
+### Features
+
+* **analytics filter:** custom period ([cdfc5a7](https://github.com/taskany-inc/hire/commit/cdfc5a7a57bedba0f91b644b1cb60dabbad3e9d2))
+* **analytics filter:** harmony components ([4bf23ab](https://github.com/taskany-inc/hire/commit/4bf23ab7cb42db33f407f405fdb7d0f8b327ae01))
+* **analytics filter:** hide stream filter for stream page ([e04f6ad](https://github.com/taskany-inc/hire/commit/e04f6adcd43a86602bb2cc45afc5db6980090fba))
+* **analytics:** harmony styles for charts ([76d5b61](https://github.com/taskany-inc/hire/commit/76d5b61f7d108779d0b09e8db667fb1e00624a4f))
+
+
+### Bug Fixes
+
+* **analytics filter:** use common hire stream component ([a017825](https://github.com/taskany-inc/hire/commit/a017825ec9186df3430c8be0725e783c83ba409a))
+* assign section popup is too far from the trigger button ([ba2bdfc](https://github.com/taskany-inc/hire/commit/ba2bdfc5eafdd20e6aaa82dc1dfe1a7b6ab12736))
+
 ## [0.66.0](https://github.com/taskany-inc/hire/compare/v0.65.0...v0.66.0) (2024-09-24)
 
 

@@ -33,7 +33,9 @@ export const getUserRoleIds = (session: Session) => {
     const hiringLeadInHireStreams = session.userRoles.hiringLead.map((hireStream) => hireStream.id);
     const recruiterInHireStreams = session.userRoles.recruiter.map((hireStream) => hireStream.id);
     const interviewerInSectionTypes = session.userRoles.interviewer.map((sectionType) => sectionType.id);
-    const combinedHireStreams = [...hiringLeadInHireStreams, ...recruiterInHireStreams].filter(onlyUnique);
+    const combinedHireStreams = [...hiringLeadInHireStreams, ...recruiterInHireStreams, ...managerInHireStreams].filter(
+        onlyUnique,
+    );
 
     return {
         combinedHireStreams,
@@ -75,7 +77,10 @@ export const accessChecks = {
 
     candidate: {
         create: (session: Session): AccessCheckResult =>
-            session.userRoles.admin || session.userRoles.hasHiringLeadRoles || session.userRoles.hasRecruiterRoles
+            session.userRoles.admin ||
+            session.userRoles.hasHiringLeadRoles ||
+            session.userRoles.hasRecruiterRoles ||
+            session.userRoles.hasHireStreamManagerRoles
                 ? allowed()
                 : notAllowed(tr('Only Hiring Leads and Recruiters can add candidates')),
 
@@ -86,7 +91,11 @@ export const accessChecks = {
 
             const { combinedHireStreams } = getUserRoleIds(session);
 
-            if (session.userRoles.hasHiringLeadRoles || session.userRoles.hasRecruiterRoles) {
+            if (
+                session.userRoles.hasHiringLeadRoles ||
+                session.userRoles.hasRecruiterRoles ||
+                session.userRoles.hasHireStreamManagerRoles
+            ) {
                 return allowed({ filterInterviewsByHireStreamIds: combinedHireStreams });
             }
 
@@ -108,7 +117,11 @@ export const accessChecks = {
 
             const { combinedHireStreams } = getUserRoleIds(session);
 
-            if (session.userRoles.hasHiringLeadRoles || session.userRoles.hasRecruiterRoles) {
+            if (
+                session.userRoles.hasHiringLeadRoles ||
+                session.userRoles.hasRecruiterRoles ||
+                session.userRoles.hasHireStreamManagerRoles
+            ) {
                 return allowed({ filterInterviewsByHireStreamIds: combinedHireStreams });
             }
 
@@ -127,7 +140,7 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const { hiringLeadInHireStreams, recruiterInHireStreams } = getUserRoleIds(session);
+            const { hiringLeadInHireStreams, recruiterInHireStreams, managerInHireStreams } = getUserRoleIds(session);
 
             const candidateHireStreamIds = candidate.interviews.map((interview) => interview.hireStreamId);
 
@@ -137,8 +150,9 @@ export const accessChecks = {
             const userRelevantHasRecruiterRoles = recruiterInHireStreams.some((id) =>
                 candidateHireStreamIds.includes(id),
             );
+            const userRelevantHasManagerRoles = managerInHireStreams.some((id) => candidateHireStreamIds.includes(id));
 
-            if (userHasRelevantHiringLeadRoles || userRelevantHasRecruiterRoles) {
+            if (userHasRelevantHiringLeadRoles || userRelevantHasRecruiterRoles || userRelevantHasManagerRoles) {
                 return allowed();
             }
 
@@ -150,15 +164,16 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const { hiringLeadInHireStreams } = getUserRoleIds(session);
+            const { hiringLeadInHireStreams, managerInHireStreams } = getUserRoleIds(session);
 
             const candidateHireStreamIds = candidate.interviews.map((interview) => interview.hireStreamId);
 
             const userHasRelevantHiringLeadRoles = hiringLeadInHireStreams.some((id) =>
                 candidateHireStreamIds.includes(id),
             );
+            const userRelevantHasManagerRoles = managerInHireStreams.some((id) => candidateHireStreamIds.includes(id));
 
-            if (userHasRelevantHiringLeadRoles) {
+            if (userHasRelevantHiringLeadRoles || userRelevantHasManagerRoles) {
                 return allowed();
             }
 
@@ -172,9 +187,13 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const { hiringLeadInHireStreams, recruiterInHireStreams } = getUserRoleIds(session);
+            const { hiringLeadInHireStreams, recruiterInHireStreams, managerInHireStreams } = getUserRoleIds(session);
 
-            if (hiringLeadInHireStreams.includes(hireStreamId) || recruiterInHireStreams.includes(hireStreamId)) {
+            if (
+                hiringLeadInHireStreams.includes(hireStreamId) ||
+                recruiterInHireStreams.includes(hireStreamId) ||
+                managerInHireStreams.includes(hireStreamId)
+            ) {
                 return allowed();
             }
 
@@ -196,11 +215,12 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const { hiringLeadInHireStreams, recruiterInHireStreams } = getUserRoleIds(session);
+            const { hiringLeadInHireStreams, recruiterInHireStreams, managerInHireStreams } = getUserRoleIds(session);
 
             if (
                 hiringLeadInHireStreams.includes(interview.hireStreamId) ||
-                recruiterInHireStreams.includes(interview.hireStreamId)
+                recruiterInHireStreams.includes(interview.hireStreamId) ||
+                managerInHireStreams.includes(interview.hireStreamId)
             ) {
                 return allowed();
             }
@@ -230,7 +250,11 @@ export const accessChecks = {
 
             const { combinedHireStreams } = getUserRoleIds(session);
 
-            if (session.userRoles.hasRecruiterRoles || session.userRoles.hasHiringLeadRoles) {
+            if (
+                session.userRoles.hasRecruiterRoles ||
+                session.userRoles.hasHiringLeadRoles ||
+                session.userRoles.hasHireStreamManagerRoles
+            ) {
                 accessOptions.filterInterviewsByHireStreamIds = combinedHireStreams;
                 return allowed(accessOptions);
             }
@@ -248,9 +272,9 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const { recruiterInHireStreams } = getUserRoleIds(session);
+            const { recruiterInHireStreams, managerInHireStreams } = getUserRoleIds(session);
 
-            if (recruiterInHireStreams.includes(hireStreamId)) {
+            if (recruiterInHireStreams.includes(hireStreamId) || managerInHireStreams.includes(hireStreamId)) {
                 return allowed();
             }
 
@@ -267,9 +291,13 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const { hiringLeadInHireStreams, recruiterInHireStreams } = getUserRoleIds(session);
+            const { hiringLeadInHireStreams, recruiterInHireStreams, managerInHireStreams } = getUserRoleIds(session);
 
-            if (hiringLeadInHireStreams.includes(hireStreamId) || recruiterInHireStreams.includes(hireStreamId)) {
+            if (
+                hiringLeadInHireStreams.includes(hireStreamId) ||
+                recruiterInHireStreams.includes(hireStreamId) ||
+                managerInHireStreams.includes(hireStreamId)
+            ) {
                 return allowed();
             }
 
@@ -291,12 +319,13 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const { hiringLeadInHireStreams, recruiterInHireStreams, interviewerInSectionTypes } =
+            const { hiringLeadInHireStreams, recruiterInHireStreams, interviewerInSectionTypes, managerInHireStreams } =
                 getUserRoleIds(session);
 
             if (
                 hiringLeadInHireStreams.includes(section.interview.hireStreamId) ||
-                recruiterInHireStreams.includes(section.interview.hireStreamId)
+                recruiterInHireStreams.includes(section.interview.hireStreamId) ||
+                managerInHireStreams.includes(section.interview.hireStreamId)
             ) {
                 return allowed();
             }
@@ -324,9 +353,12 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const { recruiterInHireStreams, interviewerInSectionTypes } = getUserRoleIds(session);
+            const { recruiterInHireStreams, interviewerInSectionTypes, managerInHireStreams } = getUserRoleIds(session);
 
-            if (recruiterInHireStreams.includes(section.interview.hireStreamId)) {
+            if (
+                recruiterInHireStreams.includes(section.interview.hireStreamId) ||
+                managerInHireStreams.includes(section.interview.hireStreamId)
+            ) {
                 return allowed();
             }
 
@@ -346,9 +378,12 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const { interviewerInSectionTypes, recruiterInHireStreams } = getUserRoleIds(session);
+            const { interviewerInSectionTypes, recruiterInHireStreams, managerInHireStreams } = getUserRoleIds(session);
 
-            if (recruiterInHireStreams.includes(section.interview.hireStreamId)) {
+            if (
+                recruiterInHireStreams.includes(section.interview.hireStreamId) ||
+                managerInHireStreams.includes(section.interview.hireStreamId)
+            ) {
                 return allowed();
             }
 
@@ -437,7 +472,7 @@ export const accessChecks = {
                 return allowed();
             }
 
-            if (session.userRoles.hasRecruiterRoles) {
+            if (session.userRoles.hasRecruiterRoles || session.userRoles.hasHireStreamManagerRoles) {
                 return allowed();
             }
 
@@ -455,7 +490,11 @@ export const accessChecks = {
                 return allowed();
             }
 
-            if (session.userRoles.hasRecruiterRoles || session.userRoles.hasInterviewerRoles) {
+            if (
+                session.userRoles.hasRecruiterRoles ||
+                session.userRoles.hasInterviewerRoles ||
+                session.userRoles.hasHireStreamManagerRoles
+            ) {
                 return allowed();
             }
 
@@ -593,7 +632,11 @@ export const accessChecks = {
             if (session.userRoles.admin) {
                 return allowed();
             }
-            if (session.userRoles.hasHiringLeadRoles || session.userRoles.hasRecruiterRoles) {
+            if (
+                session.userRoles.hasHiringLeadRoles ||
+                session.userRoles.hasRecruiterRoles ||
+                session.userRoles.hasHireStreamManagerRoles
+            ) {
                 return allowed();
             }
             return notAllowed('Only hiring leads and recruiters can see vacancies');

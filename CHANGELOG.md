@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.68.0](https://github.com/taskany-inc/hire/compare/v0.67.0...v0.68.0) (2024-09-30)
+
+
+### Features
+
+* interview edit in popup ([f8b1c02](https://github.com/taskany-inc/hire/commit/f8b1c0243daf44afbe11cb4c4792731fd38e22f2))
+
 ## [0.67.0](https://github.com/taskany-inc/hire/compare/v0.66.0...v0.67.0) (2024-09-27)
 
 

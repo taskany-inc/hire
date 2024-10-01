@@ -16,7 +16,7 @@ import { calendarMethods } from './calendarMethods';
 
 export interface AssignSectionEmailData {
     calendarSlotId: string;
-    interviewerId: number;
+    interviewerIds: number[];
     interviewId: number;
     sectionId: number;
     candidateName: string;
@@ -36,7 +36,7 @@ export const notifyHR = async (id: number, data: UpdateSection) => {
         where: { id },
         include: {
             interview: { include: { creator: true, candidate: true } },
-            interviewer: true,
+            interviewers: true,
             sectionType: true,
         },
     });
@@ -44,10 +44,10 @@ export const notifyHR = async (id: number, data: UpdateSection) => {
         // TODO: add localization after https://github.com/taskany-inc/hire/issues/191
         return sendMail({
             to: section?.interview?.creator?.email,
-            subject: `Interviewer ${section.interviewer.name || ''} left feedback for the section with ${
-                section.interview.candidate.name
-            }`,
-            text: `Interviewer ${section.interviewer.name} recommends' ${
+            subject: `Interviewers: ${
+                section.interviewers.map((i) => i.name || i.email).join(', ') || ''
+            } left feedback for the section with ${section.interview.candidate.name}`,
+            text: `Interviewers: ${section.interviewers.map((i) => i.name || i.email).join(', ') || ''} recommends' ${
                 data.hire ? `hire per ${data.grade} level/grade` : 'do not hire'
             } candidate ${section.interview.candidate.name}\n
             ${data.feedback}\n
@@ -65,7 +65,7 @@ export const cancelSectionEmail = async (sectionId: number, cancelComment: strin
         include: {
             interview: { include: { candidate: true } },
             calendarSlot: true,
-            interviewer: true,
+            interviewers: true,
             sectionType: true,
         },
     });
@@ -73,7 +73,7 @@ export const cancelSectionEmail = async (sectionId: number, cancelComment: strin
     const date = section.calendarSlot?.date ? formatDateToLocaleString(section.calendarSlot?.date) : '';
 
     let cancelEmailSubject = tr('Cancel section');
-    let cancelIcalEvent;
+    let cancelIcalEvent: string;
     if (section.calendarSlotId) {
         const { originalDate, sequence, ...restException } = await prisma.calendarEventException.update({
             where: { id: section.calendarSlotId },
@@ -89,7 +89,7 @@ export const cancelSectionEmail = async (sectionId: number, cancelComment: strin
 
         const icalEventDataCancelException = createIcalEventData({
             id: icalId,
-            users: [userOfEvent(section.interviewer, null)],
+            users: section.interviewers.map((i) => userOfEvent(i, null)),
             start: restException.date,
             description: restException.eventDetails.description,
             duration: restException.eventDetails.duration,
@@ -104,22 +104,26 @@ export const cancelSectionEmail = async (sectionId: number, cancelComment: strin
         cancelEmailSubject = restException.eventDetails.title;
     }
 
-    return sendMail({
-        to: section.interviewer.email,
-        subject: cancelEmailSubject,
-        text: `${tr('Canceled section with')}
+    return Promise.all(
+        section.interviewers.map((interviewer) =>
+            sendMail({
+                to: interviewer.email,
+                subject: cancelEmailSubject,
+                text: `${tr('Canceled section with')}
 ${section.interview.candidate.name} ${date}
 ${cancelComment}
 ${config.defaultPageURL}${generatePath(Paths.SECTION, {
-            interviewId: section.interviewId,
-            sectionId: section.id,
-        })}`,
-        icalEvent: cancelIcalEvent,
-    });
+                    interviewId: section.interviewId,
+                    sectionId: section.id,
+                })}`,
+                icalEvent: cancelIcalEvent,
+            }),
+        ),
+    );
 };
 
 export const assignSectionEmail = async (data: AssignSectionEmailData) => {
-    const interviewer = await prisma.user.findFirstOrThrow({ where: { id: data.interviewerId } });
+    const interviewers = await prisma.user.findMany({ where: { id: { in: data.interviewerIds } } });
     const exception = await prisma.calendarEventException.findFirstOrThrow({
         where: { id: data.calendarSlotId },
         include: { eventDetails: true, event: true },
@@ -132,7 +136,7 @@ export const assignSectionEmail = async (data: AssignSectionEmailData) => {
 
     const icalEventDataException = createIcalEventData({
         id: icalId,
-        users: [{ email: interviewer.email, name: interviewer.name || undefined }],
+        users: interviewers.map((i) => userOfEvent(i, null)),
         start: exception.date,
         description: data.description || exception.eventDetails.description,
         duration: exception.eventDetails.duration,
@@ -161,7 +165,7 @@ export const assignSectionEmail = async (data: AssignSectionEmailData) => {
 
         const icalEventDataUpdateEvent = createIcalEventData({
             id: series.id,
-            users: [{ email: interviewer.email, name: interviewer.name || undefined }],
+            users: interviewers.map((i) => userOfEvent(i, null)),
             start: rRule.options.dtstart,
             duration: eventDetails.duration,
             description: eventDetails.description,
@@ -171,31 +175,39 @@ export const assignSectionEmail = async (data: AssignSectionEmailData) => {
             sequence,
         });
 
-        await sendMail({
-            to: interviewer.email,
-            subject: eventDetails.title,
-            text: '',
-            icalEvent: calendarEvents({
-                method: ICalCalendarMethod.REQUEST,
-                events: [icalEventDataUpdateEvent],
-            }),
-        });
+        await Promise.all(
+            interviewers.map((interviewer) =>
+                sendMail({
+                    to: interviewer.email,
+                    subject: eventDetails.title,
+                    text: '',
+                    icalEvent: calendarEvents({
+                        method: ICalCalendarMethod.REQUEST,
+                        events: [icalEventDataUpdateEvent],
+                    }),
+                }),
+            ),
+        );
     }
 
-    await sendMail({
-        to: interviewer.email,
-        subject: `${data.sectionTypeTitle} ${tr('with')} ${data.candidateName}`,
-        text: `${config.defaultPageURL}${generatePath(Paths.SECTION, {
-            interviewId: data.interviewId,
-            sectionId: data.sectionId,
-        })}
+    await Promise.all(
+        interviewers.map((interviewer) =>
+            sendMail({
+                to: interviewer.email,
+                subject: `${data.sectionTypeTitle} ${tr('with')} ${data.candidateName}`,
+                text: `${config.defaultPageURL}${generatePath(Paths.SECTION, {
+                    interviewId: data.interviewId,
+                    sectionId: data.sectionId,
+                })}
 
 ${data.creator.name || ''} ${config.crew.userByEmailLink}/${encodeURIComponent(data.creator.email)}
         
 ${data.location || ''}`,
-        icalEvent: calendarEvents({
-            method: ICalCalendarMethod.REQUEST,
-            events: [icalEventDataException],
-        }),
-    });
+                icalEvent: calendarEvents({
+                    method: ICalCalendarMethod.REQUEST,
+                    events: [icalEventDataException],
+                }),
+            }),
+        ),
+    );
 };

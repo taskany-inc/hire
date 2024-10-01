@@ -1,4 +1,4 @@
-import { ComponentProps, FC, ReactNode, useCallback, useMemo, useState } from 'react';
+import { ComponentProps, FC, ReactNode, useCallback, useMemo, useRef, useState } from 'react';
 import cn from 'classnames';
 import { nullable } from '@taskany/bricks';
 import { IconBinOutline, IconEditOutline, IconMoreVerticalOutline } from '@taskany/icons';
@@ -15,15 +15,14 @@ import {
     ListViewItem,
     MenuItem,
     Button,
+    Tooltip,
 } from '@taskany/bricks/harmony';
 
 import { ReactionsMap } from '../../modules/reactionTypes';
-import { getAuthorLink } from '../../utils/user';
 import { CommentForm } from '../CommentForm/CommentForm';
 import { Reactions } from '../Reactions/Reactions';
 import { Light } from '../Light/Light';
 import { ActivityFeedItem, ActivityFeedItemContent } from '../ActivityFeed/ActivityFeed';
-import { Link } from '../Link';
 import Md from '../Md';
 
 import { tr } from './CommentView.i18n';
@@ -52,29 +51,40 @@ const statusColors = {
 };
 
 interface CommentAvatarProps {
-    author: User;
+    author: User[];
 }
 
 const CommentAvatar: FC<CommentAvatarProps & ComponentProps<typeof Avatar>> = ({ author, size = 'm', ...props }) => {
-    const authorLink = getAuthorLink(author.email);
-    const avatar = (
-        <Avatar className={s.CommentViewAvatar} size={size} email={author.email} name={author.name} {...props} />
-    );
-
-    return nullable(
-        authorLink,
-        (link) => (
-            <Link href={link} inline target="_blank" className={s.CommentViewAvatar}>
-                {avatar}
-            </Link>
-        ),
-        avatar,
+    const textRef = useRef<HTMLDivElement>(null);
+    return (
+        <div className={cn(s.CommentViewAvatarWrapper, s[`CommentViewAvatarWrapper-${size}`])}>
+            <Avatar
+                className={s.CommentViewAvatar}
+                size={size}
+                email={author[0].email}
+                name={author[0].name}
+                {...props}
+            />
+            {nullable(author.length > 1, () => (
+                <>
+                    <Text ref={textRef} className={s.CommentViewAvatarCount} size="xs">
+                        +{author.length - 1}
+                    </Text>
+                    <Tooltip arrow reference={textRef} placement="top">
+                        {author
+                            .slice(1)
+                            .map((a) => a.name || a.email)
+                            .join(', ')}
+                    </Tooltip>
+                </>
+            ))}
+        </div>
     );
 };
 
 interface CommentViewProp {
     className?: string;
-    author: ComponentProps<typeof CommentAvatar>['author'];
+    authors: User[];
     reactions?: ReactionsMap;
     header?: ReactNode;
     text?: string;
@@ -90,7 +100,7 @@ interface CommentViewProp {
 export const CommentView: FC<CommentViewProp> = ({
     className,
     header,
-    author,
+    authors,
     text,
     reactions,
     placeholder,
@@ -167,7 +177,7 @@ export const CommentView: FC<CommentViewProp> = ({
 
     return (
         <ActivityFeedItem className={cn(s.CommentView, className)}>
-            <CommentAvatar author={author} size={avatarSize} />
+            <CommentAvatar author={authors} size={avatarSize} />
 
             <ActivityFeedItemContent>
                 {editMode ? (

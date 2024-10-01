@@ -15,7 +15,7 @@ export const createSectionSchema = z.object({
     description: z.string().nullish(),
     interviewId: z.number(),
     sectionTypeId: z.number(),
-    interviewerId: z.number(),
+    interviewerIds: z.number().array(),
     videoCallLink: z.string().nullish(),
     calendarSlot: sectionCalendarSlotBookingSchema.optional(),
 });
@@ -29,7 +29,7 @@ export type GetSection = z.infer<typeof getSectionSchema>;
 export const updateSectionSchema = z.object({
     sectionId: z.number(),
     interviewId: z.number(),
-    interviewerId: z.number(),
+    interviewerIds: z.number().array(),
     description: z.string().nullish(),
     grade: z.string().nullish(),
     hire: z.boolean().nullish(),
@@ -45,7 +45,7 @@ export const createOrUpdateSectionSchema = z.object({
     sectionTypeId: z.number(),
     sectionId: z.number(),
     interviewId: z.number(),
-    interviewerId: z.number(),
+    interviewerIds: z.number().array(),
     description: z.string().nullish(),
     videoCallLink: z.string().nullish(),
     calendarSlot: sectionCalendarSlotBookingSchema.optional(),
@@ -71,10 +71,11 @@ export const cancelSectionSchema = z.object({
 });
 export type CancelSection = z.infer<typeof cancelSectionSchema>;
 
-export type SectionWithSectionType = Section & { interviewer: User; sectionType: SectionType };
+export type SectionWithSectionType = Section & { interviewers: User[]; sectionType: SectionType };
 
 export type SectionWithRelationsAndResults = Section & {
-    interviewer: User;
+    interviewers: User[];
+    interviewer: User | null;
     solutions: Array<Solution & SolutionProblem>;
     sectionType: SectionType;
     interview: InterviewWithSections & {
@@ -87,7 +88,7 @@ export type SectionWithRelationsAndResults = Section & {
 };
 
 export interface SectionWithInterviewerRelation extends Section {
-    interviewer: User;
+    interviewers: User[];
     sectionType: SectionType;
 }
 

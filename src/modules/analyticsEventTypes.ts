@@ -14,7 +14,7 @@ interface CandidateFinishedSection {
     event: 'candidate_finished_section';
     candidateId: number;
     interviewId: number;
-    interviewerId: number;
+    interviewerIds: number[];
     sectionId: number;
     sectionType: string;
     hireStream: string;

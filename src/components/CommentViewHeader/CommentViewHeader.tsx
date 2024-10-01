@@ -15,11 +15,18 @@ interface CommentViewHeaderProp {
     dot?: boolean;
     children?: ReactNode;
     authorRole?: string;
-    author: ComponentProps<typeof ExternalUserLink>['user'];
+    authors: ComponentProps<typeof ExternalUserLink>['user'][];
     date: Date;
 }
 
-export const CommentViewHeader: FC<CommentViewHeaderProp> = ({ children, author, authorRole, date, subtitle, dot }) => {
+export const CommentViewHeader: FC<CommentViewHeaderProp> = ({
+    children,
+    authors,
+    authorRole,
+    date,
+    subtitle,
+    dot,
+}) => {
     const timeAgo = useDistanceDate(date);
 
     return (
@@ -41,7 +48,12 @@ export const CommentViewHeader: FC<CommentViewHeaderProp> = ({ children, author,
 
                 <Text size="xs" weight="bold">
                     {nullable(authorRole, (role) => `${role} `)}
-                    <ExternalUserLink user={author} />
+                    {authors.map((author, i) => (
+                        <>
+                            <ExternalUserLink key={author.email} user={author} />
+                            {nullable(i !== authors.length - 1, () => ', ')}
+                        </>
+                    ))}
                 </Text>
                 <span>—</span>
                 <Text size="xs">{timeAgo}</Text>

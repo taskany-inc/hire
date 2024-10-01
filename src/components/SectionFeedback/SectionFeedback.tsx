@@ -81,7 +81,7 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
     }, [section.id, setValue]);
 
     const onSubmit = handleSubmit(async (values) => {
-        const interviewerId = section.interviewer.id;
+        const interviewerIds = section.interviewers.map(({ id }) => id);
         const sectionId = section.id;
 
         const feedback = values.feedback ?? section.feedback;
@@ -94,7 +94,7 @@ export const SectionFeedback = ({ section, isEditable, hasTasks }: SectionFeedba
                     sectionId,
                     interviewId: Number(interviewId),
                     hire,
-                    interviewerId,
+                    interviewerIds,
                     feedback,
                     grade,
                 },

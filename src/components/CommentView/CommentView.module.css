@@ -6,9 +6,47 @@
     padding-bottom: 0;
 }
 
+.CommentViewAvatarWrapper {
+    position: relative;
+    margin-right: 10px;
+}
+
+.CommentViewAvatarWrapper-xs {
+    width: 16px;
+    height: 16px;
+}
+
+.CommentViewAvatarWrapper-s {
+    width: 24px;
+    height: 24px;
+}
+
+.CommentViewAvatarWrapper-m {
+    width: 32px;
+    height: 32px;
+}
+
+.CommentViewAvatarCount {
+    position: absolute;
+    top: 0;
+    left: 30%;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    z-index: 2;
+    background-color: var(--base-dark-6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .CommentViewAvatar {
     position: relative;
     z-index: 1;
+}
+
+.CommentViewAvatar:hover {
+    z-index: 3;
 }
 
 .CommentViewCardInfo {

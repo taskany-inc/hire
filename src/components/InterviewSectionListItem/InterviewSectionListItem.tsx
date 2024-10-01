@@ -35,7 +35,7 @@ export const InterviewSectionListItem: FC<InterviewSectionListItemProps> = ({ se
     const status = getCommentStatus(section);
     const { showSectionPreview } = usePreviewContext();
     const sectionStatus = sectionStatusToCommentStatus[status];
-    const isSelected = true; // section.id === interview.candidateSelectedSectionId;
+    const isSelected = section.id === interview.candidateSelectedSectionId;
     const headerLink = generatePath(Paths.SECTION, {
         interviewId: interview.id,
         sectionId: section.id,
@@ -44,14 +44,14 @@ export const InterviewSectionListItem: FC<InterviewSectionListItemProps> = ({ se
     return (
         <CommentView
             view="transparent"
-            author={section.interviewer}
+            authors={section.interviewers}
             text={section.feedback ?? undefined}
             placeholder={tr('No provided feedback')}
             status={status}
             header={
                 <CommentViewHeader
-                    author={section.interviewer}
-                    authorRole={tr('Interviewer')}
+                    authors={section.interviewers}
+                    authorRole={tr('Interviewers:')}
                     date={section.updatedAt}
                     subtitle={section.description ?? ''}
                     dot

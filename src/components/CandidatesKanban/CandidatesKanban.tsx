@@ -116,7 +116,7 @@ export const CandidatesKanbanColumn: FC<KanbanColumnsProps> = ({ status, hireStr
                     statusComment?.status === 'HIRED' || statusComment?.status === 'REJECTED'
                         ? {
                               status: statusComment.status,
-                              author: statusComment.user,
+                              authors: [statusComment.user],
                               text: statusComment.text,
                           }
                         : undefined;

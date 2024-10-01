@@ -1,4 +1,4 @@
-import { CalendarEvent, HireStream, Problem, Comment } from '@prisma/client';
+import { CalendarEvent, HireStream, Problem, Comment, User } from '@prisma/client';
 import { Session } from 'next-auth';
 
 import { onlyUnique } from '../utils';
@@ -348,7 +348,10 @@ export const accessChecks = {
             return notAllowed(tr('No access to hire stream or section type'));
         },
 
-        update: (session: Session, section: SectionWithInterviewRelation): AccessCheckResult => {
+        update: (
+            session: Session,
+            section: SectionWithInterviewRelation & { interviewers: User[] },
+        ): AccessCheckResult => {
             if (session.userRoles.admin) {
                 return allowed();
             }
@@ -363,7 +366,7 @@ export const accessChecks = {
             }
 
             if (interviewerInSectionTypes.includes(section.sectionTypeId)) {
-                if (section.interviewerId === session.user.id) {
+                if (section.interviewers.some(({ id }) => id === session.user.id)) {
                     return allowed();
                 }
 
@@ -373,7 +376,10 @@ export const accessChecks = {
             return notAllowed(tr('No access to hire stream or section type'));
         },
 
-        delete: (session: Session, section: SectionWithInterviewRelation): AccessCheckResult => {
+        delete: (
+            session: Session,
+            section: SectionWithInterviewRelation & { interviewers: User[] },
+        ): AccessCheckResult => {
             if (session.userRoles.admin) {
                 return allowed();
             }
@@ -388,7 +394,7 @@ export const accessChecks = {
             }
 
             if (interviewerInSectionTypes.includes(section.sectionTypeId)) {
-                if (section.interviewerId === session.user.id) {
+                if (section.interviewers.some(({ id }) => id === session.user.id)) {
                     return allowed();
                 }
 
@@ -398,12 +404,15 @@ export const accessChecks = {
             return notAllowed(tr('No access to recruitment stream'));
         },
 
-        attachFile: (session: Session, section: SectionWithInterviewRelation): AccessCheckResult => {
+        attachFile: (
+            session: Session,
+            section: SectionWithInterviewRelation & { interviewers: User[] },
+        ): AccessCheckResult => {
             if (session.userRoles.admin) {
                 return allowed();
             }
 
-            return section.interviewerId === session.user.id
+            return section.interviewers.some(({ id }) => id === session.user.id)
                 ? allowed()
                 : notAllowed(tr('This section is assigned to another interviewer'));
         },

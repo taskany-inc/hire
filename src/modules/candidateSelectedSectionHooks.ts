@@ -15,11 +15,11 @@ export const useProductFinalSectionDropdownOptions = (
         const sectionOptions = productFinalSections?.map(
             (section: SectionWithSectionTypeAndInterviewerAndSolutionsRelations): { id: number; text: string } => {
                 const sectionName = section.description ?? '';
-                const interviewerName = section.interviewer.name;
+                const interviewerNames = section.interviewers.map((i) => i.name).join(', ');
                 const text =
                     sectionName.length > 0
-                        ? `${sectionName} (${interviewerName})`
-                        : `${tr('Product final from')} ${interviewerName}`;
+                        ? `${sectionName} (${interviewerNames})`
+                        : `${tr('Product final from')} ${interviewerNames}`;
 
                 return {
                     id: section.id,

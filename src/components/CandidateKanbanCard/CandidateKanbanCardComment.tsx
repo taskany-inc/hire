@@ -13,7 +13,7 @@ export const CandidateKanbanCardComment: FC<ComponentProps<typeof CommentView>> 
         avatarSize="s"
         placeholder={tr('No provided feedback')}
         header={
-            <CommentViewHeaderMini dot author={props.author}>
+            <CommentViewHeaderMini dot author={props.authors[0]}>
                 {nullable(props.status, (s) => (
                     <Text weight="bold">{interviewStatusLabels[s]}</Text>
                 ))}

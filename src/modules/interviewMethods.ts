@@ -52,6 +52,7 @@ const getById = async (id: number, accessOptions: AccessOptions = {}): Promise<I
                     createdAt: 'asc',
                 },
                 include: {
+                    interviewers: true,
                     interviewer: true,
                     sectionType: true,
                     solutions: {
@@ -142,7 +143,7 @@ const getListByCandidateId = async ({
     }
 
     if (filterByInterviewerId) {
-        interviewAccessFilter.sections = { some: { interviewerId: filterByInterviewerId } };
+        interviewAccessFilter.sections = { some: { interviewers: { some: { id: filterByInterviewerId } } } };
     }
 
     if (filterInterviewsByUserAccessRestriction) {
@@ -215,11 +216,11 @@ const deleteInterview = async (id: number): Promise<Interview> => {
 const findAllInterviewerInterviews = (interviewerId: number): Promise<InterviewByInterviewer[]> => {
     const sections = {
         where: {
-            interviewerId,
+            interviewers: { some: { id: interviewerId } },
         },
         include: {
             sectionType: true,
-            interviewer: true,
+            interviewers: true,
         },
     };
     const include = {
@@ -234,7 +235,7 @@ const findAllInterviewerInterviews = (interviewerId: number): Promise<InterviewB
                 { creatorId: interviewerId },
                 {
                     sections: {
-                        some: { interviewerId },
+                        some: { interviewers: { some: { id: interviewerId } } },
                     },
                 },
             ],

@@ -107,7 +107,8 @@ export type InterviewWithHireStreamRelation = Interview & {
 
 export type SectionWithSectionTypeAndInterviewerAndSolutionsRelations = Section & {
     sectionType: SectionType;
-    interviewer: User;
+    interviewers: User[];
+    interviewer: User | null;
     solutions: (Solution & {
         problem: Problem;
     })[];

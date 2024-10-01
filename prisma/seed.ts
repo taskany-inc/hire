@@ -439,7 +439,7 @@ const main = async () => {
                     grade: randomElement(Object.values(gradeOptionsPackages).flat()),
                     sectionTypeId: sectionTypeFromDb.id,
                     interviewId: interview.id,
-                    interviewerId: interviewer.id,
+                    interviewers: { connect: [{ id: interviewer.id }] },
                 },
             });
 

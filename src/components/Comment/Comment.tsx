@@ -61,7 +61,7 @@ export const Comment = ({ comment, status }: CommentProps) => {
     return (
         <CommentView
             view="transparent"
-            author={user}
+            authors={[user]}
             text={comment.text}
             reactions={reactions}
             status={validatedStatus}
@@ -69,7 +69,7 @@ export const Comment = ({ comment, status }: CommentProps) => {
             onDelete={canUpdateOrDelete ? onDeleteComment : undefined}
             onEdit={canUpdateOrDelete ? onCommentEditSubmit : undefined}
             header={
-                <CommentViewHeader author={user} date={comment.createdAt} dot={Boolean(validatedStatus)}>
+                <CommentViewHeader authors={[user]} date={comment.createdAt} dot={Boolean(validatedStatus)}>
                     {nullable(validatedStatus, (status) => (
                         <>
                             <CommentViewHeaderTitle>{tr('Interview status:')}</CommentViewHeaderTitle>

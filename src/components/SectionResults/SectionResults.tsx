@@ -40,7 +40,9 @@ export const SectionResults: FC<SectionResultsProps> = ({
                 <TableCell className={s.Column}>{tr('Section')}</TableCell>
                 <TableCell>{tr('Interviewer')}</TableCell>
                 {nullable(gradeVisibility, () => (
-                    <TableCell className={s.Column}>{tr('Grade')}</TableCell>
+                    <TableCell className={s.Column} width={50}>
+                        {tr('Grade')}
+                    </TableCell>
                 ))}
             </TableRow>
             {passedSections.map((passedSection) => {
@@ -76,7 +78,7 @@ export const SectionResults: FC<SectionResultsProps> = ({
                             />
                         </TableCell>
                         {nullable(gradeVisibility, () => (
-                            <TableCell className={s.Column}>
+                            <TableCell className={s.Column} width={50}>
                                 {passedSection.grade && (
                                     <Text className={s.Badge} size="s">
                                         {passedSection.grade}

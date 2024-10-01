@@ -10,10 +10,17 @@ import s from './SectionsProgress.module.css';
 interface SectionsProgressProps extends HTMLAttributes<HTMLDivElement> {
     sections: SectionWithSectionType[];
     gradeVisibility?: boolean;
+    popupEnabled?: boolean;
     view?: 'flat' | 'circle';
 }
 
-export const SectionsProgress: FC<SectionsProgressProps> = ({ sections, view = 'flat', gradeVisibility, ...rest }) => {
+export const SectionsProgress: FC<SectionsProgressProps> = ({
+    sections,
+    view = 'flat',
+    gradeVisibility,
+    popupEnabled,
+    ...rest
+}) => {
     const [popupVisible, setPopupVisible] = useState(false);
     const triggerRef = useRef<HTMLDivElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
@@ -36,7 +43,7 @@ export const SectionsProgress: FC<SectionsProgressProps> = ({ sections, view = '
 
     return (
         <>
-            <div ref={triggerRef} onClick={() => setPopupVisible(true)} {...rest}>
+            <div ref={triggerRef} onClick={popupEnabled ? () => setPopupVisible(true) : undefined} {...rest}>
                 {nullable(
                     view === 'flat',
                     () => (

@@ -15,6 +15,7 @@ import { useDistanceDate } from '../../hooks/useDateFormat';
 import { pageHrefs } from '../../utils/paths';
 import { InlineDot } from '../InlineDot';
 import { ExternalUserLink } from '../ExternalUserLink';
+import { SectionResults } from '../SectionResults/SectionResults';
 import { SectionsProgress } from '../SectionsProgress/SectionsProgress';
 import { Link } from '../Link';
 import { Avatar } from '../Avatar';
@@ -83,11 +84,18 @@ export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
                 </KanbanCardContentItem>
             </KanbanCardContent>
             {nullable(sections, (sct) => (
-                <KanbanCardContent className={s.CandidateKanbanCardComment}>
-                    <KanbanCardContentItem>
-                        <SectionsProgress sections={sct} gradeVisibility={gradeVisibility} />
-                    </KanbanCardContentItem>
-                </KanbanCardContent>
+                <>
+                    <KanbanCardContent className={s.CandidateKanbanCardComment}>
+                        <KanbanCardContentItem>
+                            <SectionResults passedSections={sct} gradeVisibility={gradeVisibility} />
+                        </KanbanCardContentItem>
+                    </KanbanCardContent>
+                    <KanbanCardContent className={s.CandidateKanbanCardComment}>
+                        <KanbanCardContentItem>
+                            <SectionsProgress sections={sct} popupEnabled={false} />
+                        </KanbanCardContentItem>
+                    </KanbanCardContent>
+                </>
             ))}
             {nullable(comment, (props) => (
                 <KanbanCardContent className={s.CandidateKanbanCardComment}>

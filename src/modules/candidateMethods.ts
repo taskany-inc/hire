@@ -207,6 +207,7 @@ const getList = async (
                         include: {
                             sectionType: true,
                             interviewer: true,
+                            interviewers: true,
                         },
                     },
                     creator: true,
@@ -263,7 +264,7 @@ const getByIdWithRelations = async (
     }
 
     if (filterByInterviewerId) {
-        interviewAccessFilter.sections = { some: { interviewerId: filterByInterviewerId } };
+        interviewAccessFilter.sections = { some: { interviewers: { some: { id: filterByInterviewerId } } } };
     }
 
     const candidate = await prisma.candidate.findFirst({

@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Badge, Dropdown, DropdownTrigger, Text, User } from '@taskany/bricks/harmony';
+import { Badge, Dropdown, DropdownTrigger, Text, User, UserGroup } from '@taskany/bricks/harmony';
 import { nullable } from '@taskany/bricks';
 import cn from 'classnames';
 
@@ -57,12 +57,7 @@ export const SectionHeaderPreview: FC<SectionHeaderPreviewProps> = ({ pageTitle,
                                         {tr('Interviewer')}
                                     </Text>
 
-                                    <User
-                                        className={s.Avatar}
-                                        size="s"
-                                        email={section.interviewer.email}
-                                        name={section.interviewer.name}
-                                    />
+                                    <UserGroup users={section.interviewers} />
                                 </DropdownTrigger>
                             </Dropdown>
                         </div>

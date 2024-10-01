@@ -54,7 +54,7 @@ async function getCalendarSlotData(
 }
 
 const create = async (data: CreateSection, user: User): Promise<Section> => {
-    const { interviewId, interviewerId, sectionTypeId, calendarSlot, ...restData } = data;
+    const { interviewId, interviewerIds, sectionTypeId, calendarSlot, ...restData } = data;
 
     const interview = await prisma.interview.findFirstOrThrow({
         where: { id: interviewId },
@@ -83,7 +83,7 @@ const create = async (data: CreateSection, user: User): Promise<Section> => {
         ...restData,
         sectionType: { connect: { id: sectionTypeId } },
         interview: { connect: { id: interviewId } },
-        interviewer: { connect: { id: interviewerId } },
+        interviewers: { connect: idsToIdObjs(interviewerIds) },
         calendarSlot: slot,
     };
 
@@ -94,7 +94,7 @@ const create = async (data: CreateSection, user: User): Promise<Section> => {
     if (newSection.calendarSlotId && calendarSlot) {
         await assignSectionEmail({
             calendarSlotId: newSection.calendarSlotId,
-            interviewerId,
+            interviewerIds,
             interviewId,
             sectionId: newSection.id,
             candidateName: interview.candidate.name,
@@ -117,6 +117,7 @@ const getById = async (id: number, accessOptions: AccessOptions = {}): Promise<S
         include: {
             interview: { include: { candidate: true, sections: true, allowedUsers: true, restrictedUsers: true } },
             interviewer: true,
+            interviewers: true,
             solutions: { include: { problem: true } },
             sectionType: true,
             attaches: true,
@@ -148,7 +149,7 @@ const getById = async (id: number, accessOptions: AccessOptions = {}): Promise<S
             orderBy: {
                 createdAt: 'asc',
             },
-            include: { sectionType: true, interviewer: true },
+            include: { sectionType: true, interviewers: true, interviewer: true },
         });
         passedSections.forEach((s) => {
             if (filterSectionGradeByInterviewer && filterSectionGradeByInterviewer !== s.interviewerId) {
@@ -183,7 +184,7 @@ const findAllInterviewerSections = async (
 
     return prisma.section.findMany({
         where: {
-            interviewerId,
+            interviewers: { some: { id: interviewerId } },
             feedback,
             isCanceled: false,
             interview,
@@ -202,8 +203,8 @@ const findAllInterviewerSections = async (
     });
 };
 
-const update = async (data: UpdateSection, user: User): Promise<Section> => {
-    const { sectionId, solutionIds, interviewerId, interviewId, calendarSlot, attachIds, ...restData } = data;
+const update = async (data: UpdateSection, user: User): Promise<Section & { interviewers: User[] }> => {
+    const { sectionId, solutionIds, interviewerIds, interviewId, calendarSlot, attachIds, ...restData } = data;
     let slot;
 
     if (calendarSlot) {
@@ -223,7 +224,7 @@ const update = async (data: UpdateSection, user: User): Promise<Section> => {
         ...restData,
         solutions: solutionIds && { connect: idsToIdObjs(solutionIds) },
         interview: { connect: { id: interviewId } },
-        interviewer: { connect: { id: interviewerId } },
+        interviewers: { set: idsToIdObjs(interviewerIds) },
         calendarSlot: slot,
         attaches: attachIds ? { connect: idsToIdObjs(attachIds) } : undefined,
     };
@@ -231,7 +232,7 @@ const update = async (data: UpdateSection, user: User): Promise<Section> => {
     const updatedSection = await prisma.section.update({
         data: updateData,
         where: { id: sectionId },
-        include: { sectionType: true },
+        include: { sectionType: true, interviewers: true },
     });
 
     const sectionTypeTitle = updatedSection.sectionType.title;
@@ -243,7 +244,7 @@ const update = async (data: UpdateSection, user: User): Promise<Section> => {
         });
         await assignSectionEmail({
             calendarSlotId: updatedSection.calendarSlotId,
-            interviewerId,
+            interviewerIds,
             interviewId,
             sectionId,
             candidateName: interview.candidate.name,

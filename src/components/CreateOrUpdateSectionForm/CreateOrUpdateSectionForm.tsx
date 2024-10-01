@@ -43,10 +43,13 @@ interface CreateOrUpdateSectionFormProps {
 }
 
 const schema = z.object({
-    interviewerId: z.number({
-        invalid_type_error: tr('Choose an interviewer'),
-        required_error: tr('Choose an interviewer'),
-    }),
+    interviewerIds: z
+        .number({
+            invalid_type_error: tr('Choose an interviewer'),
+            required_error: tr('Choose an interviewer'),
+        })
+        .array()
+        .nonempty(tr('Choose an interviewer')),
     description: z.string().nullish(),
     sectionId: z.number().optional(),
     videoCallLink: z.string().nullish(),
@@ -74,8 +77,8 @@ export const CreateOrUpdateSectionForm = ({
     const [schedulable, setSchedulable] = useState<boolean>(sectionType.schedulable);
     const [search, setSearch] = useState('');
     const [debouncedSearch] = useDebounce(search, 300);
-    const [interviewer, setInterviewer] = useState<User | undefined>(
-        variant === 'new' ? undefined : section?.interviewer,
+    const [interviewers, setInterviewers] = useState<User[] | undefined>(
+        variant === 'new' ? undefined : section?.interviewers,
     );
 
     const interviewersQuery = trpc.users.getUserList.useQuery(
@@ -89,12 +92,12 @@ export const CreateOrUpdateSectionForm = ({
     const interviewerIds = (interviewersQuery.data || []).map(({ id }) => id);
 
     const createSection: SubmitHandler<CreateOrUpdateSection> = useCallback(
-        async ({ interviewerId, description, calendarSlot, videoCallLink }) => {
+        async ({ interviewerIds, description, calendarSlot, videoCallLink }) => {
             const result = await sectionCreateMutation.mutateAsync({
                 sectionTypeId: sectionType.id,
                 description,
                 interviewId,
-                interviewerId,
+                interviewerIds,
                 calendarSlot: schedulable ? calendarSlot : undefined,
                 videoCallLink,
             });
@@ -129,7 +132,7 @@ export const CreateOrUpdateSectionForm = ({
         formState: { isSubmitting, errors },
     } = useForm<CreateOrUpdateSection>({
         defaultValues: {
-            interviewerId: section?.interviewer.id,
+            interviewerIds: section?.interviewers?.map(({ id }) => id) ?? [],
             description: section?.description ?? '',
             videoCallLink: section?.videoCallLink ?? '',
             sectionId: section?.id,
@@ -142,12 +145,12 @@ export const CreateOrUpdateSectionForm = ({
 
     const setCalendarSlotAndSubmit = useCallback(
         (eventDetails: CalendarEventDetails) => {
-            const { eventId, exceptionId, interviewer, originalDate } = eventDetails;
+            const { eventId, exceptionId, interviewer, originalDate, additionalInterviewers } = eventDetails;
 
             setValue('calendarSlot', { eventId, exceptionId, originalDate });
 
             if (interviewer?.email) {
-                setValue('interviewerId', interviewer.id);
+                setValue('interviewerIds', [interviewer.id, ...additionalInterviewers.map(({ id }) => id)]);
             }
 
             onSubmit();
@@ -155,9 +158,12 @@ export const CreateOrUpdateSectionForm = ({
         [setValue, onSubmit],
     );
 
-    const onInterviewerSelect = (interviewer: User) => {
-        setValue('interviewerId', interviewer.id);
-        setInterviewer(interviewer);
+    const onInterviewerSelect = (interviewers: User[]) => {
+        setValue(
+            'interviewerIds',
+            interviewers.map(({ id }) => id),
+        );
+        setInterviewers(interviewers);
         setSearch('');
     };
 
@@ -188,6 +194,8 @@ export const CreateOrUpdateSectionForm = ({
                     interviewerIds={interviewerIds}
                     onSlotSelected={setCalendarSlotAndSubmit}
                     setVideoCallLink={setVideoCallLink}
+                    allInterviewers={interviewersQuery.data}
+                    setSearch={setSearch}
                 />
             )}
 
@@ -196,15 +204,15 @@ export const CreateOrUpdateSectionForm = ({
                     <Card className={s.CreateOrUpdateSectionFormCard}>
                         <CardContent className={s.CreateOrUpdateSectionFormCardContent}>
                             <UserComboBox
-                                value={interviewer}
+                                value={interviewers}
                                 items={interviewersQuery.data}
                                 onChange={onInterviewerSelect}
                                 setInputValue={setSearch}
                                 placeholder={tr('Choose an interviewer')}
                             />
-                            {errors.interviewerId && !watch('interviewerId') && (
+                            {errors.interviewerIds && !watch('interviewerIds') && (
                                 <Text size="xs" color={danger0}>
-                                    {errors.interviewerId.message}
+                                    {errors.interviewerIds.message}
                                 </Text>
                             )}
 

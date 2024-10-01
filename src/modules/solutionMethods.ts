@@ -21,7 +21,15 @@ const create = async (data: CreateSolution): Promise<Solution> => {
 const getById = async (id: number, interviewerId?: number) => {
     const solution = await prisma.solution.findFirst({
         where: { id, section: { interviewerId } },
-        include: { problem: true, section: { include: { interview: { include: { sections: true } } } } },
+        include: {
+            problem: true,
+            section: {
+                include: {
+                    interview: { include: { sections: true } },
+                    interviewers: true,
+                },
+            },
+        },
     });
 
     if (solution === null) {

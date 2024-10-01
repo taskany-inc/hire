@@ -90,7 +90,7 @@ export const sectionsRouter = router({
                         event: 'candidate_finished_section',
                         candidateId: previousInterview.candidateId,
                         interviewId: data.interviewId,
-                        interviewerId: result.interviewerId,
+                        interviewerIds: result.interviewers.map(({ id }) => id),
                         sectionId: result.id,
                         sectionType: sectionType.value,
                         hireStream: hireStream.name,

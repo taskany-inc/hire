@@ -101,7 +101,7 @@ export const SectionFeedback = ({
     }, [section.feedback, section.hire, section.id, setValue]);
 
     const onSubmit = handleSubmit(async (values) => {
-        const interviewerId = section.interviewer.id;
+        const interviewerIds = section.interviewers.map(({ id }) => id);
         const sectionId = section.id;
 
         const feedback = values.feedback ?? section.feedback;
@@ -114,7 +114,7 @@ export const SectionFeedback = ({
                     sectionId,
                     interviewId: Number(interviewId),
                     hire,
-                    interviewerId,
+                    interviewerIds,
                     feedback,
                     grade,
                 },

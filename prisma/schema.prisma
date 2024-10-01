@@ -79,7 +79,7 @@ model User {
   problemEditor             Boolean          @default(false)
   problems                  Problem[]        @relation("CreatedProblems")
   favoriteProblems          Problem[]        @relation("FavoriteProblems")
-  section                   Section[]
+  section                   Section[]        @relation(name: "SectionInterviewers")
   createdInterviews         Interview[]      @relation("InterviewCreator")
   createdAt                 DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
   updatedAt                 DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
@@ -100,6 +100,7 @@ model User {
   allowedInterviews         Interview[]      @relation("InterviewAccessPermission")
   reactions                 Reaction[]
   filters                   Filter[]
+  Section                   Section[]
 
   @@index([email])
 }
@@ -213,8 +214,9 @@ model Section {
   interview            Interview   @relation(fields: [interviewId], references: [id])
   interviewId          Int
   grade                String?
-  interviewer          User        @relation(fields: [interviewerId], references: [id])
-  interviewerId        Int
+  interviewer          User?       @relation(fields: [interviewerId], references: [id])
+  interviewers         User[]      @relation(name: "SectionInterviewers")
+  interviewerId        Int?
   feedback             String?
   solutions            Solution[]
   hire                 Boolean?
@@ -320,20 +322,21 @@ model Grades {
 }
 
 model AnalyticsEvent {
-  id            Int      @id @default(autoincrement())
-  timestamp     DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
-  authUserId    Int?
-  event         String
-  candidateId   Int?
-  interviewId   Int?
-  interviewerId Int?
-  recruiterId   Int?
-  sectionId     Int?
-  sectionType   String?
-  hireStream    String?
-  hire          Boolean?
-  grade         String?
-  rejectReason  String?
+  id             Int      @id @default(autoincrement())
+  timestamp      DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  authUserId     Int?
+  event          String
+  candidateId    Int?
+  interviewId    Int?
+  interviewerId  Int?
+  interviewerIds Int[]
+  recruiterId    Int?
+  sectionId      Int?
+  sectionType    String?
+  hireStream     String?
+  hire           Boolean?
+  grade          String?
+  rejectReason   String?
 }
 
 model HistoryEvent {

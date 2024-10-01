@@ -50,7 +50,7 @@ export const Section = ({ section, title }: SectionProps): JSX.Element => {
                     </div>
 
                     {nullable(showOtherGrades, () => (
-                        <SectionResults className={s.SectionResults} passedSections={passedSections} />
+                        <SectionResults className={s.SectionResults} passedSections={passedSections} gradeVisibility />
                     ))}
                     <SectionFeedback
                         section={section}

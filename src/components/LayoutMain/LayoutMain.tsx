@@ -8,7 +8,7 @@ import { trpc } from '../../trpc/trpcClient';
 import { OfflineBanner } from '../OfflineBanner/OfflineBanner';
 import { Theme } from '../Theme';
 import { TitleMenuItem, TitleMenu } from '../TitleMenu/TitleMenu';
-import { HeaderLoader } from '../HeaderLoader/HeaderLoader';
+import { Loader } from '../Loader/Loader';
 import { PageHeader } from '../PageHeader/PageHeader';
 import { PageFooter } from '../PageFooter/PageFooter';
 import { GlobalStyle } from '../GlobalStyle';
@@ -87,7 +87,7 @@ export const LayoutMain: FC<LayoutMainProps> = ({
                                 <TitleMenu items={i} />
                             ))}
                             {nullable(loading, () => (
-                                <HeaderLoader />
+                                <Loader />
                             ))}
                         </PageHeader>,
                     )}

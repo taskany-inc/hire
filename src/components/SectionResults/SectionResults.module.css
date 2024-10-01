@@ -16,7 +16,6 @@
 }
 
 .Column:last-child {
-    flex: 1;
     justify-content: end;
 }
 

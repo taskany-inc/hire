@@ -1,6 +1,6 @@
 import React, { FC, useMemo, useState } from 'react';
 import { KanbanColumn, KanbanContainer, KanbanScroller } from '@taskany/bricks/harmony';
-import { useIntersectionLoader } from '@taskany/bricks';
+import { nullable, useIntersectionLoader } from '@taskany/bricks';
 import { InterviewStatus } from '@prisma/client';
 
 import {
@@ -13,6 +13,7 @@ import { useSession } from '../../contexts/appSettingsContext';
 import { statuses } from '../../utils/statuses';
 import { trpc } from '../../trpc/trpcClient';
 import { CandidateKanbanCard } from '../CandidateKanbanCard/CandidateKanbanCard';
+import { Loader } from '../Loader/Loader';
 import { HireStreamCollapsableItem } from '../HireStreamCollapsableItem/HireStreamCollapsableItem';
 import { InterviewHireState } from '../InterviewHireState';
 
@@ -121,6 +122,8 @@ export const CandidatesKanbanColumn: FC<KanbanColumnsProps> = ({ status, hireStr
                           }
                         : undefined;
 
+                const sections = status === 'IN_PROGRESS' ? interview.sections : undefined;
+
                 return (
                     <CandidateKanbanCard
                         key={candidate.id}
@@ -130,7 +133,7 @@ export const CandidatesKanbanColumn: FC<KanbanColumnsProps> = ({ status, hireStr
                         createdAt={interview.createdAt}
                         hr={interview.creator}
                         comment={comment}
-                        sections={interview.sections}
+                        sections={sections}
                         gradeVisibility={gradeVisibility}
                     />
                 );
@@ -150,22 +153,27 @@ const CandidatesKanban: FC<KanbanProps> = ({ streamId, statuses, onLoadingStateC
     useOnChangeRef(tableLoadingState, onLoadingStateChange);
 
     return (
-        <KanbanContainer className={s.KanbanContainer}>
-            {statuses.map((status) => (
-                <CandidatesKanbanColumn
-                    key={status}
-                    status={status}
-                    hireStreamId={streamId}
-                    onLoadingStateChange={(state) =>
-                        setLoaders((map) => {
-                            map.set(status, state);
+        <>
+            <KanbanContainer className={s.KanbanContainer}>
+                {statuses.map((status) => (
+                    <CandidatesKanbanColumn
+                        key={status}
+                        status={status}
+                        hireStreamId={streamId}
+                        onLoadingStateChange={(state) =>
+                            setLoaders((map) => {
+                                map.set(status, state);
 
-                            return new Map(map);
-                        })
-                    }
-                />
+                                return new Map(map);
+                            })
+                        }
+                    />
+                ))}
+            </KanbanContainer>
+            {nullable(tableLoadingState === 'loading', () => (
+                <Loader />
             ))}
-        </KanbanContainer>
+        </>
     );
 };
 

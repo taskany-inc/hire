@@ -90,8 +90,15 @@ export const SectionFeedback = ({
 
     useEffect(() => {
         const localStorageFeedback = LocalStorageManager.getPersistedSectionFeedback(section.id);
-        if (localStorageFeedback) setValue('feedback', localStorageFeedback);
-    }, [section.id, setValue]);
+
+        if (localStorageFeedback) {
+            setValue('feedback', localStorageFeedback);
+        } else {
+            setValue('feedback', section.feedback);
+        }
+
+        setEditMode(section.hire === null);
+    }, [section.feedback, section.hire, section.id, setValue]);
 
     const onSubmit = handleSubmit(async (values) => {
         const interviewerId = section.interviewer.id;

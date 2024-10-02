@@ -94,6 +94,7 @@ export function useSectionFeedbackPersisting(
     stopPersistingFeedback: VoidFunction;
 } {
     const router = useRouter();
+    const sectionIdRef = useRef(section.id);
     const isPersisting = useRef(!section.feedback);
 
     const stopPersistingFeedback = useCallback(() => {
@@ -127,10 +128,10 @@ export function useSectionFeedbackPersisting(
     useEffect(
         () => () => {
             if (!isPersisting.current) {
-                LocalStorageManager.removePersistedSectionFeedback(section.id);
+                LocalStorageManager.removePersistedSectionFeedback(sectionIdRef.current);
             }
         },
-        [section.id],
+        [],
     );
 
     return { stopPersistingFeedback };

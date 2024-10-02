@@ -134,6 +134,11 @@ export const accessMiddlewares = {
             accessChecks.hireStream.readOne,
         ),
         read: createMiddleware(accessChecks.hireStream.read),
+        update: createEntityCheckMiddleware(
+            (input: { id: number }) => input.id,
+            (id) => id,
+            accessChecks.hireStream.update,
+        ),
         updateBySectionTypeId: createEntityCheckMiddleware(
             (input: { sectionTypeId: number }) => input.sectionTypeId,
             async (sectionTypeId) => {

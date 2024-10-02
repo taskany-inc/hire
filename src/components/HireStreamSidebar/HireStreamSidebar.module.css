@@ -1,0 +1,12 @@
+.HireStreamSidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-m);
+    color: var(--text-secondary);
+}
+
+.HireStreamSidebarActions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-s);
+}

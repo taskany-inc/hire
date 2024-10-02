@@ -1,0 +1,10 @@
+.HireStreamLayoutColumns {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    gap: var(--gap-m);
+}
+
+.HireStreamLayoutSwitch {
+    justify-content: flex-start;
+    margin-bottom: var(--gap-m);
+}

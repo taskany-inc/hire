@@ -20,6 +20,7 @@
 
 .SectionFeedbackHireBadge {
     display: flex;
+    align-items: center;
     gap: var(--gap-s);
 }
 

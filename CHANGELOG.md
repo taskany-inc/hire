@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.68.0](https://github.com/taskany-inc/hire/compare/v0.67.0...v0.68.0) (2024-10-02)
+
+
+### Features
+
+* **AddProblemCardPreview:** add preview problem card ([efb901d](https://github.com/taskany-inc/hire/commit/efb901d7f6263ed9cddb248819454f8c54c510bd))
+* interview edit in popup ([f8b1c02](https://github.com/taskany-inc/hire/commit/f8b1c0243daf44afbe11cb4c4792731fd38e22f2))
+* show sections directly ([0d7bc69](https://github.com/taskany-inc/hire/commit/0d7bc69c66bb4e9897bd777200bc66db7f150587))
+
+
+### Bug Fixes
+
+* align status of the interview ([cd5529b](https://github.com/taskany-inc/hire/commit/cd5529ba56e12544b302290a82cc6d82a5e4df23))
+
 ## [0.67.0](https://github.com/taskany-inc/hire/compare/v0.66.0...v0.67.0) (2024-09-27)
 
 

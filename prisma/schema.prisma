@@ -271,6 +271,8 @@ model HireStream {
   hiringLeads  User[]        @relation("HireStreamToHiringLead")
   recruiters   User[]        @relation("HireStreamToRecruiter")
   sectionTypes SectionType[]
+  weekLimit    Int?
+  dayLimit     Int?
 }
 
 /// Section type parameters

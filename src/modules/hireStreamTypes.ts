@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { tr } from './modules.i18n';
+
 export const hireStreamQuerySchema = z.object({
     hireStreamId: z.number(),
 });
@@ -25,3 +27,20 @@ export const getHireStreamSuggestionsSchema = z.object({
 });
 
 export type GetHireStreamSuggestions = z.infer<typeof getHireStreamSuggestionsSchema>;
+
+export const editHireStreamSchema = z.object({
+    id: z.number(),
+    name: z
+        .string()
+        .min(3, tr('Minimum length is {length}', { length: 3 }))
+        .optional(),
+    weekLimit: z
+        .number()
+        .min(1, tr('Minimum value is {value}', { value: 1 }))
+        .nullish(),
+    dayLimit: z
+        .number()
+        .min(1, tr('Minimum value is {value}', { value: 1 }))
+        .nullish(),
+});
+export type EditHireStream = z.infer<typeof editHireStreamSchema>;

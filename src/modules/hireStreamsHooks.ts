@@ -41,3 +41,16 @@ export const useCreateHireStreamMutation = () => {
         onError: enqueueErrorNotification,
     });
 };
+
+export const useEditHireStreamMutation = () => {
+    const { enqueueSuccessNotification, enqueueErrorNotification } = useNotifications();
+    const utils = trpc.useContext();
+
+    return trpc.hireStreams.edit.useMutation({
+        onSuccess: (data) => {
+            enqueueSuccessNotification(tr('Hire stream {name} updated successfully', { name: data.name }));
+            utils.hireStreams.invalidate();
+        },
+        onError: enqueueErrorNotification,
+    });
+};

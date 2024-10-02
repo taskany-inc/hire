@@ -116,5 +116,7 @@
     "wrote:": "написал",
     "User added to the list of allowed users": "Пользователю разрешен доступ к интервью",
     "User is removed from the list of allowed users": "Доступ пользователя к интервью отменен",
-    "You don't have access to this section": "У вас нет доступа к этой секции"
+    "You don't have access to this section": "У вас нет доступа к этой секции",
+    "Minimum length is {length}": "Минимальная длина {length}",
+    "Minimum value is {value}": "Минимальное значение {value}"
 }

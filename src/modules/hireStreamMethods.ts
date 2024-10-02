@@ -5,7 +5,7 @@ import { ErrorWithStatus } from '../utils';
 import { prisma } from '../utils/prisma';
 import { suggestionsTake } from '../utils/suggestions';
 
-import { CreateHireStream, GetHireStreamSuggestions } from './hireStreamTypes';
+import { CreateHireStream, EditHireStream, GetHireStreamSuggestions } from './hireStreamTypes';
 import { rolesMethods } from './rolesMethods';
 import { getUserRoleIds } from './accessChecks';
 import { tr } from './modules.i18n';
@@ -93,6 +93,10 @@ const suggestions = async ({ query, include, take = suggestionsTake }: GetHireSt
     return suggestions;
 };
 
+const edit = ({ id, ...data }: EditHireStream) => {
+    return prisma.hireStream.update({ where: { id }, data });
+};
+
 export const hireStreamMethods = {
     getById,
     getByName,
@@ -102,4 +106,5 @@ export const hireStreamMethods = {
     getManaged,
     allowedHiringStreamsByName,
     suggestions,
+    edit,
 };

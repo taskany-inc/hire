@@ -2,6 +2,7 @@ import { accessMiddlewares } from '../../modules/accessMiddlewares';
 import { hireStreamMethods } from '../../modules/hireStreamMethods';
 import {
     createHireStreamSchema,
+    editHireStreamSchema,
     getHireStreamSuggestionsSchema,
     hireStreamNameSchema,
     hireStreamQuerySchema,
@@ -43,4 +44,11 @@ export const hireStreamsRouter = router({
     suggestions: protectedProcedure.input(getHireStreamSuggestionsSchema).query(({ input }) => {
         return hireStreamMethods.suggestions(input);
     }),
+
+    edit: protectedProcedure
+        .input(editHireStreamSchema)
+        .use(accessMiddlewares.hireStream.update)
+        .mutation(({ input }) => {
+            return hireStreamMethods.edit(input);
+        }),
 });

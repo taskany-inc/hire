@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.68.1](https://github.com/taskany-inc/hire/compare/v0.68.0...v0.68.1) (2024-10-03)
+
+
+### Bug Fixes
+
+* comment from previous section is shown in preview of the other section ([d919428](https://github.com/taskany-inc/hire/commit/d919428982e8ca6aa0c6f9b03bd6a25e12c8943a))
+
 ## [0.68.0](https://github.com/taskany-inc/hire/compare/v0.67.0...v0.68.0) (2024-10-02)
 
 

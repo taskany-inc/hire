@@ -1,12 +1,23 @@
-.HeaderTitle {
-    display: flex;
-    gap: 0.3rem;
-    margin: 0  0 var(--gap-sm) var(--gap-sm);
+.Separator {
+    background-color: var(--gray-900);
+    width: 1px;
+    height: calc(var(--gap-m) + var(--gap-s));
+    margin: 0 var(--gap-xs);
 }
 
 .Header {
     display: grid;
     grid-template-columns: minmax(0, 1fr) max-content;
+}
+
+.HeaderInfo_align_left {
+    justify-self: left;
+}
+
+.HeaderTitle {
+    display: flex;
+    gap: 0.3rem;
+    margin: 0  0 var(--gap-m) var(--gap-sm);
 }
 
 .HeaderStats {
@@ -19,29 +30,26 @@
     justify-self: left;
 }
 
-
-.PreviewTimeWrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    gap: var(--gap-xs);
-}
-
-.UpdatedTime {
+.NameTitle {
     color: var(--text-ghost);
-}
-
-.Separator {
-    background-color: var(--gray-900);
-    width: 1px;
-    height: calc(var(--gap-m) + var(--gap-s));
-    margin: 0 var(--gap-xs);
 }
 
 .NameWrapper {
     display: flex;
 }
 
-.NameTitle {
-    color: var(--text-ghost);
+.Wrapper {
+    display: flex;
+    align-items: end;
+    gap: var(--gap-xs);
+}
+
+.HeaderInfo_align_right {
+    display: grid;
+    justify-items: end;
+    align-content: space-between;
+}
+
+.TimeAgo {
+    color: var(--text-ghost)
 }

@@ -1,8 +1,10 @@
 import React, { FC } from 'react';
-import { Badge, Dropdown, DropdownTrigger, Text, User, UserGroup } from '@taskany/bricks/harmony';
+import { Badge, Button, Dropdown, DropdownTrigger, Text, User, UserGroup } from '@taskany/bricks/harmony';
 import { nullable } from '@taskany/bricks';
-import cn from 'classnames';
+import router from 'next/router';
+import { IconEdit1Outline } from '@taskany/icons';
 
+import { pageHrefs } from '../../utils/paths';
 import { PageTitle } from '../PageTitle/PageTitle';
 import { SectionWithRelationsAndResults } from '../../modules/sectionTypes';
 import { useDistanceDate } from '../../hooks/useDateFormat';
@@ -48,42 +50,46 @@ export const SectionHeaderPreview: FC<SectionHeaderPreviewProps> = ({ pageTitle,
                             text={interviewStatusLabels[status]}
                         />
                     </div>
-
                     <div className={s.HeaderStats}>
+                        <Dropdown>
+                            <DropdownTrigger readOnly={readOnly}>
+                                <Text className={s.NameTitle} size="xs" weight="bold">
+                                    {tr('Interviewer')}
+                                </Text>
+
+                                <UserGroup users={section.interviewers} />
+                            </DropdownTrigger>
+                        </Dropdown>
+                    </div>
+                    <Separator />
+                    {nullable(interview, (i) => (
                         <div className={s.NameWrapper}>
                             <Dropdown>
                                 <DropdownTrigger readOnly={readOnly}>
-                                    <Text className={s.NameTitle} size="xs" weight="bold">
-                                        {tr('Interviewer')}
+                                    <Text size="xs" weight="bold" className={s.NameTitle}>
+                                        {tr('Candidate')}
                                     </Text>
-
-                                    <UserGroup users={section.interviewers} />
+                                    <User
+                                        size="s"
+                                        email={i.candidate.email || i.candidate.name}
+                                        name={i.candidate.name}
+                                    />
                                 </DropdownTrigger>
                             </Dropdown>
                         </div>
-                        <Separator />
-                        {nullable(interview, (i) => (
-                            <div className={s.NameWrapper}>
-                                <Dropdown>
-                                    <DropdownTrigger readOnly={readOnly}>
-                                        <Text size="xs" weight="bold" className={s.NameTitle}>
-                                            {tr('Candidate')}
-                                        </Text>
-                                        <User
-                                            size="s"
-                                            email={i.candidate.email || i.candidate.name}
-                                            name={i.candidate.name}
-                                        />
-                                    </DropdownTrigger>
-                                </Dropdown>
-                            </div>
-                        ))}
-                    </div>
+                    ))}
                 </div>
             </div>
-            <div className={s.HeaderInfo_align_right}>
-                <div className={cn(s.UpdatedTime, s.PreviewTimeWrapper)}>
-                    <Text size="xs">{timeAgo}</Text>
+            <div className={s.Wrapper}>
+                <div className={s.HeaderInfo_align_right}>
+                    <Button
+                        text={tr('Edit')}
+                        iconLeft={<IconEdit1Outline size="xs" />}
+                        onClick={() => router.push(pageHrefs.interviewSectionEdit(section.interviewId, section.id))}
+                    />
+                    <Text className={s.TimeAgo} size="s">
+                        updated {timeAgo}
+                    </Text>
                 </div>
             </div>
         </>

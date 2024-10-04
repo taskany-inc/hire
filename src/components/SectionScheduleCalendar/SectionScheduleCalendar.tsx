@@ -31,17 +31,20 @@ export interface CalendarEventDetails extends CalendarEventLinkedSectionProps {
     exceptionId: string | undefined;
     interviewer: User | null;
     additionalInterviewers: User[];
+    calendarSlotId: string | null;
     title: string;
     originalDate: Date;
 }
 interface SectionScheduleCalendarProps {
     videoCallLink?: string;
     interviewerIds: number[];
+    calendarSlotId?: string | null;
     onSlotSelected: (eventDetails: CalendarEventDetails) => void;
     isSectionSubmitting: boolean;
     setVideoCallLink: (arg: string) => void;
     setSearch?: Dispatch<SetStateAction<string>>;
     allInterviewers?: User[];
+    initialInterviewers?: User[];
 }
 
 export function SectionScheduleCalendar({
@@ -51,7 +54,9 @@ export function SectionScheduleCalendar({
     setVideoCallLink,
     videoCallLink,
     allInterviewers,
+    calendarSlotId,
     setSearch,
+    initialInterviewers,
 }: SectionScheduleCalendarProps) {
     const [eventDetails, setEventDetails] = useState<CalendarEventDetails | null>(null);
     const closeEventFormModal = useCallback(() => {
@@ -59,7 +64,7 @@ export function SectionScheduleCalendar({
     }, []);
     const [calendarDate, setCalendarDate] = useState(() => new Date());
     const [calendarView, setCalendarView] = useState<View>('work_week');
-    const [interviewers, setInterviewer] = useState<User[] | undefined>();
+    const [interviewers, setInterviewer] = useState<User[] | undefined>(initialInterviewers);
     const range = useMemo<DateRange>(() => {
         const nextRange = {
             startDate: firstVisibleDay(calendarDate, calendarView),
@@ -79,6 +84,7 @@ export function SectionScheduleCalendar({
                 exceptionId,
                 interviewSection,
                 originalDate: start,
+                calendarSlotId: interviewSection?.calendarSlotId ?? null,
             });
         },
         [],
@@ -92,6 +98,10 @@ export function SectionScheduleCalendar({
         onSlotSelected({ ...eventDetails, additionalInterviewers: interviewers ?? [] });
         closeEventFormModal();
     }, [closeEventFormModal, eventDetails, interviewers, onSlotSelected]);
+
+    const isCanChoose =
+        (!eventDetails?.interviewSection || eventDetails?.interviewSection.calendarSlotId === calendarSlotId) &&
+        eventDetails?.eventId;
 
     return (
         <>
@@ -143,9 +153,9 @@ export function SectionScheduleCalendar({
                     <FormActions>
                         <Button onClick={closeEventFormModal} text={tr('Cancel')} />
 
-                        {!eventDetails?.interviewSection && eventDetails?.eventId && (
+                        {nullable(isCanChoose, () => (
                             <Button onClick={handleSlotSelectClicked} view="primary" text={tr('Choose')} />
-                        )}
+                        ))}
                     </FormActions>
                 </ModalContent>
             </Modal>

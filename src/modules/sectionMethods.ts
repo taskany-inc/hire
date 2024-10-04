@@ -217,20 +217,35 @@ const findAllInterviewerSections = async (
 };
 
 const update = async (data: UpdateSection, user: User): Promise<Section & { interviewers: User[] }> => {
-    const { sectionId, solutionIds, interviewerIds, interviewId, calendarSlot, attachIds, ...restData } = data;
-    let slot;
+    const {
+        sectionId,
+        solutionIds,
+        interviewerIds,
+        interviewId,
+        calendarSlot,
+        attachIds,
+        calendarSlotId,
+        ...restData
+    } = data;
+    let slot: Awaited<ReturnType<typeof getCalendarSlotData>>;
 
     if (calendarSlot) {
-        slot = await getCalendarSlotData(calendarSlot);
-
-        if (calendarSlot && slot === undefined) {
-            throw new ErrorWithStatus(tr('Calendar slot did not link to section'), 500);
-        }
         const currentSection = await getById(sectionId);
-        await cancelSectionEmail(sectionId, tr('Section re-assigned to another interviewer'));
 
-        currentSection.calendarSlotId &&
-            (await prisma.calendarEventException.delete({ where: { id: currentSection.calendarSlotId } }));
+        if (currentSection.calendarSlotId && calendarSlotId && calendarSlotId === currentSection.calendarSlotId) {
+            await cancelSectionEmail(sectionId, tr('Section re-assigned to another interviewer'));
+            await prisma.calendarEventException.delete({ where: { id: calendarSlotId } });
+            slot = await getCalendarSlotData({ ...calendarSlot, exceptionId: undefined });
+        } else {
+            slot = await getCalendarSlotData(calendarSlot);
+            if (calendarSlot && slot === undefined) {
+                throw new ErrorWithStatus(tr('Calendar slot did not link to section'), 500);
+            }
+
+            await cancelSectionEmail(sectionId, tr('Section re-assigned to another interviewer'));
+            currentSection.calendarSlotId &&
+                (await prisma.calendarEventException.delete({ where: { id: currentSection.calendarSlotId } }));
+        }
     }
 
     const updateData = {

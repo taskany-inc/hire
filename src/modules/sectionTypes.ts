@@ -38,6 +38,7 @@ export const updateSectionSchema = z.object({
     calendarSlot: sectionCalendarSlotBookingSchema.optional(),
     attachIds: z.string().array().optional(),
     videoCallLink: z.string().nullish(),
+    calendarSlotId: z.string().nullish(),
 });
 export type UpdateSection = z.infer<typeof updateSectionSchema>;
 
@@ -49,6 +50,7 @@ export const createOrUpdateSectionSchema = z.object({
     description: z.string().nullish(),
     videoCallLink: z.string().nullish(),
     calendarSlot: sectionCalendarSlotBookingSchema.optional(),
+    calendarSlotId: z.string().nullish(),
 });
 export type CreateOrUpdateSection = z.infer<typeof createOrUpdateSectionSchema>;
 

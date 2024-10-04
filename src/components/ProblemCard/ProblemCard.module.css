@@ -2,7 +2,6 @@
     max-width: 900px;
 }
 
-
 .ProblemCardContent {
     border: 1px solid var(--card-background);
 }
@@ -18,7 +17,6 @@
 .Link {
     display: flex;
     align-items: center;
-    margin-bottom: var(--gap-sm);
 }
 
 .HeaderInfo_align_right {
@@ -35,14 +33,11 @@
     gap: var(--gap-s);
     align-items: center;
     flex-wrap: wrap;
-    margin-bottom: var(--gap-sm);
+    margin-bottom: var(--gap-s);
 }
 
 .CardHeaderWrapper {
     display: flex;
     align-items: center;
-}
-
-.ProblemFavoriteStar {
-    margin-bottom: var(--gap-sm);
+    margin-bottom: var(--gap-s);
 }

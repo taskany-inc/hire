@@ -107,27 +107,25 @@ export const ProblemCard: FC<ProblemCardProps> = ({ problem, embedded, interview
                                     >
                                         {problem.name}
                                     </Link>
-                                    <span className={s.ProblemFavoriteStar}>
-                                        {nullable(
-                                            problem.archived,
-                                            () => (
-                                                <Button
-                                                    view="clear"
-                                                    iconLeft={<IconBinOutline size="s" />}
-                                                    onClick={onBinIconClick}
-                                                />
-                                            ),
-                                            <ProblemFavoriteStar isFavorite={isFavorite} problemId={problem.id} />,
-                                        )}
-                                    </span>
+                                    {nullable(
+                                        problem.archived,
+                                        () => (
+                                            <Button
+                                                view="clear"
+                                                iconLeft={<IconBinOutline size="s" />}
+                                                onClick={onBinIconClick}
+                                            />
+                                        ),
+                                        <ProblemFavoriteStar isFavorite={isFavorite} problemId={problem.id} />,
+                                    )}
+
+                                    <ProblemDifficultyIcon difficulty={problem.difficulty} />
                                 </div>
                             }
                             subTitle={
                                 <>
                                     <div className={s.HeaderInfo_align_right}>
                                         <div className={s.TagWrapper}>
-                                            <ProblemDifficultyIcon difficulty={problem.difficulty} />
-
                                             {problem.tags.map((tag) => (
                                                 <Link
                                                     key={tag.id}

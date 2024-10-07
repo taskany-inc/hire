@@ -4,6 +4,7 @@ import { Text, Table, TableCell, TableRow, Dot, Badge, UserGroup } from '@taskan
 import { nullable } from '@taskany/bricks';
 import { IconCircleOutline, IconMinusCircleOutline, IconTickCircleOutline } from '@taskany/icons';
 
+import { usePreviewContext } from '../../contexts/previewContext';
 import { SectionWithSectionType } from '../../modules/sectionTypes';
 import { generatePath, Paths } from '../../utils/paths';
 import { Link } from '../Link';
@@ -29,6 +30,8 @@ export const SectionResults: FC<SectionResultsProps> = ({
     gradeVisibility,
     className,
 }): JSX.Element | null => {
+    const { showSectionPreview } = usePreviewContext();
+
     if (passedSections.length === 0) {
         return null;
     }
@@ -55,6 +58,7 @@ export const SectionResults: FC<SectionResultsProps> = ({
                                     interviewId: passedSection.interviewId,
                                     sectionId: passedSection.id,
                                 })}
+                                onClick={() => showSectionPreview(passedSection.id)}
                             >
                                 <Badge
                                     className={cn(s.SectionResultsStatus, {

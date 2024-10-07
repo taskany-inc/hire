@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.69.0](https://github.com/taskany-inc/hire/compare/v0.68.1...v0.69.0) (2024-10-07)
+
+
+### Features
+
+* hire stream editing and limits ([4d947ac](https://github.com/taskany-inc/hire/commit/4d947ac08db7b3229dbf5eda1dd62659f8465e5e))
+
+
+### Bug Fixes
+
+* **ProblemCard:** show difficulty level next to star ([7ecc65e](https://github.com/taskany-inc/hire/commit/7ecc65ef9e1584a530f25e47e5756028423e18f5))
+
 ## [0.68.1](https://github.com/taskany-inc/hire/compare/v0.68.0...v0.68.1) (2024-10-03)
 
 

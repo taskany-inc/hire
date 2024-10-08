@@ -1,7 +1,14 @@
 import { RRule, Frequency, Options, RRuleSet, rrulestr } from 'rrule';
-import { addMinutes, differenceInMinutes, isSameMinute } from 'date-fns';
+import { addMinutes, differenceInMinutes, getISODay, isSameMinute } from 'date-fns';
 
-import { CalendarData, CalendarEventInstance, CalendarEventWithRelations, EventRecurrence } from './calendarTypes';
+import {
+    CalendarData,
+    CalendarEventInstance,
+    CalendarEventWithRelations,
+    EventRecurrence,
+    UnavailableUsersByWeekDay,
+    UnavailableUsersForWholeWeek,
+} from './calendarTypes';
 
 export function parseRecurrenceParams(rrule: RRule): EventRecurrence {
     const { freq } = rrule.options;
@@ -27,8 +34,16 @@ export function parseRecurrenceParams(rrule: RRule): EventRecurrence {
 }
 
 const expandEvent =
-    (startDate: Date, endDate: Date) =>
+    (
+        startDate: Date,
+        endDate: Date,
+        unavailableUsersForWholeWeek?: UnavailableUsersForWholeWeek,
+        unavailableUsersByWeekDay?: UnavailableUsersByWeekDay,
+    ) =>
     (event: CalendarEventWithRelations): CalendarData => {
+        const unavailableDueToWeekLimit =
+            (event.creatorId && unavailableUsersForWholeWeek?.has(event.creatorId)) || undefined;
+
         const rrule = rrulestr(event.rule);
         const rruleSet = new RRuleSet();
 
@@ -46,8 +61,11 @@ const expandEvent =
         const dates = rruleSet.between(startDate, endDate);
 
         return dates
-            .map(
-                (date): CalendarEventInstance => ({
+            .map((date): CalendarEventInstance => {
+                const weekDay = getISODay(date);
+                const unavailableDueToDayLimit =
+                    (event.creatorId && unavailableUsersByWeekDay?.[weekDay]?.has(event.creatorId)) || undefined;
+                return {
                     ...event.eventDetails,
                     eventId: event.id,
                     date,
@@ -55,11 +73,16 @@ const expandEvent =
                     // Link to section is only available for exceptions
                     interviewSection: null,
                     creator: event.creator,
-                }),
-            )
+                    unavailableDueToWeekLimit,
+                    unavailableDueToDayLimit,
+                };
+            })
             .concat(
-                event.exceptions.map(
-                    (exception): CalendarEventInstance => ({
+                event.exceptions.map((exception): CalendarEventInstance => {
+                    const weekDay = getISODay(exception.date);
+                    const unavailableDueToDayLimit =
+                        (event.creatorId && unavailableUsersByWeekDay?.[weekDay]?.has(event.creatorId)) || undefined;
+                    return {
                         ...exception.eventDetails,
                         date: exception.date,
                         eventId: event.id,
@@ -67,13 +90,21 @@ const expandEvent =
                         recurrence,
                         interviewSection: exception.interviewSection,
                         creator: event.creator,
-                    }),
-                ),
+                        unavailableDueToWeekLimit,
+                        unavailableDueToDayLimit,
+                    };
+                }),
             );
     };
 
-const expandEvents = (events: CalendarEventWithRelations[], startDate: Date, endDate: Date): CalendarData => {
-    return events.flatMap(expandEvent(startDate, endDate));
+const expandEvents = (
+    events: CalendarEventWithRelations[],
+    startDate: Date,
+    endDate: Date,
+    unavailableUsersForWholeWeek?: UnavailableUsersForWholeWeek,
+    unavailableUsersByWeekDay?: UnavailableUsersByWeekDay,
+): CalendarData => {
+    return events.flatMap(expandEvent(startDate, endDate, unavailableUsersForWholeWeek, unavailableUsersByWeekDay));
 };
 
 interface RuleParams {

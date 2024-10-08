@@ -21,6 +21,17 @@ export const SlotCalendarEventWrapper = styled.span<SlotCalendarEventWrapperProp
             `;
     }}
 
+    ${({ event }) => {
+        if (event.unavailableDueToWeekLimit || event.unavailableDueToDayLimit) {
+            return `
+            &>.rbc-event {
+                background-color: var(--button-disable);
+                color: var(--button-disabled-text);
+            }
+        `;
+        }
+    }}
+
     &.rbc-event-label {
         display: none;
     }

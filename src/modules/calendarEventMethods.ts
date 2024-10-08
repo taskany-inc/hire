@@ -1,4 +1,14 @@
-import { addMinutes, differenceInMinutes, startOfDay } from 'date-fns';
+import { TRPCError } from '@trpc/server';
+import {
+    addMinutes,
+    differenceInHours,
+    differenceInMinutes,
+    eachDayOfInterval,
+    endOfWeek,
+    getISODay,
+    startOfDay,
+    startOfWeek,
+} from 'date-fns';
 import { PrismaPromise, User } from '@prisma/client';
 import { ICalCalendarMethod } from 'ical-generator';
 import { RRule, rrulestr } from 'rrule';
@@ -6,6 +16,8 @@ import { RRule, rrulestr } from 'rrule';
 import { prisma } from '../utils/prisma';
 import { calendarEvents, createIcalEventData } from '../utils/ical';
 import { userOfEvent } from '../utils/calendar';
+import { deduplicateByKey } from '../utils/deduplicateByKey';
+import { countByKey } from '../utils/countByKey';
 
 import { calendarRecurrenceMethods, parseRecurrenceParams } from './calendarRecurrenceMethods';
 import { calendarMethods } from './calendarMethods';
@@ -15,10 +27,14 @@ import {
     CalendarEventUpdateResult,
     CreateCalendarEvent,
     GetCalendarEventsForRange,
+    UnavailableUsersByWeekDay,
+    UnavailableUsersForWholeWeek,
     UpdateCalendarEvent,
     UpdateCalendarException,
 } from './calendarTypes';
 import { sendMail } from './nodemailer';
+import { hireStreamMethods } from './hireStreamMethods';
+import { tr } from './modules.i18n';
 
 async function createEvent(params: CreateCalendarEvent, user: User): Promise<CalendarEventCreateResult> {
     const { date, title, duration, description = '', recurrence } = params;
@@ -57,14 +73,71 @@ async function createEvent(params: CreateCalendarEvent, user: User): Promise<Cal
 }
 
 async function getEventsForDateRange(
-    { startDate, endDate, creatorIds, my }: GetCalendarEventsForRange,
+    { startDate, endDate, creatorIds, hireStreamId, my }: GetCalendarEventsForRange,
     userId: number,
 ): Promise<CalendarData> {
-    const events = await calendarMethods.getAllEvents(creatorIds);
+    let unavailableUsersForWholeWeek: UnavailableUsersForWholeWeek | undefined;
+    const unavailableUsersByWeekDay: UnavailableUsersByWeekDay = {};
+
+    if (hireStreamId) {
+        const hireStream = await hireStreamMethods.getById(hireStreamId);
+        const days = Math.ceil(differenceInHours(endDate, startDate) / 24);
+        if (days !== 1 && days !== 7) {
+            throw new TRPCError({
+                code: 'PRECONDITION_FAILED',
+                message: tr('Hire streams events can only be requested for 1 day or week'),
+            });
+        }
+
+        const { weekLimit, dayLimit } = hireStream;
+
+        const weekStartDate = startOfWeek(startDate);
+        const weekEndDate = endOfWeek(startDate);
+
+        const hireStreamExceptions = await prisma.calendarEventException.findMany({
+            where: {
+                event: { creatorId: { in: creatorIds } },
+                interviewSection: { interview: { hireStreamId } },
+                date: { gt: weekStartDate, lt: weekEndDate },
+            },
+            include: { event: { include: { creator: { select: { id: true } } } } },
+        });
+
+        if (weekLimit) {
+            const userEventCounts = countByKey(hireStreamExceptions, ({ event }) => event.creator?.id);
+            userEventCounts.forEach((count, userId) => {
+                if (count < weekLimit) userEventCounts.delete(userId);
+            });
+            unavailableUsersForWholeWeek = new Set(userEventCounts.keys());
+        }
+
+        if (dayLimit) {
+            eachDayOfInterval({ start: weekStartDate, end: weekEndDate }).forEach((date) => {
+                const dayNumber = getISODay(date);
+                const userEventCounts = countByKey(hireStreamExceptions, ({ event, date }) => {
+                    if (!event.creatorId) return;
+                    if (getISODay(date) !== dayNumber) return;
+                    return event.creatorId;
+                });
+                userEventCounts.forEach((count, userId) => {
+                    if (count < dayLimit) userEventCounts.delete(userId);
+                });
+                unavailableUsersByWeekDay[dayNumber] = new Set(userEventCounts.keys());
+            });
+        }
+    }
+
+    const events = await calendarMethods.getAllEvents(startDate, endDate, creatorIds);
 
     let exceptions: CalendarData = [];
 
-    const calendarEvents = calendarRecurrenceMethods.expandEvents(events, startDate, endDate);
+    const calendarEvents = calendarRecurrenceMethods.expandEvents(
+        events,
+        startDate,
+        endDate,
+        unavailableUsersForWholeWeek,
+        unavailableUsersByWeekDay,
+    );
 
     if (my) {
         const sectionExceptions = await prisma.calendarEventException.findMany({
@@ -92,9 +165,7 @@ async function getEventsForDateRange(
         });
     }
 
-    const calendarEventSet = new Set([...exceptions, ...calendarEvents]);
-
-    return Array.from(calendarEventSet);
+    return deduplicateByKey([...exceptions, ...calendarEvents], (event) => event.eventId);
 }
 
 async function updateEventSeries(params: UpdateCalendarEvent, user: User): Promise<CalendarEventUpdateResult> {

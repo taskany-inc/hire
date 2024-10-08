@@ -1,4 +1,14 @@
-import { endOfMonth, endOfWeek, format, formatDistance, formatISO, startOfMonth, startOfWeek } from 'date-fns';
+import {
+    endOfDay,
+    endOfMonth,
+    endOfWeek,
+    format,
+    formatDistance,
+    formatISO,
+    startOfDay,
+    startOfMonth,
+    startOfWeek,
+} from 'date-fns';
 import { enGB, ru } from 'date-fns/locale';
 import type { View } from 'react-big-calendar';
 
@@ -29,7 +39,7 @@ export const weekOptions: { weekStartsOn: 0 | 1 | 2 | 3 | 4 | 5 | 6 } = { weekSt
 export function firstVisibleDay(date: Date, view: View): Date {
     switch (view) {
         case 'day':
-            return date;
+            return startOfDay(date);
         case 'week':
         case 'work_week':
             return startOfWeek(date, weekOptions);
@@ -41,7 +51,7 @@ export function firstVisibleDay(date: Date, view: View): Date {
 export function lastVisibleDay(date: Date, view: View): Date {
     switch (view) {
         case 'day':
-            return date;
+            return endOfDay(date);
         case 'week':
         case 'work_week':
             return endOfWeek(date, weekOptions);

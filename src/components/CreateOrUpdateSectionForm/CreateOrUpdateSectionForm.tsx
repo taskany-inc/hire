@@ -35,6 +35,7 @@ import s from './CreateOrUpdateSectionForm.module.css';
 
 interface CreateOrUpdateSectionFormProps {
     interviewId: number;
+    hireStreamId: number;
     sectionType: SectionType;
     candidate: Candidate;
     interview?: Interview;
@@ -64,6 +65,7 @@ const schema = z.object({
 });
 
 export const CreateOrUpdateSectionForm = ({
+    hireStreamId,
     section,
     sectionType,
     candidate,
@@ -189,6 +191,7 @@ export const CreateOrUpdateSectionForm = ({
 
             {schedulable && (
                 <SectionScheduleCalendar
+                    hireStreamId={hireStreamId}
                     videoCallLink={videoCallLink ?? ''}
                     isSectionSubmitting={isSubmitting}
                     interviewerIds={interviewerIds}

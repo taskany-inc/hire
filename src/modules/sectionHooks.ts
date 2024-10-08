@@ -17,6 +17,7 @@ export const useSectionCreateMutation = () => {
         onSuccess: (data) => {
             enqueueSuccessNotification(`${tr('New section added')} ${data.id}`);
             utils.sections.invalidate();
+            utils.calendarEvents.invalidate();
         },
         onError: enqueueErrorNotification,
     });
@@ -30,6 +31,7 @@ export const useSectionUpdateMutation = () => {
         onSuccess: (data) => {
             enqueueSuccessNotification(tr('Section {id} updated', { id: data.id }));
             utils.sections.invalidate();
+            utils.calendarEvents.invalidate();
         },
         onError: enqueueErrorNotification,
     });
@@ -43,6 +45,7 @@ export const useSectionCancelMutation = () => {
         onSuccess: (data) => {
             enqueueSuccessNotification(tr('Section {id} deleted', { id: data.id }));
             utils.sections.invalidate();
+            utils.calendarEvents.invalidate();
         },
         onError: enqueueErrorNotification,
     });

@@ -14,7 +14,7 @@ export const calendarEventsRouter = router({
         .input(getCalendarEventsForRangeSchema)
         .use(accessMiddlewares.calendar.readMany)
         .query(({ input, ctx }) => {
-            return calendarEventMethods.getEventsForDateRange({ ...input }, ctx.session.user.id);
+            return calendarEventMethods.getEventsForDateRange(input, ctx.session.user.id);
         }),
 
     create: protectedProcedure

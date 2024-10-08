@@ -36,6 +36,8 @@ const localizer = dateFnsLocalizer({
     locales,
 });
 
+const workdayStartHour = new Date(1972, 0, 1, 7, 0, 0, 0);
+
 export const components: Components<BigCalendarEvent, never> = {
     event: SlotCalendarEvent,
     eventWrapper: SlotCalendarEventWrapper,
@@ -55,6 +57,8 @@ const transformApiToBigCalendarEvents = ({
     recurrence,
     interviewSection,
     creator,
+    unavailableDueToWeekLimit,
+    unavailableDueToDayLimit,
 }: CalendarEventInstance): BigCalendarEvent => {
     const start = new Date(date);
 
@@ -69,6 +73,8 @@ const transformApiToBigCalendarEvents = ({
         isRecurrent: recurrence.repeat !== 'never',
         interviewSection,
         creator,
+        unavailableDueToWeekLimit,
+        unavailableDueToDayLimit,
     };
 };
 
@@ -84,6 +90,7 @@ export interface SlotCalendarProps
     calendarView: View;
     setCalendarView: Dispatch<SetStateAction<View>>;
     range: DateRange;
+    hireStreamId?: number;
     my?: boolean;
 }
 
@@ -95,6 +102,7 @@ export function SlotCalendar({
     calendarView,
     setCalendarView,
     range,
+    hireStreamId,
     my,
     ...bigCalendarProps
 }: SlotCalendarProps) {
@@ -102,6 +110,7 @@ export function SlotCalendar({
         startDate: range.startDate,
         endDate: range.endDate,
         creatorIds,
+        hireStreamId,
         my,
     });
 
@@ -128,10 +137,11 @@ export function SlotCalendar({
                                 date={calendarDate}
                                 view={calendarView}
                                 onNavigate={navigateToDateAndView}
-                                views={['month', 'week', 'work_week', 'day', 'agenda']}
+                                views={['week', 'work_week', 'day', 'agenda']}
                                 defaultView="work_week"
                                 components={components}
                                 culture="en-GB"
+                                min={workdayStartHour}
                                 {...bigCalendarProps}
                             />
                         </div>

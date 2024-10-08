@@ -25,6 +25,7 @@ export const getCalendarEventsForRangeSchema = z.object({
     startDate: z.date(),
     endDate: z.date(),
     creatorIds: z.number().array().optional(),
+    hireStreamId: z.number().optional(),
     my: z.boolean().optional(),
 });
 export type GetCalendarEventsForRange = z.infer<typeof getCalendarEventsForRangeSchema>;
@@ -147,6 +148,14 @@ export interface CalendarEventInstance {
      * Interviewer who created the calendar event (series)
      */
     creator: User | null;
+
+    unavailableDueToDayLimit?: boolean;
+
+    unavailableDueToWeekLimit?: boolean;
 }
 
 export type CalendarData = CalendarEventInstance[];
+
+export type UnavailableUsersForWholeWeek = Set<number>;
+
+export type UnavailableUsersByWeekDay = Record<number, Set<number>>;

@@ -35,6 +35,7 @@ export interface CalendarEventDetails extends CalendarEventLinkedSectionProps {
     originalDate: Date;
 }
 interface SectionScheduleCalendarProps {
+    hireStreamId: number;
     videoCallLink?: string;
     interviewerIds: number[];
     onSlotSelected: (eventDetails: CalendarEventDetails) => void;
@@ -45,6 +46,7 @@ interface SectionScheduleCalendarProps {
 }
 
 export function SectionScheduleCalendar({
+    hireStreamId,
     interviewerIds,
     onSlotSelected,
     isSectionSubmitting,
@@ -70,7 +72,17 @@ export function SectionScheduleCalendar({
     }, [calendarDate, calendarView]);
 
     const openEventDetails = useCallback(
-        ({ eventId, exceptionId, title, interviewSection, creator, start }: BigCalendarEvent) => {
+        ({
+            eventId,
+            exceptionId,
+            title,
+            interviewSection,
+            creator,
+            start,
+            unavailableDueToWeekLimit,
+            unavailableDueToDayLimit,
+        }: BigCalendarEvent) => {
+            if (unavailableDueToWeekLimit || unavailableDueToDayLimit) return;
             setEventDetails({
                 interviewer: creator,
                 additionalInterviewers: [],
@@ -96,6 +108,7 @@ export function SectionScheduleCalendar({
     return (
         <>
             <SlotCalendar
+                hireStreamId={hireStreamId}
                 isLoading={isSectionSubmitting}
                 creatorIds={interviewerIds}
                 onSelectEvent={openEventDetails}

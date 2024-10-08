@@ -38,6 +38,7 @@ export default function SectionCreationPage({
                     backlink={pageHrefs.interview(interview.id)}
                 >
                     <CreateOrUpdateSectionForm
+                        hireStreamId={interview.hireStreamId}
                         interviewId={interview.id}
                         sectionType={sectionType}
                         candidate={candidate}

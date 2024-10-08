@@ -118,5 +118,6 @@
     "User is removed from the list of allowed users": "Доступ пользователя к интервью отменен",
     "You don't have access to this section": "У вас нет доступа к этой секции",
     "Minimum length is {length}": "Минимальная длина {length}",
-    "Minimum value is {value}": "Минимальное значение {value}"
+    "Minimum value is {value}": "Минимальное значение {value}",
+    "Hire streams events can only be requested for 1 day or week": "События для потока найма могут быть получены только для интервала в 1 день или неделю"
 }

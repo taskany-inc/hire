@@ -28,4 +28,6 @@ export interface BigCalendarEvent extends Event {
     isRecurrent: boolean;
     interviewSection: SectionWithInterviewRelation | null;
     creator: User | null;
+    unavailableDueToWeekLimit?: boolean;
+    unavailableDueToDayLimit?: boolean;
 }

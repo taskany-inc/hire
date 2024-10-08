@@ -19,7 +19,7 @@ import {
 import { tr } from './modules.i18n';
 import { calendarRecurrenceMethods } from './calendarRecurrenceMethods';
 
-const getAllEvents = (creatorIds?: number[]): Promise<CalendarEventWithRelations[]> => {
+const getAllEvents = (startDate: Date, endDate: Date, creatorIds?: number[]): Promise<CalendarEventWithRelations[]> => {
     const where: Prisma.CalendarEventWhereInput = { creator: { active: true } };
 
     if (creatorIds) {
@@ -32,6 +32,12 @@ const getAllEvents = (creatorIds?: number[]): Promise<CalendarEventWithRelations
         include: {
             eventDetails: true,
             exceptions: {
+                where: {
+                    OR: [
+                        { date: { gte: startDate, lte: endDate } },
+                        { originalDate: { gte: startDate, lte: endDate } },
+                    ],
+                },
                 include: {
                     eventDetails: true,
                     interviewSection: {

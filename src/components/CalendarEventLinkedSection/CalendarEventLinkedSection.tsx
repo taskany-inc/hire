@@ -14,7 +14,7 @@ export interface CalendarEventLinkedSectionProps {
 
 export function CalendarEventLinkedSection({ interviewSection, sectionTitleOnly }: CalendarEventLinkedSectionProps) {
     if (!interviewSection) {
-        return <Text size="l">{tr('Free slot')}</Text>;
+        return <Text size="m">{tr('Free slot')}</Text>;
     }
 
     if (sectionTitleOnly) {

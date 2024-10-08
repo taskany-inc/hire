@@ -37,6 +37,7 @@ const SectionPage = ({ numberIds }: InferServerSideProps<typeof getServerSidePro
                         backlink={pageHrefs.interviewSectionView(interview.id, section.id)}
                     >
                         <CreateOrUpdateSectionForm
+                            hireStreamId={interview.hireStreamId}
                             section={section}
                             sectionType={section.sectionType}
                             candidate={interview.candidate}

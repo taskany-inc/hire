@@ -118,5 +118,6 @@
     "User is removed from the list of allowed users": "",
     "You don't have access to this section": "",
     "Minimum length is {length}": "",
-    "Minimum value is {value}": ""
+    "Minimum value is {value}": "",
+    "Hire streams events can only be requested for 1 day or week": ""
 }

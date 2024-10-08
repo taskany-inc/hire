@@ -1,9 +1,9 @@
 .SlotCalendarEventTooltip {
     width: 100%;
     height: 100%;
-    background: transparent;
 }
 
-.CreatorName {
-    color: var(--primary1);
+.SlotCalendarEventAlert {
+    margin-top: var(--gap-xs);
+    justify-content: flex-start;
 }

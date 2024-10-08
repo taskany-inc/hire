@@ -17,3 +17,8 @@
 .CandidateKanbanCardComment {
     margin-top: var(--gap-s);
 }
+
+.CandidateKanbanCardTitle {
+    display: flex;
+    justify-content: space-between;
+}

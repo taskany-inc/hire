@@ -1,7 +1,5 @@
-import { ComponentProps, FC, HTMLAttributes, ReactNode } from 'react';
+import { ComponentProps, FC, HTMLAttributes } from 'react';
 import {
-    Dropdown,
-    DropdownTrigger,
     KanbanCard,
     KanbanCardContent,
     KanbanCardContentItem,
@@ -36,16 +34,6 @@ interface CandidateKanbanCard extends Omit<HTMLAttributes<HTMLDivElement>, 'id'>
     gradeVisibility?: boolean;
 }
 
-const ReadOnlyDropdown = ({ children, label }: { children: ReactNode; label: string }) => {
-    return (
-        <Dropdown isOpen={false} arrow>
-            <DropdownTrigger view="outline" label={label} readOnly>
-                {children}
-            </DropdownTrigger>
-        </Dropdown>
-    );
-};
-
 export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
     id,
     title,
@@ -62,8 +50,11 @@ export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
 
     return (
         <KanbanCard {...rest}>
-            <KanbanCardTitle>
+            <KanbanCardTitle className={s.CandidateKanbanCardTitle}>
                 <Link href={pageHrefs.candidate(id)}>{title}</Link>
+                <Link href={hrLink} inline target="_blank">
+                    <Avatar email={hr.email} name={hr.name} tooltip={hr.name || hr.email} ellipsis short />
+                </Link>
             </KanbanCardTitle>
             <KanbanCardInfo className={s.CandidateKanbanCardInfo}>
                 <Text size="s">
@@ -74,15 +65,6 @@ export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
                     {tr('Created at')} {date}
                 </Text>
             </KanbanCardInfo>
-            <KanbanCardContent className={s.CandidateKanbanCardContentRow}>
-                <KanbanCardContentItem>
-                    <ReadOnlyDropdown label={tr('HR')}>
-                        <Link href={hrLink} inline target="_blank">
-                            <Avatar email={hr.email} name={hr.name} tooltip={hr.name || hr.email} ellipsis />
-                        </Link>
-                    </ReadOnlyDropdown>
-                </KanbanCardContentItem>
-            </KanbanCardContent>
             {nullable(sections, (sct) => (
                 <>
                     <KanbanCardContent className={s.CandidateKanbanCardComment}>

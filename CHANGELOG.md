@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.70.0](https://github.com/taskany-inc/hire/compare/v0.69.0...v0.70.0) (2024-10-08)
+
+
+### Features
+
+* kanban HR link in card header ([545f3f0](https://github.com/taskany-inc/hire/commit/545f3f08ccc2cb2113d9b932246ea2eca2001f40))
+* **SectionResults:** show section previews on the dashboard ([85770fb](https://github.com/taskany-inc/hire/commit/85770fbb75e61086632a44d15769266983df880d))
+
+
+### Bug Fixes
+
+* **SectionHeaderPreview:** editing section ([1ec7cce](https://github.com/taskany-inc/hire/commit/1ec7ccef2b9d67bdef684b5ff4f25d83d057081b))
+
 ## [0.69.0](https://github.com/taskany-inc/hire/compare/v0.68.1...v0.69.0) (2024-10-07)
 
 

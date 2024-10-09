@@ -79,7 +79,7 @@ model User {
   problemEditor             Boolean          @default(false)
   problems                  Problem[]        @relation("CreatedProblems")
   favoriteProblems          Problem[]        @relation("FavoriteProblems")
-  section                   Section[]        @relation(name: "SectionInterviewers")
+  section                   Section[]
   createdInterviews         Interview[]      @relation("InterviewCreator")
   createdAt                 DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
   updatedAt                 DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
@@ -100,7 +100,7 @@ model User {
   allowedInterviews         Interview[]      @relation("InterviewAccessPermission")
   reactions                 Reaction[]
   filters                   Filter[]
-  Section                   Section[]
+  sections                  Section[]        @relation(name: "SectionsToInterviewers")
 
   @@index([email])
 }
@@ -215,7 +215,7 @@ model Section {
   interviewId          Int
   grade                String?
   interviewer          User?       @relation(fields: [interviewerId], references: [id])
-  interviewers         User[]      @relation(name: "SectionInterviewers")
+  interviewers         User[]      @relation(name: "SectionsToInterviewers")
   interviewerId        Int?
   feedback             String?
   solutions            Solution[]

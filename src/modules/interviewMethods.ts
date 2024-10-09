@@ -103,7 +103,7 @@ const findWithSections = async (id: number): Promise<InterviewWithSections> => {
     const interview = await prisma.interview.findFirst({
         where: { id },
         include: {
-            sections: true,
+            sections: { include: { interviewers: true } },
         },
     });
 
@@ -159,7 +159,7 @@ const getListByCandidateId = async ({
                 { candidateId, allowedUsers: { some: { id: { equals: addInterviewsByUserAccessPermission } } } },
             ],
         },
-        include: { hireStream: true, sections: true },
+        include: { hireStream: true, sections: { include: { interviewers: true } } },
     });
 };
 

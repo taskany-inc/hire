@@ -29,6 +29,7 @@ import { SectionScheduleCalendar, CalendarEventDetails } from '../SectionSchedul
 import { UserComboBox } from '../UserComboBox';
 import { pageHrefs } from '../../utils/paths';
 import { FormActions } from '../FormActions/FormActions';
+import { idObjsToIds } from '../../utils';
 
 import { tr } from './CreateOrUpdateSectionForm.i18n';
 import s from './CreateOrUpdateSectionForm.module.css';
@@ -61,6 +62,7 @@ const schema = z.object({
             originalDate: z.date(),
         })
         .optional(),
+    calendarSlotId: z.string().nullish(),
 });
 
 export const CreateOrUpdateSectionForm = ({
@@ -137,6 +139,7 @@ export const CreateOrUpdateSectionForm = ({
             videoCallLink: section?.videoCallLink ?? '',
             sectionId: section?.id,
             interviewId,
+            calendarSlotId: section?.calendarSlotId,
         },
         resolver: zodResolver(schema),
     });
@@ -145,12 +148,14 @@ export const CreateOrUpdateSectionForm = ({
 
     const setCalendarSlotAndSubmit = useCallback(
         (eventDetails: CalendarEventDetails) => {
-            const { eventId, exceptionId, interviewer, originalDate, additionalInterviewers } = eventDetails;
+            const { eventId, exceptionId, interviewer, originalDate, additionalInterviewers, calendarSlotId } =
+                eventDetails;
 
             setValue('calendarSlot', { eventId, exceptionId, originalDate });
+            setValue('calendarSlotId', calendarSlotId);
 
             if (interviewer?.email) {
-                setValue('interviewerIds', [interviewer.id, ...additionalInterviewers.map(({ id }) => id)]);
+                setValue('interviewerIds', [interviewer.id, ...idObjsToIds(additionalInterviewers)]);
             }
 
             onSubmit();
@@ -194,7 +199,9 @@ export const CreateOrUpdateSectionForm = ({
                     interviewerIds={interviewerIds}
                     onSlotSelected={setCalendarSlotAndSubmit}
                     setVideoCallLink={setVideoCallLink}
+                    calendarSlotId={section?.calendarSlotId}
                     allInterviewers={interviewersQuery.data}
+                    initialInterviewers={section?.interviewers}
                     setSearch={setSearch}
                 />
             )}

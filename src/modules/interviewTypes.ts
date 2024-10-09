@@ -83,7 +83,7 @@ export type SectionWithInterviewRelation = Section & {
 };
 
 export type InterviewWithSections = Interview & {
-    sections: Section[];
+    sections: (Section & { interviewers: User[] })[];
 };
 
 export type InterviewWithSectionsAndSpecialAccessUsers = InterviewWithSections & {

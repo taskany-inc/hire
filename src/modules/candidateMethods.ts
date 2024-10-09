@@ -274,7 +274,11 @@ const getByIdWithRelations = async (
             interviews: {
                 include: {
                     hireStream: true,
-                    sections: true,
+                    sections: {
+                        include: {
+                            interviewers: true,
+                        },
+                    },
                 },
                 where: interviewAccessFilter,
             },

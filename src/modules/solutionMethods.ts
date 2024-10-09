@@ -25,7 +25,13 @@ const getById = async (id: number, interviewerId?: number) => {
             problem: true,
             section: {
                 include: {
-                    interview: { include: { sections: true } },
+                    interview: {
+                        include: {
+                            sections: {
+                                include: { interviewers: true },
+                            },
+                        },
+                    },
                     interviewers: true,
                 },
             },

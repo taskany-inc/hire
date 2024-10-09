@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.70.1](https://github.com/taskany-inc/hire/compare/v0.70.0...v0.70.1) (2024-10-09)
+
+
+### Bug Fixes
+
+* **SectionHeaderPreview:** alignment of elements in preview header ([9414aac](https://github.com/taskany-inc/hire/commit/9414aac0c6187e9650c9eaaf3f928405f1e3446e))
+
 ## [0.70.0](https://github.com/taskany-inc/hire/compare/v0.69.0...v0.70.0) (2024-10-08)
 
 

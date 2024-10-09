@@ -26,11 +26,20 @@ export const useSidebarMenu = (): UseSidebarMenuResult => {
         }
         const items: HeaderLink[] = [{ path: Paths.PROBLEMS, text: tr('Problems') }];
 
+        const canReadDashboard =
+            session.userRoles.admin ||
+            session.userRoles.hasHiringLeadRoles ||
+            session.userRoles.hasRecruiterRoles ||
+            session.userRoles.hasHireStreamManagerRoles;
+
+        if (canReadDashboard) {
+            items.push({ path: Paths.CANDIDATES_DASHBOARD, text: tr('Dashboard') });
+        }
+
         const canReadCandidates = accessChecks.candidate.readMany(session).allowed;
 
         if (canReadCandidates) {
             items.push({ path: Paths.CANDIDATES, text: tr('Candidates') });
-            items.unshift({ path: Paths.CANDIDATES_DASHBOARD, text: tr('Dashboard') });
         }
 
         const canReadSections =

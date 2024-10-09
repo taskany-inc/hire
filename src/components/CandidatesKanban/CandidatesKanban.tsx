@@ -179,7 +179,7 @@ const CandidatesKanban: FC<KanbanProps> = ({ streamId, statuses, onLoadingStateC
 
 export const CandidatesKanbanList: FC<KanbanBaseProps> = ({ onLoadingStateChange }) => {
     const { values } = useCandidateFilterUrlParams();
-    const { data = [] } = trpc.hireStreams.getManaged.useQuery();
+    const { data = [] } = trpc.hireStreams.getAllowed.useQuery();
 
     const [loaders, setLoaders] = useState(
         () => new Map<number, LoadingState>(data.map((stream) => [stream.id, 'ready'])),

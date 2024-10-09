@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.70.2](https://github.com/taskany-inc/hire/compare/v0.70.1...v0.70.2) (2024-10-09)
+
+
+### Bug Fixes
+
+* access to sections INTERNAL-1184 ([559af46](https://github.com/taskany-inc/hire/commit/559af46c8ba9574d39e6f23a0ecee2e8b34248b4))
+
 ## [0.70.1](https://github.com/taskany-inc/hire/compare/v0.70.0...v0.70.1) (2024-10-09)
 
 

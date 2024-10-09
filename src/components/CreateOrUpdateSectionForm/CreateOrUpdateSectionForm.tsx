@@ -29,6 +29,7 @@ import { SectionScheduleCalendar, CalendarEventDetails } from '../SectionSchedul
 import { UserComboBox } from '../UserComboBox';
 import { pageHrefs } from '../../utils/paths';
 import { FormActions } from '../FormActions/FormActions';
+import { idObjsToIds } from '../../utils';
 
 import { tr } from './CreateOrUpdateSectionForm.i18n';
 import s from './CreateOrUpdateSectionForm.module.css';
@@ -156,7 +157,7 @@ export const CreateOrUpdateSectionForm = ({
             setValue('calendarSlotId', calendarSlotId);
 
             if (interviewer?.email) {
-                setValue('interviewerIds', [interviewer.id, ...additionalInterviewers.map(({ id }) => id)]);
+                setValue('interviewerIds', [interviewer.id, ...idObjsToIds(additionalInterviewers)]);
             }
 
             onSubmit();

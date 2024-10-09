@@ -115,7 +115,14 @@ const getById = async (id: number, accessOptions: AccessOptions = {}): Promise<S
             createdAt: 'asc',
         },
         include: {
-            interview: { include: { candidate: true, sections: true, allowedUsers: true, restrictedUsers: true } },
+            interview: {
+                include: {
+                    candidate: true,
+                    sections: { include: { interviewers: true } },
+                    allowedUsers: true,
+                    restrictedUsers: true,
+                },
+            },
             interviewer: true,
             interviewers: true,
             solutions: { include: { problem: true } },

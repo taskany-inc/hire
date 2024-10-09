@@ -101,4 +101,5 @@ export type SectionWithSolutionsAndSectionType = Section & {
 
 export type SectionWithInterviewRelation = Section & {
     interview: InterviewWithSections;
+    interviewers: User[];
 };

@@ -330,12 +330,12 @@ export const accessChecks = {
                 return allowed();
             }
 
-            if (session.user.id === section.interviewerId) {
+            if (section.interviewers.some(({ id }) => id === session.user.id)) {
                 return allowed();
             }
 
-            const userHasSectionInInterview = section.interview.sections.some(
-                (section) => section.interviewerId === session.user.id,
+            const userHasSectionInInterview = section.interview.sections.some((section) =>
+                section.interviewers.some(({ id }) => id === session.user.id),
             );
 
             if (userHasSectionInInterview) {

@@ -90,7 +90,7 @@ const getById = async (id: number, accessOptions: AccessOptions = {}): Promise<I
 
     if (filterSectionGradeByInterviewer) {
         interview.sections.forEach((section) => {
-            if (section.interviewerId !== filterSectionGradeByInterviewer) {
+            if (section.interviewers.some(({ id }) => id === filterSectionGradeByInterviewer)) {
                 section.grade = null;
             }
         });

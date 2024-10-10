@@ -170,8 +170,8 @@ const getList = async (
     }
 
     if (filterByInterviewerId) {
-        interviewAccessFilter.sections = { some: { interviewerId: filterByInterviewerId } };
-        where.interviews = { some: { sections: { some: { interviewerId: filterByInterviewerId } } } };
+        interviewAccessFilter.sections = { some: { interviewers: { some: { id: filterByInterviewerId } } } };
+        where.interviews = { some: { sections: { some: { interviewers: { some: { id: filterByInterviewerId } } } } } };
     }
 
     if (vacancyIds) {

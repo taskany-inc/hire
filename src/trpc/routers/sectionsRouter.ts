@@ -29,7 +29,11 @@ const giveSectionAchievement = async (interviewerId: number) => {
     if (!config.crew.techUserEmail) return;
 
     const amountOfInterviewerCompletedSections = await prisma.section.count({
-        where: { interviewerId, feedback: { not: null }, sectionType: { giveAchievement: true } },
+        where: {
+            interviewers: { some: { id: interviewerId } },
+            feedback: { not: null },
+            sectionType: { giveAchievement: true },
+        },
     });
 
     const { email } = await userMethods.find(interviewerId);

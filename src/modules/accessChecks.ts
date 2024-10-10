@@ -100,7 +100,7 @@ export const accessChecks = {
             }
 
             const userHasSectionsWithCandidate = candidate.interviews.some(({ sections }) =>
-                sections.some(({ interviewerId }) => interviewerId === session.user.id),
+                sections.some(({ interviewers }) => interviewers.some(({ id }) => id === session.user.id)),
             );
 
             if (userHasSectionsWithCandidate) {
@@ -225,8 +225,8 @@ export const accessChecks = {
                 return allowed();
             }
 
-            const userHasSectionInInterview = interview.sections.some(
-                ({ interviewerId }) => interviewerId === session.user.id,
+            const userHasSectionInInterview = interview.sections.some(({ interviewers }) =>
+                interviewers.some(({ id }) => id === session.user.id),
             );
 
             if (userHasSectionInInterview) {

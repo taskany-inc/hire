@@ -159,13 +159,19 @@ const getById = async (id: number, accessOptions: AccessOptions = {}): Promise<S
             include: { sectionType: true, interviewers: true, interviewer: true },
         });
         passedSections.forEach((s) => {
-            if (filterSectionGradeByInterviewer && filterSectionGradeByInterviewer !== s.interviewerId) {
+            if (
+                filterSectionGradeByInterviewer &&
+                s.interviewers.some(({ id }) => id !== filterSectionGradeByInterviewer)
+            ) {
                 s.grade = null;
             }
         });
     }
 
-    if (filterSectionGradeByInterviewer && filterSectionGradeByInterviewer !== section.interviewerId) {
+    if (
+        filterSectionGradeByInterviewer &&
+        section.interviewers.some(({ id }) => id !== filterSectionGradeByInterviewer)
+    ) {
         section.grade = null;
     }
 

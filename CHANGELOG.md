@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.70.3](https://github.com/taskany-inc/hire/compare/v0.70.2...v0.70.3) (2024-10-10)
+
+
+### Bug Fixes
+
+* **INTERNAL-1183:** sections access ([ef4848d](https://github.com/taskany-inc/hire/commit/ef4848d9458e13e3b5df952d0fab854c8c4f269c))
+* **INTERNAL-1186:** hide dashboard menu ([0b3fadb](https://github.com/taskany-inc/hire/commit/0b3fadbc1b595a737df2d3234fe6e7a379773be9))
+
 ## [0.70.2](https://github.com/taskany-inc/hire/compare/v0.70.1...v0.70.2) (2024-10-09)
 
 

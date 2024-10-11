@@ -204,7 +204,7 @@ export const CandidatesKanbanList: FC<KanbanBaseProps> = ({ onLoadingStateChange
     return (
         <KanbanScroller shadow={40} className={s.CandidatesKanbanScroller}>
             {rows.map((stream, i) => (
-                <HireStreamCollapsableItem key={stream.id} id={stream.id} name={stream.name} visible={i === 0}>
+                <HireStreamCollapsableItem key={stream.id} name={stream.displayName || stream.name} visible={i === 0}>
                     <CandidatesKanban
                         streamId={stream.id}
                         statuses={columns}

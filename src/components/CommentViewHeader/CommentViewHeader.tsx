@@ -1,4 +1,4 @@
-import { ComponentProps, FC, ReactNode } from 'react';
+import { ComponentProps, FC, Fragment, ReactNode } from 'react';
 import { nullable } from '@taskany/bricks';
 import { Text } from '@taskany/bricks/harmony';
 
@@ -49,10 +49,10 @@ export const CommentViewHeader: FC<CommentViewHeaderProp> = ({
                 <Text size="xs" weight="semiBold">
                     {nullable(authorRole, (role) => `${role} `)}
                     {authors.map((author, i) => (
-                        <>
-                            <ExternalUserLink key={author.email} user={author} />
+                        <Fragment key={author.email}>
+                            <ExternalUserLink user={author} />
                             {nullable(i !== authors.length - 1, () => ', ')}
-                        </>
+                        </Fragment>
                     ))}
                 </Text>
                 <span>—</span>

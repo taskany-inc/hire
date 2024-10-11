@@ -21,6 +21,7 @@ export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) =
     const router = useRouter();
 
     const [admin, setAdmin] = useState(false);
+    const [problemEditor, setProblemEditor] = useState(false);
     const [hireStreamManager, setHireStreamManager] = useState<number[]>([]);
     const [hiringLead, setHiringLead] = useState<number[]>([]);
     const [recruiter, setRecruiter] = useState<number[]>([]);
@@ -33,13 +34,17 @@ export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) =
             value.set('admin', '');
         }
 
+        if (problemEditor) {
+            value.set('problem_editor', '');
+        }
+
         value.set('hire_stream_manager', hireStreamManager.join(','));
         value.set('hiring_lead', hiringLead.join(','));
         value.set('recruiter', recruiter.join(','));
         value.set('interviewer', interviewer.join(','));
 
         document.cookie = `${ROLE_DEBUG_COOKIE_NAME}=${value};path=/;max-age=${yearInSeconds};SameSite=Strict`;
-        router.replace(Paths.HOME);
+        router.push(Paths.HOME);
     };
 
     const onReset = () => {
@@ -50,8 +55,6 @@ export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) =
     return (
         <div>
             <div className={s.DebugRolesCards}>
-                {/* Everything seems to be correct, but here it still throws an error */}
-                {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                 <label htmlFor="administrator">
                     <input
                         id="administrator"
@@ -60,6 +63,15 @@ export const DebugRoles: FC<DebugRolesProps> = ({ hireStreams, sectionTypes }) =
                         className={s.DebugRolesCheckBox}
                     />
                     <Text className={s.DebugRolesText}>{tr('Admin')}</Text>
+                </label>
+                <label htmlFor="problem_editor">
+                    <input
+                        id="problem_editor"
+                        type="checkbox"
+                        onChange={() => setProblemEditor((prev) => !prev)}
+                        className={s.DebugRolesCheckBox}
+                    />
+                    <Text className={s.DebugRolesText}>{tr('Problem editor')}</Text>
                 </label>
             </div>
 

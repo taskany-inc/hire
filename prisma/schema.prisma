@@ -267,7 +267,8 @@ model InterviewEvent {
 
 model HireStream {
   id           Int           @id @default(autoincrement())
-  name         String
+  name         String        @unique
+  displayName  String?
   interviews   Interview[]
   managers     User[]        @relation("HireStreamToManager")
   hiringLeads  User[]        @relation("HireStreamToHiringLead")

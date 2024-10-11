@@ -1,7 +1,9 @@
 {
     "Edit hire stream": "Редактирование потока найма",
-    "Name": "Название",
     "Weekly limit for interviewers": "Недельное ограничение по собеседующим",
     "Daily limit for interviewers": "Дневное ограничение по собеседующим",
-    "Save": "Сохранить"
+    "Save": "Сохранить",
+    "Display name": "Название",
+    "Code": "Код",
+    "New hire stream": "Новый поток найма"
 }

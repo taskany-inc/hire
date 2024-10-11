@@ -1,6 +1,6 @@
 import { accessChecks } from '../../../modules/accessChecks';
 import { QueryResolver } from '../../../components/QueryResolver/QueryResolver';
-import { HireStreamUsers } from '../../../components/HireStreamUsers/HireStreamUsers';
+import { SectionTypeManagement } from '../../../components/SectionTypeManagement/SectionTypeManagement';
 import { HireStreamLayout } from '../../../components/HireStreamLayout/HireStreamLayout';
 import { useHireStream } from '../../../modules/hireStreamsHooks';
 import { InferServerSideProps } from '../../../utils/types';
@@ -8,22 +8,22 @@ import { createGetServerSideProps } from '../../../utils/createGetSSRProps';
 
 export const getServerSideProps = createGetServerSideProps({
     requireSession: true,
-    numberIds: { hireStreamId: true },
-    action: async ({ session, ssg, numberIds, handleAccessChecks }) => {
-        const hireStream = await ssg.hireStreams.getById.fetch({ hireStreamId: numberIds.hireStreamId });
+    stringIds: { hireStreamName: true },
+    action: async ({ session, ssg, stringIds, handleAccessChecks }) => {
+        const hireStream = await ssg.hireStreams.getByName.fetch({ hireStreamName: stringIds.hireStreamName });
 
-        await handleAccessChecks(() => accessChecks.roles.readOrUpdateHireStreamUsers(session, hireStream.id));
+        await handleAccessChecks(() => accessChecks.hireStream.update(session, hireStream.id));
     },
 });
 
-const HireStreamPage = ({ numberIds }: InferServerSideProps<typeof getServerSideProps>) => {
-    const hireStreamQuery = useHireStream(numberIds.hireStreamId);
+const HireStreamPage = ({ stringIds }: InferServerSideProps<typeof getServerSideProps>) => {
+    const hireStreamQuery = useHireStream(stringIds.hireStreamName);
 
     return (
         <QueryResolver queries={[hireStreamQuery]}>
             {([hireStream]) => (
                 <HireStreamLayout hireStream={hireStream}>
-                    <HireStreamUsers hireStream={hireStream} />
+                    <SectionTypeManagement hireStream={hireStream} />
                 </HireStreamLayout>
             )}
         </QueryResolver>

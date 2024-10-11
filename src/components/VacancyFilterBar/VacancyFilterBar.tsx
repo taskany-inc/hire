@@ -127,7 +127,11 @@ export const VacancyFilterBar = ({ children }: VacancyFilterBarProps) => {
     };
 
     const hireStreamFilterItems = useMemo(
-        () => hireStreams.map((hireStream) => ({ id: String(hireStream.id), name: hireStream.name })),
+        () =>
+            hireStreams.map((hireStream) => ({
+                id: String(hireStream.id),
+                name: hireStream.displayName || hireStream.name,
+            })),
         [hireStreams],
     );
 

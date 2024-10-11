@@ -22,7 +22,7 @@ import s from './PageNavigation.module.css';
 
 export const PageNavigation: FC = () => {
     const { asPath } = useRouter();
-    const { entityListMenuItems } = useSidebarMenu();
+    const menuItems = useSidebarMenu();
     const config = trpc.appConfig.get.useQuery(undefined, {
         staleTime: Infinity,
     });
@@ -40,7 +40,7 @@ export const PageNavigation: FC = () => {
                 <PageNavigationActionButton />
                 <Navigation className={s.PageNavigationBlock}>
                     <ListView>
-                        {entityListMenuItems.map(({ text, path }) => (
+                        {menuItems.map(({ text, path }) => (
                             <Link key={path} href={path} className={s.PageNavigationItemLink}>
                                 <NavigationItem selected={asPath === path} value={path}>
                                     {text}

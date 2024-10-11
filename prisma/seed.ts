@@ -358,21 +358,24 @@ const main = async () => {
 
     const hireStreamFrontendJs = await prisma.hireStream.create({
         data: {
-            name: 'frontend-js',
+            name: 'FRONTENDJS',
+            displayName: 'frontend-js',
             hiringLeads: { connect: { id: randomElement(users).id } },
             recruiters: { connect: { id: randomElement(users).id } },
         },
     });
     const hireStreamQa = await prisma.hireStream.create({
         data: {
-            name: 'qa',
+            name: 'QA',
+            displayName: 'qa',
             hiringLeads: { connect: { id: randomElement(users).id } },
             recruiters: { connect: { id: randomElement(users).id } },
         },
     });
     const hireStreamInfra = await prisma.hireStream.create({
         data: {
-            name: 'infrastructure',
+            name: 'INFRA',
+            displayName: 'infrastructure',
             hiringLeads: { connect: { id: randomElement(users).id } },
             recruiters: { connect: { id: randomElement(users).id } },
         },

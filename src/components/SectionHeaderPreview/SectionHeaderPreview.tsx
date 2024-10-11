@@ -4,6 +4,8 @@ import { IconEdit1Outline } from '@taskany/icons';
 import { Badge, Dropdown, DropdownTrigger, Text, User, UserGroup, Button } from '@taskany/bricks/harmony';
 import { nullable } from '@taskany/bricks';
 
+import { accessChecks } from '../../modules/accessChecks';
+import { useSession } from '../../contexts/appSettingsContext';
 import { pageHrefs } from '../../utils/paths';
 import { PageTitle } from '../PageTitle/PageTitle';
 import { SectionWithRelationsAndResults } from '../../modules/sectionTypes';
@@ -27,9 +29,11 @@ interface SectionHeaderPreviewProps {
 
 export const SectionHeaderPreview: FC<SectionHeaderPreviewProps> = ({ pageTitle, href, section, date, readOnly }) => {
     const { interview } = section;
+    const session = useSession();
     const timeAgo = useDistanceDate(date);
     const status = getCommentStatus(section);
     const sectionStatus = sectionStatusToCommentStatus[status];
+    const isEditable = session ? accessChecks.section.update(session, section).allowed : false;
 
     return (
         <>
@@ -83,16 +87,20 @@ export const SectionHeaderPreview: FC<SectionHeaderPreviewProps> = ({ pageTitle,
                     </div>
                 </div>
                 <div className={s.Wrapper}>
-                    <div className={s.HeaderInfo_align_right}>
-                        <Button
-                            text={tr('Edit')}
-                            iconLeft={<IconEdit1Outline size="xs" />}
-                            onClick={() => router.push(pageHrefs.interviewSectionEdit(section.interviewId, section.id))}
-                        />
-                        <Text className={s.TimeAgo} size="s">
-                            updated {timeAgo}
-                        </Text>
-                    </div>
+                    {nullable(isEditable, () => (
+                        <div className={s.HeaderInfo_align_right}>
+                            <Button
+                                text={tr('Edit')}
+                                iconLeft={<IconEdit1Outline size="xs" />}
+                                onClick={() =>
+                                    router.push(pageHrefs.interviewSectionEdit(section.interviewId, section.id))
+                                }
+                            />
+                            <Text className={s.TimeAgo} size="s">
+                                updated {timeAgo}
+                            </Text>
+                        </div>
+                    ))}
                 </div>
             </div>
         </>

@@ -93,8 +93,6 @@ export const pageHrefs = {
         generatePath(Paths.SECTION, { interviewId, sectionId }),
     interviewSectionEdit: (interviewId: number, sectionId: number): string =>
         generatePath(Paths.SECTION_EDIT, { interviewId, sectionId }),
-    interviewSectionHistory: (interviewId: number, sectionId: number): string =>
-        generatePath(Paths.SECTION_HISTORY, { interviewId, sectionId }),
 
     sectionType: (sectionTypeId: number): string => generatePath(Paths.SECTION_TYPE, { sectionTypeId }),
     sectionTypeEdit: (sectionTypeId: number): string => generatePath(Paths.SECTION_TYPE_EDIT, { sectionTypeId }),

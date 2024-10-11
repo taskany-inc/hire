@@ -3,10 +3,10 @@ import { useNotifications } from '../hooks/useNotifications';
 
 import { tr } from './modules.i18n';
 
-export const useHireStream = (hireStreamId: number) => {
+export const useHireStream = (hireStreamName: string) => {
     const { enqueueErrorNotification } = useNotifications();
 
-    return trpc.hireStreams.getById.useQuery({ hireStreamId }, { onError: enqueueErrorNotification });
+    return trpc.hireStreams.getByName.useQuery({ hireStreamName }, { onError: enqueueErrorNotification });
 };
 
 export const useHireStreams = () => {

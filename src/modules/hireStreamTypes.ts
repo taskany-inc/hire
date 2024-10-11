@@ -15,8 +15,17 @@ export type HireStreamName = z.infer<typeof hireStreamNameSchema>;
 export const createHireStreamSchema = z.object({
     name: z
         .string()
-        .min(3, 'Minimum 3 characters')
-        .regex(/^[a-z_]+$/, 'Valid characters: a-z, _'),
+        .min(3, tr('Minimum length is {length}', { length: 3 }))
+        .regex(/^[A-Za-z_\d]+$/, tr('Valid characters: a-z, _, digits')),
+    displayName: z.string().min(3, tr('Minimum length is {length}', { length: 3 })),
+    weekLimit: z
+        .number()
+        .min(1, tr('Minimum value is {value}', { value: 1 }))
+        .nullish(),
+    dayLimit: z
+        .number()
+        .min(1, tr('Minimum value is {value}', { value: 1 }))
+        .nullish(),
 });
 export type CreateHireStream = z.infer<typeof createHireStreamSchema>;
 
@@ -33,7 +42,12 @@ export const editHireStreamSchema = z.object({
     name: z
         .string()
         .min(3, tr('Minimum length is {length}', { length: 3 }))
+        .regex(/^[A-Za-z_\d]+$/, tr('Valid characters: a-z, _, digits'))
         .optional(),
+    displayName: z
+        .string()
+        .min(3, tr('Minimum length is {length}', { length: 3 }))
+        .nullish(),
     weekLimit: z
         .number()
         .min(1, tr('Minimum value is {value}', { value: 1 }))

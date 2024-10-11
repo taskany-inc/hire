@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { Switch, SwitchControl } from '@taskany/bricks/harmony';
 import { HireStream } from '@prisma/client';
 
-import { Paths, generatePath } from '../../utils/paths';
+import { Paths, pageHrefs } from '../../utils/paths';
 import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { Link } from '../Link';
 import { HireStreamSidebar } from '../HireStreamSidebar/HireStreamSidebar';
@@ -19,15 +19,13 @@ interface HireStreamLayoutProps {
 export const HireStreamLayout: React.FC<HireStreamLayoutProps> = ({ children, hireStream }) => {
     const router = useRouter();
 
-    const hireStreamId = hireStream.id;
-
     const switchOptions: Array<[string, string]> = [
-        [tr('Section types'), generatePath(Paths.HIRE_STREAM, { hireStreamId })],
-        [tr('Roles'), generatePath(Paths.HIRE_STREAM_ROLES, { hireStreamId })],
+        [tr('Section types'), pageHrefs.hireStream(hireStream.name)],
+        [tr('Roles'), pageHrefs.hireStreamRoles(hireStream.name)],
     ];
 
     return (
-        <LayoutMain pageTitle={hireStream.name} backlink={Paths.HIRE_STREAMS}>
+        <LayoutMain pageTitle={hireStream.displayName || hireStream.name} backlink={Paths.HIRE_STREAMS}>
             <div className={s.HireStreamLayoutColumns}>
                 <div>
                     <Switch value={router.asPath} className={s.HireStreamLayoutSwitch}>

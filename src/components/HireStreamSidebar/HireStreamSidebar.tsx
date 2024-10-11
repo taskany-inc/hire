@@ -5,7 +5,7 @@ import { Badge } from '@taskany/bricks/harmony';
 import { IconEdit1Outline } from '@taskany/icons';
 
 import { Link } from '../Link';
-import { HireStreamEditPopup } from '../HireStreamEditPopup/HireStreamEditPopup';
+import { HireStreamFormPopup } from '../HireStreamFormPopup/HireStreamFormPopup';
 import { accessChecks } from '../../modules/accessChecks';
 import { useSession } from '../../contexts/appSettingsContext';
 import { SidebarBlock } from '../SidebarBlock/SidebarBlock';
@@ -42,7 +42,7 @@ export const HireStreamSidebar = ({ hireStream }: HireStreamSidebarProps) => {
             </div>
 
             {nullable(canEdit, () => (
-                <HireStreamEditPopup
+                <HireStreamFormPopup
                     visible={showEditPopup}
                     onClose={() => setShowEditPopup(false)}
                     hireStream={hireStream}

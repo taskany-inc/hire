@@ -16,8 +16,8 @@ export enum UserRoles {
 export const roleToLabel = (role: UserRoles): string => {
     return {
         [UserRoles.ADMIN]: tr('administrator'),
-        [UserRoles.PROBLEM_EDITOR]: tr('problemEditor'),
-        [UserRoles.HIRE_STREAM_MANAGER]: tr('hiring flow manager'),
+        [UserRoles.PROBLEM_EDITOR]: tr('problem editor'),
+        [UserRoles.HIRE_STREAM_MANAGER]: tr('hiring stream manager'),
         [UserRoles.HIRING_LEAD]: tr('recruitment lead'),
         [UserRoles.RECRUITER]: tr('recruiter'),
         [UserRoles.INTERVIEWER]: tr('interviewer'),

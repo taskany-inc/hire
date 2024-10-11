@@ -36,9 +36,8 @@ export enum Paths {
     USERS_SETTINGS = '/users/settings',
 
     HIRE_STREAMS = '/hire-streams',
-    HIRE_STREAM_NEW = '/hire-streams/new',
-    HIRE_STREAM = '/hire-streams/{hireStreamId}',
-    HIRE_STREAM_ROLES = '/hire-streams/roles/{hireStreamId}',
+    HIRE_STREAM = '/hire-streams/{hireStreamName}',
+    HIRE_STREAM_ROLES = '/hire-streams/{hireStreamName}/roles',
 
     PLUGINS = '/plugins',
 
@@ -100,7 +99,8 @@ export const pageHrefs = {
     sectionType: (sectionTypeId: number): string => generatePath(Paths.SECTION_TYPE, { sectionTypeId }),
     sectionTypeEdit: (sectionTypeId: number): string => generatePath(Paths.SECTION_TYPE_EDIT, { sectionTypeId }),
 
-    hireStream: (hireStreamId: number): string => generatePath(Paths.HIRE_STREAM, { hireStreamId }),
+    hireStream: (hireStreamName: string): string => generatePath(Paths.HIRE_STREAM, { hireStreamName }),
+    hireStreamRoles: (hireStreamName: string): string => generatePath(Paths.HIRE_STREAM_ROLES, { hireStreamName }),
 
     plugins: (pluginName: string): string => `${Paths.PLUGINS}?name=${encodeURIComponent(pluginName)}`,
 

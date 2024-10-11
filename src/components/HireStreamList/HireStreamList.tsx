@@ -26,7 +26,7 @@ export const HireStreamList = ({ hireStreams, getLink }: HireStreamsListProps) =
                 return (
                     <Card key={hireStream.id}>
                         <CardInfo>
-                            <CardHeader title={<Link href={link}>{hireStream.name}</Link>} />
+                            <CardHeader title={<Link href={link}>{hireStream.displayName || hireStream.name}</Link>} />
                         </CardInfo>
                         <CardContent>#{hireStream.id}</CardContent>
                     </Card>

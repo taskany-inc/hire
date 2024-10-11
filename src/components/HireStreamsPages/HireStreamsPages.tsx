@@ -13,7 +13,7 @@ const HireStreamsPages = () => {
         <LayoutMain pageTitle={tr('Hire streams')}>
             <QueryResolver queries={[hireStreamsQuery]}>
                 {([hireStreams]) => (
-                    <HireStreamList hireStreams={hireStreams} getLink={(stream) => pageHrefs.hireStream(stream.id)} />
+                    <HireStreamList hireStreams={hireStreams} getLink={(stream) => pageHrefs.hireStream(stream.name)} />
                 )}
             </QueryResolver>
         </LayoutMain>

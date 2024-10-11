@@ -37,11 +37,13 @@ export const AppliedHireStreamFilter: FC<AppliedHireStreamFilterProps> = ({
     );
 
     const hireStreamItems = useMemo(
-        () => hireStreams.map((hireStream) => ({ id: hireStream.id, name: hireStream.name })),
+        () => hireStreams.map((hireStream) => ({ id: hireStream.id, name: hireStream.displayName || hireStream.name })),
         [hireStreams],
     );
 
-    const value = hireStreams.filter((hrS) => selectedHireStreams?.includes(hrS.id));
+    const value = hireStreams
+        .filter((hrS) => selectedHireStreams?.includes(hrS.id))
+        .map(({ id, name, displayName }) => ({ id, name: displayName || name }));
 
     return (
         <AppliedFilter label={tr('Hire streams')} action={<TagCleanButton size="s" onClick={onCleanFilter} />}>

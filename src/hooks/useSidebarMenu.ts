@@ -7,24 +7,19 @@ import config from '../config';
 
 import { tr } from './hooks.i18n';
 
-interface HeaderLink {
+interface MenuItem {
     path: string;
     text: string;
 }
 
-interface UseSidebarMenuResult {
-    entityListMenuItems: HeaderLink[];
-    entityCreationMenuItems: HeaderLink[];
-}
-
-export const useSidebarMenu = (): UseSidebarMenuResult => {
+export const useSidebarMenu = (): MenuItem[] => {
     const session = useSession();
 
     const entityListMenuItems = useMemo(() => {
         if (!session) {
             return [];
         }
-        const items: HeaderLink[] = [{ path: Paths.PROBLEMS, text: tr('Problems') }];
+        const items: MenuItem[] = [{ path: Paths.PROBLEMS, text: tr('Problems') }];
 
         const canReadDashboard =
             session.userRoles.admin ||
@@ -77,23 +72,5 @@ export const useSidebarMenu = (): UseSidebarMenuResult => {
         return items;
     }, [session]);
 
-    const entityCreationMenuItems = useMemo(() => {
-        const items: HeaderLink[] = [{ path: Paths.PROBLEMS_NEW, text: tr('New problem') }];
-
-        const canCreateCandidates = session && accessChecks.candidate.create(session).allowed;
-
-        if (canCreateCandidates) {
-            items.push({ path: Paths.CANDIDATES_NEW, text: tr('New candidate') });
-        }
-
-        const canCreateHireStreams = session && accessChecks.hireStream.create(session).allowed;
-
-        if (canCreateHireStreams) {
-            items.push({ path: Paths.HIRE_STREAM_NEW, text: tr('New hire stream') });
-        }
-
-        return items;
-    }, [session]);
-
-    return { entityListMenuItems, entityCreationMenuItems };
+    return entityListMenuItems;
 };

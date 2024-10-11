@@ -32,6 +32,7 @@ export const useSectionUpdateMutation = () => {
             enqueueSuccessNotification(tr('Section {id} updated', { id: data.id }));
             utils.sections.invalidate();
             utils.calendarEvents.invalidate();
+            utils.historyEvents.getHistoryEvents.invalidate();
         },
         onError: enqueueErrorNotification,
     });

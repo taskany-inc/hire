@@ -7,12 +7,10 @@ import { pageHrefs } from '../../utils/paths';
 import { accessChecks } from '../../modules/accessChecks';
 import { SectionWithRelationsAndResults } from '../../modules/sectionTypes';
 import { useSession } from '../../contexts/appSettingsContext';
-import { useSolutions } from '../../modules/solutionHooks';
-import { SectionProblemSolutions } from '../SectionProblemSolutions/SectionProblemSolutions';
 import { SectionResults } from '../SectionResults/SectionResults';
-import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { SectionFeedback } from '../SectionFeedback/SectionFeedback';
 import { Link } from '../Link';
+import { SectionActivity } from '../SectionActivity/SectionActivity';
 
 import { tr } from './Section.i18n';
 import s from './Section.module.css';
@@ -26,8 +24,6 @@ interface SectionProps {
 export const Section = ({ section, title, showAddProblemButton }: SectionProps): JSX.Element => {
     const session = useSession();
     const isEditable = session ? accessChecks.section.update(session, section).allowed : false;
-
-    const solutionsQuery = useSolutions({ sectionId: section.id });
 
     const {
         interview,
@@ -61,19 +57,12 @@ export const Section = ({ section, title, showAddProblemButton }: SectionProps):
                         candidateId={interview.candidateId}
                         hasTasks={hasTasks}
                     />
-
-                    {nullable(hasTasks, () => (
-                        <QueryResolver queries={[solutionsQuery]}>
-                            {([solutions]) => (
-                                <SectionProblemSolutions
-                                    sectionId={section.id}
-                                    solutions={solutions}
-                                    interviewId={section.interview.id}
-                                    isEditable={isEditable}
-                                />
-                            )}
-                        </QueryResolver>
-                    ))}
+                    <SectionActivity
+                        interviewId={section.interviewId}
+                        sectionId={section.id}
+                        hasTasks={hasTasks}
+                        isEditable={isEditable}
+                    />
                 </>
             )}
         </div>

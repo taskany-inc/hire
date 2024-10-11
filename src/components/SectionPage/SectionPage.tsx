@@ -38,12 +38,7 @@ export const SectionPage = ({ section }: SectionPageProps): JSX.Element => {
         : getSectionTitle(section);
 
     const titleMenuItems = useMemo<TitleMenuItem[]>(() => {
-        const items: TitleMenuItem[] = [
-            {
-                onClick: () => router.push(pageHrefs.interviewSectionHistory(interviewId, section.id)),
-                text: tr('History of changes'),
-            },
-        ];
+        const items: TitleMenuItem[] = [];
 
         if (section.isCanceled) return items;
 

@@ -1,0 +1,15 @@
+.ActivityTab {
+    width: 50%;
+}
+
+.ActivityContainer {
+    margin-top: var(--gap-l);
+}
+
+.ActivityPageContainer {
+    max-width: 900px;
+}
+
+.Switch {
+    margin-bottom: var(--gap-m);
+}

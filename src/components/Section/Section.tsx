@@ -13,6 +13,7 @@ import { SectionResults } from '../SectionResults/SectionResults';
 import { QueryResolver } from '../QueryResolver/QueryResolver';
 import { SectionFeedback } from '../SectionFeedback/SectionFeedback';
 import { Link } from '../Link';
+import { SectionActivity } from '../SectionActivity/SectionActivity';
 
 import { tr } from './Section.i18n';
 import s from './Section.module.css';
@@ -61,19 +62,22 @@ export const Section = ({ section, title, showAddProblemButton }: SectionProps):
                         candidateId={interview.candidateId}
                         hasTasks={hasTasks}
                     />
-
-                    {nullable(hasTasks, () => (
-                        <QueryResolver queries={[solutionsQuery]}>
-                            {([solutions]) => (
-                                <SectionProblemSolutions
-                                    sectionId={section.id}
-                                    solutions={solutions}
-                                    interviewId={section.interview.id}
-                                    isEditable={isEditable}
-                                />
-                            )}
-                        </QueryResolver>
-                    ))}
+                    <SectionActivity
+                        interviewId={section.interviewId}
+                        sectionId={section.id}
+                        problemSolution={nullable(hasTasks, () => (
+                            <QueryResolver queries={[solutionsQuery]}>
+                                {([solutions]) => (
+                                    <SectionProblemSolutions
+                                        sectionId={section.id}
+                                        solutions={solutions}
+                                        interviewId={section.interview.id}
+                                        isEditable={isEditable}
+                                    />
+                                )}
+                            </QueryResolver>
+                        ))}
+                    />
                 </>
             )}
         </div>

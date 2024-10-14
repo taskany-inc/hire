@@ -123,7 +123,9 @@ export function CandidateInterviewCreationForm({ candidate, preparedCvAttach }: 
                                     id: String(stream.id),
                                 })) || []
                             }
+                            selectPanelClassName={s.CandidateInterviewCreationFormStreamPanel}
                             onChange={(id) => onHireStreamIdChange(Number(id))}
+                            placement="bottom-start"
                             renderTrigger={({ ref, onClick }) =>
                                 nullable(
                                     hireStreamsQuery.data?.find(({ id }) => Number(id) === watch('hireStreamId'))?.name,

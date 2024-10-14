@@ -7,3 +7,8 @@
     flex-direction: column;
     gap: var(--gap-s);
 }
+
+.CandidateInterviewCreationFormStreamPanel {
+    max-height: 300px;
+    overflow: auto;
+}

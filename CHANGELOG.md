@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.71.0](https://github.com/taskany-inc/hire/compare/v0.70.3...v0.71.0) (2024-10-14)
+
+
+### Features
+
+* **calendar:** use hire stream limits in section schedule ([3622407](https://github.com/taskany-inc/hire/commit/362240764a3062f1b8076f6f0ad2c258fbc721f4))
+
+
+### Bug Fixes
+
+* **VacancyCard:** vacancy link wrong ([76d2648](https://github.com/taskany-inc/hire/commit/76d2648304f880bc41380f92e6207305f5ee8837))
+
 ## [0.70.3](https://github.com/taskany-inc/hire/compare/v0.70.2...v0.70.3) (2024-10-10)
 
 

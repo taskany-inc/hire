@@ -15,7 +15,7 @@ interface Props {
 // TODO: disable return value linting
 export function CandidateNameSubtitle({ id, name }: Props) {
     return (
-        <Text weight="bold" size="l" className={s.CandidateName}>
+        <Text weight="semiBold" size="l" className={s.CandidateName}>
             {tr('Candidate')}:{' '}
             {nullable(
                 id,

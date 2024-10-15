@@ -426,7 +426,7 @@ export function InterviewSectionSlotCalendar(props: InterviewSectionSlotCalendar
                 className={s.InterviewSectionSlotCalendarModal}
             >
                 <ModalHeader>
-                    <Text size="l" weight="bold">
+                    <Text size="l" weight="semiBold">
                         {tr('Edit a recurring event')}
                     </Text>
                 </ModalHeader>

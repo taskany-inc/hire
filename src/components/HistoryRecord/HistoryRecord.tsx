@@ -25,11 +25,11 @@ const GenericChangeEvent = ({ subject, event }: GenericChangeEventProps) => {
         return (
             <Text size="xs" weight="thin">
                 {tr('has changed')} {subject} {tr('from')}{' '}
-                <Text as="span" strike weight="bold">
+                <Text as="span" strike weight="semiBold">
                     {event.before}
                 </Text>{' '}
                 {tr('to')}{' '}
-                <Text as="span" weight="bold">
+                <Text as="span" weight="semiBold">
                     {event.after}
                 </Text>
             </Text>
@@ -38,7 +38,7 @@ const GenericChangeEvent = ({ subject, event }: GenericChangeEventProps) => {
     return (
         <Text size="xs" weight="thin">
             {tr('set')} {subject} {tr('to')}{' '}
-            <Text as="span" weight="bold">
+            <Text as="span" weight="semiBold">
                 {event.after}
             </Text>
         </Text>
@@ -124,14 +124,14 @@ const SectionSetFeedback = ({ event }: EventProps) => {
             {nullable(visible, () => (
                 <>
                     {nullable(event.before, (before) => (
-                        <Text weight="bold">
+                        <Text weight="semiBold">
                             {tr('from')}:{' '}
                             <Text weight="thin" as="span">
                                 {before}
                             </Text>
                         </Text>
                     ))}
-                    <Text weight="bold">
+                    <Text weight="semiBold">
                         {tr('to')}:{' '}
                         <Text weight="thin" as="span">
                             {event.after}

@@ -29,7 +29,7 @@ export const AddCandidateByCv = () => {
 
             {nullable(!candidate && cvParsingResult, (p) => (
                 <>
-                    <Text size="xl" weight="bold" className={s.Heading}>
+                    <Text size="xl" weight="semiBold" className={s.Heading}>
                         {tr('New candidate')}
                     </Text>
                     <AddOrUpdateCandidate
@@ -42,7 +42,7 @@ export const AddCandidateByCv = () => {
 
             {nullable(candidate, (c) => (
                 <>
-                    <Text size="xl" weight="bold" className={s.Heading}>
+                    <Text size="xl" weight="semiBold" className={s.Heading}>
                         {tr('New interview')}
                     </Text>
                     <CandidateInterviewCreationForm candidate={c} preparedCvAttach={cvAttach} />

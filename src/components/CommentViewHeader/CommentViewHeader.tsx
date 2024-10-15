@@ -37,7 +37,7 @@ export const CommentViewHeader: FC<CommentViewHeaderProp> = ({
 
             <CommentViewHeaderMetaInfo>
                 {nullable(subtitle, (s) => (
-                    <Text size="s" weight="bold">
+                    <Text size="s" weight="semiBold">
                         {s}
                     </Text>
                 ))}
@@ -46,7 +46,7 @@ export const CommentViewHeader: FC<CommentViewHeaderProp> = ({
                     <CommentViewHeaderDot />
                 ))}
 
-                <Text size="xs" weight="bold">
+                <Text size="xs" weight="semiBold">
                     {nullable(authorRole, (role) => `${role} `)}
                     {authors.map((author, i) => (
                         <>

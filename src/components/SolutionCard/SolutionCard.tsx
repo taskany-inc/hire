@@ -238,7 +238,7 @@ export const SolutionCard: FC<SolutionCardProps> = ({
                         </form>
                     )}
                     {!editOpen && solution.answer && (
-                        <Text className={s.ResultText} weight="bold" size="l">
+                        <Text className={s.ResultText} weight="semiBold" size="l">
                             {tr('Result:')} {solutionResultEmoji[solution.result]} {solutionResultText[solution.result]}
                         </Text>
                     )}

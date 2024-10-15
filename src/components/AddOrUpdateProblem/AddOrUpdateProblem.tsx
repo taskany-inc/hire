@@ -189,7 +189,7 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                         options={validationRules.nonEmptyString}
                         placeholder={solutionPlaceholder}
                     />
-                    <Text as="label" weight="bold">
+                    <Text as="label" weight="semiBold">
                         <Select
                             items={difficultyOption}
                             onChange={(id) => onDifficultyChange(id as ProblemDifficulty)}

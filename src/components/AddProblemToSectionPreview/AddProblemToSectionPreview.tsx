@@ -22,7 +22,7 @@ export const AddProblemToSectionPreviewProps: FC<AddProblemToSectionPreviewProps
         <Preview
             header={
                 <>
-                    <Text weight="bold" className={s.AddProblemText}>
+                    <Text weight="semiBold" className={s.AddProblemText}>
                         {tr('Add problem')}
                     </Text>
                     <div className={s.AddProblemToSectionFiltersPanel}>

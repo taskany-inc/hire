@@ -61,7 +61,7 @@ export const AppliedVacanciesFilter: FC<AppliedVacanciesFilterProps> = ({
                 mode="multiple"
                 selectable
                 renderItem={({ item }) => (
-                    <Text size="s" weight="bold" as="span">
+                    <Text size="s" weight="semiBold" as="span">
                         {item.name}
                     </Text>
                 )}

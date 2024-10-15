@@ -42,7 +42,7 @@ export const Section = ({ section, title, showAddProblemButton }: SectionProps):
                 <>
                     <div className={s.SectionTitleContainer}>
                         {nullable(section.interview.cvId, (cvId) => (
-                            <Text weight="bold" size="l">
+                            <Text weight="semiBold" size="l">
                                 <Link href={pageHrefs.attach(cvId)} target="_blank">
                                     {tr('CV')} <IconAttachmentOutline size="s" />
                                 </Link>

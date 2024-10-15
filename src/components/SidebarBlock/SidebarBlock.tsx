@@ -13,7 +13,7 @@ interface SidebarBlockProps {
 export const SidebarBlock = ({ title, className, children }: SidebarBlockProps) => {
     return (
         <div className={cn(s.SidebarBlock, className)}>
-            <Text size="m" weight="bold" className={s.SidebarBlockTitle}>
+            <Text size="m" weight="semiBold" className={s.SidebarBlockTitle}>
                 {title}
             </Text>
             {children}

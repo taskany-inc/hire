@@ -22,7 +22,7 @@ export const HireStreamCollapsableItem: FC<{
                     <TreeViewTitle className={s.HireStreamCollapsableItemHeader}>
                         <NextLink href={pageHrefs.hireStream(id)} passHref legacyBehavior>
                             <Link className={s.HireStreamCollapsableItemLink}>
-                                <Text weight="bold" size="l" className={s.HireStreamCollapsableItemTitle}>
+                                <Text weight="semiBold" size="l" className={s.HireStreamCollapsableItemTitle}>
                                     {name}
                                 </Text>
                             </Link>

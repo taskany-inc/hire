@@ -31,7 +31,6 @@ export interface CalendarEventDetails extends CalendarEventLinkedSectionProps {
     exceptionId: string | undefined;
     interviewer: User | null;
     additionalInterviewers: User[];
-    calendarSlotId: string | null;
     title: string;
     originalDate: Date;
 }
@@ -96,7 +95,6 @@ export function SectionScheduleCalendar({
                 exceptionId,
                 interviewSection,
                 originalDate: start,
-                calendarSlotId: interviewSection?.calendarSlotId ?? null,
             });
         },
         [],

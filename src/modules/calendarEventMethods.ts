@@ -165,7 +165,9 @@ async function getEventsForDateRange(
         });
     }
 
-    return deduplicateByKey([...exceptions, ...calendarEvents], (event) => event.eventId);
+    return deduplicateByKey([...exceptions, ...calendarEvents], (event) =>
+        event.exceptionId ? `ex-${event.exceptionId}` : `ev-${event.eventId}`,
+    );
 }
 
 async function updateEventSeries(params: UpdateCalendarEvent, user: User): Promise<CalendarEventUpdateResult> {

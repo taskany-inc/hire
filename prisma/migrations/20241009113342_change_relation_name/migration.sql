@@ -4,15 +4,6 @@
   - You are about to drop the `_SectionInterviewers` table. If the table is not empty, all the data it contains will be lost.
 
 */
--- DropForeignKey
-ALTER TABLE "_SectionInterviewers" DROP CONSTRAINT "_SectionInterviewers_A_fkey";
-
--- DropForeignKey
-ALTER TABLE "_SectionInterviewers" DROP CONSTRAINT "_SectionInterviewers_B_fkey";
-
--- DropTable
-DROP TABLE "_SectionInterviewers";
-
 -- CreateTable
 CREATE TABLE "_SectionsToInterviewers" (
     "A" INTEGER NOT NULL,
@@ -31,4 +22,13 @@ ALTER TABLE "_SectionsToInterviewers" ADD CONSTRAINT "_SectionsToInterviewers_A_
 -- AddForeignKey
 ALTER TABLE "_SectionsToInterviewers" ADD CONSTRAINT "_SectionsToInterviewers_B_fkey" FOREIGN KEY ("B") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
-INSERT INTO "_SectionsToInterviewers" ("A", "B") SELECT "id", "interviewerId" FROM "Section"
+INSERT INTO "_SectionsToInterviewers" ("A", "B") SELECT "A", "B" FROM "_SectionInterviewers";
+
+-- DropForeignKey
+ALTER TABLE "_SectionInterviewers" DROP CONSTRAINT "_SectionInterviewers_A_fkey";
+
+-- DropForeignKey
+ALTER TABLE "_SectionInterviewers" DROP CONSTRAINT "_SectionInterviewers_B_fkey";
+
+-- DropTable
+DROP TABLE "_SectionInterviewers";

@@ -217,24 +217,19 @@ const findAllInterviewerSections = async (
 };
 
 const update = async (data: UpdateSection, user: User): Promise<Section & { interviewers: User[] }> => {
-    const {
-        sectionId,
-        solutionIds,
-        interviewerIds,
-        interviewId,
-        calendarSlot,
-        attachIds,
-        calendarSlotId,
-        ...restData
-    } = data;
+    const { sectionId, solutionIds, interviewerIds, interviewId, calendarSlot, attachIds, ...restData } = data;
     let slot: Awaited<ReturnType<typeof getCalendarSlotData>>;
 
     if (calendarSlot) {
         const currentSection = await getById(sectionId);
 
-        if (currentSection.calendarSlotId && calendarSlotId && calendarSlotId === currentSection.calendarSlotId) {
+        if (
+            currentSection.calendarSlotId &&
+            calendarSlot.exceptionId &&
+            calendarSlot.exceptionId === currentSection.calendarSlotId
+        ) {
             await cancelSectionEmail(sectionId, tr('Section re-assigned to another interviewer'));
-            await prisma.calendarEventException.delete({ where: { id: calendarSlotId } });
+            await prisma.calendarEventException.delete({ where: { id: calendarSlot.exceptionId } });
             slot = await getCalendarSlotData({ ...calendarSlot, exceptionId: undefined });
         } else {
             slot = await getCalendarSlotData(calendarSlot);

@@ -26,7 +26,7 @@ export const AddVacancyToInterview = ({ onSelect }: AddVacancyToInterviewProps) 
             <AddInlineTrigger text={tr('Add vacancy')} onClick={() => setOpen(true)} centered={false} />
             <ModalPreview visible={open} onClose={() => setOpen(false)}>
                 <ModalHeader>
-                    <Text weight="bold" color={gray10}>
+                    <Text weight="semiBold" color={gray10}>
                         {tr('Add vacancy')}
                     </Text>
                     <VacancyFilterBar />

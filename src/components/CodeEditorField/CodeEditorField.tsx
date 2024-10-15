@@ -34,7 +34,7 @@ export const CodeEditorField = <T extends FieldValues>(props: CodeEditorFieldPro
 
     return (
         <div className={s.CommentFormWrapper}>
-            <Text size="m" className={s.Label} weight="bold">
+            <Text size="m" className={s.Label} weight="semiBold">
                 {label}
             </Text>
 

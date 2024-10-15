@@ -59,7 +59,7 @@ export const SectionHeaderPreview: FC<SectionHeaderPreviewProps> = ({ pageTitle,
                         <div className={s.NameWrapper}>
                             <Dropdown>
                                 <DropdownTrigger readOnly={readOnly}>
-                                    <Text className={s.NameTitle} size="xs" weight="bold">
+                                    <Text className={s.NameTitle} size="xs" weight="semiBold">
                                         {tr('Interviewer')}
                                     </Text>
 
@@ -72,7 +72,7 @@ export const SectionHeaderPreview: FC<SectionHeaderPreviewProps> = ({ pageTitle,
                             <div className={s.NameWrapper}>
                                 <Dropdown>
                                     <DropdownTrigger readOnly={readOnly}>
-                                        <Text size="xs" weight="bold" className={s.NameTitle}>
+                                        <Text size="xs" weight="semiBold" className={s.NameTitle}>
                                             {tr('Candidate')}
                                         </Text>
                                         <User

@@ -76,7 +76,7 @@ export const Comment = ({ comment, status }: CommentProps) => {
                             <Badge
                                 size="s"
                                 view="outline"
-                                weight="bold"
+                                weight="semiBold"
                                 color={InterviewStatusTagPalette[status]}
                                 text={interviewStatusLabels[status]}
                             />

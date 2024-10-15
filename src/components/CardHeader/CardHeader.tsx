@@ -18,7 +18,7 @@ export const CardHeader: FC<CardHeaderProps> = ({ title, subTitle, chips, menu, 
     return (
         <div className={className}>
             <div className={s.TitleWrapper}>
-                <Text className={s.TitleWrapper} size="l" weight="bold">
+                <Text className={s.TitleWrapper} size="l" weight="semiBold">
                     {title}
                 </Text>
                 {nullable(chips, (c) => c)}

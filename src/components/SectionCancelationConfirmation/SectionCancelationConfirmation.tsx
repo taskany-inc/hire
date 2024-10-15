@@ -57,7 +57,7 @@ export const SectionCancelationConfirmation = ({
         <Modal visible={isOpen} onClose={onClose} width={600}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <ModalHeader>
-                    <Text size="l" weight="bold">
+                    <Text size="l" weight="semiBold">
                         {tr('Commentary on section cancellation')}
                     </Text>
                 </ModalHeader>

@@ -89,12 +89,15 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
 
     const onCancelCreate = useCallback(() => {
         setBusy(false);
-        setFocused(false);
         setText('');
         setStatusInterview(undefined);
 
         onCancel?.();
     }, [onCancel]);
+
+    const onCommentBlur = useCallback(() => {
+        setFocused(false);
+    }, []);
 
     const statusInterviewMenuItems = useMemo(() => {
         const items = [
@@ -136,6 +139,7 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
                     onSubmit={onCommentSubmit}
                     onCancel={onCancelCreate}
                     onFocus={onCommentFocus}
+                    onBlur={onCommentBlur}
                     interviewRejectReason={nullable(visibleRejectOption, () => (
                         <InterviewRejectReasonDropdown
                             value={text}

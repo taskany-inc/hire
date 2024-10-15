@@ -19,7 +19,7 @@ export const CommentViewHeaderMini: FC<CommentViewHeaderMiniProps> = ({ author, 
     return (
         <CommentViewHeaderContainer>
             <CommentViewHeaderMetaInfo>
-                <Text size="s" weight="bold" lines={1} ellipsis>
+                <Text size="s" weight="semiBold" lines={1} ellipsis>
                     <ExternalUserLink user={author} />
                 </Text>
 

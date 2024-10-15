@@ -15,7 +15,7 @@ export const CandidateKanbanCardComment: FC<ComponentProps<typeof CommentView>> 
         header={
             <CommentViewHeaderMini dot author={props.authors[0]}>
                 {nullable(props.status, (s) => (
-                    <Text weight="bold">{interviewStatusLabels[s]}</Text>
+                    <Text weight="semiBold">{interviewStatusLabels[s]}</Text>
                 ))}
             </CommentViewHeaderMini>
         }

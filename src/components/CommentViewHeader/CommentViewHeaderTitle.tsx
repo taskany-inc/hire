@@ -11,7 +11,7 @@ interface CommentViewHeaderTitleProps {
 }
 
 export const CommentViewHeaderTitle: FC<CommentViewHeaderTitleProps> = ({ children, link, onClick }) => (
-    <Text size="l" weight="bold">
+    <Text size="l" weight="semiBold">
         {nullable(
             link,
             (l) => (

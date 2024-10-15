@@ -117,7 +117,7 @@ export function CalendarEventForm({
             />
 
             {nullable(isNew, () => (
-                <Text weight="bold" className={s.CalendarEventFormRepetition}>
+                <Text weight="semiBold" className={s.CalendarEventFormRepetition}>
                     {tr('Repetition')}
                     <Select
                         items={repeatOptions}

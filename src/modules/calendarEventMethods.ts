@@ -73,7 +73,7 @@ async function createEvent(params: CreateCalendarEvent, user: User): Promise<Cal
 }
 
 async function getEventsForDateRange(
-    { startDate, endDate, creatorIds, hireStreamId, my }: GetCalendarEventsForRange,
+    { startDate, endDate, creatorIds, hireStreamId, my, editSlotId }: GetCalendarEventsForRange,
     userId: number,
 ): Promise<CalendarData> {
     let unavailableUsersForWholeWeek: UnavailableUsersForWholeWeek | undefined;
@@ -90,6 +90,7 @@ async function getEventsForDateRange(
         }
 
         const { weekLimit, dayLimit } = hireStream;
+        console.log(weekLimit, dayLimit);
 
         const weekStartDate = startOfWeek(startDate);
         const weekEndDate = endOfWeek(startDate);
@@ -100,11 +101,16 @@ async function getEventsForDateRange(
                 interviewSection: { interview: { hireStreamId } },
                 date: { gt: weekStartDate, lt: weekEndDate },
             },
-            include: { event: { include: { creator: { select: { id: true } } } } },
+            include: {
+                event: { include: { creator: { select: { id: true } } } },
+            },
         });
+        console.log(hireStreamExceptions);
 
         if (weekLimit) {
-            const userEventCounts = countByKey(hireStreamExceptions, ({ event }) => event.creator?.id);
+            const userEventCounts = countByKey(hireStreamExceptions, ({ event, id }) =>
+                editSlotId && id === editSlotId ? undefined : event.creator?.id,
+            );
             userEventCounts.forEach((count, userId) => {
                 if (count < weekLimit) userEventCounts.delete(userId);
             });
@@ -114,9 +120,10 @@ async function getEventsForDateRange(
         if (dayLimit) {
             eachDayOfInterval({ start: weekStartDate, end: weekEndDate }).forEach((date) => {
                 const dayNumber = getISODay(date);
-                const userEventCounts = countByKey(hireStreamExceptions, ({ event, date }) => {
+                const userEventCounts = countByKey(hireStreamExceptions, ({ event, date, id }) => {
                     if (!event.creatorId) return;
                     if (getISODay(date) !== dayNumber) return;
+                    if (editSlotId && id === editSlotId) return;
                     return event.creatorId;
                 });
                 userEventCounts.forEach((count, userId) => {

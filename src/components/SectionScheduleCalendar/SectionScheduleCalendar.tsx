@@ -124,6 +124,7 @@ export function SectionScheduleCalendar({
                 setCalendarDate={setCalendarDate}
                 setCalendarView={setCalendarView}
                 calendarView={calendarView}
+                editSlotId={calendarSlotId}
                 range={range}
             />
 

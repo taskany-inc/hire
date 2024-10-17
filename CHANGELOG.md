@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.72.0](https://github.com/taskany-inc/hire/compare/v0.71.0...v0.72.0) (2024-10-17)
+
+
+### Features
+
+* **INTERNAL-1152:** display names for hire streams ([1971959](https://github.com/taskany-inc/hire/commit/19719598667c4ad99b3ed7a80f26117b8b62e7b1))
+* **INTERNAL-1208:** update deps ([5ab1b90](https://github.com/taskany-inc/hire/commit/5ab1b907b87670c1c24bce599eca1b80aecd3a72))
+
+
+### Bug Fixes
+
+* **1177:** overflow for hire stream dropdown ([dfb0af9](https://github.com/taskany-inc/hire/commit/dfb0af9a3ac384037052e38706c7dda72a8950ff))
+* **SectionActivity:** add history of change in preview ([5bf9f38](https://github.com/taskany-inc/hire/commit/5bf9f38e2c48d50d7cd123f6d0a17b884891dcc1))
+
 ## [0.71.0](https://github.com/taskany-inc/hire/compare/v0.70.3...v0.71.0) (2024-10-14)
 
 

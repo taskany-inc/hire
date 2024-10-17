@@ -19,6 +19,7 @@ import { notifyHR } from '../../modules/emailMethods';
 import config from '../../config';
 import { userMethods } from '../../modules/userMethods';
 import { crewMethods } from '../../modules/crewMethods';
+import { idObjsToIds } from '../../utils';
 
 const hireStatusToString = (hire: boolean | null | undefined) => {
     if (hire === undefined || hire === null) return;
@@ -94,7 +95,7 @@ export const sectionsRouter = router({
                         event: 'candidate_finished_section',
                         candidateId: previousInterview.candidateId,
                         interviewId: data.interviewId,
-                        interviewerIds: result.interviewers.map(({ id }) => id),
+                        interviewerIds: idObjsToIds(result.interviewers),
                         sectionId: result.id,
                         sectionType: sectionType.value,
                         hireStream: hireStream.name,

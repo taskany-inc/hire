@@ -91,6 +91,7 @@ export interface SlotCalendarProps
     setCalendarView: Dispatch<SetStateAction<View>>;
     range: DateRange;
     hireStreamId?: number;
+    editSlotId?: string | null;
     my?: boolean;
 }
 
@@ -103,6 +104,7 @@ export function SlotCalendar({
     setCalendarView,
     range,
     hireStreamId,
+    editSlotId,
     my,
     ...bigCalendarProps
 }: SlotCalendarProps) {
@@ -111,6 +113,7 @@ export function SlotCalendar({
         endDate: range.endDate,
         creatorIds,
         hireStreamId,
+        editSlotId,
         my,
     });
 

@@ -38,11 +38,13 @@ interface SectionScheduleCalendarProps {
     hireStreamId: number;
     videoCallLink?: string;
     interviewerIds: number[];
+    calendarSlotId?: string | null;
     onSlotSelected: (eventDetails: CalendarEventDetails) => void;
     isSectionSubmitting: boolean;
     setVideoCallLink: (arg: string) => void;
     setSearch?: Dispatch<SetStateAction<string>>;
     allInterviewers?: User[];
+    initialInterviewers?: User[];
 }
 
 export function SectionScheduleCalendar({
@@ -53,7 +55,9 @@ export function SectionScheduleCalendar({
     setVideoCallLink,
     videoCallLink,
     allInterviewers,
+    calendarSlotId,
     setSearch,
+    initialInterviewers,
 }: SectionScheduleCalendarProps) {
     const [eventDetails, setEventDetails] = useState<CalendarEventDetails | null>(null);
     const closeEventFormModal = useCallback(() => {
@@ -61,7 +65,7 @@ export function SectionScheduleCalendar({
     }, []);
     const [calendarDate, setCalendarDate] = useState(() => new Date());
     const [calendarView, setCalendarView] = useState<View>('work_week');
-    const [interviewers, setInterviewer] = useState<User[] | undefined>();
+    const [interviewers, setInterviewer] = useState<User[] | undefined>(initialInterviewers);
     const range = useMemo<DateRange>(() => {
         const nextRange = {
             startDate: firstVisibleDay(calendarDate, calendarView),
@@ -105,6 +109,10 @@ export function SectionScheduleCalendar({
         closeEventFormModal();
     }, [closeEventFormModal, eventDetails, interviewers, onSlotSelected]);
 
+    const isCanChoose =
+        (!eventDetails?.interviewSection || eventDetails?.interviewSection.calendarSlotId === calendarSlotId) &&
+        eventDetails?.eventId;
+
     return (
         <>
             <SlotCalendar
@@ -116,6 +124,7 @@ export function SectionScheduleCalendar({
                 setCalendarDate={setCalendarDate}
                 setCalendarView={setCalendarView}
                 calendarView={calendarView}
+                editSlotId={calendarSlotId}
                 range={range}
             />
 
@@ -156,9 +165,9 @@ export function SectionScheduleCalendar({
                     <FormActions>
                         <Button onClick={closeEventFormModal} text={tr('Cancel')} />
 
-                        {!eventDetails?.interviewSection && eventDetails?.eventId && (
+                        {nullable(isCanChoose, () => (
                             <Button onClick={handleSlotSelectClicked} view="primary" text={tr('Choose')} />
-                        )}
+                        ))}
                     </FormActions>
                 </ModalContent>
             </Modal>

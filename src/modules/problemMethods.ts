@@ -124,11 +124,12 @@ const mergeProblemsUsedInTheInterview = (
 };
 
 const create = async (authorId: number, data: CreateProblem): Promise<Problem> => {
-    const { tagIds, ...restData } = data;
+    const { tagIds, attachIds, ...restData } = data;
     const createData: Prisma.ProblemCreateInput = {
         ...restData,
         author: { connect: { id: authorId } },
         tags: { connect: idsToIdObjs(tagIds) },
+        attaches: { connect: idsToIdObjs(attachIds) },
     };
 
     return prisma.problem.create({ data: createData });
@@ -293,7 +294,7 @@ const getList = async (
 };
 
 const update = async (data: UpdateProblem, authorId: number): Promise<Problem> => {
-    const { problemId, tagIds, ...restData } = data;
+    const { problemId, tagIds, attachIds, ...restData } = data;
     const updateData: Prisma.ProblemUpdateInput = { ...restData };
 
     const problem = await prisma.problem.findFirstOrThrow({
@@ -305,6 +306,9 @@ const update = async (data: UpdateProblem, authorId: number): Promise<Problem> =
 
     if (tagIds && tagIds.length > 0) {
         updateData.tags = { set: idsToIdObjs(tagIds) };
+    }
+    if (attachIds && attachIds.length > 0) {
+        updateData.attaches = { set: idsToIdObjs(attachIds) };
     }
     const transactionOperations: PrismaPromise<unknown>[] = [
         prisma.problem.update({ data: updateData, where: { id: problemId } }),

@@ -13,6 +13,7 @@ export const createProblemSchema = z.object({
     difficulty: z.nativeEnum(ProblemDifficulty),
     tagIds: z.number().array(),
     archived: z.boolean().nullish(),
+    attachIds: z.string().array(),
 });
 export type CreateProblem = z.infer<typeof createProblemSchema>;
 

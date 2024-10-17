@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { FormEvent, useCallback, useRef } from 'react';
 import { InterviewStatus } from '@prisma/client';
 import { nullable, useClickOutside } from '@taskany/bricks';
 import { FormControl, Button } from '@taskany/bricks/harmony';
@@ -16,6 +16,7 @@ interface CommentFormProps {
     actionButton: React.ReactNode;
     interviewRejectReason?: React.ReactNode;
     focused?: boolean;
+    control?: boolean;
     autoFocus?: boolean;
     busy?: boolean;
     text?: string;
@@ -36,6 +37,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({
     status,
     autoFocus,
     focused,
+    control,
     busy,
     actionButton,
     onChange,
@@ -60,9 +62,13 @@ export const CommentForm: React.FC<CommentFormProps> = ({
         onCancel?.();
     }, [onCancel]);
 
-    const onCommentSubmit = useCallback(() => {
-        onSubmit?.({ text, status });
-    }, [text, status, onSubmit]);
+    const onCommentSubmit = useCallback(
+        (e: FormEvent<HTMLFormElement>) => {
+            e?.preventDefault();
+            onSubmit?.({ text, status });
+        },
+        [text, status, onSubmit],
+    );
 
     useClickOutside(ref, () => {
         if (text === '') {
@@ -98,7 +104,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({
                             <FormControlEditor
                                 disabled={busy}
                                 placeholder={tr('Leave a comment')}
-                                height={focused ? 120 : 80}
+                                height={control ? 120 : 80}
                                 onCancel={onCommentCancel}
                                 onFocus={onFocus}
                                 onBlur={onBlur}
@@ -109,7 +115,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({
                                 uploadLink={uploadLink}
                             />
                         </FormControl>
-                        {nullable(focused, () => (
+                        {nullable(control, () => (
                             <>
                                 <FormActions>
                                     <div className={s.FormHelpButton}>

@@ -38,6 +38,7 @@ export const useInterviewUpdateMutation = () => {
             enqueueSuccessNotification(`${tr('Interview updated')} ${data.id}`);
             utils.interviews.invalidate();
             utils.candidates.invalidate();
+            utils.historyEvents.getHistoryEvents.invalidate();
         },
         onError: enqueueErrorNotification,
     });

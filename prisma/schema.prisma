@@ -121,6 +121,7 @@ model Problem {
   problemHistory ProblemHistory[]
   comments       Comment[]
   reactions      Reaction[]
+  attaches       Attach[]
   // Problem solutions counter
   solutionsGood  Int               @default(0)
   solutionsOk    Int               @default(0)
@@ -479,6 +480,8 @@ model Attach {
   cvForInterviewId Int?
   comment          Comment?   @relation(fields: [commentId], references: [id])
   commentId        String?
+  problem          Problem?   @relation(fields: [problemId], references: [id])
+  problemId        Int?
 }
 
 model UserSettings {

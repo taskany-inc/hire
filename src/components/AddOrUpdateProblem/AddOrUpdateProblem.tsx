@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useForm, DefaultValues } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { Tag, ProblemDifficulty } from '@prisma/client';
@@ -19,7 +19,7 @@ import {
 import { nullable } from '@taskany/bricks';
 
 import { useProblemCreateMutation, useProblemUpdateMutation } from '../../modules/problemHooks';
-import { pageHrefs } from '../../utils/paths';
+import { pageHrefs, Paths } from '../../utils/paths';
 import { useTagCreateMutation, useTags } from '../../modules/tagHooks';
 import { entitiesToOptions, difficultyOption } from '../../utils';
 import { Option } from '../../utils/types';
@@ -31,9 +31,12 @@ import { CodeEditorField } from '../CodeEditorField/CodeEditorField';
 import { Select } from '../Select';
 import { Autocomplete } from '../Autocomplete/Autocomplete';
 import { FormActions } from '../FormActions/FormActions';
+import { useUploadNotifications } from '../../modules/attachHooks';
+import { getFileIdFromPath } from '../../utils/fileUpload';
+import { defaultAttachFormatter, File } from '../../utils/attachFormatter';
 
-import { tr } from './AddOrUpdateProblem.i18n';
 import s from './AddOrUpdateProblem.module.css';
+import { tr } from './AddOrUpdateProblem.i18n';
 
 type FormData = Omit<CreateProblem, 'tagIds'> & {
     tags: { name: string; value: number }[];
@@ -57,6 +60,7 @@ const schema = z.object({
         invalid_type_error: tr('Obligatory field'),
         required_error: tr('Select difficulty'),
     }),
+    attachIds: z.string().array(),
     tags: z.array(z.object({ name: z.string(), value: z.number() })).optional(),
 });
 
@@ -88,6 +92,9 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
         },
         [tageCreateMutation],
     );
+    const { onUploadSuccess, onUploadFail } = useUploadNotifications();
+
+    const [attachIds, setAttachIds] = useState<string[]>((initialValues?.attachIds ?? []) as string[]);
 
     const {
         handleSubmit,
@@ -102,6 +109,7 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
             description: initialValues?.description,
             solution: initialValues?.solution,
             difficulty: initialValues?.difficulty,
+            attachIds,
             tags:
                 initialValues?.tags?.map((tag: Tag) => ({
                     name: tag.name,
@@ -110,20 +118,30 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
         },
         resolver: zodResolver(schema),
     });
+    const attachFormatter = useCallback((files: File[]) => {
+        const ids = files.map((file) => getFileIdFromPath(file.filePath));
+        setAttachIds((prev) => {
+            setValue('attachIds', [...prev, ...ids]);
+            return [...prev, ...ids];
+        });
+
+        return defaultAttachFormatter(files);
+    }, []);
 
     const onSubmit =
         variant === 'new'
-            ? handleSubmit(async ({ name, tags, description, solution, difficulty }) => {
+            ? handleSubmit(async ({ name, tags, description, solution, difficulty, attachIds }) => {
                   const result = await problemCreateMutation.mutateAsync({
                       name,
                       description,
                       solution,
                       tagIds: tags.map((tag) => tag.value),
                       difficulty,
+                      attachIds,
                   });
                   router.push(pageHrefs.problem(result.id));
               })
-            : handleSubmit(async ({ name, tags, description, solution, difficulty }) => {
+            : handleSubmit(async ({ name, tags, description, solution, difficulty, attachIds }) => {
                   if (!initialValues) return;
                   const result = await problemUpdateMutation.mutateAsync({
                       problemId: initialValues.id,
@@ -133,6 +151,7 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                       tagIds: tags.map((tag) => tag.value),
                       difficulty,
                       archived: initialValues.archived,
+                      attachIds,
                   });
                   router.push(pageHrefs.problem(result.id));
               });
@@ -173,21 +192,27 @@ export const AddOrUpdateProblem = ({ variant, initialValues }: AddOrUpdateProble
                     </QueryResolver>
                     <CodeEditorField
                         passedError={errors.description}
-                        disableAttaches
                         name="description"
                         label={tr('Description')}
                         control={control}
                         options={validationRules.nonEmptyString}
                         placeholder={descriptionPlaceholder}
+                        onUploadSuccess={onUploadSuccess}
+                        onUploadFail={onUploadFail}
+                        uploadLink={Paths.ATTACH}
+                        attachFormatter={attachFormatter}
                     />
                     <CodeEditorField
                         passedError={errors.solution}
-                        disableAttaches
                         name="solution"
                         label={tr('Solution')}
                         control={control}
                         options={validationRules.nonEmptyString}
                         placeholder={solutionPlaceholder}
+                        onUploadSuccess={onUploadSuccess}
+                        onUploadFail={onUploadFail}
+                        uploadLink={Paths.ATTACH}
+                        attachFormatter={attachFormatter}
                     />
                     <Text as="label" weight="semiBold">
                         <Select

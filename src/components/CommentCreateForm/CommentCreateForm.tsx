@@ -50,12 +50,14 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
     const [statusInterview, setStatusInterview] = useState<InterviewStatus | undefined>(status);
 
     const [focused, setFocused] = useState(Boolean(currentText));
+    const [control, setControl] = useState(focused);
     const [busy, setBusy] = useState(false);
     const [visibleRejectOption, setVisibleRejectOption] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
 
     const onCommentFocus = useCallback(() => {
         setFocused(true);
+        setControl(true);
         onFocus?.();
     }, [onFocus]);
 
@@ -71,11 +73,11 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
         async (form: CommentSchema) => {
             setBusy(true);
             setFocused(false);
+            setControl(false);
             onSubmit?.(form);
             setText('');
             setStatusInterview(undefined);
             setBusy(false);
-            setFocused(true);
         },
         [onSubmit],
     );
@@ -88,6 +90,7 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
     );
 
     const onCancelCreate = useCallback(() => {
+        setControl(false);
         setBusy(false);
         setText('');
         setStatusInterview(undefined);
@@ -133,6 +136,7 @@ const CommentCreateForm: React.FC<CommentCreateFormProps> = ({
                 <CommentForm
                     text={text}
                     focused={focused}
+                    control={control}
                     busy={busy}
                     status={statusInterview}
                     onChange={onCommentChange}

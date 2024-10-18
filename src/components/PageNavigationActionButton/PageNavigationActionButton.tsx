@@ -62,7 +62,11 @@ export const PageNavigationActionButton: FC = () => {
                 />
             </div>
 
-            <HireStreamFormPopup visible={newHireStreamVisible} onClose={() => setNewHireStreamVisible(false)} />
+            <HireStreamFormPopup
+                visible={newHireStreamVisible}
+                onClose={() => setNewHireStreamVisible(false)}
+                afterSubmit={() => setNewHireStreamVisible(false)}
+            />
         </>
     );
 };

@@ -8,10 +8,11 @@ import s from './HireStreamCollapsableItem.module.css';
 
 export const HireStreamCollapsableItem: FC<{
     name: string;
+    displayName?: string | null;
     children?: ReactNode;
     visible?: boolean;
     disable?: boolean;
-}> = ({ name, children, visible, disable }) => {
+}> = ({ name, displayName, children, visible, disable }) => {
     return (
         <TreeView className={s.HireStreamCollapsableItem}>
             <TreeViewNode
@@ -22,7 +23,7 @@ export const HireStreamCollapsableItem: FC<{
                         <NextLink href={pageHrefs.hireStream(name)} passHref legacyBehavior>
                             <Link className={s.HireStreamCollapsableItemLink}>
                                 <Text weight="semiBold" size="l" className={s.HireStreamCollapsableItemTitle}>
-                                    {name}
+                                    {displayName || name}
                                 </Text>
                             </Link>
                         </NextLink>

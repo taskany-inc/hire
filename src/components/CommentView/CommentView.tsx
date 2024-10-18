@@ -114,6 +114,7 @@ export const CommentView: FC<CommentViewProp> = ({
     const [isOpen, setIsOpen] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [focused, setFocused] = useState(false);
+    const [control, setControl] = useState(focused);
     const [busy, setBusy] = useState(false);
     const [formValue, setFormValue] = useState(text);
 
@@ -152,6 +153,7 @@ export const CommentView: FC<CommentViewProp> = ({
         async (comment: { text: string }) => {
             setEditMode(false);
             setFocused(false);
+            setControl(false);
             setBusy(true);
 
             setFormValue(comment.text);
@@ -169,9 +171,18 @@ export const CommentView: FC<CommentViewProp> = ({
 
     const onCancel = useCallback(() => {
         setEditMode(false);
-        setFocused(false);
+        setControl(false);
         setFormValue(text);
     }, [text]);
+
+    const onCommentFocus = useCallback(() => {
+        setFocused(true);
+        setControl(true);
+    }, []);
+
+    const onCommentBlur = useCallback(() => {
+        setFocused(false);
+    }, []);
 
     const headerColors = status ? statusColors[status] : {};
 
@@ -184,11 +195,14 @@ export const CommentView: FC<CommentViewProp> = ({
                     <CommentForm
                         text={formValue}
                         focused={focused}
+                        control={control}
                         busy={busy}
                         autoFocus
                         onChange={onChange}
                         onSubmit={onSubmit}
                         onCancel={onCancel}
+                        onBlur={onCommentBlur}
+                        onFocus={onCommentFocus}
                         actionButton={
                             <Button
                                 size="s"

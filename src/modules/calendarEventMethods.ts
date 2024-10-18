@@ -90,7 +90,6 @@ async function getEventsForDateRange(
         }
 
         const { weekLimit, dayLimit } = hireStream;
-        console.log(weekLimit, dayLimit);
 
         const weekStartDate = startOfWeek(startDate);
         const weekEndDate = endOfWeek(startDate);
@@ -105,7 +104,6 @@ async function getEventsForDateRange(
                 event: { include: { creator: { select: { id: true } } } },
             },
         });
-        console.log(hireStreamExceptions);
 
         if (weekLimit) {
             const userEventCounts = countByKey(hireStreamExceptions, ({ event, id }) =>

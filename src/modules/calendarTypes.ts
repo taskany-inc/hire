@@ -27,6 +27,7 @@ export const getCalendarEventsForRangeSchema = z.object({
     creatorIds: z.number().array().optional(),
     hireStreamId: z.number().optional(),
     my: z.boolean().optional(),
+    editSlotId: z.string().nullish(),
 });
 export type GetCalendarEventsForRange = z.infer<typeof getCalendarEventsForRangeSchema>;
 

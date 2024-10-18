@@ -21,13 +21,14 @@ import s from './HireStreamFormPopup.module.css';
 interface HireStreamEditPopupProps {
     visible: boolean;
     onClose: VoidFunction;
+    afterSubmit?: (hireStream: HireStream) => void;
     hireStream?: HireStream;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const parseNullishNumber = (v: any) => (v ? parseInt(v, 10) : null);
 
-export const HireStreamFormPopup = ({ visible, onClose, hireStream }: HireStreamEditPopupProps) => {
+export const HireStreamFormPopup = ({ visible, onClose, afterSubmit, hireStream }: HireStreamEditPopupProps) => {
     const createHireStream = useCreateHireStreamMutation();
     const editHireStream = useEditHireStreamMutation();
 
@@ -52,7 +53,7 @@ export const HireStreamFormPopup = ({ visible, onClose, hireStream }: HireStream
             ? await editHireStream.mutateAsync(data as EditHireStream)
             : await createHireStream.mutateAsync(data as CreateHireStream);
         reset(result);
-        onClose();
+        afterSubmit?.(result);
     };
 
     return (

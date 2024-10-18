@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { HireStream } from '@prisma/client';
 import { nullable } from '@taskany/bricks';
 import { Badge } from '@taskany/bricks/harmony';
@@ -9,6 +10,7 @@ import { HireStreamFormPopup } from '../HireStreamFormPopup/HireStreamFormPopup'
 import { accessChecks } from '../../modules/accessChecks';
 import { useSession } from '../../contexts/appSettingsContext';
 import { SidebarBlock } from '../SidebarBlock/SidebarBlock';
+import { pageHrefs } from '../../utils/paths';
 
 import { tr } from './HireStreamSidebar.i18n';
 import s from './HireStreamSidebar.module.css';
@@ -20,6 +22,7 @@ interface HireStreamSidebarProps {
 export const HireStreamSidebar = ({ hireStream }: HireStreamSidebarProps) => {
     const [showEditPopup, setShowEditPopup] = useState(false);
     const session = useSession();
+    const router = useRouter();
 
     const canEdit = session && accessChecks.hireStream.update(session, hireStream.id);
 
@@ -45,6 +48,10 @@ export const HireStreamSidebar = ({ hireStream }: HireStreamSidebarProps) => {
                 <HireStreamFormPopup
                     visible={showEditPopup}
                     onClose={() => setShowEditPopup(false)}
+                    afterSubmit={(result) => {
+                        router.replace(pageHrefs.hireStream(result.name));
+                        setShowEditPopup(false);
+                    }}
                     hireStream={hireStream}
                 />
             ))}

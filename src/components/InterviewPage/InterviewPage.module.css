@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: 7fr 5fr;
     gap: var(--gap-m);
+    margin-top: var(--gap-l);
 }
 
 .InterviewMainColumn {

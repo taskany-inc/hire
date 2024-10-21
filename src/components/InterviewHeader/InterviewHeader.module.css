@@ -1,0 +1,65 @@
+.Separator {
+    background-color: var(--gray-900);
+    width: 1px;
+    height: calc(var(--gap-m) + var(--gap-s));
+    margin: 0 var(--gap-xs);
+}
+
+.Header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) max-content;
+    margin-bottom: var(--gap-m);
+}
+
+.HeaderInfo_align_left {
+    justify-self: left;
+}
+
+.HeaderTitle {
+    gap: 0.3rem;
+    margin: 0  0 var(--gap-m) var(--gap-sm);
+}
+
+.HeaderStats {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+}
+
+.HeaderInfo_align_left {
+    justify-self: left;
+}
+
+.NameTitle {
+    color: var(--text-ghost);
+}
+
+.NameWrapper {
+    display: flex;
+ background-color: var(--background);
+}
+
+.Wrapper {
+    display: flex;
+    align-items: end;
+    gap: var(--gap-xs);
+}
+
+.HeaderInfo_align_right {
+    display: grid;
+    justify-items: end;
+    align-content: space-between;
+}
+
+.TimeAgo {
+    color: var(--text-ghost);
+}
+
+.Candidate {
+    display: flex;
+    flex-direction: row;
+}
+
+.HireStream {
+    color: var(--gray10);
+}

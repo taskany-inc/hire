@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.73.0](https://github.com/taskany-inc/hire/compare/v0.72.0...v0.73.0) (2024-10-21)
+
+
+### Features
+
+* **INTERNAL-1155:** add the ability to attach a file to a problem ([5f42a8a](https://github.com/taskany-inc/hire/commit/5f42a8af1312f18e6fab24397b2c1ddf16e1ae28))
+
+
+### Bug Fixes
+
+* can't edit calendar slot in section ([01e75b5](https://github.com/taskany-inc/hire/commit/01e75b5f363e1bbb56a32e7557064c6fb5dd8633))
+* can't edit slot due to limit ([a3fdf87](https://github.com/taskany-inc/hire/commit/a3fdf87cf83c95a810d36e18a556cc346484bb30))
+* **INTERNAL-1235:** fix comment edit ([07b2d40](https://github.com/taskany-inc/hire/commit/07b2d40889d6baa2d57dad8365d04f22ed76f7e8))
+* **INTERNAL-1235:** return comment submit ([a428229](https://github.com/taskany-inc/hire/commit/a428229f3c7d167d4438e75989b87231c3ccec99))
+* **INTERNAL-1239:** stream link from dashboard ([ce05caf](https://github.com/taskany-inc/hire/commit/ce05caf666092d02c4a3ff539764ff27a2b64ce7))
+* **INTERNAL-1240:** stream page address after renaming ([5a6dd2a](https://github.com/taskany-inc/hire/commit/5a6dd2a516e0fec34c771bce0476beb86f0595dd))
+
 ## [0.72.0](https://github.com/taskany-inc/hire/compare/v0.71.0...v0.72.0) (2024-10-17)
 
 

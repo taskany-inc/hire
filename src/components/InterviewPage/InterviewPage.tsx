@@ -1,23 +1,21 @@
 import { FC } from 'react';
 import { nullable } from '@taskany/bricks';
 import { Card, CardContent, CardInfo, Text } from '@taskany/bricks/harmony';
-import { gray10 } from '@taskany/colors';
 import { SectionType } from '@prisma/client';
 
 import { pageHrefs } from '../../utils/paths';
 import { InterviewWithRelations } from '../../modules/interviewTypes';
 import { useSession } from '../../contexts/appSettingsContext';
 import { accessChecks } from '../../modules/accessChecks';
-import { InlineDot } from '../InlineDot';
 import { AssignSectionDropdownButton } from '../AssignSectionDropdownButton/AssignSectionDropdownButton';
 import { LayoutMain } from '../LayoutMain/LayoutMain';
 import { InterviewTags } from '../InterviewTags/InterviewTags';
-import { ExternalUserLink } from '../ExternalUserLink';
 import { useDistanceDate } from '../../hooks/useDateFormat';
 import Md from '../Md';
 import { InterviewActivity } from '../InterviewActivity/InterviewActivity';
 import { CardHeader } from '../CardHeader/CardHeader';
 import { InterviewSidebar } from '../InterviewSidebar/InterviewSidebar';
+import { InterviewHeader } from '../InterviewHeader/InterviewHeader';
 
 import s from './InterviewPage.module.css';
 import { tr } from './InterviewPage.i18n';
@@ -29,12 +27,13 @@ interface InterviewProps {
 
 export const InterviewPage: FC<InterviewProps> = ({ interview, sectionTypes }) => {
     const session = useSession();
-    const date = useDistanceDate(interview.createdAt);
+    const date = useDistanceDate(interview.updatedAt);
 
     const canCreateSections = session && accessChecks.section.create(session, interview.hireStreamId).allowed;
 
     return (
         <LayoutMain pageTitle={interview.candidate.name} backlink={pageHrefs.candidate(interview.candidate.id)}>
+            <InterviewHeader interview={interview} date={interview.updatedAt} />
             <div className={s.InterviewColumns}>
                 <div className={s.InterviewMainColumn}>
                     <Card className={s.InterviewCard}>
@@ -42,15 +41,7 @@ export const InterviewPage: FC<InterviewProps> = ({ interview, sectionTypes }) =
                             <CardHeader
                                 title={
                                     <>
-                                        <Text>#{interview.id}</Text>
-                                        <InlineDot />
-                                        <Text size="m" color={gray10}>
-                                            {tr('HR')} <ExternalUserLink user={interview.creator} />
-                                        </Text>
-                                        <InlineDot />
-                                        <Text size="s" color={gray10}>
-                                            {tr('Created at')} {date}
-                                        </Text>
+                                        <Text size="m">{date}</Text>
                                     </>
                                 }
                                 chips={<InterviewTags interview={interview} />}

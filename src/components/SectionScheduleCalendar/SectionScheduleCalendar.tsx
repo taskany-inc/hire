@@ -12,6 +12,7 @@ import {
     FormControlInput,
     FormControlLabel,
 } from '@taskany/bricks/harmony';
+import { toDate } from 'date-fns';
 
 import { DateRange, firstVisibleDay, lastVisibleDay } from '../../utils/date';
 import { SlotCalendar } from '../SlotCalendar/SlotCalendar';
@@ -22,6 +23,7 @@ import {
 import { BigCalendarEvent } from '../../utils/calendar';
 import { FormActions } from '../FormActions/FormActions';
 import { UserComboBox } from '../UserComboBox';
+import { TimePicker } from '../TimePicker/TimePicker';
 
 import { tr } from './SectionScheduleCalendar.i18n';
 import s from './SectionScheduleCalendar.module.css';
@@ -66,6 +68,14 @@ export function SectionScheduleCalendar({
     const [calendarDate, setCalendarDate] = useState(() => new Date());
     const [calendarView, setCalendarView] = useState<View>('work_week');
     const [interviewers, setInterviewer] = useState<User[] | undefined>(initialInterviewers);
+    const onChangeTime = ({ hours, minutes }: { hours: number; minutes: number }) => {
+        if (eventDetails) {
+            const newDate = toDate(eventDetails.originalDate.setHours(hours, minutes));
+
+            setEventDetails({ ...eventDetails, originalDate: newDate });
+        }
+    };
+
     const range = useMemo<DateRange>(() => {
         const nextRange = {
             startDate: firstVisibleDay(calendarDate, calendarView),
@@ -133,6 +143,13 @@ export function SectionScheduleCalendar({
                     <CalendarEventLinkedSection interviewSection={eventDetails?.interviewSection} />
                 </ModalHeader>
                 <ModalContent className={s.SectionScheduleCalendar}>
+                    <div className={s.TimePickerWrapper}>
+                        <TimePicker
+                            value={eventDetails?.originalDate as Date}
+                            label={tr('Time')}
+                            onChange={onChangeTime}
+                        />
+                    </div>
                     {nullable(eventDetails?.interviewer?.name, (n) => (
                         <Text size="m">
                             {tr('Interviewer')}: {n}

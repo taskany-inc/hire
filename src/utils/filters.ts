@@ -14,9 +14,9 @@ export const filtersSsrInit = async (
     context: GetServerSidePropsContext,
     ssg: SsgHelper,
 ): Promise<FiltersContext> => {
-    const defaultFilterFallback = Boolean(
-        !Object.keys(context.query).length && !context.req.cookies[filtersNoSearchPresetCookie],
-    );
+    const queryString = context.resolvedUrl.split('?')[1];
+
+    const defaultFilterFallback = Boolean(!queryString && !context.req.cookies[filtersNoSearchPresetCookie]);
 
     if (defaultFilterFallback) {
         await ssg.filter.getDefaultFilter.fetch({ entity });

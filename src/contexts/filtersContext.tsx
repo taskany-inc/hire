@@ -2,6 +2,7 @@ import { createContext, FC, ReactNode, useContext } from 'react';
 
 export interface FiltersContext {
     defaultFilterFallback?: boolean;
+    hireStreamId?: number;
 }
 
 const filtersContext = createContext<FiltersContext>({});

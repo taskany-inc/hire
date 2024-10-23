@@ -12,11 +12,14 @@ export const candidateIdQuery = z.object({
 });
 export type CandidateIdQuery = z.infer<typeof candidateIdQuery>;
 
+export const parseInterviewStatus = (data: string) => z.nativeEnum(InterviewStatus).parse(data);
+
 export const getCandidateListSchema = z
     .object({
         search: z.string(),
         statuses: z.nativeEnum(InterviewStatus).array(),
         hireStreamIds: z.number().array(),
+        sectionTypeIds: z.number().array(),
         limit: z.number(),
         offset: z.number(),
         orderBy: z.string(),

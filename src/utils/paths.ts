@@ -24,6 +24,7 @@ export enum Paths {
     SECTION_TYPES = '/section-types',
     SECTION_TYPE = '/section-types/{sectionTypeId}',
     SECTION_TYPE_EDIT = '/section-types/{sectionTypeId}/edit',
+    SECTIONS_DASHBOARD = '/sections-dashboard/{hireStreamName}/{status}',
 
     CANDIDATES = '/candidates',
     CANDIDATES_DASHBOARD = '/candidates-dashboard',
@@ -78,6 +79,9 @@ export const generatePath = <T extends Paths>(path: T, vars: PathVars<T>): strin
 export const pageHrefs = {
     problem: (problemId: number): string => generatePath(Paths.PROBLEM, { problemId }),
     problemEdit: (problemId: number): string => generatePath(Paths.PROBLEM_EDIT, { problemId }),
+
+    sectionsDashboard: (hireStreamName: string, status: string) =>
+        generatePath(Paths.SECTIONS_DASHBOARD, { hireStreamName, status }),
 
     candidate: (candidateId: number): string => generatePath(Paths.CANDIDATE, { candidateId }),
     candidateInterviewCreate: (candidateId: number): string =>

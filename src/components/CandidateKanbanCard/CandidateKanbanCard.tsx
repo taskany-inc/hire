@@ -32,6 +32,7 @@ interface CandidateKanbanCard extends Omit<HTMLAttributes<HTMLDivElement>, 'id'>
     comment?: ComponentProps<typeof CandidateKanbanCardComment>;
     sections?: ComponentProps<typeof SectionsProgress>['sections'];
     gradeVisibility?: boolean;
+    sectionsResultsVisibility?: boolean;
 }
 
 export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
@@ -43,6 +44,7 @@ export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
     comment,
     sections,
     gradeVisibility,
+    sectionsResultsVisibility,
     ...rest
 }) => {
     const hrLink = getAuthorLink(hr.email);
@@ -67,11 +69,14 @@ export const CandidateKanbanCard: FC<CandidateKanbanCard> = ({
             </KanbanCardInfo>
             {nullable(sections, (sct) => (
                 <>
-                    <KanbanCardContent className={s.CandidateKanbanCardComment}>
-                        <KanbanCardContentItem>
-                            <SectionResults passedSections={sct} gradeVisibility={gradeVisibility} />
-                        </KanbanCardContentItem>
-                    </KanbanCardContent>
+                    {nullable(sectionsResultsVisibility, () => (
+                        <KanbanCardContent className={s.CandidateKanbanCardComment}>
+                            <KanbanCardContentItem>
+                                <SectionResults passedSections={sct} gradeVisibility={gradeVisibility} />
+                            </KanbanCardContentItem>
+                        </KanbanCardContent>
+                    ))}
+
                     <KanbanCardContent className={s.CandidateKanbanCardComment}>
                         <KanbanCardContentItem>
                             <SectionsProgress sections={sct} popupEnabled={false} />

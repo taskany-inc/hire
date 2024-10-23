@@ -1,8 +1,11 @@
-import React, { FC, useMemo, useState } from 'react';
-import { KanbanColumn, KanbanContainer, KanbanScroller } from '@taskany/bricks/harmony';
+import React, { ComponentProps, FC, ReactNode, useCallback, useMemo, useState } from 'react';
+import { Badge, KanbanColumn, KanbanContainer, KanbanScroller } from '@taskany/bricks/harmony';
 import { nullable, useIntersectionLoader } from '@taskany/bricks';
 import { InterviewStatus } from '@prisma/client';
+import { IconExpandAltSolid } from '@taskany/icons';
 
+import { CandidateWithVendorAndInterviewWithSectionsWithCommentsWithCreatorRelations } from '../../modules/candidateTypes';
+import { InterviewWithHireStreamAndSectionsAndCreatorAndCommentsRelation } from '../../modules/interviewTypes';
 import {
     useCandidateFilterUrlParams,
     candidateFilterValuesToRequestData,
@@ -16,6 +19,10 @@ import { CandidateKanbanCard } from '../CandidateKanbanCard/CandidateKanbanCard'
 import { Loader } from '../Loader/Loader';
 import { HireStreamCollapsableItem } from '../HireStreamCollapsableItem/HireStreamCollapsableItem';
 import { InterviewHireState } from '../InterviewHireState';
+import { InterviewSectionState } from '../InterviewSectionState';
+import { useSectionTypes } from '../../modules/sectionTypeHooks';
+import { Link } from '../Link';
+import { pageHrefs } from '../../utils/paths';
 
 import s from './CandidatesKanban.module.css';
 
@@ -32,14 +39,26 @@ interface KanbanBaseProps {
     onLoadingStateChange?: onLoadingStateChange;
 }
 
-interface KanbanProps extends KanbanBaseProps {
-    streamId: number;
+interface SectionsKanbanProps extends KanbanBaseProps {
+    hireStreamId: number;
+    status: InterviewStatus;
+}
+
+interface StatusesKanbanProps extends KanbanBaseProps {
+    hireStreamId: number;
+    hireStreamName: string;
     statuses: InterviewStatus[];
 }
 
 interface KanbanColumnsProps extends KanbanBaseProps {
     status: InterviewStatus;
+    header: ReactNode;
     hireStreamId: number;
+    sectionTypeId?: number;
+    renderCard: (
+        candidate: CandidateWithVendorAndInterviewWithSectionsWithCommentsWithCreatorRelations,
+        interview: InterviewWithHireStreamAndSectionsAndCreatorAndCommentsRelation,
+    ) => ReactNode;
 }
 
 const calculateCommonLoadingState = (map: Map<unknown, LoadingState>): LoadingState => {
@@ -55,13 +74,20 @@ const calculateCommonLoadingState = (map: Map<unknown, LoadingState>): LoadingSt
     return 'ready';
 };
 
-export const CandidatesKanbanColumn: FC<KanbanColumnsProps> = ({ status, hireStreamId, onLoadingStateChange }) => {
-    const session = useSession();
+export const CandidatesKanbanColumn: FC<KanbanColumnsProps> = ({
+    status,
+    header,
+    hireStreamId,
+    sectionTypeId,
+    onLoadingStateChange,
+    renderCard,
+}) => {
     const { values } = useCandidateFilterUrlParams();
 
     const { isFetching, hasNextPage, fetchNextPage, data } = useCandidates({
         ...candidateFilterValuesToRequestData(values),
         statuses: [status],
+        sectionTypeIds: sectionTypeId ? [sectionTypeId] : undefined,
         hireStreamIds: [hireStreamId],
         limit: columnLimit,
     });
@@ -95,14 +121,9 @@ export const CandidatesKanbanColumn: FC<KanbanColumnsProps> = ({ status, hireStr
         intersectionOptions,
     );
 
-    const gradeVisibility =
-        session?.userRoles.admin || session?.userRoles.hiringLead.some((hs) => hs.id === hireStreamId);
-
     return (
         <KanbanColumn>
-            <div className={s.KanbanColumnTitle}>
-                <InterviewHireState status={status} />
-            </div>
+            <div className={s.KanbanColumnTitle}>{header}</div>
             {items.map((candidate) => {
                 const interview = candidate.interviews.find(
                     (item) => item.hireStreamId === hireStreamId && item.status === status,
@@ -112,38 +133,68 @@ export const CandidatesKanbanColumn: FC<KanbanColumnsProps> = ({ status, hireStr
                     return null;
                 }
 
-                const statusComment = interview.comments?.findLast((comment) => comment.status === status);
-                const comment =
-                    statusComment?.status === 'HIRED' || statusComment?.status === 'REJECTED'
-                        ? {
-                              status: statusComment.status,
-                              authors: [statusComment.user],
-                              text: statusComment.text,
-                          }
-                        : undefined;
-
-                const sections = status === 'IN_PROGRESS' ? interview.sections : undefined;
-
-                return (
-                    <CandidateKanbanCard
-                        key={candidate.id}
-                        id={candidate.id}
-                        title={candidate.name}
-                        interviewId={interview.id}
-                        createdAt={interview.createdAt}
-                        hr={interview.creator}
-                        comment={comment}
-                        sections={sections}
-                        gradeVisibility={gradeVisibility}
-                    />
-                );
+                return renderCard(candidate, interview);
             })}
             <div ref={ref} />
         </KanbanColumn>
     );
 };
 
-const CandidatesKanban: FC<KanbanProps> = ({ streamId, statuses, onLoadingStateChange }) => {
+const StatusesKanbanColumn: FC<Omit<KanbanColumnsProps, 'renderCard'>> = ({
+    status,
+    header,
+    hireStreamId,
+    onLoadingStateChange,
+}) => {
+    const session = useSession();
+    const gradeVisibility =
+        session?.userRoles.admin || session?.userRoles.hiringLead.some((hs) => hs.id === hireStreamId);
+
+    const renderCard = useCallback<ComponentProps<typeof CandidatesKanbanColumn>['renderCard']>(
+        (candidate, interview) => {
+            const statusComment = interview.comments?.findLast((comment) => comment.status === status);
+            const comment =
+                statusComment?.status === 'HIRED' || statusComment?.status === 'REJECTED'
+                    ? {
+                          status: statusComment.status,
+                          authors: [statusComment.user],
+                          text: statusComment.text,
+                      }
+                    : undefined;
+
+            const sections = status === 'IN_PROGRESS' ? interview.sections : undefined;
+
+            return (
+                <CandidateKanbanCard
+                    key={candidate.id}
+                    id={candidate.id}
+                    title={candidate.name}
+                    interviewId={interview.id}
+                    createdAt={interview.createdAt}
+                    hr={interview.creator}
+                    comment={comment}
+                    sections={sections}
+                    gradeVisibility={gradeVisibility}
+                    sectionsResultsVisibility
+                />
+            );
+        },
+        [gradeVisibility, status],
+    );
+
+    return (
+        <CandidatesKanbanColumn
+            key={status}
+            status={status}
+            hireStreamId={hireStreamId}
+            header={header}
+            onLoadingStateChange={onLoadingStateChange}
+            renderCard={renderCard}
+        />
+    );
+};
+
+const StatusesKanban: FC<StatusesKanbanProps> = ({ hireStreamId, statuses, hireStreamName, onLoadingStateChange }) => {
     const [loaders, setLoaders] = useState(
         () => new Map<InterviewStatus, LoadingState>(statuses.map((status) => [status, 'ready'])),
     );
@@ -156,10 +207,25 @@ const CandidatesKanban: FC<KanbanProps> = ({ streamId, statuses, onLoadingStateC
         <>
             <KanbanContainer className={s.KanbanContainer}>
                 {statuses.map((status) => (
-                    <CandidatesKanbanColumn
+                    <StatusesKanbanColumn
                         key={status}
                         status={status}
-                        hireStreamId={streamId}
+                        header={
+                            <div className={s.StatusesKanbanHeader}>
+                                <InterviewHireState status={status} />
+                                {nullable(status === 'IN_PROGRESS', () => (
+                                    <Link href={pageHrefs.sectionsDashboard(hireStreamName, status)}>
+                                        <Badge
+                                            className={s.ShowMore}
+                                            iconLeft={<IconExpandAltSolid size="xs" />}
+                                            weight="normal"
+                                            text="Подробнее"
+                                        />
+                                    </Link>
+                                ))}
+                            </div>
+                        }
+                        hireStreamId={hireStreamId}
                         onLoadingStateChange={(state) =>
                             setLoaders((map) => {
                                 map.set(status, state);
@@ -171,6 +237,86 @@ const CandidatesKanban: FC<KanbanProps> = ({ streamId, statuses, onLoadingStateC
                 ))}
             </KanbanContainer>
             {nullable(tableLoadingState === 'loading', () => (
+                <Loader />
+            ))}
+        </>
+    );
+};
+
+const SectionsKanbanColumn: FC<Omit<KanbanColumnsProps, 'renderCard'>> = ({
+    header,
+    status,
+    hireStreamId,
+    sectionTypeId,
+    onLoadingStateChange,
+}) => {
+    const renderCard = useCallback<ComponentProps<typeof CandidatesKanbanColumn>['renderCard']>(
+        (candidate, interview) => (
+            <CandidateKanbanCard
+                key={candidate.id}
+                id={candidate.id}
+                title={candidate.name}
+                interviewId={interview.id}
+                createdAt={interview.createdAt}
+                hr={interview.creator}
+                sections={interview.sections}
+            />
+        ),
+        [],
+    );
+
+    return (
+        <CandidatesKanbanColumn
+            key={status}
+            status={status}
+            hireStreamId={hireStreamId}
+            sectionTypeId={sectionTypeId}
+            header={header}
+            onLoadingStateChange={onLoadingStateChange}
+            renderCard={renderCard}
+        />
+    );
+};
+
+export const SectionsKanban: FC<SectionsKanbanProps> = ({ hireStreamId, status }) => {
+    const { data = [] } = useSectionTypes(hireStreamId);
+    const { values } = useCandidateFilterUrlParams();
+
+    const sections = useMemo(
+        () =>
+            data && values.sectionTypeIds
+                ? data.filter((section) => values.sectionTypeIds?.includes(section.id))
+                : data,
+        [data, values],
+    );
+
+    const [loaders, setLoaders] = useState(
+        () => new Map<number, LoadingState>(data.map((section) => [section.id, 'ready'])),
+    );
+
+    const dashboardLoadingState = useMemo(() => calculateCommonLoadingState(loaders), [loaders]);
+
+    return (
+        <>
+            <KanbanContainer className={s.KanbanContainer}>
+                {sections.map((section) => (
+                    <SectionsKanbanColumn
+                        key={section.id}
+                        status={status}
+                        hireStreamId={hireStreamId}
+                        sectionTypeId={section.id}
+                        header={<InterviewSectionState value={section.value} title={section.title} />}
+                        onLoadingStateChange={(state) =>
+                            setLoaders((map) => {
+                                map.set(section.id, state);
+
+                                return new Map(map);
+                            })
+                        }
+                    />
+                ))}
+            </KanbanContainer>
+            {nullable(dashboardLoadingState === 'loading', () => (
                 <Loader />
             ))}
         </>
@@ -210,8 +356,9 @@ export const CandidatesKanbanList: FC<KanbanBaseProps> = ({ onLoadingStateChange
                     displayName={stream.displayName}
                     visible={i === 0}
                 >
-                    <CandidatesKanban
-                        streamId={stream.id}
+                    <StatusesKanban
+                        hireStreamId={stream.id}
+                        hireStreamName={stream.name}
                         statuses={columns}
                         onLoadingStateChange={(state) =>
                             setLoaders((map) => {

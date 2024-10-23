@@ -1,6 +1,6 @@
 .KanbanColumnTitle {
     display: flex;
-    padding: var(--gap-m);
+    padding: var(--gap-m) 0;
     position: sticky;
     top: var(--gap-m);
     background: var(--background);
@@ -16,4 +16,14 @@
     padding: 0 var(--gap-s);
     padding-top: calc(var(--gap-m) + var(--gap-xs));
     box-sizing: border-box;
+}
+
+.StatusesKanbanHeader {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.ShowMore {
+    color: var(--text-secondary);
 }

@@ -23,19 +23,21 @@ export const SectionFeedbackHireBadge = ({ hire }: { hire: boolean | null }) => 
     return <Badge color={color} text={text} size="s" weight="regular" view="outline" />;
 };
 
+export const useSectionTypeColor = (value: string) => {
+    switch (value) {
+        case SectionTypeEnum.CODING:
+            return TagPaletteColor.CYAN;
+        case SectionTypeEnum.FINAL:
+            return TagPaletteColor.PURPLE_GREY;
+        case SectionTypeEnum.PRODUCT_FINAL:
+            return TagPaletteColor.SOFT_BLUE;
+        default:
+            return TagPaletteColor.MAGENTA;
+    }
+};
+
 export const SectionTypeBadge = ({ sectionType }: { sectionType: SectionType }) => {
-    const color = useMemo(() => {
-        switch (sectionType.value) {
-            case SectionTypeEnum.CODING:
-                return TagPaletteColor.CYAN;
-            case SectionTypeEnum.FINAL:
-                return TagPaletteColor.PURPLE_GREY;
-            case SectionTypeEnum.PRODUCT_FINAL:
-                return TagPaletteColor.SOFT_BLUE;
-            default:
-                return TagPaletteColor.MAGENTA;
-        }
-    }, [sectionType]);
+    const color = useSectionTypeColor(sectionType.value);
 
     return <Badge color={color} text={sectionType.value} size="s" weight="regular" view="outline" />;
 };

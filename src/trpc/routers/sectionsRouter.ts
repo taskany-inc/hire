@@ -106,7 +106,9 @@ export const sectionsRouter = router({
                 );
 
                 await notifyHR(result.id, data);
-                if (sectionType.giveAchievement) await giveSectionAchievement(ctx.session.user.id);
+                if (sectionType.giveAchievement) {
+                    await Promise.all(result.interviewers.map(({ id }) => giveSectionAchievement(id)));
+                }
             }
 
             const commonHistoryFields = {

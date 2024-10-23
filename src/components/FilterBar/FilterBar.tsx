@@ -20,6 +20,7 @@ import { AppliedDateFilter } from '../AppliedDateFilter/AppliedDateFilter';
 import { HeaderUserMenu } from '../HeaderUserMenu/HeaderUserMenu';
 import { AddFilterDropdown } from '../AddFilterDropdown';
 import { AppliedVacanciesFilter } from '../AppliedVacanciesFilter/AppliedVacanciesFilter';
+import { AppliedSectionTypesFilter } from '../AppliedSectionTypesFilter/AppliedSectionTypesFilter';
 
 import { tr } from './FilterBar.i18n';
 import s from './FilterBar.module.css';
@@ -33,6 +34,7 @@ interface FiltersValues {
     hireStreamIds: ComponentProps<typeof AppliedHireStreamFilter>['selectedHireStreams'];
     vacancyIds: ComponentProps<typeof AppliedVacanciesFilter>['selectedVancies'];
     createdAt: ComponentProps<typeof AppliedDateFilter>['value'];
+    sectionTypeIds: ComponentProps<typeof AppliedSectionTypesFilter>['selectedSectionTypes'];
 }
 
 type AvaliableKeys = keyof FiltersValues;
@@ -70,7 +72,9 @@ export const FilterBar = <K extends AvaliableKeys>({
             { id: 'hrIds', title: tr("HR's") },
             { id: 'vacancyIds', title: tr('Vacancies') },
             { id: 'createdAt', title: tr('Created аt') },
+            { id: 'sectionTypeIds', title: tr('Section type') },
         ];
+
         return items.filter(({ id }) => id in values) as { id: K; title: string }[];
     }, [values]);
 
@@ -259,6 +263,18 @@ export const FilterBar = <K extends AvaliableKeys>({
                                     onClose={onApply}
                                     onCleanFilter={onCleanFilter(key)}
                                     value={filtersState?.createdAt}
+                                />
+                            ));
+                        }
+
+                        if (key === 'sectionTypeIds') {
+                            return nullable(Boolean(filtersState?.sectionTypeIds), () => (
+                                <AppliedSectionTypesFilter
+                                    key={key}
+                                    onChange={handleChange(key)}
+                                    onClose={onApply}
+                                    onCleanFilter={onCleanFilter(key)}
+                                    selectedSectionTypes={filtersState?.sectionTypeIds}
                                 />
                             ));
                         }

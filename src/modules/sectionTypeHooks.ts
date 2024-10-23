@@ -9,10 +9,13 @@ export const useSectionType = (sectionTypeId: number) => {
     return trpc.sectionTypes.getById.useQuery({ id: sectionTypeId }, { onError: enqueueErrorNotification });
 };
 
-export const useSectionTypes = (hireStreamId: number) => {
+export const useSectionTypes = (hireStreamId: number, options?: { enabled?: boolean }) => {
     const { enqueueErrorNotification } = useNotifications();
 
-    return trpc.sectionTypes.getByHireStreamId.useQuery({ hireStreamId }, { onError: enqueueErrorNotification });
+    return trpc.sectionTypes.getByHireStreamId.useQuery(
+        { hireStreamId },
+        { onError: enqueueErrorNotification, ...options },
+    );
 };
 
 export const useCreateSectionTypeMutation = () => {

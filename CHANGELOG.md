@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.73.1](https://github.com/taskany-inc/hire/compare/v0.73.0...v0.73.1) (2024-10-24)
+
+
+### Bug Fixes
+
+* **INTERNAL-1274:** achievement accrual doesn't work ([06560d4](https://github.com/taskany-inc/hire/commit/06560d44338b7f624b002051f76e3abf1f0c1ba5))
+
 ## [0.73.0](https://github.com/taskany-inc/hire/compare/v0.72.0...v0.73.0) (2024-10-21)
 
 

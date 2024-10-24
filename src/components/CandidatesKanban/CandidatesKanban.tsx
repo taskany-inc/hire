@@ -1,5 +1,5 @@
 import React, { ComponentProps, FC, ReactNode, useCallback, useMemo, useState } from 'react';
-import { Badge, KanbanColumn, KanbanContainer, KanbanScroller } from '@taskany/bricks/harmony';
+import { Badge, Counter, KanbanColumn, KanbanContainer, KanbanScroller } from '@taskany/bricks/harmony';
 import { nullable, useIntersectionLoader } from '@taskany/bricks';
 import { InterviewStatus } from '@prisma/client';
 import { IconExpandAltSolid } from '@taskany/icons';
@@ -52,7 +52,7 @@ interface StatusesKanbanProps extends KanbanBaseProps {
 
 interface KanbanColumnsProps extends KanbanBaseProps {
     status: InterviewStatus;
-    header: ReactNode;
+    header: (counter: ReactNode) => ReactNode;
     hireStreamId: number;
     sectionTypeId?: number;
     renderCard: (
@@ -123,7 +123,7 @@ export const CandidatesKanbanColumn: FC<KanbanColumnsProps> = ({
 
     return (
         <KanbanColumn>
-            <div className={s.KanbanColumnTitle}>{header}</div>
+            <div className={s.KanbanColumnTitle}>{header(<Counter count={data?.pages[0]?.count ?? 0} />)}</div>
             {items.map((candidate) => {
                 const interview = candidate.interviews.find(
                     (item) => item.hireStreamId === hireStreamId && item.status === status,
@@ -210,9 +210,12 @@ const StatusesKanban: FC<StatusesKanbanProps> = ({ hireStreamId, statuses, hireS
                     <StatusesKanbanColumn
                         key={status}
                         status={status}
-                        header={
+                        header={(counter) => (
                             <div className={s.StatusesKanbanHeader}>
-                                <InterviewHireState status={status} />
+                                <div className={s.KanbanColumnTitleWrapper}>
+                                    <InterviewHireState status={status} />
+                                    {counter}
+                                </div>
                                 {nullable(status === 'IN_PROGRESS', () => (
                                     <Link href={pageHrefs.sectionsDashboard(hireStreamName, status)}>
                                         <Badge
@@ -224,7 +227,7 @@ const StatusesKanban: FC<StatusesKanbanProps> = ({ hireStreamId, statuses, hireS
                                     </Link>
                                 ))}
                             </div>
-                        }
+                        )}
                         hireStreamId={hireStreamId}
                         onLoadingStateChange={(state) =>
                             setLoaders((map) => {
@@ -305,7 +308,12 @@ export const SectionsKanban: FC<SectionsKanbanProps> = ({ hireStreamId, status }
                         status={status}
                         hireStreamId={hireStreamId}
                         sectionTypeId={section.id}
-                        header={<InterviewSectionState value={section.value} title={section.title} />}
+                        header={(counter) => (
+                            <div className={s.KanbanColumnTitleWrapper}>
+                                <InterviewSectionState value={section.value} title={section.title} />
+                                {counter}
+                            </div>
+                        )}
                         onLoadingStateChange={(state) =>
                             setLoaders((map) => {
                                 map.set(section.id, state);

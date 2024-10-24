@@ -1,0 +1,8 @@
+.Breadcrumbs {
+    display: flex;
+    color: var(--base-light-6);
+}
+
+.Breadcrumb_active {
+    color: var(--text-color);
+}

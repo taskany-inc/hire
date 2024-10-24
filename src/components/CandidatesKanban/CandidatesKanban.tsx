@@ -1,5 +1,5 @@
 import React, { FC, useMemo, useState } from 'react';
-import { KanbanColumn, KanbanContainer, KanbanScroller } from '@taskany/bricks/harmony';
+import { Counter, KanbanColumn, KanbanContainer, KanbanScroller } from '@taskany/bricks/harmony';
 import { nullable, useIntersectionLoader } from '@taskany/bricks';
 import { InterviewStatus } from '@prisma/client';
 
@@ -102,6 +102,7 @@ export const CandidatesKanbanColumn: FC<KanbanColumnsProps> = ({ status, hireStr
         <KanbanColumn>
             <div className={s.KanbanColumnTitle}>
                 <InterviewHireState status={status} />
+                <Counter count={data?.pages[0]?.count ?? 0} />
             </div>
             {items.map((candidate) => {
                 const interview = candidate.interviews.find(

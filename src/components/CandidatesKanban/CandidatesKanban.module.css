@@ -1,5 +1,11 @@
+.KanbanColumnTitleWrapper {
+    display: flex;
+    gap: var(--gap-xs);
+}
+
 .KanbanColumnTitle {
     display: flex;
+    gap: var(--gap-xs);
     padding: var(--gap-m) 0;
     position: sticky;
     top: var(--gap-m);

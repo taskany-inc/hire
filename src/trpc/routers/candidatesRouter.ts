@@ -4,6 +4,7 @@ import { candidateMethods } from '../../modules/candidateMethods';
 import {
     candidateIdQuery,
     createCandidateSchema,
+    getCandidateCountSchema,
     getCandidateListSchema,
     updateCandidateSchema,
 } from '../../modules/candidateTypes';
@@ -15,6 +16,13 @@ export const candidatesRouter = router({
         .use(accessMiddlewares.candidate.readOne)
         .query(({ input }) => {
             return candidateMethods.getById(input.candidateId);
+        }),
+
+    getCount: protectedProcedure
+        .input(getCandidateCountSchema)
+        .use(accessMiddlewares.candidate.readMany)
+        .query(({ input }) => {
+            return candidateMethods.getCount(input);
         }),
 
     getList: protectedProcedure

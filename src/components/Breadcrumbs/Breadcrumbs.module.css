@@ -1,6 +1,8 @@
 .Breadcrumbs {
     display: flex;
     color: var(--base-light-6);
+    gap: var(--gap-s);
+
 }
 
 .Breadcrumb_active {

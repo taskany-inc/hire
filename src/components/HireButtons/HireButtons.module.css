@@ -2,4 +2,6 @@
     display: flex;
     align-items: center;
     gap: var(--gap-sm);
+    overflow: auto;
+    max-width: 660px;
 }

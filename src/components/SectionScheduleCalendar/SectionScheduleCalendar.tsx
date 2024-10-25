@@ -143,13 +143,11 @@ export function SectionScheduleCalendar({
                     <CalendarEventLinkedSection interviewSection={eventDetails?.interviewSection} />
                 </ModalHeader>
                 <ModalContent className={s.SectionScheduleCalendar}>
-                    <div className={s.TimePickerWrapper}>
-                        <TimePicker
-                            value={eventDetails?.originalDate as Date}
-                            label={tr('Time')}
-                            onChange={onChangeTime}
-                        />
-                    </div>
+                    {nullable(eventDetails?.originalDate, (date) => (
+                        <div className={s.TimePickerWrapper}>
+                            <TimePicker value={date} label={tr('Time')} onChange={onChangeTime} />
+                        </div>
+                    ))}
                     {nullable(eventDetails?.interviewer?.name, (n) => (
                         <Text size="m">
                             {tr('Interviewer')}: {n}

@@ -14,6 +14,12 @@ export type CandidateIdQuery = z.infer<typeof candidateIdQuery>;
 
 export const parseInterviewStatus = (data: string) => z.nativeEnum(InterviewStatus).parse(data);
 
+export const getCandidateCountSchema = z.object({
+    statuses: z.nativeEnum(InterviewStatus).array(),
+    hireStreamIds: z.number().array(),
+});
+export type GetCandidateCount = z.infer<typeof getCandidateCountSchema>;
+
 export const getCandidateListSchema = z
     .object({
         search: z.string(),

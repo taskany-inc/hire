@@ -1,6 +1,6 @@
 import { ComponentProps, FC } from 'react';
 import cn from 'classnames';
-import { Breadcrumbs as BreadcrumbsBricks, Breadcrumb, Text } from '@taskany/bricks/harmony';
+import { Breadcrumbs as BreadcrumbsBricks, Breadcrumb, Text, Counter } from '@taskany/bricks/harmony';
 
 import { Link } from '../Link';
 
@@ -11,26 +11,32 @@ interface BreadcrumbsProps extends ComponentProps<typeof BreadcrumbsBricks> {
         title: string;
         href?: string;
     }[];
+    count?: number;
 }
 
-export const Breadcrumbs: FC<BreadcrumbsProps> = ({ items, className, ...rest }) => {
+export const Breadcrumbs: FC<BreadcrumbsProps> = ({ items, className, count, ...rest }) => {
     return (
-        <BreadcrumbsBricks className={cn(s.Breadcrumbs, className)} separator="/" {...rest}>
-            {items.map((item, index) => {
-                const text = (
-                    <Text
-                        size="ml"
-                        weight="bold"
-                        className={cn({
-                            [s.Breadcrumb_active]: items.length - 1 === index,
-                        })}
-                    >
-                        {item.title}
-                    </Text>
-                );
+        <div className={cn(s.Breadcrumbs, className)}>
+            <BreadcrumbsBricks separator="/" {...rest}>
+                {items.map((item, index) => {
+                    const text = (
+                        <Text
+                            size="ml"
+                            weight="bold"
+                            className={cn({
+                                [s.Breadcrumb_active]: items.length - 1 === index,
+                            })}
+                        >
+                            {item.title}
+                        </Text>
+                    );
 
-                return <Breadcrumb key={index}>{item.href ? <Link href={item.href}>{text}</Link> : text}</Breadcrumb>;
-            })}
-        </BreadcrumbsBricks>
+                    return (
+                        <Breadcrumb key={index}>{item.href ? <Link href={item.href}>{text}</Link> : text}</Breadcrumb>
+                    );
+                })}
+            </BreadcrumbsBricks>
+            <Counter count={count ?? 0} />
+        </div>
     );
 };

@@ -14,6 +14,7 @@ import {
     CandidateWithVendorAndInterviewWithSectionsWithCommentsWithCreatorRelations,
     CandidateWithVendorRelation,
     CreateCandidate,
+    GetCandidateCount,
     GetCandidateList,
     UpdateCandidate,
 } from './candidateTypes';
@@ -45,6 +46,20 @@ const create = (candidate: CreateCandidate): Promise<Candidate> => {
 const searchSettings: SearchSettings = {
     minSearchLength: 2,
     fieldsToSearchFrom: ['name', 'email', 'phone', 'outstaffVendor.title', 'outstaffVendorId'],
+};
+
+const getCount = async (params: GetCandidateCount): Promise<number> => {
+    const { statuses, hireStreamIds } = params;
+    const where: Prisma.CandidateWhereInput = {
+        interviews: {
+            some: {
+                status: { in: statuses },
+                hireStreamId: { in: hireStreamIds },
+            },
+        },
+    };
+
+    return prisma.candidate.count({ where });
 };
 
 const getList = async (
@@ -327,6 +342,7 @@ async function getOutstaffVendors(): Promise<OutstaffVendor[]> {
 
 export const candidateMethods = {
     create,
+    getCount,
     getList,
     update,
     delete: deleteCandidate,

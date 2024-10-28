@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.74.0](https://github.com/taskany-inc/hire/compare/v0.73.1...v0.74.0) (2024-10-28)
+
+
+### Features
+
+* **INTERNAL-1115:** add ability to change section slot time ([d1e02f0](https://github.com/taskany-inc/hire/commit/d1e02f0e451f7cec52dd0f70113c66087c4ce0d4))
+* **INTERNAL-1153:** support hirestream kanban ([17f1d02](https://github.com/taskany-inc/hire/commit/17f1d027a509cdfa6f47105f2fb1101fe3b67daa))
+
 ## [0.73.1](https://github.com/taskany-inc/hire/compare/v0.73.0...v0.73.1) (2024-10-24)
 
 

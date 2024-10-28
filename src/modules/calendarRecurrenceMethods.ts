@@ -113,33 +113,39 @@ interface RuleParams {
     recurrence?: EventRecurrence;
 }
 
-const transformRecurrenceToRruleOptions = (recurrence?: EventRecurrence): Partial<Pick<Options, 'freq'>> => {
-    const { repeat } = recurrence ?? {};
+const transformRecurrenceToRruleOptions = (params?: RuleParams): Partial<Pick<Options, 'freq' | 'until'>> => {
+    const { startDate, endDate, recurrence } = params ?? {};
 
-    switch (repeat) {
+    switch (recurrence?.repeat) {
         case 'daily':
             return {
                 freq: Frequency.DAILY,
+                until: endDate,
             };
         case 'weekly':
             return {
                 freq: Frequency.WEEKLY,
+                until: endDate,
             };
         case 'monthly':
             return {
                 freq: Frequency.MONTHLY,
+                until: endDate,
             };
         case 'never':
+            return {
+                freq: Frequency.YEARLY,
+                until: startDate,
+            };
         default:
             return {};
     }
 };
 
-const buildRule = ({ startDate, endDate, recurrence }: RuleParams): string => {
+const buildRule = (params: RuleParams): string => {
     const rule = new RRule({
-        dtstart: startDate,
-        ...transformRecurrenceToRruleOptions(recurrence),
-        until: endDate,
+        dtstart: params.startDate,
+        ...transformRecurrenceToRruleOptions(params),
     });
 
     return rule.toString();

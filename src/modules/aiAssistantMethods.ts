@@ -3,6 +3,7 @@ import pdfParse from 'pdf-parse';
 
 import config from '../config';
 import { tryGetAsyncValue } from '../utils/tryGetAsyncValue';
+import { safelyParseJson } from '../utils/safeParseJson';
 
 import { CvParsingResult, cvParsingResultSchema } from './aiAssistantTypes';
 
@@ -38,8 +39,11 @@ export const aiAssistantMethods = {
     parseCv: async (file: Buffer): Promise<CvParsingResult | undefined> => {
         const { apiUrl, model, cvParsePrompt } = getConfigValues();
         const token = await getToken();
+
         if (!token) return;
+
         const parsedPdf = await pdfParse(file);
+
         const response = await tryGetAsyncValue(() =>
             fetch(`${apiUrl}/chat/completions`, {
                 method: 'POST',
@@ -57,12 +61,17 @@ export const aiAssistantMethods = {
                         },
                     ],
                 }),
+            }).catch((error) => {
+                throw error;
             }),
         );
+
         if (!response?.ok) return;
+
         const json = await response.json();
-        const content = JSON.parse(json.choices?.[0]?.message?.content);
+        const content = safelyParseJson(json.choices?.[0]?.message?.content);
         const validatedAssistantResponse = cvParsingResultSchema.safeParse(content);
+
         return validatedAssistantResponse.success ? validatedAssistantResponse.data : undefined;
     },
 };

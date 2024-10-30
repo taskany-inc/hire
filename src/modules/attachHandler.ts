@@ -9,6 +9,7 @@ import { parseError } from '../utils/errorParsing';
 import { ErrorWithStatus } from '../utils';
 import { parseNumber, parseString } from '../utils/paramParsers';
 import { pageHrefs } from '../utils/paths';
+import { resolveAsyncValue } from '../utils/tryGetAsyncValue';
 
 import { attachMethods } from './attachMethods';
 import { getObject, loadFile } from './s3Methods';
@@ -53,9 +54,21 @@ export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => 
                 const link = `${Date.now()}_${filename}`;
                 const stream = fs.createReadStream(file.filepath);
                 let cvParsingResult: CvParsingResult | undefined;
+
                 if (parseCv) {
                     const buffer = fs.readFileSync(file.filepath);
-                    cvParsingResult = await aiAssistantMethods.parseCv(buffer);
+                    const [res, err] = await resolveAsyncValue<CvParsingResult | undefined>(
+                        aiAssistantMethods.parseCv(buffer),
+                    );
+
+                    if (err) {
+                        console.error(err);
+                    }
+
+                    if (res !== null) {
+                        cvParsingResult = res;
+                    }
+
                     if (candidateId) {
                         await candidateMethods.update({
                             candidateId,
@@ -77,6 +90,7 @@ export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => 
                         interviewId,
                         commentId,
                     });
+
                     resultObject.succeeded.push({
                         type: file.mimetype || '',
                         filePath: pageHrefs.attach(attach.id),

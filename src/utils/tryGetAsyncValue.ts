@@ -9,3 +9,10 @@ export const tryGetAsyncValue = async <T>(cb: () => Promise<T>, fallback?: T): P
         return fallback;
     }
 };
+
+export const resolveAsyncValue = <T>(promise: Promise<T>): PromiseLike<[T, null] | [null, Error]> => {
+    return promise.then(
+        (data) => [data, null],
+        (error) => [null, error],
+    );
+};

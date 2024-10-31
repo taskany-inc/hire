@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.74.0](https://github.com/taskany-inc/hire/compare/v0.73.1...v0.74.0) (2024-10-31)
+
+
+### Features
+
+* **INTERNAL-1115:** add ability to change section slot time ([d1e02f0](https://github.com/taskany-inc/hire/commit/d1e02f0e451f7cec52dd0f70113c66087c4ce0d4))
+* **INTERNAL-1153:** support hirestream kanban ([17f1d02](https://github.com/taskany-inc/hire/commit/17f1d027a509cdfa6f47105f2fb1101fe3b67daa))
+* **INTERNAL-1169:** add counter on section-dashboard page ([736eb63](https://github.com/taskany-inc/hire/commit/736eb636eb9ea0279688c98cfbe1bfc71b8d0b05))
+* **INTERNAL-1169:** kanban column total count ([10dac02](https://github.com/taskany-inc/hire/commit/10dac028c6c5a68af6c8e9b7fdc5857400b74b11))
+* **InterviewHeader:** add interview header ([283e7bf](https://github.com/taskany-inc/hire/commit/283e7bf0d8e6ebedb366f549b94f36f4f84e81a9))
+
+
+### Bug Fixes
+
+* **INTERNAL-1187:** add horizontal scroll ([a3b4082](https://github.com/taskany-inc/hire/commit/a3b408253c887047c3a82047667c20ab1caa627e))
+* **INTERNAL-1291:** no recurrence slots ([17352d7](https://github.com/taskany-inc/hire/commit/17352d7ca875a2e9e91a01c05aafc575749fd2c9))
+
 ## [0.73.1](https://github.com/taskany-inc/hire/compare/v0.73.0...v0.73.1) (2024-10-24)
 
 

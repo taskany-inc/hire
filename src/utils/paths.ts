@@ -83,6 +83,8 @@ export const pageHrefs = {
     sectionsDashboard: (hireStreamName: string, status: string) =>
         generatePath(Paths.SECTIONS_DASHBOARD, { hireStreamName, status }),
 
+    candidatesDashboard: () => generatePath(Paths.CANDIDATES_DASHBOARD, {}),
+
     candidate: (candidateId: number): string => generatePath(Paths.CANDIDATE, { candidateId }),
     candidateInterviewCreate: (candidateId: number): string =>
         generatePath(Paths.CANDIDATE_INTERVIEW_CREATE, { candidateId }),

@@ -25,7 +25,7 @@ export const SectionsDashboardPage: FC<SectionsDashboardPageProps> = ({ hireStre
         () => [
             {
                 title: hireStreamName,
-                href: pageHrefs.hireStream(hireStreamName),
+                href: pageHrefs.candidatesDashboard(),
             },
             {
                 title: interviewStatusLabels[status],

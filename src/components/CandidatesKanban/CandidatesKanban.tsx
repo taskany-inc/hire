@@ -175,7 +175,6 @@ const StatusesKanbanColumn: FC<Omit<KanbanColumnsProps, 'renderCard'>> = ({
                     comment={comment}
                     sections={sections}
                     gradeVisibility={gradeVisibility}
-                    sectionsResultsVisibility
                 />
             );
         },

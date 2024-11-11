@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.75.0](https://github.com/taskany-inc/hire/compare/v0.74.0...v0.75.0) (2024-11-11)
+
+
+### Features
+
+* **INTERNAL-1342:** section progress on dashboard ([5a2fc85](https://github.com/taskany-inc/hire/commit/5a2fc85b82f406c78a5704fe396aa9714ec3bb3e))
+
+
+### Bug Fixes
+
+* **INTERNAL-1339:** fix candidate dashboard link ([1f8a437](https://github.com/taskany-inc/hire/commit/1f8a43778b35788ac70525cfe33a27f5e01bac5c))
+
 ## [0.74.0](https://github.com/taskany-inc/hire/compare/v0.73.1...v0.74.0) (2024-10-31)
 
 

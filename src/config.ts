@@ -50,7 +50,7 @@ export default {
         port: process.env.MAIL_PORT,
         authPass: process.env.MAIL_PASS,
         authUser: process.env.MAIL_USER,
-        enabled: process.env.MAIL_ENABLE,
+        enabled: Boolean(process.env.MAIL_PASS && process.env.MAIL_USER),
     },
     pluginMenuItems: parsePluginMenuItems(process.env.NEXT_PUBLIC_PLUGIN_MENU_ITEMS),
     debugCookieEnabled: process.env.NEXT_PUBLIC_DEBUG_COOKIE_ENABLE,

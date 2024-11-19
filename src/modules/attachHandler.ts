@@ -31,6 +31,7 @@ export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => 
     const commentId = parseString(req.query.commentId);
     const { parseCv } = req.query;
     const candidateId = parseNumber(req.query.candidateId);
+    const cvForInterviewId = parseNumber(req.query.cvForInterviewId);
 
     await new Promise((_resolve, reject) => {
         form.parse(req, async (err, _fields, files) => {
@@ -89,6 +90,7 @@ export const postHandler = async (req: NextApiRequest, res: NextApiResponse) => 
                         sectionId,
                         interviewId,
                         commentId,
+                        cvForInterviewId,
                     });
 
                     resultObject.succeeded.push({

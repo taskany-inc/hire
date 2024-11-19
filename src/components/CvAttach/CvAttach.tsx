@@ -6,6 +6,7 @@ import { IconAttachOutline, IconPlusCircleOutline } from '@taskany/icons';
 import { pageHrefs } from '../../utils/paths';
 import { CvParsingResult } from '../../modules/aiAssistantTypes';
 import { getFileIdFromPath } from '../../utils/fileUpload';
+import { useUploadNotifications } from '../../modules/attachHooks';
 
 import { tr } from './CvAttach.i18n';
 import s from './CvAttach.module.css';
@@ -13,16 +14,19 @@ import s from './CvAttach.module.css';
 interface CvAttachProps {
     candidateId?: number;
     preparedCvAttach?: { id: string; filename: string };
+    cvForInterviewId?: number;
     onParse: (attach: { id: string; filename: string }, parsedData: CvParsingResult) => void;
 }
 
-export const CvAttach = ({ candidateId, preparedCvAttach, onParse }: CvAttachProps) => {
+export const CvAttach = ({ candidateId, preparedCvAttach, cvForInterviewId, onParse }: CvAttachProps) => {
     const id = useId();
 
     const [cvAttachId, setCvAttachId] = useState(preparedCvAttach?.id);
     const [cvAttachFilename, setCvAttachFilename] = useState(preparedCvAttach?.filename);
 
-    const upload = useUpload(undefined, undefined, pageHrefs.attachAndParseCv(candidateId));
+    const { onUploadSuccess } = useUploadNotifications();
+
+    const upload = useUpload(onUploadSuccess, undefined, pageHrefs.attachAndParseCv(candidateId, cvForInterviewId));
 
     useEffect(() => {
         const file = upload.files?.[0];

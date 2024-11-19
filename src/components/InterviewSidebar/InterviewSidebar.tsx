@@ -87,7 +87,11 @@ export const InterviewSidebar = ({ interview }: InterviewSidebarProps) => {
                                 />
                             ),
                             nullable(canEditInterviews, () => (
-                                <CvAttach candidateId={interview.candidateId} onParse={onCvParse} />
+                                <CvAttach
+                                    candidateId={interview.candidateId}
+                                    cvForInterviewId={interview.id}
+                                    onParse={onCvParse}
+                                />
                             )),
                         )}
                     </SidebarBlock>

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.76.0](https://github.com/taskany-inc/hire/compare/v0.75.0...v0.76.0) (2024-11-21)
+
+
+### Features
+
+* flag for mailer ([dbe7895](https://github.com/taskany-inc/hire/commit/dbe7895660760ed544b8fe4d00d0502ce6b6cee2))
+
 ## [0.75.0](https://github.com/taskany-inc/hire/compare/v0.74.0...v0.75.0) (2024-11-11)
 
 

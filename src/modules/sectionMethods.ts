@@ -2,7 +2,8 @@ import { InterviewStatus, Prisma, Section, Attach, User } from '@prisma/client';
 import { RRule } from 'rrule';
 
 import { prisma } from '../utils/prisma';
-import { ErrorWithStatus, idsToIdObjs } from '../utils';
+import { ErrorWithStatus, idObjsToIds, idsToIdObjs } from '../utils';
+import config from '../config';
 
 import {
     CreateSection,
@@ -15,9 +16,16 @@ import {
 } from './sectionTypes';
 import { SectionWithInterviewRelation } from './interviewTypes';
 import { calendarMethods } from './calendarMethods';
-import { assignSectionEmail, cancelSectionEmail } from './emailMethods';
+import { assignSectionEmail, cancelSectionEmail, notifyHR } from './emailMethods';
 import { AccessOptions } from './accessChecks';
 import { tr } from './modules.i18n';
+import { interviewMethods } from './interviewMethods';
+import { sectionTypeMethods } from './sectionTypeMethods';
+import { hireStreamMethods } from './hireStreamMethods';
+import { commentMethods } from './commentMethods';
+import { analyticsEventMethods } from './analyticsEventMethods';
+import { userMethods } from './userMethods';
+import { crewMethods } from './crewMethods';
 
 async function getCalendarSlotData(
     params: SectionCalendarSlotBooking | undefined,
@@ -52,6 +60,28 @@ async function getCalendarSlotData(
         };
     }
 }
+
+const giveSectionAchievement = async (interviewerId: number) => {
+    if (!config.crew.techUserEmail) return;
+
+    const amountOfInterviewerCompletedSections = await prisma.section.count({
+        where: {
+            interviewers: { some: { id: interviewerId } },
+            feedback: { not: null },
+            sectionType: { giveAchievement: true },
+        },
+    });
+
+    const { email } = await userMethods.find(interviewerId);
+
+    const achievementResult = await crewMethods.giveAchievement({
+        targetUserEmail: email,
+        actingUserEmail: config.crew.techUserEmail,
+        sectionsNumber: amountOfInterviewerCompletedSections,
+    });
+
+    console.log(`Crew achievement response: ${achievementResult}`);
+};
 
 const create = async (data: CreateSection, user: User): Promise<Section> => {
     const { interviewId, interviewerIds, sectionTypeId, calendarSlot, ...restData } = data;
@@ -220,9 +250,9 @@ const update = async (data: UpdateSection, user: User): Promise<Section & { inte
     const { sectionId, solutionIds, interviewerIds, interviewId, calendarSlot, attachIds, ...restData } = data;
     let slot: Awaited<ReturnType<typeof getCalendarSlotData>>;
 
-    if (calendarSlot) {
-        const currentSection = await getById(sectionId);
+    const currentSection = await getById(sectionId);
 
+    if (calendarSlot) {
         if (
             currentSection.calendarSlotId &&
             calendarSlot.exceptionId &&
@@ -278,6 +308,53 @@ const update = async (data: UpdateSection, user: User): Promise<Section & { inte
             creator: user,
         });
     }
+
+    const createFinishSectionEvent = currentSection.hire === null && data.hire !== null;
+
+    if (createFinishSectionEvent) {
+        const previousInterview = await interviewMethods.findWithSections(data.interviewId);
+        const sectionType = await sectionTypeMethods.getById({ id: updatedSection.sectionTypeId });
+        const hireStream = await hireStreamMethods.getById(previousInterview.hireStreamId);
+
+        if (!data.hire && sectionType.finishInterviewOnReject) {
+            await commentMethods.createComment(
+                {
+                    target: {
+                        interviewId: data.interviewId,
+                        status: InterviewStatus.REJECTED,
+                    },
+                    status: InterviewStatus.REJECTED,
+                    userId: user.id,
+                    text: tr('Rejection following the results of {title} section', {
+                        title: sectionType.title,
+                    }),
+                },
+                user.id,
+            );
+        }
+
+        await analyticsEventMethods.createEvent(
+            {
+                event: 'candidate_finished_section',
+                candidateId: previousInterview.candidateId,
+                interviewId: data.interviewId,
+                interviewerIds: idObjsToIds(updatedSection.interviewers),
+                sectionId: updatedSection.id,
+                sectionType: sectionType.value,
+                hireStream: hireStream.name,
+                hire: data.hire ?? updatedSection.hire ?? false,
+                grade: data.grade ?? undefined,
+            },
+            user.id,
+        );
+
+        await notifyHR(updatedSection.id, data);
+
+        if (sectionType.giveAchievement) {
+            await Promise.all(updatedSection.interviewers.map(({ id }) => giveSectionAchievement(id)));
+        }
+    }
+
     return updatedSection;
 };
 

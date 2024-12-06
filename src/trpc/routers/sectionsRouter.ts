@@ -1,3 +1,5 @@
+import { InterviewStatus } from '@prisma/client';
+
 import { accessMiddlewares } from '../../modules/accessMiddlewares';
 import { analyticsEventMethods } from '../../modules/analyticsEventMethods';
 import { hireStreamMethods } from '../../modules/hireStreamMethods';
@@ -20,6 +22,7 @@ import config from '../../config';
 import { userMethods } from '../../modules/userMethods';
 import { crewMethods } from '../../modules/crewMethods';
 import { idObjsToIds } from '../../utils';
+import { commentMethods } from '../../modules/commentMethods';
 
 const hireStatusToString = (hire: boolean | null | undefined) => {
     if (hire === undefined || hire === null) return;
@@ -90,6 +93,22 @@ export const sectionsRouter = router({
             if (createFinishSectionEvent) {
                 const sectionType = await sectionTypeMethods.getById({ id: result.sectionTypeId });
                 const hireStream = await hireStreamMethods.getById(previousInterview.hireStreamId);
+
+                if (!data.hire && sectionType.finishInterviewOnReject) {
+                    await commentMethods.createComment(
+                        {
+                            target: {
+                                interviewId: data.interviewId,
+                                status: InterviewStatus.REJECTED,
+                            },
+                            status: InterviewStatus.REJECTED,
+                            userId: ctx.session.user.id,
+                            text: `Rejection following the results of ${sectionType.title} section`,
+                        },
+                        ctx.session.user.id,
+                    );
+                }
+
                 await analyticsEventMethods.createEvent(
                     {
                         event: 'candidate_finished_section',
@@ -106,6 +125,7 @@ export const sectionsRouter = router({
                 );
 
                 await notifyHR(result.id, data);
+
                 if (sectionType.giveAchievement) {
                     await Promise.all(result.interviewers.map(({ id }) => giveSectionAchievement(id)));
                 }

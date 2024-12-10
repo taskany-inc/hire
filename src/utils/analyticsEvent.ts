@@ -102,7 +102,7 @@ export const trackEvent = (events: AnalyticsEvent[]) => {
             },
         });
     } else {
-        console.log('TELEMETRY EVENT', JSON.stringify(events));
+        // console.log('TELEMETRY EVENT', JSON.stringify(events));
     }
 };
 

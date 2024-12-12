@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.77.0](https://github.com/taskany-inc/hire/compare/v0.76.0...v0.77.0) (2024-12-12)
+
+
+### Features
+
+* **INTERNAL-1370:** finish interview on reject ([30c9599](https://github.com/taskany-inc/hire/commit/30c95995c82268810bbf4fc4b07e0434e18f5666))
+
 ## [0.76.0](https://github.com/taskany-inc/hire/compare/v0.75.0...v0.76.0) (2024-11-21)
 
 

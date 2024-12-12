@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.77.1](https://github.com/taskany-inc/hire/compare/v0.77.0...v0.77.1) (2024-12-12)
+
+
+### Bug Fixes
+
+* transcription ([e140fc8](https://github.com/taskany-inc/hire/commit/e140fc8d5385424ee8144b3c1b6c737bd583b084))
+
 ## [0.77.0](https://github.com/taskany-inc/hire/compare/v0.76.0...v0.77.0) (2024-12-12)
 
 

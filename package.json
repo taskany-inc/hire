@@ -64,7 +64,7 @@
         "pino": "8.19.0",
         "pino-http": "9.0.0",
         "postcss-cli": "11.0.0",
-        "postcss-import": "16.0.0",
+        "postcss-import": "16.1.0",
         "qs": "6.11.2",
         "react": "18.2.0",
         "react-big-calendar": "1.8.1",

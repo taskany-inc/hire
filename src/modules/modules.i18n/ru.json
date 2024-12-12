@@ -121,5 +121,5 @@
     "Minimum value is {value}": "Минимальное значение {value}",
     "Hire streams events can only be requested for 1 day or week": "События для потока найма могут быть получены только для интервала в 1 день или неделю",
     "Valid characters: a-z, _, digits": "Разрешенные символы: a-z, _, цифры",
-    "Rejection following the results of {title} section": "Отказ по итогам {title} секции"
+    "Rejection following the results of {title} section": "Отказ по итогам секции {title}"
 }

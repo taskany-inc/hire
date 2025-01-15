@@ -70,6 +70,7 @@ export const SectionTypeCard: VFC<SectionTypeCardProps> = ({ sectionType }) => {
                             amount: config.crew.sectionAmountForAchievement,
                         })}
                     />
+                    <CheckboxLine value={sectionType.finishInterviewOnReject} text={tr('Finish interview on reject')} />
                     <span>
                         {tr('Section grades: ')}
                         {sectionType.gradeOptions.join(', ')}

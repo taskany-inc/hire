@@ -19,6 +19,7 @@ export const createSectionTypeSchema = z.object({
     userSelect: z.boolean(),
     showOtherGrades: z.boolean(),
     schedulable: z.boolean(),
+    finishInterviewOnReject: z.boolean(),
     eventColor: z.string(),
     gradeOptions: z.string().array(),
     giveAchievement: z.boolean(),

@@ -12,5 +12,6 @@
     "Section type edit": "Редактирование типа секции",
     "Grade options": "Оценки в секции",
     "Cancel": "Отмена",
-    "Interviewer will receive achievement for every {amount} finished sections": "Интервьюер будет получать ачивку за каждые {amount} проведенные секции"
+    "Interviewer will receive achievement for every {amount} finished sections": "Интервьюер будет получать ачивку за каждые {amount} проведенные секции",
+    "Finish interview on reject": "Закончить интервью при отказе в секции"
 }

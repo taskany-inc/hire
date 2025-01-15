@@ -37,7 +37,7 @@ import s from './SectionTypeForm.module.css';
 
 const checkboxes: {
     label: string;
-    name: 'hasTasks' | 'userSelect' | 'showOtherGrades' | 'schedulable' | 'giveAchievement';
+    name: 'hasTasks' | 'userSelect' | 'showOtherGrades' | 'schedulable' | 'giveAchievement' | 'finishInterviewOnReject';
 }[] = [
     { label: tr('You can add tasks to the section'), name: 'hasTasks' },
     { label: tr('The team is selected in the section'), name: 'userSelect' },
@@ -53,6 +53,7 @@ const checkboxes: {
         }),
         name: 'giveAchievement',
     },
+    { label: tr('Finish interview on reject'), name: 'finishInterviewOnReject' },
 ];
 
 type SectionTypeFormProps = {
@@ -77,6 +78,7 @@ export const SectionTypeForm: VFC<SectionTypeFormProps> = ({ afterSubmit, onCanc
             userSelect: sectionType?.userSelect ?? false,
             showOtherGrades: sectionType?.showOtherGrades ?? false,
             schedulable: sectionType?.schedulable ?? false,
+            finishInterviewOnReject: sectionType?.finishInterviewOnReject ?? false,
             eventColor: sectionType?.eventColor ?? defaultColor,
             gradeOptions: sectionType?.gradeOptions,
             giveAchievement: sectionType?.giveAchievement ?? true,

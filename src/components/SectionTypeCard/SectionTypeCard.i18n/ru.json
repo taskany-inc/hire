@@ -7,5 +7,6 @@
     "Show results of other sections": "Показать результаты других секций",
     "Appointment via calendar": "Назначение через календарь",
     "Section grades: ": "Грейды секции: ",
-    "Give achievement for every {amount} finished sections": "Давать ачивку за каждые {amount} проведенных секции"
+    "Give achievement for every {amount} finished sections": "Давать ачивку за каждые {amount} проведенных секции",
+    "Finish interview on reject": "Закончить интервью при отказе в секции"
 }

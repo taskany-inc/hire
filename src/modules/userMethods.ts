@@ -173,6 +173,7 @@ const suggestions = async ({ query, include, take = suggestionsTake, hr, include
     if (hr) {
         where.createdInterviews = { some: {} };
     }
+
     const suggestions = await prisma.user.findMany({ where, take });
 
     if (include) {

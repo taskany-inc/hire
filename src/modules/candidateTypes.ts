@@ -34,6 +34,7 @@ export const getCandidateListSchema = z
         cursor: z.number().nullish(),
         hrIds: z.number().array(),
         vacancyIds: z.string().array(),
+        interviewerIds: z.number().array(),
     })
     .partial();
 export type GetCandidateList = z.infer<typeof getCandidateListSchema>;

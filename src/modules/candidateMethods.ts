@@ -66,7 +66,8 @@ const getList = async (
     params: GetCandidateList = {},
     accessOptions: AccessOptions = {},
 ): Promise<ApiEntityListResult<CandidateWithVendorAndInterviewWithSectionsWithCommentsWithCreatorRelations>> => {
-    const { statuses, search, hireStreamIds, cursor, hrIds, vacancyIds, createdAt, sectionTypeIds } = params;
+    const { statuses, search, hireStreamIds, cursor, hrIds, vacancyIds, createdAt, sectionTypeIds, interviewerIds } =
+        params;
     const limit = params.limit ?? 50;
     const { filterInterviewsByHireStreamIds, filterByInterviewerId, filterSectionGradeByInterviewer } = accessOptions;
     const interviewIdsGroupByCandidates = await prisma.interview.groupBy({ by: ['candidateId'], _max: { id: true } });
@@ -94,7 +95,7 @@ const getList = async (
 
     const where: Prisma.CandidateWhereInput = {};
 
-    const whereAnd: Prisma.CandidateWhereInput[] = [{}];
+    const whereAnd: Prisma.CandidateWhereInput[] = [];
 
     if (search && search.length >= searchSettings.minSearchLength) {
         const whereSearchCondition: Prisma.StringFilter = {
@@ -200,9 +201,19 @@ const getList = async (
         interviewAccessFilter.hireStreamId = { in: filterInterviewsByHireStreamIds };
     }
 
-    if (filterByInterviewerId) {
-        interviewAccessFilter.sections = { some: { interviewers: { some: { id: filterByInterviewerId } } } };
-        where.interviews = { some: { sections: { some: { interviewers: { some: { id: filterByInterviewerId } } } } } };
+    let combinedInterviewerIds: number[] = [];
+
+    if (interviewerIds != null && interviewerIds.length > 0) {
+        combinedInterviewerIds = interviewerIds;
+    } else if (filterByInterviewerId) {
+        combinedInterviewerIds = [filterByInterviewerId];
+    }
+
+    if (combinedInterviewerIds.length > 0) {
+        interviewAccessFilter.sections = { some: { interviewers: { some: { id: { in: combinedInterviewerIds } } } } };
+        where.interviews = {
+            some: { sections: { some: { interviewers: { some: { id: { in: combinedInterviewerIds } } } } } },
+        };
     }
 
     if (vacancyIds) {

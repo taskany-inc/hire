@@ -39,9 +39,16 @@ const getAllowed = (session: Session | null): Promise<HireStream[]> => {
 
     if (session.userRoles.admin) return prisma.hireStream.findMany();
 
-    const { combinedHireStreams } = getUserRoleIds(session);
+    const { combinedHireStreams, interviewerInSectionTypes } = getUserRoleIds(session);
 
-    return prisma.hireStream.findMany({ where: { id: { in: combinedHireStreams } } });
+    return prisma.hireStream.findMany({
+        where: {
+            OR: [
+                { id: { in: combinedHireStreams } },
+                { sectionTypes: { some: { id: { in: interviewerInSectionTypes } } } },
+            ],
+        },
+    });
 };
 
 const getManaged = (session: Session | null): Promise<HireStream[]> => {

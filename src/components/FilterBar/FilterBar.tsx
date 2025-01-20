@@ -35,6 +35,7 @@ interface FiltersValues {
     vacancyIds: ComponentProps<typeof AppliedVacanciesFilter>['selectedVancies'];
     createdAt: ComponentProps<typeof AppliedDateFilter>['value'];
     sectionTypeIds: ComponentProps<typeof AppliedSectionTypesFilter>['selectedSectionTypes'];
+    interviewerIds: ComponentProps<typeof AppliedUserFilter>['selectedUsers'];
 }
 
 type AvaliableKeys = keyof FiltersValues;
@@ -70,6 +71,7 @@ export const FilterBar = <K extends AvaliableKeys>({
             { id: 'statuses', title: tr('Status') },
             { id: 'hireStreamIds', title: tr('Hire streams') },
             { id: 'hrIds', title: tr("HR's") },
+            { id: 'interviewerIds', title: tr('Interviewers') },
             { id: 'vacancyIds', title: tr('Vacancies') },
             { id: 'createdAt', title: tr('Created аt') },
             { id: 'sectionTypeIds', title: tr('Section type') },
@@ -241,7 +243,6 @@ export const FilterBar = <K extends AvaliableKeys>({
                                 />
                             ));
                         }
-
                         if (key === 'vacancyIds') {
                             return nullable(Boolean(filtersState?.vacancyIds), () => (
                                 <AppliedVacanciesFilter
@@ -278,7 +279,18 @@ export const FilterBar = <K extends AvaliableKeys>({
                                 />
                             ));
                         }
-
+                        if (key === 'interviewerIds') {
+                            return nullable(Boolean(filtersState?.interviewerIds), () => (
+                                <AppliedUserFilter
+                                    key={key}
+                                    onCleanFilter={onCleanFilter(key)}
+                                    selectedUsers={filtersState?.interviewerIds}
+                                    onChange={handleChange(key)}
+                                    onClose={onApply}
+                                    label="Interviewers"
+                                />
+                            ));
+                        }
                         return null;
                     })}
                     <AddFilterDropdown

@@ -58,6 +58,7 @@ export const useCandidateFilterUrlParams = () => {
             hireStreamIds: 'numberArray',
             sectionTypeIds: 'numberArray',
             vacancyIds: 'stringArray',
+            interviewerIds: 'numberArray',
             createdAt: 'stringArray',
         },
         query,
@@ -77,6 +78,7 @@ export const candidateFilterValuesToRequestData = (
     hrIds: values.hrIds && values.hrIds.length > 0 ? values.hrIds : undefined,
     sectionTypeIds: values.sectionTypeIds && values.sectionTypeIds.length > 0 ? values.sectionTypeIds : undefined,
     vacancyIds: values.vacancyIds && values.vacancyIds.length > 0 ? values.vacancyIds : undefined,
+    interviewerIds: values.interviewerIds && values.interviewerIds.length > 0 ? values.interviewerIds : undefined,
     createdAt: values.createdAt && values.createdAt.length > 0 ? values.createdAt : undefined,
     limit: 20,
 });

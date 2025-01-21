@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.77.1](https://github.com/taskany-inc/hire/compare/v0.77.0...v0.77.1) (2025-01-21)
+
+
+### Bug Fixes
+
+* **INTERNAL-1447:** change finish_interview_on_reject through ui ([9891fd5](https://github.com/taskany-inc/hire/commit/9891fd52c41551c5f19780561458cea6be854400))
+* **INTERNAL-1507:** fix analytics interviewers bug ([c64c72f](https://github.com/taskany-inc/hire/commit/c64c72f6601b7b93ef02e9941f793160453135b3))
+* transcription ([e140fc8](https://github.com/taskany-inc/hire/commit/e140fc8d5385424ee8144b3c1b6c737bd583b084))
+
 ## [0.77.0](https://github.com/taskany-inc/hire/compare/v0.76.0...v0.77.0) (2024-12-12)
 
 

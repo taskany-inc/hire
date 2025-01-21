@@ -139,7 +139,8 @@ SELECT
   count(distinct "analytics_event"."sectionId") "analytics_event__section_count"
 FROM
   public."AnalyticsEvent" AS "analytics_event"
-  LEFT JOIN public."User" AS "user" ON "analytics_event"."interviewerId" = "user".id
+  LEFT JOIN public."User" AS "user" ON "user".id = any("analytics_event"."interviewerIds")
+  or "analytics_event"."interviewerId" = "user".id
   LEFT JOIN public."Section" AS "section" ON "analytics_event"."sectionId" = "section".id
   LEFT JOIN public."SectionType" AS "section_type" ON "section"."sectionTypeId" = "section_type".id
 WHERE
@@ -263,7 +264,8 @@ SELECT
   count(distinct "analytics_event"."sectionId") "analytics_event__section_count"
 FROM
   public."AnalyticsEvent" AS "analytics_event"
-  LEFT JOIN public."User" AS "user" ON "analytics_event"."interviewerId" = "user".id
+  LEFT JOIN public."User" AS "user" ON "user".id = any("analytics_event"."interviewerIds")
+  or "analytics_event"."interviewerId" = "user".id
 WHERE
   (
     "analytics_event".timestamp >= ${params.from} :: timestamptz

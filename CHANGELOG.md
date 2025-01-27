@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.78.0](https://github.com/taskany-inc/hire/compare/v0.77.1...v0.78.0) (2025-01-27)
+
+
+### Features
+
+* **InterviwersFilter:** add filter by interviewers ([dcab63f](https://github.com/taskany-inc/hire/commit/dcab63f69cddfb08437c534a8cb44ea98a6d7aa1))
+
 ## [0.77.1](https://github.com/taskany-inc/hire/compare/v0.77.0...v0.77.1) (2025-01-21)
 
 

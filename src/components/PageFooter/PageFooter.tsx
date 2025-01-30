@@ -6,12 +6,15 @@ import FeedbackCreateForm from '../FeedbackCreateForm/FeedbackCreateForm';
 import { Link } from '../Link';
 import { defaultLocale, languages } from '../../utils/getLang';
 import { useEditUserSettings } from '../../modules/userHooks';
+import { trpc } from '../../trpc/trpcClient';
 
 import { tr } from './PageFooter.i18n';
 
 export const PageFooter: FC = () => {
     const [openFeedbackForm, setOpenFeedbackForm] = useState(false);
-
+    const config = trpc.appConfig.get.useQuery(undefined, {
+        staleTime: Infinity,
+    });
     const router = useRouter();
     const { locale } = router;
 
@@ -24,11 +27,9 @@ export const PageFooter: FC = () => {
     }, [editUserSettings, locale]);
 
     const menuItems = [
-        { title: tr('Terms'), url: '/terms' },
         { title: tr('Docs'), url: '/docs' },
-        { title: tr('Contact Taskany'), url: '/contactTaskany' },
+        { title: tr('Support'), url: config.data?.supportLink ?? undefined },
         { title: tr('API'), url: '/api' },
-        { title: tr('About'), url: '/about' },
     ];
 
     return (

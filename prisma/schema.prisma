@@ -531,10 +531,12 @@ model ApiToken {
 }
 
 model AppConfig {
-  id          String  @id @default(cuid())
-  favicon     String?
-  logo        String?
-  supportLink String?
+  id      String  @id @default(cuid())
+  favicon String?
+  logo    String?
+
+  supportLink  String?
+  documentLink String?
 }
 
 model Reaction {

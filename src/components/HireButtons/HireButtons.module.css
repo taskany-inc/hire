@@ -4,4 +4,5 @@
     gap: var(--gap-sm);
     overflow: auto;
     max-width: 660px;
+    padding-bottom: var(--gap-xs);
 }

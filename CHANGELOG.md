@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.78.1](https://github.com/taskany-inc/hire/compare/v0.78.0...v0.78.1) (2025-02-27)
+
+
+### Bug Fixes
+
+* **Footer:** update footer ([4b60a61](https://github.com/taskany-inc/hire/commit/4b60a610f5cfd8f3d109e4e197c8870b1c80b9f5))
+* **Footer:** update footer ([47d8afe](https://github.com/taskany-inc/hire/commit/47d8afeb1c65ffc0ba6a739982004e254a523bfe))
+* **INTERNAL-1576:** add scroll in grade buttons ([d391329](https://github.com/taskany-inc/hire/commit/d3913296bc5a7e1d859b2d8328b1b08fc655a28c))
+
 ## [0.78.0](https://github.com/taskany-inc/hire/compare/v0.77.1...v0.78.0) (2025-01-27)
 
 

@@ -5,7 +5,6 @@ import {
     NavigationSidebar,
     NavigationSidebarContent,
     NavigationSidebarHeader,
-    NavigationSidebarTitle,
     TaskanyLogo,
 } from '@taskany/bricks/harmony';
 import { IconBellOutline } from '@taskany/icons';
@@ -17,6 +16,7 @@ import { useSidebarMenu } from '../../hooks/useSidebarMenu';
 import { Paths } from '../../utils/paths';
 import { PageNavigationActionButton } from '../PageNavigationActionButton/PageNavigationActionButton';
 import { trpc } from '../../trpc/trpcClient';
+import { TitleLogo } from '../TitleLogo';
 
 import s from './PageNavigation.module.css';
 
@@ -30,10 +30,10 @@ export const PageNavigation: FC = () => {
     return (
         <NavigationSidebar className={s.PageNavigationRoot}>
             <NavigationSidebarHeader>
-                <Link href={Paths.HOME}>
+                <Link href={Paths.HOME} className={s.Link}>
                     <TaskanyLogo src={config.data?.favicon || undefined} size="m" />
+                    <TitleLogo className={s.TitleLogo} />
                 </Link>
-                <NavigationSidebarTitle>Hire</NavigationSidebarTitle>
                 <IconBellOutline size="s" />
             </NavigationSidebarHeader>
             <NavigationSidebarContent>

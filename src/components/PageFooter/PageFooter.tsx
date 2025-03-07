@@ -7,6 +7,7 @@ import { Link } from '../Link';
 import { defaultLocale, languages } from '../../utils/getLang';
 import { useEditUserSettings } from '../../modules/userHooks';
 import { trpc } from '../../trpc/trpcClient';
+import SheepLogoWithMessage from '../SheepLogoWithTips/SheepLogoWithTips';
 
 import { tr } from './PageFooter.i18n';
 
@@ -34,7 +35,7 @@ export const PageFooter: FC = () => {
 
     return (
         <Footer>
-            <FooterCopyright orgName="SD Hire" />
+            <FooterCopyright />
             <FooterMenu>
                 <Modal visible={openFeedbackForm} onClose={() => setOpenFeedbackForm(false)}>
                     <FeedbackCreateForm onClose={() => setOpenFeedbackForm(false)} />
@@ -55,6 +56,8 @@ export const PageFooter: FC = () => {
                     <FooterItem onClick={onLocaleChange}>{tr('Locale change title')}</FooterItem>
                 </Link>
             </FooterMenu>
+
+            <SheepLogoWithMessage />
         </Footer>
     );
 };

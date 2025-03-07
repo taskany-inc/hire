@@ -18,6 +18,6 @@
 }
 
 .TitleLogo {
-  fill:var(--text-primary);
+  fill: var(--text-primary);
   color: var(--text-primary);
 }

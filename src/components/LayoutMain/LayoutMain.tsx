@@ -30,7 +30,7 @@ interface LayoutMainProps {
 }
 
 export const LayoutMain: FC<LayoutMainProps> = ({
-    pageTitle,
+    pageTitle = 'Untitled',
     aboveContainer,
     titleMenuItems,
     backlink,
@@ -42,7 +42,6 @@ export const LayoutMain: FC<LayoutMainProps> = ({
     const config = trpc.appConfig.get.useQuery(undefined, {
         staleTime: Infinity,
     });
-    const title = pageTitle ? `${pageTitle} - Taskany Hire` : 'Taskany Hire';
 
     const { resolvedTheme } = useTheme();
     const theme = (userSettings?.theme === 'system' ? resolvedTheme || 'dark' : userSettings?.theme || 'light') as
@@ -61,8 +60,8 @@ export const LayoutMain: FC<LayoutMainProps> = ({
     return (
         <>
             <Head>
-                <title>{title}</title>
                 <link rel="icon" href={config.data?.favicon ?? '/favicon.png'} />
+                <title>{pageTitle}</title>
                 <link rel="stylesheet" id="themeVariables" href={`/theme/${theme}.css`} />
             </Head>
 

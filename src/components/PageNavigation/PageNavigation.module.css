@@ -10,3 +10,14 @@
 .PageNavigationItemLink.PageNavigationItemLink:hover {
   color: inherit;
 }
+
+.Link { 
+  display: flex;
+  align-items: center;
+  gap: var(--gap-xs);
+}
+
+.TitleLogo {
+  fill:var(--text-primary);
+  color: var(--text-primary);
+}

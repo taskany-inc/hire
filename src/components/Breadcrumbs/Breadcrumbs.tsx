@@ -17,7 +17,7 @@ interface BreadcrumbsProps extends ComponentProps<typeof BreadcrumbsBricks> {
 export const Breadcrumbs: FC<BreadcrumbsProps> = ({ items, className, count, ...rest }) => {
     return (
         <div className={cn(s.Breadcrumbs, className)}>
-            <BreadcrumbsBricks separator="/" {...rest}>
+            <BreadcrumbsBricks {...rest}>
                 {items.map((item, index) => {
                     const text = (
                         <Text

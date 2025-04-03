@@ -7,7 +7,7 @@ import { Link } from '../Link';
 import { defaultLocale, languages } from '../../utils/getLang';
 import { useEditUserSettings } from '../../modules/userHooks';
 import { trpc } from '../../trpc/trpcClient';
-import SheepLogoWithMessage from '../SheepLogoWithTips/SheepLogoWithTips';
+import SheepLogoWithTips from '../SheepLogoWithTips/SheepLogoWithTips';
 
 import { tr } from './PageFooter.i18n';
 
@@ -35,7 +35,7 @@ export const PageFooter: FC = () => {
 
     return (
         <Footer>
-            <FooterCopyright />
+            <FooterCopyright orgName="SD Hire" />
             <FooterMenu>
                 <Modal visible={openFeedbackForm} onClose={() => setOpenFeedbackForm(false)}>
                     <FeedbackCreateForm onClose={() => setOpenFeedbackForm(false)} />
@@ -57,7 +57,7 @@ export const PageFooter: FC = () => {
                 </Link>
             </FooterMenu>
 
-            <SheepLogoWithMessage />
+            <SheepLogoWithTips />
         </Footer>
     );
 };

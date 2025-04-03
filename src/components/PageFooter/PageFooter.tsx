@@ -35,7 +35,7 @@ export const PageFooter: FC = () => {
 
     return (
         <Footer>
-            <FooterCopyright />
+            <FooterCopyright orgName={tr('SD Hire')} />
             <FooterMenu>
                 <Modal visible={openFeedbackForm} onClose={() => setOpenFeedbackForm(false)}>
                     <FeedbackCreateForm onClose={() => setOpenFeedbackForm(false)} />

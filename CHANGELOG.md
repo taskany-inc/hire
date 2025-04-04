@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.78.3](https://github.com/taskany-inc/hire/compare/v0.78.2...v0.78.3) (2025-04-04)
+
+
+### Bug Fixes
+
+* **INTERNAL-1643:** footer ([ba1e22b](https://github.com/taskany-inc/hire/commit/ba1e22bda45b6139e749526b913e61835e341457))
+* sheep tip ([0ee9a55](https://github.com/taskany-inc/hire/commit/0ee9a550f8b6ae52ced223b460c9bf7d9184c4a4))
+
 ## [0.78.2](https://github.com/taskany-inc/hire/compare/v0.78.1...v0.78.2) (2025-04-03)
 
 

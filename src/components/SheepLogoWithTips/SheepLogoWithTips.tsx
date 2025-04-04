@@ -13,16 +13,6 @@ const SheepLogoWithTips: FC = () => {
 
     return (
         <>
-            <Popup
-                visible={popupVisible}
-                placement="bottom-start"
-                arrow={false}
-                reference={popupRef}
-                className={s.TipIcon}
-                onClickOutside={() => setPopupVisibility(false)}
-            >
-                {AllTips[index]}
-            </Popup>
             <div ref={popupRef}>
                 <a
                     onClick={() => {
@@ -33,6 +23,16 @@ const SheepLogoWithTips: FC = () => {
                     <SheepLogo />
                 </a>
             </div>
+            <Popup
+                visible={popupVisible}
+                placement="bottom-start"
+                arrow={false}
+                reference={popupRef}
+                className={s.TipIcon}
+                onClickOutside={() => setPopupVisibility(false)}
+            >
+                {AllTips[index]}
+            </Popup>
         </>
     );
 };

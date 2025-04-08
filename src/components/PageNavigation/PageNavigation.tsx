@@ -34,7 +34,7 @@ export const PageNavigation: FC = () => {
                     <TaskanyLogo src={config.data?.favicon || undefined} size="m" />
                     <TitleLogo className={s.TitleLogo} />
                 </Link>
-                <IconBellOutline size="s" />
+                <IconBellOutline className={s.IconBellOutline} size="s" />
             </NavigationSidebarHeader>
             <NavigationSidebarContent>
                 <PageNavigationActionButton />

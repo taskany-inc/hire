@@ -21,3 +21,7 @@
   fill: var(--text-primary);
   color: var(--text-primary);
 }
+
+.IconBellOutline {
+  margin-left: auto;
+}

@@ -61,7 +61,7 @@ export const LayoutMain: FC<LayoutMainProps> = ({
         <>
             <Head>
                 <link rel="icon" href={config.data?.favicon ?? '/favicon.png'} />
-                <title>{pageTitle}</title>
+                <title>SD Hire - {pageTitle}</title>
                 <link rel="stylesheet" id="themeVariables" href={`/theme/${theme}.css`} />
             </Head>
 

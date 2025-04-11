@@ -231,6 +231,7 @@ model Section {
   selectedInInterviews Interview[] @relation("CandidateSelectedSection")
   attaches             Attach[]
   videoCallLink        String?
+  codeSessionId        String?
 
   /// Related calendar slot
   calendarSlot   CalendarEventException? @relation(fields: [calendarSlotId], references: [id])

@@ -2,7 +2,7 @@ import { InterviewStatus, Prisma, Section, Attach, User } from '@prisma/client';
 import { RRule } from 'rrule';
 
 import { prisma } from '../utils/prisma';
-import { ErrorWithStatus, idObjsToIds, idsToIdObjs } from '../utils';
+import { ErrorWithStatus, idObjsToIds, idsToIdObjs, idsToSet, isSubsetOf } from '../utils';
 import config from '../config';
 
 import {
@@ -26,6 +26,7 @@ import { commentMethods } from './commentMethods';
 import { analyticsEventMethods } from './analyticsEventMethods';
 import { userMethods } from './userMethods';
 import { crewMethods } from './crewMethods';
+import { codeSessionMethods } from './codeSessionMethods';
 
 async function getCalendarSlotData(
     params: SectionCalendarSlotBooking | undefined,
@@ -153,6 +154,7 @@ const getById = async (id: number, accessOptions: AccessOptions = {}): Promise<S
                     restrictedUsers: true,
                 },
             },
+            calendarSlot: true,
             interviewer: true,
             interviewers: true,
             solutions: { include: { problem: true } },
@@ -207,7 +209,14 @@ const getById = async (id: number, accessOptions: AccessOptions = {}): Promise<S
 
     section.attaches = section.attaches.filter((attach: Attach) => !attach.deletedAt);
 
-    return { ...section, passedSections };
+    let codeSessionLink: string | null = null;
+
+    if (section.codeSessionId) {
+        const { claimSessionLink } = await codeSessionMethods.readConfing();
+        codeSessionLink = claimSessionLink.replace(/{(\w.*)}/g, section.codeSessionId);
+    }
+
+    return { ...section, passedSections, codeSessionLink };
 };
 
 const getInterviewSections = (data: { interviewId: number }) => {
@@ -273,6 +282,10 @@ const update = async (data: UpdateSection, user: User): Promise<Section & { inte
         }
     }
 
+    const prevInterviewers = idsToSet(currentSection.interviewers.map(({ id }) => id));
+    const nextInterviewers = idsToSet(interviewerIds);
+    const shouldDropCodeSession = isSubsetOf(prevInterviewers, nextInterviewers);
+
     const updateData = {
         ...restData,
         solutions: solutionIds && { connect: idsToIdObjs(solutionIds) },
@@ -280,6 +293,7 @@ const update = async (data: UpdateSection, user: User): Promise<Section & { inte
         interviewers: { set: idsToIdObjs(interviewerIds) },
         calendarSlot: slot,
         attaches: attachIds ? { connect: idsToIdObjs(attachIds) } : undefined,
+        codeSessionId: shouldDropCodeSession ? null : undefined,
     };
 
     const updatedSection = await prisma.section.update({
@@ -384,6 +398,27 @@ const deleteSection = async ({ sectionId }: DeleteSection): Promise<Section> => 
     return prisma.section.delete({ where: { id: sectionId } });
 };
 
+const createAndLinkCodeSession = async (sectionId: number) => {
+    const currentSection = await getById(sectionId);
+
+    let { title } = currentSection.sectionType;
+
+    if (currentSection.calendarSlot != null) {
+        title = `${title} at ${currentSection.calendarSlot.originalDate.toDateString()}`;
+    }
+
+    const sessionData = await codeSessionMethods.createSession(title);
+
+    await prisma.section.update({
+        where: { id: currentSection.id },
+        data: {
+            codeSessionId: sessionData.id,
+        },
+    });
+
+    return { success: true };
+};
+
 export const sectionMethods = {
     create,
     getById,
@@ -392,4 +427,5 @@ export const sectionMethods = {
     findAllInterviewerSections,
     delete: deleteSection,
     cancel: cancelSection,
+    createAndLinkCodeSession,
 };

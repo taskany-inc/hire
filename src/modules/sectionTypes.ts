@@ -1,4 +1,4 @@
-import { Candidate, Section, SectionType, Solution, User, Attach } from '@prisma/client';
+import { Candidate, Section, SectionType, Solution, User, Attach, CalendarEventException } from '@prisma/client';
 import { z } from 'zod';
 
 import { type InterviewWithSections } from './interviewTypes';
@@ -85,6 +85,8 @@ export type SectionWithRelationsAndResults = Section & {
     };
     passedSections: SectionWithSectionType[];
     attaches: Attach[];
+    calendarSlot: CalendarEventException | null;
+    codeSessionLink: string | null;
 };
 
 export interface SectionWithInterviewerRelation extends Section {

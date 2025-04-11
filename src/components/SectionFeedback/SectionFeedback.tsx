@@ -12,10 +12,11 @@ import {
     IconEditOutline,
     IconXCircleOutline,
     IconPlusCircleOutline,
+    IconCodeOutline,
 } from '@taskany/icons';
 
 import { usePreviewContext } from '../../contexts/previewContext';
-import { useSectionUpdateMutation } from '../../modules/sectionHooks';
+import { useSectionCodeSessionCreate, useSectionUpdateMutation } from '../../modules/sectionHooks';
 import { SectionWithRelationsAndResults, UpdateSection } from '../../modules/sectionTypes';
 import { generatePath, pageHrefs, Paths } from '../../utils/paths';
 import { accessChecks } from '../../modules/accessChecks';
@@ -65,6 +66,7 @@ export const SectionFeedback = ({
 
     const session = useSession();
     const sectionUpdateMutation = useSectionUpdateMutation();
+    const createCodeSessionMutation = useSectionCodeSessionCreate();
 
     const {
         control,
@@ -156,6 +158,10 @@ export const SectionFeedback = ({
         onAgree: onSubmit,
     });
 
+    const createSessionHandler = useCallback(async () => {
+        await createCodeSessionMutation.mutateAsync({ sectionId: section.id });
+    }, [section, createCodeSessionMutation]);
+
     const setHire = (value: boolean | null) => {
         setValue('hire', value);
     };
@@ -244,6 +250,27 @@ export const SectionFeedback = ({
                                 />
                             </Link>
                         ))}
+                        {nullable(
+                            section.codeSessionLink,
+                            (link) => (
+                                <Link href={link} target="_blank">
+                                    <Button
+                                        iconRight={<IconCodeOutline size="s" />}
+                                        text={tr('Go to session')}
+                                        type="button"
+                                    />
+                                </Link>
+                            ),
+                            nullable(editMode && section.codeSessionLink == null, () => (
+                                <Button
+                                    iconRight={<IconCodeOutline size="s" />}
+                                    text={tr('Create session')}
+                                    type="button"
+                                    onClick={createSessionHandler}
+                                />
+                            )),
+                        )}
+
                         {nullable(isEditable && section.hire !== null, () => (
                             <Button
                                 type="button"

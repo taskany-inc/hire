@@ -51,3 +51,16 @@ export const useSectionCancelMutation = () => {
         onError: enqueueErrorNotification,
     });
 };
+
+export const useSectionCodeSessionCreate = () => {
+    const { enqueueSuccessNotification, enqueueErrorNotification } = useNotifications();
+    const utils = trpc.useContext();
+
+    return trpc.sections.createCodeSession.useMutation({
+        onSuccess: () => {
+            enqueueSuccessNotification(tr('Code session successfully create'));
+            utils.sections.invalidate();
+        },
+        onError: enqueueErrorNotification,
+    });
+};

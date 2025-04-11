@@ -111,4 +111,12 @@ export const sectionsRouter = router({
         .mutation(async ({ input }) => {
             return sectionMethods.delete(input);
         }),
+
+    createCodeSession: protectedProcedure
+        .input(getSectionSchema)
+        .use(accessMiddlewares.section.updateNoMetadata)
+        .mutation(async ({ input }) => {
+            console.log(input);
+            return sectionMethods.createAndLinkCodeSession(input.sectionId);
+        }),
 });

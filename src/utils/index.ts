@@ -102,6 +102,17 @@ export const contextNotInitialized = (message: string) => () => {
     throw new Error(message);
 };
 
+export const idsToSet = <T extends string | number>(ids: T[]) => new Set<T>(ids);
+export const isSubsetOf = <T extends string | number>(target: Set<T>, source: Set<T>): boolean => {
+    const combine = new Set(target);
+    // @ts-ignore `source` is iterable object;
+    for (const val of source) {
+        combine.add(val);
+    }
+
+    return combine.size === target.size;
+};
+
 interface EntityData {
     id: string | number;
     name: string;

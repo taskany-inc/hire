@@ -71,4 +71,10 @@ export default {
         model: process.env.AI_ASSISTANT_MODEL,
         cvParsePrompt: process.env.AI_ASSISTANT_CV_PARSE_PROMPT,
     },
+    code: {
+        url: process.env.CODE_URL,
+        apiToken: process.env.CODE_API_TOKEN,
+        claimSessionLink: process.env.CODE_SESSION_CLAIM_LINK,
+        enabled: Boolean(process.env.CODE_URL && process.env.CODE_API_TOKEN && process.env.CODE_SESSION_CLAIM_LINK),
+    },
 };

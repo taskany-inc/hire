@@ -85,6 +85,7 @@ export type SectionWithRelationsAndResults = Section & {
     };
     passedSections: SectionWithSectionType[];
     attaches: Attach[];
+    codeSessionLink: string | null;
 };
 
 export interface SectionWithInterviewerRelation extends Section {

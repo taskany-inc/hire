@@ -121,5 +121,6 @@
     "Minimum value is {value}": "",
     "Hire streams events can only be requested for 1 day or week": "",
     "Valid characters: a-z, _, digits": "",
-    "Rejection following the results of {title} section": ""
+    "Rejection following the results of {title} section": "",
+    "Code session successfully create": ""
 }

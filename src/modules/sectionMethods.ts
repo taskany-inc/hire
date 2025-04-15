@@ -26,6 +26,7 @@ import { commentMethods } from './commentMethods';
 import { analyticsEventMethods } from './analyticsEventMethods';
 import { userMethods } from './userMethods';
 import { crewMethods } from './crewMethods';
+import { codeSessionMethods } from './codeSessionMethods';
 
 async function getCalendarSlotData(
     params: SectionCalendarSlotBooking | undefined,
@@ -207,7 +208,15 @@ const getById = async (id: number, accessOptions: AccessOptions = {}): Promise<S
 
     section.attaches = section.attaches.filter((attach: Attach) => !attach.deletedAt);
 
-    return { ...section, passedSections };
+    let codeSessionLink: string | null = null;
+    const codeCfg = await codeSessionMethods.readConfig();
+
+    if (codeCfg.enabled && section.codeSessionId) {
+        const { claimSessionLink } = codeCfg;
+        codeSessionLink = claimSessionLink.replace(/{(\w.*)}/g, section.codeSessionId);
+    }
+
+    return { ...section, passedSections, codeSessionLink };
 };
 
 const getInterviewSections = (data: { interviewId: number }) => {
@@ -384,6 +393,28 @@ const deleteSection = async ({ sectionId }: DeleteSection): Promise<Section> => 
     return prisma.section.delete({ where: { id: sectionId } });
 };
 
+const createAndLinkCodeSession = async (sectionId: number) => {
+    const codeCfg = await codeSessionMethods.readConfig();
+    if (!codeCfg.enabled) {
+        return { success: false };
+    }
+
+    const currentSection = await getById(sectionId);
+
+    const title = `${currentSection.sectionType.title} at ${currentSection.createdAt.toDateString()}`;
+
+    const sessionData = await codeSessionMethods.createSession(title);
+
+    await prisma.section.update({
+        where: { id: currentSection.id },
+        data: {
+            codeSessionId: sessionData.id,
+        },
+    });
+
+    return { success: true };
+};
+
 export const sectionMethods = {
     create,
     getById,
@@ -392,4 +423,5 @@ export const sectionMethods = {
     findAllInterviewerSections,
     delete: deleteSection,
     cancel: cancelSection,
+    createAndLinkCodeSession,
 };

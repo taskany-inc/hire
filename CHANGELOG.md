@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) for commit guidelines.
 
+## [0.80.0](https://github.com/taskany-inc/hire/compare/v0.79.0...v0.80.0) (2025-04-16)
+
+
+### Features
+
+* **INTERLNAL-1325:** linking code session ([3626c00](https://github.com/taskany-inc/hire/commit/3626c000def2b9260df65c2290636a1265005cfd))
+
+
+### Bug Fixes
+
+* **INTERNAL-1163:** fix footer ([1872226](https://github.com/taskany-inc/hire/commit/18722263e805c026743db3fa6a97d69460eb74e2))
+* **INTERNAL-1163:** fix footer ([3089ba0](https://github.com/taskany-inc/hire/commit/3089ba08345fb31525d5792645020b3cb6575a44))
+
 ## [0.79.0](https://github.com/taskany-inc/hire/compare/v0.78.3...v0.79.0) (2025-04-08)
 
 

@@ -1,0 +1,77 @@
+.FormControl {
+    margin-bottom: var(--gap-m);
+}
+
+.BadgeContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gap-s);
+    margin-bottom: var(--gap-s);
+}
+
+.ButtonsContainer {
+    display: flex;
+    gap: var(--gap-s);
+}
+
+
+.SwitchContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--gap-s);
+    margin-bottom: var(--gap-s);
+}
+
+.AssistantsSwitch {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.AssistantsSwitch::-webkit-scrollbar {
+    display: none;
+}
+
+.NameContainer {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--gap-m);
+}
+
+.NameInput {
+    flex: 1;
+}
+
+.ActiveIcon {
+    color: var(--button-primary-active);
+}
+
+.DeleteIcon {
+    color: var(--button-danger);
+}
+
+.DeleteIcon:hover {
+    color: var(--button-danger-hover);
+}
+
+.InactiveIcon {
+    color: var(--gray-400);
+}
+
+.DeleteButton {
+    margin-left: auto;
+}
+
+.AddItemContainer {
+    display: flex;
+    width: 100%;
+    margin-bottom: var(--gap-s);
+}
+
+.SearchInput {
+    flex: 1;
+} 

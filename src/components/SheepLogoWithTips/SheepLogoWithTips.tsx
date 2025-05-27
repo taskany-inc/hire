@@ -31,7 +31,7 @@ const SheepLogoWithTips: FC = () => {
     const handleSheepClick = async () => {
         try {
             const result = await sheepPhraseMutation.refetch();
-
+            console.log('result', result.data);
             if (result.data) {
                 setAiPhrase(result.data);
             } else {

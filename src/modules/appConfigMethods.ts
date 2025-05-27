@@ -7,8 +7,7 @@ export const appConfigMethods = {
                 include: {
                     aiAssistant: {
                         include: {
-                            topics: true,
-                            formats: true,
+                            options: true,
                         },
                     },
                 },
@@ -34,8 +33,7 @@ export const appConfigMethods = {
                 include: {
                     aiAssistant: {
                         include: {
-                            topics: true,
-                            formats: true,
+                            options: true,
                         },
                     },
                 },

@@ -5,6 +5,7 @@ import format from 'date-fns/format';
 
 import { generateColor } from '../src/utils/color';
 import { SectionType } from '../src/utils/dictionaries';
+import { AiAssistantOptionType } from '../src/modules/aiAssistantTypes';
 
 const prisma = new PrismaClient();
 
@@ -324,19 +325,34 @@ const main = async () => {
 
     const tags = await Promise.all(tagsData.map((data) => prisma.tag.create({ data })));
 
+    const topicOptions = await Promise.all(
+        aiAssistantTopics.map((topic) =>
+            prisma.aiAssistantOption.create({
+                data: { value: topic, type: AiAssistantOptionType.Topic },
+            }),
+        ),
+    );
+
+    const formatOptions = await Promise.all(
+        aiAssistantFormats.map((format) =>
+            prisma.aiAssistantOption.create({
+                data: { value: format, type: AiAssistantOptionType.Format },
+            }),
+        ),
+    );
+
+    const allOptionIds = [...topicOptions, ...formatOptions].map((option) => option.id);
+
     await prisma.appConfig.create({
         data: {
             id: 'main',
             aiAssistant: {
                 create: {
-                    name: 'SheepMascotEn',
+                    name: 'SheepMascot',
                     systemPrompt: aiAssistantSystemPrompt,
                     userPrompt: aiAssistantUserPrompt,
-                    topics: {
-                        create: aiAssistantTopics.map((topic) => ({ value: topic })),
-                    },
-                    formats: {
-                        create: aiAssistantFormats.map((format) => ({ value: format })),
+                    options: {
+                        connect: allOptionIds.map((optionId) => ({ id: optionId })),
                     },
                 },
             },

@@ -2,7 +2,11 @@ import { z } from 'zod';
 
 import { protectedProcedure, router } from '../trpcBackend';
 import { aiAssistantMethods } from '../../modules/aiAssistantMethods';
-import { aiAssistantSuggestionParamsSchema, aiAssistantUpdateDataSchema } from '../../modules/aiAssistantTypes';
+import {
+    aiAssistantUpdateDataSchema,
+    createAssistantOptionSchema,
+    aiAssistantOptionSuggestionParamsSchema,
+} from '../../modules/aiAssistantTypes';
 import { accessMiddlewares } from '../../modules/accessMiddlewares';
 
 export const aiAssistantRouter = router({
@@ -10,26 +14,11 @@ export const aiAssistantRouter = router({
         return aiAssistantMethods.getSheepPhrase();
     }),
 
-    topicSuggestion: protectedProcedure.input(aiAssistantSuggestionParamsSchema).query(async ({ input }) => {
-        return aiAssistantMethods.topicSuggestion(input);
-    }),
-
-    formatSuggestion: protectedProcedure.input(aiAssistantSuggestionParamsSchema).query(async ({ input }) => {
-        return aiAssistantMethods.formatSuggestion(input);
-    }),
-
-    createTopic: protectedProcedure
-        .input(z.object({ value: z.string() }))
+    createAssistantOption: protectedProcedure
+        .input(createAssistantOptionSchema)
         .use(accessMiddlewares.aiAssistant.update)
         .mutation(async ({ input }) => {
-            return aiAssistantMethods.createTopic(input.value);
-        }),
-
-    createFormat: protectedProcedure
-        .input(z.object({ value: z.string() }))
-        .use(accessMiddlewares.aiAssistant.update)
-        .mutation(async ({ input }) => {
-            return aiAssistantMethods.createFormat(input.value);
+            return aiAssistantMethods.createAssistantOption(input);
         }),
 
     getAllAiAssistants: protectedProcedure
@@ -52,4 +41,8 @@ export const aiAssistantRouter = router({
         .mutation(async ({ input }) => {
             return aiAssistantMethods.deleteAiAssistant(input);
         }),
+
+    optionSuggestion: protectedProcedure.input(aiAssistantOptionSuggestionParamsSchema).query(async ({ input }) => {
+        return aiAssistantMethods.optionSuggestion(input);
+    }),
 });

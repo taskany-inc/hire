@@ -23,40 +23,64 @@ import { nullable } from '@taskany/bricks';
 import { IconBinOutline, IconPlusCircleOutline, IconTickCircleOutline } from '@taskany/icons';
 
 import { trpc } from '../../trpc/trpcClient';
-import { AiAssistantUpdateData, aiAssistantUpdateDataSchema, AiAssistantItem } from '../../modules/aiAssistantTypes';
+import {
+    AiAssistantUpdateData,
+    aiAssistantUpdateDataSchema,
+    AiAssistantOption,
+    AiAssistantOptionType,
+} from '../../modules/aiAssistantTypes';
 
 import { tr } from './EditAiAssistant.i18n';
 import s from './EditAiAssistant.module.css';
 
 interface SearchAndCreateProps {
-    query: string;
-    onQueryChange: (value: string) => void;
-    items: AiAssistantItem[];
-    onSelect: (item: AiAssistantItem) => void;
-    onCreate: () => void;
     placeholder: string;
-    loading: boolean;
+    options: AiAssistantOption[];
+    onOptionsChange: (options: AiAssistantOption[]) => void;
+    type: AiAssistantOptionType;
 }
 
-const SearchAndCreate = ({
-    query,
-    onQueryChange,
-    items,
-    onSelect,
-    onCreate,
-    placeholder,
-    loading,
-}: SearchAndCreateProps) => {
+const SearchAndCreate = ({ placeholder, options, onOptionsChange, type }: SearchAndCreateProps) => {
+    const [query, setQuery] = useState('');
     const [isSelectOpen, setIsSelectOpen] = useState(false);
 
+    const { data: suggestions = [], refetch: refetchSuggestions } = trpc.aiAssistant.optionSuggestion.useQuery({
+        query,
+        exclude: options.map((option) => option.id),
+        type,
+    });
+
+    useEffect(() => {
+        refetchSuggestions();
+    }, [options, refetchSuggestions]);
+
+    const handleSelect = useCallback(
+        (item: AiAssistantOption) => {
+            onOptionsChange([...options, item]);
+            setQuery('');
+        },
+        [options, onOptionsChange],
+    );
+
+    const createOptionMutation = trpc.aiAssistant.createAssistantOption.useMutation({
+        onSuccess: (newOption: AiAssistantOption) => {
+            handleSelect(newOption);
+        },
+    });
+
+    const handleCreate = useCallback(() => {
+        if (!query) return;
+        createOptionMutation.mutate({ value: query, type });
+    }, [query, type, createOptionMutation]);
+
     const handleItemSelect = useCallback(
-        (selected: AiAssistantItem[]) => {
+        (selected: AiAssistantOption[]) => {
             if (selected.length > 0) {
-                onSelect(selected[0]);
+                handleSelect(selected[0]);
                 setIsSelectOpen(false);
             }
         },
-        [onSelect],
+        [handleSelect],
     );
 
     return (
@@ -64,7 +88,7 @@ const SearchAndCreate = ({
             isOpen={isSelectOpen}
             onClose={() => setIsSelectOpen(false)}
             value={[]}
-            items={items}
+            items={suggestions}
             onChange={handleItemSelect}
             mode="single"
             selectable
@@ -81,7 +105,7 @@ const SearchAndCreate = ({
                             placeholder={placeholder}
                             value={query}
                             className={s.SearchInput}
-                            onChange={(e) => onQueryChange(e.target.value)}
+                            onChange={(e) => setQuery(e.target.value)}
                             onClick={onClick}
                             ref={ref}
                             view="default"
@@ -91,112 +115,14 @@ const SearchAndCreate = ({
                             view="primary"
                             text={tr('Create')}
                             brick="left"
-                            disabled={!query || items.length > 0 || loading}
-                            onClick={onCreate}
+                            disabled={!query || suggestions.length > 0 || createOptionMutation.isLoading}
+                            onClick={handleCreate}
                         />
                     </div>
                 )}
             />
             <SelectPanel placement="bottom-start" />
         </Select>
-    );
-};
-
-interface TopicSearchAndCreateProps {
-    topics: AiAssistantItem[];
-    onTopicsChange: (topics: AiAssistantItem[]) => void;
-}
-
-const TopicSearchAndCreate = ({ topics, onTopicsChange }: TopicSearchAndCreateProps) => {
-    const [query, setQuery] = useState('');
-
-    const { data: suggestions = [], refetch: refetchSuggestions } = trpc.aiAssistant.topicSuggestion.useQuery({
-        query,
-        exclude: topics.map((t) => t.id),
-    });
-
-    useEffect(() => {
-        refetchSuggestions();
-    }, [topics]);
-
-    const handleSelect = useCallback(
-        (item: AiAssistantItem) => {
-            onTopicsChange([...topics, item]);
-            setQuery('');
-        },
-        [topics, onTopicsChange],
-    );
-
-    const createTopicMutation = trpc.aiAssistant.createTopic.useMutation({
-        onSuccess: (newTopic: AiAssistantItem) => {
-            handleSelect(newTopic);
-        },
-    });
-
-    const handleCreate = useCallback(() => {
-        if (!query) return;
-        createTopicMutation.mutate({ value: query });
-    }, [query, createTopicMutation]);
-
-    return (
-        <SearchAndCreate
-            query={query}
-            onQueryChange={setQuery}
-            items={suggestions}
-            onSelect={handleSelect}
-            onCreate={handleCreate}
-            placeholder={tr('Search or add topic')}
-            loading={createTopicMutation.isLoading}
-        />
-    );
-};
-
-interface FormatSearchAndCreateProps {
-    formats: AiAssistantItem[];
-    onFormatsChange: (formats: AiAssistantItem[]) => void;
-}
-
-const FormatSearchAndCreate = ({ formats, onFormatsChange }: FormatSearchAndCreateProps) => {
-    const [query, setQuery] = useState('');
-
-    const { data: suggestions = [], refetch: refetchSuggestions } = trpc.aiAssistant.formatSuggestion.useQuery({
-        query,
-        exclude: formats.map((f) => f.id),
-    });
-
-    useEffect(() => {
-        refetchSuggestions();
-    }, [formats]);
-
-    const handleSelect = useCallback(
-        (item: AiAssistantItem) => {
-            onFormatsChange([...formats, item]);
-            setQuery('');
-        },
-        [formats, onFormatsChange],
-    );
-
-    const createFormatMutation = trpc.aiAssistant.createFormat.useMutation({
-        onSuccess: (newFormat: AiAssistantItem) => {
-            handleSelect(newFormat);
-        },
-    });
-
-    const handleCreate = useCallback(() => {
-        if (!query) return;
-        createFormatMutation.mutate({ value: query });
-    }, [query, createFormatMutation]);
-
-    return (
-        <SearchAndCreate
-            query={query}
-            onQueryChange={setQuery}
-            items={suggestions}
-            onSelect={handleSelect}
-            onCreate={handleCreate}
-            placeholder={tr('Search or add format')}
-            loading={createFormatMutation.isLoading}
-        />
     );
 };
 
@@ -239,8 +165,7 @@ export const EditAiAssistant = () => {
             name: currentAssistant?.name || '',
             systemPrompt: currentAssistant?.systemPrompt || '',
             userPrompt: currentAssistant?.userPrompt || '',
-            topics: currentAssistant?.topics.map((t) => ({ id: t.id, value: t.value })) || [],
-            formats: currentAssistant?.formats.map((f) => ({ id: f.id, value: f.value })) || [],
+            options: currentAssistant?.options || [],
         }),
         [currentAssistant],
     );
@@ -249,8 +174,8 @@ export const EditAiAssistant = () => {
         handleSubmit,
         register,
         setValue,
-        watch,
         reset,
+        watch,
         formState: { errors, isDirty, isSubmitting },
     } = useForm<AiAssistantUpdateData>({
         defaultValues,
@@ -263,40 +188,43 @@ export const EditAiAssistant = () => {
         }
     }, [isLoading, reset, defaultValues]);
 
+    const formOptions = watch('options');
+
+    const { topics, formats } = useMemo(() => {
+        return {
+            topics: formOptions.filter((option) => option.type === AiAssistantOptionType.Topic),
+            formats: formOptions.filter((option) => option.type === AiAssistantOptionType.Format),
+        };
+    }, [formOptions]);
+
     const handleTopicsChange = useCallback(
-        (newTopics: AiAssistantItem[]) => {
-            setValue('topics', newTopics, { shouldDirty: true });
+        (newTopics: AiAssistantOption[]) => {
+            setValue('options', [...newTopics, ...formats], { shouldDirty: true });
         },
-        [setValue],
+        [setValue, formats],
     );
 
     const handleFormatsChange = useCallback(
-        (newFormats: AiAssistantItem[]) => {
-            setValue('formats', newFormats, { shouldDirty: true });
+        (newFormats: AiAssistantOption[]) => {
+            setValue('options', [...topics, ...newFormats], { shouldDirty: true });
         },
-        [setValue],
+        [setValue, topics],
     );
 
     const removeTopic = useCallback(
         (id: string) => {
-            setValue(
-                'topics',
-                watch('topics').filter((t) => t.id !== id),
-                { shouldDirty: true },
-            );
+            const updatedTopics = topics.filter((topic) => topic.id !== id);
+            setValue('options', [...updatedTopics, ...formats], { shouldDirty: true });
         },
-        [setValue, watch],
+        [setValue, topics, formats],
     );
 
     const removeFormat = useCallback(
         (id: string) => {
-            setValue(
-                'formats',
-                watch('formats').filter((f) => f.id !== id),
-                { shouldDirty: true },
-            );
+            const updatedFormats = formats.filter((format) => format.id !== id);
+            setValue('options', [...topics, ...updatedFormats], { shouldDirty: true });
         },
-        [setValue, watch],
+        [setValue, topics, formats],
     );
 
     const handleCancel = useCallback(() => {
@@ -422,7 +350,7 @@ export const EditAiAssistant = () => {
                         <FormControl className={s.FormControl}>
                             <FormControlLabel>{tr('Topics')}</FormControlLabel>
                             <div className={s.BadgeContainer}>
-                                {watch('topics').map((t) => (
+                                {topics.map((t) => (
                                     <Badge
                                         key={t.id}
                                         color="gray"
@@ -437,8 +365,13 @@ export const EditAiAssistant = () => {
                                     />
                                 ))}
                             </div>
-                            <TopicSearchAndCreate topics={watch('topics')} onTopicsChange={handleTopicsChange} />
-                            {nullable(errors.topics, (e) => (
+                            <SearchAndCreate
+                                placeholder={tr('Search or add topic')}
+                                options={topics}
+                                onOptionsChange={handleTopicsChange}
+                                type={AiAssistantOptionType.Topic}
+                            />
+                            {nullable(errors.options, (e) => (
                                 <FormControlError error={{ message: e.message }} />
                             ))}
                         </FormControl>
@@ -446,7 +379,7 @@ export const EditAiAssistant = () => {
                         <FormControl className={s.FormControl}>
                             <FormControlLabel>{tr('Formats')}</FormControlLabel>
                             <div className={s.BadgeContainer}>
-                                {watch('formats').map((f) => (
+                                {formats.map((f) => (
                                     <Badge
                                         key={f.id}
                                         color="gray"
@@ -461,8 +394,13 @@ export const EditAiAssistant = () => {
                                     />
                                 ))}
                             </div>
-                            <FormatSearchAndCreate formats={watch('formats')} onFormatsChange={handleFormatsChange} />
-                            {nullable(errors.formats, (e) => (
+                            <SearchAndCreate
+                                placeholder={tr('Search or add format')}
+                                options={formats}
+                                onOptionsChange={handleFormatsChange}
+                                type={AiAssistantOptionType.Format}
+                            />
+                            {nullable(errors.options, (e) => (
                                 <FormControlError error={{ message: e.message }} />
                             ))}
                         </FormControl>

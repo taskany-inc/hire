@@ -537,7 +537,7 @@ model AppConfig {
   logo          String?
   supportLink   String?
   documentLink  String?
-  aiAssistantId String?  // ID активного ассистента
+  aiAssistantId String?
   aiAssistant   AiAssistant? @relation("ActiveAiAssistant", fields: [aiAssistantId], references: [id])
 }
 
@@ -582,23 +582,15 @@ model AiAssistant {
   name         String           @unique
   systemPrompt String
   userPrompt   String
-  topics       AiAssistantTopic[]
-  formats      AiAssistantFormat[]
+  options      AiAssistantOption[]
   appConfigs   AppConfig[]       @relation("ActiveAiAssistant")
   createdAt    DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
   updatedAt    DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
 }
 
-model AiAssistantTopic {
-  id            String       @id @default(cuid())
+model AiAssistantOption {
+  id            String                @id @default(cuid())
   value         String
-  assistant     AiAssistant? @relation(fields: [assistantId], references: [id])
-  assistantId   String?
-}
-
-model AiAssistantFormat {
-  id            String       @id @default(cuid())
-  value         String
-  assistant     AiAssistant? @relation(fields: [assistantId], references: [id])
-  assistantId   String?
+  type          String
+  assistants    AiAssistant[]
 }

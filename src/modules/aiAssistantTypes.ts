@@ -17,11 +17,10 @@ export const cvParsingResultSchema = z.object({
 });
 export type CvParsingResult = z.infer<typeof cvParsingResultSchema>;
 
-export const aiAssistantItemSchema = z.object({
-    id: z.string(),
-    value: z.string(),
-});
-export type AiAssistantItem = z.infer<typeof aiAssistantItemSchema>;
+export enum AiAssistantOptionType {
+    Format = 'Format',
+    Topic = 'Topic',
+}
 
 export const aiAssistantSuggestionParamsSchema = z.object({
     query: z.string().optional(),
@@ -29,24 +28,44 @@ export const aiAssistantSuggestionParamsSchema = z.object({
 });
 export type AiAssistantSuggestionParams = z.infer<typeof aiAssistantSuggestionParamsSchema>;
 
+export const aiAssistantOptionSuggestionParamsSchema = z.object({
+    query: z.string().optional(),
+    exclude: z.array(z.string()).optional(),
+    type: z.nativeEnum(AiAssistantOptionType),
+});
+export type AiAssistantOptionSuggestionParams = z.infer<typeof aiAssistantOptionSuggestionParamsSchema>;
+
+export const aiAssistantOptionSchema = z.object({
+    id: z.string(),
+    value: z.string(),
+    type: z.string(),
+});
+
+export type AiAssistantOption = z.infer<typeof aiAssistantOptionSchema>;
+
 export const aiAssistantUpdateDataSchema = z.object({
     id: z.string().optional(),
-    name: z.string().min(1, { message: 'Name is required' }),
+    name: z.string(),
     systemPrompt: z.string(),
     userPrompt: z.string(),
-    topics: z.array(aiAssistantItemSchema),
-    formats: z.array(aiAssistantItemSchema),
+    options: z.array(aiAssistantOptionSchema),
 });
 
 export type AiAssistantUpdateData = z.infer<typeof aiAssistantUpdateDataSchema>;
+
+export const createAssistantOptionSchema = z.object({
+    value: z.string(),
+    type: z.nativeEnum(AiAssistantOptionType),
+});
+
+export type CreateAssistantOptionData = z.infer<typeof createAssistantOptionSchema>;
 
 export const aiAssistantSchema = z.object({
     id: z.string(),
     name: z.string(),
     systemPrompt: z.string(),
     userPrompt: z.string(),
-    topics: z.array(aiAssistantItemSchema),
-    formats: z.array(aiAssistantItemSchema),
+    options: z.array(aiAssistantOptionSchema),
     createdAt: z.union([z.date(), z.string()]),
     updatedAt: z.union([z.date(), z.string()]),
 });

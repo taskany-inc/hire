@@ -588,9 +588,29 @@ model AiAssistant {
   updatedAt    DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
 }
 
+model AiAssistantOptionType {
+  id          String                @id @default(cuid())
+  name        String                @unique
+  key         String                @unique
+  description String?
+  
+  options     AiAssistantOption[]
+  
+  createdAt   DateTime              @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt   DateTime              @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
+}
+
 model AiAssistantOption {
   id            String                @id @default(cuid())
   value         String
-  type          String
+  
+  optionType    AiAssistantOptionType @relation(fields: [optionTypeId], references: [id], onDelete: Cascade)
+  optionTypeId  String
+  
   assistants    AiAssistant[]
+  
+  createdAt     DateTime              @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt     DateTime              @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
+  
+  @@unique([value, optionTypeId])
 }

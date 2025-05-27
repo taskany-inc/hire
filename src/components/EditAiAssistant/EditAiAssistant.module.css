@@ -14,7 +14,6 @@
     gap: var(--gap-s);
 }
 
-
 .SwitchContainer {
     width: 100%;
     display: flex;
@@ -58,11 +57,13 @@
     color: var(--button-danger-hover);
 }
 
-.InactiveIcon {
-    color: var(--gray-400);
+.DeleteButton {
+    margin-left: auto;
 }
 
-.DeleteButton {
+.OptionControls {
+    display: flex;
+    gap: var(--gap-xs);
     margin-left: auto;
 }
 
@@ -74,4 +75,33 @@
 
 .SearchInput {
     flex: 1;
-} 
+}
+
+.Description {
+    margin-left: var(--gap-xs);
+}
+
+.OptionTypeLabel {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-xs);
+}
+
+.OptionTypeDescription {
+    margin-bottom: var(--gap-xs);
+    display: block;
+}
+
+.ModalContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-m);
+}
+
+.KeyDescription {
+    margin-top: var(--gap-xs);
+}
+
+.OptionTypeCard {
+    margin-bottom: var(--gap-m);
+}

@@ -18,9 +18,18 @@ import {
     SelectPanel,
     Switch,
     SwitchControl,
+    Modal,
+    ModalHeader,
+    ModalContent,
 } from '@taskany/bricks/harmony';
 import { nullable } from '@taskany/bricks';
-import { IconBinOutline, IconPlusCircleOutline, IconTickCircleOutline } from '@taskany/icons';
+import {
+    IconBinOutline,
+    IconPlusCircleOutline,
+    IconTickCircleOutline,
+    IconEditOutline,
+    IconXCircleOutline,
+} from '@taskany/icons';
 
 import { trpc } from '../../trpc/trpcClient';
 import {
@@ -28,7 +37,11 @@ import {
     aiAssistantUpdateDataSchema,
     AiAssistantOption,
     AiAssistantOptionType,
+    CreateAssistantOptionTypeData,
+    createAssistantOptionTypeSchema,
 } from '../../modules/aiAssistantTypes';
+import { FormActions } from '../FormActions/FormActions';
+import { WarningModal } from '../WarningModal/WarningModal';
 
 import { tr } from './EditAiAssistant.i18n';
 import s from './EditAiAssistant.module.css';
@@ -37,17 +50,17 @@ interface SearchAndCreateProps {
     placeholder: string;
     options: AiAssistantOption[];
     onOptionsChange: (options: AiAssistantOption[]) => void;
-    type: AiAssistantOptionType;
+    optionTypeId: string;
 }
 
-const SearchAndCreate = ({ placeholder, options, onOptionsChange, type }: SearchAndCreateProps) => {
+const SearchAndCreate = ({ placeholder, options, onOptionsChange, optionTypeId }: SearchAndCreateProps) => {
     const [query, setQuery] = useState('');
     const [isSelectOpen, setIsSelectOpen] = useState(false);
 
     const { data: suggestions = [], refetch: refetchSuggestions } = trpc.aiAssistant.optionSuggestion.useQuery({
         query,
         exclude: options.map((option) => option.id),
-        type,
+        optionTypeId,
     });
 
     useEffect(() => {
@@ -70,8 +83,8 @@ const SearchAndCreate = ({ placeholder, options, onOptionsChange, type }: Search
 
     const handleCreate = useCallback(() => {
         if (!query) return;
-        createOptionMutation.mutate({ value: query, type });
-    }, [query, type, createOptionMutation]);
+        createOptionMutation.mutate({ value: query, optionTypeId });
+    }, [query, optionTypeId, createOptionMutation]);
 
     const handleItemSelect = useCallback(
         (selected: AiAssistantOption[]) => {
@@ -126,6 +139,128 @@ const SearchAndCreate = ({ placeholder, options, onOptionsChange, type }: Search
     );
 };
 
+interface CreateOrEditOptionTypeModalProps {
+    visible: boolean;
+    onClose: () => void;
+    optionType?: AiAssistantOptionType;
+    onSuccess: () => void;
+}
+
+const CreateOrEditOptionTypeModal = ({ visible, onClose, optionType, onSuccess }: CreateOrEditOptionTypeModalProps) => {
+    const isEditing = !!optionType;
+
+    const createOptionTypeMutation = trpc.aiAssistant.createOptionType.useMutation({
+        onSuccess: () => {
+            onSuccess();
+            onClose();
+        },
+    });
+
+    const updateOptionTypeMutation = trpc.aiAssistant.updateOptionType.useMutation({
+        onSuccess: () => {
+            onSuccess();
+            onClose();
+        },
+    });
+
+    const {
+        handleSubmit,
+        watch,
+        register,
+        reset,
+        formState: { isSubmitting, errors },
+    } = useForm<CreateAssistantOptionTypeData>({
+        resolver: zodResolver(createAssistantOptionTypeSchema),
+        defaultValues: {
+            name: optionType?.name || '',
+            key: optionType?.key || '',
+            description: optionType?.description || '',
+        },
+    });
+
+    const key = watch('key');
+
+    useEffect(() => {
+        if (visible) {
+            reset({
+                name: optionType?.name || '',
+                key: optionType?.key || '',
+                description: optionType?.description || '',
+            });
+        }
+    }, [visible, optionType, reset]);
+
+    const onSubmit = handleSubmit(async (data) => {
+        if (isEditing && optionType) {
+            await updateOptionTypeMutation.mutateAsync({
+                id: optionType.id,
+                name: data.name,
+                description: data.description,
+            });
+        } else {
+            await createOptionTypeMutation.mutateAsync(data);
+        }
+    });
+
+    return (
+        <Modal visible={visible} onClose={onClose} width={600}>
+            <form onSubmit={onSubmit}>
+                <ModalHeader>
+                    <Text size="l" weight="semiBold">
+                        {isEditing ? tr('Edit option type') : tr('Create option type')}
+                    </Text>
+                </ModalHeader>
+                <ModalContent className={s.ModalContent}>
+                    <FormControl>
+                        <FormControlLabel>{tr('Name')}</FormControlLabel>
+                        <Input placeholder={tr('Option type name placeholder')} {...register('name')} />
+                        {nullable(errors.name, (e) => (
+                            <FormControlError error={e} />
+                        ))}
+                    </FormControl>
+
+                    <FormControl>
+                        <FormControlLabel>{tr('Key')}</FormControlLabel>
+                        <Input
+                            placeholder={tr('Option type key placeholder')}
+                            {...register('key')}
+                            disabled={isEditing}
+                        />
+                        {nullable(errors.key, (e) => (
+                            <FormControlError error={e} />
+                        ))}
+                        <Text size="xs" color="secondary" className={s.KeyDescription}>
+                            {tr('Key description', { key: `{${key || 'key'}}` })}
+                        </Text>
+                    </FormControl>
+
+                    <FormControl>
+                        <FormControlLabel>{tr('Description')}</FormControlLabel>
+                        <Textarea
+                            placeholder={tr('Option type description placeholder')}
+                            {...register('description')}
+                            rows={3}
+                        />
+                        {nullable(errors.description, (e) => (
+                            <FormControlError error={e} />
+                        ))}
+                    </FormControl>
+
+                    <FormActions>
+                        <Button onClick={onClose} text={tr('Cancel')} />
+                        <Button
+                            type="submit"
+                            view="primary"
+                            disabled={isSubmitting}
+                            text={isEditing ? tr('Save') : tr('Create')}
+                        />
+                    </FormActions>
+                </ModalContent>
+            </form>
+        </Modal>
+    );
+};
+
 export const EditAiAssistant = () => {
     const {
         data: allAssistants = [],
@@ -133,10 +268,19 @@ export const EditAiAssistant = () => {
         refetch: refetchAssistants,
     } = trpc.aiAssistant.getAllAiAssistants.useQuery();
     const { data: config, isLoading: isLoadingConfig, refetch: refetchConfig } = trpc.appConfig.get.useQuery();
+    const {
+        data: optionTypes = [],
+        isLoading: isLoadingOptionTypes,
+        refetch: refetchOptionTypes,
+    } = trpc.aiAssistant.getAllOptionTypes.useQuery();
 
     const [currentAssistantId, setCurrentAssistantId] = useState<string | undefined>(
         config?.aiAssistantId || undefined,
     );
+
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [editingOptionType, setEditingOptionType] = useState<AiAssistantOptionType | null>(null);
+    const [deletingOptionType, setDeletingOptionType] = useState<AiAssistantOptionType | null>(null);
 
     useEffect(() => {
         if (config?.aiAssistantId) {
@@ -146,7 +290,7 @@ export const EditAiAssistant = () => {
 
     const currentAssistant = allAssistants.find((a) => a.id === currentAssistantId);
 
-    const isLoading = isLoadingAssistants || isLoadingConfig;
+    const isLoading = isLoadingAssistants || isLoadingConfig || isLoadingOptionTypes;
     const isCreating = !isLoading && !currentAssistant;
 
     const isActiveAssistant = config?.aiAssistantId === currentAssistantId;
@@ -190,41 +334,38 @@ export const EditAiAssistant = () => {
 
     const formOptions = watch('options');
 
-    const { topics, formats } = useMemo(() => {
-        return {
-            topics: formOptions.filter((option) => option.type === AiAssistantOptionType.Topic),
-            formats: formOptions.filter((option) => option.type === AiAssistantOptionType.Format),
-        };
+    const optionsByType = useMemo(() => {
+        const grouped: Record<string, AiAssistantOption[]> = {};
+
+        formOptions.forEach((option) => {
+            if (option.optionType) {
+                const typeKey = option.optionType.key;
+                if (!grouped[typeKey]) {
+                    grouped[typeKey] = [];
+                }
+                grouped[typeKey].push(option);
+            }
+        });
+
+        return grouped;
     }, [formOptions]);
 
-    const handleTopicsChange = useCallback(
-        (newTopics: AiAssistantOption[]) => {
-            setValue('options', [...newTopics, ...formats], { shouldDirty: true });
+    const updateOptionsForType = useCallback(
+        (typeKey: string, newOptions: AiAssistantOption[]) => {
+            const otherOptions = formOptions.filter((option) => option.optionType?.key !== typeKey);
+            setValue('options', [...otherOptions, ...newOptions], { shouldDirty: true });
         },
-        [setValue, formats],
+        [setValue, formOptions],
     );
 
-    const handleFormatsChange = useCallback(
-        (newFormats: AiAssistantOption[]) => {
-            setValue('options', [...topics, ...newFormats], { shouldDirty: true });
+    const removeOptionFromType = useCallback(
+        (typeKey: string, optionId: string) => {
+            const updatedOptions = formOptions.filter(
+                (option) => !(option.optionType?.key === typeKey && option.id === optionId),
+            );
+            setValue('options', updatedOptions, { shouldDirty: true });
         },
-        [setValue, topics],
-    );
-
-    const removeTopic = useCallback(
-        (id: string) => {
-            const updatedTopics = topics.filter((topic) => topic.id !== id);
-            setValue('options', [...updatedTopics, ...formats], { shouldDirty: true });
-        },
-        [setValue, topics, formats],
-    );
-
-    const removeFormat = useCallback(
-        (id: string) => {
-            const updatedFormats = formats.filter((format) => format.id !== id);
-            setValue('options', [...topics, ...updatedFormats], { shouldDirty: true });
-        },
-        [setValue, topics, formats],
+        [setValue, formOptions],
     );
 
     const handleCancel = useCallback(() => {
@@ -274,6 +415,13 @@ export const EditAiAssistant = () => {
         }
     }, [isCreating, isActiveAssistant, currentAssistantId, setAiAssistantMutation]);
 
+    const deleteOptionTypeMutation = trpc.aiAssistant.deleteOptionType.useMutation({
+        onSuccess: () => {
+            refetchOptionTypes();
+            setDeletingOptionType(null);
+        },
+    });
+
     if (isLoading) return <Spinner size="l" />;
 
     return (
@@ -316,7 +464,6 @@ export const EditAiAssistant = () => {
                                         text={isActiveAssistant ? tr('Disconnect') : tr('Connect')}
                                         brick="left"
                                         onClick={handleToggleActive}
-                                        className={s.ConnectButton}
                                         disabled={isSubmitting}
                                     />
                                 )}
@@ -347,63 +494,89 @@ export const EditAiAssistant = () => {
                             ))}
                         </FormControl>
 
-                        <FormControl className={s.FormControl}>
-                            <FormControlLabel>{tr('Topics')}</FormControlLabel>
-                            <div className={s.BadgeContainer}>
-                                {topics.map((t) => (
-                                    <Badge
-                                        key={t.id}
-                                        color="gray"
-                                        text={t.value}
-                                        iconRight={
-                                            <IconBinOutline
-                                                className={s.DeleteIcon}
-                                                size="xs"
-                                                onClick={() => removeTopic(t.id)}
+                        {optionTypes.map((optionType) => {
+                            const options = optionsByType[optionType.key] || [];
+                            return (
+                                <Card
+                                    key={optionType.key}
+                                    className={s.OptionTypeCard}
+                                    backgroundColor="var(--input-border)"
+                                >
+                                    <CardContent view="transparent">
+                                        <FormControl className={s.FormControl}>
+                                            <FormControlLabel className={s.OptionTypeLabel}>
+                                                <Text size="ml" weight="semiBold">
+                                                    {optionType.name}
+                                                </Text>
+                                                <Text size="xs" as="span" className={s.Description}>
+                                                    {`{${optionType.key}}`}
+                                                </Text>
+                                                <div className={s.OptionControls}>
+                                                    <Button
+                                                        type="button"
+                                                        size="s"
+                                                        view="ghost"
+                                                        iconLeft={<IconEditOutline size="xs" />}
+                                                        onClick={() => setEditingOptionType(optionType)}
+                                                    />
+                                                    <Button
+                                                        type="button"
+                                                        size="s"
+                                                        view="ghost"
+                                                        iconLeft={<IconBinOutline className={s.DeleteIcon} size="xs" />}
+                                                        onClick={() => setDeletingOptionType(optionType)}
+                                                    />
+                                                </div>
+                                            </FormControlLabel>
+                                            {nullable(optionType.description, (desc) => (
+                                                <Text size="s" weight="thin" className={s.OptionTypeDescription}>
+                                                    {desc}
+                                                </Text>
+                                            ))}
+                                            <div className={s.BadgeContainer}>
+                                                {options.map((option) => (
+                                                    <Badge
+                                                        key={option.id}
+                                                        color="gray"
+                                                        text={option.value}
+                                                        iconRight={
+                                                            <IconXCircleOutline
+                                                                size="xs"
+                                                                onClick={() =>
+                                                                    removeOptionFromType(optionType.key, option.id)
+                                                                }
+                                                            />
+                                                        }
+                                                    />
+                                                ))}
+                                            </div>
+                                            <SearchAndCreate
+                                                placeholder={`Search or add ${optionType.name.toLowerCase()}`}
+                                                options={options}
+                                                onOptionsChange={(newOptions) =>
+                                                    updateOptionsForType(optionType.key, newOptions)
+                                                }
+                                                optionTypeId={optionType.id}
                                             />
-                                        }
-                                    />
-                                ))}
-                            </div>
-                            <SearchAndCreate
-                                placeholder={tr('Search or add topic')}
-                                options={topics}
-                                onOptionsChange={handleTopicsChange}
-                                type={AiAssistantOptionType.Topic}
-                            />
-                            {nullable(errors.options, (e) => (
-                                <FormControlError error={{ message: e.message }} />
-                            ))}
-                        </FormControl>
+                                            {nullable(errors.options, (e) => (
+                                                <FormControlError error={{ message: e.message }} />
+                                            ))}
+                                        </FormControl>
+                                    </CardContent>
+                                </Card>
+                            );
+                        })}
 
-                        <FormControl className={s.FormControl}>
-                            <FormControlLabel>{tr('Formats')}</FormControlLabel>
-                            <div className={s.BadgeContainer}>
-                                {formats.map((f) => (
-                                    <Badge
-                                        key={f.id}
-                                        color="gray"
-                                        text={f.value}
-                                        iconRight={
-                                            <IconBinOutline
-                                                className={s.DeleteIcon}
-                                                size="xs"
-                                                onClick={() => removeFormat(f.id)}
-                                            />
-                                        }
-                                    />
-                                ))}
-                            </div>
-                            <SearchAndCreate
-                                placeholder={tr('Search or add format')}
-                                options={formats}
-                                onOptionsChange={handleFormatsChange}
-                                type={AiAssistantOptionType.Format}
+                        <div className={s.FormControl}>
+                            <Button
+                                type="button"
+                                view="primary"
+                                size="s"
+                                iconLeft={<IconPlusCircleOutline size="s" />}
+                                text={tr('Create setting')}
+                                onClick={() => setIsCreateModalOpen(true)}
                             />
-                            {nullable(errors.options, (e) => (
-                                <FormControlError error={{ message: e.message }} />
-                            ))}
-                        </FormControl>
+                        </div>
 
                         <div className={s.ButtonsContainer}>
                             <Button
@@ -432,6 +605,48 @@ export const EditAiAssistant = () => {
                     </CardContent>
                 </Card>
             </form>
+
+            {nullable(isCreateModalOpen, () => (
+                <CreateOrEditOptionTypeModal
+                    visible
+                    onClose={() => setIsCreateModalOpen(false)}
+                    onSuccess={() => {
+                        refetchOptionTypes();
+                    }}
+                />
+            ))}
+
+            {nullable(editingOptionType, (optionType) => (
+                <CreateOrEditOptionTypeModal
+                    visible
+                    onClose={() => setEditingOptionType(null)}
+                    optionType={optionType}
+                    onSuccess={() => {
+                        refetchOptionTypes();
+                    }}
+                />
+            ))}
+
+            {nullable(deletingOptionType, () => (
+                <WarningModal
+                    visible
+                    warningText={
+                        deletingOptionType ? (
+                            <>
+                                {tr('Delete option type confirmation', { name: deletingOptionType.name })}
+                                <strong>{tr('Warning: All related options will be deleted')}</strong>
+                            </>
+                        ) : null
+                    }
+                    onCancel={() => setDeletingOptionType(null)}
+                    onConfirm={async () => {
+                        if (deletingOptionType) {
+                            await deleteOptionTypeMutation.mutateAsync(deletingOptionType.id);
+                        }
+                    }}
+                    view="danger"
+                />
+            ))}
         </>
     );
 };

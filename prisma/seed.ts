@@ -5,7 +5,6 @@ import format from 'date-fns/format';
 
 import { generateColor } from '../src/utils/color';
 import { SectionType } from '../src/utils/dictionaries';
-import { AiAssistantOptionType } from '../src/modules/aiAssistantTypes';
 
 const prisma = new PrismaClient();
 
@@ -317,7 +316,7 @@ const aiAssistantSystemPrompt = `
 
 const aiAssistantUserPrompt = `Today, pay special attention to the topic "{topic}". Create a {format} on this topic.
     Generate a completely new, original, witty phrase for an HR specialist. The phrase should be sharp, sarcastic, but not evil.
-    Your phrase must not repeat previous responses (session number: {seed}).
+    Your phrase must not repeat previous responses.
     Do not use banal and predictable phrases. Be truly original and creative.`;
 
 const main = async () => {
@@ -325,10 +324,26 @@ const main = async () => {
 
     const tags = await Promise.all(tagsData.map((data) => prisma.tag.create({ data })));
 
+    const topicType = await prisma.aiAssistantOptionType.create({
+        data: {
+            name: 'Topic',
+            key: 'topic',
+            description: 'Topic for content generation',
+        },
+    });
+
+    const formatType = await prisma.aiAssistantOptionType.create({
+        data: {
+            name: 'Format',
+            key: 'format',
+            description: 'Format for content presentation',
+        },
+    });
+
     const topicOptions = await Promise.all(
         aiAssistantTopics.map((topic) =>
             prisma.aiAssistantOption.create({
-                data: { value: topic, type: AiAssistantOptionType.Topic },
+                data: { value: topic, optionTypeId: topicType.id },
             }),
         ),
     );
@@ -336,7 +351,7 @@ const main = async () => {
     const formatOptions = await Promise.all(
         aiAssistantFormats.map((format) =>
             prisma.aiAssistantOption.create({
-                data: { value: format, type: AiAssistantOptionType.Format },
+                data: { value: format, optionTypeId: formatType.id },
             }),
         ),
     );

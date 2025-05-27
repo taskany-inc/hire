@@ -17,10 +17,17 @@ export const cvParsingResultSchema = z.object({
 });
 export type CvParsingResult = z.infer<typeof cvParsingResultSchema>;
 
-export enum AiAssistantOptionType {
-    Format = 'Format',
-    Topic = 'Topic',
-}
+export const aiAssistantOptionTypeSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+    key: z.string(),
+    description: z.string().nullable(),
+    isActive: z.boolean(),
+    createdAt: z.union([z.date(), z.string()]),
+    updatedAt: z.union([z.date(), z.string()]),
+});
+
+export type AiAssistantOptionType = z.infer<typeof aiAssistantOptionTypeSchema>;
 
 export const aiAssistantSuggestionParamsSchema = z.object({
     query: z.string().optional(),
@@ -31,14 +38,17 @@ export type AiAssistantSuggestionParams = z.infer<typeof aiAssistantSuggestionPa
 export const aiAssistantOptionSuggestionParamsSchema = z.object({
     query: z.string().optional(),
     exclude: z.array(z.string()).optional(),
-    type: z.nativeEnum(AiAssistantOptionType),
+    optionTypeId: z.string(),
 });
 export type AiAssistantOptionSuggestionParams = z.infer<typeof aiAssistantOptionSuggestionParamsSchema>;
 
 export const aiAssistantOptionSchema = z.object({
     id: z.string(),
     value: z.string(),
-    type: z.string(),
+    optionTypeId: z.string(),
+    optionType: aiAssistantOptionTypeSchema.optional(),
+    createdAt: z.union([z.date(), z.string()]),
+    updatedAt: z.union([z.date(), z.string()]),
 });
 
 export type AiAssistantOption = z.infer<typeof aiAssistantOptionSchema>;
@@ -55,10 +65,26 @@ export type AiAssistantUpdateData = z.infer<typeof aiAssistantUpdateDataSchema>;
 
 export const createAssistantOptionSchema = z.object({
     value: z.string(),
-    type: z.nativeEnum(AiAssistantOptionType),
+    optionTypeId: z.string(),
 });
 
 export type CreateAssistantOptionData = z.infer<typeof createAssistantOptionSchema>;
+
+export const createAssistantOptionTypeSchema = z.object({
+    name: z.string(),
+    key: z.string(),
+    description: z.string().optional(),
+});
+
+export type CreateAssistantOptionTypeData = z.infer<typeof createAssistantOptionTypeSchema>;
+
+export const updateAssistantOptionTypeSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+    description: z.string().optional(),
+});
+
+export type UpdateAssistantOptionTypeData = z.infer<typeof updateAssistantOptionTypeSchema>;
 
 export const aiAssistantSchema = z.object({
     id: z.string(),

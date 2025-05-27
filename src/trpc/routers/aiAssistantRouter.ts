@@ -5,6 +5,8 @@ import { aiAssistantMethods } from '../../modules/aiAssistantMethods';
 import {
     aiAssistantUpdateDataSchema,
     createAssistantOptionSchema,
+    createAssistantOptionTypeSchema,
+    updateAssistantOptionTypeSchema,
     aiAssistantOptionSuggestionParamsSchema,
 } from '../../modules/aiAssistantTypes';
 import { accessMiddlewares } from '../../modules/accessMiddlewares';
@@ -26,6 +28,34 @@ export const aiAssistantRouter = router({
         .use(accessMiddlewares.aiAssistant.update)
         .query(async () => {
             return aiAssistantMethods.getAllAiAssistants();
+        }),
+
+    getAllOptionTypes: protectedProcedure
+        .input(z.void())
+        .use(accessMiddlewares.aiAssistant.update)
+        .query(async () => {
+            return aiAssistantMethods.getAllOptionTypes();
+        }),
+
+    createOptionType: protectedProcedure
+        .input(createAssistantOptionTypeSchema)
+        .use(accessMiddlewares.aiAssistant.update)
+        .mutation(async ({ input }) => {
+            return aiAssistantMethods.createOptionType(input);
+        }),
+
+    updateOptionType: protectedProcedure
+        .input(updateAssistantOptionTypeSchema)
+        .use(accessMiddlewares.aiAssistant.update)
+        .mutation(async ({ input }) => {
+            return aiAssistantMethods.updateOptionType(input);
+        }),
+
+    deleteOptionType: protectedProcedure
+        .input(z.string())
+        .use(accessMiddlewares.aiAssistant.update)
+        .mutation(async ({ input }) => {
+            return aiAssistantMethods.deleteOptionType(input);
         }),
 
     updateAiAssistant: protectedProcedure

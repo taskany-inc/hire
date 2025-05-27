@@ -16,6 +16,8 @@ import {
     AiAssistant,
     AiAssistantOptionType,
     CreateAssistantOptionData,
+    CreateAssistantOptionTypeData,
+    UpdateAssistantOptionTypeData,
     AiAssistantOptionSuggestionParams,
 } from './aiAssistantTypes';
 
@@ -90,7 +92,11 @@ export const aiAssistantMethods = {
             include: {
                 aiAssistant: {
                     include: {
-                        options: true,
+                        options: {
+                            include: {
+                                optionType: true,
+                            },
+                        },
                     },
                 },
             },
@@ -99,50 +105,60 @@ export const aiAssistantMethods = {
         const assistant = appConfig?.aiAssistant;
 
         if (assistant && assistant.options.length) {
-            const topics = assistant.options.filter((option) => option.type === AiAssistantOptionType.Topic);
-            const formats = assistant.options.filter((option) => option.type === AiAssistantOptionType.Format);
+            const { systemPrompt, userPrompt } = assistant;
 
-            if (topics.length && formats.length) {
-                const randomTopic = topics[Math.floor(Math.random() * topics.length)].value;
-                const randomFormat = formats[Math.floor(Math.random() * formats.length)].value;
+            // Group options by their type key
+            const optionsByTypeKey = assistant.options.reduce((acc, option) => {
+                const { key } = option.optionType;
+                if (!acc[key]) {
+                    acc[key] = [];
+                }
+                acc[key].push(option);
+                return acc;
+            }, {} as Record<string, typeof assistant.options>);
 
-                const { systemPrompt, userPrompt } = assistant;
-
-                const prompt = `${userPrompt.replace(/\{topic\}/g, randomTopic).replace(/\{format\}/g, randomFormat)}`;
-
-                const response = await tryGetAsyncValue(() =>
-                    fetch(`${apiUrl}/chat/completions`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            Accept: 'application/json',
-                            Authorization: `Bearer ${token}`,
-                        },
-                        body: JSON.stringify({
-                            model,
-                            messages: [
-                                {
-                                    role: 'system',
-                                    content: systemPrompt,
-                                },
-                                {
-                                    role: 'user',
-                                    content: prompt,
-                                },
-                            ],
-                            temperature: 0.8,
-                            repetition_penalty: 0.8,
-                        }),
-                    }).catch((error) => {
-                        throw error;
-                    }),
-                );
-                if (!response?.ok) return;
-                const json = await response.json();
-                const rawResponse = json.choices?.[0]?.message?.content?.trim();
-
-                return rawResponse?.replace(/^['"«"']|['"»"']$/g, '');
+            // Replace all placeholders in userPrompt
+            let prompt = userPrompt;
+            for (const [key, options] of Object.entries(optionsByTypeKey)) {
+                if (options.length > 0) {
+                    const randomOption = options[Math.floor(Math.random() * options.length)];
+                    const placeholder = `{${key}}`;
+                    prompt = prompt.replace(new RegExp(placeholder.replace(/[{}]/g, '\\$&'), 'g'), randomOption.value);
+                }
             }
+
+            const response = await tryGetAsyncValue(() =>
+                fetch(`${apiUrl}/chat/completions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({
+                        model,
+                        messages: [
+                            {
+                                role: 'system',
+                                content: systemPrompt,
+                            },
+                            {
+                                role: 'user',
+                                content: prompt,
+                            },
+                        ],
+                        temperature: 0.8,
+                        repetition_penalty: 0.8,
+                    }),
+                }).catch((error) => {
+                    throw error;
+                }),
+            );
+            if (!response?.ok) return;
+            const json = await response.json();
+            const rawResponse = json.choices?.[0]?.message?.content?.trim();
+
+            return rawResponse?.replace(/^['"«"']|['"»"']$/g, '');
         }
 
         return null;
@@ -150,7 +166,7 @@ export const aiAssistantMethods = {
 
     optionSuggestion: async (params: AiAssistantOptionSuggestionParams): Promise<AiAssistantOption[]> => {
         const where: Prisma.AiAssistantOptionWhereInput = {
-            type: params.type,
+            optionTypeId: params.optionTypeId,
         };
 
         if (params.query) {
@@ -164,6 +180,9 @@ export const aiAssistantMethods = {
         const options = await prisma.aiAssistantOption.findMany({
             where,
             take: 20,
+            include: {
+                optionType: true,
+            },
         });
         return options as AiAssistantOption[];
     },
@@ -171,7 +190,11 @@ export const aiAssistantMethods = {
     getAllAiAssistants: async (): Promise<AiAssistant[]> => {
         const assistants = await prisma.aiAssistant.findMany({
             include: {
-                options: true,
+                options: {
+                    include: {
+                        optionType: true,
+                    },
+                },
             },
             orderBy: {
                 name: 'asc',
@@ -235,8 +258,45 @@ export const aiAssistantMethods = {
         return prisma.aiAssistantOption.create({
             data: {
                 value: data.value,
-                type: data.type,
+                optionTypeId: data.optionTypeId,
             },
+            include: {
+                optionType: true,
+            },
+        });
+    },
+
+    getAllOptionTypes: async (): Promise<AiAssistantOptionType[]> => {
+        return prisma.aiAssistantOptionType.findMany({
+            orderBy: {
+                createdAt: 'asc',
+            },
+        });
+    },
+
+    createOptionType: async (data: CreateAssistantOptionTypeData): Promise<AiAssistantOptionType> => {
+        return prisma.aiAssistantOptionType.create({
+            data: {
+                key: data.key,
+                name: data.name,
+                description: data.description,
+            },
+        });
+    },
+
+    updateOptionType: async (data: UpdateAssistantOptionTypeData): Promise<AiAssistantOptionType> => {
+        return prisma.aiAssistantOptionType.update({
+            where: { id: data.id },
+            data: {
+                name: data.name,
+                description: data.description,
+            },
+        });
+    },
+
+    deleteOptionType: async (id: string): Promise<void> => {
+        await prisma.aiAssistantOptionType.delete({
+            where: { id },
         });
     },
 };

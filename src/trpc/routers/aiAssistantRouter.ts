@@ -8,12 +8,24 @@ import {
     createAssistantOptionTypeSchema,
     updateAssistantOptionTypeSchema,
     aiAssistantOptionSuggestionParamsSchema,
+    assistantAnswerRequestSchema,
 } from '../../modules/aiAssistantTypes';
 import { accessMiddlewares } from '../../modules/accessMiddlewares';
 
 export const aiAssistantRouter = router({
+    getAssistantAnswer: protectedProcedure
+        .input(assistantAnswerRequestSchema)
+        .use(accessMiddlewares.aiAssistant.update)
+        .mutation(async ({ input }) => {
+            return aiAssistantMethods.getAssistantAnswer(input.systemPrompt, input.userPrompt, input.options);
+        }),
+
     getSheepPhrase: protectedProcedure.input(z.void()).query(async () => {
         return aiAssistantMethods.getSheepPhrase();
+    }),
+
+    getSheepUser: protectedProcedure.input(z.void()).query(async () => {
+        return aiAssistantMethods.getSheepUser();
     }),
 
     createAssistantOption: protectedProcedure

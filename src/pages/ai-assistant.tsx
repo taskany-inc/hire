@@ -25,6 +25,7 @@ export const getServerSideProps = createGetServerSideProps({
         await ssg.appConfig.get.prefetch();
         await ssg.aiAssistant.getAllAiAssistants.prefetch();
         await ssg.aiAssistant.getAllOptionTypes.prefetch();
+        await ssg.aiAssistant.getSheepUser.prefetch();
 
         return {};
     },

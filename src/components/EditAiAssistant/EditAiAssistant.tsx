@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -29,6 +29,7 @@ import {
     IconTickCircleOutline,
     IconEditOutline,
     IconXCircleOutline,
+    IconRefreshOutline,
 } from '@taskany/icons';
 
 import { trpc } from '../../trpc/trpcClient';
@@ -42,9 +43,31 @@ import {
 } from '../../modules/aiAssistantTypes';
 import { FormActions } from '../FormActions/FormActions';
 import { WarningModal } from '../WarningModal/WarningModal';
+import { CommentView } from '../CommentView/CommentView';
+import { CommentViewHeader } from '../CommentViewHeader/CommentViewHeader';
 
 import { tr } from './EditAiAssistant.i18n';
 import s from './EditAiAssistant.module.css';
+
+interface SheepPreviewCardProps {
+    user: {
+        id: number;
+        name: string | null;
+        email: string;
+    };
+    text: string;
+}
+
+const SheepPreviewCard = ({ user, text }: SheepPreviewCardProps) => {
+    return (
+        <CommentView
+            view="transparent"
+            authors={[user]}
+            text={text}
+            header={<CommentViewHeader authors={[user]} date={new Date()} />}
+        />
+    );
+};
 
 interface SearchAndCreateProps {
     placeholder: string;
@@ -273,6 +296,7 @@ export const EditAiAssistant = () => {
         isLoading: isLoadingOptionTypes,
         refetch: refetchOptionTypes,
     } = trpc.aiAssistant.getAllOptionTypes.useQuery();
+    const { data: sheepUser } = trpc.aiAssistant.getSheepUser.useQuery();
 
     const [currentAssistantId, setCurrentAssistantId] = useState<string | undefined>(
         config?.aiAssistantId || undefined,
@@ -422,6 +446,46 @@ export const EditAiAssistant = () => {
         },
     });
 
+    const options = watch('options');
+    const systemPrompt = watch('systemPrompt');
+    const userPrompt = watch('userPrompt');
+
+    const getAssistantAnswerMutation = trpc.aiAssistant.getAssistantAnswer.useMutation();
+
+    const exampleResponse = React.useMemo(() => {
+        if (!systemPrompt || !userPrompt) {
+            return tr('Fill system and user prompts first');
+        }
+        if (getAssistantAnswerMutation.isLoading) {
+            return tr('Loading');
+        }
+        if (getAssistantAnswerMutation.error) {
+            return `Error: ${getAssistantAnswerMutation.error.message}`;
+        }
+        if (getAssistantAnswerMutation.data) {
+            return getAssistantAnswerMutation.data;
+        }
+        return tr('Click Update to get assistant response');
+    }, [
+        getAssistantAnswerMutation.data,
+        getAssistantAnswerMutation.error,
+        getAssistantAnswerMutation.isLoading,
+        systemPrompt,
+        userPrompt,
+    ]);
+
+    const handleUpdateExample = useCallback(() => {
+        if (!systemPrompt || !userPrompt) {
+            return;
+        }
+
+        getAssistantAnswerMutation.mutate({
+            systemPrompt,
+            userPrompt,
+            options,
+        });
+    }, [systemPrompt, userPrompt, options, getAssistantAnswerMutation]);
+
     if (isLoading) return <Spinner size="l" />;
 
     return (
@@ -474,7 +538,7 @@ export const EditAiAssistant = () => {
                         </FormControl>
                         <FormControl className={s.FormControl}>
                             <FormControlLabel>{tr('System prompt')}</FormControlLabel>
-                            <Textarea rows={15} {...register('systemPrompt')} />
+                            <Textarea rows={10} {...register('systemPrompt')} />
                             {nullable(errors.systemPrompt, (e) => (
                                 <FormControlError error={{ message: e.message }} />
                             ))}
@@ -605,6 +669,35 @@ export const EditAiAssistant = () => {
                     </CardContent>
                 </Card>
             </form>
+
+            {sheepUser && (
+                <Card className={s.ExampleSection}>
+                    <CardContent>
+                        <FormControl>
+                            <FormControlLabel>
+                                <Text size="ml" weight="semiBold">
+                                    {tr('Answer example')}
+                                </Text>
+                                <Button
+                                    type="button"
+                                    view="primary"
+                                    size="xs"
+                                    iconLeft={<IconRefreshOutline size="s" />}
+                                    text={tr('Update')}
+                                    className={s.UpdateButton}
+                                    onClick={handleUpdateExample}
+                                    disabled={!systemPrompt || !userPrompt || getAssistantAnswerMutation.isLoading}
+                                />
+                            </FormControlLabel>
+                            <div className={s.ExampleComment}>
+                                <div className={s.ExampleCommentPreview}>
+                                    <SheepPreviewCard user={sheepUser} text={exampleResponse} />
+                                </div>
+                            </div>
+                        </FormControl>
+                    </CardContent>
+                </Card>
+            )}
 
             {nullable(isCreateModalOpen, () => (
                 <CreateOrEditOptionTypeModal

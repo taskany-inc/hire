@@ -5,6 +5,7 @@ import format from 'date-fns/format';
 
 import { generateColor } from '../src/utils/color';
 import { SectionType } from '../src/utils/dictionaries';
+import { createSheep } from '../src/utils/sheep';
 
 const prisma = new PrismaClient();
 
@@ -610,6 +611,7 @@ const main = async () => {
     });
 
     await prisma.apiToken.create({ data: { id: '849892e1-6518-4843-9530-006216245037', description: 'test-token' } });
+    await createSheep();
 };
 
 main()

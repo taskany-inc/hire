@@ -100,3 +100,22 @@ export type AiAssistant = z.infer<typeof aiAssistantSchema>;
 
 export const aiAssistantUpdateResultSchema = aiAssistantSchema;
 export type AiAssistantUpdateResult = z.infer<typeof aiAssistantUpdateResultSchema>;
+
+export const completionsRequestSchema = z.object({
+    systemPrompt: z.string().optional(),
+    userPrompt: z.string(),
+    // eslint-disable-next-line newline-per-chained-call
+    temperature: z.number().min(0).max(2).optional().default(0.8),
+    // eslint-disable-next-line newline-per-chained-call
+    repetition_penalty: z.number().min(0).max(2).optional().default(0.8),
+});
+
+export type CompletionsRequest = z.infer<typeof completionsRequestSchema>;
+
+export const assistantAnswerRequestSchema = z.object({
+    systemPrompt: z.string(),
+    userPrompt: z.string(),
+    options: z.array(aiAssistantOptionSchema),
+});
+
+export type AssistantAnswerRequest = z.infer<typeof assistantAnswerRequestSchema>;

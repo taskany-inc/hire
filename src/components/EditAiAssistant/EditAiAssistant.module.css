@@ -105,3 +105,23 @@
 .OptionTypeCard {
     margin-bottom: var(--gap-m);
 }
+
+.ExampleSection {
+    margin-top: var(--gap-l);
+}
+
+.ExampleComment {
+    margin-top: var(--gap-s);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--gap-m);
+}
+
+.ExampleCommentPreview {
+    max-width: 600px;
+    flex: 1;
+}
+
+.UpdateButton {
+    margin-left: var(--gap-s);
+}

@@ -6,6 +6,7 @@ import config from '../config';
 import { tryGetAsyncValue } from '../utils/tryGetAsyncValue';
 import { safelyParseJson } from '../utils/safeParseJson';
 import { prisma } from '../utils/prisma';
+import { getSheep } from '../utils/sheep';
 
 import {
     CvParsingResult,
@@ -19,6 +20,7 @@ import {
     CreateAssistantOptionTypeData,
     UpdateAssistantOptionTypeData,
     AiAssistantOptionSuggestionParams,
+    CompletionsRequest,
 } from './aiAssistantTypes';
 
 const getConfigValues = () => {
@@ -50,11 +52,25 @@ const getToken = async () => {
 };
 
 export const aiAssistantMethods = {
-    parseCv: async (file: Buffer): Promise<CvParsingResult | undefined> => {
-        const { apiUrl, model, cvParsePrompt } = getConfigValues();
+    completions: async (request: CompletionsRequest): Promise<string | undefined> => {
+        const { apiUrl, model } = getConfigValues();
         const token = await getToken();
         if (!token) return;
-        const parsedPdf = await pdfParse(file);
+
+        const messages: Array<{ role: string; content: string }> = [];
+
+        if (request.systemPrompt) {
+            messages.push({
+                role: 'system',
+                content: request.systemPrompt,
+            });
+        }
+
+        messages.push({
+            role: 'user',
+            content: request.userPrompt,
+        });
+
         const response = await tryGetAsyncValue(() =>
             fetch(`${apiUrl}/chat/completions`, {
                 method: 'POST',
@@ -65,29 +81,77 @@ export const aiAssistantMethods = {
                 },
                 body: JSON.stringify({
                     model,
-                    messages: [
-                        {
-                            role: 'user',
-                            content: `${cvParsePrompt}\n${parsedPdf.text}`,
-                        },
-                    ],
+                    messages,
+                    temperature: request.temperature,
+                    repetition_penalty: request.repetition_penalty,
                 }),
             }).catch((error) => {
                 throw error;
             }),
         );
+
         if (!response?.ok) return;
         const json = await response.json();
-        const content = safelyParseJson(json.choices?.[0]?.message?.content);
+        return json.choices?.[0]?.message?.content?.trim();
+    },
+
+    parseCv: async (file: Buffer): Promise<CvParsingResult | undefined> => {
+        const { cvParsePrompt } = getConfigValues();
+        const parsedPdf = await pdfParse(file);
+
+        const response = await aiAssistantMethods.completions({
+            userPrompt: `${cvParsePrompt}\n${parsedPdf.text}`,
+            temperature: 0.8,
+            repetition_penalty: 0.8,
+        });
+
+        if (!response) return;
+
+        const content = safelyParseJson(response);
         const validatedAssistantResponse = cvParsingResultSchema.safeParse(content);
         return validatedAssistantResponse.success ? validatedAssistantResponse.data : undefined;
     },
 
-    getSheepPhrase: async () => {
-        const { apiUrl, model } = getConfigValues();
-        const token = await getToken();
-        if (!token) return;
+    getAssistantAnswer: async (
+        systemPrompt: string,
+        userPrompt: string,
+        options: AiAssistantOption[],
+    ): Promise<string> => {
+        // Group options by their type key
+        const optionsByTypeKey = options.reduce((acc, option) => {
+            if (option.optionType) {
+                const { key } = option.optionType;
+                if (!acc[key]) {
+                    acc[key] = [];
+                }
+                acc[key].push(option);
+            }
+            return acc;
+        }, {} as Record<string, typeof options>);
 
+        // Replace all placeholders in userPrompt
+        let prompt = userPrompt;
+        for (const [key, typeOptions] of Object.entries(optionsByTypeKey)) {
+            if (typeOptions.length > 0) {
+                const randomOption = typeOptions[Math.floor(Math.random() * typeOptions.length)];
+                const placeholder = `{${key}}`;
+                prompt = prompt.replace(new RegExp(placeholder.replace(/[{}]/g, '\\$&'), 'g'), randomOption.value);
+            }
+        }
+
+        console.log('prompt', prompt);
+
+        const response = await aiAssistantMethods.completions({
+            systemPrompt,
+            userPrompt: prompt,
+            temperature: 0.8,
+            repetition_penalty: 0.8,
+        });
+
+        return response || '';
+    },
+
+    getSheepPhrase: async (): Promise<string | null> => {
         const appConfig = await prisma.appConfig.findFirst({
             include: {
                 aiAssistant: {
@@ -104,61 +168,13 @@ export const aiAssistantMethods = {
 
         const assistant = appConfig?.aiAssistant;
 
-        if (assistant && assistant.options.length) {
+        if (assistant) {
             const { systemPrompt, userPrompt } = assistant;
+            const response = await aiAssistantMethods.getAssistantAnswer(systemPrompt, userPrompt, assistant.options);
 
-            // Group options by their type key
-            const optionsByTypeKey = assistant.options.reduce((acc, option) => {
-                const { key } = option.optionType;
-                if (!acc[key]) {
-                    acc[key] = [];
-                }
-                acc[key].push(option);
-                return acc;
-            }, {} as Record<string, typeof assistant.options>);
+            if (!response) return null;
 
-            // Replace all placeholders in userPrompt
-            let prompt = userPrompt;
-            for (const [key, options] of Object.entries(optionsByTypeKey)) {
-                if (options.length > 0) {
-                    const randomOption = options[Math.floor(Math.random() * options.length)];
-                    const placeholder = `{${key}}`;
-                    prompt = prompt.replace(new RegExp(placeholder.replace(/[{}]/g, '\\$&'), 'g'), randomOption.value);
-                }
-            }
-
-            const response = await tryGetAsyncValue(() =>
-                fetch(`${apiUrl}/chat/completions`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Accept: 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                    body: JSON.stringify({
-                        model,
-                        messages: [
-                            {
-                                role: 'system',
-                                content: systemPrompt,
-                            },
-                            {
-                                role: 'user',
-                                content: prompt,
-                            },
-                        ],
-                        temperature: 0.8,
-                        repetition_penalty: 0.8,
-                    }),
-                }).catch((error) => {
-                    throw error;
-                }),
-            );
-            if (!response?.ok) return;
-            const json = await response.json();
-            const rawResponse = json.choices?.[0]?.message?.content?.trim();
-
-            return rawResponse?.replace(/^['"«"']|['"»"']$/g, '');
+            return response.replace(/^['"«"']|['"»"']$/g, '');
         }
 
         return null;
@@ -298,5 +314,9 @@ export const aiAssistantMethods = {
         await prisma.aiAssistantOptionType.delete({
             where: { id },
         });
+    },
+
+    getSheepUser: async () => {
+        return getSheep();
     },
 };

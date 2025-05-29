@@ -7,6 +7,8 @@ CREATE TABLE "AiAssistant" (
     "name" TEXT NOT NULL,
     "systemPrompt" TEXT NOT NULL,
     "userPrompt" TEXT NOT NULL,
+    "temperature" DOUBLE PRECISION NOT NULL DEFAULT 0.8,
+    "repetitionPenalty" DOUBLE PRECISION NOT NULL DEFAULT 0.8,
     "createdAt" TIMESTAMP NOT NULL DEFAULT timezone('utc'::text, now()),
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT timezone('utc'::text, now()),
 

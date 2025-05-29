@@ -289,7 +289,12 @@ export const EditAiAssistant = () => {
         data: allAssistants = [],
         isLoading: isLoadingAssistants,
         refetch: refetchAssistants,
-    } = trpc.aiAssistant.getAllAiAssistants.useQuery();
+    } = trpc.aiAssistant.getAllAiAssistants.useQuery(undefined, {
+        staleTime: Infinity,
+        cacheTime: Infinity,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+    });
     const { data: config, isLoading: isLoadingConfig, refetch: refetchConfig } = trpc.appConfig.get.useQuery();
     const {
         data: optionTypes = [],

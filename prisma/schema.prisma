@@ -578,14 +578,16 @@ model Release {
 }
 
 model AiAssistant {
-  id           String            @id @default(cuid())
-  name         String           @unique
-  systemPrompt String
-  userPrompt   String
-  options      AiAssistantOption[]
-  appConfigs   AppConfig[]       @relation("ActiveAiAssistant")
-  createdAt    DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
-  updatedAt    DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
+  id                String            @id @default(cuid())
+  name              String            @unique
+  systemPrompt      String
+  userPrompt        String
+  temperature       Float             @default(0.8)
+  repetitionPenalty Float             @default(0.8)
+  options           AiAssistantOption[]
+  appConfigs        AppConfig[]       @relation("ActiveAiAssistant")
+  createdAt         DateTime          @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt         DateTime          @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
 }
 
 model AiAssistantOptionType {

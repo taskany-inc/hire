@@ -22,7 +22,6 @@ export const aiAssistantOptionTypeSchema = z.object({
     name: z.string(),
     key: z.string(),
     description: z.string().nullable(),
-    isActive: z.boolean(),
     createdAt: z.union([z.date(), z.string()]),
     updatedAt: z.union([z.date(), z.string()]),
 });
@@ -46,7 +45,7 @@ export const aiAssistantOptionSchema = z.object({
     id: z.string(),
     value: z.string(),
     optionTypeId: z.string(),
-    optionType: aiAssistantOptionTypeSchema.optional(),
+    optionType: aiAssistantOptionTypeSchema,
     createdAt: z.union([z.date(), z.string()]),
     updatedAt: z.union([z.date(), z.string()]),
 });
@@ -58,6 +57,8 @@ export const aiAssistantUpdateDataSchema = z.object({
     name: z.string(),
     systemPrompt: z.string(),
     userPrompt: z.string(),
+    temperature: z.number().min(0).max(2).default(0.8),
+    repetitionPenalty: z.number().min(0).max(2).default(0.8),
     options: z.array(aiAssistantOptionSchema),
 });
 
@@ -91,6 +92,8 @@ export const aiAssistantSchema = z.object({
     name: z.string(),
     systemPrompt: z.string(),
     userPrompt: z.string(),
+    temperature: z.number().min(0).max(2).default(0.8),
+    repetitionPenalty: z.number().min(0).max(2).default(0.8),
     options: z.array(aiAssistantOptionSchema),
     createdAt: z.union([z.date(), z.string()]),
     updatedAt: z.union([z.date(), z.string()]),

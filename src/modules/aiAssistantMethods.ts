@@ -116,36 +116,33 @@ export const aiAssistantMethods = {
         systemPrompt: string,
         userPrompt: string,
         options: AiAssistantOption[],
+        temperature = 0.8,
+        repetitionPenalty = 0.8,
     ): Promise<string> => {
         // Group options by their type key
         const optionsByTypeKey = options.reduce((acc, option) => {
-            if (option.optionType) {
-                const { key } = option.optionType;
-                if (!acc[key]) {
-                    acc[key] = [];
-                }
-                acc[key].push(option);
+            const { key } = option.optionType;
+            if (!acc[key]) {
+                acc[key] = [];
             }
+            acc[key].push(option);
             return acc;
         }, {} as Record<string, typeof options>);
 
         // Replace all placeholders in userPrompt
-        let prompt = userPrompt;
-        for (const [key, typeOptions] of Object.entries(optionsByTypeKey)) {
+        const prompt = Object.entries(optionsByTypeKey).reduce((acc, [key, typeOptions]) => {
             if (typeOptions.length > 0) {
-                const randomOption = typeOptions[Math.floor(Math.random() * typeOptions.length)];
-                const placeholder = `{${key}}`;
-                prompt = prompt.replace(new RegExp(placeholder.replace(/[{}]/g, '\\$&'), 'g'), randomOption.value);
+                const option = typeOptions[Math.floor(Math.random() * typeOptions.length)];
+                return acc.replace(new RegExp(`\\{${key}\\}`, 'g'), option.value);
             }
-        }
-
-        console.log('prompt', prompt);
+            return acc;
+        }, userPrompt);
 
         const response = await aiAssistantMethods.completions({
             systemPrompt,
             userPrompt: prompt,
-            temperature: 0.8,
-            repetition_penalty: 0.8,
+            temperature,
+            repetition_penalty: repetitionPenalty,
         });
 
         return response || '';
@@ -169,8 +166,14 @@ export const aiAssistantMethods = {
         const assistant = appConfig?.aiAssistant;
 
         if (assistant) {
-            const { systemPrompt, userPrompt } = assistant;
-            const response = await aiAssistantMethods.getAssistantAnswer(systemPrompt, userPrompt, assistant.options);
+            const { systemPrompt, userPrompt, temperature, repetitionPenalty } = assistant;
+            const response = await aiAssistantMethods.getAssistantAnswer(
+                systemPrompt,
+                userPrompt,
+                assistant.options,
+                temperature,
+                repetitionPenalty,
+            );
 
             if (!response) return null;
 
@@ -242,11 +245,19 @@ export const aiAssistantMethods = {
                     name: data.name,
                     systemPrompt: data.systemPrompt,
                     userPrompt: data.userPrompt,
+                    temperature: data.temperature,
+                    repetitionPenalty: data.repetitionPenalty,
                     options: {
                         set: data.options.map((option) => ({ id: option.id })),
                     },
                 },
-                include: { options: true },
+                include: {
+                    options: {
+                        include: {
+                            optionType: true,
+                        },
+                    },
+                },
             });
         }
 
@@ -255,11 +266,19 @@ export const aiAssistantMethods = {
                 name: data.name,
                 systemPrompt: data.systemPrompt,
                 userPrompt: data.userPrompt,
+                temperature: data.temperature,
+                repetitionPenalty: data.repetitionPenalty,
                 options: {
                     connect: data.options.map((option) => ({ id: option.id })),
                 },
             },
-            include: { options: true },
+            include: {
+                options: {
+                    include: {
+                        optionType: true,
+                    },
+                },
+            },
         });
 
         await prisma.appConfig.update({

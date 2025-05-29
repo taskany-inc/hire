@@ -1,0 +1,11 @@
+.FormActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--gap-s);
+    margin-right: var(--gap-m);
+    padding-bottom: var(--gap-s);
+}
+
+.ModalContent {
+    flex: 1;
+}

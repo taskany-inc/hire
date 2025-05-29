@@ -252,4 +252,8 @@ export const accessMiddlewares = {
     vacancy: {
         read: createMiddleware(accessChecks.vacancy.read),
     },
+
+    aiAssistant: {
+        update: createMiddleware(accessChecks.aiAssistant.update),
+    },
 };

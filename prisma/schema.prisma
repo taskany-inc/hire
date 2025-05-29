@@ -532,12 +532,13 @@ model ApiToken {
 }
 
 model AppConfig {
-  id      String  @id @default(cuid())
-  favicon String?
-  logo    String?
-
-  supportLink  String?
-  documentLink String?
+  id            String  @id @default(cuid())
+  favicon       String?
+  logo          String?
+  supportLink   String?
+  documentLink  String?
+  aiAssistantId String?
+  aiAssistant   AiAssistant? @relation("ActiveAiAssistant", fields: [aiAssistantId], references: [id])
 }
 
 model Reaction {
@@ -574,4 +575,44 @@ model Release {
 
   createdAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
   updatedAt DateTime @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
+}
+
+model AiAssistant {
+  id                String            @id @default(cuid())
+  name              String            @unique
+  systemPrompt      String
+  userPrompt        String
+  temperature       Float             @default(0.8)
+  repetitionPenalty Float             @default(0.8)
+  options           AiAssistantOption[]
+  appConfigs        AppConfig[]       @relation("ActiveAiAssistant")
+  createdAt         DateTime          @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt         DateTime          @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
+}
+
+model AiAssistantOptionType {
+  id          String                @id @default(cuid())
+  name        String                @unique
+  key         String                @unique
+  description String?
+  
+  options     AiAssistantOption[]
+  
+  createdAt   DateTime              @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt   DateTime              @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
+}
+
+model AiAssistantOption {
+  id            String                @id @default(cuid())
+  value         String
+  
+  optionType    AiAssistantOptionType @relation(fields: [optionTypeId], references: [id], onDelete: Cascade)
+  optionTypeId  String
+  
+  assistants    AiAssistant[]
+  
+  createdAt     DateTime              @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamp()
+  updatedAt     DateTime              @default(dbgenerated("timezone('utc'::text, now())")) @updatedAt
+  
+  @@unique([value, optionTypeId])
 }

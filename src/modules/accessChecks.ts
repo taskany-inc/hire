@@ -642,4 +642,13 @@ export const accessChecks = {
             return notAllowed('Only hiring leads and recruiters can see vacancies');
         },
     },
+
+    aiAssistant: {
+        update: (session: Session): AccessCheckResult => {
+            if (session.userRoles.admin) {
+                return allowed();
+            }
+            return notAllowed(tr('Only administrators can edit the AI assistant'));
+        },
+    },
 };

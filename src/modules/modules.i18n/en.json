@@ -122,5 +122,6 @@
     "Hire streams events can only be requested for 1 day or week": "",
     "Valid characters: a-z, _, digits": "",
     "Rejection following the results of {title} section": "",
-    "Code session successfully create": ""
+    "Code session successfully create": "",
+    "Only administrators can edit the AI assistant": ""
 }

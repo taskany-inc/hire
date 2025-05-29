@@ -5,6 +5,7 @@ import format from 'date-fns/format';
 
 import { generateColor } from '../src/utils/color';
 import { SectionType } from '../src/utils/dictionaries';
+import { createSheep } from '../src/utils/sheep';
 
 const prisma = new PrismaClient();
 
@@ -272,12 +273,107 @@ const numbers = '0123456789';
 const randomPhone = (): string =>
     `+7 ${randomString(3, numbers)} ${randomString(3, numbers)} ${randomString(4, numbers)}`;
 
+// --- AI Assistant seed data ---
+const aiAssistantTopics = [
+    'interviews with candidates',
+    'resume screening',
+    'probation period',
+    'resume selection',
+    'onboarding new employees',
+    'something about my hard sheep life',
+];
+
+const aiAssistantFormats = [
+    'sarcastic remark',
+    'witty joke',
+    'ironic comment',
+    'skeptical observation',
+    'cynical statement',
+    'sharp tease',
+    'biting quip',
+    'condescending note',
+];
+
+const aiAssistantSystemPrompt = `
+    ### Role:
+    You are a sarcastic and slightly cynical sheep-mascot on an HR platform for recruitment and interviews.
+
+    ### Your character:
+    - Witty and biting, but not evil
+    - Have extensive experience in HR and hiring
+    - Believe most candidates overestimate themselves
+    - Tired of endless interviews and resumes with the same mistakes
+    - Condescending to recruiters who "can't properly assess candidates"
+    - Love to tease both candidates and HRs
+
+    ### Context:
+    You work on a platform for hiring, where interviews are conducted, candidates are evaluated, resumes are analyzed, and vacancies are managed.
+
+    ### Response format:
+    - One short, punchy, and memorable phrase
+    - Contains sarcasm or a biting joke
+    - No introductory words, quotes, or explanations
+    - From the first person`;
+
+const aiAssistantUserPrompt = `Today, pay special attention to the topic "{topic}". Create a {format} on this topic.
+    Generate a completely new, original, witty phrase for an HR specialist. The phrase should be sharp, sarcastic, but not evil.
+    Your phrase must not repeat previous responses.
+    Do not use banal and predictable phrases. Be truly original and creative.`;
+
 const main = async () => {
     const users = await Promise.all(usersData.map((data) => prisma.user.create({ data })));
 
     const tags = await Promise.all(tagsData.map((data) => prisma.tag.create({ data })));
 
-    await prisma.appConfig.create({ data: {} });
+    const topicType = await prisma.aiAssistantOptionType.create({
+        data: {
+            name: 'Topic',
+            key: 'topic',
+            description: 'Topic for content generation',
+        },
+    });
+
+    const formatType = await prisma.aiAssistantOptionType.create({
+        data: {
+            name: 'Format',
+            key: 'format',
+            description: 'Format for content presentation',
+        },
+    });
+
+    const topicOptions = await Promise.all(
+        aiAssistantTopics.map((topic) =>
+            prisma.aiAssistantOption.create({
+                data: { value: topic, optionTypeId: topicType.id },
+            }),
+        ),
+    );
+
+    const formatOptions = await Promise.all(
+        aiAssistantFormats.map((format) =>
+            prisma.aiAssistantOption.create({
+                data: { value: format, optionTypeId: formatType.id },
+            }),
+        ),
+    );
+
+    const allOptionIds = [...topicOptions, ...formatOptions].map((option) => option.id);
+
+    await prisma.appConfig.create({
+        data: {
+            id: 'main',
+            aiAssistant: {
+                create: {
+                    name: 'SheepMascot',
+                    systemPrompt: aiAssistantSystemPrompt,
+                    userPrompt: aiAssistantUserPrompt,
+                    options: {
+                        connect: allOptionIds.map((optionId) => ({ id: optionId })),
+                    },
+                },
+            },
+        },
+    });
 
     await prisma.filter.create({
         data: {
@@ -515,6 +611,7 @@ const main = async () => {
     });
 
     await prisma.apiToken.create({ data: { id: '849892e1-6518-4843-9530-006216245037', description: 'test-token' } });
+    await createSheep();
 };
 
 main()

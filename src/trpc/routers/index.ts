@@ -22,6 +22,7 @@ import { reactionRouter } from './reactionRouter';
 import { whatsnewRouter } from './whatsnewRouter';
 import { rejectReasonRouter } from './rejectReasonRouter';
 import { filterRouter } from './filterRouter';
+import { aiAssistantRouter } from './aiAssistantRouter';
 
 export const trpcRouter = router({
     analyticsQueries: analyticsQueriesRouter,
@@ -46,6 +47,7 @@ export const trpcRouter = router({
     whatsnew: whatsnewRouter,
     rejectReason: rejectReasonRouter,
     filter: filterRouter,
+    aiAssistant: aiAssistantRouter,
 });
 
 export type TrpcRouter = typeof trpcRouter;
